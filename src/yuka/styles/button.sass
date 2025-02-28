@@ -1,0 +1,19 @@
+@use 'color'
+
+button
+  padding: 8px 20px
+  height: 36px
+  background-color: color.$primary
+  color: white
+  border: none
+  border-radius: color.$border-radius
+  cursor: pointer
+  font-size: 15px
+  transition: background-color 0.3s
+
+  &:hover
+    background-color: color.$primary-light
+
+  &[disabled]
+    background-color: color.$primary-light
+    cursor: not-allowed

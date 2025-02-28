@@ -1,0 +1,18 @@
+body {
+  font-family: 'Noto Sans CJK', 'Microsoft YaHei UI', Arial, sans-serif;
+  margin: 20px;
+}
+
+.logo {
+  margin: 0px 10px;
+}
+
+.title {
+  margin: 0px auto;
+  text-align: center;
+}
+
+.container {
+  margin: 0px auto;
+  max-width: 720px;
+}

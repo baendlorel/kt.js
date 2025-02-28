@@ -1,0 +1,94 @@
+@use 'sass:color'
+@use 'sass:map'
+@use 'theme'
+
+@function light($color)
+  @return color.adjust($color, $lightness:15%, $saturation: -5%)
+@function lighter($color)
+  @return color.adjust($color, $lightness:35%, $saturation: -15%)
+@function darken($color)
+  @return color.adjust($color, $lightness:-5%)
+
+$primary: map.get(theme.$colors, primary)
+$secondary: map.get(theme.$colors, secondary)
+$success: map.get(theme.$colors, success)
+$info: map.get(theme.$colors, info)
+$warning: map.get(theme.$colors, warning)
+$danger: map.get(theme.$colors, danger)
+$light: map.get(theme.$colors, light)
+$dark: map.get(theme.$colors, dark)
+$ao: map.get(theme.$colors, ao)
+$sass: map.get(theme.$colors, sass)
+$yuka: map.get(theme.$colors, yuka)
+$primary-light: light($primary)
+$secondary-light: light($secondary)
+$success-light: light($success)
+$info-light: light($info)
+$warning-light: light($warning)
+$danger-light: light($danger)
+$light-light: light($light)
+$dark-light: light($dark)
+$ao-light: light($ao)
+$sass-light: light($sass)
+$yuka-light: light($yuka)
+$primary-lighter: lighter($primary)
+$secondary-lighter: lighter($secondary)
+$success-lighter: lighter($success)
+$info-lighter: lighter($info)
+$warning-lighter: lighter($warning)
+$danger-lighter: lighter($danger)
+$light-lighter: lighter($light)
+$dark-lighter: lighter($dark)
+$ao-lighter: lighter($ao)
+$sass-lighter: lighter($sass)
+$yuka-lighter: lighter($yuka)
+
+// TODO 把所有颜色都配置成按钮、背景的样式
+:root
+  @each $name, $color in theme.$colors
+    --yk-#{$name}: #{$color}
+    --yk-#{$name}-light: #{light($color)}
+    --yk-#{$name}-lighter: #{lighter($color)}
+
+@each $name, $color in theme.$colors
+  .bg-#{$name}
+    background-color: var(--yk-#{$name})
+  .border-#{$name}
+    border-color: var(--yk-#{$name})
+  .text-#{$name}
+    color: var(--yk-#{$name})
+  .fill-#{$name}
+    fill: var(--yk-#{$name})
+  .stroke-#{$name}
+    stroke: var(--yk-#{$name})
+  .bg-#{$name}-light
+    background-color: var(--yk-#{$name}-light)
+  .border-#{$name}-light
+    border-color: var(--yk-#{$name}-light)
+  .text-#{$name}-light
+    color: var(--yk-#{$name}-light)
+  .fill-#{$name}-light
+    fill: var(--yk-#{$name}-light)
+  .stroke-#{$name}-light
+    stroke: var(--yk-#{$name}-light)
+  .bg-#{$name}-lighter
+    background-color: var(--yk-#{$name}-lighter)
+  .border-#{$name}-lighter
+    border-color: var(--yk-#{$name}-lighter)
+  .text-#{$name}-lighter
+    color: var(--yk-#{$name}-lighter)
+  .fill-#{$name}-lighter
+    fill: var(--yk-#{$name}-lighter)
+  .stroke-#{$name}-lighter
+    stroke: var(--yk-#{$name}-lighter)
+
+$input-bg-color: #f9f9f9
+$input-border: 1px solid #e4e4e4
+$border-radius: 5px
+
+// theme.$colors: (
+// primary: #3498db,
+// secondary: #2ecc71,
+// danger: #e74c3c,
+// warning: #f39c12,
+// )

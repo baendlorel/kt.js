@@ -1,0 +1,29 @@
+@use 'color'
+input
+  padding: 8px
+  border-radius: color.$border-radius
+  border: color.$input-border
+  outline: 0
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+
+  &[type=text], &[type=email], &[type=password], &[type=number], &[type=date], &[type=time], &[type=datetime-local], &[type=tel], &[type=url], &[type=search], &[type=color], &[type=month], &[type=week]
+    &:focus
+      border-color: color.$primary
+      box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+      &.invalid
+        border-color: color.$danger
+        box-shadow: 0 0 0 .25rem rgba(220, 53, 69, .25)
+
+  &.invalid
+    border-color: color.$danger
+    &:hover
+      border-color: color.$danger
+
+  &:hover,&:focus
+    border-color: color.$primary
+
+div.feedback
+  margin-top: 4px
+  font-size: 0.8em
+  &.invalid
+    color: color.$danger

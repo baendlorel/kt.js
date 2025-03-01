@@ -1,6 +1,8 @@
 import './init';
 import './styles/index.sass';
 
+import './yuka-refactor';
+
 import { I18NConfig } from './types';
 import { Yuka, YukaAttribute } from './yuka.class';
 import { _h } from './h';

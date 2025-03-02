@@ -359,25 +359,3 @@ export type YukaAttribute = {
   onwaiting?: (event: Event) => void;
   onwheel?: (event: WheelEvent) => void;
 };
-
-const YukaClassMap = (() => {
-  const m = new Map<keyof HTMLElementTagNameMap, HTMLElementType>();
-  for (const [tagName, HTMLClass] of Object.entries(Tag2HTMLElementClass)) {
-    const c = class extends HTMLClass {
-      constructor(...args: any[]) {
-        super(...args);
-      }
-    };
-
-    m.set(tagName as keyof HTMLElementTagNameMap, c as any);
-  }
-})();
-
-function createElement(tagName: keyof HTMLElementTagNameMap, attributes: YukaAttribute) {
-  // 创建元素
-  const father = Tag2HTMLElementClass[tagName];
-
-  HTMLDialogElement.prototype;
-
-  // 继承它对应的HTML某某Element，以达到使用其变量函数的效果
-}

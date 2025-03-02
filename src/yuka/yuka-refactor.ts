@@ -1,6 +1,7 @@
 import { i18n } from '.';
 import { I18NConfig } from './types';
 
+const _uid = Symbol('uid');
 const _i18n = Symbol('i18n');
 const _textNode = Symbol('textNode');
 const _listeners = Symbol('listeners');
@@ -16,9 +17,14 @@ type ListenerConfigMap<T extends keyof HTMLElementEventMap> = Map<T, ListenerCon
 
 declare global {
   interface HTMLElement {
+    [_uid]: number;
     [_i18n]: I18NConfig | undefined;
     [_textNode]: Text;
     [_listeners]: ListenerConfigMap<keyof HTMLElementEventMap>;
+
+    readonly uid: number;
+
+    readonly isYuka: boolean;
 
     /**
      * 用于获取或设置元素的文本内容。
@@ -33,18 +39,18 @@ declare global {
 
     /**
      * 用于向元素追加子元素
-     * @param child 可以是元素、节点、返回元素的函数、返回节点的函数
+     * @param children 可以是元素、节点、返回元素的函数、返回节点的函数
      * @returns
      */
-    $append: (...child: (HTMLElement | Node | (() => HTMLElement) | (() => Node))[]) => HTMLElement;
+    $append: (...children: (HTMLElement | Node | (() => HTMLElement) | (() => Node))[]) => this;
 
     /**
      * 用于向元素追加异步子元素
-     * @param child 除了直接是元素外，还可以是Promise化的元素、节点、返回元素的函数、返回节点的函数
+     * @param children 除了直接是元素外，还可以是Promise化的元素、节点、返回元素的函数、返回节点的函数
      * @returns
      */
     $asyncAppend: (
-      ...child: (
+      ...children: (
         | HTMLElement
         | Node
         | (() => HTMLElement)
@@ -54,7 +60,7 @@ declare global {
         | (() => Promise<HTMLElement>)
         | (() => Promise<Node>)
       )[]
-    ) => HTMLElement;
+    ) => this;
 
     /**
      * 绑定事件
@@ -65,17 +71,22 @@ declare global {
     $on: <T extends keyof HTMLElementEventMap>(
       eventName: T,
       listenerConfig: (event: HTMLElementEventMap[T]) => void | ListenerConfig<T>
-    ) => void;
+    ) => this;
 
     /**
      * 应用i18n配置，将会根据现在所选的语言修改元素的文本内容
      * @returns
      */
-    $applyLocale: () => void;
+    $applyLocale: () => this;
   }
 }
 
+let uid = 0;
 Object.defineProperties(HTMLElement.prototype, {
+  [_uid]: {
+    value: undefined,
+    writable: true,
+  },
   [_i18n]: {
     value: undefined,
     writable: true,
@@ -84,11 +95,33 @@ Object.defineProperties(HTMLElement.prototype, {
     value: undefined,
     writable: true,
   },
+  [_listeners]: {
+    value: new Map(),
+  },
+  uid: {
+    get(this: HTMLElement) {
+      if (this[_uid] === undefined) {
+        this[_uid] = uid++;
+      }
+      return this[_uid];
+    },
+  },
+  isYuka: {
+    value: true,
+  },
   $text: {
-    get() {
+    get(this: HTMLElement) {
+      if (!this[_textNode]) {
+        this[_textNode] = document.createTextNode('');
+        this.prepend(this[_textNode]);
+      }
       return this[_textNode].textContent;
     },
-    set(value) {
+    set(this: HTMLElement, value) {
+      if (!this[_textNode]) {
+        this[_textNode] = document.createTextNode('');
+        this.prepend(this[_textNode]);
+      }
       this[_textNode].textContent = value;
     },
   },
@@ -101,11 +134,76 @@ Object.defineProperties(HTMLElement.prototype, {
       return m;
     },
   },
+  $append: {
+    value: function (
+      this: HTMLElement,
+      ...children: (HTMLElement | Node | (() => HTMLElement) | (() => Node))[]
+    ) {
+      for (let i = 0; i < children.length; i++) {
+        let c = children[i];
+
+        if (typeof c === 'function') {
+          c = c();
+        }
+
+        if (c instanceof Promise) {
+          throw new TypeError(
+            '[Yuka:HTMLElement $append] async objects are not supported by $append, use $asyncAppend instead.'
+          );
+        }
+
+        // 这里只需要判定node就行了，因为HTMLElement继承自Node
+        if (!(c instanceof Node)) {
+          throw new TypeError(
+            '[Yuka:HTMLElement $append] child must be an HTMLElement, Node or a function that returns them.'
+          );
+        }
+        this.appendChild(c);
+      }
+      return this;
+    },
+  },
+  $asyncAppend: {
+    value: async function (
+      this: HTMLElement,
+      ...children: (
+        | HTMLElement
+        | Node
+        | (() => HTMLElement)
+        | (() => Node)
+        | Promise<HTMLElement>
+        | Promise<Node>
+        | (() => Promise<HTMLElement>)
+        | (() => Promise<Node>)
+      )[]
+    ) {
+      for (let i = 0; i < children.length; i++) {
+        let c = children[i];
+        if (typeof c === 'function') {
+          c = c();
+        }
+
+        if (c instanceof Promise) {
+          c = await c;
+        }
+
+        // 这里只需要判定node就行了，因为HTMLElement继承自Node
+        if (!(c instanceof Node)) {
+          throw new TypeError(
+            '[Yuka:HTMLElement $asyncAppend] child must be an HTMLElement, Node, Promise<HTMLElement>, Promise<Node> or a function that returns them.'
+          );
+        }
+
+        this.appendChild(c);
+      }
+      return this;
+    },
+  },
   $on: {
     value: function <T extends keyof HTMLElementEventMap>(
       this: HTMLElement,
       eventName: T,
-      listenerConfig: Function | ListenerConfig<T>
+      listenerConfig: Function | Partial<ListenerConfig<T>>
     ) {
       if (typeof eventName !== 'string') {
         throw new TypeError('[Yuka:HTMLElement $on] eventName must be a string.');
@@ -152,16 +250,17 @@ Object.defineProperties(HTMLElement.prototype, {
       }
       listeners.push(config);
       listeners.sort((a, b) => a.order - b.order);
+      return this;
     },
-    writable: false,
   },
   $applyLocale: {
     value: function (this: HTMLElement) {
       if (!this[_i18n]) {
-        return;
+        console.warn('[Yuka:HTMLElement $applyLocale] i18n config is not set.');
+        return this;
       }
       this[_textNode].textContent = i18n.get(this[_i18n]);
+      return this;
     },
-    writable: false,
   },
 });

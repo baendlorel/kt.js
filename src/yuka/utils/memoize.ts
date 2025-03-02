@@ -1,6 +1,3 @@
-import { i18n } from './i18n';
-import { I18NConfig } from './types';
-
 export class MemoizeMap<A, B> {
   private readonly map: Map<A, B> = new Map();
   private readonly weakMap: WeakMap<Object, B> = new WeakMap();
@@ -41,31 +38,6 @@ export class MemoizeMap<A, B> {
     this.map.forEach(callbackfn);
   }
 }
-
-/**
- * 自动读取string和I18NConfig的文本
- * @deprecated 没用上
- * @param t string或I18NConfig
- * @returns 如果不是这两者，那么返回false
- */
-export const getText = (t: string | I18NConfig): string | false => {
-  if (typeof t === 'string') {
-    return t;
-  }
-
-  if (i18n.valid(t)) {
-    return i18n.get(t);
-  }
-
-  return false;
-};
-
-export const isAsyncFunction = (fn: any) => {
-  if (typeof fn !== 'function') {
-    return false;
-  }
-  return fn.constructor.name === 'AsyncFunction' || fn[Symbol.toStringTag] === 'AsyncFunction';
-};
 
 /**
  * 为一个以对象作为参数的函数添加缓存，缓存键为第一个参数

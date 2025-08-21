@@ -1,4 +1,4 @@
-import { i18n } from '.';
+import { i18n } from './i18n';
 import { I18NConfig } from './types';
 
 const _uid = Symbol('uid');
@@ -32,10 +32,19 @@ declare global {
      */
     $text: string;
 
+    $i18n: I18NConfig | undefined;
+
     /**
      * 获取用$on函数绑定的事件Map
      */
     readonly $listeners: ListenerConfigMap<keyof HTMLElementEventMap>;
+
+    /**
+     * 设置元素的文本节点，此函数只能执行一次
+     * @param textNode
+     * @returns
+     */
+    $setTextNode: (textNode: Text) => void;
 
     /**
      * 用于向元素追加子元素
@@ -111,18 +120,22 @@ Object.defineProperties(HTMLElement.prototype, {
   },
   $text: {
     get(this: HTMLElement) {
-      if (!this[_textNode]) {
-        this[_textNode] = document.createTextNode('');
-        this.prepend(this[_textNode]);
-      }
       return this[_textNode].textContent;
     },
     set(this: HTMLElement, value) {
-      if (!this[_textNode]) {
-        this[_textNode] = document.createTextNode('');
-        this.prepend(this[_textNode]);
-      }
       this[_textNode].textContent = value;
+    },
+  },
+  $i18n: {
+    get(this: HTMLElement) {
+      return this[_i18n];
+    },
+    set(this: HTMLElement, value) {
+      if (!i18n.valid(value)) {
+        throw new Error('[Yuka:HTMLElement $i18n] i18n config is invalid.');
+      }
+      this[_i18n] = value;
+      this.$applyLocale();
     },
   },
   $listeners: {
@@ -132,6 +145,14 @@ Object.defineProperties(HTMLElement.prototype, {
         m.set(k, v.slice());
       });
       return m;
+    },
+  },
+  $setTextNode: {
+    value: function (this: HTMLElement, textNode: Text) {
+      if (this[_textNode] !== undefined) {
+        throw new Error('[Yuka:HTMLElement $setTextNode] textNode can only be set once.');
+      }
+      this[_textNode] = textNode;
     },
   },
   $append: {

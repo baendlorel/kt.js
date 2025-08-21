@@ -1,5 +1,7 @@
 {
   "name": "web",
+  "description": "Web frame work for the project",
+  "description_zh": "自研web框架Yuka.js，简单易用",
   "private": true,
   "version": "0.0.0",
   "type": "module",

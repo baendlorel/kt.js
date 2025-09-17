@@ -40,8 +40,8 @@ export class MemoizeMap<A, B> {
 }
 
 /**
- * 为一个以对象作为参数的函数添加缓存，缓存键为第一个参数
- * @param fn 第一个参数是对象的函数
+ * Add memoization for a function whose first argument is an object. The cache key is the first argument.
+ * @param fn Function whose first argument is an object
  * @returns
  */
 export const memoize = <T extends (...args: any[]) => any>(fn: T): T => {

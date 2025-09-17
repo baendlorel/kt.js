@@ -1,12 +1,12 @@
-import { yukaEvent } from './event-bus';
-import { i18n } from './i18n';
+import { yukaEvent } from './event-bus.js';
+import { i18n } from './i18n.js';
 import {
   HTMLElementType,
   HTMLTags,
   I18NConfig,
   LanguageTypes,
   Tag2HTMLElementClass,
-} from './types';
+} from './types.js';
 
 const uidSymbol = Symbol('uid');
 const i18nSymbol = Symbol('i18n');

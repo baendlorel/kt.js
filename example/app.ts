@@ -1,5 +1,4 @@
 import { useYuka } from '../src/index.js';
-// import testButtons from './components/test-buttons';
 
 const { h } = useYuka();
 

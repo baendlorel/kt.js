@@ -1,10 +1,9 @@
-import { I18NConfig } from './types';
-import { Yuka, YukaAttribute } from './yuka.class';
+import { Yuka, YukaAttribute } from './yuka.js';
 
 export function _h<TN extends keyof HTMLElementTagNameMap>(
   tagName: TN,
   attr?: YukaAttribute | string,
-  content?: I18NConfig | string,
+  content?: string,
   scopeName?: string
 ): Yuka<HTMLElementTagNameMap[TN]> {
   if (typeof tagName !== 'string') {

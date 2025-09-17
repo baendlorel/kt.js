@@ -112,8 +112,4 @@ const setIcon = (href: string) => {
   _h('link', { rel: 'icon', type: 'image/svg+xml', href }).mount(document.head);
 };
 
-export * from './types';
-export * from './dialog';
-export * from './i18n';
-
 export { applyCss, useYuka, setIcon, Yuka };

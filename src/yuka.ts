@@ -1,30 +1,11 @@
-import { yukaEvent } from './event-bus.js';
-import { i18n } from './i18n.js';
-import {
-  HTMLElementType,
-  HTMLTags,
-  I18NConfig,
-  LanguageTypes,
-  Tag2HTMLElementClass,
-} from './types.js';
-
 const uidSymbol = Symbol('uid');
-const i18nSymbol = Symbol('i18n');
 const textNodeSymbol = Symbol('textNode');
 
-yukaEvent.onI18NUpdated(() => Yuka.reverseMap.forEach((yukaEl) => yukaEl.applyLocale()));
+// todo 使用逻辑创建逻辑要全部重新设计
+// todo 参数校验不要放在构造函数里，而是工厂函数里
 
-type YukaCreator = (...args: any[]) => Yuka<HTMLElementType>;
-
-export class Yuka<T extends HTMLElementType> {
-  /**
-   * 所有的element到Yuka的映射
-   */
-  static readonly reverseMap: Map<HTMLElementType, Yuka<HTMLElementType>> = new Map();
-
-  /**
-   * 以函数创建的yuka，可以通过再次执行函数重新创建并挂载在原来的位置
-   */
+export class Yuka<T extends HTMLElementTypes> {
+  static readonly reverseMap: Map<HTMLElementTypes, Yuka<HTMLElementTypes>> = new Map();
   static readonly recreatableMap: WeakMap<YukaCreator, Node> = new Map();
 
   static [uidSymbol]: number = 0;
@@ -32,9 +13,8 @@ export class Yuka<T extends HTMLElementType> {
   readonly uid: number;
   readonly el: T;
   readonly [textNodeSymbol]: Node;
-  [i18nSymbol]?: I18NConfig;
 
-  constructor(el: T, textNode: Node, i18nConfig?: I18NConfig) {
+  constructor(el: T, textNode: Node) {
     if (el instanceof HTMLElement === false) {
       throw new Error('[Yuka:Yuka.constructor] el is not an HTMLElement');
     }
@@ -44,16 +24,10 @@ export class Yuka<T extends HTMLElementType> {
     if (textNode.parentElement !== el) {
       throw new Error('[Yuka:Yuka.constructor] textNode must be a child of el');
     }
-    if (i18nConfig !== undefined && !i18n.valid(i18nConfig)) {
-      throw new Error('[Yuka:Yuka.constructor] i18nConfig not valid');
-    }
-
     this.uid = ++Yuka[uidSymbol];
     this.el = el;
     this[textNodeSymbol] = textNode;
-    this[i18nSymbol] = i18nConfig;
 
-    this.applyLocale();
     Yuka.reverseMap.set(this.el, this);
   }
 
@@ -61,40 +35,7 @@ export class Yuka<T extends HTMLElementType> {
     return true;
   }
 
-  set i18n(i18nConfig: I18NConfig) {
-    if (!i18n.valid(i18nConfig)) {
-      throw new Error('[Yuka:Yuka.i18n] The given i18nConfig is not a valid config object.');
-    }
-    this[i18nSymbol] = i18nConfig;
-    this.applyLocale();
-  }
-
-  get i18n(): I18NConfig | undefined {
-    if (this[i18nSymbol] === undefined) {
-      return undefined;
-    }
-
-    const i18nConfig = {} as I18NConfig;
-    const thisArg = this;
-    const currentI18NConfig = this[i18nSymbol];
-    for (const key of LanguageTypes) {
-      Object.defineProperty(i18nConfig, key, {
-        get() {
-          return currentI18NConfig[key];
-        },
-        set(newValue) {
-          if (typeof newValue !== 'string') {
-            throw new Error('[Yuka:Yuka.i18n] The given i18nConfig is not a valid config object.');
-          }
-          currentI18NConfig[key] = newValue;
-          thisArg.applyLocale();
-        },
-      });
-    }
-    return i18nConfig;
-  }
-
-  //#region 模拟HTML元素的函数和变量
+  // #region mimic getters and functions of HTMLElement version
 
   set value(v: string) {
     if (typeof v !== 'string') {
@@ -147,7 +88,7 @@ export class Yuka<T extends HTMLElementType> {
     return this.el.style;
   }
 
-  append(...yukas: (Yuka<HTMLElementType> | YukaCreator)[]): Yuka<T> {
+  append(...yukas: (Yuka<HTMLElementTypes> | YukaCreator)[]): Yuka<T> {
     for (const r of yukas) {
       // 直接是yuka对象
       if (r instanceof Yuka) {
@@ -202,47 +143,15 @@ export class Yuka<T extends HTMLElementType> {
     return this;
   }
 
-  mount(element: Yuka<HTMLElementType>): void;
+  mount(element: Yuka<HTMLElementTypes>): void;
   mount(yukaElement: HTMLElement): void;
-  mount(element: Yuka<HTMLElementType> | HTMLElement) {
+  mount(element: Yuka<HTMLElementTypes> | HTMLElement) {
     if (element instanceof Yuka) {
       element.append(this);
     } else {
       element.appendChild(this.el);
     }
   }
-
-  applyLocale() {
-    if (!this[i18nSymbol]) {
-      return;
-    }
-    this[textNodeSymbol].textContent = i18n.get(this[i18nSymbol]);
-  }
-
-  // duplicate() {
-  //   const newYuka = new Yuka(
-  //     this.el.cloneNode() as T,
-  //     this[textNodeSymbol].cloneNode(),
-  //     this[i18nSymbol]
-  //   );
-
-  //   for (let i = 0; i < this.el.childNodes.length; i++) {
-  //     const node = this.el.childNodes[i];
-  //     if (node === newYuka[textNodeSymbol]) {
-  //       newYuka.el.appendChild(node);
-  //       continue;
-  //     }
-
-  //     const yukaNode = Yuka.reverseMap.get(node as HTMLElement);
-  //     if (yukaNode) {
-  //       yukaNode.duplicate().mount(newYuka);
-  //     } else {
-  //       newYuka.el.appendChild(node.cloneNode());
-  //     }
-  //   }
-
-  //   return newYuka;
-  // }
 }
 
 export type YukaAttribute = {

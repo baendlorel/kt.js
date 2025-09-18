@@ -13,7 +13,7 @@ import dts from 'rollup-plugin-dts';
 import dtsMerger from 'rollup-plugin-dts-merger';
 
 // custom plugins
-import { replaceOpts } from './plugins/replace.mjs';
+import { replaceOpts } from './scripts/plugins/replace.mjs';
 
 // # common options
 

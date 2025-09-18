@@ -91,8 +91,8 @@ async function run() {
 
     await execute(['rimraf', 'dist']);
 
-    const { name, version, projectType } = renamer.packageJson;
-    console.log(`Building`, `[${projectType}]`, name, version);
+    const { name, version, purpose } = renamer.packageJson;
+    console.log(`Building`, `[${purpose}]`, name, version);
 
     // ! Must read configs here, or nodejs will not
     // ! be able to find the installed package of this project

@@ -30,6 +30,7 @@ export function h<Tag extends HTMLElementTag>(
   if (typeof content !== 'string' && !IsObject(content) && !IsArray(content)) {
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
+  // todo 研究如何使用模式匹配避免多次重复判定
 
   const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
 

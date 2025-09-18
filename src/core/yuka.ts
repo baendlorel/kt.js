@@ -1,4 +1,7 @@
+import { yoff, yon } from './enhance.js';
 import { isArray, isObject, set } from './native.js';
+
+let yid = 0;
 
 /**
  * Create an enhanced HTMLElement.
@@ -10,7 +13,7 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
   tagName: Tag,
   attr: YukaAttribute | string = '',
   content: HTMLElement[] | string = ''
-): HTMLElementTagNameMap[Tag] {
+): HTMLElementEnhanced<Tag> {
   if (typeof tagName !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
@@ -21,7 +24,13 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
-  const element: HTMLElementTagNameMap[Tag] = document.createElement<Tag>(tagName);
+  const element = document.createElement<Tag>(tagName) as HTMLElementEnhanced<Tag>;
+
+  // * Add enhancing methods
+
+  element.yid = ++yid;
+  element.yon = yon;
+  element.yoff = yoff;
 
   const textNode: Node = document.createTextNode('');
 
@@ -31,7 +40,6 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
     textNode.textContent = content;
   }
 
-  // 注册CSS类
   if (!attr) {
     return element;
   }

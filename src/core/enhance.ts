@@ -1,7 +1,7 @@
 import { Sym } from '@/consts/sym.js';
-import { apply, IsObject, IsSafeInt, ObjectIs } from './native.js';
+import { apply, isObject, isSafeInt, ObjectIs } from './native.js';
 
-function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+export function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
   listener: YukaListener<HTMLElement, K>,
@@ -13,14 +13,14 @@ function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
     return listener;
   }
 
-  if (!IsObject<YOnOptions>(options) || !('triggerLimit' in options)) {
+  if (!isObject<YOnOptions>(options) || !('triggerLimit' in options)) {
     apply(addEventListener, this, [type, listener, options]);
     return listener;
   }
 
   const triggerLimit = options.triggerLimit;
   delete options.triggerLimit;
-  if (!IsSafeInt(triggerLimit) || triggerLimit <= 0) {
+  if (!isSafeInt(triggerLimit) || triggerLimit <= 0) {
     throw new TypeError('[__NAME__:yon] options.triggerLimit must be a positive safe integer.');
   }
 
@@ -44,7 +44,7 @@ function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   return newHandler;
 }
 
-function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+export function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
   listener: YukaListener<HTMLElement, K>,

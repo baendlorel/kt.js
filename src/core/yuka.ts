@@ -1,3 +1,7 @@
-const c = document.createElement.bind(document);
+import { Sym } from '@/consts/sym.js';
 
-function h(tagName: keyof HTMLElementTagNameMap, attr: YukaAttribute) {}
+function h(
+  tagName: keyof HTMLElementTagNameMap,
+  attr: YukaAttribute = Sym.NotProvided as any,
+  children: HTMLElement[] = Sym.NotProvided as any
+) {}

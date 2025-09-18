@@ -2,6 +2,7 @@
 
 export const apply = Reflect.apply;
 export const set = Reflect.set;
+export const defineProperty = Reflect.defineProperty;
 export const ObjectIs = Object.is as <B extends unknown>(a: unknown, b: B) => a is B;
 export const isArray = Array.isArray;
 

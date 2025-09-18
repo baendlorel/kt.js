@@ -1,5 +1,5 @@
 import { yoff, yon } from './enhance.js';
-import { isArray, isObject, set } from './native.js';
+import { defineProperty, isArray, isObject, set } from './native.js';
 
 let yid = 0;
 
@@ -28,7 +28,7 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
 
   // * Add enhancing methods
 
-  element.yid = ++yid;
+  defineProperty(element, 'yid', { value: ++yid, enumerable: true });
   element.yon = yon;
   element.yoff = yoff;
 

@@ -9,7 +9,6 @@ import {
   ObjectAssign,
   ObjectKeys,
 } from './native.js';
-import { KSymbol } from '@/consts/sym.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -20,15 +19,15 @@ import { KSymbol } from '@/consts/sym.js';
 export function h<Tag extends HTMLElementTag>(
   tag: Tag,
   attr: KAttribute | string = '',
-  content: (HTMLKEnhancedElement | string)[] | string = ''
+  content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string = ''
 ): HTMLKEnhancedElement<Tag> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  if (typeof attr !== 'string' && !IsObject<KAttribute>(attr)) {
+  if (typeof attr !== 'string' && !IsObject(attr)) {
     throw new TypeError('[__NAME__:h] attr must be an object.');
   }
-  if (typeof content !== 'string' && !IsArray(content)) {
+  if (typeof content !== 'string' && !IsObject(content) && !IsArray(content)) {
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
@@ -39,7 +38,7 @@ export function h<Tag extends HTMLElementTag>(
     value: Indexer.nextKid(),
     enumerable: true,
   });
-  ReflectDefineProperty(element, KSymbol satisfies keyof KEnhanced, { value: true });
+  ReflectDefineProperty(element, 'isKT' satisfies keyof KEnhanced, { value: true });
   element.kon = kon;
   element.koff = koff;
   element.kmount = kmount;
@@ -48,7 +47,7 @@ export function h<Tag extends HTMLElementTag>(
   if (typeof content === 'string') {
     const textNode = createTextNode(content);
     element.appendChild(textNode);
-  } else {
+  } else if (IsArray(content)) {
     const len = content.length;
     for (let i = 0; i < len; i++) {
       const c = content[i];
@@ -57,7 +56,7 @@ export function h<Tag extends HTMLElementTag>(
         continue;
       }
 
-      if (KSymbol in c) {
+      if (c.isKT) {
         element.appendChild(c);
         continue;
       }
@@ -65,6 +64,10 @@ export function h<Tag extends HTMLElementTag>(
       throw new TypeError(
         '[__NAME__:h] content must be a string or an array of HTMLEnhancedElement.'
       );
+    }
+  } else {
+    if (content.isKT) {
+      element.appendChild(content);
     }
   }
 

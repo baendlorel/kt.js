@@ -1,12 +1,12 @@
 import { NotProvided } from '@/consts/sym.js';
 import { ReflectApply, IsObject, IsSafeInt, ObjectIs } from './native.js';
 
-export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
-  this: E,
-  type: K,
-  listener: KListener<HTMLElement, K>,
+export function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
+  this: El,
+  type: T,
+  listener: KListener<HTMLElement, T>,
   options: KOnOptions = NotProvided as any
-): KListener<E, K> {
+): KListener<El, T> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, NotProvided)) {
     ReflectApply(addEventListener, this, [type, listener]);
@@ -32,7 +32,7 @@ export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   }
 
   let count = triggerLimit;
-  const newHandler = function (this: E, ev: HTMLElementEventMap[K]) {
+  const newHandler = function (this: El, ev: HTMLElementEventMap[T]) {
     const result = ReflectApply(listener, this, [ev]);
     count--;
     if (count <= 0) {
@@ -44,8 +44,8 @@ export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   return newHandler;
 }
 
-export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
-  this: E,
+export function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
+  this: El,
   type: K,
   listener: KListener<HTMLElement, K>,
   options: KOnOptions = NotProvided as any
@@ -63,6 +63,10 @@ export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
  * @param element
  * @returns itself
  */
-export function kmount<E extends HTMLKEnhancedElement>(this: E, element: HTMLElement): E {
+export function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {
   return element.appendChild(this);
 }
+
+kon satisfies KEnhanced['kon'];
+koff satisfies KEnhanced['koff'];
+kmount satisfies KEnhanced['kmount'];

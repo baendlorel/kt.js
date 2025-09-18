@@ -1,5 +1,9 @@
 # KT.js
 
+(still developing)
+
+(image wait to be placed here)
+
 ## Philosophy: No Forced Repaint
 
 KT.js is designed with a simple but radical philosophy: **never repaint unless absolutely necessary**. Unlike most frontend frameworks that rely on frequent DOM diffing and re-rendering, KT.js believes in minimal DOM operations and maximum stability.

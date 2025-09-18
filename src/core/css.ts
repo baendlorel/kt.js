@@ -71,9 +71,16 @@ export function scopeCss(scopeName: string): typeof css {
       const keysLen = keys.length;
       for (let i = 0; i < keysLen; i++) {
         const child = node[keys[i]];
+
         if (isArray(child)) {
-          child.forEach(walk);
-        } else if (isObject(child)) {
+          const childLen = child.length;
+          for (let i = 0; i < childLen; i++) {
+            walk(child[i]);
+          }
+          continue;
+        }
+
+        if (isObject(child)) {
           walk(child);
         }
       }

@@ -8,7 +8,7 @@ export function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   options: YOnOptions = Sym.NotProvided as any
 ): YukaListener<E, K> {
   // * in case of no options provided, which is the most common usage
-  if (ObjectIs(Sym.NotProvided, options)) {
+  if (ObjectIs(options, Sym.NotProvided)) {
     apply(addEventListener, this, [type, listener]);
     return listener;
   }

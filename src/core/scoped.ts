@@ -1,18 +1,10 @@
 import { Indexer } from '@/utils/indexer.js';
-import { h } from './h.js';
+import { scopedH } from './h.js';
+import { scopeCss } from './css.js';
 
-export function useKT(scopeName: string = Indexer.genScopeName()) {
-  const _h = function <Tag extends HTMLElementTag>(
-    tag: Tag,
-    attr: KTAttribute | string,
-    content: (HTMLEnhancedElement | string)[] | string
-  ) {
-    const element = h(tag, attr, content);
-    element.setAttribute(scopeName, '');
-    return element;
-  };
-
+export function useScope(scopeName: string = Indexer.genScopeName()) {
   return {
-    h: _h,
+    h: scopedH(scopeName),
+    css: scopeCss(scopeName),
   };
 }

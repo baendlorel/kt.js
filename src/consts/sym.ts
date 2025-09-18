@@ -1,3 +1,2 @@
-export class Sym extends null {
-  static readonly NotProvided = Symbol('NotProvided');
-}
+export const KT = Symbol();
+export const NotProvided = Symbol();

@@ -18,8 +18,8 @@ export const IsSafeInt = Number.isSafeInteger as (n: unknown) => n is number;
 export const IsObject = <T extends object>(o: unknown): o is T =>
   typeof o === 'object' && o !== null;
 
-// export const provideDefault = <T>(v: T | typeof Sym.NotProvided, defaultV: T): T =>
-//   ObjectIs(v, Sym.NotProvided) ? defaultV : (v as T);
+// export const provideDefault = <T>(v: T | typeof NotProvided, defaultV: T): T =>
+//   ObjectIs(v, NotProvided) ? defaultV : (v as T);
 
 // #endregion
 

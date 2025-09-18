@@ -277,3 +277,11 @@ export function h<Tag extends HTMLElementTag>(
 
   return element;
 }
+
+export function scopedH(scopeName: string): typeof h {
+  return function (...args: Parameters<typeof h>) {
+    const element = h(...args);
+    element.setAttribute(scopeName, '');
+    return element;
+  } as typeof h;
+}

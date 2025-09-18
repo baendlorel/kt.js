@@ -1,14 +1,14 @@
-import { Sym } from '@/consts/sym.js';
+import { NotProvided } from '@/consts/sym.js';
 import { ReflectApply, IsObject, IsSafeInt, ObjectIs } from './native.js';
 
 export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
   listener: KTListener<HTMLElement, K>,
-  options: KTOnOptions = Sym.NotProvided as any
+  options: KTOnOptions = NotProvided as any
 ): KTListener<E, K> {
   // * in case of no options provided, which is the most common usage
-  if (ObjectIs(options, Sym.NotProvided)) {
+  if (ObjectIs(options, NotProvided)) {
     ReflectApply(addEventListener, this, [type, listener]);
     return listener;
   }
@@ -48,9 +48,9 @@ export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
   this: E,
   type: K,
   listener: KTListener<HTMLElement, K>,
-  options: KTOnOptions = Sym.NotProvided as any
+  options: KTOnOptions = NotProvided as any
 ): void {
-  if (ObjectIs(Sym.NotProvided, options)) {
+  if (ObjectIs(NotProvided, options)) {
     ReflectApply(removeEventListener, this, [type, listener]);
     return;
   }

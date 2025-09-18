@@ -45,7 +45,7 @@ export function css(strings: TemplateStringsArray, ...values: any[]): string {
  * CSS.
  */
 export function scopeCss(scopeName: string): typeof css {
-  return (strings: TemplateStringsArray, ...values: any[]) => {
+  return function (strings: TemplateStringsArray, ...values: any[]) {
     // Reconstruct the template literal into a single CSS string.
     const cssText = getCssText(strings, values);
 

@@ -4,16 +4,16 @@ import { ReflectApply, IsObject, IsSafeInt, ObjectIs } from './native.js';
 export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
-  listener: KTListener<HTMLElement, K>,
-  options: KTOnOptions = NotProvided as any
-): KTListener<E, K> {
+  listener: KListener<HTMLElement, K>,
+  options: KOnOptions = NotProvided as any
+): KListener<E, K> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, NotProvided)) {
     ReflectApply(addEventListener, this, [type, listener]);
     return listener;
   }
 
-  if (!IsObject<KTOnOptions>(options) || !('triggerLimit' in options)) {
+  if (!IsObject<KOnOptions>(options) || !('triggerLimit' in options)) {
     ReflectApply(addEventListener, this, [type, listener, options]);
     return listener;
   }
@@ -47,8 +47,8 @@ export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
 export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
-  listener: KTListener<HTMLElement, K>,
-  options: KTOnOptions = NotProvided as any
+  listener: KListener<HTMLElement, K>,
+  options: KOnOptions = NotProvided as any
 ): void {
   if (ObjectIs(NotProvided, options)) {
     ReflectApply(removeEventListener, this, [type, listener]);
@@ -63,6 +63,6 @@ export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
  * @param element
  * @returns itself
  */
-export function kmount<E extends HTMLEnhancedElement>(this: E, element: HTMLElement): E {
+export function kmount<E extends HTMLKEnhancedElement>(this: E, element: HTMLElement): E {
   return element.appendChild(this);
 }

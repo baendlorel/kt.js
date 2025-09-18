@@ -1,15 +1,16 @@
+import { KSymbol } from '@/consts/sym.ts';
 import { kon, koff, kmount } from '@/core/enhance.js';
 
 declare global {
   type HTMLElementTag = keyof HTMLElementTagNameMap;
 
-  interface KTEnhanced {
+  interface KEnhanced {
     /**
      * Unique id of the KT.js enhanced html element;
      */
     kid: number;
 
-    isKT: true;
+    [KSymbol]: true;
 
     kon: typeof kon;
 
@@ -25,7 +26,7 @@ declare global {
     [K in keyof HTMLElementTagNameMap]: HTMLElement extends HTMLElementTagNameMap[K] ? K : never;
   }[keyof HTMLElementTagNameMap];
 
-  type HTMLEnhancedElement<T extends HTMLElementTag = NonSpecialTags> =
+  type HTMLKEnhancedElement<T extends HTMLElementTag = NonSpecialTags> =
     (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
-      KTEnhanced;
+      KEnhanced;
 }

@@ -46,7 +46,7 @@ export class MemoizeMap<A, B> {
  */
 export const memoize = <T extends (...args: any[]) => any>(fn: T): T => {
   if (typeof fn !== 'function') {
-    throw new Error('[KT:memoize] fn must be a function');
+    throw new Error('__NAME__:memoize] fn must be a function');
   }
   const cache = new MemoizeMap<any, T>();
   return ((...args: Parameters<T>[]) => {

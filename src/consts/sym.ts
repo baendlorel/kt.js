@@ -1,2 +1,2 @@
-export const KT = Symbol();
+export const KSymbol = Symbol();
 export const NotProvided = Symbol();

@@ -9,6 +9,7 @@ import {
   ObjectAssign,
   ObjectKeys,
 } from './native.js';
+import { KSymbol } from '@/consts/sym.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -18,27 +19,27 @@ import {
  */
 export function h<Tag extends HTMLElementTag>(
   tag: Tag,
-  attr: KTAttribute | string = '',
-  content: (HTMLEnhancedElement | string)[] | string = ''
-): HTMLEnhancedElement<Tag> {
+  attr: KAttribute | string = '',
+  content: (HTMLKEnhancedElement | string)[] | string = ''
+): HTMLKEnhancedElement<Tag> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  if (typeof attr !== 'string' && !IsObject<KTAttribute>(attr)) {
+  if (typeof attr !== 'string' && !IsObject<KAttribute>(attr)) {
     throw new TypeError('[__NAME__:h] attr must be an object.');
   }
   if (typeof content !== 'string' && !IsArray(content)) {
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
-  const element = createElement<Tag>(tag) as HTMLEnhancedElement<Tag>;
+  const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
 
   // * Define enhancing properties
-  ReflectDefineProperty(element, 'kid' satisfies keyof KTEnhanced, {
+  ReflectDefineProperty(element, 'kid' satisfies keyof KEnhanced, {
     value: Indexer.nextKid(),
     enumerable: true,
   });
-  ReflectDefineProperty(element, 'isKT' satisfies keyof KTEnhanced, { value: true });
+  ReflectDefineProperty(element, KSymbol satisfies keyof KEnhanced, { value: true });
   element.kon = kon;
   element.koff = koff;
   element.kmount = kmount;
@@ -55,10 +56,12 @@ export function h<Tag extends HTMLElementTag>(
         element.appendChild(createTextNode(c));
         continue;
       }
-      if (c.isKT) {
+
+      if (KSymbol in c) {
         element.appendChild(c);
         continue;
       }
+
       throw new TypeError(
         '[__NAME__:h] content must be a string or an array of HTMLEnhancedElement.'
       );

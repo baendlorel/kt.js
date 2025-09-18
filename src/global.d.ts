@@ -3,7 +3,7 @@ export {};
 declare global {
   const __IS_DEV__: boolean;
 
-  interface KTAttribute {
+  interface KAttribute {
     [k: string]: any;
 
     id?: string;
@@ -23,7 +23,7 @@ declare global {
     method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE';
   }
 
-  interface KTOnOptions extends AddEventListenerOptions {
+  interface KOnOptions extends AddEventListenerOptions {
     /**
      * This option's priority is higher than `once`.
      * - when this is `1`, go with `once: true`.
@@ -31,7 +31,7 @@ declare global {
     triggerLimit?: number;
   }
 
-  type KTListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
+  type KListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
     this: E,
     ev: HTMLElementEventMap[K]
   ) => unknown;

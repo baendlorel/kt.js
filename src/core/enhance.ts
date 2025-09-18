@@ -57,3 +57,12 @@ export function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
 
   apply(removeEventListener, this, [type, listener, options]);
 }
+
+/**
+ * Equivalent to `element.appendChild(this)`.
+ * @param element
+ * @returns itself
+ */
+export function ymount<E extends HTMLEnhancedElement>(this: E, element: HTMLElement): E {
+  return element.appendChild(this);
+}

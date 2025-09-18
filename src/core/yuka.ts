@@ -1,5 +1,5 @@
 import { yoff, yon } from './enhance.js';
-import { defineProperty, isArray, isObject, set } from './native.js';
+import { createElement, createTextNode, defineProperty, isArray, isObject, set } from './native.js';
 
 let yid = 0;
 
@@ -9,11 +9,11 @@ let yid = 0;
  * @param attr attribute or className
  * @param content a string or an array of HTMLElements as child nodes
  */
-function h<Tag extends keyof HTMLElementTagNameMap>(
+function h<Tag extends HTMLElementTag>(
   tagName: Tag,
   attr: YukaAttribute | string = '',
-  content: HTMLElement[] | string = ''
-): HTMLElementEnhanced<Tag> {
+  content: HTMLEnhancedElement[] | string = ''
+): HTMLEnhancedElement<Tag> {
   if (typeof tagName !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
@@ -24,20 +24,24 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
-  const element = document.createElement<Tag>(tagName) as HTMLElementEnhanced<Tag>;
+  const element = createElement<Tag>(tagName) as HTMLEnhancedElement<Tag>;
 
-  // * Add enhancing methods
-
+  // * Define enhancing properties
   defineProperty(element, 'yid', { value: ++yid, enumerable: true });
+  defineProperty(element, 'isYuka', { value: true, enumerable: true });
   element.yon = yon;
   element.yoff = yoff;
 
-  const textNode: Node = document.createTextNode('');
-
-  element.appendChild(textNode);
-
   if (typeof content === 'string') {
-    textNode.textContent = content;
+    const textNode = createTextNode(content);
+    element.appendChild(textNode);
+  } else {
+    if (content.some((el) => !el.isYuka)) {
+      throw new TypeError(
+        '[__NAME__:h] content must be a string or an array of HTMLEnhancedElement.'
+      );
+    }
+    element.append(...content);
   }
 
   if (!attr) {
@@ -78,15 +82,6 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
       console.warn(
         `[__NAME__:h] It is recommended that using yon/yoff to register events. Functions will not be handled here.`
       );
-    }
-
-    // * Handle innerHTML/textContent
-    if (key === 'innerHTML') {
-      element.innerHTML = String(o);
-      continue;
-    }
-    if (key === 'textContent') {
-      textNode.textContent = String(o);
       continue;
     }
 
@@ -100,9 +95,53 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
       continue;
     }
 
+    // * Handle value property for form elements
+    if (key === 'value') {
+      if (
+        element instanceof HTMLInputElement ||
+        element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLSelectElement
+      ) {
+        element.value = String(o);
+      } else {
+        element.setAttribute(key, o);
+      }
+      continue;
+    }
+
     if (key === 'selected') {
       if (element instanceof HTMLOptionElement) {
         element.selected = Boolean(o);
+      } else {
+        element.setAttribute(key, o);
+      }
+      continue;
+    }
+
+    // * Handle defaultValue for form elements
+    if (key === 'defaultValue') {
+      if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+        element.defaultValue = String(o);
+      } else {
+        element.setAttribute(key, o);
+      }
+      continue;
+    }
+
+    // * Handle defaultChecked for checkboxes and radios
+    if (key === 'defaultChecked') {
+      if (element instanceof HTMLInputElement) {
+        element.defaultChecked = Boolean(o);
+      } else {
+        element.setAttribute(key, o);
+      }
+      continue;
+    }
+
+    // * Handle defaultSelected for options
+    if (key === 'defaultSelected') {
+      if (element instanceof HTMLOptionElement) {
+        element.defaultSelected = Boolean(o);
       } else {
         element.setAttribute(key, o);
       }
@@ -173,50 +212,6 @@ function h<Tag extends keyof HTMLElementTagNameMap>(
 
     if (key === 'hidden') {
       (element as any).hidden = Boolean(o);
-      continue;
-    }
-
-    // * Handle value property for form elements
-    if (key === 'value') {
-      if (
-        element instanceof HTMLInputElement ||
-        element instanceof HTMLTextAreaElement ||
-        element instanceof HTMLSelectElement
-      ) {
-        element.value = String(o);
-      } else {
-        element.setAttribute(key, o);
-      }
-      continue;
-    }
-
-    // * Handle defaultValue for form elements
-    if (key === 'defaultValue') {
-      if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
-        element.defaultValue = String(o);
-      } else {
-        element.setAttribute(key, o);
-      }
-      continue;
-    }
-
-    // * Handle defaultChecked for checkboxes and radios
-    if (key === 'defaultChecked') {
-      if (element instanceof HTMLInputElement) {
-        element.defaultChecked = Boolean(o);
-      } else {
-        element.setAttribute(key, o);
-      }
-      continue;
-    }
-
-    // * Handle defaultSelected for options
-    if (key === 'defaultSelected') {
-      if (element instanceof HTMLOptionElement) {
-        element.defaultSelected = Boolean(o);
-      } else {
-        element.setAttribute(key, o);
-      }
       continue;
     }
 

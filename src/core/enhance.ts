@@ -1,31 +1,20 @@
 import { Sym } from '@/consts/sym.js';
 import { apply, IsObject, IsSafeInt, ObjectIs } from './native.js';
 
-const a = {} as HTMLDivElement;
-
 function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
-  listener: YukaListener<E, K>,
+  listener: YukaListener<HTMLElement, K>,
   options: YOnOptions = Sym.NotProvided as any
 ): YukaListener<E, K> {
-  type GenericListener = YukaListener<HTMLElement, K>;
-
-  // & in case of no options provided, which is the most common usage
+  // * in case of no options provided, which is the most common usage
   if (ObjectIs(Sym.NotProvided, options)) {
-    this.addEventListener(type, listener as GenericListener);
+    apply(addEventListener, this, [type, listener]);
     return listener;
   }
 
-  // options is not an object, let it pass as is
-  if (!IsObject<YOnOptions>(options)) {
-    this.addEventListener(type, listener as GenericListener, options);
-    return listener;
-  }
-
-  // trigger limit is not provided
-  if (!('triggerLimit' in options)) {
-    this.addEventListener(type, listener as GenericListener, options);
+  if (!IsObject<YOnOptions>(options) || !('triggerLimit' in options)) {
+    apply(addEventListener, this, [type, listener, options]);
     return listener;
   }
 
@@ -35,11 +24,10 @@ function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
     throw new TypeError('[__NAME__:yon] options.triggerLimit must be a positive safe integer.');
   }
 
-  // & type definition of add/removeEventListener has no restriction on E.
-
+  // * Handle the enhancing part
   if (triggerLimit === 1) {
     options.once = true;
-    this.addEventListener(type, listener as GenericListener, options);
+    apply(addEventListener, this, [type, listener, options]);
     return listener;
   }
 
@@ -48,10 +36,24 @@ function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
     const result = apply(listener, this, [ev]);
     count--;
     if (count <= 0) {
-      this.removeEventListener(type, newHandler as GenericListener, options);
+      apply(removeEventListener, this, [type, newHandler, options]);
     }
     return result;
   };
-  this.addEventListener(type, newHandler as GenericListener, options);
+  apply(addEventListener, this, [type, newHandler, options]);
   return newHandler;
+}
+
+function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+  this: E,
+  type: K,
+  listener: YukaListener<HTMLElement, K>,
+  options: YOnOptions = Sym.NotProvided as any
+): void {
+  if (ObjectIs(Sym.NotProvided, options)) {
+    apply(removeEventListener, this, [type, listener]);
+    return;
+  }
+
+  apply(removeEventListener, this, [type, listener, options]);
 }

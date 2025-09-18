@@ -1,9 +1,6 @@
 const uidSymbol = Symbol('uid');
 const textNodeSymbol = Symbol('textNode');
 
-// todo 使用逻辑创建逻辑要全部重新设计
-// todo 参数校验不要放在构造函数里，而是工厂函数里
-
 export class Yuka<T extends HTMLElementTypes> {
   static readonly reverseMap: Map<HTMLElementTypes, Yuka<HTMLElementTypes>> = new Map();
   static readonly recreatableMap: WeakMap<YukaCreator, Node> = new Map();

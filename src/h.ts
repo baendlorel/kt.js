@@ -1,4 +1,4 @@
-import { Yuka, YukaAttribute } from './yuka.js';
+import { Yuka, YukaAttribute } from './yuka-old.js';
 
 export function _h<TN extends keyof HTMLElementTagNameMap>(
   tagName: TN,

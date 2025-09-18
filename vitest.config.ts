@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    reporters: ['dot'],
     environment: 'jsdom',
     // setupFiles: ['./src/macros.ts'],
     include: ['**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],

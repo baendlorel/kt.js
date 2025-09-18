@@ -3,9 +3,9 @@ import { koff, kon, kmount } from './enhance.js';
 import {
   createElement,
   createTextNode,
-  defineProperty,
-  isArray,
-  isObject,
+  ReflectDefineProperty,
+  IsArray,
+  IsObject,
   ObjectAssign,
   ObjectKeys,
 } from './native.js';
@@ -24,21 +24,21 @@ export function h<Tag extends HTMLElementTag>(
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  if (typeof attr !== 'string' && !isObject<KTAttribute>(attr)) {
+  if (typeof attr !== 'string' && !IsObject<KTAttribute>(attr)) {
     throw new TypeError('[__NAME__:h] attr must be an object.');
   }
-  if (typeof content !== 'string' && !isArray(content)) {
+  if (typeof content !== 'string' && !IsArray(content)) {
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
   const element = createElement<Tag>(tag) as HTMLEnhancedElement<Tag>;
 
   // * Define enhancing properties
-  defineProperty(element, 'kid' satisfies keyof KTEnhanced, {
+  ReflectDefineProperty(element, 'kid' satisfies keyof KTEnhanced, {
     value: Indexer.nextKid(),
     enumerable: true,
   });
-  defineProperty(element, 'isKT' satisfies keyof KTEnhanced, { value: true });
+  ReflectDefineProperty(element, 'isKT' satisfies keyof KTEnhanced, { value: true });
   element.kon = kon;
   element.koff = koff;
   element.kmount = kmount;
@@ -75,7 +75,7 @@ export function h<Tag extends HTMLElementTag>(
   }
 
   if (attr.class) {
-    if (isArray(attr.class)) {
+    if (IsArray(attr.class)) {
       element.classList.add(...attr.class);
     } else {
       element.className = attr.class;

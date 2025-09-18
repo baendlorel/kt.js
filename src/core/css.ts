@@ -1,5 +1,5 @@
-import { parse, stringify } from '@adobe/css-tools';
-import { createElement, isArray, isObject, ObjectAssign, ObjectKeys } from './native.js';
+import { CssRuleAST, CssStylesheetAST, CssTypes, parse, stringify } from '@adobe/css-tools';
+import { createElement, ReflectGet, IsArray, IsObject, ObjectKeys } from './native.js';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.
@@ -43,10 +43,6 @@ export function css(strings: TemplateStringsArray, ...values: any[]): string {
  * Create a scoped css tag wrapper which prefixes every selector with `scopeName`
  * then calls the provided `css` tagged template function with the transformed
  * CSS.
- *
- * @param cssFn - The original css tagged template function to call with scoped CSS
- * @param scopeName - The scope prefix to add before each selector (e.g. '.my-scope')
- * @returns A new tagged template function that applies the scope and delegates to `cssFn`
  */
 export function scopeCss(scopeName: string): typeof css {
   return (strings: TemplateStringsArray, ...values: any[]) => {
@@ -54,25 +50,25 @@ export function scopeCss(scopeName: string): typeof css {
     const cssText = getCssText(strings, values);
 
     // Parse the CSS into an AST, prefix selectors, and stringify back.
-    const ast: any = parse(cssText);
+    const ast = parse(cssText);
 
-    const walk = (node: any) => {
-      if (!node || typeof node !== 'object') {
+    const walk = (node: CssStylesheetAST | CssRuleAST) => {
+      if (!IsObject(node)) {
         return;
       }
 
       // Prefix selectors on normal rule nodes.
-      if (node.type === 'rule' && isArray(node.selectors)) {
-        node.selectors = node.selectors.map((s: string) => `${scopeName} ${s}`);
+      if (node.type === CssTypes.rule) {
+        node.selectors = node.selectors.map((s: string) => `[${scopeName}]${s}`);
       }
 
       // Recurse into arrays/objects that may contain nested rules (media, supports, etc.).
       const keys = ObjectKeys(node);
       const keysLen = keys.length;
       for (let i = 0; i < keysLen; i++) {
-        const child = node[keys[i]];
+        const child = ReflectGet(node, keys[i]);
 
-        if (isArray(child)) {
+        if (IsArray(child)) {
           const childLen = child.length;
           for (let i = 0; i < childLen; i++) {
             walk(child[i]);
@@ -80,8 +76,8 @@ export function scopeCss(scopeName: string): typeof css {
           continue;
         }
 
-        if (isObject(child)) {
-          walk(child);
+        if (IsObject(child)) {
+          walk(child as CssStylesheetAST | CssRuleAST);
         }
       }
     };

@@ -1,5 +1,5 @@
 import { Sym } from '@/consts/sym.js';
-import { apply, isObject, isSafeInt, ObjectIs } from './native.js';
+import { ReflectApply, IsObject, IsSafeInt, ObjectIs } from './native.js';
 
 export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
@@ -9,38 +9,38 @@ export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
 ): KTListener<E, K> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, Sym.NotProvided)) {
-    apply(addEventListener, this, [type, listener]);
+    ReflectApply(addEventListener, this, [type, listener]);
     return listener;
   }
 
-  if (!isObject<KTOnOptions>(options) || !('triggerLimit' in options)) {
-    apply(addEventListener, this, [type, listener, options]);
+  if (!IsObject<KTOnOptions>(options) || !('triggerLimit' in options)) {
+    ReflectApply(addEventListener, this, [type, listener, options]);
     return listener;
   }
 
   const triggerLimit = options.triggerLimit;
   delete options.triggerLimit;
-  if (!isSafeInt(triggerLimit) || triggerLimit <= 0) {
+  if (!IsSafeInt(triggerLimit) || triggerLimit <= 0) {
     throw new TypeError('[__NAME__:kon] options.triggerLimit must be a positive safe integer.');
   }
 
   // * Handle the enhancing part
   if (triggerLimit === 1) {
     options.once = true;
-    apply(addEventListener, this, [type, listener, options]);
+    ReflectApply(addEventListener, this, [type, listener, options]);
     return listener;
   }
 
   let count = triggerLimit;
   const newHandler = function (this: E, ev: HTMLElementEventMap[K]) {
-    const result = apply(listener, this, [ev]);
+    const result = ReflectApply(listener, this, [ev]);
     count--;
     if (count <= 0) {
-      apply(removeEventListener, this, [type, newHandler, options]);
+      ReflectApply(removeEventListener, this, [type, newHandler, options]);
     }
     return result;
   };
-  apply(addEventListener, this, [type, newHandler, options]);
+  ReflectApply(addEventListener, this, [type, newHandler, options]);
   return newHandler;
 }
 
@@ -51,11 +51,11 @@ export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
   options: KTOnOptions = Sym.NotProvided as any
 ): void {
   if (ObjectIs(Sym.NotProvided, options)) {
-    apply(removeEventListener, this, [type, listener]);
+    ReflectApply(removeEventListener, this, [type, listener]);
     return;
   }
 
-  apply(removeEventListener, this, [type, listener, options]);
+  ReflectApply(removeEventListener, this, [type, listener, options]);
 }
 
 /**

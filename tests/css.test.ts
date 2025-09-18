@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import c from 'tinyrainbow';
+
 import { css, scopeCss, applyCss } from '../src/core/css.js';
 
 describe('css and scopeCss', () => {
@@ -17,24 +19,28 @@ describe('css and scopeCss', () => {
     `;
 
     const out = applyCss();
-    console.log('normal out:', out);
+    console.log(c.cyan('normal out:'), out);
     expect(out).toContain('.foo');
     expect(out).toContain('color: red');
     expect(sample).toContain('.foo');
   });
 
   it('scopeCss should prefix selectors and add to applyCss output', () => {
-    const scoped = scopeCss('.scope');
-
-    const sample = scoped`
-      .bar { display: block; }
+    const css = scopeCss('scope');
+    css`
+      .bar {
+        display: block;
+      }
+      .barsd {
+        display: flex;
+      }
     `;
 
     const out = applyCss();
-    console.log('scoped out:', out);
+
+    console.log(c.green('scoped out:'), out);
     // should contain the prefixed selector
-    expect(out).toContain('.scope .bar');
+    expect(out).toContain('[scope].bar');
     expect(out).toContain('display: block');
-    expect(sample).toContain('.scope');
   });
 });

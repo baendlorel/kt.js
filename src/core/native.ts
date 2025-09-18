@@ -1,9 +1,10 @@
 // #region common
 
-export const apply = Reflect.apply;
-export const set = Reflect.set;
-export const defineProperty = Reflect.defineProperty;
-export const isArray = Array.isArray;
+export const ReflectApply = Reflect.apply;
+export const ReflectSet = Reflect.set;
+export const ReflectGet = Reflect.get;
+export const ReflectDefineProperty = Reflect.defineProperty;
+export const IsArray = Array.isArray;
 
 export const ObjectKeys = Object.keys;
 export const ObjectAssign = Object.assign;
@@ -12,9 +13,9 @@ export const ObjectIs = Object.is as <B extends unknown>(a: unknown, b: B) => a 
 
 // #region special
 
-export const isSafeInt = Number.isSafeInteger as (n: unknown) => n is number;
+export const IsSafeInt = Number.isSafeInteger as (n: unknown) => n is number;
 
-export const isObject = <T extends object>(o: unknown): o is T =>
+export const IsObject = <T extends object>(o: unknown): o is T =>
   typeof o === 'object' && o !== null;
 
 // export const provideDefault = <T>(v: T | typeof Sym.NotProvided, defaultV: T): T =>

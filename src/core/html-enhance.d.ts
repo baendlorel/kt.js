@@ -1,21 +1,21 @@
-import { yon, yoff, ymount } from './enhance.js';
+import { kon, koff, kmount } from './enhance.js';
 
 declare global {
   type HTMLElementTag = keyof HTMLElementTagNameMap;
 
-  interface YukaEnhanced {
+  interface KTEnhanced {
     /**
-     * Unique id of the Yuka.js enhanced html element;
+     * Unique id of the KT.js enhanced html element;
      */
-    yid: number;
+    kid: number;
 
-    isYuka: true;
+    isKT: true;
 
-    yon: typeof yon;
+    kon: typeof kon;
 
-    yoff: typeof yoff;
+    koff: typeof koff;
 
-    ymount: typeof ymount;
+    kmount: typeof kmount;
   }
 
   /**
@@ -27,5 +27,5 @@ declare global {
 
   type HTMLEnhancedElement<T extends HTMLElementTag = NonSpecialTags> =
     (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
-      YukaEnhanced;
+      KTEnhanced;
 }

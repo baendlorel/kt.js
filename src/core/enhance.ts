@@ -1,19 +1,19 @@
 import { Sym } from '@/consts/sym.js';
 import { apply, isObject, isSafeInt, ObjectIs } from './native.js';
 
-export function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+export function kon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
-  listener: YukaListener<HTMLElement, K>,
-  options: YOnOptions = Sym.NotProvided as any
-): YukaListener<E, K> {
+  listener: KTListener<HTMLElement, K>,
+  options: KTOnOptions = Sym.NotProvided as any
+): KTListener<E, K> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, Sym.NotProvided)) {
     apply(addEventListener, this, [type, listener]);
     return listener;
   }
 
-  if (!isObject<YOnOptions>(options) || !('triggerLimit' in options)) {
+  if (!isObject<KTOnOptions>(options) || !('triggerLimit' in options)) {
     apply(addEventListener, this, [type, listener, options]);
     return listener;
   }
@@ -21,7 +21,7 @@ export function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   const triggerLimit = options.triggerLimit;
   delete options.triggerLimit;
   if (!isSafeInt(triggerLimit) || triggerLimit <= 0) {
-    throw new TypeError('[__NAME__:yon] options.triggerLimit must be a positive safe integer.');
+    throw new TypeError('[__NAME__:kon] options.triggerLimit must be a positive safe integer.');
   }
 
   // * Handle the enhancing part
@@ -44,11 +44,11 @@ export function yon<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   return newHandler;
 }
 
-export function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+export function koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: E,
   type: K,
-  listener: YukaListener<HTMLElement, K>,
-  options: YOnOptions = Sym.NotProvided as any
+  listener: KTListener<HTMLElement, K>,
+  options: KTOnOptions = Sym.NotProvided as any
 ): void {
   if (ObjectIs(Sym.NotProvided, options)) {
     apply(removeEventListener, this, [type, listener]);
@@ -63,6 +63,6 @@ export function yoff<E extends HTMLElement, K extends keyof HTMLElementEventMap>
  * @param element
  * @returns itself
  */
-export function ymount<E extends HTMLEnhancedElement>(this: E, element: HTMLElement): E {
+export function kmount<E extends HTMLEnhancedElement>(this: E, element: HTMLElement): E {
   return element.appendChild(this);
 }

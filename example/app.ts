@@ -1,5 +1,5 @@
-import { useYuka } from '../src/index.js';
+import { useKT } from '../src/index.js';
 
-const { h } = useYuka();
+const { h } = useKT();
 
 export default h('div', 'container').append(h('h2', 'title').append(h('span', undefined, 'Test')));

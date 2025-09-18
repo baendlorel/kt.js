@@ -1,5 +1,5 @@
 import { Indexer } from '@/utils/indexer.js';
-import { yoff, yon } from './enhance.js';
+import { koff, kon, kmount } from './enhance.js';
 import {
   createElement,
   createTextNode,
@@ -16,15 +16,15 @@ import {
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-function h<Tag extends HTMLElementTag>(
+export function h<Tag extends HTMLElementTag>(
   tag: Tag,
-  attr: YukaAttribute | string = '',
+  attr: KTAttribute | string = '',
   content: (HTMLEnhancedElement | string)[] | string = ''
 ): HTMLEnhancedElement<Tag> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  if (typeof attr !== 'string' && !isObject<YukaAttribute>(attr)) {
+  if (typeof attr !== 'string' && !isObject<KTAttribute>(attr)) {
     throw new TypeError('[__NAME__:h] attr must be an object.');
   }
   if (typeof content !== 'string' && !isArray(content)) {
@@ -34,11 +34,16 @@ function h<Tag extends HTMLElementTag>(
   const element = createElement<Tag>(tag) as HTMLEnhancedElement<Tag>;
 
   // * Define enhancing properties
-  defineProperty(element, 'yid', { value: Indexer.nextYid(), enumerable: true });
-  defineProperty(element, 'isYuka', { value: true });
-  element.yon = yon;
-  element.yoff = yoff;
+  defineProperty(element, 'kid' satisfies keyof KTEnhanced, {
+    value: Indexer.nextYid(),
+    enumerable: true,
+  });
+  defineProperty(element, 'isKT' satisfies keyof KTEnhanced, { value: true });
+  element.kon = kon;
+  element.koff = koff;
+  element.kmount = kmount;
 
+  // * Handle content
   if (typeof content === 'string') {
     const textNode = createTextNode(content);
     element.appendChild(textNode);
@@ -50,7 +55,7 @@ function h<Tag extends HTMLElementTag>(
         element.appendChild(createTextNode(c));
         continue;
       }
-      if (c.isYuka) {
+      if (c.isKT) {
         element.appendChild(c);
         continue;
       }
@@ -95,7 +100,7 @@ function h<Tag extends HTMLElementTag>(
 
     if (typeof o === 'function') {
       console.warn(
-        `[__NAME__:h] It is recommended that using yon/yoff to register events. Functions will not be handled here.`
+        `[__NAME__:h] It is recommended that using kon/koff to register events. Functions will not be handled here.`
       );
       continue;
     }
@@ -271,20 +276,4 @@ function h<Tag extends HTMLElementTag>(
   }
 
   return element;
-}
-
-function useYuka(scopeName: string = Indexer.genScopeName()) {
-  const _h = function <Tag extends HTMLElementTag>(
-    tag: Tag,
-    attr: YukaAttribute | string,
-    content: (HTMLEnhancedElement | string)[] | string
-  ) {
-    const element = h(tag, attr, content);
-    element.setAttribute(scopeName, '');
-    return element;
-  };
-
-  return {
-    h: _h,
-  };
 }

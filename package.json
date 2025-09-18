@@ -1,13 +1,13 @@
 {
-	"name": "yuka.js",
+	"name": "kt.js",
 	"version": "0.0.1",
 	"author": {
 		"name": "Kasukabe Tsumugi",
 		"email": "futami16237@gmail.com"
 	},
 	"purpose": "npm",
-	"description": "Web frame work for the project",
-	"description_zh": "自研web框架Yuka.js，简单易用",
+	"description": "A simple and easy-to-use web framework, never re-render. Abbreviation of Kasukabe Tsumugi.",
+	"description_zh": "KT.js，简单易用，never重绘。取自Kasukabe Tsumugi的首字母。",
 	"type": "module",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
@@ -21,10 +21,10 @@
 	"files": [
 		"dist"
 	],
-	"homepage": "https://github.com/baendlorel/yuka-js#readme",
+	"homepage": "https://github.com/baendlorel/kt.js#readme",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/baendlorel/yuka-js"
+		"url": "https://github.com/baendlorel/kt.js"
 	},
 	"keywords": [
 		"framework",

@@ -1,4 +1,4 @@
-import { kon, koff, kmount } from './enhance.js';
+import { kon, koff, kmount } from '@/core/enhance.js';
 
 declare global {
   type HTMLElementTag = keyof HTMLElementTagNameMap;

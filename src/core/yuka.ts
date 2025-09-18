@@ -1,20 +1,27 @@
+import { Indexer } from '@/utils/indexer.js';
 import { yoff, yon } from './enhance.js';
-import { createElement, createTextNode, defineProperty, isArray, isObject, set } from './native.js';
-
-let yid = 0;
+import {
+  createElement,
+  createTextNode,
+  defineProperty,
+  isArray,
+  isObject,
+  ObjectAssign,
+  ObjectKeys,
+} from './native.js';
 
 /**
  * Create an enhanced HTMLElement.
- * @param tagName tag of an HTMLElement
- * @param attr attribute or className
- * @param content a string or an array of HTMLElements as child nodes
+ * @param tag tag of an `HTMLElement`
+ * @param attr attribute object or className
+ * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
 function h<Tag extends HTMLElementTag>(
-  tagName: Tag,
+  tag: Tag,
   attr: YukaAttribute | string = '',
-  content: HTMLEnhancedElement[] | string = ''
+  content: (HTMLEnhancedElement | string)[] | string = ''
 ): HTMLEnhancedElement<Tag> {
-  if (typeof tagName !== 'string') {
+  if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
   if (typeof attr !== 'string' && !isObject<YukaAttribute>(attr)) {
@@ -24,11 +31,11 @@ function h<Tag extends HTMLElementTag>(
     throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
   }
 
-  const element = createElement<Tag>(tagName) as HTMLEnhancedElement<Tag>;
+  const element = createElement<Tag>(tag) as HTMLEnhancedElement<Tag>;
 
   // * Define enhancing properties
-  defineProperty(element, 'yid', { value: ++yid, enumerable: true });
-  defineProperty(element, 'isYuka', { value: true, enumerable: true });
+  defineProperty(element, 'yid', { value: Indexer.nextYid(), enumerable: true });
+  defineProperty(element, 'isYuka', { value: true });
   element.yon = yon;
   element.yoff = yoff;
 
@@ -36,12 +43,21 @@ function h<Tag extends HTMLElementTag>(
     const textNode = createTextNode(content);
     element.appendChild(textNode);
   } else {
-    if (content.some((el) => !el.isYuka)) {
+    const len = content.length;
+    for (let i = 0; i < len; i++) {
+      const c = content[i];
+      if (typeof c === 'string') {
+        element.appendChild(createTextNode(c));
+        continue;
+      }
+      if (c.isYuka) {
+        element.appendChild(c);
+        continue;
+      }
       throw new TypeError(
         '[__NAME__:h] content must be a string or an array of HTMLEnhancedElement.'
       );
     }
-    element.append(...content);
   }
 
   if (!attr) {
@@ -66,15 +82,14 @@ function h<Tag extends HTMLElementTag>(
     if (typeof attr.style === 'string') {
       element.setAttribute('style', attr.style);
     } else {
-      for (const [prop, s] of Object.entries(attr.style)) {
-        set(element.style, prop, s);
-      }
+      ObjectAssign(element.style, attr.style);
     }
     delete attr.style;
   }
 
-  const keys = Object.keys(attr);
-  for (let i = 0; i < keys.length; i++) {
+  const keys = ObjectKeys(attr);
+  const keysLen = keys.length;
+  for (let i = 0; i < keysLen; i++) {
     const key = keys[i];
     const o = attr[key];
 
@@ -256,4 +271,20 @@ function h<Tag extends HTMLElementTag>(
   }
 
   return element;
+}
+
+function useYuka(scopeName: string = Indexer.genScopeName()) {
+  const _h = function <Tag extends HTMLElementTag>(
+    tag: Tag,
+    attr: YukaAttribute | string,
+    content: (HTMLEnhancedElement | string)[] | string
+  ) {
+    const element = h(tag, attr, content);
+    element.setAttribute(scopeName, '');
+    return element;
+  };
+
+  return {
+    h: _h,
+  };
 }

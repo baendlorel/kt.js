@@ -35,7 +35,7 @@ export function h<Tag extends HTMLElementTag>(
 
   // * Define enhancing properties
   defineProperty(element, 'kid' satisfies keyof KTEnhanced, {
-    value: Indexer.nextYid(),
+    value: Indexer.nextKid(),
     enumerable: true,
   });
   defineProperty(element, 'isKT' satisfies keyof KTEnhanced, { value: true });
@@ -75,7 +75,7 @@ export function h<Tag extends HTMLElementTag>(
   }
 
   if (attr.class) {
-    if (Array.isArray(attr.class)) {
+    if (isArray(attr.class)) {
       element.classList.add(...attr.class);
     } else {
       element.className = attr.class;

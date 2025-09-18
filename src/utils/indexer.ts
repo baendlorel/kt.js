@@ -7,7 +7,7 @@ export class Indexer extends null {
     return 'data-k-' + index.padStart(6, '0');
   }
 
-  static nextYid() {
+  static nextKid() {
     return ++Indexer.kid;
   }
 }

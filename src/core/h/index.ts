@@ -1,7 +1,8 @@
 import { KTextSymbol } from '@/consts/sym.js';
-import { enhance } from '../enhance.js';
-import { $appendChild, $createElement, $createTextNode, $set, $setAttribute } from '../native.js';
+import { $set } from '@/lib/native.js';
+import { $createElement, $createTextNode, $appendChild, $setAttr } from '@/lib/dom.js';
 
+import { enhance } from '../enhance.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
 
@@ -41,7 +42,7 @@ export function h<Tag extends HTMLElementTag>(
 export function scopedH(scopeName: string): typeof h {
   return function (...args: Parameters<typeof h>) {
     const element = h(...args);
-    $setAttribute.call(element, scopeName, '');
+    $setAttr.call(element, scopeName, '');
     return element;
   } as typeof h;
 }

@@ -1,17 +1,10 @@
 import { KTextSymbol, NotProvided } from '@/consts/sym.js';
 import { Indexer } from '@/utils/indexer.js';
-import {
-  $isObject,
-  $isSafeInteger,
-  $is,
-  $get,
-  $defineProperty,
-  $removeEventListener,
-  $addEventListener,
-  $arrayFrom,
-  $createTextNode,
-  $appendChild,
-} from './native.js';
+
+// lib
+import { $get, $defineProperty, $arrayFrom } from '../lib/native.js';
+import { $appendChild, $createTextNode, $on, $off } from '@/lib/dom.js';
+import { $is, $isObject, $isSafeInteger } from '@/lib/whether.js';
 
 // #region properties
 
@@ -72,12 +65,12 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
 ): KListener<El, T> {
   // * in case of no options provided, which is the most common usage
   if ($is(options, NotProvided)) {
-    $addEventListener.call(this, type, listener as EventListener);
+    $on.call(this, type, listener as EventListener);
     return listener;
   }
 
   if (!$isObject<KOnOptions>(options) || !('triggerLimit' in options)) {
-    $addEventListener.call(this, type, listener as EventListener, options);
+    $on.call(this, type, listener as EventListener, options);
     return listener;
   }
 
@@ -90,7 +83,7 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
   // * Handle the enhancing part
   if (triggerLimit === 1) {
     options.once = true;
-    $addEventListener.call(this, type, listener as EventListener, options);
+    $on.call(this, type, listener as EventListener, options);
     return listener;
   }
 
@@ -99,11 +92,11 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
     const result = listener.call(this, ev);
     count--;
     if (count <= 0) {
-      $removeEventListener.call(this, type, newHandler as EventListener, options);
+      $off.call(this, type, newHandler as EventListener, options);
     }
     return result;
   };
-  $addEventListener.call(this, type, newHandler as EventListener, options);
+  $on.call(this, type, newHandler as EventListener, options);
   return newHandler;
 }
 
@@ -114,11 +107,11 @@ function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
   options: KOnOptions = NotProvided as any
 ): void {
   if ($is(NotProvided, options)) {
-    $removeEventListener.call(this, type, listener as EventListener);
+    $off.call(this, type, listener as EventListener);
     return;
   }
 
-  $removeEventListener.call(this, type, listener as EventListener, options);
+  $off.call(this, type, listener as EventListener, options);
 }
 
 function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {

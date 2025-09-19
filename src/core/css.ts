@@ -1,5 +1,7 @@
 import { CssRuleAST, CssStylesheetAST, CssTypes, parse, stringify } from '@adobe/css-tools';
-import { $createElement, $get, $isArray, $isObject, $keys } from './native.js';
+import { $get, $isArray, $keys } from '@/lib/native.js';
+import { $createElement } from '@/lib/dom.js';
+import { $isObject } from '@/lib/whether.js';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.

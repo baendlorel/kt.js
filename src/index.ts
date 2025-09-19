@@ -1,8 +1,10 @@
 import { NotProvided } from './consts/sym.js';
 import { css, applyCss } from './core/css.js';
 import { h } from './core/h/index.js';
-import { $getElementById, $isObject, $is } from './core/native.js';
 import { useScope } from './core/scoped.js';
+
+import { $getElementById } from './lib/dom.js';
+import { $is, $isObject } from './lib/whether.js';
 
 /**
  * Mount root element to `#app`(`body` if not found) or to the given element.

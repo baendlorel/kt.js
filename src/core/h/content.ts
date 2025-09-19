@@ -1,5 +1,7 @@
-import { $appendChild, $createTextNode, $isArray, $isObject } from '@/core/native.js';
 import { deferedBranch } from 'defered-branch';
+import { $appendChild, $createTextNode } from '@/lib/dom.js';
+import { $isArray } from '@/lib/native.js';
+import { $isObject } from '@/lib/whether.js';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
   element.ktext = content;

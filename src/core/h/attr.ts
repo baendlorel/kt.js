@@ -1,5 +1,7 @@
 import { deferedBranch } from 'defered-branch';
-import { $isArray, $assign, $keys, $isObject, $setAttribute } from '@/core/native.js';
+import { $isArray, $assign, $keys } from '@/lib/native.js';
+import { $isObject } from '@/lib/whether.js';
+import { $setAttr } from '@/lib/dom.js';
 
 const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
 
@@ -40,7 +42,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement) {
         element.checked = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -54,7 +56,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.value = String(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -63,7 +65,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLOptionElement) {
         element.selected = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -73,7 +75,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
         element.defaultValue = String(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -83,7 +85,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement) {
         element.defaultChecked = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -93,7 +95,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLOptionElement) {
         element.defaultSelected = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -110,7 +112,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.disabled = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -119,7 +121,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
         element.readOnly = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -128,7 +130,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLSelectElement) {
         element.multiple = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -142,7 +144,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.autofocus = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -155,7 +157,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.required = Boolean(o);
       } else {
-        $setAttribute.call(element, key, o);
+        $setAttr.call(element, key, o);
       }
       continue;
     }
@@ -202,7 +204,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     }
 
     // * Consider as a custom attribute
-    $setAttribute.call(element, key, o);
+    $setAttr.call(element, key, o);
   }
 };
 

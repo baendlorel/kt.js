@@ -4,7 +4,7 @@
 
 For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 
-> 注意：这个库仍在开发中。
+> Note: 持续开发中。
 
 kt.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接操作 DOM。它的设计目标是尽量不强制重绘，只在必要时更新 DOM，从而获得极致性能。
 
@@ -26,19 +26,10 @@ kt.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接
   - 用法示例：h('div', { id: 'root' }, 'Hello')。
   - 返回 `HTMLKEnhancedElement`（一个带有额外 `enhance` 属性的 HTMLElement）。
 
-- `css` — 全局 CSS 收集器
-  - 模板字符串标签函数，把传入的 CSS 文本收集到内部数组中。
-  - 用法： css`.foo { color: red; }`
-  - 收集到的 CSS 会通过 `applyCss()` 注入到文档中（`createApp` 在合适时会调用它）。
-
-- `useScope` — 作用域 CSS 助手
-  - 提供将 CSS 作用域化到特定名称/命名空间的能力，配合 `css` 使用。
-
 - `createApp` — 挂载助手
   - 将根 `HTMLKEnhancedElement` 挂载到文档。
   - 签名：`createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
   - 若省略 `mountTo`，会尝试 `#app`，找不到则回退到 `document.body`。
-  - 会调用 `applyCss()` 来刷新已收集的 CSS。
 
 ## enhance 增添的属性和方法
 
@@ -47,7 +38,8 @@ kt.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接
 - 属性
   - `kid`（number）：由内部 `Indexer.nextKid()` 生成的每个元素唯一索引。
   - `isKT`（true）：标记元素是 KText 元素的布尔值。
-  - `ktext`（string）：代理内部 Text 节点的 getter/setter（读写元素文本内容）。
+  - `ktext`（string）：getter/setter，代理内部 Text 节点，可方便地设置文本内容。
+  - `kchildren`（数组）：getter/setter，暴露元素的子项为字符串或增强元素数组。设置 `kchildren` 会替换元素内容，接受字符串、Text 节点或 KT.js 增强元素。
 
 - 方法
   - `kon(type, listener, options?)` — 增强的 addEventListener
@@ -57,20 +49,6 @@ kt.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接
     - 移除事件监听，遵循提供的 options。
   - `kmount(element)` — 挂载/追加辅助方法
     - 等价于 `element.appendChild(this)`，并返回 `this` 以方便链式调用。
-
-## 示例
-
-```ts
-import { h, css, createApp } from './src/index';
-
-const root = h('div', { id: 'root' }, 'Hello world');
-css`
-  .root {
-    color: hotpink;
-  }
-`;
-createApp(root);
-```
 
 ## 注意
 
@@ -82,6 +60,6 @@ createApp(root);
 
 欢迎 PR 和 issue。如果你修改了公共 API，请同步更新 README 和测试。
 
-## 许可证
+## License
 
-参见仓库中的 `LICENSE` 文件。
+MIT

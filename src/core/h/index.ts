@@ -1,8 +1,8 @@
 import { KTextSymbol } from '@/consts/sym.js';
 import { $set } from '@/lib/native.js';
-import { $createElement, $createTextNode, $appendChild, $setAttr } from '@/lib/dom.js';
+import { $createElement, $createTextNode, $appendChild } from '@/lib/dom.js';
 
-import { enhance } from '../enhance.js';
+import { enhance } from '../enhance/index.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
 
@@ -12,11 +12,11 @@ import { createContentBranch } from './content.js';
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<Tag extends HTMLElementTag>(
-  tag: Tag,
+export function h<T extends TagName>(
+  tag: T,
   attr: KAttribute | string = '',
   content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string = ''
-): HTMLKEnhancedElement<Tag> {
+): HTMLKEnhancedElement<T> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
@@ -24,7 +24,7 @@ export function h<Tag extends HTMLElementTag>(
   const contentBranch = createContentBranch(content);
 
   // * start creating the element
-  const element = $createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
+  const element = $createElement<T>(tag) as HTMLKEnhancedElement<T>;
   const textNode = $createTextNode('');
   $appendChild.call(element, textNode);
   $set(element, KTextSymbol, textNode);

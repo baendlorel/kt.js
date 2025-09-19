@@ -9,6 +9,7 @@ export const $arrayFrom = Array.from;
 
 export const $keys = Object.keys as <T>(o: T) => (keyof T)[];
 export const $assign = Object.assign;
+export const $defineProperties = Object.defineProperties;
 
 export const $max = Math.max;
 export const $min = Math.min;

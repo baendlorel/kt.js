@@ -1,5 +1,5 @@
 //__EXPORT__FLAG__
-type HTMLElementTag = keyof HTMLElementTagNameMap;
+type TagName = keyof HTMLElementTagNameMap;
 
 //__EXPORT__FLAG__
 type KChildren = HTMLKEnhancedElement | Text;
@@ -94,6 +94,6 @@ type NonSpecialTags = {
  * with KT.js enhancements defined in KEnhanced.
  */
 //__EXPORT__FLAG__
-type HTMLKEnhancedElement<T extends HTMLElementTag = NonSpecialTags> =
+type HTMLKEnhancedElement<T extends TagName = NonSpecialTags> =
   (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
     KEnhanced;

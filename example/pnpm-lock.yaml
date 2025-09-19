@@ -11,6 +11,9 @@ importers:
       '@emotion/css':
         specifier: ^11.13.5
         version: 11.13.5
+      kt.js:
+        specifier: ^0.0.4
+        version: 0.0.4
     devDependencies:
       typescript:
         specifier: ~5.9.2
@@ -403,6 +406,9 @@ packages:
       supports-color:
         optional: true
 
+  defered-branch@1.2.2:
+    resolution: {integrity: sha512-o/vRzk78fJqgECOQWWbHXOOKOtj3YIOzZxQU21WEpb0CBqADmKDzV2bID/QLHQk0I0cIEnAtgU8lTCu/aX6geQ==}
+
   error-ex@1.3.4:
     resolution: {integrity: sha512-sqQamAnR14VgCr1A618A3sGrygcpK+HEbenA/HiEAkkUwcZIIB/tgWqHFxWgOyDh4nB4JCRimh79dR5Ywc9MDQ==}
 
@@ -460,6 +466,9 @@ packages:
 
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
+
+  kt.js@0.0.4:
+    resolution: {integrity: sha512-uGBcZgIjaD/z2NnaJJ1uHJX8HoYgUcHObDOnmC32SP3yOdJLLOJgmQpuKHjmOFU8jF555vIqb72X3YgpHbl9GA==}
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -875,6 +884,8 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  defered-branch@1.2.2: {}
+
   error-ex@1.3.4:
     dependencies:
       is-arrayish: 0.2.1
@@ -941,6 +952,10 @@ snapshots:
   jsesc@3.1.0: {}
 
   json-parse-even-better-errors@2.3.1: {}
+
+  kt.js@0.0.4:
+    dependencies:
+      defered-branch: 1.2.2
 
   lines-and-columns@1.2.4: {}
 

@@ -23,6 +23,7 @@ function createApp(
   const appDiv = $getElementById('app') ?? document.body;
   if ($is(mountTo, NotProvided)) {
     rootElement.kmount(appDiv);
+    return;
   }
 
   if (!$isObject(mountTo)) {

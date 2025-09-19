@@ -6,7 +6,7 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 
 > Note: developing
 
-kt.js is a tiny, high-performance DOM utility focused on minimal re-rendering and direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
+KT.js is a tiny, high-performance DOM utility focused on minimal re-rendering and direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
 
 ## Philosophy
 

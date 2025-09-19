@@ -13,6 +13,13 @@
     "moduleDetection": "force",
     "noEmit": true,
 
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "kt.js": ["../src/index.ts"],
+      "@/*": ["../src/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

@@ -9,6 +9,7 @@
     "vite": "^7.1.6"
   },
   "dependencies": {
-    "@emotion/css": "^11.13.5"
+    "@emotion/css": "^11.13.5",
+    "kt.js": "^0.0.4"
   }
 }

@@ -14,6 +14,9 @@ importers:
       defered-branch:
         specifier: ^1.2.2
         version: 1.2.2
+      w3c-css-validator:
+        specifier: ^1.4.0
+        version: 1.4.0
     devDependencies:
       '@babel/plugin-proposal-decorators':
         specifier: ^7.28.0
@@ -1836,6 +1839,9 @@ packages:
         optional: true
       jsdom:
         optional: true
+
+  w3c-css-validator@1.4.0:
+    resolution: {integrity: sha512-j/eGv3kfh8relRPoKmlPvuO0izzIP+K0ehWX+g39RjAfThkLmiZ0aiDVlEOYWv/Wq6mSZbXaQdH0ZKQWARRCjQ==}
 
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
@@ -3688,6 +3694,8 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  w3c-css-validator@1.4.0: {}
 
   w3c-xmlserializer@5.0.0:
     dependencies:

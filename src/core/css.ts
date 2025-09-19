@@ -1,5 +1,5 @@
 import { CssRuleAST, CssStylesheetAST, CssTypes, parse, stringify } from '@adobe/css-tools';
-import { DocumentCreateElement, ReflectGet, IsArray, IsObject, ObjectKeys } from './native.js';
+import { _createElement, _get, IsArray, IsObject, ObjectKeys } from './native.js';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.
@@ -66,7 +66,7 @@ export function scopeCss(scopeName: string): typeof css {
       const keys = ObjectKeys(node);
       const keysLen = keys.length;
       for (let i = 0; i < keysLen; i++) {
-        const child = ReflectGet(node, keys[i]);
+        const child = _get(node, keys[i]);
 
         if (IsArray(child)) {
           const childLen = child.length;
@@ -91,7 +91,7 @@ export function scopeCss(scopeName: string): typeof css {
 }
 
 export function applyCss(): string {
-  const style = DocumentCreateElement('style');
+  const style = _createElement('style');
   style.id = 'kt.js-style';
   style.innerHTML = cssList.join('\n');
   cssList.splice(0);

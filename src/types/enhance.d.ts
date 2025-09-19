@@ -1,5 +1,8 @@
 type HTMLElementTag = keyof HTMLElementTagNameMap;
 
+type KChildren = HTMLKEnhancedElement | Text;
+
+// todo 写注释
 interface KEnhanced {
   /**
    * Unique id of the KT.js enhanced html element;
@@ -8,8 +11,9 @@ interface KEnhanced {
 
   isKT: true;
 
-  // getter/setter
   ktext: string;
+
+  kchildren: KChildren[];
 
   kon: <El extends HTMLElement, K extends keyof HTMLElementEventMap>(
     this: El,
@@ -18,6 +22,11 @@ interface KEnhanced {
     options?: KOnOptions
   ) => KListener<El, K>;
 
+  /**
+   * Equivalent to `element.appendChild(this)`.
+   * @param element
+   * @returns itself
+   */
   koff: <El extends HTMLElement, K extends keyof HTMLElementEventMap>(
     this: El,
     type: K,

@@ -1,25 +1,27 @@
 import { KTextSymbol, NotProvided } from '@/consts/sym.js';
 import { Indexer } from '@/utils/indexer.js';
 import {
-  ReflectApply,
   IsObject,
   IsSafeInt,
   ObjectIs,
-  ReflectGet,
-  ReflectDefineProperty,
-  HTMLElementRemoveEventListener,
-  HTMLElementAddEventListener,
+  _get,
+  _defineProperty,
+  _removeEventListener,
+  _addEventListener,
+  ArrayFrom,
+  _createTextNode,
+  _appendChild,
 } from './native.js';
 
 // #region properties
 
 const ktextDescriptor = {
   get: function (this: HTMLKEnhancedElement): string {
-    const textNode = ReflectGet(this, KTextSymbol) as Text;
+    const textNode = _get(this, KTextSymbol) as Text;
     return textNode.textContent;
   },
   set: function (this: HTMLKEnhancedElement, newText: string): void {
-    const textNode = ReflectGet(this, KTextSymbol) as Text;
+    const textNode = _get(this, KTextSymbol) as Text;
     textNode.textContent = newText;
   },
 };
@@ -30,6 +32,33 @@ const nextKidDescriptor = () => ({
   value: Indexer.nextKid(),
   enumerable: true,
 });
+
+const kchildrenDescriptor = {
+  get<El extends HTMLKEnhancedElement>(this: El): KChildren[] {
+    return ArrayFrom(this.children) as KChildren[];
+  },
+  set<El extends HTMLKEnhancedElement>(this: El, elements: (KChildren | string)[]): void {
+    this.innerHTML = '';
+
+    const elementsLen = elements.length;
+    for (let i = 0; i < elementsLen; i++) {
+      const el = elements[i];
+      if (typeof el === 'string') {
+        _appendChild.call(this, _createTextNode(el));
+        continue;
+      }
+
+      if (el instanceof Text || el.isKT) {
+        _appendChild.call(this, el);
+        continue;
+      }
+
+      throw new TypeError(
+        `[__NAME__:kchildren] Invalid child element at index ${i}. Only string, Text nodes or KT.js enhanced elements are allowed.`
+      );
+    }
+  },
+};
 
 // #endregion
 
@@ -43,12 +72,12 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
 ): KListener<El, T> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, NotProvided)) {
-    ReflectApply(HTMLElementAddEventListener, this, [type, listener]);
+    _addEventListener.call(this, type, listener as EventListener);
     return listener;
   }
 
   if (!IsObject<KOnOptions>(options) || !('triggerLimit' in options)) {
-    ReflectApply(HTMLElementAddEventListener, this, [type, listener, options]);
+    _addEventListener.call(this, type, listener as EventListener, options);
     return listener;
   }
 
@@ -61,20 +90,20 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
   // * Handle the enhancing part
   if (triggerLimit === 1) {
     options.once = true;
-    ReflectApply(HTMLElementAddEventListener, this, [type, listener, options]);
+    _addEventListener.call(this, type, listener as EventListener, options);
     return listener;
   }
 
   let count = triggerLimit;
   const newHandler = function (this: El, ev: HTMLElementEventMap[T]) {
-    const result = ReflectApply(listener, this, [ev]);
+    const result = listener.call(this, ev);
     count--;
     if (count <= 0) {
-      ReflectApply(HTMLElementRemoveEventListener, this, [type, newHandler, options]);
+      _removeEventListener.call(this, type, newHandler as EventListener, options);
     }
     return result;
   };
-  ReflectApply(HTMLElementAddEventListener, this, [type, newHandler, options]);
+  _addEventListener.call(this, type, newHandler as EventListener, options);
   return newHandler;
 }
 
@@ -85,18 +114,13 @@ function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
   options: KOnOptions = NotProvided as any
 ): void {
   if (ObjectIs(NotProvided, options)) {
-    ReflectApply(HTMLElementRemoveEventListener, this, [type, listener]);
+    _removeEventListener.call(this, type, listener as EventListener);
     return;
   }
 
-  ReflectApply(HTMLElementRemoveEventListener, this, [type, listener, options]);
+  _removeEventListener.call(this, type, listener as EventListener, options);
 }
 
-/**
- * Equivalent to `element.appendChild(this)`.
- * @param element
- * @returns itself
- */
 function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {
   return element.appendChild(this);
 }
@@ -113,9 +137,9 @@ const ktext: keyof KEnhanced = 'ktext';
 
 // & main
 export function enhance(element: HTMLKEnhancedElement): void {
-  ReflectDefineProperty(element, kid, nextKidDescriptor());
-  ReflectDefineProperty(element, isKT, isKTDescriptor);
-  ReflectDefineProperty(element, ktext, ktextDescriptor);
+  _defineProperty(element, kid, nextKidDescriptor());
+  _defineProperty(element, isKT, isKTDescriptor);
+  _defineProperty(element, ktext, ktextDescriptor);
   element.kon = kon;
   element.koff = koff;
   element.kmount = kmount;

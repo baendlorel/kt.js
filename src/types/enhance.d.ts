@@ -1,5 +1,3 @@
-// todo 这里如果带有import会导致无法正确生成声明文件
-
 type HTMLElementTag = keyof HTMLElementTagNameMap;
 
 interface KEnhanced {
@@ -9,6 +7,9 @@ interface KEnhanced {
   kid: number;
 
   isKT: true;
+
+  // getter/setter
+  ktext: string;
 
   kon: <El extends HTMLElement, K extends keyof HTMLElementEventMap>(
     this: El,

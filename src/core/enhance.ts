@@ -1,7 +1,39 @@
-import { NotProvided } from '@/consts/sym.js';
-import { ReflectApply, IsObject, IsSafeInt, ObjectIs } from './native.js';
+import { KTextSymbol, NotProvided } from '@/consts/sym.js';
+import { Indexer } from '@/utils/indexer.js';
+import {
+  ReflectApply,
+  IsObject,
+  IsSafeInt,
+  ObjectIs,
+  ReflectGet,
+  ReflectDefineProperty,
+} from './native.js';
 
-export function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
+// #region properties
+
+const ktextDescriptor = {
+  get: function (this: HTMLKEnhancedElement): string {
+    const textNode = ReflectGet(this, KTextSymbol) as Text;
+    return textNode.textContent;
+  },
+  set: function (this: HTMLKEnhancedElement, newText: string): void {
+    const textNode = ReflectGet(this, KTextSymbol) as Text;
+    textNode.textContent = newText;
+  },
+};
+
+const isKTDescriptor = { value: true };
+
+const nextKidDescriptor = () => ({
+  value: Indexer.nextKid(),
+  enumerable: true,
+});
+
+// #endregion
+
+// #region methods
+
+function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
   this: El,
   type: T,
   listener: KListener<HTMLElement, T>,
@@ -44,7 +76,7 @@ export function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>
   return newHandler;
 }
 
-export function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
+function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
   this: El,
   type: K,
   listener: KListener<HTMLElement, K>,
@@ -63,10 +95,26 @@ export function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap
  * @param element
  * @returns itself
  */
-export function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {
+function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {
   return element.appendChild(this);
 }
 
 kon satisfies KEnhanced['kon'];
 koff satisfies KEnhanced['koff'];
 kmount satisfies KEnhanced['kmount'];
+
+// #endregion
+
+const kid: keyof KEnhanced = 'kid';
+const isKT: keyof KEnhanced = 'isKT';
+const ktext: keyof KEnhanced = 'ktext';
+
+// & main
+export function enhance(element: HTMLKEnhancedElement): void {
+  ReflectDefineProperty(element, kid, nextKidDescriptor());
+  ReflectDefineProperty(element, isKT, isKTDescriptor);
+  ReflectDefineProperty(element, ktext, ktextDescriptor);
+  element.kon = kon;
+  element.koff = koff;
+  element.kmount = kmount;
+}

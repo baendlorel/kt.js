@@ -1,9 +1,8 @@
 import { createTextNode, IsArray, IsObject } from '@/core/native.js';
 import { deferedBranch } from 'defered-branch';
 
-const contentIsString = (element: HTMLElement, content: string) => {
-  const textNode = createTextNode(content);
-  element.appendChild(textNode);
+const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
+  element.ktext = content;
 };
 
 const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | string)[]) => {

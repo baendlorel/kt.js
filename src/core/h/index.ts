@@ -1,7 +1,9 @@
-import { Indexer } from '@/utils/indexer.js';
-import { koff, kon, kmount } from '../enhance.js';
-import { createElement, ReflectDefineProperty } from '../native.js';
+import { KTextSymbol } from '@/consts/sym.js';
+import { enhance } from '../enhance.js';
+import { createElement, createTextNode, ReflectSet } from '../native.js';
+
 import { createAttrBranch } from './attr.js';
+import { createContentBranch } from './content.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -18,20 +20,16 @@ export function h<Tag extends HTMLElementTag>(
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
   const attrBranch = createAttrBranch(attr);
-  const contentBranch = createAttrBranch(content);
+  const contentBranch = createContentBranch(content);
 
   // * start creating the element
   const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
+  const textNode = createTextNode('');
+  element.appendChild(textNode);
+  ReflectSet(element, KTextSymbol, textNode);
 
   // * define enhancing properties
-  ReflectDefineProperty(element, 'kid' satisfies keyof KEnhanced, {
-    value: Indexer.nextKid(),
-    enumerable: true,
-  });
-  ReflectDefineProperty(element, 'isKT' satisfies keyof KEnhanced, { value: true });
-  element.kon = kon;
-  element.koff = koff;
-  element.kmount = kmount;
+  enhance(element);
 
   // * Handle content
   contentBranch.run(element, content);

@@ -1,6 +1,6 @@
 {
 	"name": "kt.js",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": {
 		"name": "Kasukabe Tsumugi",
 		"email": "futami16237@gmail.com"
@@ -42,6 +42,7 @@
 	"devDependencies": {
 		"@babel/plugin-proposal-decorators": "^7.28.0",
 		"@babel/preset-env": "^7.28.3",
+		"@emotion/css": "^11.13.5",
 		"@rollup/plugin-alias": "^5.1.1",
 		"@rollup/plugin-babel": "^6.0.4",
 		"@rollup/plugin-commonjs": "^28.0.6",

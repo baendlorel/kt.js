@@ -1,86 +1,9 @@
-import { Indexer } from '@/utils/indexer.js';
-import { koff, kon, kmount } from './enhance.js';
-import {
-  createElement,
-  createTextNode,
-  ReflectDefineProperty,
-  IsArray,
-  IsObject,
-  ObjectAssign,
-  ObjectKeys,
-} from './native.js';
+import { deferedBranch } from 'defered-branch';
+import { IsArray, ObjectAssign, ObjectKeys, IsObject } from '@/core/native.js';
 
-/**
- * Create an enhanced HTMLElement.
- * @param tag tag of an `HTMLElement`
- * @param attr attribute object or className
- * @param content a string or an array of HTMLEnhancedElement as child nodes
- */
-export function h<Tag extends HTMLElementTag>(
-  tag: Tag,
-  attr: KAttribute | string = '',
-  content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string = ''
-): HTMLKEnhancedElement<Tag> {
-  if (typeof tag !== 'string') {
-    throw new TypeError('[__NAME__:h] tagName must be a string.');
-  }
-  if (typeof attr !== 'string' && !IsObject(attr)) {
-    throw new TypeError('[__NAME__:h] attr must be an object.');
-  }
-  if (typeof content !== 'string' && !IsObject(content) && !IsArray(content)) {
-    throw new TypeError('[__NAME__:h] content must be a string or an array of html elements.');
-  }
-  // todo 研究如何使用模式匹配避免多次重复判定
+const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
 
-  const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
-
-  // * Define enhancing properties
-  ReflectDefineProperty(element, 'kid' satisfies keyof KEnhanced, {
-    value: Indexer.nextKid(),
-    enumerable: true,
-  });
-  ReflectDefineProperty(element, 'isKT' satisfies keyof KEnhanced, { value: true });
-  element.kon = kon;
-  element.koff = koff;
-  element.kmount = kmount;
-
-  // * Handle content
-  if (typeof content === 'string') {
-    const textNode = createTextNode(content);
-    element.appendChild(textNode);
-  } else if (IsArray(content)) {
-    const len = content.length;
-    for (let i = 0; i < len; i++) {
-      const c = content[i];
-      if (typeof c === 'string') {
-        element.appendChild(createTextNode(c));
-        continue;
-      }
-
-      if (c.isKT) {
-        element.appendChild(c);
-        continue;
-      }
-
-      throw new TypeError(
-        '[__NAME__:h] content must be a string or an array of HTMLEnhancedElement.'
-      );
-    }
-  } else {
-    if (content.isKT) {
-      element.appendChild(content);
-    }
-  }
-
-  if (!attr) {
-    return element;
-  }
-
-  if (typeof attr === 'string') {
-    element.className = attr;
-    return element;
-  }
-
+const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
   if (attr.class) {
     if (IsArray(attr.class)) {
       element.classList.add(...attr.class);
@@ -281,14 +204,14 @@ export function h<Tag extends HTMLElementTag>(
     // * Consider as a custom attribute
     element.setAttribute(key, o);
   }
+};
 
-  return element;
-}
+const invalid = (): never => {
+  throw new TypeError('[__NAME__:h] attr must be an object.');
+};
 
-export function scopedH(scopeName: string): typeof h {
-  return function (...args: Parameters<typeof h>) {
-    const element = h(...args);
-    element.setAttribute(scopeName, '');
-    return element;
-  } as typeof h;
-}
+export const createAttrBranch = (attr: KAttribute | string) =>
+  deferedBranch()
+    .add(typeof attr === 'string', attrIsString)
+    .add(IsObject(attr), attrIsObject)
+    .nomatch(invalid);

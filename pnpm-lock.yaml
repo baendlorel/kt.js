@@ -11,6 +11,9 @@ importers:
       '@adobe/css-tools':
         specifier: ^4.4.4
         version: 4.4.4
+      defered-branch:
+        specifier: ^1.2.2
+        version: 1.2.2
     devDependencies:
       '@babel/plugin-proposal-decorators':
         specifier: ^7.28.0
@@ -1248,6 +1251,9 @@ packages:
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
+
+  defered-branch@1.2.2:
+    resolution: {integrity: sha512-o/vRzk78fJqgECOQWWbHXOOKOtj3YIOzZxQU21WEpb0CBqADmKDzV2bID/QLHQk0I0cIEnAtgU8lTCu/aX6geQ==}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3092,6 +3098,8 @@ snapshots:
   deep-eql@5.0.2: {}
 
   deepmerge@4.3.1: {}
+
+  defered-branch@1.2.2: {}
 
   eastasianwidth@0.2.0: {}
 

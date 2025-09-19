@@ -1,12 +1,25 @@
-import { $createElement } from '@/lib/dom.js';
+import { CssAllNodesAST, CssStylesheetAST, parse, stringify } from '@adobe/css-tools';
+import { Indexer } from '@/utils/indexer.js';
+import { omit } from '@/utils/index.js';
+import { $createElement, $getElementById } from '@/lib/dom.js';
 import { $delete, $isArray, $keys, $set } from '@/lib/native.js';
 import { $isObject } from '@/lib/whether.js';
-import { CssAllNodesAST, parse, stringify } from '@adobe/css-tools';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.
  */
-const cssList: string[] = [];
+const cssMap = new Map<string, HTMLStyleElement>();
+
+function parseCss(cssText: string): { ast: CssStylesheetAST; cssId: string } {
+  let ast = parse(cssText, { silent: true });
+  let cssId = '';
+  if (ast.stylesheet.parsingErrors?.some((e) => e.reason === `missing '{'`)) {
+    cssId = Indexer.genCssId();
+    ast = parse(`.${cssId} { ${cssText} }`);
+  }
+
+  return { ast, cssId };
+}
 
 // Recursive walk to filter out comment nodes from any rules/containers.
 function removeComments(node: CssAllNodesAST) {
@@ -60,7 +73,18 @@ function removeComments(node: CssAllNodesAST) {
   }
 }
 
-function getCssText(strings: TemplateStringsArray, values: any[]): string {
+/**
+ * Tagged template helper to collect CSS strings.
+ *
+ * ## Usage
+ * ```ts
+ *  const className = css` color: red `;
+ *  h('div', { class: className }, 'hello'); // 'hello' will be red
+ * ```
+ *
+ * @returns a generated CSS class. e.g. `kt-css-xxxxxx`
+ */
+export function css(strings: TemplateStringsArray, ...values: any[]): string {
   // Build the final string from template parts and values.
   const out: string[] = [];
   for (let i = 0; i < strings.length; i++) {
@@ -75,40 +99,26 @@ function getCssText(strings: TemplateStringsArray, values: any[]): string {
 
   // Use @adobe/css-tools to parse the CSS into an AST, remove comment nodes,
   // then stringify back to CSS. This is more robust than a regex-based strip.
-  const ast = parse(cssText);
+  const result = parseCss(cssText);
 
-  removeComments(ast);
+  removeComments(result.ast);
 
-  cssText = stringify(ast, { compress: true });
+  cssText = stringify(result.ast, { compress: true });
 
-  return cssText.trim();
-}
+  // todo 这里要防止style元素太多了的问题
+  if (result.cssId) {
+    if (!$getElementById(result.cssId)) {
+      const style = $createElement('style');
+      style.id = result.cssId;
+      style.textContent = cssText;
+      document.head.appendChild(style);
+    }
+  } else {
+    console.warn(
+      '[__NAME__:css] seems it is not a single class style, it is recommened to write these in a css file',
+      omit(cssText)
+    );
+  }
 
-/**
- * Tagged template helper to collect CSS strings.
- *
- * Usage:
- *   css` .cls { color: red } `;
- *
- * The function concatenates the template literal parts and any interpolated
- * values, trims the result, pushes it into `cssList` and returns the final
- * string.
- *
- * @param strings Template string parts
- * @param values Interpolated values
- * @returns The concatenated CSS string that was pushed into `cssList`
- */
-export function css(strings: TemplateStringsArray, ...values: any[]): string {
-  const cssText = getCssText(strings, values);
-
-  cssList.push(cssText);
-  return cssText;
-}
-
-export function applyCss(): string {
-  const style = $createElement('style');
-  style.id = 'kt.js-style';
-  style.innerHTML = cssList.join('\n');
-  cssList.splice(0);
-  return style.innerHTML;
+  return result.cssId;
 }

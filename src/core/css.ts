@@ -1,5 +1,5 @@
 import { CssRuleAST, CssStylesheetAST, CssTypes, parse, stringify } from '@adobe/css-tools';
-import { createElement, ReflectGet, IsArray, IsObject, ObjectKeys } from './native.js';
+import { DocumentCreateElement, ReflectGet, IsArray, IsObject, ObjectKeys } from './native.js';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.
@@ -91,7 +91,7 @@ export function scopeCss(scopeName: string): typeof css {
 }
 
 export function applyCss(): string {
-  const style = createElement('style');
+  const style = DocumentCreateElement('style');
   style.innerHTML = cssList.join('\n');
   return style.innerHTML;
 }

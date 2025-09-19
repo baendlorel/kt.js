@@ -1,6 +1,6 @@
 import { KTextSymbol } from '@/consts/sym.js';
 import { enhance } from '../enhance.js';
-import { createElement, createTextNode, ReflectSet } from '../native.js';
+import { DocumentCreateElement, DocumentCreateTextNode, ReflectSet } from '../native.js';
 
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
@@ -23,8 +23,8 @@ export function h<Tag extends HTMLElementTag>(
   const contentBranch = createContentBranch(content);
 
   // * start creating the element
-  const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
-  const textNode = createTextNode('');
+  const element = DocumentCreateElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
+  const textNode = DocumentCreateTextNode('');
   element.appendChild(textNode);
   ReflectSet(element, KTextSymbol, textNode);
 

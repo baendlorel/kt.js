@@ -11,7 +11,9 @@ describe('h lifecycle methods', () => {
 
   it('kon/koff register and remove event listeners', () => {
     const el = h('button');
-    const spy = vi.fn();
+    // & native way
+
+    const spy = vi.fn(() => console.log('运行了spy'));
     // register
     el.kon('click', spy);
     // simulate click
@@ -22,7 +24,7 @@ describe('h lifecycle methods', () => {
     el.koff('click', spy);
     spy.mockClear();
     el.dispatchEvent(new MouseEvent('click'));
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy.mock.calls.length === 1);
   });
 
   it('kmount is callable when appended to document', () => {

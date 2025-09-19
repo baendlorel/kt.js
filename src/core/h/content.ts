@@ -1,4 +1,4 @@
-import { createTextNode, IsArray, IsObject } from '@/core/native.js';
+import { DocumentCreateTextNode, IsArray, IsObject } from '@/core/native.js';
 import { deferedBranch } from 'defered-branch';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
@@ -10,7 +10,7 @@ const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | s
   for (let i = 0; i < len; i++) {
     const c = content[i];
     if (typeof c === 'string') {
-      element.appendChild(createTextNode(c));
+      element.appendChild(DocumentCreateTextNode(c));
       continue;
     }
 

@@ -7,6 +7,8 @@ import {
   ObjectIs,
   ReflectGet,
   ReflectDefineProperty,
+  HTMLElementRemoveEventListener,
+  HTMLElementAddEventListener,
 } from './native.js';
 
 // #region properties
@@ -41,12 +43,12 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
 ): KListener<El, T> {
   // * in case of no options provided, which is the most common usage
   if (ObjectIs(options, NotProvided)) {
-    ReflectApply(addEventListener, this, [type, listener]);
+    ReflectApply(HTMLElementAddEventListener, this, [type, listener]);
     return listener;
   }
 
   if (!IsObject<KOnOptions>(options) || !('triggerLimit' in options)) {
-    ReflectApply(addEventListener, this, [type, listener, options]);
+    ReflectApply(HTMLElementAddEventListener, this, [type, listener, options]);
     return listener;
   }
 
@@ -59,7 +61,7 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
   // * Handle the enhancing part
   if (triggerLimit === 1) {
     options.once = true;
-    ReflectApply(addEventListener, this, [type, listener, options]);
+    ReflectApply(HTMLElementAddEventListener, this, [type, listener, options]);
     return listener;
   }
 
@@ -68,11 +70,11 @@ function kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
     const result = ReflectApply(listener, this, [ev]);
     count--;
     if (count <= 0) {
-      ReflectApply(removeEventListener, this, [type, newHandler, options]);
+      ReflectApply(HTMLElementRemoveEventListener, this, [type, newHandler, options]);
     }
     return result;
   };
-  ReflectApply(addEventListener, this, [type, newHandler, options]);
+  ReflectApply(HTMLElementAddEventListener, this, [type, newHandler, options]);
   return newHandler;
 }
 
@@ -83,11 +85,11 @@ function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
   options: KOnOptions = NotProvided as any
 ): void {
   if (ObjectIs(NotProvided, options)) {
-    ReflectApply(removeEventListener, this, [type, listener]);
+    ReflectApply(HTMLElementRemoveEventListener, this, [type, listener]);
     return;
   }
 
-  ReflectApply(removeEventListener, this, [type, listener, options]);
+  ReflectApply(HTMLElementRemoveEventListener, this, [type, listener, options]);
 }
 
 /**

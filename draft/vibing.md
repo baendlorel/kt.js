@@ -36,3 +36,21 @@ css`
 2. 入参不符合条件的情况
 3. isKT,kid等属性
 4. kon,koff,kmount等方法
+
+---
+
+编写readme：
+
+1. 用英文写
+2. src/index.ts里导出的4个函数详细介绍一下
+3. 介绍一下enhance之后多出来的属性
+4. 标题下面要有这一行：
+
+```text
+For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
+```
+
+4. 介绍一下这个库的理念：不强制重绘, 几乎不重绘，最小化开销，极致性能，直接操作DOM
+5. 在标题下面说明：这个库还在开发中
+6. 覆盖现有的README.md文件
+7. 写一个中文版README_ZH.md ，两个md文件的标题下方给出这两者相互的链接用于切换

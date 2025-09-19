@@ -1,6 +1,6 @@
 export class MemoizeMap<A, B> {
   private readonly map: Map<A, B> = new Map();
-  private readonly weakMap: WeakMap<Object, B> = new WeakMap();
+  private readonly weakMap: WeakMap<object, B> = new WeakMap();
 
   set(key: any, value: any) {
     if (typeof key === 'object' && key !== null) {

@@ -1,14 +1,15 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import c from 'tinyrainbow';
 
 import { css, scopeCss, applyCss } from '../src/core/css.js';
 
 describe('css and scopeCss', () => {
-  beforeEach(() => {
-    // reset module state by re-importing the module would be ideal, but simple
-    // approach: call applyCss to clear any previous side effects indirectly
-    // (applyCss doesn't clear cssList), so we keep tests hermetic by using
-    // unique content per test.
+  it('try read', () => {
+    const sample = css`
+      color: red;
+    `;
+
+    console.log('sample', sample);
   });
 
   it('css should add raw css into applyCss output', () => {

@@ -2,7 +2,6 @@ type HTMLElementTag = keyof HTMLElementTagNameMap;
 
 type KChildren = HTMLKEnhancedElement | Text;
 
-// todo 写注释
 interface KEnhanced {
   /**
    * Unique numeric identifier for a KT.js enhanced element instance.

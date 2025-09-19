@@ -1,7 +1,7 @@
 import { NotProvided } from './consts/sym.js';
 import { css, applyCss } from './core/css.js';
 import { h } from './core/h/index.js';
-import { _getElementById, IsObject, ObjectIs } from './core/native.js';
+import { $getElementById, $isObject, $is } from './core/native.js';
 import { useScope } from './core/scoped.js';
 
 /**
@@ -17,12 +17,12 @@ function createApp(
     throw new TypeError('Root element must be a KText element.');
   }
 
-  const appDiv = _getElementById('app') ?? document.body;
-  if (ObjectIs(mountTo, NotProvided)) {
+  const appDiv = $getElementById('app') ?? document.body;
+  if ($is(mountTo, NotProvided)) {
     rootElement.kmount(appDiv);
   }
 
-  if (!IsObject(mountTo)) {
+  if (!$isObject(mountTo)) {
     throw new TypeError('mountTo must be an HTMLElement or omitted.');
   }
 

@@ -1,11 +1,11 @@
 import { deferedBranch } from 'defered-branch';
-import { IsArray, ObjectAssign, ObjectKeys, IsObject } from '@/core/native.js';
+import { $isArray, $assign, $keys, $isObject, $setAttribute } from '@/core/native.js';
 
 const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
 
 const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
   if (attr.class) {
-    if (IsArray(attr.class)) {
+    if ($isArray(attr.class)) {
       element.classList.add(...attr.class);
     } else {
       element.className = attr.class;
@@ -17,12 +17,12 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     if (typeof attr.style === 'string') {
       element.setAttribute('style', attr.style);
     } else {
-      ObjectAssign(element.style, attr.style);
+      $assign(element.style, attr.style);
     }
     delete attr.style;
   }
 
-  const keys = ObjectKeys(attr);
+  const keys = $keys(attr);
   const keysLen = keys.length;
   for (let i = 0; i < keysLen; i++) {
     const key = keys[i];
@@ -40,7 +40,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement) {
         element.checked = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -54,7 +54,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.value = String(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -63,7 +63,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLOptionElement) {
         element.selected = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -73,7 +73,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
         element.defaultValue = String(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -83,7 +83,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement) {
         element.defaultChecked = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -93,7 +93,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLOptionElement) {
         element.defaultSelected = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -110,7 +110,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.disabled = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -119,7 +119,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
         element.readOnly = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -128,7 +128,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       if (element instanceof HTMLSelectElement) {
         element.multiple = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -142,7 +142,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.autofocus = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -155,7 +155,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       ) {
         element.required = Boolean(o);
       } else {
-        element.setAttribute(key, o);
+        $setAttribute.call(element, key, o);
       }
       continue;
     }
@@ -202,7 +202,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     }
 
     // * Consider as a custom attribute
-    element.setAttribute(key, o);
+    $setAttribute.call(element, key, o);
   }
 };
 
@@ -213,5 +213,5 @@ const invalid = (): never => {
 export const createAttrBranch = (attr: KAttribute | string) =>
   deferedBranch()
     .add(typeof attr === 'string', attrIsString)
-    .add(IsObject(attr), attrIsObject)
+    .add($isObject(attr), attrIsObject)
     .nomatch(invalid);

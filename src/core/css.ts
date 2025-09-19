@@ -1,5 +1,5 @@
 import { CssRuleAST, CssStylesheetAST, CssTypes, parse, stringify } from '@adobe/css-tools';
-import { _createElement, _get, IsArray, IsObject, ObjectKeys } from './native.js';
+import { $createElement, $get, $isArray, $isObject, $keys } from './native.js';
 
 /**
  * Global list that accumulates CSS strings produced by the `css` tagged template.
@@ -53,7 +53,7 @@ export function scopeCss(scopeName: string): typeof css {
     const ast = parse(cssText);
 
     const walk = (node: CssStylesheetAST | CssRuleAST) => {
-      if (!IsObject(node)) {
+      if (!$isObject(node)) {
         return;
       }
 
@@ -63,12 +63,12 @@ export function scopeCss(scopeName: string): typeof css {
       }
 
       // Recurse into arrays/objects that may contain nested rules (media, supports, etc.).
-      const keys = ObjectKeys(node);
+      const keys = $keys(node);
       const keysLen = keys.length;
       for (let i = 0; i < keysLen; i++) {
-        const child = _get(node, keys[i]);
+        const child = $get(node, keys[i]);
 
-        if (IsArray(child)) {
+        if ($isArray(child)) {
           const childLen = child.length;
           for (let i = 0; i < childLen; i++) {
             walk(child[i]);
@@ -76,7 +76,7 @@ export function scopeCss(scopeName: string): typeof css {
           continue;
         }
 
-        if (IsObject(child)) {
+        if ($isObject(child)) {
           walk(child as CssStylesheetAST | CssRuleAST);
         }
       }
@@ -91,7 +91,7 @@ export function scopeCss(scopeName: string): typeof css {
 }
 
 export function applyCss(): string {
-  const style = _createElement('style');
+  const style = $createElement('style');
   style.id = 'kt.js-style';
   style.innerHTML = cssList.join('\n');
   cssList.splice(0);

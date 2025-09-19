@@ -1,6 +1,6 @@
 import { KTextSymbol } from '@/consts/sym.js';
 import { enhance } from '../enhance.js';
-import { _createElement, _createTextNode, _set } from '../native.js';
+import { $appendChild, $createElement, $createTextNode, $set, $setAttribute } from '../native.js';
 
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
@@ -23,10 +23,10 @@ export function h<Tag extends HTMLElementTag>(
   const contentBranch = createContentBranch(content);
 
   // * start creating the element
-  const element = _createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
-  const textNode = _createTextNode('');
-  element.appendChild(textNode);
-  _set(element, KTextSymbol, textNode);
+  const element = $createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
+  const textNode = $createTextNode('');
+  $appendChild.call(element, textNode);
+  $set(element, KTextSymbol, textNode);
 
   // * define enhancing properties
   enhance(element);
@@ -41,7 +41,7 @@ export function h<Tag extends HTMLElementTag>(
 export function scopedH(scopeName: string): typeof h {
   return function (...args: Parameters<typeof h>) {
     const element = h(...args);
-    element.setAttribute(scopeName, '');
+    $setAttribute.call(element, scopeName, '');
     return element;
   } as typeof h;
 }

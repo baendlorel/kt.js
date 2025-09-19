@@ -1,4 +1,4 @@
-import { _createTextNode, IsArray, IsObject } from '@/core/native.js';
+import { $appendChild, $createTextNode, $isArray, $isObject } from '@/core/native.js';
 import { deferedBranch } from 'defered-branch';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
@@ -10,12 +10,12 @@ const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | s
   for (let i = 0; i < len; i++) {
     const c = content[i];
     if (typeof c === 'string') {
-      element.appendChild(_createTextNode(c));
+      $appendChild.call(element, $createTextNode(c));
       continue;
     }
 
     if (c.isKT) {
-      element.appendChild(c);
+      $appendChild.call(element, c);
       continue;
     }
 
@@ -28,7 +28,7 @@ const contentIsObject = (element: HTMLElement, content: HTMLKEnhancedElement) =>
     invalid();
   }
 
-  element.appendChild(content);
+  $appendChild.call(element, content);
 };
 
 const invalid = (): never => {
@@ -42,6 +42,6 @@ export const createContentBranch = (
 ) =>
   deferedBranch()
     .add(typeof content === 'string', contentIsString)
-    .add(IsObject(content), contentIsObject)
-    .add(IsArray(content), contentIsArray)
+    .add($isObject(content), contentIsObject)
+    .add($isArray(content), contentIsArray)
     .nomatch(invalid);

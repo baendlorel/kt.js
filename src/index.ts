@@ -1,7 +1,7 @@
 import { NotProvided } from './consts/sym.js';
 import { h } from './core/h/index.js';
 
-import { $getElementById } from './lib/dom.js';
+import { $appendChild, $getElementById } from './lib/dom.js';
 import { $is, $isObject } from './lib/whether.js';
 
 /**
@@ -22,7 +22,7 @@ function createApp(
 
   const appDiv = $getElementById('app') ?? document.body;
   if ($is(mountTo, NotProvided)) {
-    rootElement.kmount(appDiv);
+    $appendChild.call(appDiv, rootElement);
     return;
   }
 

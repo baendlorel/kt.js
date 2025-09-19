@@ -75,7 +75,7 @@ interface KEnhanced {
    * @param element the DOM element to mount into
    * @returns the mounted enhanced element (this)
    */
-  kmount: <El extends HTMLKEnhancedElement>(this: El, element: HTMLElement) => El;
+  kmount: <El extends HTMLKEnhancedElement>(this: El, element: HTMLKEnhancedElement) => El;
 }
 
 /**

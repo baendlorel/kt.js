@@ -114,8 +114,12 @@ function koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
   $off.call(this, type, listener as EventListener, options);
 }
 
-function kmount<El extends HTMLKEnhancedElement>(this: El, element: HTMLElement): El {
-  return $appendChild.call(element, this) as El;
+function kmount<El extends HTMLKEnhancedElement>(this: El, target: HTMLKEnhancedElement): El {
+  if (!target.isKT) {
+    throw new TypeError('[__NAME__:kmount] target must be a KText element.');
+  }
+
+  return $appendChild.call(target, this) as El;
 }
 
 kon satisfies KEnhanced['kon'];

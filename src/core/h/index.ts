@@ -38,11 +38,3 @@ export function h<Tag extends HTMLElementTag>(
 
   return element;
 }
-
-export function scopedH(scopeName: string): typeof h {
-  return function (...args: Parameters<typeof h>) {
-    const element = h(...args);
-    $setAttr.call(element, scopeName, '');
-    return element;
-  } as typeof h;
-}

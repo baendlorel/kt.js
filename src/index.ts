@@ -1,7 +1,6 @@
 import { NotProvided } from './consts/sym.js';
 import { css, applyCss } from './core/css.js';
 import { h } from './core/h/index.js';
-import { useScope } from './core/scoped.js';
 
 import { $getElementById } from './lib/dom.js';
 import { $is, $isObject } from './lib/whether.js';
@@ -31,4 +30,4 @@ function createApp(
   applyCss();
 }
 
-export { useScope, css, h, createApp };
+export { css, h, createApp };

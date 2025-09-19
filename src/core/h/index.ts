@@ -5,6 +5,7 @@ import { $createElement, $createTextNode, $appendChild } from '@/lib/dom.js';
 import { enhance } from '../enhance/index.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
+import { bindArgs } from '@/utils/bind-args.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -38,5 +39,3 @@ export function h<T extends TagName>(
 
   return element;
 }
-
-// todo 根据各个元素的使用情况，创建alias，比如div(attr,content)。并且input还可以直接写checkbox,radio什么什么的

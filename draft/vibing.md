@@ -54,3 +54,12 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 5. 在标题下面说明：这个库还在开发中
 6. 覆盖现有的README.md文件
 7. 写一个中文版README_ZH.md ，两个md文件的标题下方给出这两者相互的链接用于切换
+
+---
+
+写一组类型工具，要求最终能实现一个类型，表示一个函数的任意前N个入参:
+
+1. 实现FirstNParams<Func,N>类型，入参为函数和数字，返回值为元组类型，表示函数的前N个入参类型
+2. 这个类型要能处理可选参数和剩余参数
+3. 用FirstNParams进一步实现一个联合类型：FirstParamOrAllParams<Func> =[] | FirstNParams<Func,1> |FirstNParams<Func,1> |FirstNParams<Func,2> |FirstNParams<Func,3> | ... | Parameters<Func>
+4. 写在src/types/type-utils.d.ts里；

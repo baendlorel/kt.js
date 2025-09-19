@@ -2,7 +2,7 @@ import { KTextSymbol, NotProvided } from '@/consts/sym.js';
 import { Indexer } from '@/utils/indexer.js';
 
 // lib
-import { $get, $defineProperty, $arrayFrom } from '@/lib/native.js';
+import { $get, $define, $arrayFrom } from '@/lib/native.js';
 import { $appendChild, $createTextNode, $on, $off } from '@/lib/dom.js';
 import { $is, $isObject, $isSafeInteger } from '@/lib/whether.js';
 
@@ -131,10 +131,10 @@ const ktext: keyof KEnhanced = 'ktext';
 const kchildren: keyof KEnhanced = 'kchildren';
 
 export function enhance(element: HTMLKEnhancedElement): void {
-  $defineProperty(element, kid, nextKidDescriptor());
-  $defineProperty(element, isKT, isKTDescriptor);
-  $defineProperty(element, ktext, ktextDescriptor);
-  $defineProperty(element, kchildren, kchildrenDescriptor);
+  $define(element, kid, nextKidDescriptor());
+  $define(element, isKT, isKTDescriptor);
+  $define(element, ktext, ktextDescriptor);
+  $define(element, kchildren, kchildrenDescriptor);
   element.kon = kon;
   element.koff = koff;
   element.kmount = kmount;

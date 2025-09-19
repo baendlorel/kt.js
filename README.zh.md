@@ -4,7 +4,7 @@
 
 For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 
-> Note: 持续开发中。
+> Note: 本框架还在开发中，api、类型声明等可能会有变化，如果使用，近期请关注更新
 
 KT.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接操作 DOM。它的设计目标是尽量不强制重绘，只在必要时更新 DOM，从而获得极致性能。
 

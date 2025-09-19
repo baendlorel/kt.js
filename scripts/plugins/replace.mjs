@@ -43,9 +43,6 @@ export const replaceOpts = {
  * @type {Record<string, any>}
  */
 export const replaceLiteralOpts = {
-  __NAME__,
-  __KEBAB_NAME__,
-  __PKG_INFO__,
-  'declare const __IS_DEV__: boolean;': '',
+  'declare const __IS_DEV__: boolean;\n': '',
   '//__EXPORT__FLAG__\n': 'export ',
 };

@@ -4,7 +4,7 @@
 
 For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 
-> Note: developing
+> Note: This framework is still under development. APIs, type declarations, and other parts may change. If you use it, please watch for updates in the near future.
 
 KT.js is a tiny, high-performance DOM utility focused on minimal re-rendering and direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
 

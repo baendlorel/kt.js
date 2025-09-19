@@ -1,6 +1,9 @@
 // @ts-check
 import { spawn } from 'node:child_process';
 
+/**
+ * @param {string[]} args
+ */
 export function execute(args, opts = {}) {
   return new Promise((resolve, reject) => {
     spawn(args[0], args.slice(1), {

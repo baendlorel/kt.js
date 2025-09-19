@@ -13,7 +13,7 @@ import dts from 'rollup-plugin-dts';
 import dtsMerger from 'rollup-plugin-dts-merger';
 
 // custom plugins
-import { replaceOpts } from './scripts/plugins/replace.mjs';
+import { replaceLiteralOpts, replaceOpts } from './scripts/plugins/replace.mjs';
 
 // # common options
 
@@ -94,7 +94,7 @@ const declaration = {
     alias(aliasOpts),
     replace(replaceOpts),
     dts({ tsconfig }),
-    dtsMerger({ replace: replaceOpts }),
+    dtsMerger({ replace: replaceOpts, replaceLiteral: replaceLiteralOpts }),
   ],
 };
 

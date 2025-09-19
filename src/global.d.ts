@@ -1,5 +1,9 @@
 declare const __IS_DEV__: boolean;
 
+/**
+ * Used to create enhanced HTML elements
+ */
+//__EXPORT__FLAG__
 interface KAttribute {
   [k: string]: any;
 

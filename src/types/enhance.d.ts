@@ -1,5 +1,7 @@
+//__EXPORT__FLAG__
 type HTMLElementTag = keyof HTMLElementTagNameMap;
 
+//__EXPORT__FLAG__
 type KChildren = HTMLKEnhancedElement | Text;
 
 interface KEnhanced {
@@ -85,6 +87,13 @@ type NonSpecialTags = {
   [K in keyof HTMLElementTagNameMap]: HTMLElement extends HTMLElementTagNameMap[K] ? K : never;
 }[keyof HTMLElementTagNameMap];
 
+/**
+ * This is the core feature of KT.js - enhanced HTML elements.
+ *
+ * It combines the standard HTMLElement properties and methods
+ * with KT.js enhancements defined in KEnhanced.
+ */
+//__EXPORT__FLAG__
 type HTMLKEnhancedElement<T extends HTMLElementTag = NonSpecialTags> =
   (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
     KEnhanced;

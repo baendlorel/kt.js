@@ -38,3 +38,14 @@ export const replaceOpts = {
     // __STRICT_OPTS__: `Rollup${__NAME__}StrictOptions`,
   },
 };
+
+/**
+ * @type {Record<string, any>}
+ */
+export const replaceLiteralOpts = {
+  __NAME__,
+  __KEBAB_NAME__,
+  __PKG_INFO__,
+  'declare const __IS_DEV__: boolean;': '',
+  '//__EXPORT__FLAG__\n': 'export ',
+};

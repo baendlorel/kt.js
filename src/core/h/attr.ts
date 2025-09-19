@@ -204,7 +204,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     }
 
     // * Consider as a custom attribute
-    $setAttr.call(element, key, o);
+    $setAttr.call(element, String(key), o);
   }
 };
 

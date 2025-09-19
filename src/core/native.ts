@@ -25,6 +25,7 @@ export const IsObject = <T extends object>(o: unknown): o is T =>
 
 // #region Dom manipulation
 
+export const DocumentGetElementById = document.getElementById.bind(document);
 export const DocumentCreateElement = document.createElement.bind(document);
 export const DocumentCreateTextNode = document.createTextNode.bind(document);
 export const HTMLElementAddEventListener = HTMLElement.prototype.addEventListener;

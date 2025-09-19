@@ -1,5 +1,32 @@
-import { css } from './core/css.js';
+import { NotProvided } from './consts/sym.js';
+import { css, applyCss } from './core/css.js';
 import { h } from './core/h/index.js';
+import { DocumentGetElementById, IsObject, ObjectIs } from './core/native.js';
 import { useScope } from './core/scoped.js';
 
-export { useScope, css, h };
+/**
+ * Mount root element to `#app`(`body` if not found) or to the given element.
+ * @param rootElement an instance of `HTMLKEnhancedElement`, created by `h` function.
+ * @param mountTo any `HTMLElement` to mount to, if omitted, will mount to `#app` or `body`.
+ */
+function createApp(
+  rootElement: HTMLKEnhancedElement,
+  mountTo: HTMLElement = NotProvided as any
+): void {
+  if (!rootElement.isKT) {
+    throw new TypeError('Root element must be a KText element.');
+  }
+
+  const appDiv = DocumentGetElementById('app') ?? document.body;
+  if (ObjectIs(mountTo, NotProvided)) {
+    rootElement.kmount(appDiv);
+  }
+
+  if (!IsObject(mountTo)) {
+    throw new TypeError('mountTo must be an HTMLElement or omitted.');
+  }
+
+  applyCss();
+}
+
+export { useScope, css, h, createApp };

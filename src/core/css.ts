@@ -92,6 +92,8 @@ export function scopeCss(scopeName: string): typeof css {
 
 export function applyCss(): string {
   const style = DocumentCreateElement('style');
+  style.id = 'kt.js-style';
   style.innerHTML = cssList.join('\n');
+  cssList.splice(0);
   return style.innerHTML;
 }

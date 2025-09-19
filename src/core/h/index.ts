@@ -17,13 +17,13 @@ export function h<Tag extends HTMLElementTag>(
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-
   const attrBranch = createAttrBranch(attr);
   const contentBranch = createAttrBranch(content);
 
+  // * start creating the element
   const element = createElement<Tag>(tag) as HTMLKEnhancedElement<Tag>;
 
-  // * Define enhancing properties
+  // * define enhancing properties
   ReflectDefineProperty(element, 'kid' satisfies keyof KEnhanced, {
     value: Indexer.nextKid(),
     enumerable: true,

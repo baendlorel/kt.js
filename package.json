@@ -64,8 +64,6 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
-		"@adobe/css-tools": "^4.4.4",
-		"defered-branch": "^1.2.2",
-		"w3c-css-validator": "^1.4.0"
+		"defered-branch": "^1.2.2"
 	}
 }

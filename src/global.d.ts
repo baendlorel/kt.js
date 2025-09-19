@@ -4,6 +4,7 @@ interface KAttribute {
   [k: string]: any;
 
   id?: string;
+
   type?: string;
   for?: string;
   name?: string;
@@ -17,7 +18,17 @@ interface KAttribute {
   class?: string | string[];
   style?: string | Partial<CSSStyleDeclaration>;
   action?: string;
-  method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE';
+  method?:
+    | 'POST'
+    | 'GET'
+    | 'PUT'
+    | 'DELETE'
+    | 'PATCH'
+    | 'HEAD'
+    | 'OPTIONS'
+    | 'CONNECT'
+    | 'TRACE'
+    | (string & {});
 }
 
 interface KOnOptions extends AddEventListenerOptions {

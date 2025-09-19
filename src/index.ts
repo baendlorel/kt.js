@@ -1,11 +1,13 @@
 import { NotProvided } from './consts/sym.js';
-import { css, applyCss } from './core/css.js';
 import { h } from './core/h/index.js';
 
 import { $getElementById } from './lib/dom.js';
 import { $is, $isObject } from './lib/whether.js';
 
 /**
+ * __PKG_INFO__
+ *
+ * ## Usage
  * Mount root element to `#app`(`body` if not found) or to the given element.
  * @param rootElement an instance of `HTMLKEnhancedElement`, created by `h` function.
  * @param mountTo any `HTMLElement` to mount to, if omitted, will mount to `#app` or `body`.
@@ -26,8 +28,6 @@ function createApp(
   if (!$isObject(mountTo)) {
     throw new TypeError('mountTo must be an HTMLElement or omitted.');
   }
-
-  applyCss();
 }
 
-export { css, h, createApp };
+export { h, createApp };

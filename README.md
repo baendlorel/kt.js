@@ -1,4 +1,4 @@
-# kt.js
+# KT.js
 
 [中文](./README.zh.md) | [English](./README.md)
 
@@ -10,18 +10,36 @@ kt.js is a tiny, high-performance DOM utility focused on minimal re-rendering an
 
 ## Philosophy
 
-KT.js is designed with a simple but radical philosophy: **never repaint unless absolutely necessary**. Unlike most frontend frameworks that rely on frequent DOM diffing and re-rendering, KT.js believes in minimal DOM operations and maximum stability.
+As a web framework, repeatedly creating a large number of variables and objects is unacceptable. This is a provocation against browsers and the V8 engine(or SpiderMonkey, or JSC). So I created KT.js.
 
-- **Direct DOM Manipulation**: KT.js works with the DOM as it is, updating only what truly needs to change. No virtual DOM, no diffing, no hidden magic.
-- **Predictable UI**: Your UI remains stable and predictable. If you don't explicitly change something, KT.js won't touch it.
-- **Performance First**: By avoiding unnecessary redraws, KT.js achieves high performance, especially in complex or dynamic interfaces.
-- **Developer Control**: You decide when and what to update. KT.js gives you the tools, not the rules.
+KT.js follows one rule: avoid repainting unless necessary. It updates the DOM directly and only where needed — no virtual DOM, no automatic diffing. That keeps the UI predictable and fast, while leaving control to the developer.
+
+- **Direct DOM**: update only what changes.
+- **Minimal updates**: avoid unnecessary reflows and repaints.
+- **Predictable and fast**: stable UI with high performance.
+- **Developer control**: you decide when to update.
 
 ## Getting started
 
-Install via npm or your preferred package manager and import the functions you need from `src/index.ts`.
+Install via npm but pnpm is recommended:
 
-Primary exports (from `src/index.ts`)
+```bash
+npm install kt.js
+# or
+pnpm add kt.js
+```
+
+Import KT.js into your project.
+
+```ts
+import { h, createApp } from 'kt.js';
+
+const app = h('div', { id: 'app' }, 'Hello, KT.js!');
+
+createApp(app);
+```
+
+## Core Api
 
 - `h` — hyperscript helper
   - Creates a KT-enhanced DOM element representation.

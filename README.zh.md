@@ -1,4 +1,4 @@
-# kt.js
+# KT.js
 
 [中文](./README.zh.md) | [English](./README.md)
 
@@ -6,20 +6,40 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 
 > Note: 持续开发中。
 
-kt.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接操作 DOM。它的设计目标是尽量不强制重绘，只在必要时更新 DOM，从而获得极致性能。
+KT.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接操作 DOM。它的设计目标是尽量不强制重绘，只在必要时更新 DOM，从而获得极致性能。
 
-核心理念
+## 核心理念
 
-- 不强制重绘。只有在需要时才更新。
-- 极少无谓的重排/重绘。
-- 最小开销，极低运行时成本。
-- 直接操作 DOM，获得可预测且快速的更新。
+作为一个web框架，反复创建大量对象、反复重绘是不可接受的，这是对浏览器和V8引擎(或者SpiderMonkey, 或者说JSC)的挑衅。所以我创建了 KT.js。
+
+KT.js 遵循一条原则：尽量避免不必要的重绘。它直接按需更新 DOM —— 无虚拟 DOM、无自动 diff。这样能保持界面可预测且高效，同时把更新控制权交给开发者。
+
+- **直接操作 DOM**：只更新真正改变的部分。
+- **最小化更新**：避免不必要的回流与重绘。
+- **可预测且高效**：界面稳定，性能优秀。
+- **开发者掌控**：什么时候更新由你决定。
 
 ## 快速开始
 
-通过 npm 或你喜欢的包管理器安装，然后从 `src/index.ts` 中导入所需函数。
+通过 npm 安装，但推荐使用 pnpm：
 
-主要导出（来自 `src/index.ts`）
+```bash
+npm install kt.js
+# or
+pnpm add kt.js
+```
+
+将 KT.js 导入到你的项目：
+
+```ts
+import { h, createApp } from 'kt.js';
+
+const app = h('div', { id: 'app' }, 'Hello, KT.js!');
+
+createApp(app);
+```
+
+## 核心 API
 
 - `h` — hyperscript 辅助函数
   - 创建带有 KText 增强属性的 DOM 元素。

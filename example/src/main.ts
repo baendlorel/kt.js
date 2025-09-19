@@ -14,7 +14,6 @@ const buttonCss = css`
   border: none;
   cursor: pointer;
 `;
-
 const container = h('div', { class: 'logo-container' }, [
   h('img', { src: typescriptLogo }),
   h('img', { src: viteLogo }),

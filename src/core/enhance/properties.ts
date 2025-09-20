@@ -4,6 +4,7 @@ import { Indexer } from '@/utils/indexer.js';
 // lib
 import { $get, $arrayFrom } from '@/lib/native.js';
 import { $appendChild, $createTextNode } from '@/lib/dom.js';
+import { getTextNode } from '../privates.js';
 
 const nextKid = () => ({
   value: Indexer.nextKid(),
@@ -14,12 +15,10 @@ const isKT = { value: true };
 
 const ktext = {
   get(this: HTMLKEnhancedElement): string {
-    const textNode = $get(this, KTextSymbol) as Text;
-    return textNode.textContent;
+    return getTextNode(this).textContent;
   },
   set(this: HTMLKEnhancedElement, newText: string): void {
-    const textNode = $get(this, KTextSymbol) as Text;
-    textNode.textContent = newText;
+    getTextNode(this).textContent = newText;
   },
 };
 
@@ -28,9 +27,8 @@ const kchildren = {
     return $arrayFrom(this.children) as KChildren[];
   },
   set<El extends HTMLKEnhancedElement>(this: El, elements: (KChildren | string)[]): void {
-    const textNode = $get(this, KTextSymbol) as Text;
     this.textContent = '';
-    $appendChild.call(this, textNode); // keep text node always available
+    $appendChild.call(this, getTextNode(this)); // keep text node always available
 
     const elementsLen = elements.length;
     for (let i = 0; i < elementsLen; i++) {

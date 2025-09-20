@@ -1,10 +1,9 @@
-import { KTextSymbol } from '@/consts/sym.js';
-import { $set } from '@/lib/native.js';
 import { $createElement, $createTextNode, $appendChild } from '@/lib/dom.js';
 
 import { enhance } from '../enhance/index.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
+import { setTextNode } from '../privates.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -27,7 +26,7 @@ export function h<T extends HTMLTag>(
   const element = $createElement<T>(tag) as HTMLKEnhancedElement<T>;
   const textNode = $createTextNode('');
   $appendChild.call(element, textNode);
-  $set(element, KTextSymbol, textNode);
+  setTextNode(element, textNode);
 
   // * define enhancing properties
   enhance(element);

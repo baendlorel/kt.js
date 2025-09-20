@@ -1,3 +1,4 @@
+export * from './shortcuts/index.js';
 import { NotProvided } from './consts/sym.js';
 import { h } from './core/h/index.js';
 import { isKEnhanced } from './core/privates.js';

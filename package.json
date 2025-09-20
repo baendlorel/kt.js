@@ -1,6 +1,6 @@
 {
 	"name": "kt.js",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"author": {
 		"name": "Kasukabe Tsumugi",
 		"email": "futami16237@gmail.com"
@@ -65,7 +65,7 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
-		"bind-params": "^1.0.2",
+		"bind-params": "^1.1.0",
 		"defered-branch": "^1.2.2"
 	}
 }

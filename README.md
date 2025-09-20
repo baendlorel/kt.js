@@ -91,7 +91,7 @@ After calling `enhance(element)` (done internally by `h` when appropriate), an H
 
 - This library manipulates the DOM directly and intentionally keeps re-rendering minimal.
 - The API is small and low-level by design — it's intended as a performance-focused building block rather than a full component framework.
-- `Function.prototype.call` is trusted.
+- `call`, `apply` on `Function.prototype` is trusted.
 
 ## Contributing
 

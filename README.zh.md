@@ -92,7 +92,7 @@ h('div', { class: className }, 'Styled text');
 
 - 本库直接操作 DOM，并有意将重渲染控制到最小。
 - API 设计小而精，偏底层 —— 目标是作为构建高性能 UI 的基础工具，而不是完整的组件框架。
-- `Function.prototype.call` 被信任，这在某些环境或代码审计中需要注意。
+- 本库假设`Function.prototype` 上的 `call`, `apply` 未被改动过。
 
 ## 参与贡献
 

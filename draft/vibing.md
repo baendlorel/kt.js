@@ -145,4 +145,4 @@ const ssss = bindParams(sss, 'a');
 
 ---
 
-帮我扫描src文件夹下的代码。找出哪些内部方法或者其他常用方法没有被缓存的，写在draft/uncached.md里
+我在src/lib里缓存了很多原生方法。现在帮我扫描src文件夹下的代码，找出还有哪些方法应该被缓存但没有被缓存的，以及你推荐的工具函数，写在draft/uncached.md里

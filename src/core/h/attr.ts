@@ -1,12 +1,12 @@
 import { deferedBranch } from 'defered-branch';
-import { $isObject, $setAttr, $isArray, $assign, $keys } from '@/lib/index.js';
+import { $isObject, $setAttr, $isArray, $assign, $keys, $domTokenListAdd } from '@/lib/index.js';
 
 const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
 
 const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
   if (attr.class) {
     if ($isArray(attr.class)) {
-      element.classList.add(...attr.class);
+      $domTokenListAdd.apply(element.classList, attr.class);
     } else {
       element.className = attr.class;
     }
@@ -34,6 +34,8 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       );
       continue;
     }
+
+    // todo 优化这里的大量分支。已经验证，模式匹配比ifelse快
 
     // * Boolean attributes that should be set as properties
     if (key === 'checked') {

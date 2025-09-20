@@ -28,7 +28,9 @@ const kchildren = {
     return $arrayFrom(this.children) as KChildren[];
   },
   set<El extends HTMLKEnhancedElement>(this: El, elements: (KChildren | string)[]): void {
-    this.innerHTML = '';
+    const textNode = $get(this, KTextSymbol) as Text;
+    this.textContent = '';
+    $appendChild.call(this, textNode); // keep text node always available
 
     const elementsLen = elements.length;
     for (let i = 0; i < elementsLen; i++) {

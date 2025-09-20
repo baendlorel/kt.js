@@ -124,4 +124,11 @@ const sss = <T extends keyof HTMLElementTagNameMap>(
 const ssss = bindParams(sss, 'a');
 ```
 
-其中ssss的类型为`(tag: keyof HTMLElementTagNameMap, attr?: string | KAttribute | undefined, content?: string | HTMLKEnhancedElement<NonSpecialTags> | (string | HTMLKEnhancedElement<NonSpecialTags>)[] | undefined) => HTMLKEnhancedElement<keyof HTMLElementTagNameMap>`，第一个入参tag还在。不知道为什么。bindParams明明对其他简单的泛型函数、可选参数什么的都没问题的。
+## 其中ssss的类型为`(tag: keyof HTMLElementTagNameMap, attr?: string | KAttribute | undefined, content?: string | HTMLKEnhancedElement<NonSpecialTags> | (string | HTMLKEnhancedElement<NonSpecialTags>)[] | undefined) => HTMLKEnhancedElement<keyof HTMLElementTagNameMap>`，第一个入参tag还在。不知道为什么。bindParams明明对其他简单的泛型函数、可选参数什么的都没问题的。
+
+---
+
+架构设计疑问：我已经有了h函数和它们的众多alias。但是创建元素的场景肯定比这个复杂。
+你帮我想一下，常见的，创建元素的场景还有哪些？还应该如何设计API？
+已知至少还有一种要for循环的，根据数组来创建的。还有吗？
+你可以参阅src下的代码后回答，写入draft/structure.md中

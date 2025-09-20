@@ -65,6 +65,7 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
+		"bind-params": "^1.0.1",
 		"defered-branch": "^1.2.2"
 	}
 }

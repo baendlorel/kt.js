@@ -7,7 +7,6 @@ import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
-import babel from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 import dtsMerger from 'rollup-plugin-dts-merger';
@@ -50,19 +49,6 @@ const options = [
       replace(replaceOpts),
       resolve(),
       typescript({ tsconfig }),
-      babel({
-        babelHelpers: 'bundled',
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-        presets: [['@babel/preset-env', { targets: { node: '14' } }]],
-        plugins: [
-          [
-            '@babel/plugin-proposal-decorators',
-            {
-              version: '2023-11',
-            },
-          ],
-        ],
-      }),
       terser({
         format: {
           comments: false, // remove comments

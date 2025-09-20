@@ -21,6 +21,7 @@ const __PKG_INFO__ = `## About
  * @version ${pkg.version} (Last Update: ${formatDateFull()})
  * @license ${pkg.license}
  * @link ${pkg.repository.url}
+ * @link https://baendlorel.github.io/ Welcome to my site!
  * @description ${pkg.description.replace(/\n/g, '\n * \n * ')}
  * @copyright Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}. All rights reserved.`;
 

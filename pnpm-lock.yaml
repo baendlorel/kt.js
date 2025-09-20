@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      bind-params:
+        specifier: ^1.0.1
+        version: 1.0.1
       defered-branch:
         specifier: ^1.2.2
         version: 1.2.2
@@ -1208,6 +1211,9 @@ packages:
 
   bidi-js@1.0.3:
     resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
+
+  bind-params@1.0.1:
+    resolution: {integrity: sha512-UiNujvvtG8ZJeuz7LtRTmhnVb0Vs9pWtG10ftBOSju8v9x9fjOm3P/lTcS+mmrdUD0tk32HOok8V1Y/c/LGarw==}
 
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
@@ -3184,6 +3190,8 @@ snapshots:
   bidi-js@1.0.3:
     dependencies:
       require-from-string: 2.0.2
+
+  bind-params@1.0.1: {}
 
   brace-expansion@2.0.2:
     dependencies:

@@ -5,7 +5,6 @@ import { $createElement, $createTextNode, $appendChild } from '@/lib/dom.js';
 import { enhance } from '../enhance/index.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
-import { bindArgs } from '@/utils/bind-args.js';
 
 /**
  * Create an enhanced HTMLElement.

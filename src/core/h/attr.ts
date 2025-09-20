@@ -35,8 +35,6 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
       continue;
     }
 
-    // todo 优化这里的大量分支。已经验证，模式匹配比ifelse快
-
     // * Boolean attributes that should be set as properties
     if (key === 'checked') {
       if (element instanceof HTMLInputElement) {
@@ -51,10 +49,10 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     if (key === 'value') {
       if (
         element instanceof HTMLInputElement ||
-        element instanceof HTMLTextAreaElement ||
-        element instanceof HTMLSelectElement
+        element instanceof HTMLSelectElement ||
+        element instanceof HTMLTextAreaElement
       ) {
-        element.value = String(o);
+        element.value = o;
       } else {
         $setAttr.call(element, key, o);
       }

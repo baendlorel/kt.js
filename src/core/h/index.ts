@@ -38,3 +38,5 @@ export function h<T extends TagName>(
 
   return element;
 }
+
+true satisfies IsSameType<typeof h, HFunction>;

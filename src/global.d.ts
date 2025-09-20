@@ -1,5 +1,17 @@
 declare const __IS_DEV__: boolean;
 
+type HFunction = <T extends TagName>(
+  tag: T,
+  attr?: KAttribute | string,
+  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
+) => HTMLKEnhancedElement<T>;
+
+type HAlias<T extends TagName> = (
+  tag: T,
+  attr?: KAttribute | string,
+  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
+) => HTMLKEnhancedElement<T>;
+
 /**
  * Used to create enhanced HTML elements
  */

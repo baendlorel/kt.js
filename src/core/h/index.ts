@@ -12,7 +12,7 @@ import { createContentBranch } from './content.js';
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<T extends TagName>(
+export function h<T extends HTMLTag>(
   tag: T,
   attr: KAttribute | string = '',
   content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string = ''

@@ -63,3 +63,65 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 2. 这个类型要能处理可选参数和剩余参数
 3. 用FirstNParams进一步实现一个联合类型：FirstParamOrAllParams<Func> =[] | FirstNParams<Func,1> |FirstNParams<Func,1> |FirstNParams<Func,2> |FirstNParams<Func,3> | ... | Parameters<Func>
 4. 写在src/types/type-utils.d.ts里；
+
+---
+
+bingParams是我制作的库，它的类型定义如下：
+
+```ts
+declare function bindParams<
+  T extends (...args: any[]) => any,
+  Bound extends Params<T> = [],
+  Remainder extends any[] = Chop<Parameters<T>, Bound['length']>,
+>(fn: T, ...bound: Bound & Partial<Parameters<T>>): (...args: Remainder) => ReturnType<T>;
+
+export { bindParams };
+
+// # from: src/global.d.ts
+type Chop<T extends any[], N extends number, Acc extends any[] = []> = Acc['length'] extends N
+  ? T
+  : T extends [infer Head, ...infer Rest]
+    ? Chop<Rest, N, [...Acc, Head]>
+    : [];
+
+type NParams<
+  Fn extends (...args: any[]) => any,
+  N extends number,
+  Acc extends any[] = [],
+> = Acc['length'] extends N
+  ? Acc
+  : Parameters<Fn> extends readonly [infer First, ...infer Rest]
+    ? Rest extends any[]
+      ? NParams<(...args: Rest) => any, N, [...Acc, First]>
+      : Acc
+    : Acc;
+
+type ParamPossibility<
+  Fn extends (...args: any[]) => any,
+  MaxN extends number,
+  Counter extends any[] = [],
+  Result = [],
+> = Counter['length'] extends MaxN
+  ? Result | Parameters<Fn>
+  : ParamPossibility<
+      Fn,
+      MaxN,
+      [...Counter, any],
+      Result | (Counter['length'] extends 0 ? [] : NParams<Fn, Counter['length']>)
+    >;
+
+type Params<Fn extends (...args: any[]) => any> = ParamPossibility<Fn, 17>;
+```
+
+但是，vscode类型推断显示，
+
+```ts
+const sss = <T extends keyof HTMLElementTagNameMap>(
+  tag: T,
+  attr?: string | KAttribute,
+  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
+) => ({}) as HTMLKEnhancedElement<T>;
+const ssss = bindParams(sss, 'a');
+```
+
+其中ssss的类型为`(tag: keyof HTMLElementTagNameMap, attr?: string | KAttribute | undefined, content?: string | HTMLKEnhancedElement<NonSpecialTags> | (string | HTMLKEnhancedElement<NonSpecialTags>)[] | undefined) => HTMLKEnhancedElement<keyof HTMLElementTagNameMap>`，第一个入参tag还在。不知道为什么。bindParams明明对其他简单的泛型函数、可选参数什么的都没问题的。

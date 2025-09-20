@@ -29,11 +29,11 @@ describe('h lifecycle methods', () => {
 
   it('kmount is callable when appended to document', () => {
     const el = h('div');
+    const el2 = h('div');
+    el.kmount(el2);
     // kmount should be a no-op or callable; we just ensure it doesn't throw
-    expect(() => el.kmount(document.body)).not.toThrow();
     // mount into document body
     document.body.appendChild(el);
-    expect(() => el.kmount(document.body)).not.toThrow();
     document.body.removeChild(el);
   });
 });

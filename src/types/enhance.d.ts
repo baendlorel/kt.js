@@ -1,8 +1,21 @@
 //__EXPORT__FLAG__
-type TagName = keyof HTMLElementTagNameMap;
+type HTMLTag = keyof HTMLElementTagNameMap;
 
 //__EXPORT__FLAG__
 type KChildren = HTMLKEnhancedElement | Text;
+
+interface KOnOptions extends AddEventListenerOptions {
+  /**
+   * This option's priority is higher than `once`.
+   * - when this is `1`, go with `once: true`.
+   */
+  triggerLimit?: number;
+}
+
+type KListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
+  this: E,
+  ev: HTMLElementEventMap[K]
+) => unknown;
 
 interface KEnhanced {
   /**
@@ -94,6 +107,6 @@ type NonSpecialTags = {
  * with KT.js enhancements defined in KEnhanced.
  */
 //__EXPORT__FLAG__
-type HTMLKEnhancedElement<T extends TagName = NonSpecialTags> =
+type HTMLKEnhancedElement<T extends HTMLTag = NonSpecialTags> =
   (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
     KEnhanced;

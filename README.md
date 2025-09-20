@@ -1,6 +1,6 @@
 # KT.js
 
-[中文](./README.zh.md) | [English](./README.md)
+[中文](README.zh.md) | [English](README.md) | [CHANGLOG](CHANGELOG.md)
 
 For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 

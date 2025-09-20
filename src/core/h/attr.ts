@@ -211,6 +211,7 @@ const invalid = (): never => {
 };
 
 export const createAttrBranch = (attr: KAttribute | string) =>
+  // todo 改用deferedBranchDynamic
   deferedBranch()
     .add(typeof attr === 'string', attrIsString)
     .add($isObject(attr), attrIsObject)

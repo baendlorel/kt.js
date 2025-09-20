@@ -15,6 +15,7 @@
     "typescript"
   ],
   "rules": {
+    "no-explicit-any": "error",
     "no-inferrable-types": "off",
     "prefer-for-of": "off",
     "unified-signatures": "off",

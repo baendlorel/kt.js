@@ -14,6 +14,7 @@ type HAlias<T extends HTMLTag> = (
  */
 //__EXPORT__FLAG__
 interface KAttribute {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 
   id?: string;

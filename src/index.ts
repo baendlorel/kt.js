@@ -1,8 +1,8 @@
 import { NotProvided } from './consts/sym.js';
 import { h } from './core/h/index.js';
+import { isKEnhanced } from './core/privates.js';
 
-import { $appendChild, $getElementById } from './lib/dom.js';
-import { $is, $isObject } from './lib/whether.js';
+import { $appendChild, $getElementById, $is, $isObject } from './lib/index.js';
 
 /**
  * __PKG_INFO__
@@ -14,9 +14,9 @@ import { $is, $isObject } from './lib/whether.js';
  */
 function createApp(
   rootElement: HTMLKEnhancedElement,
-  mountTo: HTMLElement = NotProvided as any
+  mountTo: HTMLElement = NotProvided as unknown as HTMLElement
 ): void {
-  if (!rootElement.isKT) {
+  if (!isKEnhanced(rootElement)) {
     throw new TypeError('Root element must be a KText element.');
   }
 

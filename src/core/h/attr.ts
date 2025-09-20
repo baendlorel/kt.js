@@ -161,7 +161,7 @@ const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
     }
 
     if (key === 'hidden') {
-      (element as any).hidden = Boolean(o);
+      element.hidden = Boolean(o);
       continue;
     }
 

@@ -52,8 +52,7 @@ const kfor = <T>(
 // 使用
 kfor(items, (item, index) => li({}, item), 'ul');
 
-// 方案B: h函数扩展
-h.for = kfor;
+items.map((item) => li({}, item));
 ```
 
 ### 2. 条件渲染场景

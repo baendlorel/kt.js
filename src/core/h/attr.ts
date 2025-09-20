@@ -1,7 +1,5 @@
 import { deferedBranch } from 'defered-branch';
-import { $isArray, $assign, $keys } from '@/lib/native.js';
-import { $isObject } from '@/lib/whether.js';
-import { $setAttr } from '@/lib/dom.js';
+import { $isObject, $setAttr, $isArray, $assign, $keys } from '@/lib/index.js';
 
 const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
 

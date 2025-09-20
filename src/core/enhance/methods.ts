@@ -1,8 +1,7 @@
 import { NotProvided } from '@/consts/sym.js';
+import { $appendChild, $on, $off, $is, $isObject, $isSafeInteger } from '@/lib/index.js';
 
-// lib
-import { $appendChild, $on, $off } from '@/lib/dom.js';
-import { $is, $isObject, $isSafeInteger } from '@/lib/whether.js';
+import { isKEnhanced } from '../privates.js';
 
 export const methods: PickMethod<KEnhanced> = {
   kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
@@ -61,7 +60,7 @@ export const methods: PickMethod<KEnhanced> = {
     $off.call(this, type, listener as EventListener, options);
   },
   kmount<El extends HTMLKEnhancedElement>(this: El, target: HTMLKEnhancedElement): El {
-    if (!target.isKT) {
+    if (!isKEnhanced(target)) {
       throw new TypeError('[__NAME__:kmount] target must be a KText element.');
     }
 

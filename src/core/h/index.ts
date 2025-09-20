@@ -1,10 +1,10 @@
 import { Indexer } from '@/utils/indexer.js';
-import { $createElement, $createTextNode, $appendChild } from '@/lib/dom.js';
+import { $createElement, $createTextNode, $appendChild } from '@/lib/index.js';
 
 import { enhance } from '../enhance/index.js';
+import { setPrivate } from '../privates.js';
 import { createAttrBranch } from './attr.js';
 import { createContentBranch } from './content.js';
-import { setPrivate } from '../privates.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -24,7 +24,7 @@ export function h<T extends HTMLTag>(
   const contentBranch = createContentBranch(content);
 
   // * start creating the element
-  const element = $createElement<T>(tag) as HTMLKEnhancedElement<T>;
+  const element = $createElement(tag) as HTMLKEnhancedElement<T>;
   const textNode = $createTextNode('');
   $appendChild.call(element, textNode);
   setPrivate(element, {

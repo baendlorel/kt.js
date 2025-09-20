@@ -1,7 +1,7 @@
 import { deferedBranch } from 'defered-branch';
-import { $appendChild, $createTextNode } from '@/lib/dom.js';
-import { $isArray } from '@/lib/native.js';
-import { $isObject } from '@/lib/whether.js';
+import { $isArray, $isObject, $appendChild, $createTextNode } from '@/lib/index.js';
+
+import { isKEnhanced } from '../privates.js';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
   element.ktext = content;
@@ -16,7 +16,7 @@ const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | s
       continue;
     }
 
-    if (c.isKT) {
+    if (isKEnhanced(c)) {
       $appendChild.call(element, c);
       continue;
     }
@@ -26,7 +26,7 @@ const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | s
 };
 
 const contentIsObject = (element: HTMLElement, content: HTMLKEnhancedElement) => {
-  if (!content.isKT) {
+  if (!isKEnhanced(content)) {
     invalid();
   }
 

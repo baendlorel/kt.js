@@ -1,6 +1,8 @@
-export const $getElementById = document.getElementById.bind(document);
-export const $createElement = document.createElement.bind(document);
-export const $createTextNode = document.createTextNode.bind(document);
+// & Remove `bind` because it is shockingly slower than wrapper
+
+export const $getElementById = (id: string) => document.getElementById(id);
+export const $createElement = (id: HTMLTag | (string & {})) => document.createElement(id);
+export const $createTextNode = (data: string) => document.createTextNode(data);
 
 export const $on = HTMLElement.prototype.addEventListener;
 export const $off = HTMLElement.prototype.removeEventListener;

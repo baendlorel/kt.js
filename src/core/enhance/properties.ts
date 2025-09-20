@@ -1,6 +1,5 @@
-// lib
-import { $arrayFrom } from '@/lib/native.js';
-import { $appendChild, $createTextNode } from '@/lib/dom.js';
+import { $arrayFrom, $appendChild, $createTextNode } from '@/lib/index.js';
+
 import { getPrivate, isKEnhanced } from '../privates.js';
 
 export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescriptor> = {

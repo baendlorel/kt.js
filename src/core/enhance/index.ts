@@ -1,5 +1,5 @@
 // lib
-import { $defineProperties } from '@/lib/native.js';
+import { $defineProperties } from '@/lib/index.js';
 import { methods } from './methods.js';
 import { descriptors } from './properties.js';
 

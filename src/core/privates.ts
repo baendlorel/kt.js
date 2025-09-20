@@ -3,11 +3,10 @@ const privates = new WeakMap<HTMLKEnhancedElement, KEnhancedPrivates>();
 /**
  * Trust `get` never returns `undefined`.
  */
-export const getPrivate = privates.get.bind(privates) as (
-  element: HTMLKEnhancedElement
-) => KEnhancedPrivates;
+export const getPrivate = (element: HTMLKEnhancedElement) =>
+  privates.get(element) as KEnhancedPrivates;
 
 export const setPrivate = (element: HTMLKEnhancedElement, privatePart: KEnhancedPrivates) =>
   privates.set(element, privatePart);
 
-export const isKEnhanced = privates.has.bind(privates);
+export const isKEnhanced = (element: HTMLKEnhancedElement) => privates.has(element);

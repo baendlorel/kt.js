@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-[中文](README.zh.md) | [English](README.md) | [CHANGLOG](CHANGELOG.md)
+[中文](README.zh.md) | [English](README.md) | [CHANGLOG✨](CHANGELOG.md)
 
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
@@ -43,17 +43,14 @@ createApp(app);
 
 ## Api
 
-_`Function.prototype.call` is trusted._
-
-- `h` — hyperscript helper
-  - Creates a KT-enhanced DOM element representation.
+- `h` — Creates a KT-enhanced DOM element representation.
   - Typical usage:` h('div', { id: 'root' }, 'Hello')`.
   - Returns an `HTMLKEnhancedElement` (an HTMLElement with extra `enhance` properties described below).
   - Rich aliases like `div`, `span`, `ul`, etc. are available for convenience.
     - `div(attr, content)` is equivalent to `h('div', attr, content)`.
 
 - `createApp` — mount helper
-  - Mounts a root `HTMLKEnhancedElement` to the document.
+  - Mounts a root element to the document.
   - Signature: `createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
   - If `mountTo` is omitted, it tries `#app` and falls back to `document.body`.
 

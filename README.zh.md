@@ -2,28 +2,28 @@
 
 [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-[中文](README.zh.md) | [English](README.md) | [更新日志](CHANGELOG.md)
+[中文](README.zh.md) | [English](README.md) | [CHANGLOG](CHANGELOG.md)
 
-> Note: 本框架还在开发中，api、类型声明等可能会有变化，如果使用，近期请关注更新
+> 注意：本框架仍在开发中。API、类型声明及其它部分可能会经常变更。若在生产中使用，请关注后续更新；有问题也欢迎发邮件联系我。
 
-KT.js 是一个微小的高性能 DOM 工具，专注于最小化重绘和直接操作 DOM。它的设计目标是尽量不强制重绘，只在必要时更新 DOM，从而获得极致性能。
+KT.js 是一个极简、高性能的 DOM 工具库，专注于最小化重渲染和直接的 DOM 操作。它避免不必要的强制重渲染，力求将 DOM 更新控制在最少范围，从而获得最佳性能。
 
-For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
+更多优秀的项目请访问作者主页：[我的主页💛](https://baendlorel.github.io/?repoType=npm)
 
-## 核心理念
+## 设计理念
 
-作为一个web框架，反复创建大量对象、反复重绘是不可接受的，这是对浏览器和V8引擎(或者SpiderMonkey, 或者说JSC)的挑衅。所以我创建了 KT.js。
+作为一个前端工具库，频繁创建大量变量与对象会对浏览器及 JS 引擎（如 V8、SpiderMonkey 或 JSC）造成负担。因此我设计了 KT.js。
 
-KT.js 遵循一条原则：尽量避免不必要的重绘。它直接按需更新 DOM —— 无虚拟 DOM、无自动 diff。这样能保持界面可预测且高效，同时把更新控制权交给开发者。
+KT.js 遵循一条简单规则：避免不必要的重绘（repaint）。它直接并且只在必要的位置更新 DOM —— 无虚拟 DOM、无自动 diff。这样可以让 UI 更可预测且更快，同时把控制权交还给开发者。
 
-- **直接操作 DOM**：只更新真正改变的部分。
-- **最小化更新**：避免不必要的回流与重绘。
-- **可预测且高效**：界面稳定，性能优秀。
-- **开发者掌控**：什么时候更新由你决定。
+- 直接操作 DOM：仅更新发生变化的部分。
+- 最小化更新：避免不必要的重排（reflow）与重绘（repaint）。
+- 可预测且高性能：界面稳定、响应迅速。
+- 开发者掌控：你决定何时更新。
 
 ## 快速开始
 
-通过 npm 安装，但推荐使用 pnpm：
+推荐使用 pnpm 安装，但也支持 npm：
 
 ```bash
 npm install kt.js
@@ -31,7 +31,7 @@ npm install kt.js
 pnpm add kt.js
 ```
 
-将 KT.js 导入到你的项目：
+在项目中引入并使用：
 
 ```ts
 import { h, createApp } from 'kt.js';
@@ -41,47 +41,63 @@ const app = h('div', { id: 'app' }, 'Hello, KT.js!');
 createApp(app);
 ```
 
-## 核心 API
+## API 概览
 
-- `h` — hyperscript 辅助函数
-  - 创建带有 KText 增强属性的 DOM 元素。
-  - 用法示例：h('div', { id: 'root' }, 'Hello')。
-  - 返回 `HTMLKEnhancedElement`（一个带有额外 `enhance` 属性的 HTMLElement）。
+- `h` — 创建一个加强版的HTML元素。
+  - 常见用法：`h('div', { id: 'root' }, 'Hello')`。
+  - 返回一个 `HTMLKEnhancedElement`（即带有额外 enhance 属性的 HTMLElement，详见下文）。
+  - 提供一组别名，例如 `div`、`span`、`ul` 等。
+    - `div(attr, content)` 等价于 `h('div', attr, content)`。
 
-- `createApp` — 挂载助手
-  - 将根 `HTMLKEnhancedElement` 挂载到文档。
-  - 签名：`createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
-  - 若省略 `mountTo`，会尝试 `#app`，找不到则回退到 `document.body`。
+- `createApp` — 将根元素挂载到文档中。
+  - 默认查找 `#app`，找不到时回退到 `document.body`，也可以通过`mountTo`入参指定挂载位置。
+  - 函数签名：`createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
 
-## enhance 增添的属性和方法
+** 与 `@emotion/css` 一起使用 **
 
-当调用 `enhance(element)`（在需要时 `h` 会内部调用）后，HTMLElement 会被增强为 `HTMLKEnhancedElement`，包含以下新增项：
+> 早期我实现过自己的 CSS 处理器，但后来发现没必要。
+
+示例：
+
+```ts
+import { css } from '@emotion/css';
+
+const className = css`
+  color: red;
+  font-size: 20px;
+`;
+
+h('div', { class: className }, 'Styled text');
+```
+
+## Enhance 增强后新增的属性与方法
+
+当对一个元素调用 `enhance(element)`（`h` 在需要时会在内部完成该步骤）后，HTMLElement 会变为 `HTMLKEnhancedElement`，并添加如下扩展：
 
 - 属性
-  - `kid`（number）：由内部 `Indexer.nextKid()` 生成的每个元素唯一索引。
-  - `isKT`（true）：标记元素是 KText 元素的布尔值。
-  - `ktext`（string）：getter/setter，代理内部 Text 节点，可方便地设置文本内容。
-  - `kchildren`（数组）：getter/setter，暴露元素的子项为字符串或增强元素数组。设置 `kchildren` 会替换元素内容，接受字符串、Text 节点或 KT.js 增强元素。
+  - `ktext`（字符串）：getter/setter，代理到存放在元素内部的 Text 节点（用于读写元素文本内容）。
+    - 该 Text 节点由 WeakMap 存储，因此通常无法移除它。将 `ktext` 设为空字符串 `''`可以让它看不见。
+  - `kchildren`（数组）：getter/setter，将元素的子节点以字符串或增强元素数组的形式暴露。设置 `kchildren` 会替换元素的内容，接受字符串、Text 节点或其它 KT.js 的增强元素。
 
 - 方法
-  - `kon(type, listener, options?)` — 增强的 addEventListener
-    - 规范化 options，支持 `triggerLimit`（监听器在触发 N 次后移除；若 `triggerLimit === 1` 则等同于 `once`）。
-    - 返回 listener（或用于限制触发次数的包装监听器）。
-  - `koff(type, listener, options?)` — 增强的 removeEventListener
-    - 移除事件监听，遵循提供的 options。
-  - `kmount(element)` — 挂载/追加辅助方法
-    - 等价于 `element.appendChild(this)`，并返回 `this` 以方便链式调用。
+  - `kon(type, listener, options?)` — 增强版的 addEventListener
+    - 规范化事件选项。支持 `triggerLimit` 选项：当事件触发次数达到限制时会自动移除监听器（若 `triggerLimit === 1` 则等同于 `once`）。
+    - 返回实际注册的监听器（可能是包裹器以支持触发次数限制）。
+  - `koff(type, listener, options?)` — 增强版的 removeEventListener
+    - 在移除监听器时会考虑传入的选项。
+  - `kmount(element)` — 挂载/追加助手
+    - 等价于 `element.appendChild(this)`，并返回 `this` 以便链式调用。
 
-## 注意
+## 说明与注意事项
 
-- 本库直接操作 DOM，故意将重绘控制在最低。
-- `enhance` 为元素添加了非枚举描述符的属性 `ktext`、`isKT` 和 `kid`，并直接赋值 `kon`、`koff`、`kmount` 方法。
-- 该 API 小且低级，旨在作为性能优先的构建块，而非完整的组件框架。
+- 本库直接操作 DOM，并有意将重渲染控制到最小。
+- API 设计小而精，偏底层 —— 目标是作为构建高性能 UI 的基础工具，而不是完整的组件框架。
+- `Function.prototype.call` 被信任，这在某些环境或代码审计中需要注意。
 
-## 贡献
+## 参与贡献
 
-欢迎 PR 和 issue。如果你修改了公共 API，请同步更新 README 和测试。
+欢迎提交 PR 与 issue。如果你的改动会影响公共 API，请同时更新 README 与相应的测试。
 
-## License
+## 许可证
 
 MIT

@@ -17,18 +17,17 @@ type KListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
   ev: HTMLElementEventMap[K]
 ) => unknown;
 
-interface KEnhanced {
+interface KEnhancedPrivates {
   /**
    * Unique numeric identifier for a KT.js enhanced element instance.
    * Used internally to track and distinguish enhanced elements.
    */
-  kid: number;
+  id: number;
 
-  /**
-   * Marker property that is always true for enhanced elements.
-   */
-  isKT: true;
+  text: Text;
+}
 
+interface KEnhanced {
   /**
    * The element's text content as maintained by KT.js.
    * - it is not recommended to use `textContent` any more

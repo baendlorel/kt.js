@@ -1,10 +1,13 @@
-const _textNodes = new WeakMap<HTMLKEnhancedElement, Text>();
+const privates = new WeakMap<HTMLKEnhancedElement, KEnhancedPrivates>();
 
 /**
  * Trust `get` never returns `undefined`.
  */
-export const getTextNode = _textNodes.get.bind(_textNodes) as (
+export const getPrivate = privates.get.bind(privates) as (
   element: HTMLKEnhancedElement
-) => Text;
+) => KEnhancedPrivates;
 
-export const setTextNode = _textNodes.set.bind(_textNodes);
+export const setPrivate = (element: HTMLKEnhancedElement, privatePart: KEnhancedPrivates) =>
+  privates.set(element, privatePart);
+
+export const isKEnhanced = privates.has.bind(privates);

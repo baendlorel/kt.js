@@ -41,7 +41,9 @@ const app = h('div', { id: 'app' }, 'Hello, KT.js!');
 createApp(app);
 ```
 
-## Core Api
+## Api
+
+> Premise: `Function.prototype.call` is trusted.
 
 - `h` — hyperscript helper
   - Creates a KT-enhanced DOM element representation.

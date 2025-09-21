@@ -145,4 +145,10 @@ const ssss = bindParams(sss, 'a');
 
 ---
 
-我在src/lib里缓存了很多原生方法。现在帮我扫描src文件夹下的代码，找出还有哪些方法应该被缓存但没有被缓存的，以及你推荐的工具函数，写在draft/uncached.md里
+## 我在src/lib里缓存了很多原生方法。现在帮我扫描src文件夹下的代码，找出还有哪些方法应该被缓存但没有被缓存的，以及你推荐的工具函数，写在draft/uncached.md里
+
+帮我写一个js测试脚本，要求:
+
+1. 有一个辅助函数叫testTag，入参是一个htmltag，我已经写好你直接用.
+2. 用所有html元素的tag，遍历进入testTag函数
+3. 把整体包裹在名为run的函数内。run最开始会先清空body元素

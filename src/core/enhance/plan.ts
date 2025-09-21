@@ -1,5 +1,10 @@
 /**
- * # Tags where appending a text node has no effect
+ * # Ehancement Plan
+ *
+ * Different elements should be enhanced in different ways. For example, we should have `kvalue` to handle `<input>` values.
+ * While we have no need to have `ktext` for `<br>` tags.
+ *
+ * ## Tags where appending a text node has no effect
  *
  * There are some HTML elements that appending a text node as their child takes no effect.
  * They are mostly void elements, but some non-void elements are also included.
@@ -31,8 +36,15 @@
  * Since `Set.prototype.has` is about 80 times faster than `Array.prototype.includes`,
  * We put these tags into a `Set` object.
  */
-export function isNoTextNodeTag(tag: HTMLTag): boolean {
+// todo 返回值应该换一下，改为判定tag的类别，是没有textnode的，还是要用kvalue的，还是普通的
+export function getTagType(tag: HTMLTag): KEnhanceTagPlan {
   return (INVALID_TAGS as Set<string>).has(tag);
+}
+
+const enum KEnhanceTagPlan {
+  Normal,
+  NoText,
+  UseValue,
 }
 
 const INVALID_TAGS = new Set([

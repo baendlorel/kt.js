@@ -12,8 +12,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       defered-branch:
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^2.2.5
+        version: 2.2.5
     devDependencies:
       '@babel/plugin-proposal-decorators':
         specifier: ^7.28.0
@@ -1310,8 +1310,8 @@ packages:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
 
-  defered-branch@2.2.0:
-    resolution: {integrity: sha512-8+Z4hLFEx4NDwCldW6aN0pgXeke7JiE+7YijqqhTSRCuykCT7NzP2EU6LGAnBKTt4rAPg7wSCrAlxzpw7p8cfw==}
+  defered-branch@2.2.5:
+    resolution: {integrity: sha512-bUYYBFNYJhCb5IS4ga7EA+Tl57rIrz0Sx3aDdJpjP23gC6klJh3RqQZv+EVcrXJn8A8aj6FhELH42s7LZSMO9Q==}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3285,7 +3285,7 @@ snapshots:
 
   deepmerge@4.3.1: {}
 
-  defered-branch@2.2.0: {}
+  defered-branch@2.2.5: {}
 
   eastasianwidth@0.2.0: {}
 

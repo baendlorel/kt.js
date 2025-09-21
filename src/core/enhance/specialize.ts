@@ -36,7 +36,7 @@
  * Since `Set.prototype.has` is about 80 times faster than `Array.prototype.includes`,
  * We put these tags into a `Set` object.
  */
-// todo 返回值应该换一下，改为判定tag的类别，是没有textnode的，还是要用kvalue的，还是普通的
+// todo 对于每个特殊的标签，应该定义不同的KEnhanced来做，比如没有text节点的就不给ktext，输入类的就要操作kvalue等等
 export function getTagType(tag: HTMLTag): KEnhanceTagPlan {
   return (INVALID_TAGS as Set<string>).has(tag);
 }

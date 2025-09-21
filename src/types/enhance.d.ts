@@ -99,4 +99,3 @@ interface KEnhanced {
 type HTMLKEnhancedElement<T extends HTMLTag = NonSpecialTags> =
   (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
     KEnhanced;
-// todo 此处，对于每个特殊的标签，应该定义不同的KEnhanced来做，比如没有text节点的就不给ktext，输入类的就要操作kvalue等等

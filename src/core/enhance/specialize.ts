@@ -1,5 +1,5 @@
 /**
- * # Ehancement Plan
+ * # Specialized Ehancement
  *
  * Different elements should be enhanced in different ways. For example, we should have `kvalue` to handle `<input>` values.
  * While we have no need to have `ktext` for `<br>` tags.

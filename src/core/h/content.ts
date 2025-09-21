@@ -43,8 +43,10 @@ const invalid = (): never => {
 };
 
 type BranchFn = (element: HTMLKEnhancedElement, content: RawContent) => void;
+type NoMatchFn = typeof invalid;
+type PredicateFn = (_: null, content: RawContent) => boolean;
 
-export const contentBranch = deferedBranchDynamic<BranchFn>()
+export const contentBranch = deferedBranchDynamic<BranchFn, NoMatchFn, PredicateFn>()
   .add((_, content) => typeof content === 'string', contentIsString)
   .add((_, content) => $isObject(content), contentIsObject)
   .add((_, content) => $isArray(content), contentIsArray)

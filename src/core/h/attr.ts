@@ -217,8 +217,10 @@ const invalid = (): never => {
 };
 
 type BranchFn = (element: HTMLElement, attr: RawAttribute) => void;
+type NoMatchFn = typeof invalid;
+type PredicateFn = (_: null, attr: RawAttribute) => boolean;
 
-export const attrBranch = deferedBranchDynamic<BranchFn>()
+export const attrBranch = deferedBranchDynamic<BranchFn, NoMatchFn, PredicateFn>()
   .add((_, attr) => typeof attr === 'string', attrIsString)
   .add((_, attr) => $isObject(attr), attrIsObject)
   .nomatch(invalid);

@@ -20,7 +20,8 @@ export function h<T extends HTMLTag>(
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  attrBranch.predicate(attr);
+  attrBranch.predicate(null, attr);
+  contentBranch.predicate(null, content);
 
   // * start creating the element
   const element = $createElement(tag) as HTMLKEnhancedElement<T>;
@@ -35,8 +36,8 @@ export function h<T extends HTMLTag>(
   enhance(element);
 
   // * Handle content
-  contentBranch.run(element, content);
   attrBranch.run(element, attr);
+  contentBranch.run(element, content);
 
   return element;
 }

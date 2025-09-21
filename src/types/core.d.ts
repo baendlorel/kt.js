@@ -9,6 +9,9 @@ type HAlias<T extends HTMLTag> = (
   content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
 ) => HTMLKEnhancedElement<T>;
 
+type RawContent = (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string;
+type RawAttribute = KAttribute | string;
+
 /**
  * Used to create enhanced HTML elements
  */

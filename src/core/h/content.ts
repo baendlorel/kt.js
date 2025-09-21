@@ -1,13 +1,15 @@
-import { deferedBranch } from 'defered-branch';
+import { deferedBranchDynamic } from 'defered-branch';
 import { $isArray, $isObject, $appendChild, $createTextNode } from '@/lib/index.js';
 
 import { isKEnhanced } from '../privates.js';
 
-const contentIsString = (element: HTMLKEnhancedElement, content: string) => {
+const contentIsString = (element: HTMLKEnhancedElement, content: RawContent) => {
+  content = content as string;
   element.ktext = content;
 };
 
-const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | string)[]) => {
+const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
+  content = content as (HTMLKEnhancedElement | string)[];
   const len = content.length;
   for (let i = 0; i < len; i++) {
     const c = content[i];
@@ -25,7 +27,8 @@ const contentIsArray = (element: HTMLElement, content: (HTMLKEnhancedElement | s
   }
 };
 
-const contentIsObject = (element: HTMLElement, content: HTMLKEnhancedElement) => {
+const contentIsObject = (element: HTMLKEnhancedElement, content: RawContent) => {
+  content = content as HTMLKEnhancedElement;
   if (!isKEnhanced(content)) {
     invalid();
   }
@@ -39,11 +42,10 @@ const invalid = (): never => {
   );
 };
 
-export const createContentBranch = (
-  content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
-) =>
-  deferedBranch()
-    .add(typeof content === 'string', contentIsString)
-    .add($isObject(content), contentIsObject)
-    .add($isArray(content), contentIsArray)
-    .nomatch(invalid);
+type BranchFn = (element: HTMLKEnhancedElement, content: RawContent) => void;
+
+export const contentBranch = deferedBranchDynamic<BranchFn>()
+  .add((_, content) => typeof content === 'string', contentIsString)
+  .add((_, content) => $isObject(content), contentIsObject)
+  .add((_, content) => $isArray(content), contentIsArray)
+  .nomatch(invalid);

@@ -3,8 +3,8 @@ import { $createElement, $createTextNode, $appendChild } from '@/lib/index.js';
 
 import { enhance } from '../enhance/index.js';
 import { setPrivate } from '../privates.js';
-import { createAttrBranch } from './attr.js';
-import { createContentBranch } from './content.js';
+import { attrBranch } from './attr.js';
+import { contentBranch } from './content.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -14,14 +14,13 @@ import { createContentBranch } from './content.js';
  */
 export function h<T extends HTMLTag>(
   tag: T,
-  attr: KAttribute | string = '',
-  content: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string = ''
+  attr: RawAttribute = '',
+  content: RawContent = ''
 ): HTMLKEnhancedElement<T> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  const attrBranch = createAttrBranch(attr);
-  const contentBranch = createContentBranch(content);
+  attrBranch.predicate(attr);
 
   // * start creating the element
   const element = $createElement(tag) as HTMLKEnhancedElement<T>;

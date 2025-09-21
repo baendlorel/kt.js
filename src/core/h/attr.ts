@@ -1,9 +1,15 @@
-import { deferedBranch } from 'defered-branch';
+import { deferedBranchDynamic } from 'defered-branch';
 import { $isObject, $setAttr, $isArray, $assign, $keys, $domTokenListAdd } from '@/lib/index.js';
 
-const attrIsString = (element: HTMLElement, attr: string) => (element.className = attr);
+const attrIsString = (element: HTMLElement, attr: RawAttribute) => {
+  attr = attr as string;
 
-const attrIsObject = (element: HTMLElement, attr: KAttribute) => {
+  element.className = attr;
+};
+
+const attrIsObject = (element: HTMLElement, attr: RawAttribute) => {
+  attr = attr as KAttribute;
+
   if (attr.class) {
     if ($isArray(attr.class)) {
       $domTokenListAdd.apply(element.classList, attr.class);
@@ -210,9 +216,9 @@ const invalid = (): never => {
   throw new TypeError('[__NAME__:h] attr must be an object.');
 };
 
-export const createAttrBranch = (attr: KAttribute | string) =>
-  // todo 改用deferedBranchDynamic
-  deferedBranch()
-    .add(typeof attr === 'string', attrIsString)
-    .add($isObject(attr), attrIsObject)
-    .nomatch(invalid);
+type BranchFn = (element: HTMLElement, attr: RawAttribute) => void;
+
+export const attrBranch = deferedBranchDynamic<BranchFn>()
+  .add((_, attr) => typeof attr === 'string', attrIsString)
+  .add((_, attr) => $isObject(attr), attrIsObject)
+  .nomatch(invalid);

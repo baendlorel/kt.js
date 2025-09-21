@@ -1,7 +1,4 @@
 //__EXPORT__FLAG__
-type HTMLTag = keyof HTMLElementTagNameMap;
-
-//__EXPORT__FLAG__
 type KChildren = HTMLKEnhancedElement | Text;
 
 interface KOnOptions extends AddEventListenerOptions {
@@ -91,13 +88,6 @@ interface KEnhanced {
    */
   kmount: <El extends HTMLKEnhancedElement>(this: El, element: HTMLKEnhancedElement) => El;
 }
-
-/**
- * Get the tags that makes HTMLElementTagNameMap[tag] = HTMLElement
- */
-type NonSpecialTags = {
-  [K in keyof HTMLElementTagNameMap]: HTMLElement extends HTMLElementTagNameMap[K] ? K : never;
-}[keyof HTMLElementTagNameMap];
 
 /**
  * This is the core feature of KT.js - enhanced HTML elements.

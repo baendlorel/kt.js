@@ -8,6 +8,7 @@ import { contentBranch } from './content.js';
 
 /**
  * Create an enhanced HTMLElement.
+ * - Only supports HTMLElements, **NOT** SVGElements or other Elements.
  * @param tag tag of an `HTMLElement`
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes

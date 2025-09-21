@@ -1,7 +1,8 @@
 declare const __IS_DEV__: boolean;
 
-type Constructor<T = any> = new (...args: any[]) => T;
-type Factory<T = any> = (...args: any[]) => T;
+type Constructor<T> = new (...args: unknown[]) => T;
+
+type Factory<T> = (...args: unknown[]) => T;
 
 /**
  * Normal HTML tags like `div`, `span`, `a`, etc.

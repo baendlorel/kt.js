@@ -5,6 +5,7 @@
     "oxlint-plugin-typescript/recommended"
   ],
   "ignorePatterns": [
+    "draft/",
     "dist/",
     "node_modules/",
     "coverage/",

@@ -1,0 +1,1 @@
+type KRefBound = [HTMLKEnhancedElement, string];

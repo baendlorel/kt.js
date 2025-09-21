@@ -1,9 +1,19 @@
-// 所有响应式都要基于这个
-
-export class KRef<T = any> {
+export class KRef<T = unknown> {
   private _value: T;
   private _type: Factory<T>;
-  private readonly _boundValue: (HTMLKEnhancedElement & { value: any })[] = [];
+
+  /**
+   * Shrink object items to an aggregated array to save memory and speed up iteration.
+   *
+   * **Pair Convention**
+   * 1. element
+   * 2. onchange field - means when `change` event is triggered, which field will be really changed.
+   */
+  private readonly _bound: KRefBound[number][] = [];
+
+  /**
+   * Prevent infinite loop when element change triggers ref change which triggers element change again.
+   */
   private _preventChangeFlag: boolean = false;
 
   constructor(value: T, _type: Factory<T>) {
@@ -13,9 +23,13 @@ export class KRef<T = any> {
 
   set value(newValue: T) {
     this._value = newValue;
-    const len = this._boundValue.length;
-    for (let i = 0; i < len; i++) {
-      this._boundValue[i].value = newValue;
+
+    // set all bound elements' value
+    const len = this._bound.length;
+    for (let i = 0; i < len; i += 2) {
+      // @ts-ignore
+      // & [i, i+1] satisfies KRefBound
+      this._bound[i][this._bound[i + 1]] = newValue;
     }
   }
 
@@ -23,29 +37,32 @@ export class KRef<T = any> {
     return this._value;
   }
 
-  bindValue(el: HTMLKEnhancedElement): boolean {
-    if (!('value' in el)) {
+  bind<El extends HTMLKEnhancedElement>(element: El, field: keyof El): boolean {
+    if (!(field in element)) {
       return false;
     }
 
-    el.kon('change', () => {
+    element.kon('change', () => {
       if (this._preventChangeFlag) {
         return;
       }
-      this._value = this._type(el.value);
+      this._value = this._type(element[field]);
       this._triggerElementValueChange(this._value);
     });
 
-    this._boundValue.push(el);
+    this._bound.push(element);
 
     return true;
   }
 
   private _triggerElementValueChange(newValue: T) {
     this._preventChangeFlag = true;
-    const len = this._boundValue.length;
-    for (let i = 0; i < len; i++) {
-      this._boundValue[i].value = newValue;
+    const len = this._bound.length;
+
+    for (let i = 0; i < len; i += 2) {
+      // @ts-ignore
+      // & [i, i+1] satisfies KRefBound
+      this._bound[i][this._bound[i + 1]] = newValue;
     }
     this._preventChangeFlag = false;
   }

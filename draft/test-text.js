@@ -94,7 +94,11 @@ function collect() {
   pre.style.fontSize = '16px';
   pre.style.margin = '20px';
   pre.style.color = '#c12525';
-  pre.textContent = getBrowserName() + ' :\n' + invalidTextNodeTags.join(', ').toLowerCase();
+  pre.textContent =
+    getBrowserName().replace(/\s/, '') +
+    ':\n`' +
+    invalidTextNodeTags.join(', ').toLowerCase() +
+    '`,';
 
   header.appendChild(pre);
 }
@@ -244,29 +248,7 @@ function run() {
   ];
 
   htmlTags.forEach(testTag);
-  setTimeout(() => {
-    try {
-      collect();
-    } catch (/**  @type {any} */ error) {
-      if (typeof error === 'string') {
-        alert(error);
-      } else if (typeof error === 'object' && error !== null) {
-        alert(error.message);
-      } else {
-        alert(String(error));
-      }
-    }
-  }, 1000);
+  setTimeout(collect, 1000);
 }
 
-try {
-  run();
-} catch (/**  @type {any} */ error) {
-  if (typeof error === 'string') {
-    alert(error);
-  } else if (typeof error === 'object' && error !== null) {
-    alert(error.message);
-  } else {
-    alert(String(error));
-  }
-}
+run();

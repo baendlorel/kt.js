@@ -15,7 +15,7 @@ import { $appendChild, $getElementById, $is, $isObject } from './lib/index.js';
  */
 function createApp(
   rootElement: HTMLKEnhancedElement,
-  mountTo: HTMLElement = NotProvided as unknown as HTMLElement
+  mountTo: HTMLElement = NotProvided as any
 ): void {
   if (!isKEnhanced(rootElement)) {
     throw new TypeError('Root element must be a KText element.');

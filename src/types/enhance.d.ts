@@ -12,7 +12,7 @@ interface KOnOptions extends AddEventListenerOptions {
 type KListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
   this: E,
   ev: HTMLElementEventMap[K]
-) => unknown;
+) => any;
 
 interface KEnhancedPrivates {
   /**

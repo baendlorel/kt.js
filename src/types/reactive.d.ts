@@ -1,6 +1,6 @@
 type KRefBound = [HTMLKEnhancedElement, string];
 
-type Transform<A = unknown, B = unknown> = (value: A) => B;
+type Transform<A = any, B = any> = (value: A) => B;
 
 type KValueArgs0<T, E extends HTMLKEnhancedElement, ElementValueType = string> = [];
 type KValueArgs1<T, E extends HTMLKEnhancedElement, ElementValueType = string> = [E];

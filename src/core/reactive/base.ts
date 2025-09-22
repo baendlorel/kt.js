@@ -1,4 +1,4 @@
-export class KBaseRef<T = unknown> {
+export class KBaseRef<T extends any> {
   protected _value: T;
 
   constructor(value: T) {

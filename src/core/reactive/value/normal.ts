@@ -11,9 +11,9 @@ export class KValue<T extends any> extends KValueSimple<T> {
   /**
    * Transform element's field value to value.
    */
-  private _etov: Transform<unknown, T>;
+  private _etov: Transform<any, T>;
 
-  constructor(value: T, vtoe: Transform<T>, etov: Transform<unknown, T>) {
+  constructor(value: T, vtoe: Transform<T>, etov: Transform<any, T>) {
     super(value);
     this._etov = etov;
     this._vtoe = vtoe;

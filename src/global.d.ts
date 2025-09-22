@@ -1,10 +1,11 @@
 declare const __IS_DEV__: boolean;
+// declare function TErr(message?: string, options?: ErrorOptions): never;
 
 type otherstring = string & {};
 
-type Constructor<T> = new (...args: unknown[]) => T;
+type Constructor<T> = new (...args: any[]) => T;
 
-type Factory<T> = (...args: unknown[]) => T;
+type Factory<T> = (...args: any[]) => T;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFn = (...args: any[]) => any;

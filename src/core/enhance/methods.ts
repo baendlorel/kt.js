@@ -8,10 +8,10 @@ export const methods: PickMethod<KEnhanced> = {
     this: E,
     type: T,
     listener: KListener<HTMLElement, T>,
-    options: KOnOptions = NotProvided as unknown as KOnOptions
+    options: KOnOptions = NotProvided
   ): KListener<E, T> {
     // * in case of no options provided, which is the most common usage
-    if ($is(options, NotProvided)) {
+    if ($is<symbol>(options, NotProvided)) {
       $on.call(this, type, listener as EventListener);
       return listener;
     }
@@ -50,7 +50,7 @@ export const methods: PickMethod<KEnhanced> = {
     this: E,
     type: K,
     listener: KListener<HTMLElement, K>,
-    options: KOnOptions = NotProvided as unknown as KOnOptions
+    options: KOnOptions = NotProvided
   ): void {
     if ($is(NotProvided, options)) {
       $off.call(this, type, listener as EventListener);

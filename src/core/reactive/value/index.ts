@@ -135,6 +135,10 @@ const branch = deferedBranchDynamic<BranchFn>()
     }
   );
 
+/**
+ * Create a reactive value that can be bound to an element's value or other properties.
+ * @param initialValue
+ */
 export function kvalue<T, E extends HTMLKEnhancedElement>(initialValue: T): KValueSimple<T>;
 export function kvalue<T, E extends HTMLKEnhancedElement>(
   initialValue: T,
@@ -148,7 +152,19 @@ export function kvalue<T, E extends HTMLKEnhancedElement, EValueType = string>(
   etov?: Transform<EValueType, T>
 ): KValue<T>;
 
-export function kvalue<T, E extends HTMLKEnhancedElement>(
+export function kvalue<T extends any, E extends HTMLKEnhancedElement>(
   initialValue: T,
   ...args: KValueArgs<T, E>
-) {}
+) {
+  switch (args.length) {
+    case 0:
+      return new KValueSimple<string>(initialValue);
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+
+    default:
+      throw new TypeError(`[__NAME__:kvalue] invalid arguments`);
+  }
+}

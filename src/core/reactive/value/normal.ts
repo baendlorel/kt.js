@@ -1,22 +1,26 @@
 import { $on } from '@/lib/dom.js';
 import { $arrayPush } from '@/lib/native.js';
+
+import { trivial } from './transformers.js';
 import { KValueSimple } from './simple.js';
+
+type VToE = (value: any) => any;
+type EToV = (value: any) => any;
 
 export class KValue<T extends any> extends KValueSimple<T> {
   /**
-   * Transform value to element's field value.
+   * Shrink object items to an aggregated array to save memory and speed up iteration.
+   *
+   * **Pair Convention**
+   * 1. element
+   * 2. onchange field - means when `change` event is triggered, which field will be really changed.
+   * 3. VToE: transfer from value to element.value
+   * 4. EToV: transfer from element.value to value
    */
-  private _vtoe: Transform<T>;
+  protected override readonly _bound: any[] = [];
 
-  /**
-   * Transform element's field value to value.
-   */
-  private _etov: Transform<any, T>;
-
-  constructor(value: T, vtoe: Transform<T>, etov: Transform<any, T>) {
+  constructor(value: T) {
     super(value);
-    this._etov = etov;
-    this._vtoe = vtoe;
   }
 
   override set value(newValue: T) {
@@ -24,10 +28,9 @@ export class KValue<T extends any> extends KValueSimple<T> {
 
     // set all bound elements' value
     const len = this._bound.length;
-    for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // @ts-ignore
-      // [INFO] [i, i+1] satisfies KRefBound
-      this._bound[i][this._bound[i + 1]] = this._vtoe(newValue);
+    for (let i = 0; i < len; i += 4 satisfies KValueBoundTuple['length']) {
+      //& element ↓          field ↓                vtoe ↓
+      this._bound[i][this._bound[i + 1]] = this._bound[i + 2](newValue);
     }
   }
 
@@ -38,9 +41,11 @@ export class KValue<T extends any> extends KValueSimple<T> {
    * @param field mostly is `value` or `checked`
    * @returns this
    */
-  bindChange<E extends HTMLKEnhancedElement>(
+  override bindChange<E extends HTMLKEnhancedElement>(
     element: E,
-    field: ChangeTriggerField | otherstring
+    field: ChangeTriggerField | otherstring,
+    vtoe: VToE = trivial,
+    etov: EToV = trivial
   ): this {
     if (!(field in element)) {
       return this;
@@ -48,11 +53,11 @@ export class KValue<T extends any> extends KValueSimple<T> {
 
     $on.call(element, 'change', () => {
       const v = (element as any)[field] as T;
-      this._value = this._etov(v);
+      this._value = etov(v);
       this._spreadChange(v);
     });
 
-    $arrayPush.call(this._bound, element, field);
+    $arrayPush.call(this._bound, element, field, vtoe, etov);
 
     return this;
   }

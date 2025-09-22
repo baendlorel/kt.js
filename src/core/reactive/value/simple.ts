@@ -11,7 +11,7 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
    * 1. element
    * 2. onchange field - means when `change` event is triggered, which field will be really changed.
    */
-  protected readonly _bound: KRefBound[number][] = [];
+  protected readonly _bound: any[] = [];
 
   constructor(value: T) {
     super(value);
@@ -22,10 +22,9 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
 
     // set all bound elements' value
     const len = this._bound.length;
-    for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // [INFO] [i, i+1] satisfies KRefBound
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (this._bound[i] as any)[this._bound[i + 1] as string] = newValue;
+    for (let i = 0; i < len; i += 2 satisfies KValueSimpleBoundTuple['length']) {
+      //& element ↓          field ↓
+      this._bound[i][this._bound[i + 1]] = newValue;
     }
   }
 
@@ -62,10 +61,9 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
   protected _spreadChange(newElementValue: T) {
     const len = this._bound.length;
 
-    for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // [INFO] [i, i+1] satisfies KRefBound
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (this._bound[i] as any)[this._bound[i + 1] as string] = newElementValue;
+    for (let i = 0; i < len; i += 2 satisfies KValueSimpleBoundTuple['length']) {
+      //& element ↓          field ↓
+      this._bound[i][this._bound[i + 1]] = newElementValue;
     }
   }
 }

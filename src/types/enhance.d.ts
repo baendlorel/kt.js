@@ -99,3 +99,8 @@ interface KEnhanced {
 type HTMLKEnhancedElement<T extends HTMLTag = NonSpecialTags> =
   (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
     KEnhanced;
+
+//__EXPORT__FLAG__
+type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> =
+  (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
+    KEnhanced;

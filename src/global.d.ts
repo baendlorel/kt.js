@@ -69,3 +69,5 @@ type NoTextNodeTag =
  * These fields of HTMLElement can trigger `change`.
  */
 type ChangeTriggerField = 'value' | 'checked' | 'selected' | 'valueAsDate' | 'valueAsNumber';
+
+type InputElementTag = 'input' | 'select' | 'textarea';

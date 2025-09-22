@@ -1,7 +1,6 @@
 import { KValueSimple } from './simple.js';
 import { KValue } from './normal.js';
 import { bindValueAsDate, bindValueAsNumber } from './binders.js';
-import { trivial } from './transformers.js';
 
 const autoBind = (initialValue: any, el: HTMLKEnhancedElement) => {
   switch (el.tagName) {
@@ -46,23 +45,22 @@ const autoBind = (initialValue: any, el: HTMLKEnhancedElement) => {
 
 /**
  * Create a reactive value that can be bound to an element's value or other properties.
+ * - this version needs `vtoe` and `etov` transformers to convert value between element and value
  * - the binding is valid **if and only if** when element's field can trigger a change event.
  * @param initialValue the initial value
  * @returns when vtoe and etov are provided, return KValue<T>, otherwise return KValueSimple<T>
  */
 export function kvalue<T>(initialValue: T) {
-  switch (args.length) {
-    case 0:
-      return new KValueSimple<T>(initialValue);
-    case 1:
-      return autoBind(initialValue, args[0]);
-    case 2:
-      return new KValueSimple<T>(initialValue).bindChange(args[0], args[1]);
-    case 3:
-      return new KValue<T>(initialValue, args[2], trivial).bindChange(args[0], args[1]);
-    case 4:
-      return new KValue<T>(initialValue, args[2], args[3]).bindChange(args[0], args[1]);
-    default:
-      throw new TypeError(`[__NAME__:kvalue] invalid arguments`);
-  }
+  return new KValue<T>(initialValue);
+}
+
+/**
+ * Create a reactive value that can be bound to an element's value or other properties.
+ * - the binding is valid **if and only if** when element's field can trigger a change event.
+ * - No `vtoe` and `etov`, values are passed as they are. (Be aware of the elements like `<input type="number">`, their value's types might be different from `initialValue`)
+ * @param initialValue the initial value
+ * @returns when vtoe and etov are provided, return KValue<T>, otherwise return KValueSimple<T>
+ */
+export function kvalueSimple<T>(initialValue: T) {
+  return new KValueSimple<T>(initialValue);
 }

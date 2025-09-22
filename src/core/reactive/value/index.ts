@@ -1,47 +1,5 @@
 import { KValueSimple } from './simple.js';
 import { KValue } from './normal.js';
-import { bindValueAsDate, bindValueAsNumber } from './binders.js';
-
-const autoBind = (initialValue: any, el: HTMLKEnhancedElement) => {
-  switch (el.tagName) {
-    case 'input': {
-      const elementType = (el as HTMLKEnhancedElement<'input'>).type;
-      if (elementType === 'number') {
-        return bindValueAsNumber(initialValue as number, el as HTMLKEnhancedElement<'input'>);
-      }
-
-      if (elementType === 'checkbox') {
-        return new KValueSimple<boolean>(Boolean(initialValue)).bindChange(el, 'checked');
-      }
-
-      if (elementType === 'radio') {
-        return new KValueSimple<string>(String(initialValue)).bindChange(el, 'value');
-      }
-
-      if (
-        elementType === 'date' ||
-        elementType === 'time' ||
-        elementType === 'week' ||
-        elementType === 'month'
-      ) {
-        return bindValueAsDate(initialValue as Date, el as HTMLKEnhancedElement<'input'>);
-      }
-
-      // & fallback to value
-      return new KValueSimple<string>(String(initialValue)).bindChange(el, 'value');
-    }
-    case 'select': {
-      return new KValueSimple<string>(String(initialValue)).bindChange(el, 'value');
-    }
-    case 'textarea': {
-      return new KValueSimple<string>(String(initialValue)).bindChange(el, 'value');
-    }
-    default:
-      throw new TypeError(
-        `[__NAME__:kvalue] Cannot automically bind field on <${el.tagName}>, please specify the field manually(you can also provide vtoe and etov transformers).`
-      );
-  }
-};
 
 /**
  * Create a reactive value that can be bound to an element's value or other properties.

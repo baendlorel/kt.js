@@ -1,7 +1,8 @@
-import { $on } from '@/lib/dom.js';
-import { $arrayPush } from '@/lib/native.js';
+import { NotProvided } from '@/consts/sym.js';
+import { $on, $arrayPush, $isInputElement } from '@/lib/index.js';
 
 import { KBaseRef } from '../base.js';
+import { detectOnChangeField } from './detect-field.js';
 
 export class KValueSimple<T extends any> extends KBaseRef<T> {
   /**
@@ -30,15 +31,26 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
 
   /**
    * Bind on element's field that would trigger `change` event.
+   * - only works on `<input>`, `<select>`, `<textarea>`
    * - if the field does not trigger `change`, nothing will happen.
    * @param element an enhanced element
    * @param field mostly is `value` or `checked`
    * @returns this
    */
-  bindChange<E extends HTMLKEnhancedElement>(
+  bindChange<E extends HTMLKEnhancedInputElement>(
     element: E,
-    field: ChangeTriggerField | otherstring
+    field: ChangeTriggerField | otherstring = NotProvided
   ): this {
+    if (!$isInputElement(element)) {
+      throw new TypeError(
+        `[__NAME__:bindChange] element must be <input>|<select>|<textarea>, got <${(element as HTMLElement).tagName}>`
+      );
+    }
+
+    if (field === NotProvided) {
+      field = detectOnChangeField(element);
+    }
+
     if (!(field in element)) {
       return this;
     }

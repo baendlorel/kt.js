@@ -1,12 +1,12 @@
 import { NotProvided } from '@/consts/sym.js';
-import { $on } from '@/lib/dom.js';
-import { $arrayPush } from '@/lib/native.js';
+import { $on, $arrayPush, $isInputElement } from '@/lib/index.js';
 
-import { trivial } from './transformers.js';
 import { KValueSimple } from './simple.js';
+import { detectOnChangeField } from './detect-field.js';
 
 type VToE = (value: any) => any;
 type EToV = (value: any) => any;
+const trivial: AnyFn = (v) => v;
 
 export class KValue<T extends any> extends KValueSimple<T> {
   /**
@@ -37,18 +37,26 @@ export class KValue<T extends any> extends KValueSimple<T> {
 
   /**
    * Bind on element's field that would trigger `change` event.
+   * - only works on `<input>`, `<select>`, `<textarea>`
    * - if the field does not trigger `change`, nothing will happen.
    * @param element an enhanced element
    * @param field mostly is `value` or `checked`
    * @returns this
    */
-  override bindChange<E extends HTMLKEnhancedElement>(
+  override bindChange<E extends HTMLKEnhancedInputElement>(
     element: E,
     field: ChangeTriggerField | otherstring = NotProvided,
     vtoe: VToE = trivial,
     etov: EToV = trivial
   ): this {
+    if (!$isInputElement(element)) {
+      throw new TypeError(
+        `[__NAME__:bindChange] element must be <input>|<select>|<textarea>, got <${(element as HTMLElement).tagName}>`
+      );
+    }
+
     if (field === NotProvided) {
+      field = detectOnChangeField(element);
     }
 
     if (!(field in element)) {

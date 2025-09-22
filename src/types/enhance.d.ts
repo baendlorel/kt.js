@@ -102,5 +102,4 @@ type HTMLKEnhancedElement<T extends HTMLTag = NonSpecialTags> =
 
 //__EXPORT__FLAG__
 type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> =
-  (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
-    KEnhanced;
+  HTMLKEnhancedElement<T>;

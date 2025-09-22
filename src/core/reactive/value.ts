@@ -1,8 +1,9 @@
 import { $on } from '@/lib/dom.js';
+import { $arrayPush } from '@/lib/native.js';
 
-export class KRef<T = unknown> {
-  private _value: T;
+import { KBaseRef } from './base.js';
 
+export class KValue<T = unknown> extends KBaseRef<T> {
   private _type: Factory<T>;
 
   /**
@@ -15,24 +16,23 @@ export class KRef<T = unknown> {
   private readonly _bound: KRefBound[number][] = [];
 
   constructor(value: T, _type: Factory<T>) {
-    this._value = value;
+    super(value);
     this._type = _type;
   }
 
-  set value(newValue: T) {
+  override set value(newValue: T) {
     this._value = newValue;
 
     // set all bound elements' value
     const len = this._bound.length;
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // @ts-ignore [INFO] [i, i+1] satisfies KRefBound
+      // @ts-ignore
+      // [INFO] [i, i+1] satisfies KRefBound
       this._bound[i][this._bound[i + 1]] = newValue;
     }
   }
 
-  get value() {
-    return this._value;
-  }
+  // #region value
 
   /**
    * Bind on element's field that would trigger `change` event.
@@ -48,20 +48,27 @@ export class KRef<T = unknown> {
 
     $on.call(element, 'change', () => {
       this._value = this._type(element[field]);
-      this._triggerElementValueChange(this._value);
+      this._spreadChange(this._value);
     });
 
-    this._bound.push(element, field);
+    $arrayPush.call(this._bound, element, field);
 
     return true;
   }
 
-  private _triggerElementValueChange(newValue: T) {
+  /**
+   * When one element's field is changed, spread it to other registered elements.
+   * @param newValue
+   */
+  private _spreadChange(newValue: T) {
     const len = this._bound.length;
 
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // @ts-ignore [INFO] [i, i+1] satisfies KRefBound
+      // @ts-ignore
+      // [INFO] [i, i+1] satisfies KRefBound
       this._bound[i][this._bound[i + 1]] = newValue;
     }
   }
+
+  // #endregion
 }

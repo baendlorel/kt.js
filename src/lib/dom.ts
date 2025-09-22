@@ -25,6 +25,7 @@ export const $removeChild = HTMLElement.prototype.removeChild;
 export const $replaceChild = HTMLElement.prototype.replaceChild;
 export const $setAttr = HTMLElement.prototype.setAttribute;
 export const $getAttr = HTMLElement.prototype.getAttribute;
-export const $sremoveAttr = HTMLElement.prototype.removeAttribute;
+export const $removeAttr = HTMLElement.prototype.removeAttribute;
+export const $replaceWith = HTMLElement.prototype.replaceWith;
 
 export const $domTokenListAdd = DOMTokenList.prototype.add;

@@ -3,7 +3,7 @@ import { $arrayPush } from '@/lib/native.js';
 
 import { KBaseRef } from '../base.js';
 
-export class KValueSimple<T> extends KBaseRef<T> {
+export class KValueSimple<T extends any> extends KBaseRef<T> {
   /**
    * Shrink object items to an aggregated array to save memory and speed up iteration.
    *

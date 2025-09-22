@@ -2,7 +2,7 @@ import { $on } from '@/lib/dom.js';
 import { $arrayPush } from '@/lib/native.js';
 import { KValueSimple } from './simple.js';
 
-export class KValue<T> extends KValueSimple<T> {
+export class KValue<T extends any> extends KValueSimple<T> {
   /**
    * Transform value to element's field value.
    */

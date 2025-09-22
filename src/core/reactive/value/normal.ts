@@ -6,14 +6,14 @@ export class KValue<T> extends KValueSimple<T> {
   /**
    * Transform value to element's field value.
    */
-  private _vtoe: Factory<T>;
+  private _vtoe: Transform<T>;
 
   /**
    * Transform element's field value to value.
    */
-  private _etov: Factory<T>;
+  private _etov: Transform<unknown, T>;
 
-  constructor(value: T, vtoe: Factory<T>, etov: Factory<T>) {
+  constructor(value: T, vtoe: Transform<T>, etov: Transform<unknown, T>) {
     super(value);
     this._etov = etov;
     this._vtoe = vtoe;
@@ -38,8 +38,8 @@ export class KValue<T> extends KValueSimple<T> {
    * @param field mostly is `value` or `checked`
    * @returns this
    */
-  bindChange<El extends HTMLKEnhancedElement>(
-    element: El,
+  bindChange<E extends HTMLKEnhancedElement>(
+    element: E,
     field: ChangeTriggerField | otherstring
   ): this {
     if (!(field in element)) {
@@ -47,8 +47,9 @@ export class KValue<T> extends KValueSimple<T> {
     }
 
     $on.call(element, 'change', () => {
-      this._value = this._etov(element[field]);
-      this._spreadChange(element[field] as T);
+      const v = (element as any)[field] as T;
+      this._value = this._etov(v);
+      this._spreadChange(v);
     });
 
     $arrayPush.call(this._bound, element, field);

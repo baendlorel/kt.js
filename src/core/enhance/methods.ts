@@ -4,12 +4,12 @@ import { $appendChild, $on, $off, $is, $isObject, $isSafeInteger } from '@/lib/i
 import { isKEnhanced } from '../privates.js';
 
 export const methods: PickMethod<KEnhanced> = {
-  kon<El extends HTMLElement, T extends keyof HTMLElementEventMap>(
-    this: El,
+  kon<E extends HTMLElement, T extends keyof HTMLElementEventMap>(
+    this: E,
     type: T,
     listener: KListener<HTMLElement, T>,
     options: KOnOptions = NotProvided as unknown as KOnOptions
-  ): KListener<El, T> {
+  ): KListener<E, T> {
     // * in case of no options provided, which is the most common usage
     if ($is(options, NotProvided)) {
       $on.call(this, type, listener as EventListener);
@@ -35,7 +35,7 @@ export const methods: PickMethod<KEnhanced> = {
     }
 
     let count = triggerLimit;
-    const newHandler = function (this: El, ev: HTMLElementEventMap[T]) {
+    const newHandler = function (this: E, ev: HTMLElementEventMap[T]) {
       const result = listener.call(this, ev);
       count--;
       if (count <= 0) {
@@ -46,8 +46,8 @@ export const methods: PickMethod<KEnhanced> = {
     $on.call(this, type, newHandler as EventListener, options);
     return newHandler;
   },
-  koff<El extends HTMLElement, K extends keyof HTMLElementEventMap>(
-    this: El,
+  koff<E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+    this: E,
     type: K,
     listener: KListener<HTMLElement, K>,
     options: KOnOptions = NotProvided as unknown as KOnOptions
@@ -59,11 +59,11 @@ export const methods: PickMethod<KEnhanced> = {
 
     $off.call(this, type, listener as EventListener, options);
   },
-  kmount<El extends HTMLKEnhancedElement>(this: El, target: HTMLKEnhancedElement): El {
+  kmount<E extends HTMLKEnhancedElement>(this: E, target: HTMLKEnhancedElement): E {
     if (!isKEnhanced(target)) {
       throw new TypeError('[__NAME__:kmount] target must be a KText element.');
     }
 
-    return $appendChild.call(target, this) as El;
+    return $appendChild.call(target, this) as E;
   },
 };

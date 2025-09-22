@@ -36,8 +36,8 @@ export class KValueSimple<T> extends KBaseRef<T> {
    * @param field mostly is `value` or `checked`
    * @returns this
    */
-  bindChange<El extends HTMLKEnhancedElement>(
-    element: El,
+  bindChange<E extends HTMLKEnhancedElement>(
+    element: E,
     field: ChangeTriggerField | otherstring
   ): this {
     if (!(field in element)) {
@@ -45,8 +45,9 @@ export class KValueSimple<T> extends KBaseRef<T> {
     }
 
     $on.call(element, 'change', () => {
-      this._value = element[field] as T;
-      this._spreadChange(element[field] as T);
+      const v = (element as any)[field] as T;
+      this._value = v;
+      this._spreadChange(v);
     });
 
     $arrayPush.call(this._bound, element, field);

@@ -12,10 +12,10 @@ export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescript
     },
   },
   kchildren: {
-    get<El extends HTMLKEnhancedElement>(this: El): KChildren[] {
+    get<E extends HTMLKEnhancedElement>(this: E): KChildren[] {
       return $arrayFrom(this.children) as KChildren[];
     },
-    set<El extends HTMLKEnhancedElement>(this: El, elements: (KChildren | string)[]): void {
+    set<E extends HTMLKEnhancedElement>(this: E, elements: (KChildren | string)[]): void {
       this.textContent = '';
       $appendChild.call(this, getPrivate(this).text); // keep text node always available
 

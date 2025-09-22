@@ -1,6 +1,6 @@
 import { KValueSimple } from './simple.js';
 import { toNumber, trivial } from './transformers.js';
-import { KValue } from './with-transformer.js';
+import { KValue } from './normal.js';
 
 /**
  * Special values of `input.type`:

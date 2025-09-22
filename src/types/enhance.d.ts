@@ -51,12 +51,12 @@ interface KEnhanced {
    * @param options listener options or capture flag
    * @returns the listener function typed for the specific element and event
    */
-  kon: <El extends HTMLElement, K extends keyof HTMLElementEventMap>(
-    this: El,
+  kon: <E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+    this: E,
     type: K,
     listener: KListener<HTMLElement, K>,
     options?: KOnOptions
-  ) => KListener<El, K>;
+  ) => KListener<E, K>;
 
   /**
    * Remove or detach an event listener from the element. Semantically this
@@ -71,8 +71,8 @@ interface KEnhanced {
    * @param listener event listener to remove
    * @param options listener options
    */
-  koff: <El extends HTMLElement, K extends keyof HTMLElementEventMap>(
-    this: El,
+  koff: <E extends HTMLElement, K extends keyof HTMLElementEventMap>(
+    this: E,
     type: K,
     listener: KListener<HTMLElement, K>,
     options?: KOnOptions
@@ -86,7 +86,7 @@ interface KEnhanced {
    * @param element the DOM element to mount into
    * @returns the mounted enhanced element (this)
    */
-  kmount: <El extends HTMLKEnhancedElement>(this: El, element: HTMLKEnhancedElement) => El;
+  kmount: <E extends HTMLKEnhancedElement>(this: E, element: HTMLKEnhancedElement) => E;
 }
 
 /**

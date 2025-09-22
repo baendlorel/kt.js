@@ -135,11 +135,10 @@ const branch = deferedBranchDynamic<BranchFn>()
     }
   );
 
-export function kvalue<T, E extends HTMLKEnhancedElement>(initialValue: T): KValue<T>;
+export function kvalue<T, E extends HTMLKEnhancedElement>(initialValue: T): KValueSimple<T>;
 export function kvalue<T, E extends HTMLKEnhancedElement>(
   initialValue: T,
-  element: E,
-  field: ChangeTriggerField | otherstring
+  element: E
 ): KValueSimple<T>;
 export function kvalue<T, E extends HTMLKEnhancedElement, EValueType = string>(
   initialValue: T,
@@ -151,5 +150,5 @@ export function kvalue<T, E extends HTMLKEnhancedElement, EValueType = string>(
 
 export function kvalue<T, E extends HTMLKEnhancedElement>(
   initialValue: T,
-  ...args: PossibleArgs<T, E>
+  ...args: KValueArgs<T, E>
 ) {}

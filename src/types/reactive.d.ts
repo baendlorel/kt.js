@@ -20,3 +20,9 @@ type KValueArgs4<T, E extends HTMLKEnhancedElement, ElementValueType = string> =
   Transform<T>,
   Transform<ElementValueType, T>,
 ];
+type KValueArgs<T, E extends HTMLKEnhancedElement, ElementValueType = string> =
+  | KValueArgs0<T, E, ElementValueType>
+  | KValueArgs1<T, E, ElementValueType>
+  | KValueArgs2<T, E, ElementValueType>
+  | KValueArgs3<T, E, ElementValueType>
+  | KValueArgs4<T, E, ElementValueType>;

@@ -13,16 +13,13 @@ import { $appendChild, $getElementById, $is, $isObject } from './lib/index.js';
  * @param rootElement an instance of `HTMLKEnhancedElement`, created by `h` function.
  * @param mountTo any `HTMLElement` to mount to, if omitted, will mount to `#app` or `body`.
  */
-function createApp(
-  rootElement: HTMLKEnhancedElement,
-  mountTo: HTMLElement = NotProvided as any
-): void {
+function createApp(rootElement: HTMLKEnhancedElement, mountTo: HTMLElement = NotProvided): void {
   if (!isKEnhanced(rootElement)) {
     throw new TypeError('Root element must be a KText element.');
   }
 
   const appDiv = $getElementById('app') ?? document.body;
-  if ($is(mountTo, NotProvided)) {
+  if (mountTo === NotProvided) {
     $appendChild.call(appDiv, rootElement);
     return;
   }

@@ -1,3 +1,4 @@
+import { NotProvided } from '@/consts/sym.js';
 import { $on } from '@/lib/dom.js';
 import { $arrayPush } from '@/lib/native.js';
 
@@ -43,10 +44,13 @@ export class KValue<T extends any> extends KValueSimple<T> {
    */
   override bindChange<E extends HTMLKEnhancedElement>(
     element: E,
-    field: ChangeTriggerField | otherstring,
+    field: ChangeTriggerField | otherstring = NotProvided,
     vtoe: VToE = trivial,
     etov: EToV = trivial
   ): this {
+    if (field === NotProvided) {
+    }
+
     if (!(field in element)) {
       return this;
     }

@@ -6,6 +6,9 @@ type Constructor<T> = new (...args: unknown[]) => T;
 
 type Factory<T> = (...args: unknown[]) => T;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyFn = (...args: any[]) => any;
+
 /**
  * Normal HTML tags like `div`, `span`, `a`, etc.
  */

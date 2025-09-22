@@ -1,14 +1,9 @@
 import { $on } from '@/lib/dom.js';
 import { $arrayPush } from '@/lib/native.js';
 
-import { KBaseRef } from './base.js';
+import { KBaseRef } from '../base.js';
 
-const trivialFactory = <T>(v: unknown) => v as T;
-
-class KValue<T> extends KBaseRef<T> {
-  private _vtoe: Factory<T>;
-  private _etov: Factory<T>;
-
+export class KValuePure<T> extends KBaseRef<T> {
   /**
    * Shrink object items to an aggregated array to save memory and speed up iteration.
    *
@@ -16,12 +11,10 @@ class KValue<T> extends KBaseRef<T> {
    * 1. element
    * 2. onchange field - means when `change` event is triggered, which field will be really changed.
    */
-  private readonly _bound: KRefBound[number][] = [];
+  protected readonly _bound: KRefBound[number][] = [];
 
-  constructor(value: T, vtoe: Factory<T>, etov: Factory<T>) {
+  constructor(value: T) {
     super(value);
-    this._etov = etov;
-    this._vtoe = vtoe;
   }
 
   override set value(newValue: T) {
@@ -30,13 +23,11 @@ class KValue<T> extends KBaseRef<T> {
     // set all bound elements' value
     const len = this._bound.length;
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // @ts-ignore
       // [INFO] [i, i+1] satisfies KRefBound
-      this._bound[i][this._bound[i + 1]] = this._vtoe(newValue);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this._bound[i] as any)[this._bound[i + 1] as string] = newValue;
     }
   }
-
-  // #region value
 
   /**
    * Bind on element's field that would trigger `change` event.
@@ -45,14 +36,17 @@ class KValue<T> extends KBaseRef<T> {
    * @param field mostly is `value` or `checked`
    * @returns `false` when `field` does not exist on `element`, otherwise `true`.
    */
-  bindChange<El extends HTMLKEnhancedElement>(element: El, field: keyof El & string): boolean {
+  private bindChange<El extends HTMLKEnhancedElement>(
+    element: El,
+    field: ChangeTriggerField & string
+  ): boolean {
     if (!(field in element)) {
       return false;
     }
 
     $on.call(element, 'change', () => {
-      this._value = this._etov(element[field]);
-      this._spreadChange(element[field]);
+      this._value = element[field] as T;
+      this._spreadChange(element[field] as T);
     });
 
     $arrayPush.call(this._bound, element, field);
@@ -62,29 +56,15 @@ class KValue<T> extends KBaseRef<T> {
 
   /**
    * When one element's field is changed, spread it to other registered elements.
-   * @param newValue
+   * @param newElementValue must use the element's field value, not `this._value`
    */
-  private _spreadChange(newElementValue: T) {
+  protected _spreadChange(newElementValue: T) {
     const len = this._bound.length;
 
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
-      // @ts-ignore
       // [INFO] [i, i+1] satisfies KRefBound
-      this._bound[i][this._bound[i + 1]] = newValue;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this._bound[i] as any)[this._bound[i + 1] as string] = newElementValue;
     }
   }
-
-  // #endregion
-}
-
-// todo 可以考虑增加一个pure版本，然后现在的版本继承pure。pure主要是没有vtoe和etov
-
-export function kvalue<T, El extends HTMLKEnhancedElement>(
-  element: El,
-  field: ChangeTriggerField | otherstring,
-  initialValue: T,
-  vtoe: Factory<T>,
-  etov: Factory<T>
-) {
-  return new KValue(value, (v) => v as T);
 }

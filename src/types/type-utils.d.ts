@@ -21,3 +21,9 @@ type PossibleRestArgs<T extends any[], Acc extends any[] = []> = T extends [
 ]
   ? Acc | PossibleRestArgs<Rest, [...Acc, First]>
   : Acc;
+
+type Slice<T extends any[], N extends number, Acc extends any[] = []> = Acc['length'] extends N
+  ? Acc
+  : T extends [infer First, ...infer Rest]
+    ? Slice<Rest, N, [...Acc, First]>
+    : Acc;

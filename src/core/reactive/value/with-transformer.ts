@@ -1,8 +1,8 @@
 import { $on } from '@/lib/dom.js';
 import { $arrayPush } from '@/lib/native.js';
-import { KValuePure } from './pure.js';
+import { KValueSimple } from './simple.js';
 
-export class KValue<T> extends KValuePure<T> {
+export class KValue<T> extends KValueSimple<T> {
   /**
    * Transform value to element's field value.
    */
@@ -36,11 +36,14 @@ export class KValue<T> extends KValuePure<T> {
    * - if the field does not trigger `change`, nothing will happen.
    * @param element an enhanced element
    * @param field mostly is `value` or `checked`
-   * @returns `false` when `field` does not exist on `element`, otherwise `true`.
+   * @returns this
    */
-  bindChange<El extends HTMLKEnhancedElement>(element: El, field: keyof El & string): boolean {
+  bindChange<El extends HTMLKEnhancedElement>(
+    element: El,
+    field: ChangeTriggerField | otherstring
+  ): this {
     if (!(field in element)) {
-      return false;
+      return this;
     }
 
     $on.call(element, 'change', () => {
@@ -50,6 +53,6 @@ export class KValue<T> extends KValuePure<T> {
 
     $arrayPush.call(this._bound, element, field);
 
-    return true;
+    return this;
   }
 }

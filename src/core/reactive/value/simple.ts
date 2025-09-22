@@ -3,7 +3,7 @@ import { $arrayPush } from '@/lib/native.js';
 
 import { KBaseRef } from '../base.js';
 
-export class KValuePure<T> extends KBaseRef<T> {
+export class KValueSimple<T> extends KBaseRef<T> {
   /**
    * Shrink object items to an aggregated array to save memory and speed up iteration.
    *
@@ -34,14 +34,14 @@ export class KValuePure<T> extends KBaseRef<T> {
    * - if the field does not trigger `change`, nothing will happen.
    * @param element an enhanced element
    * @param field mostly is `value` or `checked`
-   * @returns `false` when `field` does not exist on `element`, otherwise `true`.
+   * @returns this
    */
-  private bindChange<El extends HTMLKEnhancedElement>(
+  bindChange<El extends HTMLKEnhancedElement>(
     element: El,
-    field: ChangeTriggerField & string
-  ): boolean {
+    field: ChangeTriggerField | otherstring
+  ): this {
     if (!(field in element)) {
-      return false;
+      return this;
     }
 
     $on.call(element, 'change', () => {
@@ -51,7 +51,7 @@ export class KValuePure<T> extends KBaseRef<T> {
 
     $arrayPush.call(this._bound, element, field);
 
-    return true;
+    return this;
   }
 
   /**

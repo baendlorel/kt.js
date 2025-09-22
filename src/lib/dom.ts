@@ -14,7 +14,7 @@ export const $query: typeof querySelector = (selector: string) =>
 export const $queryAll: typeof querySelectorAll = (selector: string) =>
   querySelectorAll.call(document, selector);
 
-export const $createElement = (id: HTMLTag | (string & {})) => createElement.call(document, id);
+export const $createElement = (id: HTMLTag | otherstring) => createElement.call(document, id);
 export const $createTextNode = (data: string) => createTextNode.call(document, data);
 
 export const $on = HTMLElement.prototype.addEventListener;

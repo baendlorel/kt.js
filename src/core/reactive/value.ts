@@ -3,8 +3,11 @@ import { $arrayPush } from '@/lib/native.js';
 
 import { KBaseRef } from './base.js';
 
-export class KValue<T = unknown> extends KBaseRef<T> {
-  private _type: Factory<T>;
+const trivialFactory = <T>(v: unknown) => v as T;
+
+class KValue<T> extends KBaseRef<T> {
+  private _vtoe: Factory<T>;
+  private _etov: Factory<T>;
 
   /**
    * Shrink object items to an aggregated array to save memory and speed up iteration.
@@ -15,9 +18,10 @@ export class KValue<T = unknown> extends KBaseRef<T> {
    */
   private readonly _bound: KRefBound[number][] = [];
 
-  constructor(value: T, _type: Factory<T>) {
+  constructor(value: T, vtoe: Factory<T>, etov: Factory<T>) {
     super(value);
-    this._type = _type;
+    this._etov = etov;
+    this._vtoe = vtoe;
   }
 
   override set value(newValue: T) {
@@ -28,7 +32,7 @@ export class KValue<T = unknown> extends KBaseRef<T> {
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
       // @ts-ignore
       // [INFO] [i, i+1] satisfies KRefBound
-      this._bound[i][this._bound[i + 1]] = newValue;
+      this._bound[i][this._bound[i + 1]] = this._vtoe(newValue);
     }
   }
 
@@ -47,8 +51,8 @@ export class KValue<T = unknown> extends KBaseRef<T> {
     }
 
     $on.call(element, 'change', () => {
-      this._value = this._type(element[field]);
-      this._spreadChange(this._value);
+      this._value = this._etov(element[field]);
+      this._spreadChange(element[field]);
     });
 
     $arrayPush.call(this._bound, element, field);
@@ -60,7 +64,7 @@ export class KValue<T = unknown> extends KBaseRef<T> {
    * When one element's field is changed, spread it to other registered elements.
    * @param newValue
    */
-  private _spreadChange(newValue: T) {
+  private _spreadChange(newElementValue: T) {
     const len = this._bound.length;
 
     for (let i = 0; i < len; i += 2 satisfies KRefBound['length']) {
@@ -71,4 +75,16 @@ export class KValue<T = unknown> extends KBaseRef<T> {
   }
 
   // #endregion
+}
+
+// todo 可以考虑增加一个pure版本，然后现在的版本继承pure。pure主要是没有vtoe和etov
+
+export function kvalue<T, El extends HTMLKEnhancedElement>(
+  element: El,
+  field: ChangeTriggerField | otherstring,
+  initialValue: T,
+  vtoe: Factory<T>,
+  etov: Factory<T>
+) {
+  return new KValue(value, (v) => v as T);
 }

@@ -1,5 +1,7 @@
 declare const __IS_DEV__: boolean;
 
+type otherstring = string & {};
+
 type Constructor<T> = new (...args: unknown[]) => T;
 
 type Factory<T> = (...args: unknown[]) => T;
@@ -58,3 +60,8 @@ type NoTextNodeTag =
   | 'frame'
   | 'keygen'
   | 'option';
+
+/**
+ * These fields of HTMLElement can trigger `change`.
+ */
+type ChangeTriggerField = 'value' | 'checked' | 'selected' | 'valueAsDate' | 'valueAsNumber';

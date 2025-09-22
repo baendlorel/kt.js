@@ -45,5 +45,5 @@ interface KAttribute {
     | 'OPTIONS'
     | 'CONNECT'
     | 'TRACE'
-    | (string & {});
+    | otherstring;
 }

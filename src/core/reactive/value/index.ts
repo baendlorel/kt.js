@@ -137,13 +137,31 @@ const branch = deferedBranchDynamic<BranchFn>()
 
 /**
  * Create a reactive value that can be bound to an element's value or other properties.
- * @param initialValue
+ * - the binding is valid **if and only if** when element's field can trigger a change event.
+ * @param initialValue the initial value
  */
 export function kvalue<T, E extends HTMLKEnhancedElement>(initialValue: T): KValueSimple<T>;
+
+/**
+ * Create a reactive value that can be bound to an element's value or other properties.
+ * @param initialValue the initial value
+ * @param element the element to bind to
+ */
 export function kvalue<T, E extends HTMLKEnhancedElement>(
   initialValue: T,
   element: E
 ): KValueSimple<T>;
+
+/**
+ * Create a reactive value that can be bound to an element's value or other properties.
+ * - the binding is valid **if and only if** when element's field can trigger a change event.
+ * @param initialValue the initial value
+ * @param element the element to bind to
+ * @param field value field, will be used like `element[field]`
+ * @param vtoe transform from value to element's field
+ * @param etov transform from element's field to value
+ * @returns when vtoe and etov are provided, return KValue<T>, otherwise return KValueSimple<T>
+ */
 export function kvalue<T, E extends HTMLKEnhancedElement, EValueType = string>(
   initialValue: T,
   element: E,
@@ -152,13 +170,13 @@ export function kvalue<T, E extends HTMLKEnhancedElement, EValueType = string>(
   etov?: Transform<EValueType, T>
 ): KValue<T>;
 
-export function kvalue<T extends any, E extends HTMLKEnhancedElement>(
+export function kvalue<T, E extends HTMLKEnhancedElement>(
   initialValue: T,
   ...args: KValueArgs<T, E>
 ) {
   switch (args.length) {
     case 0:
-      return new KValueSimple<string>(initialValue);
+      return new KValueSimple<T>(initialValue);
     case 1:
     case 2:
     case 3:

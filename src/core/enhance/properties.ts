@@ -16,7 +16,10 @@ export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescript
     },
     set<E extends HTMLKElement>(this: E, elements: (KChildren | string)[]): void {
       this.textContent = '';
-      $appendChild.call(this, this[KTextSymbol]); // keep text node always available
+      const textNode = this[KTextSymbol];
+      if (textNode instanceof Text) {
+        $appendChild.call(this, textNode); // keep text node always available
+      }
 
       const elementsLen = elements.length;
       for (let i = 0; i < elementsLen; i++) {

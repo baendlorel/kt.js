@@ -20,7 +20,6 @@ export const methods: PickMethod<KEnhanced> = {
     }
 
     const triggerLimit = options.triggerLimit;
-    delete options.triggerLimit;
     if (!$isSafeInt(triggerLimit) || triggerLimit <= 0) {
       throw new TypeError('[__NAME__:kon] options.triggerLimit must be a positive safe integer.');
     }
@@ -59,7 +58,7 @@ export const methods: PickMethod<KEnhanced> = {
   },
   kmount<E extends HTMLKElement>(this: E, target: HTMLKElement): E {
     if (!(KIdSymbol in target)) {
-      throw new TypeError('[__NAME__:kmount] target must be a KText element.');
+      throw new TypeError('[__NAME__:kmount] target must be a KElement.');
     }
 
     return $appendChild.call(target, this) as E;

@@ -32,9 +32,11 @@ export function h<T extends HTMLTag>(
   const element = $h(tag) as HTMLKElement<T>;
 
   element[KIdSymbol] = Indexer.nextKid();
-  const tn = needKText(tag) ? $textNode() : dummyTextNode;
-  element[KTextSymbol] = tn;
-  $appendChild.call(element, tn);
+  if (needKText(tag)) {
+    $appendChild.call(element, (element[KTextSymbol] = $textNode()));
+  } else {
+    element[KTextSymbol] = dummyTextNode;
+  }
 
   // * define enhancing properties
   enhance(element);

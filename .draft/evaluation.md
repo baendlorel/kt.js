@@ -30,6 +30,7 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 代码注释中提到假设 `Function.prototype.call/apply` 未被改动
    - 但在实际使用中，如 `$appendChild.call(element, child)`，若有恶意代码或第三方库污染了原型链，框架会失效
    - **建议**: 考虑在初始化时保存原始方法的引用，或在关键路径上添加防御性检查
+     ans: 我之前问过了，vue和react也会默认call和apply行为是值得信赖的，如果有人蓄意破坏，是没有办法绝对防住的。
 
 ---
 
@@ -61,7 +62,10 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 每个元素创建独立的 dummy 文本节点，或者
    - 完全不添加文本节点，在 `ktext` getter/setter 中做特殊判断
 
+   ans: 这本身就是为了避免if判定所做，现在改为了一个假node，在被append的时候或刷新kchildren的时候会进行判定的；
+
 2. **错误信息中的占位符未替换**
+
    ```typescript
    throw new TypeError('[__NAME__:h] tagName must be a string.');
    ```
@@ -105,7 +109,10 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 但既然框架提供了 `kon/koff`，为什么不直接禁止在 attr 中传函数？
    - **建议**: 要么完全禁止（抛错），要么支持（自动转换为 `kon`）
 
+   ans: 已修改
+
 3. **`class` 属性处理**
+
    ```typescript
    if ($isArray(attr.class)) {
      $domTokenListAdd.apply(element.classList, attr.class);
@@ -113,6 +120,8 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    ```
 
    - 如果 `attr.class` 是包含重复项的数组，会重复添加吗？（虽然 `classList.add` 会去重，但这个行为应该文档化）
+
+   ans: 这个无所谓
 
 ### 2.3 内容处理 (src/core/h/content.ts)
 
@@ -136,7 +145,10 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 如果元素不支持文本节点，字符串内容会被静默忽略
    - **建议**: 对于不支持文本节点的元素，如果传入字符串应该抛出错误或警告
 
+   ans: 这个没必要，因为如果直接用浏览器原生方法如此操作，也不会报错的
+
 2. **数组内容处理时的文本节点**
+
    ```typescript
    if (typeof c === 'string') {
      $appendChild.call(element, $textNode(c));
@@ -146,6 +158,8 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
 
    - 这里创建的文本节点不会被 `KTextSymbol` 追踪
    - 与通过 `ktext` 设置的文本节点语义不同，可能造成困惑
+
+   ans: 这个也没必要，因为ktext本身是控制每个元素的专属textnode用的，它就是用来快速设置文本的，而不是追踪所有的textnode
 
 ### 2.4 增强属性 (src/core/enhance/properties.ts)
 
@@ -167,6 +181,8 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 先清空 `textContent`，再重新添加文本节点
    - 如果新的 `elements` 中不包含文本内容，这个文本节点就是多余的
    - **建议**: 只在需要时才添加文本节点
+
+   ans: 这个文本节点是预留的，必须存在。
 
 2. **类型定义不够精确**
    - `kchildren` 的 getter 返回 `KChildren[]`，但实际上 `Array.from(this.children)` 返回的是 `Element[]`
@@ -192,6 +208,8 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 如果用户保存了该对象的引用，会发现属性被删除了
    - **建议**: 创建新对象 `const { triggerLimit, ...restOptions } = options;`
 
+   ans: 把delete命令删除了，感觉无必要；
+
 2. **`kmount` 的错误信息有误**
 
    ```typescript
@@ -203,9 +221,13 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 错误信息说 "must be a KText element"，但实际应该是 "must be a KElement"
    - **建议**: 修正错误信息
 
+   ans: 改了
+
 3. **返回值类型不一致**
    - `kon` 返回的是 `KListener<E, K>`，可能是原始 listener，也可能是包装后的 `newHandler`
    - 用户在调用 `koff` 时需要使用 `kon` 的返回值，这个设计虽然合理但应该在文档中明确说明
+
+   ans: 这个帮我写一下
 
 ---
 
@@ -223,6 +245,8 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 虽然在框架内部一致，但可能让新用户困惑
    - **建议**: 考虑在文档中解释这个命名约定
 
+   ans: 不要紧，因为这些函数不会被外部使用，反而如果没有前缀，会导致分不清函数谁是谁
+
 2. **`$isInput` 的正则表达式**
 
    ```typescript
@@ -234,9 +258,13 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - 虽然不影响功能，但可以优化为 `/INPUT|SELECT|TEXTAREA/.test(element.tagName)`
    - **建议**: 或者使用 Set 检查，性能更好
 
+   ans: 我看mdn文档里还是有可能出现小写的（在xml中），这里就不改了
+
 3. **`$clamp` 函数的位置**
    - 这个函数在 `lib/native.ts` 中，但似乎没有被框架内部使用
    - **建议**: 确认是否需要，如果只是为用户提供便利，应该在导出时明确说明
+
+   ans: 将来可能用到，提前写好的
 
 ---
 
@@ -281,7 +309,7 @@ function createApp(rootElement: HTMLKElement, mountTo?: HTMLElement): void {
 
 **严重性**: ⭐⭐⭐⭐⭐ 这会导致使用 `createApp(el, customElement)` 时元素根本不会被挂载！
 
----
+ans: 帮我修一下
 
 ## 5. 类型定义评估 (src/types/)
 
@@ -305,10 +333,14 @@ function createApp(rootElement: HTMLKElement, mountTo?: HTMLElement): void {
    - 虽然提供了常见属性的类型提示，但 `[k: string]: any` 让任何属性都能通过
    - **建议**: 考虑使用更严格的类型，或者至少在文档中说明
 
+ans: 没事的，这里就是要自由
+
 2. **全局类型污染**
    - 所有类型都定义在 `declare global` 中
    - 虽然方便，但可能与其他库冲突
    - **建议**: 考虑使用命名空间或导出独立的类型
+
+ans: 这个之后会调整，现在先用方便的写法，之后会改成export那种
 
 ---
 

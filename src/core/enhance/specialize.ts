@@ -36,15 +36,8 @@
  * Since `Set.prototype.has` is about 80 times faster than `Array.prototype.includes`,
  * We put these tags into a `Set` object.
  */
-// todo 对于每个特殊的标签，应该定义不同的KEnhanced来做，比如没有text节点的就不给ktext，输入类的就要操作kvalue等等
-export function getTagType(tag: HTMLTag): KEnhanceTagPlan {
+export function needKText(tag: HTMLTag): boolean {
   return (INVALID_TAGS as Set<string>).has(tag);
-}
-
-const enum KEnhanceTagPlan {
-  Normal,
-  NoText,
-  UseValue,
 }
 
 const INVALID_TAGS = new Set([
@@ -84,5 +77,3 @@ const INVALID_TAGS = new Set([
   'keygen',
   'option',
 ] as const);
-
-true satisfies IsSameType<typeof INVALID_TAGS extends Set<infer U> ? U : never, NoTextNodeTag>;

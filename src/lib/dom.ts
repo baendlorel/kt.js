@@ -8,7 +8,7 @@ const createTextNode = document.createTextNode;
 const querySelector = document.querySelector;
 const querySelectorAll = document.querySelectorAll;
 
-export const $getElementById = (id: string) => getElementById.call(document, id);
+export const $id = (id: string) => getElementById.call(document, id);
 export const $query: typeof querySelector = (selector: string) =>
   querySelector.call(document, selector);
 export const $queryAll: typeof querySelectorAll = (selector: string) =>

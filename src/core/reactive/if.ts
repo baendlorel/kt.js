@@ -1,5 +1,4 @@
 import { $createTextNode, $replaceWith } from '@/lib/dom.js';
-
 import { KBaseRef } from './base.js';
 
 export class KIf extends KBaseRef<boolean> {

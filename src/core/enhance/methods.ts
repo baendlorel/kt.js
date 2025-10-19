@@ -1,4 +1,3 @@
-import { NotProvided } from '@/consts/sym.js';
 import { $appendChild, $on, $off, $is, $isObject, $isSafeInteger } from '@/lib/index.js';
 
 import { isKEnhanced } from '../privates.js';
@@ -8,10 +7,10 @@ export const methods: PickMethod<KEnhanced> = {
     this: E,
     type: T,
     listener: KListener<HTMLElement, T>,
-    options: KOnOptions = NotProvided
+    options?: KOnOptions
   ): KListener<E, T> {
     // * in case of no options provided, which is the most common usage
-    if (options === NotProvided) {
+    if (options === undefined) {
       $on.call(this, type, listener as EventListener);
       return listener;
     }
@@ -50,9 +49,9 @@ export const methods: PickMethod<KEnhanced> = {
     this: E,
     type: K,
     listener: KListener<HTMLElement, K>,
-    options: KOnOptions = NotProvided
+    options?: KOnOptions
   ): void {
-    if (options === NotProvided) {
+    if (options === undefined) {
       $off.call(this, type, listener as EventListener);
       return;
     }

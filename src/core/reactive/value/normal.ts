@@ -1,4 +1,3 @@
-import { NotProvided } from '@/consts/sym.js';
 import { $on, $arrayPush, $isInputElement } from '@/lib/index.js';
 
 import { KValueSimple } from './simple.js';
@@ -45,7 +44,7 @@ export class KValue<T extends any> extends KValueSimple<T> {
    */
   override bindChange<E extends HTMLKEnhancedInputElement>(
     element: E,
-    field: ChangeTriggerField | otherstring = NotProvided,
+    field?: ChangeTriggerField | otherstring,
     vtoe: VToE = trivial,
     etov: EToV = trivial
   ): this {
@@ -55,7 +54,7 @@ export class KValue<T extends any> extends KValueSimple<T> {
       );
     }
 
-    if (field === NotProvided) {
+    if (field === undefined) {
       field = detectOnChangeField(element);
     }
 

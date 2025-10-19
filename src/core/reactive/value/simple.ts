@@ -1,4 +1,3 @@
-import { NotProvided } from '@/consts/sym.js';
 import { $on, $arrayPush, $isInputElement } from '@/lib/index.js';
 
 import { KBaseRef } from '../base.js';
@@ -39,7 +38,7 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
    */
   bindChange<E extends HTMLKEnhancedInputElement>(
     element: E,
-    field: ChangeTriggerField | otherstring = NotProvided
+    field?: ChangeTriggerField | otherstring
   ): this {
     if (!$isInputElement(element)) {
       throw new TypeError(
@@ -47,7 +46,7 @@ export class KValueSimple<T extends any> extends KBaseRef<T> {
       );
     }
 
-    if (field === NotProvided) {
+    if (field === undefined) {
       field = detectOnChangeField(element);
     }
 

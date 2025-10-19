@@ -7,7 +7,7 @@ import { needKText } from '../enhance/specialize.js';
 import { attrBranch } from './attr.js';
 import { contentBranch } from './content.js';
 
-const dummyTextNode = $textNode();
+const dummyTextNode = {} as Text;
 $define(dummyTextNode, 'textContent', { value: '' });
 
 /**

@@ -35,10 +35,7 @@ const attrIsObject = (element: HTMLElement, attr: RawAttribute) => {
     const o = attr[key];
 
     if (typeof o === 'function') {
-      console.warn(
-        `[__NAME__:h] It is recommended that using kon/koff to register events. Functions will not be handled here.`
-      );
-      continue;
+      throw new TypeError(`[__NAME__:h] Must use kon/koff to register events.`);
     }
 
     // * Boolean attributes that should be set as properties

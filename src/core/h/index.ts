@@ -1,10 +1,11 @@
 import { Indexer } from '@/utils/indexer.js';
-import { $createElement, $createTextNode, $appendChild } from '@/lib/index.js';
+import { $createElement, $createTextNode, $appendChild, $set } from '@/lib/index.js';
 
 import { enhance } from '../enhance/index.js';
-import { setPrivate } from '../privates.js';
+import { needKText } from '../enhance/specialize.js';
 import { attrBranch } from './attr.js';
 import { contentBranch } from './content.js';
+import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 
 /**
  * Create an enhanced HTMLElement.
@@ -26,12 +27,11 @@ export function h<T extends HTMLTag>(
 
   // * start creating the element
   const element = $createElement(tag) as HTMLKEnhancedElement<T>;
-  const textNode = $createTextNode('');
-  $appendChild.call(element, textNode);
-  setPrivate(element, {
-    id: Indexer.nextKid(),
-    text: textNode,
-  });
+
+  element[KIdSymbol] = Indexer.nextKid();
+  if (needKText(tag)) {
+    $appendChild.call(element, (element[KTextSymbol] = $createTextNode()));
+  }
 
   // * define enhancing properties
   enhance(element);

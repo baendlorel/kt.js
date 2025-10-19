@@ -1,11 +1,13 @@
 import { deferedBranchDynamic } from 'defered-branch';
+import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $isArray, $isObject, $appendChild, $createTextNode } from '@/lib/index.js';
-
-import { isKEnhanced } from '../privates.js';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: RawContent) => {
   content = content as string;
-  element.ktext = content;
+  // Only set ktext if the element supports it (has a text node)
+  if (element[KTextSymbol]) {
+    element.ktext = content;
+  }
 };
 
 const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
@@ -18,7 +20,7 @@ const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
       continue;
     }
 
-    if (isKEnhanced(c)) {
+    if (KIdSymbol in c) {
       $appendChild.call(element, c);
       continue;
     }
@@ -29,7 +31,7 @@ const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
 
 const contentIsObject = (element: HTMLKEnhancedElement, content: RawContent) => {
   content = content as HTMLKEnhancedElement;
-  if (!isKEnhanced(content)) {
+  if (!(KIdSymbol in content)) {
     invalid();
   }
 

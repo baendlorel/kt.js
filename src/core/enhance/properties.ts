@@ -1,14 +1,16 @@
+import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $arrayFrom, $appendChild, $createTextNode } from '@/lib/index.js';
-
-import { getPrivate, isKEnhanced } from '../privates.js';
 
 export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescriptor> = {
   ktext: {
     get(this: HTMLKEnhancedElement): string {
-      return getPrivate(this).text.textContent;
+      return this[KTextSymbol]?.textContent ?? '';
     },
     set(this: HTMLKEnhancedElement, newText: string): void {
-      getPrivate(this).text.textContent = newText;
+      const textNode = this[KTextSymbol];
+      if (textNode) {
+        textNode.textContent = newText;
+      }
     },
   },
   kchildren: {
@@ -17,7 +19,10 @@ export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescript
     },
     set<E extends HTMLKEnhancedElement>(this: E, elements: (KChildren | string)[]): void {
       this.textContent = '';
-      $appendChild.call(this, getPrivate(this).text); // keep text node always available
+      const textNode = this[KTextSymbol];
+      if (textNode) {
+        $appendChild.call(this, textNode); // keep text node always available
+      }
 
       const elementsLen = elements.length;
       for (let i = 0; i < elementsLen; i++) {
@@ -27,7 +32,7 @@ export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescript
           continue;
         }
 
-        if (el instanceof Text || isKEnhanced(el)) {
+        if (el instanceof Text || KIdSymbol in el) {
           $appendChild.call(this, el);
           continue;
         }

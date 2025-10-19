@@ -1,2 +1,2 @@
-export const KSymbol = Symbol();
-export const KTextSymbol = Symbol('KText');
+export const KIdSymbol = Symbol('kid');
+export const KTextSymbol = Symbol('ktext');

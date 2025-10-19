@@ -1,6 +1,4 @@
 export const $apply = Reflect.apply;
-export const $set = Reflect.set;
-export const $get = Reflect.get;
 export const $define = Reflect.defineProperty;
 export const $delete = Reflect.deleteProperty;
 
@@ -26,3 +24,6 @@ export const $defineProperties = Object.defineProperties;
 export const $max = Math.max;
 export const $min = Math.min;
 export const $clamp = (n: number, a: number, b: number) => $min(b, $max(a, n));
+
+export const $set = (o: any, key: string | symbol, value: any) => (o[key] = value);
+export const $get = (o: any, key: string | symbol) => o[key];

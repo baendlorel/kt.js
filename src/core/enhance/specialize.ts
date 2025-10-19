@@ -37,7 +37,7 @@
  * We put these tags into a `Set` object.
  */
 export function needKText(tag: HTMLTag): boolean {
-  return (INVALID_TAGS as Set<string>).has(tag);
+  return !(INVALID_TAGS as Set<string>).has(tag);
 }
 
 const INVALID_TAGS = new Set([

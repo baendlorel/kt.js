@@ -38,7 +38,7 @@ const contentIsObject = (element: HTMLKEnhancedElement, content: RawContent) => 
 
 const invalid = (): never => {
   throw new TypeError(
-    '[__NAME__:h] content must be a string, HTMLEnhancedElement or an array of HTMLEnhancedElement.'
+    '[__NAME__:h] content must be a string, HTMLEnhancedElement or HTMLEnhancedElement[].'
   );
 };
 

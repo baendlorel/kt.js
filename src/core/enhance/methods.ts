@@ -1,4 +1,4 @@
-import { $appendChild, $on, $off, $is, $isObject, $isSafeInteger } from '@/lib/index.js';
+import { $appendChild, $on, $off, $is, $isObject, $isSafeInt } from '@/lib/index.js';
 
 import { isKEnhanced } from '../privates.js';
 
@@ -22,7 +22,7 @@ export const methods: PickMethod<KEnhanced> = {
 
     const triggerLimit = options.triggerLimit;
     delete options.triggerLimit;
-    if (!$isSafeInteger(triggerLimit) || triggerLimit <= 0) {
+    if (!$isSafeInt(triggerLimit) || triggerLimit <= 0) {
       throw new TypeError('[__NAME__:kon] options.triggerLimit must be a positive safe integer.');
     }
 

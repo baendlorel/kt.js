@@ -1,5 +1,10 @@
 // @ts-check
-import pkg from '../../package.json' with { type: 'json' };
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+/**
+ * @type {import('../package.json')}
+ */
+const pkg = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf-8'));
 
 function formatDateFull(dt = new Date()) {
   const y = dt.getFullYear();
@@ -35,8 +40,6 @@ export const replaceOpts = {
     __NAME__,
     __KEBAB_NAME__,
     __PKG_INFO__,
-    // __OPTS__: `Rollup${__NAME__}Options`,
-    // __STRICT_OPTS__: `Rollup${__NAME__}StrictOptions`,
   },
 };
 
@@ -44,6 +47,16 @@ export const replaceOpts = {
  * @type {Record<string, any>}
  */
 export const replaceLiteralOpts = {
-  'declare const __IS_DEV__: boolean;\n': '',
-  '//__EXPORT__FLAG__\n': 'export ',
+  'declare const __IS_PROD__: boolean;\n': '',
+  'const __IS_PROD__: boolean;\n': '',
+  'logger.info(': "console.log(`%cinfo - __func__:`, 'color:#007ACC',",
+  'logger.warn(': "console.log(`%cwarn - __func__:`, 'color:#ff9900',",
+  'logger.error(': "console.log(`%cerror - __func__:`, 'color:#fb2c36',",
+  'logger.debug(': "console.log(`%cdebug - __func__:`, 'color:#8617a5',",
+  'logger.succ(': "console.log(`%cdebug - __func__:`, 'color:#00a00b',",
+  'logger.verbose(': "console.log(`%cdebug - __func__:`, 'color:#10aaaf',",
+  'logger.WorkspaceNotFound(':
+    "console.log(`%cerror - __func__:`, 'color:#fb2c36','Workspace not found, id:',",
+  'logger.TabNotFoundInWorkspace(':
+    "console.log(`%cerror - __func__:`, 'color:#fb2c36','Tab not found in workspace. tabid,workspaceid:',",
 };

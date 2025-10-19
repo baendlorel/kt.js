@@ -1,4 +1,5 @@
 import { deferedBranchDynamic } from 'defered-branch';
+import { RawAttribute, KAttribute } from '@/types/h.js';
 import { $isObject, $setAttr, $isArray, $assign, $keys, $domTokenListAdd } from '@/lib/index.js';
 
 const attrIsString = (element: HTMLElement, attr: RawAttribute) => {

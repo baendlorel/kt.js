@@ -1,4 +1,5 @@
 // lib
+import { HTMLKElement } from '@/types/enhance.js';
 import { $defineProperties } from '@/lib/index.js';
 import { methods } from './methods.js';
 import { descriptors } from './properties.js';

@@ -2,7 +2,8 @@ export * from './shortcuts/index.js';
 import { KIdSymbol } from './consts/sym.js';
 import { h } from './core/h/index.js';
 
-import { $appendChild, $id, $is, $isObject } from './lib/index.js';
+import { $appendChild, $id, $isObject } from './lib/index.js';
+import { HTMLKElement } from './types/enhance.js';
 
 /**
  * __PKG_INFO__

@@ -1,22 +1,23 @@
-type HFunction = <T extends HTMLTag>(
+import { HTMLKElement } from './enhance.js';
+
+export type HFunction = <T extends HTMLTag>(
   tag: T,
   attr?: KAttribute | string,
   content?: (HTMLKElement | string)[] | HTMLKElement | string
 ) => HTMLKElement<T>;
 
-type HAlias<T extends HTMLTag> = (
+export type HAlias<T extends HTMLTag> = (
   attr?: KAttribute | string,
   content?: (HTMLKElement | string)[] | HTMLKElement | string
 ) => HTMLKElement<T>;
 
-type RawContent = (HTMLKElement | string)[] | HTMLKElement | string;
-type RawAttribute = KAttribute | string;
+export type RawContent = (HTMLKElement | string)[] | HTMLKElement | string;
+export type RawAttribute = KAttribute | string;
 
 /**
  * Used to create enhanced HTML elements
  */
-//__EXPORT__FLAG__
-interface KAttribute {
+export interface KAttribute {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 

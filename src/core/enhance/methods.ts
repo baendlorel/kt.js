@@ -1,3 +1,4 @@
+import { KEnhanced, KListener, KOnOptions, HTMLKElement } from '@/types/enhance.js';
 import { KIdSymbol } from '@/consts/sym.js';
 import { $appendChild, $on, $off, $isObject, $isSafeInt } from '@/lib/index.js';
 

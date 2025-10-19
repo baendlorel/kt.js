@@ -1,3 +1,5 @@
+import { HTMLKElement } from '@/types/enhance.js';
+import { RawAttribute, RawContent, HFunction } from '@/types/h.js';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $h, $textNode, $appendChild, $define } from '@/lib/index.js';
 import { Indexer } from '@/utils/indexer.js';

@@ -1,5 +1,6 @@
 import { bindParams } from 'bind-params';
 import { h } from '@/core/h/index.js';
+import { HAlias } from '@/types/h.js';
 
 /** Alias for h('div', ...) - Block-level container */
 export const div: HAlias<'div'> = bindParams(h<'div'>, 'div');

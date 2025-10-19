@@ -1,4 +1,7 @@
 import { deferedBranchDynamic } from 'defered-branch';
+import { HTMLKElement } from '@/types/enhance.js';
+import { RawContent } from '@/types/h.js';
+
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $isArray, $isObject, $appendChild, $textNode } from '@/lib/index.js';
 

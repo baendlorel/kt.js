@@ -1,3 +1,4 @@
+import { KEnhanced, HTMLKElement, KChildren } from '@/types/enhance.js';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $arrayFrom, $appendChild, $textNode } from '@/lib/index.js';
 

@@ -1,5 +1,6 @@
 import { bindParams } from 'bind-params';
 import { h } from '@/core/h/index.js';
+import { HAlias } from '@/types/h.js';
 
 /** Alias for h('input', ...) - Input field */
 export const input: HAlias<'input'> = bindParams(h<'input'>, 'input');

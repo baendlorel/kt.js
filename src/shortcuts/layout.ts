@@ -1,5 +1,6 @@
 import { bindParams } from 'bind-params';
 import { h } from '@/core/h/index.js';
+import { HAlias } from '@/types/h.js';
 
 /** Alias for h('header', ...) - Header section */
 export const header: HAlias<'header'> = bindParams(h, 'header');

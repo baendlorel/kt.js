@@ -1,24 +1,18 @@
-declare const __IS_DEV__: boolean;
-// declare function TErr(message?: string, options?: ErrorOptions): never;
+declare global {
+  const __IS_DEV__: boolean;
+}
 
-type otherstring = string & {};
-
-type Constructor<T> = new (...args: any[]) => T;
-
-type Factory<T> = (...args: any[]) => T;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyFn = (...args: any[]) => any;
+export type otherstring = string & {};
 
 /**
  * Normal HTML tags like `div`, `span`, `a`, etc.
  */
-type HTMLTag = keyof HTMLElementTagNameMap;
+export type HTMLTag = keyof HTMLElementTagNameMap;
 
 /**
  * Get the tags that makes HTMLElementTagNameMap[tag] = HTMLElement
  */
-type NonSpecialTags = {
+export type NonSpecialTags = {
   [K in keyof HTMLElementTagNameMap]: HTMLElement extends HTMLElementTagNameMap[K] ? K : never;
 }[keyof HTMLElementTagNameMap];
 
@@ -28,7 +22,7 @@ type NonSpecialTags = {
  *   - No effect means `innerText` does not include the text in the text node.
  * @see {@link src/core/h/no-text-node.ts}
  */
-type NoTextNodeTag =
+export type NoTextNodeTag =
   | 'area'
   | 'audio'
   | 'base'
@@ -68,6 +62,6 @@ type NoTextNodeTag =
 /**
  * These fields of HTMLElement can trigger `change`.
  */
-type ChangeTriggerField = 'value' | 'checked' | 'selected' | 'valueAsDate' | 'valueAsNumber';
+export type ChangeTriggerField = 'value' | 'checked' | 'selected' | 'valueAsDate' | 'valueAsNumber';
 
-type InputElementTag = 'input' | 'select' | 'textarea';
+export type InputElementTag = 'input' | 'select' | 'textarea';

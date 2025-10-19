@@ -9,10 +9,9 @@ import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
-import dtsMerger from 'rollup-plugin-dts-merger';
 
 // custom plugins
-import { replaceLiteralOpts, replaceOpts } from './.scripts/replace.mjs';
+import { replaceOpts } from './.scripts/replace.mjs';
 
 // # common options
 
@@ -80,7 +79,6 @@ const declaration = {
     alias(aliasOpts),
     replace(replaceOpts),
     dts({ tsconfig }),
-    dtsMerger({ replace: replaceOpts, replaceLiteral: replaceLiteralOpts }),
   ],
 };
 

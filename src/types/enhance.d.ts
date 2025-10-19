@@ -1,4 +1,5 @@
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.ts';
+import { HTMLTag, NonSpecialTags, InputElementTag } from '@/global.js';
 
 export type KChildren = HTMLKElement | Text;
 
@@ -13,7 +14,7 @@ export interface KOnOptions extends AddEventListenerOptions {
 export type KListener<E extends HTMLElement, K extends keyof HTMLElementEventMap> = (
   this: E,
   ev: HTMLElementEventMap[K]
-) => any;
+) => void;
 
 export interface KEnhanced {
   /**

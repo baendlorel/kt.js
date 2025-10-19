@@ -1,3 +1,4 @@
+import { HTMLTag, otherstring } from '@/global.js';
 import { HTMLKElement } from './enhance.js';
 
 export type HFunction = <T extends HTMLTag>(

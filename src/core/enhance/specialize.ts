@@ -1,3 +1,5 @@
+import { HTMLTag } from '@/global.js';
+
 /**
  * # Specialized Ehancement
  *

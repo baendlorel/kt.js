@@ -1,3 +1,4 @@
+import { HTMLTag } from '@/global.js';
 import { HTMLKElement } from '@/types/enhance.js';
 import { RawAttribute, RawContent, HFunction } from '@/types/h.js';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';

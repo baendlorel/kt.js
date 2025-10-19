@@ -83,6 +83,12 @@ h('div', { class: className }, 'Styled text');
   - `kon(type, listener, options?)` — 增强版的 addEventListener
     - 规范化事件选项。支持 `triggerLimit` 选项：当事件触发次数达到限制时会自动移除监听器（若 `triggerLimit === 1` 则等同于 `once`）。
     - 返回实际注册的监听器（可能是包裹器以支持触发次数限制）。
+    - **重要提示**：当使用 `triggerLimit` 时，`kon` 会返回一个新的包装函数而不是原始监听器。在调用 `koff` 时必须使用这个返回值才能正确移除监听器。示例：
+      ```ts
+      const wrappedHandler = element.kon('click', handler, { triggerLimit: 3 });
+      // 稍后要移除时：
+      element.koff('click', wrappedHandler); // 使用 wrappedHandler，而不是原始的 handler
+      ```
   - `koff(type, listener, options?)` — 增强版的 removeEventListener
     - 在移除监听器时会考虑传入的选项。
   - `kmount(element)` — 挂载/追加助手

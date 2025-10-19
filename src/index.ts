@@ -26,6 +26,8 @@ function createApp(rootElement: HTMLKElement, mountTo?: HTMLElement): void {
   if (!$isObject(mountTo)) {
     throw new TypeError('mountTo must be an HTMLElement or omitted.');
   }
+
+  $appendChild.call(mountTo, rootElement);
 }
 
 export { h, createApp };

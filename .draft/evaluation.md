@@ -227,7 +227,7 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
    - `kon` 返回的是 `KListener<E, K>`，可能是原始 listener，也可能是包装后的 `newHandler`
    - 用户在调用 `koff` 时需要使用 `kon` 的返回值，这个设计虽然合理但应该在文档中明确说明
 
-   ans: 这个帮我写一下
+   ans: ✅ 已在 README.md 和 README.zh.md 中添加说明，包含示例代码
 
 ---
 
@@ -270,46 +270,21 @@ KT.js 是一个极简的、无响应式系统的 DOM 操作框架。整体设计
 
 ## 4. 入口文件评估 (src/index.ts)
 
-### ⚠️ 严重问题
+### ✅ 已修复
 
-**`createApp` 函数有 bug！**
+**`createApp` 函数的 bug 已修复**
+
+原先当提供了 `mountTo` 参数时，函数只检查类型但不执行挂载。现在已添加挂载逻辑。
 
 ```typescript
-function createApp(rootElement: HTMLKElement, mountTo?: HTMLElement): void {
-  if (!(KIdSymbol in rootElement)) {
-    throw new TypeError('Root element must be HTMLKElement.');
-  }
-
-  const appDiv = $id('app') ?? document.body;
-  if (mountTo === undefined) {
-    $appendChild.call(appDiv, rootElement);
-    return;
-  }
-
-  if (!$isObject(mountTo)) {
-    throw new TypeError('mountTo must be an HTMLElement or omitted.');
-  }
+if (!$isObject(mountTo)) {
+  throw new TypeError('mountTo must be an HTMLElement or omitted.');
 }
+
+$appendChild.call(mountTo, rootElement);
 ```
 
-**问题**:
-
-1. 当提供了 `mountTo` 参数时，函数只检查类型但不执行挂载！
-2. 应该是：
-   ```typescript
-   if (mountTo === undefined) {
-     $appendChild.call(appDiv, rootElement);
-   } else {
-     if (!$isObject(mountTo)) {
-       throw new TypeError('mountTo must be an HTMLElement or omitted.');
-     }
-     $appendChild.call(mountTo, rootElement);
-   }
-   ```
-
-**严重性**: ⭐⭐⭐⭐⭐ 这会导致使用 `createApp(el, customElement)` 时元素根本不会被挂载！
-
-ans: 帮我修一下
+ans: ✅ 已修复
 
 ## 5. 类型定义评估 (src/types/)
 
@@ -430,38 +405,60 @@ ans: 这个之后会调整，现在先用方便的写法，之后会改成export
 
 ### 🔴 必须修复（Critical）
 
-1. **`createApp` 函数的 bug** - 提供 `mountTo` 时不挂载元素
-2. **测试文件引用不存在的模块** - `privates.js`
+1. ✅ ~~**`createApp` 函数的 bug** - 提供 `mountTo` 时不挂载元素~~ **已修复**
+2. **测试文件引用不存在的模块** - `privates.js`（需要单独处理）
 
 ### 🟠 强烈建议修复（High）
 
-1. `kon` 方法修改用户传入的 `options` 对象
-2. `kmount` 的错误信息不准确
-3. 不支持文本节点的元素传入字符串内容时应报错或警告
-4. `dummyTextNode` 共享可能导致的问题
+1. ✅ ~~`kon` 方法修改用户传入的 `options` 对象~~ **已按用户意见移除 delete 语句**
+2. ✅ ~~`kmount` 的错误信息不准确~~ **已修正**
+3. ~~不支持文本节点的元素传入字符串内容时应报错或警告~~ **用户回复：无必要，与浏览器原生行为一致**
+4. ~~`dummyTextNode` 共享可能导致的问题~~ **用户回复：已改为假节点，有判定逻辑**
 
 ### 🟡 建议优化（Medium）
 
-1. 重构 `attr.ts` 中的属性处理逻辑，减少重复代码
-2. 文本节点的延迟创建优化
-3. `Indexer` 类简化为闭包
-4. 函数属性的处理策略（禁止或自动转换）
+1. ~~重构 `attr.ts` 中的属性处理逻辑，减少重复代码~~ **用户回复：已修改函数属性处理**
+2. ~~文本节点的延迟创建优化~~ **用户回复：预留的文本节点必须存在**
+3. ~~`Indexer` 类简化为闭包~~ **保持现状**
+4. ~~函数属性的处理策略（禁止或自动转换）~~ **用户回复：已修改**
 
 ### 🟢 可选改进（Low）
 
-1. 命名规范的文档化
-2. 类型定义的严格性提升
+1. ~~命名规范的文档化~~ **用户回复：内部使用，不影响外部**
+2. ~~类型定义的严格性提升~~ **用户回复：需要灵活性，之后会调整 export 方式**
 3. 增加测试覆盖率
-4. 统一代码注释语言
+4. ~~统一代码注释语言~~ **按照规范应使用英文**
+5. ~~`$isInput` 的正则优化~~ **用户回复：保持兼容 XML 小写情况**
+6. ~~`$clamp` 函数的用途~~ **用户回复：将来可能用到**
 
 ---
 
 ## 整体评价
 
-KT.js 的核心设计理念非常清晰且有价值，代码质量总体良好，性能优化意识强。主要问题集中在：
+KT.js 的核心设计理念非常清晰且有价值，代码质量总体良好，性能优化意识强。
 
-1. 一些明显的 bug（`createApp`）
-2. 边界情况处理不够完善
-3. 代码重复度可以降低
+### ✅ 已完成的改进
 
-修复上述问题后，这将是一个非常优秀的极简框架！
+1. 修复了 `createApp` 函数的关键 bug
+2. 修正了 `kmount` 的错误提示信息
+3. 为 `kon` 方法的返回值行为添加了文档说明
+4. 移除了 `kon` 中不必要的 `delete options.triggerLimit` 语句
+5. 修改了函数属性的处理策略
+
+### 🔴 剩余关键问题
+
+1. **测试文件引用不存在的模块** - `privates.js` 需要创建或修正引用
+
+### 📝 设计决策说明
+
+根据用户反馈，以下是有意为之的设计决策，不需要修改：
+
+- 不支持文本节点的元素传入字符串会被静默忽略（与浏览器行为一致）
+- `dummyTextNode` 的共享使用（已改为假节点，有判定逻辑）
+- 预留文本节点必须存在（`kchildren` setter 的设计）
+- 依赖 `Function.prototype.call/apply` 的可靠性（与 Vue/React 相同）
+- `$` 前缀命名仅用于内部，不影响外部使用
+- 保持 `$isInput` 对 XML 小写标签的兼容性
+- `KAttribute` 接口保持灵活性（将来会调整导出方式）
+
+这是一个设计理念清晰、实现精简高效的极简框架！

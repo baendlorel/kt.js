@@ -82,6 +82,12 @@ After calling `enhance(element)` (done internally by `h` when appropriate), an H
   - `kon(type, listener, options?)` — enhanced addEventListener
     - Normalizes options. Supports a `triggerLimit` option which will remove the listener after N triggers (if `triggerLimit === 1` it becomes `once`).
     - Returns the listener (or a wrapped listener used for limited triggers).
+    - **Important**: When using `triggerLimit`, `kon` returns a new wrapped function instead of the original listener. You must use this returned value when calling `koff` to properly remove the listener. Example:
+      ```ts
+      const wrappedHandler = element.kon('click', handler, { triggerLimit: 3 });
+      // Later, to remove:
+      element.koff('click', wrappedHandler); // Use wrappedHandler, not the original handler
+      ```
   - `koff(type, listener, options?)` — enhanced removeEventListener
     - Removes event listeners respecting provided options.
   - `kmount(element)` — append/mount helper

@@ -81,7 +81,7 @@ declare global {
     /**
      * @internal
      */
-    [KTextSymbol]: Text | undefined;
+    [KTextSymbol]: Text;
   }
 
   /**

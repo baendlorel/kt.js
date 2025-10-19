@@ -1,6 +1,6 @@
 import { deferedBranchDynamic } from 'defered-branch';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
-import { $isArray, $isObject, $appendChild, $createTextNode } from '@/lib/index.js';
+import { $isArray, $isObject, $appendChild, $textNode } from '@/lib/index.js';
 
 const contentIsString = (element: HTMLKEnhancedElement, content: RawContent) => {
   content = content as string;
@@ -16,7 +16,7 @@ const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
   for (let i = 0; i < len; i++) {
     const c = content[i];
     if (typeof c === 'string') {
-      $appendChild.call(element, $createTextNode(c));
+      $appendChild.call(element, $textNode(c));
       continue;
     }
 

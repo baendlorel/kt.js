@@ -1,11 +1,14 @@
+import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
+import { $h, $textNode, $appendChild, $define } from '@/lib/index.js';
 import { Indexer } from '@/utils/indexer.js';
-import { $createElement, $createTextNode, $appendChild, $set } from '@/lib/index.js';
 
 import { enhance } from '../enhance/index.js';
 import { needKText } from '../enhance/specialize.js';
 import { attrBranch } from './attr.js';
 import { contentBranch } from './content.js';
-import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
+
+const dummyTextNode = $textNode();
+$define(dummyTextNode, 'textContent', { value: '' });
 
 /**
  * Create an enhanced HTMLElement.
@@ -26,12 +29,12 @@ export function h<T extends HTMLTag>(
   contentBranch.predicate(null, content);
 
   // * start creating the element
-  const element = $createElement(tag) as HTMLKEnhancedElement<T>;
+  const element = $h(tag) as HTMLKEnhancedElement<T>;
 
   element[KIdSymbol] = Indexer.nextKid();
-  if (needKText(tag)) {
-    $appendChild.call(element, (element[KTextSymbol] = $createTextNode()));
-  }
+  const tn = needKText(tag) ? $textNode() : dummyTextNode;
+  element[KTextSymbol] = tn;
+  $appendChild.call(element, tn);
 
   // * define enhancing properties
   enhance(element);

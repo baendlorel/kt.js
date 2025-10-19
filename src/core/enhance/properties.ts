@@ -3,18 +3,18 @@ import { $arrayFrom, $appendChild, $textNode } from '@/lib/index.js';
 
 export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescriptor> = {
   ktext: {
-    get(this: HTMLKEnhancedElement): string {
+    get(this: HTMLKElement): string {
       return this[KTextSymbol].textContent;
     },
-    set(this: HTMLKEnhancedElement, newText: string): void {
+    set(this: HTMLKElement, newText: string): void {
       this[KTextSymbol].textContent = newText;
     },
   },
   kchildren: {
-    get<E extends HTMLKEnhancedElement>(this: E): KChildren[] {
+    get<E extends HTMLKElement>(this: E): KChildren[] {
       return $arrayFrom(this.children) as KChildren[];
     },
-    set<E extends HTMLKEnhancedElement>(this: E, elements: (KChildren | string)[]): void {
+    set<E extends HTMLKElement>(this: E, elements: (KChildren | string)[]): void {
       this.textContent = '';
       $appendChild.call(this, this[KTextSymbol]); // keep text node always available
 

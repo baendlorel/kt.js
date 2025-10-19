@@ -119,12 +119,12 @@ type Params<Fn extends (...args: any[]) => any> = ParamPossibility<Fn, 17>;
 const sss = <T extends keyof HTMLElementTagNameMap>(
   tag: T,
   attr?: string | KAttribute,
-  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
-) => ({}) as HTMLKEnhancedElement<T>;
+  content?: (HTMLKElement | string)[] | HTMLKElement | string
+) => ({}) as HTMLKElement<T>;
 const ssss = bindParams(sss, 'a');
 ```
 
-## 其中ssss的类型为`(tag: keyof HTMLElementTagNameMap, attr?: string | KAttribute | undefined, content?: string | HTMLKEnhancedElement<NonSpecialTags> | (string | HTMLKEnhancedElement<NonSpecialTags>)[] | undefined) => HTMLKEnhancedElement<keyof HTMLElementTagNameMap>`，第一个入参tag还在。不知道为什么。bindParams明明对其他简单的泛型函数、可选参数什么的都没问题的。
+## 其中ssss的类型为`(tag: keyof HTMLElementTagNameMap, attr?: string | KAttribute | undefined, content?: string | HTMLKElement<NonSpecialTags> | (string | HTMLKElement<NonSpecialTags>)[] | undefined) => HTMLKElement<keyof HTMLElementTagNameMap>`，第一个入参tag还在。不知道为什么。bindParams明明对其他简单的泛型函数、可选参数什么的都没问题的。
 
 ---
 

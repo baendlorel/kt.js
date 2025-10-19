@@ -21,7 +21,7 @@ export function h<T extends HTMLTag>(
   tag: T,
   attr: RawAttribute = '',
   content: RawContent = ''
-): HTMLKEnhancedElement<T> {
+): HTMLKElement<T> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
@@ -29,7 +29,7 @@ export function h<T extends HTMLTag>(
   contentBranch.predicate(null, content);
 
   // * start creating the element
-  const element = $h(tag) as HTMLKEnhancedElement<T>;
+  const element = $h(tag) as HTMLKElement<T>;
 
   element[KIdSymbol] = Indexer.nextKid();
   const tn = needKText(tag) ? $textNode() : dummyTextNode;

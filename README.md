@@ -45,13 +45,13 @@ createApp(app);
 
 - `h` — Creates a KT-enhanced DOM element representation.
   - Typical usage:` h('div', { id: 'root' }, 'Hello')`.
-  - Returns an `HTMLKEnhancedElement` (an HTMLElement with extra `enhance` properties described below).
+  - Returns an `HTMLKElement` (an HTMLElement with extra `enhance` properties described below).
   - Rich aliases like `div`, `span`, `ul`, etc. are available for convenience.
     - `div(attr, content)` is equivalent to `h('div', attr, content)`.
 
 - `createApp` — mount helper
   - Mounts a root element to the document.
-  - Signature: `createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
+  - Signature: `createApp(rootElement: HTMLKElement, mountTo?: HTMLElement)`
   - If `mountTo` is omitted, it tries `#app` and falls back to `document.body`.
 
 ** Work with `@emotion/css`**
@@ -71,7 +71,7 @@ h('div', { class: className }, 'Styled text');
 
 ## Enhance-added properties and methods
 
-After calling `enhance(element)` (done internally by `h` when appropriate), an HTMLElement becomes an `HTMLKEnhancedElement` with the following additions:
+After calling `enhance(element)` (done internally by `h` when appropriate), an HTMLElement becomes an `HTMLKElement` with the following additions:
 
 - Properties
   - `ktext` (string): getter/setter that proxies to an internal Text node stored on the element (reads/writes element text content).

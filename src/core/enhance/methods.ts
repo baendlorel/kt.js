@@ -1,6 +1,5 @@
-import { $appendChild, $on, $off, $is, $isObject, $isSafeInt } from '@/lib/index.js';
-
-import { isKEnhanced } from '../privates.js';
+import { KIdSymbol } from '@/consts/sym.js';
+import { $appendChild, $on, $off, $isObject, $isSafeInt } from '@/lib/index.js';
 
 export const methods: PickMethod<KEnhanced> = {
   kon<E extends HTMLElement, T extends keyof HTMLElementEventMap>(
@@ -58,8 +57,8 @@ export const methods: PickMethod<KEnhanced> = {
 
     $off.call(this, type, listener as EventListener, options);
   },
-  kmount<E extends HTMLKEnhancedElement>(this: E, target: HTMLKEnhancedElement): E {
-    if (!isKEnhanced(target)) {
+  kmount<E extends HTMLKElement>(this: E, target: HTMLKElement): E {
+    if (!(KIdSymbol in target)) {
       throw new TypeError('[__NAME__:kmount] target must be a KText element.');
     }
 

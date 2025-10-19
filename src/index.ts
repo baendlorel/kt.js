@@ -1,6 +1,6 @@
 export * from './shortcuts/index.js';
+import { KIdSymbol } from './consts/sym.js';
 import { h } from './core/h/index.js';
-import { isKEnhanced } from './core/privates.js';
 
 import { $appendChild, $id, $is, $isObject } from './lib/index.js';
 
@@ -9,12 +9,12 @@ import { $appendChild, $id, $is, $isObject } from './lib/index.js';
  *
  * ## Usage
  * Mount root element to `#app`(`body` if not found) or to the given element.
- * @param rootElement an instance of `HTMLKEnhancedElement`, created by `h` function.
+ * @param rootElement an instance of `HTMLKElement`, created by `h` function.
  * @param mountTo any `HTMLElement` to mount to, if omitted, will mount to `#app` or `body`.
  */
-function createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement): void {
-  if (!isKEnhanced(rootElement)) {
-    throw new TypeError('Root element must be a KText element.');
+function createApp(rootElement: HTMLKElement, mountTo?: HTMLElement): void {
+  if (!(KIdSymbol in rootElement)) {
+    throw new TypeError('Root element must be HTMLKElement.');
   }
 
   const appDiv = $id('app') ?? document.body;

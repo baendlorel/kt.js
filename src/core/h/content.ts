@@ -2,7 +2,7 @@ import { deferedBranchDynamic } from 'defered-branch';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
 import { $isArray, $isObject, $appendChild, $textNode } from '@/lib/index.js';
 
-const contentIsString = (element: HTMLKEnhancedElement, content: RawContent) => {
+const contentIsString = (element: HTMLKElement, content: RawContent) => {
   content = content as string;
   // Only set ktext if the element supports it (has a text node)
   if (element[KTextSymbol]) {
@@ -10,8 +10,8 @@ const contentIsString = (element: HTMLKEnhancedElement, content: RawContent) => 
   }
 };
 
-const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
-  content = content as (HTMLKEnhancedElement | string)[];
+const contentIsArray = (element: HTMLKElement, content: RawContent) => {
+  content = content as (HTMLKElement | string)[];
   const len = content.length;
   for (let i = 0; i < len; i++) {
     const c = content[i];
@@ -29,8 +29,8 @@ const contentIsArray = (element: HTMLKEnhancedElement, content: RawContent) => {
   }
 };
 
-const contentIsObject = (element: HTMLKEnhancedElement, content: RawContent) => {
-  content = content as HTMLKEnhancedElement;
+const contentIsObject = (element: HTMLKElement, content: RawContent) => {
+  content = content as HTMLKElement;
   if (!(KIdSymbol in content)) {
     invalid();
   }
@@ -44,7 +44,7 @@ const invalid = (): never => {
   );
 };
 
-type BranchFn = (element: HTMLKEnhancedElement, content: RawContent) => void;
+type BranchFn = (element: HTMLKElement, content: RawContent) => void;
 type NoMatchFn = typeof invalid;
 type PredicateFn = (_: null, content: RawContent) => boolean;
 

@@ -2,7 +2,7 @@ import { KIdSymbol, KTextSymbol } from '@/consts/sym.ts';
 
 declare global {
   //__EXPORT__FLAG__
-  type KChildren = HTMLKEnhancedElement | Text;
+  type KChildren = HTMLKElement | Text;
 
   interface KOnOptions extends AddEventListenerOptions {
     /**
@@ -69,7 +69,7 @@ declare global {
      * @param element the DOM element to mount into
      * @returns this
      */
-    kmount: <E extends HTMLKEnhancedElement>(this: E, element: HTMLKEnhancedElement) => E;
+    kmount: <E extends HTMLKElement>(this: E, element: HTMLKElement) => E;
   }
 
   interface KEnhancedPrivates {
@@ -91,12 +91,11 @@ declare global {
    * with KT.js enhancements defined in KEnhanced.
    */
   //__EXPORT__FLAG__
-  type HTMLKEnhancedElement<T extends HTMLTag = NonSpecialTags> =
+  type HTMLKElement<T extends HTMLTag = NonSpecialTags> =
     (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
       KEnhanced &
       KEnhancedPrivates;
 
   //__EXPORT__FLAG__
-  type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> =
-    HTMLKEnhancedElement<T>;
+  type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> = HTMLKElement<T>;
 }

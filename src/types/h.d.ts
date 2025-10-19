@@ -1,15 +1,15 @@
 type HFunction = <T extends HTMLTag>(
   tag: T,
   attr?: KAttribute | string,
-  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
-) => HTMLKEnhancedElement<T>;
+  content?: (HTMLKElement | string)[] | HTMLKElement | string
+) => HTMLKElement<T>;
 
 type HAlias<T extends HTMLTag> = (
   attr?: KAttribute | string,
-  content?: (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string
-) => HTMLKEnhancedElement<T>;
+  content?: (HTMLKElement | string)[] | HTMLKElement | string
+) => HTMLKElement<T>;
 
-type RawContent = (HTMLKEnhancedElement | string)[] | HTMLKEnhancedElement | string;
+type RawContent = (HTMLKElement | string)[] | HTMLKElement | string;
 type RawAttribute = KAttribute | string;
 
 /**

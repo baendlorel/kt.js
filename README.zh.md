@@ -45,13 +45,13 @@ createApp(app);
 
 - `h` — 创建一个加强版的HTML元素。
   - 常见用法：`h('div', { id: 'root' }, 'Hello')`。
-  - 返回一个 `HTMLKEnhancedElement`（即带有额外 enhance 属性的 HTMLElement，详见下文）。
+  - 返回一个 `HTMLKElement`（即带有额外 enhance 属性的 HTMLElement，详见下文）。
   - 提供一组别名，例如 `div`、`span`、`ul` 等。
     - `div(attr, content)` 等价于 `h('div', attr, content)`。
 
 - `createApp` — 将根元素挂载到文档中。
   - 默认查找 `#app`，找不到时回退到 `document.body`，也可以通过`mountTo`入参指定挂载位置。
-  - 函数签名：`createApp(rootElement: HTMLKEnhancedElement, mountTo?: HTMLElement)`
+  - 函数签名：`createApp(rootElement: HTMLKElement, mountTo?: HTMLElement)`
 
 ** 与 `@emotion/css` 一起使用 **
 
@@ -72,7 +72,7 @@ h('div', { class: className }, 'Styled text');
 
 ## Enhance 增强后新增的属性与方法
 
-当对一个元素调用 `enhance(element)`（`h` 在需要时会在内部完成该步骤）后，HTMLElement 会变为 `HTMLKEnhancedElement`，并添加如下扩展：
+当对一个元素调用 `enhance(element)`（`h` 在需要时会在内部完成该步骤）后，HTMLElement 会变为 `HTMLKElement`，并添加如下扩展：
 
 - 属性
   - `ktext`（字符串）：getter/setter，代理到存放在元素内部的 Text 节点（用于读写元素文本内容）。

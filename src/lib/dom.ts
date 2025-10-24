@@ -12,6 +12,3 @@ export const $textNode = (data: string = '') => createTextNode.call(document, da
 
 export const $appendChild = HTMLElement.prototype.appendChild;
 export const $setAttr = HTMLElement.prototype.setAttribute;
-export const $removeAttr = HTMLElement.prototype.removeAttribute;
-
-export const $domTokenListAdd = DOMTokenList.prototype.add;

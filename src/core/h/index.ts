@@ -3,6 +3,7 @@ import { HTMLKElement } from '@/types/enhance.js';
 import { RawAttribute, RawContent } from '@/types/h.js';
 import { KTextSymbol } from '@/consts/sym.js';
 import { $h, $textNode, $appendChild, $defineProperties } from '@/lib/index.js';
+import { throws } from '@/lib/error.js';
 
 import { enhance } from '../enhance/index.js';
 import { needKText } from '../enhance/specialize.js';
@@ -21,7 +22,7 @@ $defineProperties(dummyTextNode, { textContent: { value: '' } });
  */
 export function h<T extends HTMLTag>(tag: T, attr: RawAttribute = '', content: RawContent = ''): HTMLKElement<T> {
   if (typeof tag !== 'string') {
-    throw new TypeError('[__NAME__:h] tagName must be a string.');
+    throws('__func__ tagName must be a string.');
   }
 
   // * start creating the element

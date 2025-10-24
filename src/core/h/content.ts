@@ -1,46 +1,32 @@
 import { HTMLKElement } from '@/types/enhance.js';
 import { RawContent } from '@/types/h.js';
-
-import { KTextSymbol } from '@/consts/sym.js';
 import { $isArray, $appendChild, $textNode } from '@/lib/index.js';
-
-function contentIsString(element: HTMLKElement, content: string) {
-  // Only set ktext if the element supports it (has a text node)
-  if (element[KTextSymbol]) {
-    element.ktext = content;
-  }
-}
+import { throws } from '@/lib/error.js';
 
 function contentIsArray(element: HTMLKElement, content: (HTMLKElement | string | undefined)[]) {
   const len = content.length;
   for (let i = 0; i < len; i++) {
     const c = content[i];
-    if (!c) {
+    if (c === undefined) {
       continue;
-    }
-
-    if (typeof c === 'object') {
+    } else if (typeof c === 'object') {
       $appendChild.call(element, c);
     } else if (typeof c === 'string') {
       $appendChild.call(element, $textNode(c));
     } else {
-      throw new TypeError('[__NAME__: __func__] invalid content.');
+      throws('__func__ invalid content.');
     }
   }
 }
 
-function contentIsObject(element: HTMLKElement, content: HTMLKElement) {
-  $appendChild.call(element, content);
-}
-
 export function applyContent(element: HTMLKElement, content: RawContent): void {
   if (typeof content === 'string') {
-    contentIsString(element, content);
+    element.ktext = content;
   } else if ($isArray(content)) {
     contentIsArray(element, content);
   } else if (content instanceof HTMLElement) {
-    contentIsObject(element, content);
+    $appendChild.call(element, content);
   } else {
-    throw new TypeError('[__NAME__: __func__] invalid content.');
+    throws('__func__ invalid content.');
   }
 }

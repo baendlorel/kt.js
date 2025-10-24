@@ -1,4 +1,5 @@
 import { KEnhanced, HTMLKElement } from '@/types/enhance.js';
+import { PickProperty } from '@/types/type-utils.js';
 import { KTextSymbol } from '@/consts/sym.js';
 
 export const descriptors: Record<keyof PickProperty<KEnhanced>, PropertyDescriptor> = {

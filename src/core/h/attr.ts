@@ -1,9 +1,7 @@
 import { RawAttribute, KAttribute } from '@/types/h.js';
 import { $setAttr, $assign, $keys } from '@/lib/index.js';
+import { throws } from '@/lib/error.js';
 
-function attrIsString(element: HTMLElement, attr: string) {
-  element.className = attr;
-}
 const booleanHandler = (element: HTMLElement, key: string, value: any) => {
   if (key in element) {
     (element as any)[key] = !!value;
@@ -86,10 +84,10 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
 
 export function applyAttr(element: HTMLElement, attr: RawAttribute) {
   if (typeof attr === 'string') {
-    attrIsString(element, attr);
+    element.className = attr;
   } else if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KAttribute);
   } else {
-    throw new TypeError('[__NAME__: __func__] attr must be an object.');
+    throws('__func__ attr must be an object.');
   }
 }

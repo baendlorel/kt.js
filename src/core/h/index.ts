@@ -1,9 +1,8 @@
 import { HTMLTag } from '@/global.js';
 import { HTMLKElement } from '@/types/enhance.js';
 import { RawAttribute, RawContent } from '@/types/h.js';
-import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
+import { KTextSymbol } from '@/consts/sym.js';
 import { $h, $textNode, $appendChild, $defineProperties } from '@/lib/index.js';
-import { Indexer } from '@/utils/indexer.js';
 
 import { enhance } from '../enhance/index.js';
 import { needKText } from '../enhance/specialize.js';
@@ -28,7 +27,6 @@ export function h<T extends HTMLTag>(tag: T, attr: RawAttribute = '', content: R
   // * start creating the element
   const element = $h(tag) as HTMLKElement<T>;
 
-  element[KIdSymbol] = Indexer.nextKid();
   if (needKText(tag)) {
     $appendChild.call(element, (element[KTextSymbol] = $textNode()));
   } else {

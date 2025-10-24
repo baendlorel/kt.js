@@ -1,4 +1,4 @@
-import { KIdSymbol, KTextSymbol } from '@/consts/sym.ts';
+import { KTextSymbol } from '@/consts/sym.ts';
 import { HTMLTag, NonSpecialTags, InputElementTag } from '@/global.js';
 
 export type KChildren = HTMLKElement | Text;
@@ -25,11 +25,6 @@ export interface KEnhanced {
 }
 
 export interface KEnhancedPrivates {
-  /**
-   * @internal
-   */
-  [KIdSymbol]: number;
-
   /**
    * @internal
    */

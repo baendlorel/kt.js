@@ -1,16 +1,11 @@
-import { deferedBranchDynamic } from 'defered-branch';
 import { RawAttribute, KAttribute } from '@/types/h.js';
 import { $isObject, $setAttr, $isArray, $assign, $keys, $domTokenListAdd } from '@/lib/index.js';
 
-const attrIsString = (element: HTMLElement, attr: RawAttribute) => {
-  attr = attr as string;
-
+function attrIsString(element: HTMLElement, attr: string) {
   element.className = attr;
-};
+}
 
-const attrIsObject = (element: HTMLElement, attr: RawAttribute) => {
-  attr = attr as KAttribute;
-
+function attrIsObject(element: HTMLElement, attr: KAttribute) {
   if (attr.class) {
     if ($isArray(attr.class)) {
       $domTokenListAdd.apply(element.classList, attr.class);
@@ -36,7 +31,7 @@ const attrIsObject = (element: HTMLElement, attr: RawAttribute) => {
     const o = attr[key];
 
     if (typeof o === 'function') {
-      throw new TypeError(`[__NAME__:h] Must use kon/koff to register events.`);
+      throw new TypeError(`[__NAME__: __func__] Must use kon/koff to register events.`);
     }
 
     // * Boolean attributes that should be set as properties
@@ -208,17 +203,14 @@ const attrIsObject = (element: HTMLElement, attr: RawAttribute) => {
     // * Consider as a custom attribute
     $setAttr.call(element, String(key), o);
   }
-};
+}
 
-const invalid = (): never => {
-  throw new TypeError('[__NAME__:h] attr must be an object.');
-};
-
-type BranchFn = (element: HTMLElement, attr: RawAttribute) => void;
-type NoMatchFn = typeof invalid;
-type PredicateFn = (_: null, attr: RawAttribute) => boolean;
-
-export const attrBranch = deferedBranchDynamic<BranchFn, NoMatchFn, PredicateFn>()
-  .add((_, attr) => typeof attr === 'string', attrIsString)
-  .add((_, attr) => $isObject(attr), attrIsObject)
-  .nomatch(invalid);
+export function applyAttr(element: HTMLElement, attr: RawAttribute) {
+  if (typeof attr === 'string') {
+    attrIsString(element, attr);
+  } else if ($isObject<KAttribute>(attr)) {
+    attrIsObject(element, attr);
+  } else {
+    throw new TypeError('[__NAME__: __func__] attr must be an object.');
+  }
+}

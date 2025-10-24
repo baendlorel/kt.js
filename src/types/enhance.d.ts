@@ -22,53 +22,6 @@ export interface KEnhanced {
    * - it is not recommended to use `textContent` any more
    */
   ktext: string;
-
-  /**
-   * Array of children for this enhanced element.
-   * - read as `Array`, not `HTMLCollection`.
-   * - can be set to replace all child nodes.
-   */
-  kchildren: KChildren[];
-
-  /**
-   * Attach an event listener to the element and return a typed listener
-   * function. The generic parameters ensure the listener and returned
-   * function are correctly typed for the element and event.
-   * @param type event type (e.g., 'click')
-   * @param listener event listener callback
-   * @param options listener options or capture flag
-   * @returns the listener function typed for the specific element and event
-   */
-  kon: <E extends HTMLElement, K extends keyof HTMLElementEventMap>(
-    this: E,
-    type: K,
-    listener: KListener<HTMLElement, K>,
-    options?: KOnOptions
-  ) => KListener<E, K>;
-
-  /**
-   * Remove or detach an event listener from the element. Semantically this
-   * is the counterpart to `kon` and accepts the same arguments. Returns
-   * nothing.
-   * @param type event type
-   * @param listener event listener to remove
-   * @param options listener options
-   */
-  koff: <E extends HTMLElement, K extends keyof HTMLElementEventMap>(
-    this: E,
-    type: K,
-    listener: KListener<HTMLElement, K>,
-    options?: KOnOptions
-  ) => void;
-
-  /**
-   * Mount this enhanced element onto a host DOM element. This typically
-   * appends the enhanced element to the supplied `element` and performs any
-   * needed setup. Returns the mounted enhanced element.
-   * @param element the DOM element to mount into
-   * @returns this
-   */
-  kmount: <E extends HTMLKElement>(this: E, element: HTMLKElement) => E;
 }
 
 export interface KEnhancedPrivates {
@@ -89,10 +42,10 @@ export interface KEnhancedPrivates {
  * It combines the standard HTMLElement properties and methods
  * with KT.js enhancements defined in KEnhanced.
  */
-export type HTMLKElement<T extends HTMLTag = NonSpecialTags> =
-  (HTMLElement extends HTMLElementTagNameMap[T] ? HTMLElement : HTMLElementTagNameMap[T]) &
-    KEnhanced &
-    KEnhancedPrivates;
+export type HTMLKElement<T extends HTMLTag = NonSpecialTags> = (HTMLElement extends HTMLElementTagNameMap[T]
+  ? HTMLElement
+  : HTMLElementTagNameMap[T]) &
+  KEnhanced &
+  KEnhancedPrivates;
 
-export type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> =
-  HTMLKElement<T>;
+export type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> = HTMLKElement<T>;

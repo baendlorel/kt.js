@@ -9,6 +9,8 @@ import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
+import funcMacro from 'rollup-plugin-func-macro';
+import constEnum from 'rollup-plugin-const-enum';
 
 // custom plugins
 import { replaceOpts } from './.scripts/replace.mjs';
@@ -48,6 +50,8 @@ const options = [
       replace(replaceOpts),
       resolve(),
       typescript({ tsconfig }),
+      funcMacro(),
+      constEnum(),
       terser({
         format: {
           comments: false, // remove comments

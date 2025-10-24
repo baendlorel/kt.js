@@ -34,18 +34,8 @@ export interface KAttribute {
   max?: string;
   selected?: boolean;
   checked?: boolean;
-  class?: string | string[];
+  class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   action?: string;
-  method?:
-    | 'POST'
-    | 'GET'
-    | 'PUT'
-    | 'DELETE'
-    | 'PATCH'
-    | 'HEAD'
-    | 'OPTIONS'
-    | 'CONNECT'
-    | 'TRACE'
-    | otherstring;
+  method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }

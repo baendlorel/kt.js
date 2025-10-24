@@ -1,24 +1,22 @@
-import { bindParams } from 'bind-params';
-import { h } from '@/core/h/index.js';
-import { HAlias } from '@/types/h.js';
+import { aliasH } from './alias-h.js';
 
 /** Alias for h('input', ...) - Input field */
-export const input: HAlias<'input'> = bindParams(h<'input'>, 'input');
+export const input = aliasH('input');
 
 /** Alias for h('select', ...) - Select */
-export const select: HAlias<'select'> = bindParams(h<'select'>, 'select');
+export const select = aliasH('select');
 
 /** Alias for h('option', ...) - Options */
-export const option: HAlias<'option'> = bindParams(h<'option'>, 'option');
+export const option = aliasH('option');
 
 /** Alias for h('optgroup', ...) - Option Groups */
-export const optgroup: HAlias<'optgroup'> = bindParams(h<'optgroup'>, 'optgroup');
+export const optgroup = aliasH('optgroup');
 
 /** Alias for h('textarea', ...) - Textarea */
-export const textarea: HAlias<'textarea'> = bindParams(h<'textarea'>, 'textarea');
+export const textarea = aliasH('textarea');
 
 /** Alias for h('form', ...) - Form */
-export const form: HAlias<'form'> = bindParams(h<'form'>, 'form');
+export const form = aliasH('form');
 
 /** Alias for h('label', ...) - Label */
-export const label: HAlias<'label'> = bindParams(h<'label'>, 'label');
+export const label = aliasH('label');

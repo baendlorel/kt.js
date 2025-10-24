@@ -1,30 +1,28 @@
-import { bindParams } from 'bind-params';
-import { h } from '@/core/h/index.js';
-import { HAlias } from '@/types/h.js';
+import { aliasH } from './alias-h.js';
 
 /** Alias for h('header', ...) - Header section */
-export const header: HAlias<'header'> = bindParams(h, 'header');
+export const header = aliasH('header');
 
 /** Alias for h('nav', ...) - Navigation section */
-export const nav: HAlias<'nav'> = bindParams(h, 'nav');
+export const nav = aliasH('nav');
 
 /** Alias for h('main', ...) - Main content */
-export const main: HAlias<'main'> = bindParams(h, 'main');
+export const main = aliasH('main');
 
 /** Alias for h('article', ...) - Article block */
-export const article: HAlias<'article'> = bindParams(h, 'article');
+export const article = aliasH('article');
 
 /** Alias for h('section', ...) - Section block */
-export const section: HAlias<'section'> = bindParams(h, 'section');
+export const section = aliasH('section');
 
 /** Alias for h('aside', ...) - Aside (sidebar) */
-export const aside: HAlias<'aside'> = bindParams(h, 'aside');
+export const aside = aliasH('aside');
 
 /** Alias for h('footer', ...) - Footer section */
-export const footer: HAlias<'footer'> = bindParams(h, 'footer');
+export const footer = aliasH('footer');
 
 /** Alias for h('figure', ...) - Figure with caption */
-export const figure: HAlias<'figure'> = bindParams(h, 'figure');
+export const figure = aliasH('figure');
 
 /** Alias for h('figcaption', ...) - Figure caption */
-export const figcaption: HAlias<'figcaption'> = bindParams(h, 'figcaption');
+export const figcaption = aliasH('figcaption');

@@ -1,11 +1,7 @@
 import { HTMLTag, otherstring } from '@/global.js';
 import { HTMLKElement } from './enhance.js';
 
-export type HAlias<T extends HTMLTag> = (
-  attr?: KAttribute | string,
-  content?: (HTMLKElement | string | undefined)[] | HTMLKElement | string
-) => HTMLKElement<T>;
-
+export type HAlias<T extends HTMLTag> = (attr?: RawAttribute, content?: RawContent) => HTMLKElement<T>;
 export type RawContent = (HTMLKElement | string | undefined)[] | HTMLKElement | string;
 export type RawAttribute = KAttribute | string;
 
@@ -13,7 +9,6 @@ export type RawAttribute = KAttribute | string;
  * Used to create enhanced HTML elements
  */
 export interface KAttribute {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 
   id?: string;
@@ -22,6 +17,8 @@ export interface KAttribute {
   for?: string;
   name?: string;
   value?: string;
+  valueAsDate?: Date;
+  valueAsNumber?: number;
   label?: string;
   disabled?: string;
   min?: string;

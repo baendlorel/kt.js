@@ -141,19 +141,23 @@ const handlers: Record<string, (element: HTMLElement, key: string, value: any) =
 const defaultHandler = (element: HTMLElement, key: string, value: any) => $setAttr.call(element, key, value);
 
 function attrIsObject(element: HTMLElement, attr: KAttribute) {
-  if (attr.class) {
-    element.className = attr.class;
+  const className = attr.class;
+  const style = attr.style;
+  if (className !== undefined) {
+    element.className = className;
+    delete attr.class;
   }
 
-  if (attr.style) {
-    if (typeof attr.style === 'string') {
-      element.setAttribute('style', attr.style);
+  if (style !== undefined) {
+    if (typeof style === 'string') {
+      element.setAttribute('style', style);
     } else {
-      $assign(element.style, attr.style);
+      $assign(element.style, style);
     }
+    delete attr.style;
   }
 
-  const keys = $keys(attr).filter((k) => k !== 'class' && k !== 'style') as (keyof KAttribute & string)[];
+  const keys = $keys(attr) as (keyof KAttribute & string)[];
   for (let i = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
     const o = attr[key];
@@ -163,6 +167,13 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     } else {
       element.addEventListener(key, o);
     }
+  }
+
+  if (className !== undefined) {
+    attr.style = className;
+  }
+  if (style !== undefined) {
+    attr.style = style;
   }
 }
 

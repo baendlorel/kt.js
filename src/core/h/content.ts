@@ -1,7 +1,7 @@
 import { HTMLKElement } from '@/types/enhance.js';
 import { RawContent } from '@/types/h.js';
 
-import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
+import { KTextSymbol } from '@/consts/sym.js';
 import { $isArray, $appendChild, $textNode } from '@/lib/index.js';
 
 function contentIsString(element: HTMLKElement, content: string) {
@@ -41,6 +41,6 @@ export function applyContent(element: HTMLKElement, content: RawContent): void {
   } else if (content instanceof HTMLElement) {
     contentIsObject(element, content);
   } else {
-    throw new TypeError('[__NAME__: __func__] content must be a string, HTMLEnhancedElement or HTMLEnhancedElement[].');
+    throw new TypeError('[__NAME__: __func__] invalid content.');
   }
 }

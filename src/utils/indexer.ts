@@ -1,6 +1,6 @@
-export namespace Indexer {
-  let kid = 0;
-  export function nextKid() {
-    return ++kid;
-  }
-}
+export const Indexer = {
+  kid: 0,
+  nextKid() {
+    return ++this.kid;
+  },
+};

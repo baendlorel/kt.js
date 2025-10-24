@@ -62,8 +62,5 @@
 		"tslib": "^2.8.1",
 		"typescript": "^5.9.2",
 		"vitest": "^3.2.4"
-	},
-	"dependencies": {
-		"bind-params": "^1.1.0"
 	}
 }

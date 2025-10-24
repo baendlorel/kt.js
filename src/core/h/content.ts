@@ -15,21 +15,17 @@ function contentIsArray(element: HTMLKElement, content: (HTMLKElement | string |
   const len = content.length;
   for (let i = 0; i < len; i++) {
     const c = content[i];
-    if (c === undefined) {
+    if (!c) {
       continue;
     }
 
-    if (typeof c === 'string') {
-      $appendChild.call(element, $textNode(c));
-      continue;
-    }
-
-    if (KIdSymbol in c) {
+    if (typeof c === 'object') {
       $appendChild.call(element, c);
-      continue;
+    } else if (typeof c === 'string') {
+      $appendChild.call(element, $textNode(c));
+    } else {
+      throw new TypeError('[__NAME__: __func__] invalid content.');
     }
-
-    throw new TypeError('[__NAME__: __func__] content must be a string, HTMLEnhancedElement or HTMLEnhancedElement[].');
   }
 }
 

@@ -1,8 +1,8 @@
 import { HTMLTag } from '@/global.js';
 import { HTMLKElement } from '@/types/enhance.js';
-import { RawAttribute, RawContent, HFunction } from '@/types/h.js';
+import { RawAttribute, RawContent } from '@/types/h.js';
 import { KIdSymbol, KTextSymbol } from '@/consts/sym.js';
-import { $h, $textNode, $appendChild, $define } from '@/lib/index.js';
+import { $h, $textNode, $appendChild, $defineProperties } from '@/lib/index.js';
 import { Indexer } from '@/utils/indexer.js';
 
 import { enhance } from '../enhance/index.js';
@@ -11,7 +11,7 @@ import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
 const dummyTextNode = {} as Text;
-$define(dummyTextNode, 'textContent', { value: '' });
+$defineProperties(dummyTextNode, { textContent: { value: '' } });
 
 /**
  * Create an enhanced HTMLElement.
@@ -44,5 +44,3 @@ export function h<T extends HTMLTag>(tag: T, attr: RawAttribute = '', content: R
 
   return element;
 }
-
-true satisfies IsSameType<typeof h, HFunction>;

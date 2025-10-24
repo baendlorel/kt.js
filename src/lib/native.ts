@@ -1,5 +1,3 @@
-export const $define = Reflect.defineProperty;
-
 export const $isArray = Array.isArray;
 export const $stringSlice = String.prototype.slice;
 

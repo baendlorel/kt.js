@@ -1,12 +1,6 @@
-export class Indexer extends null {
-  // private static index = 0;
-  // static genIndex() {
-  //   const index = (++Indexer.index).toString(36);
-  //   return 'data-k-' + index.padStart(6, '0');
-  // }
-
-  private static kid = 0;
-  static nextKid() {
-    return ++Indexer.kid;
+export namespace Indexer {
+  let kid = 0;
+  export function nextKid() {
+    return ++kid;
   }
 }

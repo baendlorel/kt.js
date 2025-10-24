@@ -51,4 +51,4 @@ export const form: HAlias<'form'> = bindParams(h<'form'>, 'form');
 export const input: HAlias<'input'> = bindParams(h<'input'>, 'input');
 
 /** Alias for h('button', ...) - Button element */
-export const button: HAlias<'button'> = bindParams(h<'button'>, 'button');
+export const btn: HAlias<'button'> = bindParams(h<'button'>, 'button');

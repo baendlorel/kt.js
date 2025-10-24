@@ -1,18 +1,12 @@
 import { HTMLTag, otherstring } from '@/global.js';
 import { HTMLKElement } from './enhance.js';
 
-export type HFunction = <T extends HTMLTag>(
-  tag: T,
-  attr?: KAttribute | string,
-  content?: (HTMLKElement | string)[] | HTMLKElement | string
-) => HTMLKElement<T>;
-
 export type HAlias<T extends HTMLTag> = (
   attr?: KAttribute | string,
-  content?: (HTMLKElement | string)[] | HTMLKElement | string
+  content?: (HTMLKElement | string | undefined)[] | HTMLKElement | string
 ) => HTMLKElement<T>;
 
-export type RawContent = (HTMLKElement | string)[] | HTMLKElement | string;
+export type RawContent = (HTMLKElement | string | undefined)[] | HTMLKElement | string;
 export type RawAttribute = KAttribute | string;
 
 /**

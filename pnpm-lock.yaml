@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      bind-params:
-        specifier: ^1.1.0
-        version: 1.1.0
     devDependencies:
       '@rollup/plugin-alias':
         specifier: ^5.1.1
@@ -648,9 +644,6 @@ packages:
 
   bidi-js@1.0.3:
     resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
-
-  bind-params@1.1.0:
-    resolution: {integrity: sha512-fMIkkXQ54UJ5lDcnY7x9gqcLueTXutdrJRg4mRaIcXCEB5M5c2DNUTwY1jqkkaDZ062+3x7RPUXTlKC2FirZmw==}
 
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
@@ -1719,8 +1712,6 @@ snapshots:
   bidi-js@1.0.3:
     dependencies:
       require-from-string: 2.0.2
-
-  bind-params@1.1.0: {}
 
   brace-expansion@2.0.2:
     dependencies:

@@ -5,8 +5,140 @@ function attrIsString(element: HTMLElement, attr: string) {
   element.className = attr;
 }
 
-const isOptionalBooleanKey = (key: string) =>
-  key === 'disabled' || key === 'readOnly' || key === 'multiple' || key === 'required' || key === 'autofocus';
+// Attribute handlers map for optimized lookup
+const handlers: Record<string, (element: HTMLElement, key: string, value: any) => void> = {
+  checked: (element, key, value) => {
+    if (element instanceof HTMLInputElement) {
+      element.checked = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  value: (element, key, value) => {
+    if ($isInput(element)) {
+      element.value = value;
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  selected: (element, key, value) => {
+    if (element instanceof HTMLOptionElement) {
+      element.selected = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  defaultValue: (element, key, value) => {
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+      element.defaultValue = String(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  defaultChecked: (element, key, value) => {
+    if (element instanceof HTMLInputElement) {
+      element.defaultChecked = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  defaultSelected: (element, key, value) => {
+    if (element instanceof HTMLOptionElement) {
+      element.defaultSelected = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  disabled: (element, key, value) => {
+    if (key in element) {
+      (element as any)[key] = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  readOnly: (element, key, value) => {
+    if (key in element) {
+      (element as any)[key] = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  multiple: (element, key, value) => {
+    if (key in element) {
+      (element as any)[key] = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  required: (element, key, value) => {
+    if (key in element) {
+      (element as any)[key] = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  autofocus: (element, key, value) => {
+    if (key in element) {
+      (element as any)[key] = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  hidden: (element, _key, value) => {
+    element.hidden = Boolean(value);
+  },
+  open: (element, key, value) => {
+    if (element instanceof HTMLDetailsElement) {
+      element.open = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  controls: (element, key, value) => {
+    if (element instanceof HTMLMediaElement) {
+      element.controls = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  autoplay: (element, key, value) => {
+    if (element instanceof HTMLMediaElement) {
+      element.autoplay = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  loop: (element, key, value) => {
+    if (element instanceof HTMLMediaElement) {
+      element.loop = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  muted: (element, key, value) => {
+    if (element instanceof HTMLMediaElement) {
+      element.muted = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  defer: (element, key, value) => {
+    if (element instanceof HTMLScriptElement) {
+      element.defer = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+  async: (element, key, value) => {
+    if (element instanceof HTMLScriptElement) {
+      element.async = Boolean(value);
+    } else {
+      $setAttr.call(element, key, value);
+    }
+  },
+};
+
+const defaultHandler = (element: HTMLElement, key: string, value: any) => $setAttr.call(element, key, value);
 
 function attrIsObject(element: HTMLElement, attr: KAttribute) {
   if (attr.class) {
@@ -22,80 +154,14 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
   }
 
   const keys = $keys(attr).filter((k) => k !== 'class' && k !== 'style') as (keyof KAttribute & string)[];
-  const keysLen = keys.length;
-  for (let i = 0; i < keysLen; i++) {
+  for (let i = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
     const o = attr[key];
 
-    if (typeof o === 'function') {
-      element.addEventListener(key, o);
-    } else if (key === 'checked') {
-      // * Boolean attributes that should be set as properties
-      if (element instanceof HTMLInputElement) {
-        element.checked = Boolean(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'value') {
-      // * Handle value property for form elements
-      if ($isInput(element)) {
-        element.value = o;
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'selected') {
-      if (element instanceof HTMLOptionElement) {
-        element.selected = Boolean(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'defaultValue') {
-      // * Handle defaultValue for form elements
-      if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
-        element.defaultValue = String(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'defaultChecked') {
-      // * Handle defaultChecked for checkboxes and radios
-      if (element instanceof HTMLInputElement) {
-        element.defaultChecked = Boolean(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'defaultSelected') {
-      // * Handle defaultSelected for options
-      if (element instanceof HTMLOptionElement) {
-        element.defaultSelected = Boolean(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (isOptionalBooleanKey(key)) {
-      if (key in element) {
-        (element as any)[key] = Boolean(o);
-      } else {
-        $setAttr.call(element, key, o);
-      }
-    } else if (key === 'hidden') {
-      element.hidden = Boolean(o);
-    } else if (key === 'open' && element instanceof HTMLDetailsElement) {
-      // * Handle other boolean attributes that should be properties
-      element.open = Boolean(o);
-    } else if (key === 'controls' && element instanceof HTMLMediaElement) {
-      element.controls = Boolean(o);
-    } else if (key === 'autoplay' && element instanceof HTMLMediaElement) {
-      element.autoplay = Boolean(o);
-    } else if (key === 'loop' && element instanceof HTMLMediaElement) {
-      element.loop = Boolean(o);
-    } else if (key === 'muted' && element instanceof HTMLMediaElement) {
-      element.muted = Boolean(o);
-    } else if (key === 'defer' && element instanceof HTMLScriptElement) {
-      element.defer = Boolean(o);
-    } else if (key === 'async' && element instanceof HTMLScriptElement) {
-      element.async = Boolean(o);
+    if (typeof o !== 'function') {
+      (handlers[key] || defaultHandler)(element, key, o);
     } else {
-      // * Consider as a custom attribute
-      $setAttr.call(element, String(key), o);
+      element.addEventListener(key, o);
     }
   }
 }

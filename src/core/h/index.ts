@@ -7,8 +7,8 @@ import { Indexer } from '@/utils/indexer.js';
 
 import { enhance } from '../enhance/index.js';
 import { needKText } from '../enhance/specialize.js';
-import { attrBranch } from './attr.js';
-import { contentBranch } from './content.js';
+import { applyAttr } from './attr.js';
+import { applyContent } from './content.js';
 
 const dummyTextNode = {} as Text;
 $define(dummyTextNode, 'textContent', { value: '' });
@@ -20,16 +20,10 @@ $define(dummyTextNode, 'textContent', { value: '' });
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<T extends HTMLTag>(
-  tag: T,
-  attr: RawAttribute = '',
-  content: RawContent = ''
-): HTMLKElement<T> {
+export function h<T extends HTMLTag>(tag: T, attr: RawAttribute = '', content: RawContent = ''): HTMLKElement<T> {
   if (typeof tag !== 'string') {
     throw new TypeError('[__NAME__:h] tagName must be a string.');
   }
-  attrBranch.predicate(null, attr);
-  contentBranch.predicate(null, content);
 
   // * start creating the element
   const element = $h(tag) as HTMLKElement<T>;
@@ -45,8 +39,8 @@ export function h<T extends HTMLTag>(
   enhance(element);
 
   // * Handle content
-  attrBranch.run(element, attr);
-  contentBranch.run(element, content);
+  applyAttr(element, attr);
+  applyContent(element, content);
 
   return element;
 }

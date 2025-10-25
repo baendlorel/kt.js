@@ -3,6 +3,7 @@
 ## 0.1.0 2025-10-20 00:25
 
 - Minify the runtime
+- **Cancel all enhancement and return to the primary HTMLElement**
 
 ## 0.0.8 2025-09-20 14:59
 

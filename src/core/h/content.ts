@@ -1,9 +1,9 @@
-import { HTMLKElement } from '@/types/enhance.js';
 import { RawContent } from '@/types/h.js';
 import { $isArray, $appendChild, $textNode } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
+import { KEnhanced } from '@/types/enhance.js';
 
-function contentIsArray(element: HTMLKElement, content: (HTMLKElement | string | undefined)[]) {
+function contentIsArray(element: HTMLElement, content: (HTMLElement | string | undefined)[]) {
   const len = content.length;
   for (let i = 0; i < len; i++) {
     const c = content[i];
@@ -19,9 +19,9 @@ function contentIsArray(element: HTMLKElement, content: (HTMLKElement | string |
   }
 }
 
-export function applyContent(element: HTMLKElement, content: RawContent): void {
+export function applyContent(element: HTMLElement, content: RawContent): void {
   if (typeof content === 'string') {
-    element.ktext = content;
+    (element as HTMLElement & KEnhanced).ktext = content;
   } else if ($isArray(content)) {
     contentIsArray(element, content);
   } else if (content instanceof HTMLElement) {

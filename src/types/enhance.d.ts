@@ -22,9 +22,6 @@ export interface KEnhanced {
    * - it is not recommended to use `textContent` any more
    */
   ktext: string;
-}
-
-export interface KEnhancedPrivates {
   /**
    * @internal
    */
@@ -40,7 +37,6 @@ export interface KEnhancedPrivates {
 export type HTMLKElement<T extends HTMLTag = NonSpecialTags> = (HTMLElement extends HTMLElementTagNameMap[T]
   ? HTMLElement
   : HTMLElementTagNameMap[T]) &
-  KEnhanced &
-  KEnhancedPrivates;
+  KEnhanced;
 
 export type HTMLKEnhancedInputElement<T extends InputElementTag = InputElementTag> = HTMLKElement<T>;

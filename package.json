@@ -33,6 +33,7 @@
 		"javascript"
 	],
 	"scripts": {
+		"gsize": "cat dist/index.mjs | wc -c && gzip -c dist/index.mjs | wc -c",
 		"lines": "clear && find ./src -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" -o -name \"*.cpp\" -o -name \"*.h\" -o -name \"*.py\"  -o -name \"*.css\" -o -name \"*.rs\" -o -name \"*.rc\" \\) | xargs wc -l",
 		"test": "clear & vitest",
 		"lint": "oxlint .",

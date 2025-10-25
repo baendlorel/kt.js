@@ -5,9 +5,12 @@ export type IsSameType<A, B> =
       : false
     : false;
 
+/**
+ * Pick non-symbol and non-method property of a type
+ */
 export type PickProperty<T> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K]: T[K];
+  [K in keyof T as T[K] extends (...args: any[]) => any ? never : K extends symbol ? never : K]: T[K];
 };
 
 export type PickMethod<T> = {

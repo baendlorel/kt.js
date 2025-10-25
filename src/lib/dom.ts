@@ -11,4 +11,5 @@ export const $h = (id: HTMLTag | otherstring) => createElement.call(document, id
 export const $textNode = (data: string = '') => createTextNode.call(document, data);
 
 export const $append = HTMLElement.prototype.append;
+export const $on = HTMLElement.prototype.addEventListener;
 export const $setAttr = HTMLElement.prototype.setAttribute;

@@ -1,5 +1,5 @@
 import { RawAttribute, KAttribute } from '@/types/h.js';
-import { $setAttr, $assign, $keys } from '@/lib/index.js';
+import { $setAttr, $assign, $keys, $on } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 
 const booleanHandler = (element: HTMLElement, key: string, value: any) => {
@@ -55,7 +55,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
 
   if (style !== undefined) {
     if (typeof style === 'string') {
-      element.setAttribute('style', style);
+      $setAttr.call(element, 'style', style);
     } else {
       $assign(element.style, style);
     }
@@ -70,7 +70,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     if (typeof o !== 'function') {
       (handlers[key] || defaultHandler)(element, key, o);
     } else {
-      element.addEventListener(key, o);
+      $on.call(element, key, o);
     }
   }
 

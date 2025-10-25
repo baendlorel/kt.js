@@ -4,7 +4,7 @@
 
 [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-[中文](README.zh.md) | [English](README.md) | [CHANGLOG✨](CHANGELOG.md)
+[CHANGLOG✨](CHANGELOG.md)
 
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
@@ -45,7 +45,16 @@ This will create the following DOM structure:
 </section>
 ```
 
-** Work with `@emotion/css`**
+If you give a function in the attributes, it will be treated as an event listener, and the key will be considered as the event name:
+
+```ts
+const button = btn({ click: () => alert('Clicked!') }, 'Click me');
+// this equals
+const button = btn(undefined, 'Click me');
+button.addEventListener('click', () => alert('Clicked!'));
+```
+
+Work with `@emotion/css`
 
 ```ts
 import { css } from '@emotion/css';

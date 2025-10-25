@@ -1,4 +1,4 @@
-import { RawAttribute, KAttribute } from '@/types/h.js';
+import { RawAttr, KAttribute } from '@/types/h.js';
 import { $setAttr, $assign, $keys, $on } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 
@@ -82,7 +82,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
   }
 }
 
-export function applyAttr(element: HTMLElement, attr: RawAttribute) {
+export function applyAttr(element: HTMLElement, attr: RawAttr) {
   if (typeof attr === 'string') {
     element.className = attr;
   } else if (typeof attr === 'object' && attr !== null) {

@@ -1,12 +1,8 @@
-import { HTMLTag, NoTextNodeTag } from '@/global.js';
-import { KEnhanced } from '@/types/enhance.js';
-import { RawAttribute, RawContent } from '@/types/h.js';
-import { KTextSymbol } from '@/consts/sym.js';
-import { $h, $textNode, $append } from '@/lib/index.js';
+import { HTMLTag } from '@/global.js';
+import { RawAttr, RawContent } from '@/types/h.js';
+import { $h } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 
-import { enhance } from '../enhance/index.js';
-import { needKText } from '../enhance/specialize.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
@@ -17,27 +13,13 @@ import { applyContent } from './content.js';
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<T extends HTMLTag>(
-  tag: T,
-  attr: RawAttribute = '',
-  content: RawContent = ''
-): T extends NoTextNodeTag ? HTMLElementTagNameMap[T] : HTMLElementTagNameMap[T] & KEnhanced {
+export function h<T extends HTMLTag>(tag: T, attr: RawAttr = '', content: RawContent = ''): HTMLElementTagNameMap[T] {
   if (typeof tag !== 'string') {
     throws('__func__ tagName must be a string.');
   }
 
-  type R = T extends NoTextNodeTag ? HTMLElementTagNameMap[T] : HTMLElementTagNameMap[T] & KEnhanced;
-
-  type Enhanced = HTMLElementTagNameMap[T] & KEnhanced;
-
   // * start creating the element
-  const element = $h(tag) as R;
-  if (needKText(tag)) {
-    $append.call(element, ((element as Enhanced)[KTextSymbol] = $textNode()));
-  }
-
-  // * define enhancing properties
-  enhance(element);
+  const element = $h(tag) as HTMLElementTagNameMap[T];
 
   // * Handle content
   applyAttr(element, attr);

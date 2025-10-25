@@ -1,8 +1,8 @@
 import { HTMLTag } from '@/global.js';
 import { h } from '@/core/h/index.js';
-import { RawAttribute, RawContent } from '@/types/h.js';
+import { RawAttr, RawContent } from '@/types/h.js';
 
 export const aliasH =
   <T extends HTMLTag>(tag: T) =>
-  (attr?: RawAttribute, content?: RawContent) =>
+  (attr?: RawAttr, content?: RawContent) =>
     h(tag, attr, content);

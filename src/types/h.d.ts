@@ -1,9 +1,9 @@
 import { HTMLTag, otherstring } from '@/global.js';
 import { HTMLKElement } from './enhance.js';
 
-export type HAlias<T extends HTMLTag> = (attr?: RawAttribute, content?: RawContent) => HTMLKElement<T>;
+export type HAlias<T extends HTMLTag> = (attr?: RawAttr, content?: RawContent) => HTMLKElement<T>;
 export type RawContent = (HTMLKElement | string | undefined)[] | HTMLKElement | string;
-export type RawAttribute = KAttribute | string;
+export type RawAttr = KAttribute | string;
 
 /**
  * Used to create enhanced HTML elements

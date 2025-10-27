@@ -67,6 +67,40 @@ const className = css`
 h('div', { class: className }, 'Styled text');
 ```
 
+## Router
+
+KT.js includes a lightweight client-side router:
+
+```ts
+import { createRouter, div, h1 } from 'kt.js';
+
+const router = createRouter({
+  mode: 'hash', // or 'history'
+  container: document.getElementById('app'),
+  routes: [
+    {
+      path: '/',
+      handler: () => div({}, [h1({}, 'Home Page')]),
+    },
+    {
+      path: '/user/:id',
+      handler: (ctx) => div({}, [h1({}, `User ${ctx.params.id}`)]),
+    },
+  ],
+});
+
+router.start();
+```
+
+**Features:**
+
+- Hash and History API routing
+- Dynamic route parameters
+- Query string parsing
+- Navigation guards
+- Lazy loading support
+- No dependencies
+
 ## Notes
 
 - `call`, `apply` on `Function.prototype` is trusted.

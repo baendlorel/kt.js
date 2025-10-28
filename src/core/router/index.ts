@@ -1,322 +1,108 @@
-/**
- * KT.js Router - Lightweight client-side routing
- *
- * Features:
- * - Hash-based and History API routing
- * - Dynamic route parameters
- * - Navigation guards
- * - Lazy loading support
- * - No dependencies
- */
-import { RouterConfig, RouteContext, CompiledRoute, RouteParams, QueryParams, RouteHandler } from '@/types/router.js';
+import { RouterConfig, RouteContext } from '@/types/router.js';
 
-/**
- * Create a router instance
- */
 export const createRouter = (config: RouterConfig) => {
-  const { routes, mode = 'hash', base = '', container, beforeEach, afterEach, onError } = config;
+  const { routes, container, beforeEach, afterEach, onError } = config;
+  let current: RouteContext | null = null;
 
-  let currentContext: RouteContext | null = null;
-  let isNavigating = false;
-  // pending navigation (store last requested `navigation while another is running)
-  let pendingNavigation: { path: string; replace: boolean } | null = null;
-
-  // Compile routes into regex patterns
-  const compiledRoutes: CompiledRoute[] = routes.map((route) => {
-    const paramNames: string[] = [];
-    const pattern = route.path
-      .replace(/\/:([^/]+)/g, (_, paramName) => {
-        paramNames.push(paramName);
-        return '/([^/]+)';
-      })
-      .replace(/\*/g, '.*');
-
-    return {
-      config: route,
-      pattern: new RegExp(`^${pattern}$`),
-      paramNames,
-    };
+  // Compile routes to regex patterns
+  const compiled = routes.map((route) => {
+    const names: string[] = [];
+    const pattern = route.path.replace(/\/:([^/]+)/g, (_, name) => {
+      names.push(name);
+      return '/([^/]+)';
+    });
+    return { route, pattern: new RegExp(`^${pattern}$`), names };
   });
 
-  /**
-   * Parse path and extract params
-   */
-  const matchRoute = (path: string): { route: CompiledRoute; params: RouteParams } | null => {
-    for (const route of compiledRoutes) {
-      const match = path.match(route.pattern);
-      if (match) {
-        const params: RouteParams = {};
-        route.paramNames.forEach((name, index) => {
-          params[name] = match[index + 1];
-        });
+  // Match path and extract params
+  const match = (path: string) => {
+    for (const { route, pattern, names } of compiled) {
+      const m = path.match(pattern);
+      if (m) {
+        const params: Record<string, string> = {};
+        names.forEach((name, i) => (params[name] = m[i + 1]));
         return { route, params };
       }
     }
     return null;
   };
 
-  /**
-   * Parse query string
-   */
-  const parseQuery = (search: string): QueryParams => {
-    const query: QueryParams = {};
-    if (!search) {
-      return query;
-    }
-
-    const queryString = search.startsWith('?') ? search.slice(1) : search;
-    queryString.split('&').forEach((pair) => {
-      const [key, value] = pair.split('=');
-      if (key) {
-        query[decodeURIComponent(key)] = decodeURIComponent(value || '');
-      }
+  // Parse query string
+  const parseQuery = (search: string) => {
+    const query: Record<string, string> = {};
+    if (!search) return query;
+    const qs = search.startsWith('?') ? search.slice(1) : search;
+    qs.split('&').forEach((pair) => {
+      const [k, v] = pair.split('=');
+      if (k) query[decodeURIComponent(k)] = decodeURIComponent(v || '');
     });
-
     return query;
   };
 
-  /**
-   * Get current path based on mode
-   */
-  const getCurrentPath = (): string => {
-    if (mode === 'hash') {
-      const hash = window.location.hash.slice(1) || '/';
-      return hash.split('?')[0];
-    } else {
-      let path = window.location.pathname;
-      if (base && path.startsWith(base)) {
-        path = path.slice(base.length) || '/';
-      }
-      return path;
-    }
-  };
-
-  /**
-   * Get current query string
-   */
-  const getCurrentQuery = (): string => {
-    if (mode === 'hash') {
-      const hash = window.location.hash.slice(1) || '/';
-      const queryIndex = hash.indexOf('?');
-      return queryIndex > -1 ? hash.slice(queryIndex) : '';
-    } else {
-      return window.location.search;
-    }
-  };
-
-  /**
-   * Navigate to a path
-   */
-  const navigate = async (path: string, replace = false): Promise<void> => {
-    if (isNavigating) {
-      // If a navigation is already in progress, store the last requested navigation
-      // and return. When the current navigation finishes, the pending one will run.
-      pendingNavigation = { path, replace };
-      return;
-    }
-
+  // Navigate to path
+  const navigate = async (path: string) => {
     try {
-      isNavigating = true;
-
-      // Parse path and query
       const [pathname, search] = path.split('?');
       const query = parseQuery(search || '');
+      const matched = match(pathname);
 
-      // Match route
-      const match = matchRoute(pathname);
-      if (!match) {
-        throw new Error(`No route matched for path: ${pathname}`);
+      if (!matched) {
+        throw new Error(`Route not found: ${pathname}`);
       }
 
-      // Create context
-      const context: RouteContext = {
-        params: match.params,
-        query,
-        path: pathname,
-        hash: mode === 'hash' ? window.location.hash : '',
-      };
+      const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
-      // Run beforeEach guard
+      // Run guard
       if (beforeEach) {
-        const canProceed = await beforeEach(context, currentContext);
-        if (!canProceed) {
-          isNavigating = false;
-          return;
-        }
+        const ok = await beforeEach(ctx, current);
+        if (!ok) return;
       }
 
-      // Update browser history
-      const fullPath = search ? `${pathname}?${search}` : pathname;
-      if (mode === 'hash') {
-        const url = `#${fullPath}`;
-        if (replace) {
-          window.location.replace(url);
-        } else {
-          window.location.hash = fullPath;
-        }
-      } else {
-        const url = base + fullPath;
-        if (replace) {
-          window.history.replaceState(null, '', url);
-        } else {
-          window.history.pushState(null, '', url);
-        }
-      }
+      // Update URL
+      window.location.hash = search ? `${pathname}?${search}` : pathname;
 
-      // Execute route handler
-      const result = await match.route.config.handler(context);
+      // Execute handler
+      const result = await matched.route.handler(ctx);
 
-      // Update container if provided
-      if (container && result instanceof HTMLElement) {
+      // Update container
+      if (container && result) {
         container.innerHTML = '';
         container.appendChild(result);
       }
 
-      // Update current context
-      currentContext = context;
+      current = ctx;
 
-      // Run afterEach hook
-      if (afterEach) {
-        afterEach(context);
-      }
+      // Run afterEach
+      if (afterEach) afterEach(ctx);
     } catch (error) {
       if (onError) {
         onError(error as Error);
       } else {
-        console.error('Router error:', error);
-      }
-    } finally {
-      isNavigating = false;
-
-      // If there was a navigation requested while we were navigating, run it now.
-      if (pendingNavigation) {
-        const next = pendingNavigation;
-        pendingNavigation = null;
-        // Fire-and-forget the next navigation
-        void navigate(next.path, next.replace);
+        console.error(error);
       }
     }
   };
 
-  /**
-   * Handle browser navigation events
-   */
-  const handleNavigation = () => {
-    const path = getCurrentPath();
-    const query = getCurrentQuery();
-    const fullPath = query ? `${path}${query}` : path;
-    navigate(fullPath, true);
+  // Handle hash change
+  const handle = () => {
+    const hash = window.location.hash.slice(1) || '/';
+    navigate(hash);
   };
 
-  /**
-   * Start listening to navigation events
-   */
+  // Start router
   const start = () => {
-    if (mode === 'hash') {
-      window.addEventListener('hashchange', handleNavigation);
-    } else {
-      window.addEventListener('popstate', handleNavigation);
-    }
-
-    // Handle initial route
-    handleNavigation();
+    window.addEventListener('hashchange', handle);
+    handle();
   };
 
-  /**
-   * Stop listening to navigation events
-   */
-  const stop = () => {
-    if (mode === 'hash') {
-      window.removeEventListener('hashchange', handleNavigation);
-    } else {
-      window.removeEventListener('popstate', handleNavigation);
-    }
-  };
+  // Stop router
+  const stop = () => window.removeEventListener('hashchange', handle);
 
-  /**
-   * Navigate back
-   */
-  const back = () => {
-    window.history.back();
-  };
+  // Push new route
+  const push = (path: string) => navigate(path);
 
-  /**
-   * Navigate forward
-   */
-  const forward = () => {
-    window.history.forward();
-  };
+  // Get current context
+  const getCurrentContext = () => current;
 
-  /**
-   * Go to a specific history position
-   */
-  const go = (delta: number) => {
-    window.history.go(delta);
-  };
-
-  /**
-   * Get current route context
-   */
-  const current = (): RouteContext | null => {
-    return currentContext;
-  };
-
-  /**
-   * Push a new route
-   */
-  const push = (path: string) => navigate(path, false);
-
-  /**
-   * Replace current route
-   */
-  const replace = (path: string) => navigate(path, true);
-
-  return {
-    start,
-    stop,
-    push,
-    replace,
-    back,
-    forward,
-    go,
-    current,
-    navigate,
-  };
-};
-
-/**
- * Create a route link element
- */
-export const createLink = (
-  href: string,
-  content: string | HTMLElement,
-  router: ReturnType<typeof createRouter>,
-  className?: string
-): HTMLElement => {
-  const link = document.createElement('a');
-  link.href = href;
-  if (className) link.className = className;
-
-  if (typeof content === 'string') {
-    link.textContent = content;
-  } else {
-    link.appendChild(content);
-  }
-
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    router.push(href);
-  });
-
-  return link;
-};
-
-/**
- * Lazy load a route handler
- */
-export const lazy = (loader: () => Promise<{ default: RouteHandler }>): RouteHandler => {
-  return async (ctx: RouteContext) => {
-    const module = await loader();
-    return module.default(ctx);
-  };
+  return { start, stop, push, current: getCurrentContext };
 };

@@ -213,4 +213,70 @@ describe('Router', () => {
     const updated = router.current();
     expect(updated?.path).toBe('/about');
   });
+
+  it('should pass meta field to route context', async () => {
+    let capturedMeta: any = null;
+
+    const router = createRouter({
+      container,
+      routes: [
+        {
+          path: '/admin',
+          handler: (ctx) => {
+            capturedMeta = ctx.meta;
+            return div({}, 'Admin');
+          },
+          meta: { requiresAuth: true, title: 'Admin Dashboard' },
+        },
+        {
+          path: '/public',
+          handler: (ctx) => {
+            capturedMeta = ctx.meta;
+            return div({}, 'Public');
+          },
+          // No meta field
+        },
+      ],
+    });
+
+    router.start();
+    router.push('/admin');
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(capturedMeta).toEqual({ requiresAuth: true, title: 'Admin Dashboard' });
+
+    router.push('/public');
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(capturedMeta).toBeUndefined();
+  });
+
+  it('should access meta in navigation guards', async () => {
+    let guardReceivedMeta: any = null;
+    let afterEachReceivedMeta: any = null;
+
+    const router = createRouter({
+      container,
+      routes: [
+        {
+          path: '/protected',
+          handler: () => div({}, 'Protected'),
+          meta: { requiresAuth: true, role: 'admin' },
+        },
+      ],
+      beforeEach: (to) => {
+        guardReceivedMeta = to.meta;
+        return true;
+      },
+      afterEach: (to) => {
+        afterEachReceivedMeta = to.meta;
+      },
+    });
+
+    router.start();
+    router.push('/protected');
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(guardReceivedMeta).toEqual({ requiresAuth: true, role: 'admin' });
+    expect(afterEachReceivedMeta).toEqual({ requiresAuth: true, role: 'admin' });
+  });
 });

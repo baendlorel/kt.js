@@ -1,6 +1,10 @@
 # Change Log 🕒
 
-## 0.1.2 2025-10-28 21:50:18
+## 0.2.0 2025-10-28 22:08:19
+
+- new feature: Router
+
+## 0.1.1-0.1.2 2025-10-28 21:50:18
 
 - Fix the problem of still using `ktext`
 

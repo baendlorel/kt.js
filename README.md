@@ -69,14 +69,12 @@ h('div', { class: className }, 'Styled text');
 
 ## Router
 
-KT.js includes a lightweight client-side router:
+KT.js includes a lightweight client-side router (hash-based):
 
 ```ts
 import { createRouter, div, h1 } from 'kt.js';
 
 const router = createRouter({
-  mode: 'hash', // or 'history'
-  container: document.getElementById('app'),
   routes: [
     {
       path: '/',
@@ -87,19 +85,41 @@ const router = createRouter({
       handler: (ctx) => div({}, [h1({}, `User ${ctx.params.id}`)]),
     },
   ],
+  container: document.getElementById('app'),
+  beforeEach: async (to, from) => {
+    // Navigation guard - return false to block navigation
+    console.log('navigating to:', to.path);
+    return true;
+  },
+  afterEach: (to) => {
+    // Called after successful navigation
+    document.title = to.path;
+  },
+  onError: (error) => {
+    console.error('Router error:', error);
+  },
 });
 
 router.start();
+
+// Navigate programmatically
+router.push('/user/123');
+router.push('/user/456?page=2');
+
+// Get current route
+const current = router.current();
+console.log(current?.path, current?.params, current?.query);
 ```
 
 **Features:**
 
-- Hash and History API routing
-- Dynamic route parameters
-- Query string parsing
-- Navigation guards
-- Lazy loading support
-- No dependencies
+- Hash-based routing (`#/path`)
+- Dynamic route parameters (`/user/:id`)
+- Query string parsing (`?key=value`)
+- Async navigation guards (`beforeEach`)
+- Lifecycle hooks (`afterEach`)
+- Error handling (`onError`)
+- Minimal footprint
 
 ## Notes
 

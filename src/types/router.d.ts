@@ -1,34 +1,24 @@
-type RouteParams = Record<string, string>;
-type QueryParams = Record<string, string>;
+// Minimal router types
 
 export interface RouteContext {
-  params: RouteParams;
-  query: QueryParams;
+  params: Record<string, string>;
+  query: Record<string, string>;
   path: string;
-  hash: string;
+  meta?: Record<string, any>;
 }
 
 export type RouteHandler = (ctx: RouteContext) => HTMLElement | void | Promise<HTMLElement | void>;
-export type NavigationGuard = (to: RouteContext, from: RouteContext | null) => boolean | Promise<boolean>;
 
 export interface RouteConfig {
   path: string;
   handler: RouteHandler;
-  name?: string;
+  meta?: Record<string, any>;
 }
 
 export interface RouterConfig {
   routes: RouteConfig[];
-  mode?: 'hash' | 'history';
-  base?: string;
   container?: HTMLElement;
-  beforeEach?: NavigationGuard;
+  beforeEach?: (to: RouteContext, from: RouteContext | null) => boolean | Promise<boolean>;
   afterEach?: (to: RouteContext) => void;
   onError?: (error: Error) => void;
-}
-
-export interface CompiledRoute {
-  config: RouteConfig;
-  pattern: RegExp;
-  paramNames: string[];
 }

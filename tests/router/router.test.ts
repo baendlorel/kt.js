@@ -106,8 +106,8 @@ describe('Router', () => {
   });
 
   it('should call navigation guards', async () => {
-    const beforeEach = vi.fn(() => true);
-    const afterEach = vi.fn();
+    const beforeEachGuard = vi.fn(() => true);
+    const afterEachGuard = vi.fn();
 
     const router = createRouter({
       container,
@@ -115,8 +115,8 @@ describe('Router', () => {
         { path: '/', handler: () => div({}, 'Home') },
         { path: '/about', handler: () => div({}, 'About') },
       ],
-      beforeEach,
-      afterEach,
+      beforeEach: beforeEachGuard,
+      afterEach: afterEachGuard,
     });
 
     router.start();
@@ -125,8 +125,8 @@ describe('Router', () => {
     router.push('/about');
     await new Promise((resolve) => setTimeout(resolve, 10));
 
-    expect(beforeEach).toHaveBeenCalled();
-    expect(afterEach).toHaveBeenCalled();
+    expect(beforeEachGuard).toHaveBeenCalled();
+    expect(afterEachGuard).toHaveBeenCalled();
   });
 
   it('should block navigation when guard returns false', async () => {

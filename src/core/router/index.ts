@@ -18,6 +18,8 @@ export const createRouter = (config: RouterConfig) => {
 
   let currentContext: RouteContext | null = null;
   let isNavigating = false;
+  // pending navigation (store last requested `navigation while another is running)
+  let pendingNavigation: { path: string; replace: boolean } | null = null;
 
   // Compile routes into regex patterns
   const compiledRoutes: CompiledRoute[] = routes.map((route) => {
@@ -107,6 +109,9 @@ export const createRouter = (config: RouterConfig) => {
    */
   const navigate = async (path: string, replace = false): Promise<void> => {
     if (isNavigating) {
+      // If a navigation is already in progress, store the last requested navigation
+      // and return. When the current navigation finishes, the pending one will run.
+      pendingNavigation = { path, replace };
       return;
     }
 
@@ -182,6 +187,14 @@ export const createRouter = (config: RouterConfig) => {
       }
     } finally {
       isNavigating = false;
+
+      // If there was a navigation requested while we were navigating, run it now.
+      if (pendingNavigation) {
+        const next = pendingNavigation;
+        pendingNavigation = null;
+        // Fire-and-forget the next navigation
+        void navigate(next.path, next.replace);
+      }
     }
   };
 

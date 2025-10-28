@@ -1,8 +1,10 @@
 # Change Log 🕒
 
-## 0.2.0 2025-10-28 22:08:19
+## 0.2.0-0.2.1 2025-10-28 22:08:19
 
 - new feature: Router
+- fix the problem that Router is not exported
+- add key features to the document
 
 ## 0.1.1-0.1.2 2025-10-28 21:50:18
 

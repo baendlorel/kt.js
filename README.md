@@ -18,6 +18,11 @@ As a web framework, repeatedly creating a large number of variables and objects 
 
 KT.js follows one rule: full controll of dom and avoid unless repainting.
 
+## Current Core Features
+
+- `h` function and its aliases
+- Router
+
 ## Getting started
 
 ```bash

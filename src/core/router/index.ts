@@ -8,41 +8,7 @@
  * - Lazy loading support
  * - No dependencies
  */
-
-type RouteParams = Record<string, string>;
-type QueryParams = Record<string, string>;
-
-export interface RouteContext {
-  params: RouteParams;
-  query: QueryParams;
-  path: string;
-  hash: string;
-}
-
-export type RouteHandler = (ctx: RouteContext) => HTMLElement | void | Promise<HTMLElement | void>;
-export type NavigationGuard = (to: RouteContext, from: RouteContext | null) => boolean | Promise<boolean>;
-
-export interface RouteConfig {
-  path: string;
-  handler: RouteHandler;
-  name?: string;
-}
-
-export interface RouterConfig {
-  routes: RouteConfig[];
-  mode?: 'hash' | 'history';
-  base?: string;
-  container?: HTMLElement;
-  beforeEach?: NavigationGuard;
-  afterEach?: (to: RouteContext) => void;
-  onError?: (error: Error) => void;
-}
-
-interface CompiledRoute {
-  config: RouteConfig;
-  pattern: RegExp;
-  paramNames: string[];
-}
+import { RouterConfig, RouteContext, CompiledRoute, RouteParams, QueryParams, RouteHandler } from '@/types/router.js';
 
 /**
  * Create a router instance
@@ -92,7 +58,9 @@ export const createRouter = (config: RouterConfig) => {
    */
   const parseQuery = (search: string): QueryParams => {
     const query: QueryParams = {};
-    if (!search) return query;
+    if (!search) {
+      return query;
+    }
 
     const queryString = search.startsWith('?') ? search.slice(1) : search;
     queryString.split('&').forEach((pair) => {
@@ -138,7 +106,9 @@ export const createRouter = (config: RouterConfig) => {
    * Navigate to a path
    */
   const navigate = async (path: string, replace = false): Promise<void> => {
-    if (isNavigating) return;
+    if (isNavigating) {
+      return;
+    }
 
     try {
       isNavigating = true;

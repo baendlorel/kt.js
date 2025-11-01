@@ -8,9 +8,15 @@ const createElement = document.createElement;
 const createTextNode = document.createTextNode;
 const createDocumentFragment = document.createDocumentFragment;
 
-export const $h = (id: HTMLTag | otherstring) => createElement.call(document, id);
-export const $textNode = (data: string = '') => createTextNode.call(document, data);
-export const $fragment = () => createDocumentFragment.call(document);
+export const $h = function (id: HTMLTag | otherstring) {
+  return createElement.call(document, id);
+};
+export const $textNode = function (data: string = '') {
+  return createTextNode.call(document, data);
+};
+export const $fragment = function () {
+  return createDocumentFragment.call(document);
+};
 
 export const $on = HTMLElement.prototype.addEventListener;
 export const $setAttr = HTMLElement.prototype.setAttribute;

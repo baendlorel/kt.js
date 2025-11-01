@@ -13,7 +13,7 @@ import { applyContent } from './content.js';
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<T extends HTMLTag>(tag: T, attr: RawAttr, content: RawContent): HTMLElementTagNameMap[T] {
+export function h<T extends HTMLTag>(tag: T, attr?: RawAttr, content?: RawContent): HTMLElementTagNameMap[T] {
   attr = attr || '';
   content = content || '';
 

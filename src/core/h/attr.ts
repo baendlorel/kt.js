@@ -2,21 +2,21 @@ import { RawAttr, KAttribute } from '@/types/h.js';
 import { $setAttr, $keys, $on } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 
-const booleanHandler = (element: HTMLElement, key: string, value: any) => {
+function booleanHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {
     (element as any)[key] = !!value;
   } else {
     $setAttr.call(element, key, value);
   }
-};
+}
 
-const valueHandler = (element: HTMLElement, key: string, value: any) => {
+function valueHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {
     (element as any)[key] = value;
   } else {
     $setAttr.call(element, key, value);
   }
-};
+}
 
 // Attribute handlers map for optimized lookup
 const handlers: Record<string, (element: HTMLElement, key: string, value: any) => void> = {
@@ -40,10 +40,14 @@ const handlers: Record<string, (element: HTMLElement, key: string, value: any) =
   muted: booleanHandler,
   defer: booleanHandler,
   async: booleanHandler,
-  hidden: (element, _key, value) => (element.hidden = !!value),
+  hidden: function (element, _key, value) {
+    element.hidden = !!value;
+  },
 };
 
-const defaultHandler = (element: HTMLElement, key: string, value: any) => $setAttr.call(element, key, value);
+const defaultHandler = function (element: HTMLElement, key: string, value: any) {
+  return $setAttr.call(element, key, value);
+};
 
 function attrIsObject(element: HTMLElement, attr: KAttribute) {
   const className = attr.class;

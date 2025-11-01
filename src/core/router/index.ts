@@ -7,7 +7,7 @@ export const createRouter = (config: RouterConfig) => {
   // Compile routes to regex patterns
   const compiled = routes.map((route) => {
     const names: string[] = [];
-    const pattern = route.path.replace(/\/:([^/]+)/g, (_, name) => {
+    const pattern = route.path.replace(/\/:([^/]+)/g, function (_, name) {
       names.push(name);
       return '/([^/]+)';
     });
@@ -20,7 +20,9 @@ export const createRouter = (config: RouterConfig) => {
       const m = path.match(pattern);
       if (m) {
         const params: Record<string, string> = {};
-        names.forEach((name, i) => (params[name] = m[i + 1]));
+        for (let i = 0; i < names.length; i++) {
+          params[names[i]] = m[i + 1];
+        }
         return { route, params };
       }
     }
@@ -30,12 +32,18 @@ export const createRouter = (config: RouterConfig) => {
   // Parse query string
   const parseQuery = (search: string) => {
     const query: Record<string, string> = {};
-    if (!search) return query;
-    const qs = search.startsWith('?') ? search.slice(1) : search;
-    qs.split('&').forEach((pair) => {
+    if (!search) {
+      return query;
+    }
+    const qs = search.indexOf('?') === 0 ? search.slice(1) : search;
+    const pairs = qs.split('&');
+    for (let i = 0; i < pairs.length; i++) {
+      const pair = pairs[i];
       const [k, v] = pair.split('=');
-      if (k) query[decodeURIComponent(k)] = decodeURIComponent(v || '');
-    });
+      if (k) {
+        query[decodeURIComponent(k)] = decodeURIComponent(v || '');
+      }
+    }
     return query;
   };
 

@@ -38,12 +38,44 @@ import { HTMLTag } from '@/global.js';
  * Since `Set.prototype.has` is about 80 times faster than `Array.prototype.includes`,
  * We put these tags into a `Set` object.
  */
-const INVALID_TAGS = new Set(
-  'area,audio,base,basefont,br,canvas,datalist,details,dialog,frameset,head,iframe,img,input,link,meta,meter,noembed,noframes,noscript,optgroup,param,progress,rp,select,style,template,textarea,title,video,wbr,embed,frame,keygen,option'.split(
-    ','
-  )
-);
+const INVALID_TAGS = {
+  area: true,
+  audio: true,
+  base: true,
+  basefont: true,
+  br: true,
+  canvas: true,
+  datalist: true,
+  details: true,
+  dialog: true,
+  frameset: true,
+  head: true,
+  iframe: true,
+  img: true,
+  input: true,
+  link: true,
+  meta: true,
+  meter: true,
+  noembed: true,
+  noframes: true,
+  noscript: true,
+  optgroup: true,
+  param: true,
+  progress: true,
+  rp: true,
+  select: true,
+  style: true,
+  template: true,
+  textarea: true,
+  title: true,
+  video: true,
+  wbr: true,
+  embed: true,
+  frame: true,
+  keygen: true,
+  option: true,
+};
 
-export function needKText(tag: HTMLTag): boolean {
-  return !(INVALID_TAGS as Set<string>).has(tag);
+export function notSupportTextNode(tag: HTMLTag): boolean {
+  return (INVALID_TAGS as any)[tag];
 }

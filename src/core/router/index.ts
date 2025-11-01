@@ -1,8 +1,17 @@
 import { RouterConfig, RouteContext } from '@/types/router.js';
 
+function emptyFunc() {
+  return true;
+}
+
 // todo promise要polyfill
 export const createRouter = (config: RouterConfig) => {
-  const { routes, container, beforeEach, afterEach, onError } = config;
+  const routes = config.routes;
+  const container = config.container;
+  const beforeEach = config.beforeEach || emptyFunc;
+  const afterEach = config.afterEach || emptyFunc;
+  const onError = config.onError || console.error;
+
   let current: RouteContext | null = null;
 
   // Compile routes to regex patterns
@@ -62,9 +71,9 @@ export const createRouter = (config: RouterConfig) => {
       const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
       // Run guard
-      if (beforeEach) {
-        const ok = await beforeEach(ctx, current);
-        if (!ok) return;
+      const ok = await beforeEach(ctx, current);
+      if (!ok) {
+        return;
       }
 
       // Update URL
@@ -82,13 +91,9 @@ export const createRouter = (config: RouterConfig) => {
       current = ctx;
 
       // Run afterEach
-      if (afterEach) afterEach(ctx);
+      afterEach(ctx);
     } catch (error) {
-      if (onError) {
-        onError(error as Error);
-      } else {
-        console.error(error);
-      }
+      onError(error as Error);
     }
   };
 

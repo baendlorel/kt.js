@@ -1,5 +1,6 @@
 import { RouterConfig, RouteContext } from '@/types/router.js';
 
+// todo promise要polyfill
 export const createRouter = (config: RouterConfig) => {
   const { routes, container, beforeEach, afterEach, onError } = config;
   let current: RouteContext | null = null;
@@ -38,10 +39,10 @@ export const createRouter = (config: RouterConfig) => {
     const qs = search.indexOf('?') === 0 ? search.slice(1) : search;
     const pairs = qs.split('&');
     for (let i = 0; i < pairs.length; i++) {
-      const pair = pairs[i];
-      const [k, v] = pair.split('=');
+      const pair = pairs[i].split('=');
+      const k = pair[0];
       if (k) {
-        query[decodeURIComponent(k)] = decodeURIComponent(v || '');
+        query[decodeURIComponent(k)] = decodeURIComponent(pair[1] || '');
       }
     }
     return query;

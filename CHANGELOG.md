@@ -1,5 +1,9 @@
 # Change Log 🕒
 
+## 0.3.0
+
+- compatibility update. Theoretically it should work with ES5 now.
+
 ## 0.2.0-0.2.1 2025-10-28 22:08:19
 
 - new feature: Router

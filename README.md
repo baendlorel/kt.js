@@ -129,6 +129,21 @@ console.log(current?.path, current?.params, current?.query);
 ## Notes
 
 - `call`, `apply` on `Function.prototype` is trusted.
+- Router requires Promise support. If targeting IE11 or older browsers, include a Promise polyfill:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+```
+
+or
+
+```bash
+npm install es6-promise
+```
+
+```javascript
+import 'es6-promise/auto';
+```
 
 ## License
 

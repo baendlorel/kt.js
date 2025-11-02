@@ -26,7 +26,10 @@ export function createRouter(config: RouterConfig) {
 
   // Match path and extract params
   const match = function (path: string) {
-    for (const { route, pattern, names } of compiled) {
+    for (let i = 0; i < compiled.length; i++) {
+      const route = compiled[i].route;
+      const pattern = compiled[i].pattern;
+      const names = compiled[i].names;
       const m = path.match(pattern);
       if (m) {
         const params: Record<string, string> = {};
@@ -59,57 +62,70 @@ export function createRouter(config: RouterConfig) {
 
   // Navigate to path
   const navigate = function (path: string) {
-    try {
-      const [pathname, search] = path.split('?');
-      const query = parseQuery(search || '');
-      const matched = match(pathname);
+    // 总是返回 Promise 以保持一致的 await 行为
+    // 假设 Promise 存在（需要在 IE11 中 polyfill）
+    return new Promise(function (resolve) {
+      try {
+        const splitPath = path.split('?');
+        const pathname = splitPath[0];
+        const search = splitPath[1];
+        const query = parseQuery(search || '');
+        const matched = match(pathname);
 
-      if (!matched) {
-        throw new Error(`Route not found: ${pathname}`);
-      }
-
-      const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
-
-      // Run guard
-      const ok = beforeEach(ctx, current);
-      const okHandler = function (ok: boolean) {
-        if (!ok) {
-          return;
+        if (!matched) {
+          throw new Error(`Route not found: ${pathname}`);
         }
 
-        // Update URL
-        window.location.hash = search ? `${pathname}?${search}` : pathname;
+        const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
-        // Execute handler
-        const rawResult = matched.route.handler(ctx);
+        // Run guard
+        const ok = beforeEach(ctx, current);
+        const okHandler = function (ok: boolean) {
+          if (!ok) {
+            resolve(undefined);
+            return;
+          }
 
-        if (rawResult instanceof Promise) {
-          return rawResult.then(routeHandler).catch(onError);
+          // Update URL
+          window.location.hash = search ? `${pathname}?${search}` : pathname;
+
+          // Execute handler
+          const rawResult = matched.route.handler(ctx);
+
+          if (rawResult instanceof Promise) {
+            rawResult
+              .then(function (result) {
+                routeHandler(result);
+                resolve(undefined);
+              })
+              .catch(onError);
+          } else {
+            routeHandler(rawResult);
+            resolve(undefined);
+          }
+        };
+        const routeHandler = function (result: HTMLElement | void) {
+          // Update container
+          if (container && result) {
+            container.innerHTML = '';
+            container.appendChild(result);
+          }
+
+          current = ctx;
+
+          // Run afterEach
+          afterEach(ctx);
+        };
+
+        if (ok instanceof Promise) {
+          ok.then(okHandler).catch(onError);
         } else {
-          return routeHandler(rawResult);
+          okHandler(ok);
         }
-      };
-      const routeHandler = function (result: HTMLElement | void) {
-        // Update container
-        if (container && result) {
-          container.innerHTML = '';
-          container.appendChild(result);
-        }
-
-        current = ctx;
-
-        // Run afterEach
-        afterEach(ctx);
-      };
-
-      if (ok instanceof Promise) {
-        return ok.then(okHandler).catch(onError);
-      } else {
-        return okHandler(ok);
+      } catch (error) {
+        onError(error);
       }
-    } catch (error) {
-      onError(error as Error);
-    }
+    });
   };
 
   // Handle hash change

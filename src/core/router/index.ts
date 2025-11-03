@@ -2,7 +2,6 @@ import { RouterConfig, RouteContext } from '@/types/router.js';
 
 const emptyFunc = () => true;
 
-// todo promise要polyfill
 export function createRouter(config: RouterConfig) {
   const { routes, container, beforeEach = emptyFunc, afterEach = emptyFunc, onError = console.error } = config;
 
@@ -52,70 +51,42 @@ export function createRouter(config: RouterConfig) {
     return query;
   };
 
-  // Navigate to path
-  const navigate = (path: string) => {
-    // 总是返回 Promise 以保持一致的 await 行为
-    // 假设 Promise 存在（需要在 IE11 中 polyfill）
-    return new Promise((resolve) => {
-      try {
-        const [pathname, search] = path.split('?');
-        const query = parseQuery(search || '');
-        const matched = match(pathname);
+  // Navigate to path (async/await version for clarity)
+  // need polyfill for Promise
+  const navigate = async (path: string): Promise<void> => {
+    try {
+      const [pathname, search] = path.split('?');
+      const query = parseQuery(search || '');
+      const matched = match(pathname);
 
-        if (!matched) {
-          throw new Error(`Route not found: ${pathname}`);
-        }
-
-        const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
-
-        // Run guard
-        const ok = beforeEach(ctx, current);
-        const okHandler = (ok: boolean) => {
-          if (!ok) {
-            resolve(undefined);
-            return;
-          }
-
-          // Update URL
-          window.location.hash = search ? `${pathname}?${search}` : pathname;
-
-          // Execute handler
-          const rawResult = matched.route.handler(ctx);
-
-          if (rawResult instanceof Promise) {
-            rawResult
-              .then((result) => {
-                routeHandler(result);
-                resolve(undefined);
-              })
-              .catch(onError);
-          } else {
-            routeHandler(rawResult);
-            resolve(undefined);
-          }
-        };
-        const routeHandler = (result: HTMLElement | void) => {
-          // Update container
-          if (container && result) {
-            container.innerHTML = '';
-            container.appendChild(result);
-          }
-
-          current = ctx;
-
-          // Run afterEach
-          afterEach(ctx);
-        };
-
-        if (ok instanceof Promise) {
-          ok.then(okHandler).catch(onError);
-        } else {
-          okHandler(ok);
-        }
-      } catch (error) {
-        onError(error);
+      if (!matched) {
+        throw new Error(`Route not found: ${pathname}`);
       }
-    });
+
+      const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
+
+      // Run guard
+      const ok = await beforeEach(ctx, current);
+      if (!ok) {
+        return;
+      }
+
+      // Update URL
+      window.location.hash = search ? `${pathname}?${search}` : pathname;
+
+      // Execute handler
+      const result = await matched.route.handler(ctx);
+      // Update container
+      if (container && result) {
+        container.innerHTML = '';
+        container.appendChild(result);
+      }
+
+      // Run afterEach
+      afterEach((current = ctx));
+    } catch (error) {
+      onError(error as Error);
+    }
   };
 
   // Handle hash change

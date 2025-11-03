@@ -22,6 +22,7 @@ KT.js follows one rule: full controll of dom and avoid unless repainting.
 
 - `h` function and its aliases
 - Router
+- Compatible with ES5, but you need polyfill for `Promise` to make it work for ie11
 
 ## Getting started
 

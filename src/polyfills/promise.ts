@@ -24,7 +24,7 @@ class PromisePoly {
     if (typeof executor !== 'function') {
       throw new TypeError('Promise resolver is not a function');
     }
-    this._state = 0;
+    this._state = PromiseState.Pending;
     this._value = undefined;
     this._deferreds = [];
     this._doResolve(executor);
@@ -47,15 +47,15 @@ class PromisePoly {
 
   // # internals
   private _handle(deferred: Handler) {
-    if (this._state === 0) {
+    if (this._state === PromiseState.Pending) {
       this._deferreds.push(deferred);
       return;
     }
     // minimal async scheduling
     setTimeout(() => {
-      const cb = this._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+      const cb = this._state === PromiseState.Fulfilled ? deferred.onFulfilled : deferred.onRejected;
       if (typeof cb !== 'function') {
-        (this._state === 1 ? deferred.resolve : deferred.reject)(this._value);
+        (this._state === PromiseState.Fulfilled ? deferred.resolve : deferred.reject)(this._value);
         return;
       }
       try {
@@ -79,7 +79,7 @@ class PromisePoly {
           return;
         }
       }
-      this._state = 1;
+      this._state = PromiseState.Fulfilled;
       this._value = value;
       this._finale();
     } catch (e) {
@@ -88,7 +88,7 @@ class PromisePoly {
   }
 
   private _reject(reason: any) {
-    this._state = 2;
+    this._state = PromiseState.Rejected;
     this._value = reason;
     this._finale();
   }

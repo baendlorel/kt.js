@@ -52,7 +52,7 @@ const options = [
       typescript({ tsconfig }),
       funcMacro(),
       constEnum(),
-      void terser({
+      terser({
         format: {
           comments: false, // remove comments
         },

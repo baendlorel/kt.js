@@ -71,6 +71,23 @@ const options = [
     ].filter(Boolean),
     external: [],
   },
+  // Optional polyfill build: separate entry so consumers can include it only when needed.
+  {
+    input: 'src/polyfills/promise.ts',
+    output: [
+      { file: 'dist/minimum-polyfill-promise.mjs', format: 'esm', sourcemap: false },
+      { file: 'dist/minimum-polyfill-promise.umd.js', format: 'umd', name: 'KtPolyfills', sourcemap: false },
+    ],
+    plugins: [
+      alias(aliasOpts),
+      replace(replaceOpts),
+      resolve(),
+      // include transpilation for TypeScript/ESM modules if needed
+      typescript({ tsconfig }),
+      // keep this bundle small; do not run terser by default
+    ].filter(Boolean),
+    external: [],
+  },
 ];
 
 /**

@@ -1,3 +1,4 @@
+import { $reject, $resolve } from '@/lib/native.js';
 import { RouterConfig, RouteContext } from '@/types/router.js';
 
 const emptyFunc = () => true;
@@ -51,42 +52,44 @@ export function createRouter(config: RouterConfig) {
     return query;
   };
 
-  // Navigate to path (async/await version for clarity)
-  // need polyfill for Promise
-  const navigate = async (path: string): Promise<void> => {
-    try {
-      const [pathname, search] = path.split('?');
-      const query = parseQuery(search || '');
-      const matched = match(pathname);
+  // Navigate to path using Promise chain
+  const navigate = (path: string): Promise<void> => {
+    const [pathname, search] = path.split('?');
+    const query = parseQuery(search || '');
+    const matched = match(pathname);
 
-      if (!matched) {
-        throw new Error(`Route not found: ${pathname}`);
-      }
-
-      const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
-
-      // Run guard
-      const ok = await beforeEach(ctx, current);
-      if (!ok) {
-        return;
-      }
-
-      // Update URL
-      window.location.hash = search ? `${pathname}?${search}` : pathname;
-
-      // Execute handler
-      const result = await matched.route.handler(ctx);
-      // Update container
-      if (container && result) {
-        container.innerHTML = '';
-        container.appendChild(result);
-      }
-
-      // Run afterEach
-      afterEach((current = ctx));
-    } catch (error) {
-      onError(error as Error);
+    if (!matched) {
+      const e = new Error(`Route not found: ${pathname}`);
+      onError(e);
+      return $reject(e);
     }
+
+    const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
+
+    // Run guard
+    return $resolve(beforeEach(ctx, current))
+      .then((ok) => {
+        if (!ok) {
+          return $reject(new Error('Navigation blocked by guard'));
+        }
+
+        // Update URL
+        window.location.hash = search ? `${pathname}?${search}` : pathname;
+
+        // Execute handler
+        return matched.route.handler(ctx);
+      })
+      .then((result) => {
+        // Update container
+        if (container && result) {
+          container.innerHTML = '';
+          container.appendChild(result);
+        }
+
+        // Run afterEach
+        afterEach((current = ctx));
+      })
+      .catch((e: Error) => (onError(e), $reject(e)));
   };
 
   // Handle hash change

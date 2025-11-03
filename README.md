@@ -22,7 +22,8 @@ KT.js follows one rule: full controll of dom and avoid unless repainting.
 
 - `h` function and its aliases
 - Router
-- Compatible with ES5, but you need polyfill for `Promise` to make it work for ie11
+- Compatible with ES5.
+  - If you use router, you need polyfill for `Promise` to make it work for ie11
 
 ## Getting started
 
@@ -130,21 +131,6 @@ console.log(current?.path, current?.params, current?.query);
 ## Notes
 
 - `call`, `apply` on `Function.prototype` is trusted.
-- Router requires Promise support. If targeting IE11 or older browsers, include a Promise polyfill:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-```
-
-or
-
-```bash
-npm install es6-promise
-```
-
-```javascript
-import 'es6-promise/auto';
-```
 
 ## License
 

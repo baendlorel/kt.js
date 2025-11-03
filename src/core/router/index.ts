@@ -24,8 +24,9 @@ export function createRouter(config: RouterConfig) {
     return { route, pattern: new RegExp(`^${pattern}$`), names };
   });
 
+  // todo 完全可以通过tsconfig的target来降级代码
   // Match path and extract params
-  const match = function (path: string) {
+  const match = (path: string) => {
     for (let i = 0; i < compiled.length; i++) {
       const route = compiled[i].route;
       const pattern = compiled[i].pattern;
@@ -43,7 +44,7 @@ export function createRouter(config: RouterConfig) {
   };
 
   // Parse query string
-  const parseQuery = function (search: string) {
+  const parseQuery = (search: string) => {
     const query: Record<string, string> = {};
     if (!search) {
       return query;
@@ -61,10 +62,10 @@ export function createRouter(config: RouterConfig) {
   };
 
   // Navigate to path
-  const navigate = function (path: string) {
+  const navigate = (path: string) => {
     // 总是返回 Promise 以保持一致的 await 行为
     // 假设 Promise 存在（需要在 IE11 中 polyfill）
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
       try {
         const splitPath = path.split('?');
         const pathname = splitPath[0];
@@ -80,7 +81,7 @@ export function createRouter(config: RouterConfig) {
 
         // Run guard
         const ok = beforeEach(ctx, current);
-        const okHandler = function (ok: boolean) {
+        const okHandler = (ok: boolean) => {
           if (!ok) {
             resolve(undefined);
             return;
@@ -94,7 +95,7 @@ export function createRouter(config: RouterConfig) {
 
           if (rawResult instanceof Promise) {
             rawResult
-              .then(function (result) {
+              .then((result) => {
                 routeHandler(result);
                 resolve(undefined);
               })
@@ -104,7 +105,7 @@ export function createRouter(config: RouterConfig) {
             resolve(undefined);
           }
         };
-        const routeHandler = function (result: HTMLElement | void) {
+        const routeHandler = (result: HTMLElement | void) => {
           // Update container
           if (container && result) {
             container.innerHTML = '';
@@ -129,29 +130,29 @@ export function createRouter(config: RouterConfig) {
   };
 
   // Handle hash change
-  const handle = function () {
+  const handle = () => {
     const hash = window.location.hash.slice(1) || '/';
     navigate(hash);
   };
 
   // Start router
-  const start = function () {
+  const start = () => {
     window.addEventListener('hashchange', handle);
     handle();
   };
 
   // Stop router
-  const stop = function () {
+  const stop = () => {
     return window.removeEventListener('hashchange', handle);
   };
 
   // Push new route
-  const push = function (path: string) {
+  const push = (path: string) => {
     return navigate(path);
   };
 
   // Get current context
-  const getCurrentContext = function () {
+  const getCurrentContext = () => {
     return current;
   };
 

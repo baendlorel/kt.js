@@ -4,6 +4,7 @@ import path from 'node:path';
 
 // plugins
 import typescript from '@rollup/plugin-typescript';
+import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
@@ -52,7 +53,12 @@ const options = [
       typescript({ tsconfig }),
       funcMacro(),
       constEnum(),
-      terser({
+      void babel({
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+        plugins: ['@babel/plugin-transform-arrow-functions'],
+      }),
+      void terser({
         format: {
           comments: false, // remove comments
         },
@@ -68,7 +74,7 @@ const options = [
           },
         },
       }),
-    ],
+    ].filter(Boolean),
     external: [],
   },
 ];
@@ -79,11 +85,7 @@ const options = [
 const declaration = {
   input: 'src/index.ts',
   output: [{ file: 'dist/index.d.ts', format: 'es' }],
-  plugins: [
-    alias(aliasOpts),
-    replace(replaceOpts),
-    dts({ tsconfig }),
-  ],
+  plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig })],
 };
 
 /**

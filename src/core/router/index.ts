@@ -1,36 +1,27 @@
 import { RouterConfig, RouteContext } from '@/types/router.js';
 
-function emptyFunc() {
-  return true;
-}
+const emptyFunc = () => true;
 
 // todo promise要polyfill
 export function createRouter(config: RouterConfig) {
-  const routes = config.routes;
-  const container = config.container;
-  const beforeEach = config.beforeEach || emptyFunc;
-  const afterEach = config.afterEach || emptyFunc;
-  const onError = config.onError || console.error;
+  const { routes, container, beforeEach = emptyFunc, afterEach = emptyFunc, onError = console.error } = config;
 
   let current: RouteContext | null = null;
 
   // Compile routes to regex patterns
-  const compiled = routes.map(function (route) {
+  const compiled = routes.map((route) => {
     const names: string[] = [];
-    const pattern = route.path.replace(/\/:([^/]+)/g, function (_, name) {
+    const pattern = route.path.replace(/\/:([^/]+)/g, (_, name) => {
       names.push(name);
       return '/([^/]+)';
     });
     return { route, pattern: new RegExp(`^${pattern}$`), names };
   });
 
-  // todo 完全可以通过tsconfig的target来降级代码
   // Match path and extract params
   const match = (path: string) => {
     for (let i = 0; i < compiled.length; i++) {
-      const route = compiled[i].route;
-      const pattern = compiled[i].pattern;
-      const names = compiled[i].names;
+      const { route, pattern, names } = compiled[i];
       const m = path.match(pattern);
       if (m) {
         const params: Record<string, string> = {};
@@ -67,9 +58,7 @@ export function createRouter(config: RouterConfig) {
     // 假设 Promise 存在（需要在 IE11 中 polyfill）
     return new Promise((resolve) => {
       try {
-        const splitPath = path.split('?');
-        const pathname = splitPath[0];
-        const search = splitPath[1];
+        const [pathname, search] = path.split('?');
         const query = parseQuery(search || '');
         const matched = match(pathname);
 
@@ -130,11 +119,7 @@ export function createRouter(config: RouterConfig) {
   };
 
   // Handle hash change
-  const handle = () => {
-    const hash = window.location.hash.slice(1) || '/';
-    navigate(hash);
-  };
-
+  const handle = () => navigate(window.location.hash.slice(1) || '/');
   // Start router
   const start = () => {
     window.addEventListener('hashchange', handle);
@@ -142,19 +127,13 @@ export function createRouter(config: RouterConfig) {
   };
 
   // Stop router
-  const stop = () => {
-    return window.removeEventListener('hashchange', handle);
-  };
+  const stop = () => window.removeEventListener('hashchange', handle);
 
   // Push new route
-  const push = (path: string) => {
-    return navigate(path);
-  };
+  const push = (path: string) => navigate(path);
 
   // Get current context
-  const getCurrentContext = () => {
-    return current;
-  };
+  const getCurrentContext = () => current;
 
   return { start, stop, push, current: getCurrentContext };
 }

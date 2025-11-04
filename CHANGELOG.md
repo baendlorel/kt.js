@@ -1,5 +1,9 @@
 # Change Log 🕒
 
+## 0.4.x 2025-11-04
+
+- Added `ktnull`: a special value representing "null", used for filtering. Since native DOM APIs do not ignore `undefined` or `null`, this feature is provided to maintain native behavior while enhancing usability.
+
 ## 0.3.x 2025-11-04
 
 - Fix README.md examples for global usage (kt instead of KT)

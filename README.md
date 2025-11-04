@@ -19,12 +19,13 @@ KT.js follows one rule: full controll of dom and avoid unless repainting.
 
 ## Current Core Features
 
-- `h` function and its aliases
-- Router
-  - Automatically adapts to environment: uses async navigation guards when `Promise` is available, falls back to synchronous mode otherwise
-- **Full ES5 compatibility** - works in IE9+ and other legacy browsers
+- **`h` function**: and its aliases
+- **Router**:
+  - Auto-adapt to environment: uses async navigation guards when `Promise` is available, falls back to synchronous mode otherwise
+- **Full ES5 compatibility**: works in IE9+ and other legacy browsers
   - Transpiled to ES5 with no modern syntax
   - Optional minimal Promise polyfill included for older environments
+- **ktnull**: a special value representing "null", used for filtering. Since native DOM APIs do not ignore `undefined` or `null`, this feature is provided to maintain native behavior while enhancing usability.
 
 ## Getting started
 
@@ -147,6 +148,33 @@ console.log(current?.path, current?.params, current?.query);
 - Error handling (`onError`)
 - Minimal footprint
 
+## `ktnull`
+
+`ktnull` is an internal falsy value. It is assigned by `Object.freeze(Object.create(null))`.
+It is used for filtering, you can do like this:
+
+> Since `ktnull` is an empty object, it can be used on the 2nd argument position of `h` or the 1st position of `div`, representing attributes.
+
+```ts
+import { div, ktnull } from 'kt.js';
+const list = div(ktnull, [
+  div(ktnull, 'Item 1'),
+  someCondition ? div(ktnull, 'item 1.5') : ktnull,
+  div(ktnull, 'Item 2'),
+  undefined,
+]);
+```
+
+Then it will create:
+
+```html
+<div>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  undefined
+</div>
+```
+
 ## Browser Compatibility
 
 KT.js is transpiled to ES5 and works in all modern browsers as well as legacy browsers including IE9+.
@@ -156,15 +184,13 @@ KT.js is transpiled to ES5 and works in all modern browsers as well as legacy br
 For environments without native `Promise` support (like IE11 and below), KT.js provides a minimal Promise polyfill:
 
 ```html
-<!-- Load the Promise polyfill before KT.js -->
-<script src="https://unpkg.com/kt.js@0.3.0/dist/promise-polyfill.js"></script>
 <script src="https://unpkg.com/kt.js@0.3.0/dist/index.iife.js"></script>
 ```
 
 Or when using module bundlers:
 
 ```js
-import 'kt.js/dist/promise-polyfill';
+import 'some promise polyfill'; // Will fallback to sync version if Promise is not available
 import { h, div, createRouter } from 'kt.js';
 ```
 

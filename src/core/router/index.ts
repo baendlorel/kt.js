@@ -52,45 +52,83 @@ export function createRouter(config: RouterConfig) {
     return query;
   };
 
-  // Navigate to path using Promise chain
-  const navigate = (path: string): Promise<void> => {
-    const [pathname, search] = path.split('?');
-    const query = parseQuery(search || '');
-    const matched = match(pathname);
+  // Navigate to path - use Promise version if available, otherwise sync version
+  const navigate =
+    typeof Promise !== 'undefined'
+      ? (path: string): Promise<void> => {
+          const [pathname, search] = path.split('?');
+          const query = parseQuery(search || '');
+          const matched = match(pathname);
 
-    if (!matched) {
-      const e = new Error(`Route not found: ${pathname}`);
-      onError(e);
-      return $reject(e);
-    }
+          if (!matched) {
+            const e = new Error(`Route not found: ${pathname}`);
+            onError(e);
+            return $reject(e);
+          }
 
-    const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
+          const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
-    // Run guard
-    return $resolve(beforeEach(ctx, current))
-      .then((ok) => {
-        if (!ok) {
-          return $reject(new Error('Navigation blocked by guard'));
+          // Run guard
+          return $resolve(beforeEach(ctx, current))
+            .then((ok) => {
+              if (!ok) {
+                return $reject(new Error('Navigation blocked by guard'));
+              }
+
+              // Update URL
+              window.location.hash = search ? `${pathname}?${search}` : pathname;
+
+              // Execute handler
+              return matched.route.handler(ctx);
+            })
+            .then((result) => {
+              // Update container
+              if (container && result) {
+                container.innerHTML = '';
+                container.appendChild(result);
+              }
+
+              // Run afterEach
+              afterEach((current = ctx));
+            })
+            .catch((e: Error) => (onError(e), $reject(e)));
         }
+      : (path: string): void => {
+          const [pathname, search] = path.split('?');
+          const query = parseQuery(search || '');
+          const matched = match(pathname);
 
-        // Update URL
-        window.location.hash = search ? `${pathname}?${search}` : pathname;
+          if (!matched) {
+            onError(new Error(`Route not found: ${pathname}`));
+            return;
+          }
 
-        // Execute handler
-        return matched.route.handler(ctx);
-      })
-      .then((result) => {
-        // Update container
-        if (container && result) {
-          container.innerHTML = '';
-          container.appendChild(result);
-        }
+          const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
-        // Run afterEach
-        afterEach((current = ctx));
-      })
-      .catch((e: Error) => (onError(e), $reject(e)));
-  };
+          try {
+            const ok = beforeEach(ctx, current);
+            if (!ok) {
+              return;
+            }
+
+            // Update URL
+            window.location.hash = search ? `${pathname}?${search}` : pathname;
+
+            // Execute handler (must be sync)
+            const result = matched.route.handler(ctx);
+
+            // Update container (only if not Promise)
+            if (container && result && typeof (result as any).then !== 'function') {
+              container.innerHTML = '';
+              container.appendChild(result as HTMLElement);
+            }
+
+            // Run afterEach
+            afterEach((current = ctx));
+          } catch (e) {
+            onError(e as Error);
+          }
+        };
 
   // Handle hash change
   const handle = () => navigate(window.location.hash.slice(1) || '/');

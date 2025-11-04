@@ -1,5 +1,5 @@
 export const $isArray = Array.isArray;
-export const $stringSlice = String.prototype.slice;
+export const $filter = Array.prototype.filter;
 
 export const $keys = Object.keys as <T>(o: T) => (keyof T)[];
 export const $defineProperties = Object.defineProperties;

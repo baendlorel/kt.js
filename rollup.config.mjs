@@ -43,6 +43,12 @@ const options = [
         format: 'esm',
         sourcemap: false,
       },
+      {
+        file: 'dist/index.iife.js',
+        format: 'iife',
+        name: 'kt',
+        sourcemap: false,
+      },
     ],
 
     plugins: [

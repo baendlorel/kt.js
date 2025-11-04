@@ -1,7 +1,6 @@
 # KT.js
 
 [![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
-
 [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
 [CHANGLOG✨](CHANGELOG.md)
@@ -22,10 +21,18 @@ KT.js follows one rule: full controll of dom and avoid unless repainting.
 
 - `h` function and its aliases
 - Router
+  - If the environment supports `Promise`, async navigation guards are applied.
 - Compatible with ES5.
-  - If you use router, you need polyfill for `Promise` to make it work for ie11
 
 ## Getting started
+
+IIFE:
+
+```html
+<script src="https://unpkg.com/kt.js@0.3.0/dist/index.iife.js"></script>
+```
+
+Install via package managers:
 
 ```bash
 npm install kt.js

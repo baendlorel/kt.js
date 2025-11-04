@@ -1,8 +1,27 @@
 # Change Log 🕒
 
-## 0.3.0
+## 0.3.0 2025-11-04
 
-- compatibility update. Theoretically it should work with ES5 now.
+### New Features
+
+- Added IIFE build output format for direct browser usage via `<script>` tag
+- Router now automatically switches to synchronous mode in environments without Promise support
+- Separate minimal Promise polyfill output for environments that need it
+
+### Compatibility Improvements
+
+- Complete ES5 compatibility: code is now transpiled to ES5 using TypeScript target configuration
+- Removed async/await syntax, replaced with Promise chains for better compatibility
+- Removed destructuring assignments for IE compatibility
+- Removed arrow functions, forEach, and startsWith to support older browsers
+- Added polyfills for `append` and `navigate` methods
+- Router refactored to work in IE with minimal polyfills (Promise only)
+
+### Optimizations
+
+- Applied const enum for Promise states to reduce bundle size
+- Enabled Terser minification for smaller output
+- Removed Babel dependency (transpilation now handled by TypeScript)
 
 ## 0.2.0-0.2.1 2025-10-28 22:08:19
 

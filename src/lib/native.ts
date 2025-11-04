@@ -4,5 +4,6 @@ export const $stringSlice = String.prototype.slice;
 export const $keys = Object.keys as <T>(o: T) => (keyof T)[];
 export const $defineProperties = Object.defineProperties;
 
-export const $resolve = Promise.resolve;
-export const $reject = Promise.reject;
+const emptyPromiseHandler = (...args: any[]) => ({}) as unknown as Promise<any>;
+export const $resolve = typeof Promise === 'undefined' ? emptyPromiseHandler : Promise.resolve;
+export const $reject = typeof Promise === 'undefined' ? emptyPromiseHandler : Promise.reject;

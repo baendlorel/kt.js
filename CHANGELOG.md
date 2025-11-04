@@ -1,6 +1,9 @@
 # Change Log 🕒
 
-## 0.3.0 2025-11-04
+## 0.3.x 2025-11-04
+
+- Fix README.md examples for global usage (kt instead of KT)
+- Fix `Promise` would be not valid for caching `Promise.resolve` and `Promise.reject` in older environments
 
 ### New Features
 
@@ -23,18 +26,15 @@
 - Enabled Terser minification for smaller output
 - Removed Babel dependency (transpilation now handled by TypeScript)
 
-## 0.2.0-0.2.1 2025-10-28 22:08:19
+## 0.2.x 2025-10-28 22:08:19
 
 - new feature: Router
 - fix the problem that Router is not exported
 - add key features to the document
 
-## 0.1.1-0.1.2 2025-10-28 21:50:18
+## 0.1.x 2025-10-28 21:50:18
 
 - Fix the problem of still using `ktext`
-
-## 0.1.0 2025-10-20 00:25
-
 - Minify the runtime
 - **Cancel all enhancement and return to the primary HTMLElement**
 

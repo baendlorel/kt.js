@@ -35,8 +35,8 @@ KT.js provides an IIFE build that can be included directly in HTML:
 ```html
 <script src="https://unpkg.com/kt.js@0.3.0/dist/index.iife.js"></script>
 <script>
-  // KT is available globally
-  const { h, div } = KT;
+  // kt is available globally
+  const { h, div } = kt;
   const app = div('container', 'Hello World');
   document.body.appendChild(app);
 </script>

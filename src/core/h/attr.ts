@@ -1,5 +1,5 @@
 import { RawAttr, KAttribute } from '@/types/h.js';
-import { $setAttr, $keys, $on } from '@/lib/index.js';
+import { $setAttr, $keys, $on, $hasOwn } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 
 function booleanHandler(element: HTMLElement, key: string, value: any) {
@@ -57,12 +57,14 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     delete attr.class;
   }
 
-  if (style !== undefined) {
+  if (style) {
     if (typeof style === 'string') {
       $setAttr.call(element, 'style', style);
-    } else {
-      for (const key in element.style) {
-        element.style[key as any] = (style as any)[key];
+    } else if (typeof style === 'object') {
+      for (const key in style) {
+        if ($hasOwn.call(element.style, key)) {
+          element.style[key as any] = (style as any)[key];
+        }
       }
     }
     delete attr.style;

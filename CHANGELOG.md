@@ -2,6 +2,7 @@
 
 ## 0.4.x 2025-11-04
 
+- Fix the style attribute handling may cause setting invalid keys on element.style when the given style is an object instead of a string
 - Added `ktnull`: a special value representing "null", used for filtering. Since native DOM APIs do not ignore `undefined` or `null`, this feature is provided to maintain native behavior while enhancing usability.
 
 ## 0.3.x 2025-11-04

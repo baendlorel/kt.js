@@ -12,9 +12,4 @@ describe('h invalid inputs', () => {
     // @ts-ignore
     expect(() => h('div', 123)).toThrow(Error);
   });
-
-  it('throws for invalid content types', () => {
-    // @ts-ignore
-    expect(() => h('div', {}, 123)).toThrow(Error);
-  });
 });

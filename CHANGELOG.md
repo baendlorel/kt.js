@@ -4,6 +4,10 @@
 
 - Add `@<eventName>` at `h` function's attribute argument. `@<eventName>` like `@click` will be treated as event handler to avoid some conflicts with existing attributes.
 
+- Fix the problem that the passed `attr.class` is not properly restored
+
+- Fix problems of `attr.style` with type `object` causing invalid keys being set on `element.style`
+
 ## 0.4.x 2025-11-04
 
 - Fix the style attribute handling may cause setting invalid keys on element.style when the given style is an object instead of a string

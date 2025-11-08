@@ -50,10 +50,10 @@ const defaultHandler = function (element: HTMLElement, key: string, value: any) 
 };
 
 function attrIsObject(element: HTMLElement, attr: KAttribute) {
-  const className = attr.class;
+  const classValue = attr.class;
   const style = attr.style;
-  if (className !== undefined) {
-    element.className = className;
+  if (classValue !== undefined) {
+    element.className = classValue;
     delete attr.class;
   }
 
@@ -62,9 +62,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
       $setAttr.call(element, 'style', style);
     } else if (typeof style === 'object') {
       for (const key in style) {
-        if ($hasOwn.call(element.style, key)) {
-          element.style[key as any] = (style as any)[key];
-        }
+        element.style[key as any] = (style as any)[key];
       }
     }
     delete attr.style;
@@ -89,8 +87,8 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     }
   }
 
-  if (className !== undefined) {
-    attr.style = className;
+  if (classValue !== undefined) {
+    attr.class = classValue;
   }
   if (style !== undefined) {
     attr.style = style;

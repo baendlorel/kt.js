@@ -13,6 +13,7 @@ describe('h basic usage', () => {
   it('creates element with attribute object and children array', () => {
     const child = h('span', 'child', 'c');
     const el = h('section', { id: 's1', class: 'a b', style: { color: 'red' } }, [child, 't']);
+    // const el = h('section', { id: 's1', class: 'a b', style: 'color: red' }, [child, 't']);
     expect(el.getAttribute('id')).toBe('s1');
     expect(el.classList.contains('a')).toBe(true);
     expect(el.classList.contains('b')).toBe(true);

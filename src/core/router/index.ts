@@ -1,4 +1,3 @@
-import { $reject, $resolve } from '@/lib/native.js';
 import { RouterConfig, RouteContext } from '@/types/router.js';
 
 const emptyFunc = () => true;
@@ -63,16 +62,16 @@ export function createRouter(config: RouterConfig) {
           if (!matched) {
             const e = new Error(`Route not found: ${pathname}`);
             onError(e);
-            return $reject(e);
+            return Promise.reject(e);
           }
 
           const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
           // Run guard
-          return $resolve(beforeEach(ctx, current))
+          return Promise.resolve(beforeEach(ctx, current))
             .then((ok) => {
               if (!ok) {
-                return $reject(new Error('Navigation blocked by guard'));
+                return Promise.reject(new Error('Navigation blocked by guard'));
               }
 
               // Update URL
@@ -91,7 +90,7 @@ export function createRouter(config: RouterConfig) {
               // Run afterEach
               afterEach((current = ctx));
             })
-            .catch((e: Error) => (onError(e), $reject(e)));
+            .catch((e: Error) => (onError(e), Promise.reject(e)));
         }
       : (path: string): void => {
           const [pathname, search] = path.split('?');

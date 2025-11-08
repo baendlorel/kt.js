@@ -7,5 +7,6 @@ export const $keys = Object.keys as <T>(o: T) => (keyof T)[];
 export const $defineProperties = Object.defineProperties;
 
 const emptyPromiseHandler = (...args: any[]) => ({}) as unknown as Promise<any>;
-export const $resolve = typeof Promise === 'undefined' ? emptyPromiseHandler : Promise.resolve;
-export const $reject = typeof Promise === 'undefined' ? emptyPromiseHandler : Promise.reject;
+if (typeof Promise === 'undefined') {
+  window.Promise = { resolve: emptyPromiseHandler, reject: emptyPromiseHandler } as any;
+}

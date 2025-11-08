@@ -4,14 +4,42 @@ export type RawContent = (HTMLElement | string | undefined)[] | HTMLElement | st
 export type RawAttr = KAttribute | string;
 
 /**
+ * Event handler type for DOM events
+ */
+export type EventHandler<T extends Event = Event> = (this: HTMLElement, ev: T) => any;
+
+/**
  * Used to create enhanced HTML elements
  */
-export interface KAttribute {
+interface KBaseAttribute {
   [k: string]: any;
 
   id?: string;
 
-  type?: string;
+  type?:
+    | 'text'
+    | 'password'
+    | 'email'
+    | 'number'
+    | 'tel'
+    | 'url'
+    | 'search'
+    | 'date'
+    | 'datetime-local'
+    | 'time'
+    | 'month'
+    | 'week'
+    | 'color'
+    | 'range'
+    | 'file'
+    | 'checkbox'
+    | 'radio'
+    | 'hidden'
+    | 'submit'
+    | 'reset'
+    | 'button'
+    | 'image'
+    | otherstring;
   for?: string;
   name?: string;
   value?: string;
@@ -28,3 +56,14 @@ export interface KAttribute {
   action?: string;
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }
+
+type KEventHandlersOrAttribute = {
+  [EventName in keyof HTMLElementEventMap]?: ((ev: HTMLElementEventMap[EventName]) => void) | string;
+};
+
+// todo 如果键名是@开头，则一定注册为事件
+type KEventHandlers = {
+  [EventName in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[EventName]) => void;
+};
+
+export type KAttribute = KBaseAttribute & KEventHandlersOrAttribute & KEventHandlers;

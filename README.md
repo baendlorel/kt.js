@@ -72,13 +72,22 @@ This will create the following DOM structure:
 </section>
 ```
 
-If you give a function in the attributes, it will be treated as an event listener, and the key will be considered as the event name:
+If you give a function in attributes, it will be treated as an event listener, and the key will be considered as the event name. `@<eventName>` will also be considered as the handler to avoid conflicts with existing attributes:
 
 ```ts
-const button = btn({ click: () => alert('Clicked!') }, 'Click me');
+const button = btn(
+  {
+    click: () => alert('Clicked!'),
+    dblclick:'22',
+    '@dblclick': function trueHandler(){...}
+  },
+  'Click me');
+
 // this equals
 const button = btn(undefined, 'Click me');
+button.setAttribute('dblclick', '22');
 button.addEventListener('click', () => alert('Clicked!'));
+button.addEventListener('dblclick', function trueHandler(){...});
 ```
 
 Work with `@emotion/css`
@@ -92,6 +101,7 @@ const className = css`
 `;
 
 h('div', { class: className }, 'Styled text');
+h('div', className, 'Styled text');
 ```
 
 ## Router

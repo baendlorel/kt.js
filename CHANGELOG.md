@@ -1,5 +1,9 @@
 # Change Log 🕒
 
+## 0.5.x 2025-11-08
+
+- Add `@<eventName>` at `h` function's attribute argument. `@<eventName>` like `@click` will be treated as event handler to avoid some conflicts with existing attributes.
+
 ## 0.4.x 2025-11-04
 
 - Fix the style attribute handling may cause setting invalid keys on element.style when the given style is an object instead of a string

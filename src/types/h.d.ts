@@ -61,9 +61,12 @@ type KEventHandlersOrAttribute = {
   [EventName in keyof HTMLElementEventMap]?: ((ev: HTMLElementEventMap[EventName]) => void) | string;
 };
 
-// todo 如果键名是@开头，则一定注册为事件
-type KEventHandlers = {
-  [EventName in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[EventName]) => void;
+/**
+ * Event handlers with @ prefix (e.g., @click, @input)
+ * When key starts with @, it's always registered as an event handler
+ */
+type KPrefixedEventHandlers = {
+  [EventName in keyof HTMLElementEventMap as `@${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-export type KAttribute = KBaseAttribute & KEventHandlersOrAttribute & KEventHandlers;
+export type KAttribute = KBaseAttribute & KEventHandlersOrAttribute & KPrefixedEventHandlers;

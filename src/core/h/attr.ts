@@ -75,6 +75,13 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     const key = keys[i];
     const o = attr[key];
 
+    // force register @xxx as an event handler
+    // !if o is not valid, the throwing job will be done by $on, not kt.js
+    if (key.startsWith('@')) {
+      $on.call(element, key.slice(1), o); // chop off the `@`
+      continue;
+    }
+
     if (typeof o !== 'function') {
       (handlers[key] || defaultHandler)(element, key, o);
     } else {

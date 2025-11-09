@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createRouter } from '../../src/core/router/index.js';
+import { div } from '@/index.js';
 
 describe('Router', () => {
   let container: HTMLDivElement;
@@ -16,7 +17,10 @@ describe('Router', () => {
   describe('basic routing', () => {
     it('should navigate to routes', async () => {
       const homeHandler = vi.fn((ctx) => {
-        container.innerHTML = '<div id="home">Home Page</div>';
+        const el = document.createElement('div');
+        el.id = 'home';
+        el.textContent = 'Home Page';
+        return el;
       });
 
       const router = createRouter({
@@ -24,19 +28,17 @@ describe('Router', () => {
         container,
       });
 
-      await router.start();
+      router.start();
+      // Wait for async navigation
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(homeHandler).toHaveBeenCalled();
       expect(container.querySelector('#home')).toBeTruthy();
     });
 
     it('should navigate between routes', async () => {
-      const homeHandler = vi.fn(() => {
-        container.innerHTML = '<div id="home">Home</div>';
-      });
-      const aboutHandler = vi.fn(() => {
-        container.innerHTML = '<div id="about">About</div>';
-      });
+      const homeHandler = vi.fn(() => div({ id: 'home' }, 'Home'));
+      const aboutHandler = vi.fn(() => div({ id: 'about' }, 'About'));
 
       const router = createRouter({
         routes: [
@@ -46,7 +48,11 @@ describe('Router', () => {
         container,
       });
 
-      await router.start();
+      router.start();
+      // fixme 报错：未运行，但是debug一步一步走的时候显然运行了
+      expect(homeHandler).toHaveBeenCalled();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      console.log(container.querySelectorAll('div'));
       expect(container.querySelector('#home')).toBeTruthy();
 
       await router.push('/about');
@@ -65,7 +71,10 @@ describe('Router', () => {
             path: '/user/:id',
             handler: (ctx) => {
               capturedParams = ctx.params;
-              container.innerHTML = `<div id="user">User ${ctx.params.id}</div>`;
+              const el = document.createElement('div');
+              el.id = 'user';
+              el.textContent = `User ${ctx.params.id}`;
+              return el;
             },
           },
         ],
@@ -87,6 +96,7 @@ describe('Router', () => {
             path: '/post/:category/:id',
             handler: (ctx) => {
               capturedParams = ctx.params;
+              return document.createElement('div');
             },
           },
         ],
@@ -109,6 +119,7 @@ describe('Router', () => {
             path: '/search',
             handler: (ctx) => {
               capturedQuery = ctx.query;
+              return document.createElement('div');
             },
           },
         ],
@@ -129,6 +140,7 @@ describe('Router', () => {
             path: '/user/:id',
             handler: (ctx) => {
               capturedContext = ctx;
+              return document.createElement('div');
             },
           },
         ],
@@ -145,7 +157,7 @@ describe('Router', () => {
   describe('navigation guards', () => {
     it('should call beforeEach guard', async () => {
       const beforeEach = vi.fn(() => true);
-      const handler = vi.fn();
+      const handler = vi.fn(() => document.createElement('div'));
 
       const router = createRouter({
         routes: [{ path: '/', handler }],
@@ -153,16 +165,18 @@ describe('Router', () => {
         beforeEach,
       });
 
-      await router.start();
+      router.start();
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(beforeEach).toHaveBeenCalled();
       expect(handler).toHaveBeenCalled();
     });
 
     it('should block navigation when guard returns false', async () => {
+      let navigationError: Error | null = null;
       const beforeEach = vi.fn(() => false);
-      const homeHandler = vi.fn();
-      const aboutHandler = vi.fn();
+      const homeHandler = vi.fn(() => document.createElement('div'));
+      const aboutHandler = vi.fn(() => document.createElement('div'));
 
       const router = createRouter({
         routes: [
@@ -171,12 +185,19 @@ describe('Router', () => {
         ],
         container,
         beforeEach,
+        onError: (e) => {
+          navigationError = e;
+        },
       });
 
-      await router.start();
-      expect(homeHandler).toHaveBeenCalledTimes(1);
+      router.start();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      // First navigation is blocked
+      expect(homeHandler).not.toHaveBeenCalled();
+      expect(navigationError).toBeTruthy();
 
       // Try to navigate, should be blocked
+      navigationError = null;
       try {
         await router.push('/about');
       } catch (e) {
@@ -184,11 +205,12 @@ describe('Router', () => {
       }
 
       expect(aboutHandler).not.toHaveBeenCalled();
+      expect(navigationError).toBeTruthy();
     });
 
     it('should call afterEach after navigation', async () => {
       const afterEach = vi.fn();
-      const handler = vi.fn();
+      const handler = vi.fn(() => document.createElement('div'));
 
       const router = createRouter({
         routes: [{ path: '/', handler }],
@@ -196,7 +218,8 @@ describe('Router', () => {
         afterEach,
       });
 
-      await router.start();
+      router.start();
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(afterEach).toHaveBeenCalled();
     });
@@ -209,7 +232,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/user/:id',
-            handler: () => {},
+            handler: () => document.createElement('div'),
           },
         ],
         container,
@@ -243,6 +266,7 @@ describe('Router', () => {
             path: '/admin',
             handler: (ctx) => {
               capturedMeta = ctx.meta;
+              return document.createElement('div');
             },
             meta: { requiresAuth: true, title: 'Admin Panel' },
           },
@@ -262,7 +286,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/protected',
-            handler: () => {},
+            handler: () => document.createElement('div'),
             meta: { requiresAuth: true },
           },
         ],
@@ -284,7 +308,7 @@ describe('Router', () => {
       const onError = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', handler: () => {} }],
+        routes: [{ path: '/', handler: () => document.createElement('div') }],
         container,
         onError,
       });
@@ -306,7 +330,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/user/:id',
-            handler: () => {},
+            handler: () => document.createElement('div'),
           },
         ],
         container,
@@ -321,7 +345,7 @@ describe('Router', () => {
 
     it('should return null when no route is active', () => {
       const router = createRouter({
-        routes: [{ path: '/', handler: () => {} }],
+        routes: [{ path: '/', handler: () => document.createElement('div') }],
         container,
       });
 

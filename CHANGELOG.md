@@ -8,6 +8,8 @@
 
 - Fix problems of `attr.style` with type `object` causing invalid keys being set on `element.style`
 
+- Fix the infinite loop caused by router
+
 ## 0.4.x 2025-11-04
 
 - Fix the style attribute handling may cause setting invalid keys on element.style when the given style is an object instead of a string

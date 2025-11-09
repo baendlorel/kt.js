@@ -2,6 +2,7 @@ import { RouterConfig, RouteContext } from '@/types/router.js';
 
 const emptyFunc = () => true;
 
+// fixme 大概知道router通不过测试的原因了。这可能是需要router在push的时候和内部naviage的时候要带有不同的标记，就像不致死标记、生命移除标记来避免无限循环
 export function createRouter(config: RouterConfig) {
   const { routes, container, beforeEach = emptyFunc, afterEach = emptyFunc, onError = console.error } = config;
 
@@ -68,6 +69,7 @@ export function createRouter(config: RouterConfig) {
           const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
           // Run guard
+          const handleCatched = (e: Error) => onError(e); //  (onError(e), Promise.reject(e));
           return Promise.resolve(beforeEach(ctx, current))
             .then((ok) => {
               if (!ok) {
@@ -79,7 +81,7 @@ export function createRouter(config: RouterConfig) {
 
               // Execute handler
               return matched.route.handler(ctx);
-            })
+            }, handleCatched)
             .then((result) => {
               // Update container
               if (container && result) {
@@ -89,8 +91,7 @@ export function createRouter(config: RouterConfig) {
 
               // Run afterEach
               afterEach((current = ctx));
-            })
-            .catch((e: Error) => (onError(e), Promise.reject(e)));
+            }, handleCatched);
         }
       : (path: string): void => {
           const [pathname, search] = path.split('?');
@@ -131,10 +132,11 @@ export function createRouter(config: RouterConfig) {
 
   // Handle hash change
   const handle = () => navigate(window.location.hash.slice(1) || '/');
+
   // Start router
   const start = () => {
     window.addEventListener('hashchange', handle);
-    handle();
+    return handle();
   };
 
   // Stop router

@@ -55,8 +55,8 @@ export function createRouter(config: RouterConfig) {
   // Navigate to path - use Promise version if available, otherwise sync version
   const navigate =
     typeof Promise !== 'undefined'
-      ? (path: string): Promise<void> => {
-          const [pathname, search] = path.split('?');
+      ? (opts: { path: string; internal: boolean }): Promise<void> => {
+          const [pathname, search] = opts.path.split('?');
           const query = parseQuery(search || '');
           const matched = match(pathname);
 
@@ -93,8 +93,8 @@ export function createRouter(config: RouterConfig) {
               afterEach((current = ctx));
             }, handleCatched);
         }
-      : (path: string): void => {
-          const [pathname, search] = path.split('?');
+      : (opts: { path: string; internal: boolean }): void => {
+          const [pathname, search] = opts.path.split('?');
           const query = parseQuery(search || '');
           const matched = match(pathname);
 
@@ -104,6 +104,7 @@ export function createRouter(config: RouterConfig) {
           }
 
           const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
+          // todo   这一行以上的部分，异步和非异步版本相同，考虑归并
 
           try {
             const ok = beforeEach(ctx, current);
@@ -131,7 +132,7 @@ export function createRouter(config: RouterConfig) {
         };
 
   // Handle hash change
-  const handle = () => navigate(window.location.hash.slice(1) || '/');
+  const handle = () => navigate({ path: window.location.hash.slice(1) || '/', internal: true });
 
   // Start router
   const start = () => {
@@ -143,7 +144,7 @@ export function createRouter(config: RouterConfig) {
   const stop = () => window.removeEventListener('hashchange', handle);
 
   // Push new route
-  const push = (path: string) => navigate(path);
+  const push = (path: string) => navigate({ path, internal: false });
 
   // Get current context
   const getCurrentContext = () => current;

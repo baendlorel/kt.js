@@ -15,6 +15,8 @@ interface KBaseAttribute {
   [k: string]: any;
 
   id?: string;
+  class?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
 
   type?:
     | 'text'
@@ -41,18 +43,21 @@ interface KBaseAttribute {
     | 'image'
     | otherstring;
   for?: string;
+
   name?: string;
   value?: string;
   valueAsDate?: Date;
   valueAsNumber?: number;
   label?: string;
   disabled?: string;
-  min?: string;
-  max?: string;
+
+  min?: string | number;
+  max?: string | number;
+  step?: string | number;
+
   selected?: boolean;
   checked?: boolean;
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
+
   action?: string;
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }

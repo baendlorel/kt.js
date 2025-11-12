@@ -84,11 +84,7 @@ type Chop<T extends any[], N extends number, Acc extends any[] = []> = Acc['leng
     ? Chop<Rest, N, [...Acc, Head]>
     : [];
 
-type NParams<
-  Fn extends (...args: any[]) => any,
-  N extends number,
-  Acc extends any[] = [],
-> = Acc['length'] extends N
+type NParams<Fn extends (...args: any[]) => any, N extends number, Acc extends any[] = []> = Acc['length'] extends N
   ? Acc
   : Parameters<Fn> extends readonly [infer First, ...infer Rest]
     ? Rest extends any[]
@@ -152,3 +148,27 @@ const ssss = bindParams(sss, 'a');
 1. 有一个辅助函数叫testTag，入参是一个htmltag，我已经写好你直接用.
 2. 用所有html元素的tag，遍历进入testTag函数
 3. 把整体包裹在名为run的函数内。run最开始会先清空body元素
+
+---
+
+现在请你重写路由创建器，要求：
+
+- 同步版，不支持await和async
+- 具有极简、最简的、常见的路由守卫基本功能
+- 具有beforeeach和aftereach钩子
+- 每个路由配置要有路径、name（可选）、meta（可选），自己的before（可选）和after（可选）；
+- 内部要有有一个navigate函数用来导航路由
+- 要有silentPush和push两个路由函数。入参是一个对象，包含path可选、name可选、params可选、query可选。后两者会拼上路径。如果name和path找不到则报错。如果入参输入的是string，那么转化为{path:这个string}后继续处理。
+- silentPush不会触发beforeeach， push会触发beforeeach
+
+## 请先分析这个设计的利弊，和我确认后再继续操作
+
+- beforeeach前阻止导航：你可以参考现有例如vue、angular、react等的设计，可以是返回boolean，可以是传入next函数。你从“极简”这个角度来思考和判定即可
+- 没有异步：其实不是没有，而是异步的写法我后期会自己手动编写转换，从同步的版本转换过去。这个操作比较精细，需要我亲自实现，你负责完备地处理好同步版本就可以了
+- 你说的对，应该支持嵌套路由
+- 确实需要历史机制；
+- 确实需要错误处理，可传入onerror、onNotFound等函数，这个取决于你的设计
+- 这些都以应该保持kt.js本身的极简性，不需要追求丰富功能，要以最少代码完成七八成功能就是胜利
+- params和query就按照它们本该是什么样就拼成什么样就可以了,这方面我不太懂。
+
+## 以上是我的回答。请根据我的回答，输出一份路由设计方案，输出到.draft/router-design.md文件中

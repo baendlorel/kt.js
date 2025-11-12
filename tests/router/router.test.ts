@@ -1,349 +1,210 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createRouter } from '../../src/core/router/index.js';
-import { div } from '@/index.js';
 
 describe('Router', () => {
-  let container: HTMLDivElement;
-
-  beforeEach((testContext) => {
-    // Reset location hash
-    window.location.hash = '';
-
-    // Create a fresh container for each test
-    container = div();
-    container.dataset.suite = testContext.task.name;
+  beforeEach(() => {
+    window.history.replaceState(null, '', '/');
   });
 
   describe('basic routing', () => {
-    it('should navigate to routes', async () => {
-      const homeHandler = vi.fn((ctx) => div({ id: 'home' }, 'Home Page'));
-
+    it('should navigate to routes', () => {
       const router = createRouter({
-        routes: [{ path: '/', handler: homeHandler }],
-        container,
+        routes: [{ path: '/', name: 'home' }],
       });
 
-      await router.start();
-      // Wait for async navigation
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      const result = router.push('/');
 
-      expect(homeHandler).toHaveBeenCalled();
-      expect(container.querySelector('#home')).toBeTruthy();
+      expect(result).toBe(true);
+      expect(router.current).toBeTruthy();
+      expect(router.current?.path).toBe('/');
     });
 
-    it('should navigate between routes', async () => {
-      const homeHandler = vi.fn(() => div({ id: 'home' }, 'Home'));
-      const aboutHandler = vi.fn(() => div({ id: 'about' }, 'About'));
-
+    it('should navigate between routes', () => {
       const router = createRouter({
         routes: [
-          { path: '/', handler: homeHandler },
-          { path: '/about', handler: aboutHandler },
+          { path: '/', name: 'home' },
+          { path: '/about', name: 'about' },
         ],
-        container,
       });
 
-      await router.start();
-      expect(homeHandler).toHaveBeenCalled();
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.log(Array.from(container.querySelectorAll('div')));
-      expect(container.querySelector('#home')).toBeTruthy();
+      router.push('/');
+      expect(router.current?.name).toBe('home');
 
-      await router.push('/about');
-      expect(aboutHandler).toHaveBeenCalled();
-      expect(container.querySelector('#about')).toBeTruthy();
+      router.push('/about');
+      expect(router.current?.name).toBe('about');
+    });
+
+    it('should navigate by route name', () => {
+      const router = createRouter({
+        routes: [{ path: '/user/:id', name: 'user' }],
+      });
+
+      const result = router.push({ name: 'user', params: { id: '123' } });
+
+      expect(result).toBe(true);
+      expect(router.current?.name).toBe('user');
+      expect(router.current?.params.id).toBe('123');
     });
   });
 
   describe('route parameters', () => {
-    it('should extract route parameters', async () => {
-      let capturedParams: any = null;
-
+    it('should extract route parameters', () => {
       const router = createRouter({
-        routes: [
-          {
-            path: '/user/:id',
-            handler: (ctx) => {
-              capturedParams = ctx.params;
-              const el = div();
-              el.id = 'user';
-              el.textContent = `User ${ctx.params.id}`;
-              return el;
-            },
-          },
-        ],
-        container,
+        routes: [{ path: '/user/:id', name: 'user' }],
       });
 
-      await router.push('/user/123');
+      router.push('/user/123');
 
-      expect(capturedParams).toEqual({ id: '123' });
-      expect(container.textContent).toContain('User 123');
+      expect(router.current?.params).toEqual({ id: '123' });
     });
 
-    it('should support multiple route parameters', async () => {
-      let capturedParams: any = null;
-
+    it('should support multiple route parameters', () => {
       const router = createRouter({
-        routes: [
-          {
-            path: '/post/:category/:id',
-            handler: (ctx) => {
-              capturedParams = ctx.params;
-              return div();
-            },
-          },
-        ],
-        container,
+        routes: [{ path: '/post/:category/:id', name: 'post' }],
       });
 
-      await router.push('/post/tech/456');
+      router.push('/post/tech/456');
 
-      expect(capturedParams).toEqual({ category: 'tech', id: '456' });
+      expect(router.current?.params).toEqual({ category: 'tech', id: '456' });
     });
   });
 
   describe('query parameters', () => {
-    it('should parse query parameters', async () => {
-      let capturedQuery: any = null;
-
+    it('should parse query parameters', () => {
       const router = createRouter({
-        routes: [
-          {
-            path: '/search',
-            handler: (ctx) => {
-              capturedQuery = ctx.query;
-              return div();
-            },
-          },
-        ],
-        container,
+        routes: [{ path: '/search', name: 'search' }],
       });
 
-      await router.push('/search?q=test&page=2');
+      router.push('/search?q=test&page=2');
 
-      expect(capturedQuery).toEqual({ q: 'test', page: '2' });
+      expect(router.current?.query).toEqual({ q: 'test', page: '2' });
     });
 
-    it('should handle query parameters with route parameters', async () => {
-      let capturedContext: any = null;
-
+    it('should build query string from object', () => {
       const router = createRouter({
-        routes: [
-          {
-            path: '/user/:id',
-            handler: (ctx) => {
-              capturedContext = ctx;
-              return div();
-            },
-          },
-        ],
-        container,
+        routes: [{ path: '/search', name: 'search' }],
       });
 
-      await router.push('/user/123?tab=profile&lang=en');
+      router.push({ path: '/search', query: { q: 'hello', page: '3' } });
 
-      expect(capturedContext.params).toEqual({ id: '123' });
-      expect(capturedContext.query).toEqual({ tab: 'profile', lang: 'en' });
+      expect(router.current?.query).toEqual({ q: 'hello', page: '3' });
     });
   });
 
   describe('navigation guards', () => {
-    it('should call beforeEach guard', async () => {
+    it('should call beforeEach guard', () => {
       const beforeEach = vi.fn(() => true);
-      const handler = vi.fn(() => div());
 
       const router = createRouter({
-        routes: [{ path: '/', handler }],
-        container,
+        routes: [{ path: '/', name: 'home' }],
         beforeEach,
       });
 
-      await router.start();
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      router.push('/');
 
       expect(beforeEach).toHaveBeenCalled();
-      expect(handler).toHaveBeenCalled();
     });
 
-    it('should block navigation when guard returns false', async () => {
-      let navigationError: Error | null = null;
+    it('should block navigation when guard returns false', () => {
       const beforeEach = vi.fn(() => false);
-      const homeHandler = vi.fn(() => div());
-      const aboutHandler = vi.fn(() => div());
 
       const router = createRouter({
-        routes: [
-          { path: '/', handler: homeHandler },
-          { path: '/about', handler: aboutHandler },
-        ],
-        container,
+        routes: [{ path: '/', name: 'home' }],
         beforeEach,
-        onError: (e) => {
-          navigationError = e;
-        },
       });
 
-      await router.start();
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      // First navigation is blocked
-      expect(homeHandler).not.toHaveBeenCalled();
-      expect(navigationError).toBeTruthy();
+      const result = router.push('/');
 
-      // Try to navigate, should be blocked
-      navigationError = null;
-      try {
-        await router.push('/about');
-      } catch (e) {
-        // Navigation should be blocked
-      }
-
-      expect(aboutHandler).not.toHaveBeenCalled();
-      expect(navigationError).toBeTruthy();
+      expect(result).toBe(false);
+      expect(router.current).toBeNull();
     });
 
-    it('should call afterEach after navigation', async () => {
+    it('should call afterEach after navigation', () => {
       const afterEach = vi.fn();
-      const handler = vi.fn(() => div());
 
       const router = createRouter({
-        routes: [{ path: '/', handler }],
-        container,
+        routes: [{ path: '/', name: 'home' }],
         afterEach,
       });
 
-      await router.start();
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      router.push('/');
 
       expect(afterEach).toHaveBeenCalled();
     });
-
-    it('should pass route context to guards', async () => {
-      let beforeContext: any = null;
-      let afterContext: any = null;
-
-      const router = createRouter({
-        routes: [
-          {
-            path: '/user/:id',
-            handler: () => div(),
-          },
-        ],
-        container,
-        beforeEach: (ctx) => {
-          beforeContext = ctx;
-          return true;
-        },
-        afterEach: (ctx) => {
-          afterContext = ctx;
-        },
-      });
-
-      await router.push('/user/123?lang=en');
-
-      expect(beforeContext.params).toEqual({ id: '123' });
-      expect(beforeContext.query).toEqual({ lang: 'en' });
-      expect(beforeContext.path).toBe('/user/123');
-
-      expect(afterContext.params).toEqual({ id: '123' });
-      expect(afterContext.query).toEqual({ lang: 'en' });
-    });
   });
 
-  describe('route meta', () => {
-    it('should pass meta field to route context', async () => {
-      let capturedMeta: any = null;
+  describe('silentPush', () => {
+    it('should skip global beforeEach guard', () => {
+      const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [
-          {
-            path: '/admin',
-            handler: (ctx) => {
-              capturedMeta = ctx.meta;
-              return div();
-            },
-            meta: { requiresAuth: true, title: 'Admin Panel' },
-          },
-        ],
-        container,
+        routes: [{ path: '/', name: 'home' }],
+        beforeEach,
       });
 
-      await router.push('/admin');
+      router.silentPush('/');
 
-      expect(capturedMeta).toEqual({ requiresAuth: true, title: 'Admin Panel' });
-    });
-
-    it('should access meta in navigation guards', async () => {
-      let guardMeta: any = null;
-
-      const router = createRouter({
-        routes: [
-          {
-            path: '/protected',
-            handler: () => div(),
-            meta: { requiresAuth: true },
-          },
-        ],
-        container,
-        beforeEach: (ctx) => {
-          guardMeta = ctx.meta;
-          return true;
-        },
-      });
-
-      await router.push('/protected');
-
-      expect(guardMeta).toEqual({ requiresAuth: true });
+      expect(beforeEach).not.toHaveBeenCalled();
+      expect(router.current?.path).toBe('/');
     });
   });
 
   describe('error handling', () => {
-    it('should handle route not found', async () => {
+    it('should call onNotFound when route not found', () => {
+      const onNotFound = vi.fn();
+
+      const router = createRouter({
+        routes: [{ path: '/', name: 'home' }],
+        onNotFound,
+      });
+
+      const result = router.push('/nonexistent');
+
+      expect(result).toBe(false);
+      expect(onNotFound).toHaveBeenCalledWith('/nonexistent');
+    });
+
+    it('should call onError when navigation fails', () => {
       const onError = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', handler: () => div() }],
-        container,
+        routes: [{ path: '/', name: 'home' }],
         onError,
       });
 
-      try {
-        await router.push('/nonexistent');
-      } catch (e) {
-        // Expected to throw
-      }
+      router.push({});
 
       expect(onError).toHaveBeenCalled();
-      expect(onError.mock.calls[0][0].message).toContain('Route not found');
     });
   });
 
-  describe('current route', () => {
-    it('should get current route context', async () => {
+  describe('NavigateOptions with flags', () => {
+    it('should support silent flag in push', () => {
+      const beforeEach = vi.fn(() => true);
+
       const router = createRouter({
-        routes: [
-          {
-            path: '/user/:id',
-            handler: () => div(),
-          },
-        ],
-        container,
+        routes: [{ path: '/', name: 'home' }],
+        beforeEach,
       });
 
-      await router.push('/user/456');
+      router.push({ path: '/', silent: true });
 
-      const current = router.current();
-      expect(current?.params).toEqual({ id: '456' });
-      expect(current?.path).toBe('/user/456');
+      expect(beforeEach).not.toHaveBeenCalled();
+      expect(router.current?.path).toBe('/');
     });
 
-    it('should return null when no route is active', () => {
+    it('should support replace flag in push', () => {
       const router = createRouter({
-        routes: [{ path: '/', handler: () => div() }],
-        container,
+        routes: [
+          { path: '/', name: 'home' },
+          { path: '/about', name: 'about' },
+        ],
       });
 
-      expect(router.current()).toBeNull();
+      router.push('/');
+      router.push({ path: '/about', replace: true });
+
+      expect(router.current?.name).toBe('about');
     });
   });
 });

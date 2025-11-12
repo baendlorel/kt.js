@@ -14,6 +14,7 @@ export function createRouter(config: RouterConfig): Router {
   /**
    * Navigate to a route
    */
+  // todo 写出promise版本
   function navigate(options: NavigateOptions): boolean {
     try {
       // Extract control flags

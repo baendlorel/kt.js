@@ -145,7 +145,6 @@ export function createRouter(config: RouterConfig) {
 
   // Start router
   const start = () => {
-    pushing = true;
     window.addEventListener('hashchange', handle);
     return handle();
   };

@@ -23,7 +23,7 @@ describe('Router', () => {
         container,
       });
 
-      router.start();
+      await router.start();
       // Wait for async navigation
       await new Promise((resolve) => setTimeout(resolve, 50));
 
@@ -159,7 +159,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.start();
+      await router.start();
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(beforeEach).toHaveBeenCalled();
@@ -184,7 +184,7 @@ describe('Router', () => {
         },
       });
 
-      router.start();
+      await router.start();
       await new Promise((resolve) => setTimeout(resolve, 50));
       // First navigation is blocked
       expect(homeHandler).not.toHaveBeenCalled();
@@ -212,7 +212,7 @@ describe('Router', () => {
         afterEach,
       });
 
-      router.start();
+      await router.start();
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(afterEach).toHaveBeenCalled();

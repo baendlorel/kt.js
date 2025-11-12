@@ -16,12 +16,7 @@ describe('Router', () => {
 
   describe('basic routing', () => {
     it('should navigate to routes', async () => {
-      const homeHandler = vi.fn((ctx) => {
-        const el = document.createElement('div');
-        el.id = 'home';
-        el.textContent = 'Home Page';
-        return el;
-      });
+      const homeHandler = vi.fn((ctx) => div({ id: 'home' }, 'Home Page'));
 
       const router = createRouter({
         routes: [{ path: '/', handler: homeHandler }],
@@ -70,7 +65,7 @@ describe('Router', () => {
             path: '/user/:id',
             handler: (ctx) => {
               capturedParams = ctx.params;
-              const el = document.createElement('div');
+              const el = div();
               el.id = 'user';
               el.textContent = `User ${ctx.params.id}`;
               return el;
@@ -95,7 +90,7 @@ describe('Router', () => {
             path: '/post/:category/:id',
             handler: (ctx) => {
               capturedParams = ctx.params;
-              return document.createElement('div');
+              return div();
             },
           },
         ],
@@ -118,7 +113,7 @@ describe('Router', () => {
             path: '/search',
             handler: (ctx) => {
               capturedQuery = ctx.query;
-              return document.createElement('div');
+              return div();
             },
           },
         ],
@@ -139,7 +134,7 @@ describe('Router', () => {
             path: '/user/:id',
             handler: (ctx) => {
               capturedContext = ctx;
-              return document.createElement('div');
+              return div();
             },
           },
         ],
@@ -156,7 +151,7 @@ describe('Router', () => {
   describe('navigation guards', () => {
     it('should call beforeEach guard', async () => {
       const beforeEach = vi.fn(() => true);
-      const handler = vi.fn(() => document.createElement('div'));
+      const handler = vi.fn(() => div());
 
       const router = createRouter({
         routes: [{ path: '/', handler }],
@@ -174,8 +169,8 @@ describe('Router', () => {
     it('should block navigation when guard returns false', async () => {
       let navigationError: Error | null = null;
       const beforeEach = vi.fn(() => false);
-      const homeHandler = vi.fn(() => document.createElement('div'));
-      const aboutHandler = vi.fn(() => document.createElement('div'));
+      const homeHandler = vi.fn(() => div());
+      const aboutHandler = vi.fn(() => div());
 
       const router = createRouter({
         routes: [
@@ -209,7 +204,7 @@ describe('Router', () => {
 
     it('should call afterEach after navigation', async () => {
       const afterEach = vi.fn();
-      const handler = vi.fn(() => document.createElement('div'));
+      const handler = vi.fn(() => div());
 
       const router = createRouter({
         routes: [{ path: '/', handler }],
@@ -231,7 +226,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/user/:id',
-            handler: () => document.createElement('div'),
+            handler: () => div(),
           },
         ],
         container,
@@ -265,7 +260,7 @@ describe('Router', () => {
             path: '/admin',
             handler: (ctx) => {
               capturedMeta = ctx.meta;
-              return document.createElement('div');
+              return div();
             },
             meta: { requiresAuth: true, title: 'Admin Panel' },
           },
@@ -285,7 +280,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/protected',
-            handler: () => document.createElement('div'),
+            handler: () => div(),
             meta: { requiresAuth: true },
           },
         ],
@@ -307,7 +302,7 @@ describe('Router', () => {
       const onError = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', handler: () => document.createElement('div') }],
+        routes: [{ path: '/', handler: () => div() }],
         container,
         onError,
       });
@@ -329,7 +324,7 @@ describe('Router', () => {
         routes: [
           {
             path: '/user/:id',
-            handler: () => document.createElement('div'),
+            handler: () => div(),
           },
         ],
         container,
@@ -344,7 +339,7 @@ describe('Router', () => {
 
     it('should return null when no route is active', () => {
       const router = createRouter({
-        routes: [{ path: '/', handler: () => document.createElement('div') }],
+        routes: [{ path: '/', handler: () => div() }],
         container,
       });
 

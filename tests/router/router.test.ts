@@ -3,9 +3,19 @@ import { createRouter } from '../../src/core/router/index.js';
 import { div } from '@/index.js';
 
 describe('Router', () => {
+  let container: HTMLDivElement;
+
+  beforeEach(() => {
+    // Reset location hash
+    window.location.hash = '';
+
+    // Create a fresh container for each test
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
   describe('basic routing', () => {
     it('should navigate to routes', async () => {
-      const container = div();
       const homeHandler = vi.fn((ctx) => {
         const el = document.createElement('div');
         el.id = 'home';
@@ -27,7 +37,6 @@ describe('Router', () => {
     });
 
     it('should navigate between routes', async () => {
-      const container = div();
       const homeHandler = vi.fn(() => div({ id: 'home' }, 'Home'));
       const aboutHandler = vi.fn(() => div({ id: 'about' }, 'About'));
 
@@ -53,7 +62,6 @@ describe('Router', () => {
 
   describe('route parameters', () => {
     it('should extract route parameters', async () => {
-      const container = div();
       let capturedParams: any = null;
 
       const router = createRouter({
@@ -79,7 +87,6 @@ describe('Router', () => {
     });
 
     it('should support multiple route parameters', async () => {
-      const container = div();
       let capturedParams: any = null;
 
       const router = createRouter({
@@ -103,7 +110,6 @@ describe('Router', () => {
 
   describe('query parameters', () => {
     it('should parse query parameters', async () => {
-      const container = div();
       let capturedQuery: any = null;
 
       const router = createRouter({
@@ -125,7 +131,6 @@ describe('Router', () => {
     });
 
     it('should handle query parameters with route parameters', async () => {
-      const container = div();
       let capturedContext: any = null;
 
       const router = createRouter({
@@ -150,7 +155,6 @@ describe('Router', () => {
 
   describe('navigation guards', () => {
     it('should call beforeEach guard', async () => {
-      const container = div();
       const beforeEach = vi.fn(() => true);
       const handler = vi.fn(() => document.createElement('div'));
 
@@ -168,7 +172,6 @@ describe('Router', () => {
     });
 
     it('should block navigation when guard returns false', async () => {
-      const container = div();
       let navigationError: Error | null = null;
       const beforeEach = vi.fn(() => false);
       const homeHandler = vi.fn(() => document.createElement('div'));
@@ -205,7 +208,6 @@ describe('Router', () => {
     });
 
     it('should call afterEach after navigation', async () => {
-      const container = div();
       const afterEach = vi.fn();
       const handler = vi.fn(() => document.createElement('div'));
 
@@ -222,7 +224,6 @@ describe('Router', () => {
     });
 
     it('should pass route context to guards', async () => {
-      const container = div();
       let beforeContext: any = null;
       let afterContext: any = null;
 
@@ -256,7 +257,6 @@ describe('Router', () => {
 
   describe('route meta', () => {
     it('should pass meta field to route context', async () => {
-      const container = div();
       let capturedMeta: any = null;
 
       const router = createRouter({
@@ -279,7 +279,6 @@ describe('Router', () => {
     });
 
     it('should access meta in navigation guards', async () => {
-      const container = div();
       let guardMeta: any = null;
 
       const router = createRouter({
@@ -305,7 +304,6 @@ describe('Router', () => {
 
   describe('error handling', () => {
     it('should handle route not found', async () => {
-      const container = div();
       const onError = vi.fn();
 
       const router = createRouter({
@@ -327,7 +325,6 @@ describe('Router', () => {
 
   describe('current route', () => {
     it('should get current route context', async () => {
-      const container = div();
       const router = createRouter({
         routes: [
           {
@@ -346,7 +343,6 @@ describe('Router', () => {
     });
 
     it('should return null when no route is active', () => {
-      const container = div();
       const router = createRouter({
         routes: [{ path: '/', handler: () => document.createElement('div') }],
         container,

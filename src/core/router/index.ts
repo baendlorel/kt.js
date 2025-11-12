@@ -6,7 +6,7 @@ export function createRouter(config: RouterConfig) {
   const { routes, container, beforeEach = emptyFunc, afterEach = emptyFunc, onError = console.error } = config;
 
   let current: RouteContext | null = null;
-  let internalNavigation = false;
+  let pushing = false;
 
   // Compile routes to regex patterns
   const compiled = routes.map((route) => {
@@ -93,7 +93,8 @@ export function createRouter(config: RouterConfig) {
 
               // Run afterEach
               afterEach((current = ctx));
-            }, handleCatched);
+            }, handleCatched)
+            .finally(() => (pushing = false));
         }
       : (path: string): void => {
           const [pathname, search] = path.split('?');
@@ -130,20 +131,21 @@ export function createRouter(config: RouterConfig) {
             afterEach((current = ctx));
           } catch (e) {
             onError(e as Error);
+          } finally {
+            pushing = false;
           }
         };
 
   // Handle hash change
   const handle = () => {
-    if (internalNavigation) {
-      return;
+    if (pushing) {
+      return navigate(window.location.hash.slice(1) || '/');
     }
-    internalNavigation = true;
-    return navigate(window.location.hash.slice(1) || '/');
   };
 
   // Start router
   const start = () => {
+    pushing = true;
     window.addEventListener('hashchange', handle);
     return handle();
   };
@@ -153,7 +155,7 @@ export function createRouter(config: RouterConfig) {
 
   // Push new route
   const push = (path: string) => {
-    internalNavigation = false;
+    pushing = true;
     return navigate(path);
   };
 

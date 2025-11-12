@@ -5,13 +5,13 @@ import { div } from '@/index.js';
 describe('Router', () => {
   let container: HTMLDivElement;
 
-  beforeEach(() => {
+  beforeEach((testContext) => {
     // Reset location hash
     window.location.hash = '';
 
     // Create a fresh container for each test
-    container = document.createElement('div');
-    document.body.appendChild(container);
+    container = div();
+    container.dataset.suite = testContext.task.name;
   });
 
   describe('basic routing', () => {
@@ -50,8 +50,8 @@ describe('Router', () => {
 
       await router.start();
       expect(homeHandler).toHaveBeenCalled();
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      console.log(container.children);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.log(Array.from(container.querySelectorAll('div')));
       expect(container.querySelector('#home')).toBeTruthy();
 
       await router.push('/about');

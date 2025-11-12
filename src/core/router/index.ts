@@ -2,11 +2,11 @@ import { RouterConfig, RouteContext } from '@/types/router.js';
 
 const emptyFunc = () => true;
 
-// fixme 大概知道router通不过测试的原因了。这可能是需要router在push的时候和内部naviage的时候要带有不同的标记，就像不致死标记、生命移除标记来避免无限循环
 export function createRouter(config: RouterConfig) {
   const { routes, container, beforeEach = emptyFunc, afterEach = emptyFunc, onError = console.error } = config;
 
   let current: RouteContext | null = null;
+  let internalNavigation = false;
 
   // Compile routes to regex patterns
   const compiled = routes.map((route) => {
@@ -55,8 +55,8 @@ export function createRouter(config: RouterConfig) {
   // Navigate to path - use Promise version if available, otherwise sync version
   const navigate =
     typeof Promise !== 'undefined'
-      ? (opts: { path: string; internal: boolean }): Promise<void> => {
-          const [pathname, search] = opts.path.split('?');
+      ? (path: string): Promise<void> => {
+          const [pathname, search] = path.split('?');
           const query = parseQuery(search || '');
           const matched = match(pathname);
 
@@ -69,12 +69,14 @@ export function createRouter(config: RouterConfig) {
           const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
 
           // Run guard
-          const handleCatched = (e: Error) => onError(e); //  (onError(e), Promise.reject(e));
+          const handleCatched = (e: Error) => (onError(e), Promise.reject(e)); //  (onError(e), Promise.reject(e));
           return Promise.resolve(beforeEach(ctx, current))
             .then((ok) => {
               if (!ok) {
                 return Promise.reject(new Error('Navigation blocked by guard'));
               }
+
+              console.log('going to:', pathname);
 
               // Update URL
               window.location.hash = search ? `${pathname}?${search}` : pathname;
@@ -93,8 +95,8 @@ export function createRouter(config: RouterConfig) {
               afterEach((current = ctx));
             }, handleCatched);
         }
-      : (opts: { path: string; internal: boolean }): void => {
-          const [pathname, search] = opts.path.split('?');
+      : (path: string): void => {
+          const [pathname, search] = path.split('?');
           const query = parseQuery(search || '');
           const matched = match(pathname);
 
@@ -104,7 +106,7 @@ export function createRouter(config: RouterConfig) {
           }
 
           const ctx: RouteContext = { params: matched.params, query, path: pathname, meta: matched.route.meta };
-          // todo   这一行以上的部分，异步和非异步版本相同，考虑归并
+          // todo 这一行以上的部分，异步和非异步版本相同，考虑归并
 
           try {
             const ok = beforeEach(ctx, current);
@@ -132,7 +134,13 @@ export function createRouter(config: RouterConfig) {
         };
 
   // Handle hash change
-  const handle = () => navigate({ path: window.location.hash.slice(1) || '/', internal: true });
+  const handle = () => {
+    if (internalNavigation) {
+      return;
+    }
+    internalNavigation = true;
+    return navigate(window.location.hash.slice(1) || '/');
+  };
 
   // Start router
   const start = () => {
@@ -144,7 +152,10 @@ export function createRouter(config: RouterConfig) {
   const stop = () => window.removeEventListener('hashchange', handle);
 
   // Push new route
-  const push = (path: string) => navigate({ path, internal: false });
+  const push = (path: string) => {
+    internalNavigation = false;
+    return navigate(path);
+  };
 
   // Get current context
   const getCurrentContext = () => current;

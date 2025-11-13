@@ -1,14 +1,4 @@
-/**
- * Silent level for navigation guards
- */
-export const enum SilentLevel {
-  /** Execute all guards */
-  None = 0,
-  /** Skip global beforeEach guard */
-  Global = 1,
-  /** Skip both global and route-level guards */
-  All = 2,
-}
+import { SilentLevel } from '../core/router/consts.js';
 
 /**
  * Route configuration for defining application routes
@@ -21,9 +11,9 @@ export interface RouteConfig {
   /** Optional metadata attached to the route */
   meta?: Record<string, any>;
   /** Route-level guard executed before entering this route */
-  beforeEnter?: (context: RouteContext) => boolean | void;
+  beforeEnter?: (context: RouteContext) => boolean | void | Promise<boolean | void>;
   /** Route-level hook executed after navigation */
-  after?: (context: RouteContext) => void;
+  after?: (context: RouteContext) => void | Promise<void>;
   /** Nested child routes */
   children?: RouteConfig[];
 }
@@ -77,9 +67,9 @@ export interface RouterConfig {
   /** Array of route definitions */
   routes: RouteConfig[];
   /** Global guard executed before each navigation (except silentPush) */
-  beforeEach?: (to: RouteContext, from: RouteContext | null) => boolean | void;
+  beforeEach?: (to: RouteContext, from: RouteContext | null) => boolean | void | Promise<boolean | void>;
   /** Global hook executed after each navigation */
-  afterEach?: (to: RouteContext, from: RouteContext | null) => void;
+  afterEach?: (to: RouteContext, from: RouteContext | null) => void | Promise<void>;
   /** Handler for 404 errors - return false to prevent default behavior */
   onNotFound?: (path: string) => void | false;
   /** Handler for routing errors */
@@ -102,11 +92,11 @@ export interface Router {
   /** Navigation history */
   history: RouteContext[];
   /** Navigate with guards */
-  push(location: string | NavigateOptions): boolean;
+  push(location: string | NavigateOptions): boolean | Promise<boolean>;
   /** Navigate without beforeEach guard */
-  silentPush(location: string | NavigateOptions): boolean;
+  silentPush(location: string | NavigateOptions): boolean | Promise<boolean>;
   /** Replace current history entry */
-  replace(location: string | NavigateOptions): boolean;
+  replace(location: string | NavigateOptions): boolean | Promise<boolean>;
   /** Navigate back in history */
   back(): void;
   /** Navigate forward in history */

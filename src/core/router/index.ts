@@ -1,4 +1,5 @@
-import { Router, RouterConfig, RouteContext, NavigateOptions, SilentLevel, RouteConfig } from '../../types/router.js';
+import { Router, RouterConfig, RouteContext, NavigateOptions, RouteConfig } from '../../types/router.js';
+import { SilentLevel } from './consts.js';
 
 import { RouteMatcher } from './matcher.js';
 import { buildQuery, normalizePath, parseQuery, substituteParams } from './utils.js';
@@ -6,7 +7,12 @@ import { buildQuery, normalizePath, parseQuery, substituteParams } from './utils
 /**
  * Default guard that always returns true
  */
-const defaultGuard = () => true;
+const defaultGuard = (): boolean => true;
+
+/**
+ * Default after hook that does nothing
+ */
+const defaultAfterHook = (): void => {};
 
 /**
  * Normalize routes by adding default guards
@@ -15,7 +21,7 @@ function normalizeRoutes(routes: RouteConfig[]): RouteConfig[] {
   return routes.map((route) => ({
     ...route,
     beforeEnter: route.beforeEnter ?? defaultGuard,
-    after: route.after ?? defaultGuard,
+    after: route.after ?? defaultAfterHook,
     children: route.children ? normalizeRoutes(route.children) : undefined,
   }));
 }
@@ -115,9 +121,108 @@ export function createRouter(config: RouterConfig): Router {
     }
   };
 
-  const navigateAsync = function (options: NavigateOptions): boolean {};
+  /**
+   * Navigate to a route asynchronously (supports async guards)
+   * Uses Promise chain instead of async/await to minimize transpilation overhead
+   */
+  const navigateAsync = function (options: NavigateOptions): Promise<boolean> {
+    return new Promise((resolve) => {
+      try {
+        // Extract control flags
+        const silentLevel = options.silentLevel ?? SilentLevel.None;
+        const replace = options.replace ?? false;
 
-  const navigate = config.asyncGuards === false ? navigateSync : navigateSync;
+        // Resolve target route
+        let targetPath: string;
+        let targetRoute;
+
+        if (options.name) {
+          targetRoute = matcher.findByName(options.name);
+          if (!targetRoute) {
+            throw new Error(`Route not found: ${options.name}`);
+          }
+          targetPath = targetRoute.path;
+        } else if (options.path) {
+          targetPath = normalizePath(options.path);
+          targetRoute = matcher.match(targetPath)?.route;
+        } else {
+          throw new Error('Either path or name must be provided');
+        }
+
+        // Substitute params
+        if (options.params) {
+          targetPath = substituteParams(targetPath, options.params);
+        }
+
+        // Match final path
+        const match = matcher.match(targetPath);
+        if (!match) {
+          if (config.onNotFound) {
+            const result = config.onNotFound(targetPath);
+            if (result === false) {
+              resolve(false);
+              return;
+            }
+          }
+          resolve(false);
+          return;
+        }
+
+        // Build route context
+        const queryString = options.query ? buildQuery(options.query) : '';
+        const fullPath = targetPath + queryString;
+
+        const to: RouteContext = {
+          path: targetPath,
+          name: match.route.name,
+          params: { ...match.params, ...(options.params || {}) },
+          query: options.query || {},
+          meta: match.route.meta || {},
+          matched: match.matched,
+        };
+
+        // Execute guards asynchronously
+        executeGuardsAsync(to, current, silentLevel)
+          .then((guardsPassed) => {
+            if (!guardsPassed) {
+              resolve(false);
+              return;
+            }
+
+            // Update browser history
+            const url = fullPath;
+            if (replace) {
+              window.history.replaceState({ path: targetPath }, '', url);
+            } else {
+              window.history.pushState({ path: targetPath }, '', url);
+            }
+
+            // Update current route
+            current = to;
+            history.push(to);
+
+            // Execute after hooks asynchronously
+            return executeAfterHooksAsync(to, history[history.length - 2] || null);
+          })
+          .then(() => {
+            resolve(true);
+          })
+          .catch((error) => {
+            if (config.onError) {
+              config.onError(error as Error);
+            }
+            resolve(false);
+          });
+      } catch (error) {
+        if (config.onError) {
+          config.onError(error as Error);
+        }
+        resolve(false);
+      }
+    });
+  };
+
+  const navigate = config.asyncGuards === false ? navigateSync : navigateAsync;
 
   /**
    * Execute before guards in the correct order:
@@ -149,6 +254,51 @@ export function createRouter(config: RouterConfig): Router {
   }
 
   /**
+   * Execute before guards asynchronously in the correct order:
+   * 1. Global beforeEach (unless silentLevel >= Global)
+   * 2. Target route's beforeEnter (unless silentLevel >= All)
+   * @returns Promise<boolean> - resolves to true if navigation should proceed
+   */
+  function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): Promise<boolean> {
+    // Helper to normalize guard result to Promise<boolean>
+    const normalizeResult = (result: boolean | void | Promise<boolean | void>): Promise<boolean> => {
+      if (result instanceof Promise) {
+        return result.then((res) => res !== false);
+      }
+      return Promise.resolve(result !== false);
+    };
+
+    // 1. Global beforeEach (skip if silentLevel >= Global)
+    if (silentLevel < SilentLevel.Global && config.beforeEach) {
+      return normalizeResult(config.beforeEach(to, from)).then((passed) => {
+        if (!passed) {
+          return false;
+        }
+
+        // 2. Target route's beforeEnter (skip if silentLevel >= All)
+        if (silentLevel < SilentLevel.All) {
+          const targetRoute = to.matched[to.matched.length - 1];
+          if (targetRoute?.beforeEnter) {
+            return normalizeResult(targetRoute.beforeEnter(to));
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // 2. Target route's beforeEnter only (skip if silentLevel >= All)
+    if (silentLevel < SilentLevel.All) {
+      const targetRoute = to.matched[to.matched.length - 1];
+      if (targetRoute?.beforeEnter) {
+        return normalizeResult(targetRoute.beforeEnter(to));
+      }
+    }
+
+    return Promise.resolve(true);
+  }
+
+  /**
    * Execute after hooks
    */
   function executeAfterHooks(to: RouteContext, from: RouteContext | null) {
@@ -162,6 +312,32 @@ export function createRouter(config: RouterConfig): Router {
     if (config.afterEach) {
       config.afterEach(to, from);
     }
+  }
+
+  /**
+   * Execute after hooks asynchronously
+   */
+  function executeAfterHooksAsync(to: RouteContext, from: RouteContext | null): Promise<void> {
+    const targetRoute = to.matched[to.matched.length - 1];
+
+    // Helper to normalize hook result to Promise<void>
+    const normalizeHook = (result: void | Promise<void>): Promise<void> => {
+      if (result instanceof Promise) {
+        return result;
+      }
+      return Promise.resolve();
+    };
+
+    // Execute route-level after hook
+    const routeAfterPromise = targetRoute?.after ? normalizeHook(targetRoute.after(to)) : Promise.resolve();
+
+    // Chain global afterEach
+    return routeAfterPromise.then(() => {
+      if (config.afterEach) {
+        return normalizeHook(config.afterEach(to, from));
+      }
+      return Promise.resolve();
+    });
   }
 
   /**
@@ -199,17 +375,17 @@ export function createRouter(config: RouterConfig): Router {
       return [...history];
     },
 
-    push(location: string | NavigateOptions): boolean {
+    push(location: string | NavigateOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate(options);
     },
 
-    silentPush(location: string | NavigateOptions): boolean {
+    silentPush(location: string | NavigateOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate({ ...options, silentLevel: SilentLevel.Global });
     },
 
-    replace(location: string | NavigateOptions): boolean {
+    replace(location: string | NavigateOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate({ ...options, replace: true });
     },

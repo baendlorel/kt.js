@@ -1,12 +1,13 @@
-import type { RouteConfig } from '../../types/router.js';
-
 /**
- * Normalize path by removing trailing slashes
+ * Default guard that always returns true
  */
-export const normalizePath = (path: string): string => {
-  if (path === '/') return path;
-  return path.replace(/\/+$/, '');
-};
+export const defaultHook = (): boolean => true;
+
+export const normalizeResult = (result: boolean | void | Promise<boolean | void>): Promise<boolean> =>
+  result instanceof Promise ? result.then((res) => res !== false) : Promise.resolve(result !== false);
+
+export const normalizePath = (...paths: string[]) =>
+  '/' + paths.map((p) => p.split('/').filter(Boolean).join('/')).join('/');
 
 /**
  * Parse query string into object
@@ -40,7 +41,7 @@ export const buildQuery = (query: Record<string, string>): string => {
  * Substitute params into path pattern
  * @example '/user/:id' + {id: '123'} => '/user/123'
  */
-export const substituteParams = (path: string, params: Record<string, string>): string => {
+export const emplaceParams = (path: string, params: Record<string, string>): string => {
   let result = path;
   for (const key in params) {
     result = result.replace(`:${key}`, params[key]);
@@ -74,23 +75,4 @@ export const extractParams = (pattern: string, path: string): Record<string, str
   }
 
   return params;
-};
-
-/**
- * Flatten nested routes into a single array with full paths
- */
-export const flattenRoutes = (routes: RouteConfig[], parentPath = ''): RouteConfig[] => {
-  const result: RouteConfig[] = [];
-
-  for (const route of routes) {
-    const fullPath = parentPath + normalizePath(route.path);
-    const flatRoute = { ...route, path: fullPath };
-    result.push(flatRoute);
-
-    if (route.children) {
-      result.push(...flattenRoutes(route.children, fullPath));
-    }
-  }
-
-  return result;
 };

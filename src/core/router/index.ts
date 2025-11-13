@@ -1,51 +1,46 @@
+import { throws } from '@/lib/error.js';
 import { Router, RouterConfig, RouteContext, NavigateOptions, RouteConfig } from '../../types/router.js';
 import { SilentLevel } from './consts.js';
 
 import { RouteMatcher } from './matcher.js';
-import { buildQuery, normalizePath, parseQuery, substituteParams } from './utils.js';
-
-/**
- * Default guard that always returns true
- */
-const defaultGuard = (): boolean => true;
-
-/**
- * Default after hook that does nothing
- */
-const defaultAfterHook = (): void => {};
-
-const mergePath = (parent: string, child: string) => {
-  const path = parent.split('/').concat(child.split('/')).filter(Boolean);
-  return '/' + path.join('/');
-};
-
-/**
- * Normalize routes by adding default guards
- */
-const normalizeRoutes = (routes: RouteConfig[], parentPath: string): Required<RouteConfig>[] =>
-  routes.map((route) => {
-    const path = mergePath(parentPath, route.path);
-    return {
-      path,
-      name: route.name ?? '',
-      meta: route.meta ?? {},
-      beforeEnter: route.beforeEnter ?? defaultGuard,
-      after: route.after ?? defaultAfterHook,
-      children: route.children ? normalizeRoutes(route.children, path) : [],
-    };
-  });
+import { buildQuery, defaultHook, normalizePath, normalizeResult, parseQuery, emplaceParams } from './utils.js';
 
 /**
  * Create a new router instance
  */
 export function createRouter(config: RouterConfig): Router {
-  const beforeEach = config.beforeEach ?? defaultGuard;
-  const afterEach = config.afterEach ?? defaultAfterHook;
+  // # default configs
+  const beforeEach = config.beforeEach ?? defaultHook;
+  const afterEach = config.afterEach ?? (defaultHook as () => void);
   const asyncGuards = config.asyncGuards ?? true;
 
+  // # private values
+  const routes: Required<RouteConfig>[] = [];
+
+  /**
+   * Normalize routes by adding default guards
+   */
+  const normalize = (rawRoutes: RouteConfig[], parentPath: string): Required<RouteConfig>[] =>
+    rawRoutes.map((route) => {
+      const path = normalizePath(parentPath, route.path);
+      const normalized = {
+        path,
+        name: route.name ?? '',
+        meta: route.meta ?? {},
+        beforeEnter: route.beforeEnter ?? defaultHook,
+        after: route.after ?? (defaultHook as () => void),
+        children: route.children ? normalize(route.children, path) : [],
+      };
+
+      // directly push the normalized route to the list
+      // avoid flatten them again
+      routes.push(normalized);
+      return normalized;
+    });
+
   // Normalize routes with default guards
-  const normalizedRoutes = normalizeRoutes(config.routes, '/');
-  const matcher = new RouteMatcher(normalizedRoutes);
+  normalize(config.routes, '/');
+  const matcher = new RouteMatcher(routes);
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
@@ -64,20 +59,21 @@ export function createRouter(config: RouterConfig): Router {
 
       if (options.name) {
         targetRoute = matcher.findByName(options.name);
-        if (!targetRoute) {
-          throw new Error(`Route not found: ${options.name}`);
+        if (targetRoute) {
+          targetPath = targetRoute.path;
+        } else {
+          return throws(`Route not found: ${options.name}`);
         }
-        targetPath = targetRoute.path;
       } else if (options.path) {
         targetPath = normalizePath(options.path);
         targetRoute = matcher.match(targetPath)?.route;
       } else {
-        throw new Error('Either path or name must be provided');
+        throws('Either path or name must be provided');
       }
 
       // Substitute params
       if (options.params) {
-        targetPath = substituteParams(targetPath, options.params);
+        targetPath = emplaceParams(targetPath, options.params);
       }
 
       // Match final path
@@ -152,19 +148,19 @@ export function createRouter(config: RouterConfig): Router {
         if (options.name) {
           targetRoute = matcher.findByName(options.name);
           if (!targetRoute) {
-            throw new Error(`Route not found: ${options.name}`);
+            throws(`Route not found: ${options.name}`);
           }
           targetPath = targetRoute.path;
         } else if (options.path) {
           targetPath = normalizePath(options.path);
           targetRoute = matcher.match(targetPath)?.route;
         } else {
-          throw new Error('Either path or name must be provided');
+          throws('Either path or name must be provided');
         }
 
         // Substitute params
         if (options.params) {
-          targetPath = substituteParams(targetPath, options.params);
+          targetPath = emplaceParams(targetPath, options.params);
         }
 
         // Match final path
@@ -273,14 +269,6 @@ export function createRouter(config: RouterConfig): Router {
    */
   // todo 规整这个地方的silentlevel逻辑
   function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): Promise<boolean> {
-    // Helper to normalize guard result to Promise<boolean>
-    const normalizeResult = (result: boolean | void | Promise<boolean | void>): Promise<boolean> => {
-      if (result instanceof Promise) {
-        return result.then((res) => res !== false);
-      }
-      return Promise.resolve(result !== false);
-    };
-
     // 1. Global beforeEach (skip if silentLevel >= Global)
     if (silentLevel < SilentLevel.Global) {
       return normalizeResult(beforeEach(to, from)).then((passed) => {

@@ -4,20 +4,21 @@ import { $filter } from './native.js';
 
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
- * & window.document is safe because it is not configurable and its setter is undefined
+ * & `window.document` is safe because it is not configurable and its setter is undefined
  */
-const createElement = document.createElement;
-const createTextNode = document.createTextNode;
-const createDocumentFragment = document.createDocumentFragment;
+const dom = document;
+const createElement = dom.createElement;
+const createTextNode = dom.createTextNode;
+const createDocumentFragment = dom.createDocumentFragment;
 
 export const $h = function (id: HTMLTag | otherstring) {
-  return createElement.call(document, id);
+  return createElement.call(dom, id);
 };
 export const $textNode = function (data: string = '') {
-  return createTextNode.call(document, data);
+  return createTextNode.call(dom, data);
 };
 export const $fragment = function () {
-  return createDocumentFragment.call(document);
+  return createDocumentFragment.call(dom);
 };
 
 export const $on = HTMLElement.prototype.addEventListener;

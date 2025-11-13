@@ -10,13 +10,14 @@
     "node_modules/",
     "coverage/",
     "tests/**/*.ts",
-    "build/"
+    "build/",
+    ".scripts/"
   ],
   "plugins": [
     "typescript"
   ],
   "rules": {
-    "no-explicit-any": "warn",
+    "no-explicit-any": "off",
     "no-inferrable-types": "off",
     "prefer-for-of": "off",
     "unified-signatures": "off",
@@ -32,6 +33,30 @@
     "@typescript-eslint/class-literal-property-style": [
       "error",
       "fields"
+    ],
+    "no-debugger": "error",
+    "no-console": "warn",
+    "no-var": "error",
+    "prefer-const": "error",
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+    "@typescript-eslint/array-type": [
+      "error",
+      {
+        "default": "array-simple"
+      }
+    ],
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
     ]
   }
 }

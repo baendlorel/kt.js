@@ -1,20 +1,25 @@
+import { throws } from '@/lib/error.js';
 import { RouteConfig, RouteMatch } from '../../types/router.js';
-import { extractParams, flattenRoutes, normalizePath } from './utils.js';
+import { extractParams, normalizePath } from './utils.js';
 
+// todo 改造为函数式，这里可以不用class的
 /**
  * Route matcher for finding matching routes and extracting params
  */
 export class RouteMatcher {
   private nameMap: Record<string, RouteConfig>;
-  private flatRoutes: RouteConfig[];
+  private routes: RouteConfig[];
 
   constructor(routes: RouteConfig[]) {
     this.nameMap = {};
-    this.flatRoutes = flattenRoutes(routes);
+    this.routes = routes;
 
-    for (let i = 0; i < this.flatRoutes.length; i++) {
-      const route = this.flatRoutes[i];
+    for (let i = 0; i < routes.length; i++) {
+      const route = routes[i];
       if (route.name !== undefined) {
+        if (route.name in this.nameMap) {
+          throws(`Duplicate route name detected: '${route.name}'`);
+        }
         this.nameMap[route.name] = route;
       }
     }
@@ -34,7 +39,7 @@ export class RouteMatcher {
     const normalizedPath = normalizePath(path);
 
     // Try exact match first
-    for (const route of this.flatRoutes) {
+    for (const route of this.routes) {
       if (route.path === normalizedPath) {
         return {
           route,
@@ -45,7 +50,7 @@ export class RouteMatcher {
     }
 
     // Try dynamic routes
-    for (const route of this.flatRoutes) {
+    for (const route of this.routes) {
       if (route.path.includes(':')) {
         const params = extractParams(route.path, normalizedPath);
         if (params) {
@@ -66,16 +71,16 @@ export class RouteMatcher {
    */
   private getMatchedChain(route: RouteConfig): RouteConfig[] {
     const matched: RouteConfig[] = [route];
-    const routePath = route.path;
+    const path = route.path;
 
     // Find parent routes by path prefix matching
-    for (let i = 0; i < this.flatRoutes.length; i++) {
-      const r = this.flatRoutes[i];
-      if (r !== route && routePath.startsWith(r.path) && routePath !== r.path) {
-        matched.unshift(r);
+    for (let i = 0; i < this.routes.length; i++) {
+      const r = this.routes[i];
+      if (r !== route && path.startsWith(r.path) && path !== r.path) {
+        matched.push(r); // todo 不知道这里为什么用unshift，但如果要这样，不如先push后reverse更好
       }
     }
 
-    return matched;
+    return matched.reverse();
   }
 }

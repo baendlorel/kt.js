@@ -4,3 +4,4 @@ export { ktnull };
 export * from './shortcuts/index.js';
 export * from './core/h/index.js';
 export * from './core/router/index.js';
+export { SilentLevel } from './types/router.js';

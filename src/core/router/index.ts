@@ -1,15 +1,32 @@
-import { Router, RouterConfig, RouteContext, NavigateOptions } from '../../types/router.js';
+import { Router, RouterConfig, RouteContext, NavigateOptions, SilentLevel, RouteConfig } from '../../types/router.js';
 
 import { RouteMatcher } from './matcher.js';
 import { buildQuery, normalizePath, parseQuery, substituteParams } from './utils.js';
 
+/**
+ * Default guard that always returns true
+ */
 const defaultGuard = () => true;
+
+/**
+ * Normalize routes by adding default guards
+ */
+function normalizeRoutes(routes: RouteConfig[]): RouteConfig[] {
+  return routes.map((route) => ({
+    ...route,
+    beforeEnter: route.beforeEnter ?? defaultGuard,
+    after: route.after ?? defaultGuard,
+    children: route.children ? normalizeRoutes(route.children) : undefined,
+  }));
+}
 
 /**
  * Create a new router instance
  */
 export function createRouter(config: RouterConfig): Router {
-  const matcher = new RouteMatcher(config.routes);
+  // Normalize routes with default guards
+  const normalizedRoutes = normalizeRoutes(config.routes);
+  const matcher = new RouteMatcher(normalizedRoutes);
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
@@ -20,7 +37,7 @@ export function createRouter(config: RouterConfig): Router {
   const navigateSync = function (options: NavigateOptions): boolean {
     try {
       // Extract control flags
-      const silent = options.silent ?? false;
+      const silentLevel = options.silentLevel ?? SilentLevel.None;
       const replace = options.replace ?? false;
 
       // Resolve target route
@@ -71,7 +88,7 @@ export function createRouter(config: RouterConfig): Router {
       };
 
       // Execute guards
-      if (!executeGuards(to, current, silent)) {
+      if (!executeGuards(to, current, silentLevel)) {
         return false;
       }
 
@@ -104,23 +121,28 @@ export function createRouter(config: RouterConfig): Router {
   const navigate = typeof Promise === 'undefined' ? navigateSync : navigateSync;
 
   /**
-   * Execute before guards
+   * Execute before guards in the correct order:
+   * 1. Global beforeEach (unless silentLevel >= Global)
+   * 2. Target route's beforeEnter (unless silentLevel >= All)
+   * @returns true if navigation should proceed, false otherwise
    */
-  function executeGuards(to: RouteContext, from: RouteContext | null, silent: boolean): boolean {
-    // Global beforeEach (skip if silent)
-    if (!silent && config.beforeEach) {
+  function executeGuards(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): boolean {
+    // 1. Global beforeEach (skip if silentLevel >= Global)
+    if (silentLevel < SilentLevel.Global && config.beforeEach) {
       const result = config.beforeEach(to, from);
       if (result === false) {
         return false;
       }
     }
 
-    // Route-level before
-    const targetRoute = to.matched[to.matched.length - 1];
-    if (targetRoute?.before) {
-      const result = targetRoute.before(to);
-      if (result === false) {
-        return false;
+    // 2. Target route's beforeEnter (skip if silentLevel >= All)
+    if (silentLevel < SilentLevel.All) {
+      const targetRoute = to.matched[to.matched.length - 1];
+      if (targetRoute?.beforeEnter) {
+        const result = targetRoute.beforeEnter(to);
+        if (result === false) {
+          return false;
+        }
       }
     }
 
@@ -161,7 +183,11 @@ export function createRouter(config: RouterConfig): Router {
   // Listen to browser back/forward
   window.addEventListener('popstate', (event) => {
     if (event.state?.path) {
-      navigate({ path: event.state.path, silent: true, replace: true });
+      navigate({
+        path: event.state.path,
+        silentLevel: SilentLevel.Global,
+        replace: true,
+      });
     }
   });
 
@@ -181,7 +207,7 @@ export function createRouter(config: RouterConfig): Router {
 
     silentPush(location: string | NavigateOptions): boolean {
       const options = normalizeLocation(location);
-      return navigate({ ...options, silent: true });
+      return navigate({ ...options, silentLevel: SilentLevel.Global });
     },
 
     replace(location: string | NavigateOptions): boolean {

@@ -1,4 +1,16 @@
 /**
+ * Silent level for navigation guards
+ */
+export const enum SilentLevel {
+  /** Execute all guards */
+  None = 0,
+  /** Skip global beforeEach guard */
+  Global = 1,
+  /** Skip both global and route-level guards */
+  All = 2,
+}
+
+/**
  * Route configuration for defining application routes
  */
 export interface RouteConfig {
@@ -8,8 +20,8 @@ export interface RouteConfig {
   name?: string;
   /** Optional metadata attached to the route */
   meta?: Record<string, any>;
-  /** Route-level guard executed before navigation */
-  before?: (context: RouteContext) => boolean | void;
+  /** Route-level guard executed before entering this route */
+  beforeEnter?: (context: RouteContext) => boolean | void;
   /** Route-level hook executed after navigation */
   after?: (context: RouteContext) => void;
   /** Nested child routes */
@@ -52,8 +64,8 @@ export interface NavigateBaseOptions {
  * Complete navigation options including control flags
  */
 export interface NavigateOptions extends NavigateBaseOptions {
-  /** Skip global beforeEach guard */
-  silent?: boolean;
+  /** Silent level: 0=none, 1=skip global guards, 2=skip all guards */
+  silentLevel?: SilentLevel;
   /** Replace current history entry instead of pushing */
   replace?: boolean;
 }

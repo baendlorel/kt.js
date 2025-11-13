@@ -185,3 +185,10 @@ const ssss = bindParams(sss, 'a');
 - 如果任何一个 beforeEach 或 beforeEnter 返回 false，则取消导航
 - 每个路由在创建的时候，路由守卫虽然都是可选的，但为了避免后续反复判定，请使用我写的defaultGuard作为默认值；
 - slient选项作为一个数字传入，并改为silentLevel，表示静默等级，0表示不静默，1表示静默全局守卫，2表示静默全局和路由守卫。我比较建议创建一个const enum SilentLevel来做到这件事
+
+---
+
+现在请编写异步守卫，但是严格要求：
+
+- 只能用Promise，不允许使用async/await语法糖
+- 必须直接返回promise，以给外面的使用者一个机会去await它。虽然使用者可以选择在更新的环境下开发

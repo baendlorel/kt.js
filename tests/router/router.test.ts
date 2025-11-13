@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { createRouter } from '../../src/core/router/index.js';
+import { createRouter, SilentLevel } from '../../src/index.js';
 
 describe('Router', () => {
   beforeEach(() => {
@@ -179,7 +179,7 @@ describe('Router', () => {
   });
 
   describe('NavigateOptions with flags', () => {
-    it('should support silent flag in push', () => {
+    it('should support silentLevel flag in push', () => {
       const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
@@ -187,9 +187,25 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', silent: true });
+      router.push({ path: '/', silentLevel: SilentLevel.Global });
 
       expect(beforeEach).not.toHaveBeenCalled();
+      expect(router.current?.path).toBe('/');
+    });
+
+    it('should support silentLevel.All to skip all guards', () => {
+      const beforeEach = vi.fn(() => true);
+      const beforeEnter = vi.fn(() => true);
+
+      const router = createRouter({
+        routes: [{ path: '/', name: 'home', beforeEnter }],
+        beforeEach,
+      });
+
+      router.push({ path: '/', silentLevel: SilentLevel.All });
+
+      expect(beforeEach).not.toHaveBeenCalled();
+      expect(beforeEnter).not.toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
     });
 

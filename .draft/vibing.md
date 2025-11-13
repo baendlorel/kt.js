@@ -172,3 +172,16 @@ const ssss = bindParams(sss, 'a');
 - params和query就按照它们本该是什么样就拼成什么样就可以了,这方面我不太懂。
 
 ## 以上是我的回答。请根据我的回答，输出一份路由设计方案，输出到.draft/router-design.md文件中
+
+---
+
+优化router.ts，要求：
+
+- 路由守卫按照如下顺序触发
+  全局 beforeEach（每次导航都会触发）
+  目标路由的 beforeEnter（只针对目标 route）
+  执行导航切换逻辑（更新 URL / 渲染组件）
+  全局 afterEach（无论成功失败都会触发）
+- 如果任何一个 beforeEach 或 beforeEnter 返回 false，则取消导航
+- 每个路由在创建的时候，路由守卫虽然都是可选的，但为了避免后续反复判定，请使用我写的defaultGuard作为默认值；
+- slient选项作为一个数字传入，并改为silentLevel，表示静默等级，0表示不静默，1表示静默全局守卫，2表示静默全局和路由守卫。我比较建议创建一个const enum SilentLevel来做到这件事

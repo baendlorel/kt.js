@@ -3,6 +3,8 @@ import { Router, RouterConfig, RouteContext, NavigateOptions } from '../../types
 import { RouteMatcher } from './matcher.js';
 import { buildQuery, normalizePath, parseQuery, substituteParams } from './utils.js';
 
+const defaultGuard = () => true;
+
 /**
  * Create a new router instance
  */
@@ -15,7 +17,7 @@ export function createRouter(config: RouterConfig): Router {
    * Navigate to a route
    */
   // todo 写出promise版本
-  function navigate(options: NavigateOptions): boolean {
+  const navigateSync = function (options: NavigateOptions): boolean {
     try {
       // Extract control flags
       const silent = options.silent ?? false;
@@ -48,7 +50,9 @@ export function createRouter(config: RouterConfig): Router {
       if (!match) {
         if (config.onNotFound) {
           const result = config.onNotFound(targetPath);
-          if (result === false) return false;
+          if (result === false) {
+            return false;
+          }
         }
         return false;
       }
@@ -93,7 +97,11 @@ export function createRouter(config: RouterConfig): Router {
       }
       return false;
     }
-  }
+  };
+
+  // const navigateAsync = function (options: NavigateOptions): boolean {};
+
+  const navigate = typeof Promise === 'undefined' ? navigateSync : navigateSync;
 
   /**
    * Execute before guards
@@ -102,14 +110,18 @@ export function createRouter(config: RouterConfig): Router {
     // Global beforeEach (skip if silent)
     if (!silent && config.beforeEach) {
       const result = config.beforeEach(to, from);
-      if (result === false) return false;
+      if (result === false) {
+        return false;
+      }
     }
 
     // Route-level before
     const targetRoute = to.matched[to.matched.length - 1];
     if (targetRoute?.before) {
       const result = targetRoute.before(to);
-      if (result === false) return false;
+      if (result === false) {
+        return false;
+      }
     }
 
     return true;

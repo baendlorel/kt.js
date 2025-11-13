@@ -78,7 +78,6 @@ export interface RouterConfig {
   // # options
   /**
    * Default is `true`
-   * - only when this equals `false` will activate sync guards
    */
   asyncGuards?: boolean;
 }

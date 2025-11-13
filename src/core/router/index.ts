@@ -14,24 +14,37 @@ const defaultGuard = (): boolean => true;
  */
 const defaultAfterHook = (): void => {};
 
+const mergePath = (parent: string, child: string) => {
+  const path = parent.split('/').concat(child.split('/')).filter(Boolean);
+  return '/' + path.join('/');
+};
+
 /**
  * Normalize routes by adding default guards
  */
-function normalizeRoutes(routes: RouteConfig[]): RouteConfig[] {
-  return routes.map((route) => ({
-    ...route,
-    beforeEnter: route.beforeEnter ?? defaultGuard,
-    after: route.after ?? defaultAfterHook,
-    children: route.children ? normalizeRoutes(route.children) : undefined,
-  }));
-}
+const normalizeRoutes = (routes: RouteConfig[], parentPath: string): Required<RouteConfig>[] =>
+  routes.map((route) => {
+    const path = mergePath(parentPath, route.path);
+    return {
+      path,
+      name: route.name ?? '',
+      meta: route.meta ?? {},
+      beforeEnter: route.beforeEnter ?? defaultGuard,
+      after: route.after ?? defaultAfterHook,
+      children: route.children ? normalizeRoutes(route.children, path) : [],
+    };
+  });
 
 /**
  * Create a new router instance
  */
 export function createRouter(config: RouterConfig): Router {
+  const beforeEach = config.beforeEach ?? defaultGuard;
+  const afterEach = config.afterEach ?? defaultAfterHook;
+  const asyncGuards = config.asyncGuards ?? true;
+
   // Normalize routes with default guards
-  const normalizedRoutes = normalizeRoutes(config.routes);
+  const normalizedRoutes = normalizeRoutes(config.routes, '/');
   const matcher = new RouteMatcher(normalizedRoutes);
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
@@ -222,7 +235,7 @@ export function createRouter(config: RouterConfig): Router {
     });
   };
 
-  const navigate = config.asyncGuards === false ? navigateSync : navigateAsync;
+  const navigate = asyncGuards ? navigateSync : navigateAsync;
 
   /**
    * Execute before guards in the correct order:
@@ -231,26 +244,25 @@ export function createRouter(config: RouterConfig): Router {
    * @returns true if navigation should proceed, false otherwise
    */
   function executeGuards(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): boolean {
-    // 1. Global beforeEach (skip if silentLevel >= Global)
-    if (silentLevel < SilentLevel.Global && config.beforeEach) {
-      const result = config.beforeEach(to, from);
-      if (result === false) {
-        return false;
-      }
-    }
-
-    // 2. Target route's beforeEnter (skip if silentLevel >= All)
-    if (silentLevel < SilentLevel.All) {
-      const targetRoute = to.matched[to.matched.length - 1];
-      if (targetRoute?.beforeEnter) {
-        const result = targetRoute.beforeEnter(to);
+    switch (silentLevel) {
+      case SilentLevel.None: {
+        const result = beforeEach(to, from);
         if (result === false) {
           return false;
         }
       }
+      case SilentLevel.Global: {
+        const targetRoute = to.matched[to.matched.length - 1];
+        if (targetRoute?.beforeEnter) {
+          const result = targetRoute.beforeEnter(to);
+          if (result === false) {
+            return false;
+          }
+        }
+      }
+      case SilentLevel.All:
+        return true;
     }
-
-    return true;
   }
 
   /**
@@ -259,6 +271,7 @@ export function createRouter(config: RouterConfig): Router {
    * 2. Target route's beforeEnter (unless silentLevel >= All)
    * @returns Promise<boolean> - resolves to true if navigation should proceed
    */
+  // todo 规整这个地方的silentlevel逻辑
   function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): Promise<boolean> {
     // Helper to normalize guard result to Promise<boolean>
     const normalizeResult = (result: boolean | void | Promise<boolean | void>): Promise<boolean> => {
@@ -269,8 +282,8 @@ export function createRouter(config: RouterConfig): Router {
     };
 
     // 1. Global beforeEach (skip if silentLevel >= Global)
-    if (silentLevel < SilentLevel.Global && config.beforeEach) {
-      return normalizeResult(config.beforeEach(to, from)).then((passed) => {
+    if (silentLevel < SilentLevel.Global) {
+      return normalizeResult(beforeEach(to, from)).then((passed) => {
         if (!passed) {
           return false;
         }
@@ -332,12 +345,7 @@ export function createRouter(config: RouterConfig): Router {
     const routeAfterPromise = targetRoute?.after ? normalizeHook(targetRoute.after(to)) : Promise.resolve();
 
     // Chain global afterEach
-    return routeAfterPromise.then(() => {
-      if (config.afterEach) {
-        return normalizeHook(config.afterEach(to, from));
-      }
-      return Promise.resolve();
-    });
+    return routeAfterPromise.then(() => normalizeHook(afterEach(to, from)));
   }
 
   /**

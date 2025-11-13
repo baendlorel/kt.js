@@ -84,6 +84,13 @@ export interface RouterConfig {
   onNotFound?: (path: string) => void | false;
   /** Handler for routing errors */
   onError?: (error: Error, route?: RouteConfig) => void;
+
+  // # options
+  /**
+   * Default is `true`
+   * - only when this equals `false` will activate sync guards
+   */
+  asyncGuards?: boolean;
 }
 
 /**

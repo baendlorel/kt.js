@@ -191,4 +191,5 @@ const ssss = bindParams(sss, 'a');
 现在请编写异步守卫，但是严格要求：
 
 - 只能用Promise，不允许使用async/await语法糖
-- 必须直接返回promise，以给外面的使用者一个机会去await它。虽然使用者可以选择在更新的环境下开发
+- 必须直接返回promise，这样可以给外面的使用者一个机会去await它。虽然使用者可以选择在更高版本的环境下开发。但这样写也是为了方便使用者
+- 写在navigateAsync里面

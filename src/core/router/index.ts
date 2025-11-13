@@ -33,7 +33,6 @@ export function createRouter(config: RouterConfig): Router {
   /**
    * Navigate to a route
    */
-  // todo 写出promise版本
   const navigateSync = function (options: NavigateOptions): boolean {
     try {
       // Extract control flags
@@ -116,9 +115,9 @@ export function createRouter(config: RouterConfig): Router {
     }
   };
 
-  // const navigateAsync = function (options: NavigateOptions): boolean {};
+  const navigateAsync = function (options: NavigateOptions): boolean {};
 
-  const navigate = typeof Promise === 'undefined' ? navigateSync : navigateSync;
+  const navigate = config.asyncGuards === false ? navigateSync : navigateSync;
 
   /**
    * Execute before guards in the correct order:

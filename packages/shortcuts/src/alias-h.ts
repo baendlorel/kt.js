@@ -1,4 +1,4 @@
-import type { HTMLTag } from '@ktjs/core';
+import type { HTMLTag } from '@common/types/global.js';
 import type { RawAttr, RawContent } from '@ktjs/core';
 
 import { h } from '@ktjs/core';

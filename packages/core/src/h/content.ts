@@ -1,5 +1,6 @@
 import type { RawContent } from '@/types/h.js';
-import { $isArray, $append } from '@/lib/index.js';
+import { $append } from '@common/lib/dom.js';
+import { $isArray } from '@common/lib/native.js';
 
 export function applyContent(element: HTMLElement, content: RawContent): void {
   if ($isArray(content)) {

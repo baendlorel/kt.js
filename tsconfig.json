@@ -9,7 +9,6 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@common": ["packages/common"],
       "@ktjs/core": ["packages/core/src/index.ts"],
       "@ktjs/router": ["packages/router/src/main.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]

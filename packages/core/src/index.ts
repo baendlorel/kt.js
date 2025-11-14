@@ -1,6 +1,3 @@
-// Export core DOM utilities
-export * from '../../common/lib/index.js';
-
 // Export h function and related types
 export * from './h/index.js';
 

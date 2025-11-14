@@ -1,8 +1,8 @@
-import type { HTMLTag } from '@/global.js';
+import type { HTMLTag } from '@common/types/global.js';
 import type { RawAttr, RawContent } from '@/types/h.js';
 
-import { $h } from '@/lib/index.js';
-import { throws } from '@/lib/error.js';
+import { $h } from '@common/lib/dom.js';
+import { throws } from '@common/lib/error.js';
 
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';

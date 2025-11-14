@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["../core/src/*"],
+      "@common/*": ["../common/*"],
       "@ktjs/core": ["../core/src/index.ts"]
     }
   },

@@ -69,7 +69,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     delete attr.style;
   }
 
-  const keys = $keys(attr) as (keyof KAttribute & string)[];
+  const keys = $keys(attr) as Array<keyof KAttribute & string>;
   for (let i = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
     const o = attr[key];

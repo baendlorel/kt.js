@@ -1,4 +1,4 @@
-import { RawContent } from '@/types/h.js';
+import type { RawContent } from '@/types/h.js';
 import { $isArray, $append } from '@/lib/index.js';
 
 export function applyContent(element: HTMLElement, content: RawContent): void {

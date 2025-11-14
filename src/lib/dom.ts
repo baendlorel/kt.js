@@ -1,4 +1,4 @@
-import { HTMLTag, otherstring } from '@/global.js';
+import type { HTMLTag, otherstring } from '@/global.js';
 import { ktnull } from './consts.js';
 
 /**
@@ -33,7 +33,7 @@ export const $append: typeof originAppend = // for ie 11
           args.filter((a) => a !== ktnull)
         );
       }
-    : function (this: HTMLElement, ...nodes: (Node | string)[]) {
+    : function (this: HTMLElement, ...nodes: Array<Node | string>) {
         if (nodes.length < 50) {
           for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];

@@ -1,4 +1,4 @@
-import { otherstring } from '@/global.js';
+import type { otherstring } from '@/global.js';
 
 export type RawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
 export type RawAttr = KAttribute | string;

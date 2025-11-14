@@ -17,7 +17,7 @@ export function createRouter(config: RouterConfig): Router {
   const asyncGuards = config.asyncGuards ?? true;
 
   // # private values
-  const routes: Required<RouteConfig>[] = [];
+  const routes: RouteConfig[] = [];
 
   /**
    * Normalize routes by adding default guards

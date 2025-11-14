@@ -1,5 +1,5 @@
-import { KTextSymbol } from '@/consts/sym.ts';
-import { HTMLTag, NonSpecialTags, InputElementTag } from '@/global.js';
+import type { KTextSymbol } from '@/consts/sym.ts';
+import type { HTMLTag, NonSpecialTags, InputElementTag } from '@/global.js';
 
 export type KChildren = HTMLKElement | Text;
 

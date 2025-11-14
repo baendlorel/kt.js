@@ -46,6 +46,71 @@ export const createRouter = (config: RouterConfig): Router => {
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
+  // # methods
+  const executeGuards = (to: RouteContext, from: RouteContext | null, guardLevel: GuardLevel): boolean => {
+    if (guardLevel === GuardLevel.None) {
+      return true;
+    }
+
+    if (guardLevel & GuardLevel.Global) {
+      const result = beforeEach(to, from);
+      if (result === false) {
+        return false;
+      }
+    }
+
+    if (guardLevel & GuardLevel.Route) {
+      const targetRoute = to.matched[to.matched.length - 1];
+      const result = targetRoute.beforeEnter(to);
+      if (result === false) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const executeGuardsAsync = (
+    to: RouteContext,
+    from: RouteContext | null,
+    guardLevel: GuardLevel
+  ): Promise<boolean> => {
+    let promise = Promise.resolve(true);
+    if (guardLevel === GuardLevel.None) {
+      return promise;
+    }
+
+    if (guardLevel & GuardLevel.Global) {
+      promise = promise
+        .then(() => beforeEach(to, from))
+        .then((result) => {
+          if (result === false) return Promise.reject(false);
+          return true;
+        });
+    }
+
+    if (guardLevel & GuardLevel.Route) {
+      promise = promise
+        .then(() => {
+          const targetRoute = to.matched[to.matched.length - 1];
+          return targetRoute.beforeEnter(to);
+        })
+        .then((result) => {
+          if (result === false) {
+            return Promise.reject(false);
+          }
+          return true;
+        });
+    }
+
+    return promise.catch((reason) => {
+      if (reason === false) {
+        return false;
+      }
+      return Promise.reject(reason);
+    });
+  };
+
   const navigatePrepare = (options: NavOptions) => {
     // Resolve target route
     let targetPath: string;
@@ -97,9 +162,6 @@ export const createRouter = (config: RouterConfig): Router => {
     };
   };
 
-  /**
-   * Navigate to a route
-   */
   const navigateSync = (options: NavOptions): boolean => {
     try {
       const prep = navigatePrepare(options);
@@ -135,30 +197,24 @@ export const createRouter = (config: RouterConfig): Router => {
     }
   };
 
-  /**
-   * Navigate to a route asynchronously (supports async guards)
-   * Uses Promise chain instead of async/await to minimize transpilation overhead
-   */
   const navigateAsync = (options: NavOptions): Promise<boolean> =>
-    new Promise((resolve) => {
+    new Promise<boolean>((resolve) => {
       try {
         const prep = navigatePrepare(options);
         if (!prep) {
-          resolve(false);
-          return;
+          return resolve(false);
         }
 
         const { guardLevel, replace, to, fullPath } = prep;
 
-        // Execute guards asynchronously
         executeGuardsAsync(to, current, guardLevel)
-          .then((guardsPassed) => {
-            if (!guardsPassed) {
-              resolve(false);
-              return;
+          .then((guardOk) => {
+            if (!guardOk) {
+              return resolve(false);
             }
 
-            // Update browser historys
+            // ---- Guards passed ----
+
             const url = fullPath;
             if (replace) {
               window.history.replaceState({ path: to.path }, '', url);
@@ -170,82 +226,34 @@ export const createRouter = (config: RouterConfig): Router => {
             current = to;
             history.push(to);
 
-            // Execute after hooks asynchronously
-            return executeAfterHooksAsync(to, history[history.length - 2] || null);
+            // Execute after hooks (sync)
+            executeAfterHooksAsync(to, history[history.length - 2] || null);
+
+            return resolve(true);
           })
-          .then(() => resolve(true))
-          .catch((error) => (onError(error as Error), resolve(false)));
+          .catch((error) => {
+            // executeGuards 抛出的非 false 错误会到这里
+            onError(error as Error);
+            return resolve(false);
+          });
       } catch (error) {
+        // navigatePrepare 的同步异常
         onError(error as Error);
-        resolve(false);
+        return resolve(false);
       }
     });
 
   const navigate = asyncGuards ? navigateSync : navigateAsync;
 
-  const executeGuards = (to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): boolean => {
-    if (silentLevel === GuardLevel.None) {
-      return true;
-    }
-
-    if (silentLevel & GuardLevel.Global) {
-      const result = beforeEach(to, from);
-      if (result === false) {
-        return false;
-      }
-    }
-
-    if (silentLevel & GuardLevel.Route) {
-      const targetRoute = to.matched[to.matched.length - 1];
-      const result = targetRoute.beforeEnter(to);
-      if (result === false) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-  const executeGuardsAsync = (
-    to: RouteContext,
-    from: RouteContext | null,
-    silentLevel: GuardLevel
-  ): Promise<boolean> => {
-    return Promise.resolve(true);
-  };
-
-  /**
-   * Execute after hooks
-   */
   const executeAfterHooks = (to: RouteContext, from: RouteContext | null) => {
-    // Route-level after
     const targetRoute = to.matched[to.matched.length - 1];
-    if (targetRoute?.after) {
-      targetRoute.after(to);
-    }
-
+    targetRoute.after(to);
     afterEach(to, from);
   };
 
-  /**
-   * Execute after hooks asynchronously
-   */
   const executeAfterHooksAsync = (to: RouteContext, from: RouteContext | null): Promise<void> => {
     const targetRoute = to.matched[to.matched.length - 1];
-
-    // Helper to normalize hook result to Promise<void>
-    const normalizeHook = (result: void | Promise<void>): Promise<void> => {
-      if (result instanceof Promise) {
-        return result;
-      }
-      return Promise.resolve();
-    };
-
-    // Execute route-level after hook
-    const routeAfterPromise = targetRoute?.after ? normalizeHook(targetRoute.after(to)) : Promise.resolve();
-
-    // Chain global afterEach
-    return routeAfterPromise.then(() => normalizeHook(afterEach(to, from)));
+    return resolves(targetRoute.after(to)).then(() => resolves(afterEach(to, from)));
   };
 
   /**
@@ -263,6 +271,7 @@ export const createRouter = (config: RouterConfig): Router => {
     return location;
   };
 
+  // # register events
   // Listen to browser back/forward
   window.addEventListener('popstate', (event) => {
     if (event.state?.path) {

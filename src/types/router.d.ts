@@ -120,6 +120,7 @@ export interface Router {
   forward(): void;
 }
 
+// todo 改为继承array？
 export interface RouteMatch {
   route: RouteConfig;
   params: Record<string, string>;

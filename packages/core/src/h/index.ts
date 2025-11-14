@@ -1,9 +1,11 @@
-import type { HTMLTag } from '@ktjs/shared';
+import type { HTMLTag, otherstring } from '@ktjs/shared';
 import { $h, $throw } from '@ktjs/shared';
 
 import type { RawAttr, RawContent } from '@/types/h.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
+
+type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
 
 /**
  * Create an enhanced HTMLElement.
@@ -12,17 +14,17 @@ import { applyContent } from './content.js';
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export function h<T extends HTMLTag>(tag: T, attr: RawAttr = '', content: RawContent = ''): HTMLElementTagNameMap[T] {
+export const h = <T extends HTMLTag>(tag: T, attr: RawAttr = '', content: RawContent = ''): HTML<T> => {
   if (typeof tag !== 'string') {
     $throw('__func__ tagName must be a string.');
   }
 
   // * start creating the element
-  const element = $h(tag) as HTMLElementTagNameMap[T];
+  const element = $h(tag) as HTML<T>;
 
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
   return element;
-}
+};

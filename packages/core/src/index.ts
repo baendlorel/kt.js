@@ -1,5 +1,5 @@
 // Export core DOM utilities
-export * from './lib/index.js';
+export * from '../../common/lib/index.js';
 
 // Export h function and related types
 export * from './h/index.js';
@@ -8,9 +8,6 @@ export * from './h/index.js';
 export * from './enhance/specialize.js';
 
 // Export constants
-export { ktnull } from './lib/consts.js';
-
-// Export types
-export type { HTMLTag, otherstring, NonSpecialTags, NoTextNodeTag } from './global.js';
+export { ktnull } from '../../common/lib/consts.js';
 
 export type { RawContent, RawAttr, EventHandler, KAttribute } from './types/h.js';

@@ -34,7 +34,6 @@
   "license": "MIT",
   "dependencies": {
     "@ktjs/core": "workspace:*",
-    "@ktjs/router": "workspace:*",
     "@ktjs/shortcuts": "workspace:*"
   },
   "scripts": {

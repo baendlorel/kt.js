@@ -9,6 +9,6 @@
       "@ktjs/core": ["../core/src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "../common/type-utils.d.ts"],
   "references": [{ "path": "../core" }]
 }

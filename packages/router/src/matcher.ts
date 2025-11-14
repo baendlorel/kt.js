@@ -62,6 +62,7 @@ export const createMatcher = (routes: RouteConfig[]) => {
 
   /**
    * Get chain of matched routes (for nested routes)
+   * - parent roots ahead
    */
   const getMatchedChain = (route: RouteConfig): RouteConfig[] => {
     const matched: RouteConfig[] = [route];
@@ -71,7 +72,7 @@ export const createMatcher = (routes: RouteConfig[]) => {
     for (let i = 0; i < routes.length; i++) {
       const r = routes[i];
       if (r !== route && path.startsWith(r.path) && path !== r.path) {
-        matched.push(r); // todo 不知道这里为什么用unshift，但如果要这样，不如先push后reverse更好
+        matched.push(r);
       }
     }
 

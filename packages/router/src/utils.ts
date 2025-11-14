@@ -3,9 +3,6 @@
  */
 export const defaultHook = (): boolean => true;
 
-export const resolves = <T>(result: T): Promise<Awaited<T>> =>
-  result instanceof Promise ? result : Promise.resolve(result);
-
 export const normalizePath = (...paths: string[]) =>
   '/' + paths.map((p) => p.split('/').filter(Boolean).join('/')).join('/');
 

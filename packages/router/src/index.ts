@@ -3,9 +3,8 @@ import { $throw } from '@ktjs/shared';
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
+import { buildQuery, defaultHook, normalizePath, parseQuery, emplaceParams } from './utils.js';
 
-// todo 因为有了legacy版本，因此不需要慈悲了，尽情使用async、await即可
 /**
  * Create a new router instance
  */
@@ -48,68 +47,62 @@ export const createRouter = (config: RouterConfig): Router => {
   const history: RouteContext[] = [];
 
   // # methods
-  const executeGuards = (to: RouteContext, from: RouteContext | null, guardLevel: GuardLevel): boolean => {
-    if (guardLevel === GuardLevel.None) {
+  const executeGuardsSync = (to: RouteContext, from: RouteContext | null, guardLevel: GuardLevel): boolean => {
+    try {
+      if (guardLevel === GuardLevel.None) {
+        return true;
+      }
+
+      if (guardLevel & GuardLevel.Global) {
+        const result = beforeEach(to, from);
+        if (result === false) {
+          return false;
+        }
+      }
+
+      if (guardLevel & GuardLevel.Route) {
+        const targetRoute = to.matched[to.matched.length - 1];
+        const result = targetRoute.beforeEnter(to);
+        if (result === false) {
+          return false;
+        }
+      }
+
       return true;
+    } catch (error) {
+      onError(error as Error);
+      return false;
     }
-
-    if (guardLevel & GuardLevel.Global) {
-      const result = beforeEach(to, from);
-      if (result === false) {
-        return false;
-      }
-    }
-
-    if (guardLevel & GuardLevel.Route) {
-      const targetRoute = to.matched[to.matched.length - 1];
-      const result = targetRoute.beforeEnter(to);
-      if (result === false) {
-        return false;
-      }
-    }
-
-    return true;
   };
 
-  const executeGuardsAsync = (
+  const executeGuards = async (
     to: RouteContext,
     from: RouteContext | null,
     guardLevel: GuardLevel
   ): Promise<boolean> => {
-    let promise = Promise.resolve(true);
-    if (guardLevel === GuardLevel.None) {
-      return promise;
-    }
-
-    if (guardLevel & GuardLevel.Global) {
-      promise = promise
-        .then(() => beforeEach(to, from))
-        .then((result) => {
-          if (result === false) return Promise.reject(false);
-          return true;
-        });
-    }
-
-    if (guardLevel & GuardLevel.Route) {
-      promise = promise
-        .then(() => {
-          const targetRoute = to.matched[to.matched.length - 1];
-          return targetRoute.beforeEnter(to);
-        })
-        .then((result) => {
-          if (result === false) {
-            return Promise.reject(false);
-          }
-          return true;
-        });
-    }
-
-    return promise.catch((reason) => {
-      if (reason === false) {
-        return false;
+    try {
+      if (guardLevel === GuardLevel.None) {
+        return true;
       }
-      return Promise.reject(reason);
-    });
+
+      if (guardLevel & GuardLevel.Global) {
+        const result = await beforeEach(to, from);
+        if (result === false) {
+          return false;
+        }
+      }
+
+      if (guardLevel & GuardLevel.Route) {
+        const targetRoute = to.matched[to.matched.length - 1];
+        const result = targetRoute.beforeEnter(to);
+        return result !== false;
+      }
+
+      return true;
+    } catch (error) {
+      onError(error as Error);
+      return false;
+    }
   };
 
   const navigatePrepare = (options: NavOptions) => {
@@ -172,7 +165,7 @@ export const createRouter = (config: RouterConfig): Router => {
       const { guardLevel, replace, to, fullPath } = prep;
 
       // Execute guards
-      if (!executeGuards(to, current, guardLevel)) {
+      if (!executeGuardsSync(to, current, guardLevel)) {
         return false;
       }
 
@@ -189,7 +182,7 @@ export const createRouter = (config: RouterConfig): Router => {
       history.push(to);
 
       // Execute after hooks
-      executeAfterHooks(to, history[history.length - 2] || null);
+      executeAfterHooksSync(to, history[history.length - 2] || null);
 
       return true;
     } catch (error) {
@@ -198,78 +191,64 @@ export const createRouter = (config: RouterConfig): Router => {
     }
   };
 
-  const navigateAsync = (options: NavOptions): Promise<boolean> =>
-    new Promise<boolean>((resolve) => {
-      try {
-        const prep = navigatePrepare(options);
-        if (!prep) {
-          return resolve(false);
-        }
-
-        const { guardLevel, replace, to, fullPath } = prep;
-
-        executeGuardsAsync(to, current, guardLevel)
-          .then((guardOk) => {
-            if (!guardOk) {
-              return resolve(false);
-            }
-
-            // ---- Guards passed ----
-
-            const url = fullPath;
-            if (replace) {
-              window.history.replaceState({ path: to.path }, '', url);
-            } else {
-              window.history.pushState({ path: to.path }, '', url);
-            }
-
-            // Update current route
-            current = to;
-            history.push(to);
-
-            // Execute after hooks (sync)
-            executeAfterHooksAsync(to, history[history.length - 2] || null);
-
-            return resolve(true);
-          })
-          .catch((error) => {
-            // executeGuards 抛出的非 false 错误会到这里
-            onError(error as Error);
-            return resolve(false);
-          });
-      } catch (error) {
-        // navigatePrepare 的同步异常
-        onError(error as Error);
-        return resolve(false);
+  const navigateAsync = async (options: NavOptions): Promise<boolean> => {
+    try {
+      const prep = navigatePrepare(options);
+      if (!prep) {
+        return false;
       }
-    });
+
+      const { guardLevel, replace, to, fullPath } = prep;
+
+      const passed = await executeGuards(to, current, guardLevel);
+      if (!passed) {
+        return false;
+      }
+
+      // ---- Guards passed ----
+
+      const url = fullPath;
+      if (replace) {
+        window.history.replaceState({ path: to.path }, '', url);
+      } else {
+        window.history.pushState({ path: to.path }, '', url);
+      }
+
+      executeAfterHooks(to, history[history.length - 2] || null);
+      return true;
+    } catch (error) {
+      onError(error as Error);
+      return false;
+    }
+  };
 
   const navigate = asyncGuards ? navigateSync : navigateAsync;
 
-  const executeAfterHooks = (to: RouteContext, from: RouteContext | null) => {
+  const executeAfterHooksSync = (to: RouteContext, from: RouteContext | null) => {
     const targetRoute = to.matched[to.matched.length - 1];
     targetRoute.after(to);
     afterEach(to, from);
   };
 
-  const executeAfterHooksAsync = (to: RouteContext, from: RouteContext | null): Promise<void> => {
+  const executeAfterHooks = async (to: RouteContext, from: RouteContext | null): Promise<void> => {
     const targetRoute = to.matched[to.matched.length - 1];
-    return resolves(targetRoute.after(to)).then(() => resolves(afterEach(to, from)));
+    await targetRoute.after(to);
+    await afterEach(to, from);
   };
 
   /**
    * Normalize navigation argument
    */
-  const normalizeLocation = (location: string | NavOptions): NavOptions => {
-    if (typeof location === 'string') {
+  const normalizeLocation = (loc: string | NavOptions): NavOptions => {
+    if (typeof loc === 'string') {
       // Parse path and query
-      const [path, queryString] = location.split('?');
+      const [path, queryString] = loc.split('?');
       return {
         path,
         query: queryString ? parseQuery(queryString) : undefined,
       };
     }
-    return location;
+    return loc;
   };
 
   // # register events
@@ -285,6 +264,7 @@ export const createRouter = (config: RouterConfig): Router => {
     get current() {
       return current;
     },
+
     get history() {
       return history.concat();
     },

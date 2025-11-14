@@ -1,8 +1,7 @@
 import type { RawAttr, KAttribute } from '@/types/h.js';
 
 import { throws } from '@common/lib/error.js';
-import { $keys } from '@common/lib/native.js';
-import { $setAttr, $on } from '@common/lib/dom.js';
+import { $setAttr, $on, $keys } from '@common/lib/index.js';
 
 function booleanHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {

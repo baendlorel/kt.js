@@ -1,9 +1,16 @@
 import { throws } from '@/lib/error.js';
-import { Router, RouterConfig, RouteContext, NavigateOptions, RouteConfig } from '../../types/router.js';
-import { SilentLevel } from './consts.js';
+import {
+  Router,
+  RouterConfig,
+  RouteContext,
+  NavigateOptions,
+  RawRouteConfig,
+  RouteConfig,
+} from '../../types/router.js';
+import { GuardLevel } from './consts.js';
 
 import { RouteMatcher } from './matcher.js';
-import { buildQuery, defaultHook, normalizePath, normalizeResult, parseQuery, emplaceParams } from './utils.js';
+import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
 
 /**
  * Create a new router instance
@@ -12,6 +19,8 @@ export function createRouter(config: RouterConfig): Router {
   // # default configs
   const beforeEach = config.beforeEach ?? defaultHook;
   const afterEach = config.afterEach ?? (defaultHook as () => void);
+  const onNotFound = config.onNotFound ?? defaultHook;
+  const onError = config.onError ?? defaultHook;
   const asyncGuards = config.asyncGuards ?? true;
 
   // # private values
@@ -20,7 +29,7 @@ export function createRouter(config: RouterConfig): Router {
   /**
    * Normalize routes by adding default guards
    */
-  const normalize = (rawRoutes: RouteConfig[], parentPath: string): Required<RouteConfig>[] =>
+  const normalize = (rawRoutes: RawRouteConfig[], parentPath: string): RouteConfig[] =>
     rawRoutes.map((route) => {
       const path = normalizePath(parentPath, route.path);
       const normalized = {
@@ -50,7 +59,7 @@ export function createRouter(config: RouterConfig): Router {
   const navigateSync = function (options: NavigateOptions): boolean {
     try {
       // Extract control flags
-      const silentLevel = options.silentLevel ?? SilentLevel.None;
+      const silentLevel = options.guardLevel ?? GuardLevel.None;
       const replace = options.replace ?? false;
 
       // Resolve target route
@@ -79,12 +88,7 @@ export function createRouter(config: RouterConfig): Router {
       // Match final path
       const match = matcher.match(targetPath);
       if (!match) {
-        if (config.onNotFound) {
-          const result = config.onNotFound(targetPath);
-          if (result === false) {
-            return false;
-          }
-        }
+        onNotFound(targetPath);
         return false;
       }
 
@@ -123,9 +127,7 @@ export function createRouter(config: RouterConfig): Router {
 
       return true;
     } catch (error) {
-      if (config.onError) {
-        config.onError(error as Error);
-      }
+      onError(error as Error);
       return false;
     }
   };
@@ -138,7 +140,7 @@ export function createRouter(config: RouterConfig): Router {
     return new Promise((resolve) => {
       try {
         // Extract control flags
-        const silentLevel = options.silentLevel ?? SilentLevel.None;
+        const silentLevel = options.guardLevel ?? GuardLevel.None;
         const replace = options.replace ?? false;
 
         // Resolve target route
@@ -166,13 +168,7 @@ export function createRouter(config: RouterConfig): Router {
         // Match final path
         const match = matcher.match(targetPath);
         if (!match) {
-          if (config.onNotFound) {
-            const result = config.onNotFound(targetPath);
-            if (result === false) {
-              resolve(false);
-              return;
-            }
-          }
+          onNotFound(targetPath);
           resolve(false);
           return;
         }
@@ -184,9 +180,9 @@ export function createRouter(config: RouterConfig): Router {
         const to: RouteContext = {
           path: targetPath,
           name: match.route.name,
-          params: { ...match.params, ...(options.params || {}) },
-          query: options.query || {},
-          meta: match.route.meta || {},
+          params: { ...match.params, ...(options.params ?? {}) },
+          query: options.query ?? {},
+          meta: match.route.meta ?? {},
           matched: match.matched,
         };
 
@@ -213,19 +209,10 @@ export function createRouter(config: RouterConfig): Router {
             // Execute after hooks asynchronously
             return executeAfterHooksAsync(to, history[history.length - 2] || null);
           })
-          .then(() => {
-            resolve(true);
-          })
-          .catch((error) => {
-            if (config.onError) {
-              config.onError(error as Error);
-            }
-            resolve(false);
-          });
+          .then(() => resolve(true))
+          .catch((error) => (onError(error as Error), resolve(false)));
       } catch (error) {
-        if (config.onError) {
-          config.onError(error as Error);
-        }
+        onError(error as Error);
         resolve(false);
       }
     });
@@ -233,69 +220,30 @@ export function createRouter(config: RouterConfig): Router {
 
   const navigate = asyncGuards ? navigateSync : navigateAsync;
 
-  /**
-   * Execute before guards in the correct order:
-   * 1. Global beforeEach (unless silentLevel >= Global)
-   * 2. Target route's beforeEnter (unless silentLevel >= All)
-   * @returns true if navigation should proceed, false otherwise
-   */
-  function executeGuards(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): boolean {
-    switch (silentLevel) {
-      case SilentLevel.None: {
-        const result = beforeEach(to, from);
-        if (result === false) {
-          return false;
-        }
-      }
-      case SilentLevel.Global: {
-        const targetRoute = to.matched[to.matched.length - 1];
-        if (targetRoute?.beforeEnter) {
-          const result = targetRoute.beforeEnter(to);
-          if (result === false) {
-            return false;
-          }
-        }
-      }
-      case SilentLevel.All:
-        return true;
+  function executeGuards(to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): boolean {
+    if (silentLevel === GuardLevel.None) {
+      return true;
     }
+
+    if (silentLevel & GuardLevel.Global) {
+      const result = beforeEach(to, from);
+      if (result === false) {
+        return false;
+      }
+    }
+
+    if (silentLevel & GuardLevel.Route) {
+      const targetRoute = to.matched[to.matched.length - 1];
+      const result = targetRoute.beforeEnter(to);
+      if (result === false) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
-  /**
-   * Execute before guards asynchronously in the correct order:
-   * 1. Global beforeEach (unless silentLevel >= Global)
-   * 2. Target route's beforeEnter (unless silentLevel >= All)
-   * @returns Promise<boolean> - resolves to true if navigation should proceed
-   */
-  // todo 规整这个地方的silentlevel逻辑
-  function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: SilentLevel): Promise<boolean> {
-    // 1. Global beforeEach (skip if silentLevel >= Global)
-    if (silentLevel < SilentLevel.Global) {
-      return normalizeResult(beforeEach(to, from)).then((passed) => {
-        if (!passed) {
-          return false;
-        }
-
-        // 2. Target route's beforeEnter (skip if silentLevel >= All)
-        if (silentLevel < SilentLevel.All) {
-          const targetRoute = to.matched[to.matched.length - 1];
-          if (targetRoute?.beforeEnter) {
-            return normalizeResult(targetRoute.beforeEnter(to));
-          }
-        }
-
-        return true;
-      });
-    }
-
-    // 2. Target route's beforeEnter only (skip if silentLevel >= All)
-    if (silentLevel < SilentLevel.All) {
-      const targetRoute = to.matched[to.matched.length - 1];
-      if (targetRoute?.beforeEnter) {
-        return normalizeResult(targetRoute.beforeEnter(to));
-      }
-    }
-
+  function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): Promise<boolean> {
     return Promise.resolve(true);
   }
 
@@ -309,10 +257,7 @@ export function createRouter(config: RouterConfig): Router {
       targetRoute.after(to);
     }
 
-    // Global afterEach
-    if (config.afterEach) {
-      config.afterEach(to, from);
-    }
+    afterEach(to, from);
   }
 
   /**
@@ -354,11 +299,7 @@ export function createRouter(config: RouterConfig): Router {
   // Listen to browser back/forward
   window.addEventListener('popstate', (event) => {
     if (event.state?.path) {
-      navigate({
-        path: event.state.path,
-        silentLevel: SilentLevel.Global,
-        replace: true,
-      });
+      navigate({ path: event.state.path, guardLevel: GuardLevel.Global, replace: true });
     }
   });
 
@@ -368,7 +309,7 @@ export function createRouter(config: RouterConfig): Router {
       return current;
     },
     get history() {
-      return [...history];
+      return history.concat();
     },
 
     push(location: string | NavigateOptions): boolean | Promise<boolean> {
@@ -378,7 +319,7 @@ export function createRouter(config: RouterConfig): Router {
 
     silentPush(location: string | NavigateOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
-      return navigate({ ...options, silentLevel: SilentLevel.Global });
+      return navigate({ ...options, guardLevel: GuardLevel.Global });
     },
 
     replace(location: string | NavigateOptions): boolean | Promise<boolean> {

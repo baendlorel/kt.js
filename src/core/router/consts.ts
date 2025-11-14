@@ -1,11 +1,25 @@
 /**
- * Silent level for navigation guards
+ * Guard level that determines which guards to apply during navigation
+ * - there are global and route-level guards
  */
-export const enum SilentLevel {
-  /** Execute all guards */
-  None = 0,
-  /** Skip global beforeEach guard */
-  Global = 1,
-  /** Skip both global and route-level guards */
-  All = 2,
+export const enum GuardLevel {
+  /**
+   * Ignores all guards
+   */
+  None = 0b0000,
+
+  /**
+   * Only applies global guards
+   */
+  Global = 0b0001,
+
+  /**
+   * Only applies routes' guard
+   */
+  Route = 0b0010,
+
+  /**
+   * **Default** Applies all guards
+   */
+  All = 0b1111,
 }

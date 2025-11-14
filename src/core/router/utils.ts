@@ -3,8 +3,8 @@
  */
 export const defaultHook = (): boolean => true;
 
-export const normalizeResult = (result: boolean | void | Promise<boolean | void>): Promise<boolean> =>
-  result instanceof Promise ? result.then((res) => res !== false) : Promise.resolve(result !== false);
+export const resolves = (result: boolean | void | Promise<boolean | void>): Promise<boolean | void> =>
+  result instanceof Promise ? result : Promise.resolve(result);
 
 export const normalizePath = (...paths: string[]) =>
   '/' + paths.map((p) => p.split('/').filter(Boolean).join('/')).join('/');

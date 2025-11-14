@@ -187,7 +187,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', silentLevel: SilentLevel.Global });
+      router.push({ path: '/', guardLevel: SilentLevel.Global });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
@@ -202,7 +202,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', silentLevel: SilentLevel.All });
+      router.push({ path: '/', guardLevel: SilentLevel.All });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(beforeEnter).not.toHaveBeenCalled();

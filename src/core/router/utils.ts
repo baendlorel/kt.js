@@ -14,7 +14,9 @@ export const normalizePath = (...paths: string[]) =>
  */
 export const parseQuery = (queryString: string): Record<string, string> => {
   const query: Record<string, string> = {};
-  if (!queryString || queryString === '?') return query;
+  if (!queryString || queryString === '?') {
+    return query;
+  }
 
   const params = queryString.replace(/^\?/, '').split('&');
   for (const param of params) {

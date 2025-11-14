@@ -1,6 +1,5 @@
 import { HTMLTag, otherstring } from '@/global.js';
 import { ktnull } from './consts.js';
-import { $filter } from './native.js';
 
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
@@ -25,13 +24,13 @@ export const $on = HTMLElement.prototype.addEventListener;
 export const $setAttr = HTMLElement.prototype.setAttribute;
 
 export const $appendChild = HTMLElement.prototype.appendChild;
-const append = HTMLElement.prototype.append;
-export const $append: typeof append = // for ie 11
-  typeof append === 'function'
+const originAppend = HTMLElement.prototype.append;
+export const $append: typeof originAppend = // for ie 11
+  typeof originAppend === 'function'
     ? function (this: HTMLElement, ...args) {
-        return append.apply(
+        return originAppend.apply(
           this,
-          $filter.call(args, (a) => a !== ktnull)
+          args.filter((a) => a !== ktnull)
         );
       }
     : function (this: HTMLElement, ...nodes: (Node | string)[]) {

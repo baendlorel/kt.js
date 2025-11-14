@@ -1,11 +1,4 @@
-export const $rand = Math.random;
-export const randStr = (length: number = 8): string =>
-  $rand()
-    .toString(36)
-    .substring(2, 2 + length);
-
 export const $isArray = Array.isArray;
-export const $filter = Array.prototype.filter;
 
 export const $hasOwn = Object.prototype.hasOwnProperty;
 

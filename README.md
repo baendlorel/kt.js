@@ -11,6 +11,27 @@ KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not fo
 
 For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 
+## Architecture
+
+KT.js is now a **monorepo** containing multiple packages:
+
+- **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function
+- **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards
+- **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
+- **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
+
+You can install the full package or individual packages as needed:
+
+```bash
+# Install the full package
+pnpm add kt.js
+
+# Or install individual packages
+pnpm add @ktjs/core
+pnpm add @ktjs/router
+pnpm add @ktjs/shortcuts
+```
+
 ## Philosophy
 
 As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.

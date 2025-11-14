@@ -1,7 +1,7 @@
-import type { HTMLTag } from '@/global.js';
-import type { RawAttr, RawContent } from '@/types/h.js';
+import type { HTMLTag } from '@ktjs/core';
+import type { RawAttr, RawContent } from '@ktjs/core';
 
-import { h } from '@/core/h/index.js';
+import { h } from '@ktjs/core';
 
 export const aliasH = function <T extends HTMLTag>(tag: T) {
   return function (attr?: RawAttr, content?: RawContent) {

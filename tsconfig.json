@@ -3,20 +3,22 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "declaration": false, // false to let rollup handle it
+    "declaration": true,
     "esModuleInterop": true,
     "strict": true,
-    "outDir": "dist",
+    "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@ktjs/core": ["packages/core/src/index.ts"],
+      "@ktjs/router": ["packages/router/src/main.ts"],
+      "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    ".scripts/**/*.ts",
-    "tests/**/*.ts",
-    "example/main.ts",
-    "example/app.ts"
+  "include": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/router" },
+    { "path": "./packages/shortcuts" },
+    { "path": "./packages/kt.js" }
   ]
 }

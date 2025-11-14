@@ -1,26 +1,15 @@
 {
 	"name": "kt.js",
 	"version": "0.5.0",
+	"private": true,
 	"author": {
 		"name": "Kasukabe Tsumugi",
 		"email": "futami16237@gmail.com"
 	},
 	"purpose": "npm",
 	"description": "A simple and easy-to-use web framework, never re-render. Abbreviation of Kasukabe Tsumugi.",
-	"description_zh": "KT.js，简单易用，never重绘。取自Kasukabe Tsumugi的首字母。",
+	"description_zh": "KT.js，简单易用的web框架，重不重绘你说了算！给自己一个极致优化的机会！取自Kasukabe Tsumugi的首字母。",
 	"type": "module",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		"types": "./dist/index.d.ts",
-		"import": "./dist/index.mjs",
-		"require": "./dist/index.cjs",
-		"default": "./dist/index.mjs"
-	},
-	"files": [
-		"dist"
-	],
 	"homepage": "https://github.com/baendlorel/kt.js#readme",
 	"repository": {
 		"type": "git",
@@ -30,15 +19,20 @@
 		"framework",
 		"web",
 		"typescript",
-		"javascript"
+		"javascript",
+		"monorepo"
 	],
 	"scripts": {
-		"gsize": "cat dist/index.mjs | wc -c && gzip -c dist/index.mjs | wc -c",
-		"lines": "clear && find ./src -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" -o -name \"*.cpp\" -o -name \"*.h\" -o -name \"*.py\"  -o -name \"*.css\" -o -name \"*.rs\" -o -name \"*.rc\" \\) | xargs wc -l",
-		"test": "clear & vitest",
+		"build": "pnpm --filter \"./packages/**\" run build",
+		"build:core": "pnpm --filter @ktjs/core run build",
+		"build:router": "pnpm --filter @ktjs/router run build",
+		"build:shortcuts": "pnpm --filter @ktjs/shortcuts run build",
+		"build:kt.js": "pnpm --filter kt.js run build",
+		"test": "vitest",
 		"lint": "oxlint .",
-		"cover": "clear & vitest --coverage",
-		"build": "tsx ./.scripts/rollup.ts"
+		"cover": "vitest --coverage",
+		"lines": "clear && find ./packages -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" \\) | xargs wc -l",
+		"clean": "pnpm --filter \"./packages/**\" exec rimraf dist"
 	},
 	"license": "MIT",
 	"devDependencies": {

@@ -5,12 +5,14 @@ export default defineConfig({
   test: {
     reporters: ['dot'],
     environment: 'jsdom',
-    // setupFiles: ['./src/macros.ts'],
-    include: ['**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],
+    include: ['tests/**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],
   },
   resolve: {
     alias: {
-      '@': path.resolve(import.meta.dirname, 'src'),
+      '@ktjs/core': path.resolve(import.meta.dirname, 'packages/core/src/index.ts'),
+      '@ktjs/router': path.resolve(import.meta.dirname, 'packages/router/src/main.ts'),
+      '@ktjs/shortcuts': path.resolve(import.meta.dirname, 'packages/shortcuts/src/index.ts'),
+      '@': path.resolve(import.meta.dirname, 'packages/core/src'),
       '@tests': path.resolve(import.meta.dirname, 'tests'),
     },
   },

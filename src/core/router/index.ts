@@ -2,13 +2,13 @@ import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, Ro
 
 import { throws } from '@/lib/error.js';
 import { GuardLevel } from './consts.js';
-import { RouteMatcher } from './matcher.js';
+import { createMatcher } from './matcher.js';
 import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
 
 /**
  * Create a new router instance
  */
-export function createRouter(config: RouterConfig): Router {
+export const createRouter = (config: RouterConfig): Router => {
   // # default configs
   const beforeEach = config.beforeEach ?? defaultHook;
   const afterEach = config.afterEach ?? (defaultHook as () => void);
@@ -42,7 +42,7 @@ export function createRouter(config: RouterConfig): Router {
 
   // Normalize routes with default guards
   normalize(config.routes, '/');
-  const matcher = new RouteMatcher(routes);
+  const { findByName, match } = createMatcher(routes);
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
@@ -52,14 +52,14 @@ export function createRouter(config: RouterConfig): Router {
     let targetRoute;
 
     if (options.name) {
-      targetRoute = matcher.findByName(options.name);
+      targetRoute = findByName(options.name);
       if (!targetRoute) {
         throws(`Route not found: ${options.name}`);
       }
       targetPath = targetRoute.path;
     } else if (options.path) {
       targetPath = normalizePath(options.path);
-      targetRoute = matcher.match(targetPath)?.route;
+      targetRoute = match(targetPath)?.route;
     } else {
       throws('Either path or name must be provided');
     }
@@ -70,8 +70,8 @@ export function createRouter(config: RouterConfig): Router {
     }
 
     // Match final path
-    const match = matcher.match(targetPath);
-    if (!match) {
+    const matched = match(targetPath);
+    if (!matched) {
       onNotFound(targetPath);
       return null;
     }
@@ -82,11 +82,11 @@ export function createRouter(config: RouterConfig): Router {
 
     const to: RouteContext = {
       path: targetPath,
-      name: match.route.name,
-      params: { ...match.params, ...(options.params || {}) },
+      name: matched.route.name,
+      params: { ...matched.params, ...(options.params || {}) },
       query: options.query || {},
-      meta: match.route.meta || {},
-      matched: match.matched,
+      meta: matched.route.meta || {},
+      matched: matched.result,
     };
 
     return {
@@ -302,4 +302,4 @@ export function createRouter(config: RouterConfig): Router {
       window.history.forward();
     },
   };
-}
+};

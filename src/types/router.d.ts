@@ -123,5 +123,5 @@ export interface Router {
 export interface RouteMatch {
   route: RouteConfig;
   params: Record<string, string>;
-  matched: RouteConfig[];
+  result: RouteConfig[];
 }

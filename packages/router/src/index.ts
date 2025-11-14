@@ -1,6 +1,6 @@
-import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
+import { $throw } from '@ktjs/shared';
 
-import { throws } from '@/lib/error.js';
+import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
 import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
@@ -119,14 +119,14 @@ export const createRouter = (config: RouterConfig): Router => {
     if (options.name) {
       targetRoute = findByName(options.name);
       if (!targetRoute) {
-        throws(`Route not found: ${options.name}`);
+        $throw(`Route not found: ${options.name}`);
       }
       targetPath = targetRoute.path;
     } else if (options.path) {
       targetPath = normalizePath(options.path);
       targetRoute = match(targetPath)?.route;
     } else {
-      throws('Either path or name must be provided');
+      $throw('Either path or name must be provided');
     }
 
     // Substitute params

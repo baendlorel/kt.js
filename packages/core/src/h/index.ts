@@ -1,8 +1,7 @@
-import type { HTMLTag } from '@shared/types/global.js';
+import type { HTMLTag } from '@ktjs/shared';
+import { $h, $throw } from '@ktjs/shared';
+
 import type { RawAttr, RawContent } from '@/types/h.js';
-
-import { $h, throws } from '@shared/lib/index.js';
-
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
@@ -15,7 +14,7 @@ import { applyContent } from './content.js';
  */
 export function h<T extends HTMLTag>(tag: T, attr: RawAttr = '', content: RawContent = ''): HTMLElementTagNameMap[T] {
   if (typeof tag !== 'string') {
-    throws('__func__ tagName must be a string.');
+    $throw('__func__ tagName must be a string.');
   }
 
   // * start creating the element

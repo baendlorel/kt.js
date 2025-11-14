@@ -3,5 +3,6 @@
     "rootDir": ".",
     "baseUrl": ".",
     "composite": true
-  }
+  },
+  "include": ["**/*.ts"]
 }

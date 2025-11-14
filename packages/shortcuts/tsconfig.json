@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["../core/src/*"],
-      "@shared/*": ["../shared/*"],
+      "@ktjs/shared*": ["../shared/*"],
       "@ktjs/core": ["../core/src/index.ts"]
     }
   },

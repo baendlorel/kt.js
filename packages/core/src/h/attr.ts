@@ -1,7 +1,5 @@
+import { $setAttr, $on, $keys, $throw } from '@ktjs/shared';
 import type { RawAttr, KAttribute } from '@/types/h.js';
-
-import { throws } from '@shared/lib/error.js';
-import { $setAttr, $on, $keys } from '@shared/lib/index.js';
 
 function booleanHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {
@@ -102,6 +100,6 @@ export function applyAttr(element: HTMLElement, attr: RawAttr) {
   } else if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KAttribute);
   } else {
-    throws('__func__ attr must be an object.');
+    $throw('__func__ attr must be an object.');
   }
 }

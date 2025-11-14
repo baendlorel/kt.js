@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { h } from '../../src/core/h/index.js';
+import { h } from '../src/h/index.js';
 
 describe('h event handlers', () => {
   describe('regular event handlers (without @ prefix)', () => {

@@ -9,7 +9,8 @@ import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
-// todo 这里要全改了
+import { replaceOpts } from './replace.mjs';
+
 /**
  * Create rollup config for a package
  * @param {Object} options

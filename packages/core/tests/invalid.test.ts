@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { h } from '../../src/core/h/index.js';
+import { h } from '../src/h/index.js';
 
 describe('h invalid inputs', () => {
   it('throws for non-string tag', () => {

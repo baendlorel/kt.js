@@ -4,7 +4,10 @@ import { ViteUserConfig } from 'vitest/config';
 export const test: ViteUserConfig['test'] = {
   reporters: ['dot'],
   environment: 'jsdom',
-  include: ['tests/**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],
+  include: [
+    'tests/**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)',
+    'packages/**/tests/**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)',
+  ],
 };
 
 export const resolve: () => ViteUserConfig['resolve'] = () => ({

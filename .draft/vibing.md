@@ -198,3 +198,5 @@ const ssss = bindParams(sss, 'a');
 ---
 
 现在你已经完成了router的编写。请根据现在的routerconfig机制和异步同步机制来调整测试代码以做到正确地测试异步和同步版本。目前的默认为true的机制是没问题
+
+---

@@ -6,9 +6,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@common/*": ["../common/*"],
       "@ktjs/core": ["../core/src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "../common/type-utils.d.ts"],
-  "references": [{ "path": "../core" }]
+  "include": ["src/**/*.ts"],
+  "references": [{ "path": "../core" }, { "path": "../common" }]
 }

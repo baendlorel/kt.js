@@ -2,8 +2,6 @@
 import pkg from './package.json' with { type: 'json' };
 import path from 'node:path';
 
-// todo 改为monorepo
-// todo 改为vite控制
 // todo 增加legacy版本来支持ie9等老旧环境
 
 // plugins

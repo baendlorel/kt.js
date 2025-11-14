@@ -1,6 +1,6 @@
 import type { RouteConfig, RouteMatch } from '@/types/router.js';
 
-import { throws } from '@/lib/error.js';
+import { throws } from '@common/lib/index.js';
 import { extractParams, normalizePath } from './utils.js';
 
 /**

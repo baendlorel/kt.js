@@ -220,7 +220,6 @@ describe('Router', () => {
 
       router.push('/');
       router.push({ path: '/about', replace: true });
-
       expect(router.current?.name).toBe('about');
     });
   });

@@ -3,8 +3,13 @@
  */
 export const defaultHook = (): boolean => true;
 
-export const normalizePath = (...paths: string[]) =>
-  '/' + paths.map((p) => p.split('/').filter(Boolean).join('/')).join('/');
+export const normalizePath = (...paths: string[]) => {
+  const p = paths
+    .map((p) => p.split('/'))
+    .flat()
+    .filter(Boolean);
+  return '/' + p.join('/');
+};
 
 /**
  * Parse query string into object

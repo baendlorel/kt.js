@@ -53,69 +53,79 @@ export function createRouter(config: RouterConfig): Router {
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
+  const navigatePrepare = function (options: NavigateOptions) {
+    // Resolve target route
+    let targetPath: string;
+    let targetRoute;
+
+    if (options.name) {
+      targetRoute = matcher.findByName(options.name);
+      if (!targetRoute) {
+        throws(`Route not found: ${options.name}`);
+      }
+      targetPath = targetRoute.path;
+    } else if (options.path) {
+      targetPath = normalizePath(options.path);
+      targetRoute = matcher.match(targetPath)?.route;
+    } else {
+      throws('Either path or name must be provided');
+    }
+
+    // Substitute params
+    if (options.params) {
+      targetPath = emplaceParams(targetPath, options.params);
+    }
+
+    // Match final path
+    const match = matcher.match(targetPath);
+    if (!match) {
+      onNotFound(targetPath);
+      return null;
+    }
+
+    // Build route context
+    const queryString = options.query ? buildQuery(options.query) : '';
+    const fullPath = targetPath + queryString;
+
+    const to: RouteContext = {
+      path: targetPath,
+      name: match.route.name,
+      params: { ...match.params, ...(options.params || {}) },
+      query: options.query || {},
+      meta: match.route.meta || {},
+      matched: match.matched,
+    };
+
+    return {
+      guardLevel: options.guardLevel ?? GuardLevel.Default,
+      replace: options.replace ?? false,
+      to,
+      fullPath,
+    };
+  };
+
   /**
    * Navigate to a route
    */
   const navigateSync = function (options: NavigateOptions): boolean {
     try {
-      // Extract control flags
-      const silentLevel = options.guardLevel ?? GuardLevel.None;
-      const replace = options.replace ?? false;
-
-      // Resolve target route
-      let targetPath: string;
-      let targetRoute;
-
-      if (options.name) {
-        targetRoute = matcher.findByName(options.name);
-        if (targetRoute) {
-          targetPath = targetRoute.path;
-        } else {
-          return throws(`Route not found: ${options.name}`);
-        }
-      } else if (options.path) {
-        targetPath = normalizePath(options.path);
-        targetRoute = matcher.match(targetPath)?.route;
-      } else {
-        throws('Either path or name must be provided');
-      }
-
-      // Substitute params
-      if (options.params) {
-        targetPath = emplaceParams(targetPath, options.params);
-      }
-
-      // Match final path
-      const match = matcher.match(targetPath);
-      if (!match) {
-        onNotFound(targetPath);
+      const prep = navigatePrepare(options);
+      if (!prep) {
         return false;
       }
-
-      // Build route context
-      const queryString = options.query ? buildQuery(options.query) : '';
-      const fullPath = targetPath + queryString;
-
-      const to: RouteContext = {
-        path: targetPath,
-        name: match.route.name,
-        params: { ...match.params, ...(options.params || {}) },
-        query: options.query || {},
-        meta: match.route.meta || {},
-        matched: match.matched,
-      };
+      const { guardLevel, replace, to, fullPath } = prep;
 
       // Execute guards
-      if (!executeGuards(to, current, silentLevel)) {
+      if (!executeGuards(to, current, guardLevel)) {
         return false;
       }
 
       // Update browser history
       const url = fullPath;
       if (replace) {
-        window.history.replaceState({ path: targetPath }, '', url);
+        window.history.replaceState({ path: to.path }, '', url);
       } else {
-        window.history.pushState({ path: targetPath }, '', url);
+        window.history.pushState({ path: to.path }, '', url);
       }
 
       // Update current route
@@ -139,67 +149,28 @@ export function createRouter(config: RouterConfig): Router {
   const navigateAsync = function (options: NavigateOptions): Promise<boolean> {
     return new Promise((resolve) => {
       try {
-        // Extract control flags
-        const silentLevel = options.guardLevel ?? GuardLevel.None;
-        const replace = options.replace ?? false;
-
-        // Resolve target route
-        let targetPath: string;
-        let targetRoute;
-
-        if (options.name) {
-          targetRoute = matcher.findByName(options.name);
-          if (!targetRoute) {
-            throws(`Route not found: ${options.name}`);
-          }
-          targetPath = targetRoute.path;
-        } else if (options.path) {
-          targetPath = normalizePath(options.path);
-          targetRoute = matcher.match(targetPath)?.route;
-        } else {
-          throws('Either path or name must be provided');
-        }
-
-        // Substitute params
-        if (options.params) {
-          targetPath = emplaceParams(targetPath, options.params);
-        }
-
-        // Match final path
-        const match = matcher.match(targetPath);
-        if (!match) {
-          onNotFound(targetPath);
+        const prep = navigatePrepare(options);
+        if (!prep) {
           resolve(false);
           return;
         }
 
-        // Build route context
-        const queryString = options.query ? buildQuery(options.query) : '';
-        const fullPath = targetPath + queryString;
-
-        const to: RouteContext = {
-          path: targetPath,
-          name: match.route.name,
-          params: { ...match.params, ...(options.params ?? {}) },
-          query: options.query ?? {},
-          meta: match.route.meta ?? {},
-          matched: match.matched,
-        };
+        const { guardLevel, replace, to, fullPath } = prep;
 
         // Execute guards asynchronously
-        executeGuardsAsync(to, current, silentLevel)
+        executeGuardsAsync(to, current, guardLevel)
           .then((guardsPassed) => {
             if (!guardsPassed) {
               resolve(false);
               return;
             }
 
-            // Update browser history
+            // Update browser historys
             const url = fullPath;
             if (replace) {
-              window.history.replaceState({ path: targetPath }, '', url);
+              window.history.replaceState({ path: to.path }, '', url);
             } else {
-              window.history.pushState({ path: targetPath }, '', url);
+              window.history.pushState({ path: to.path }, '', url);
             }
 
             // Update current route

@@ -19,7 +19,7 @@ export const enum GuardLevel {
   Route = 0b0010,
 
   /**
-   * **Default** Applies all guards
+   * Applies all guards
    */
-  All = 0b1111,
+  Default = 0b1111,
 }

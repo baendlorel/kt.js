@@ -64,10 +64,7 @@ export interface NavigateBaseOptions {
  * Complete navigation options including control flags
  */
 export interface NavigateOptions extends NavigateBaseOptions {
-  /** Silent level: 0=none, 1=skip global guards, 2=skip all guards */
   guardLevel?: GuardLevel;
-
-  /** Replace current history entry instead of pushing */
   replace?: boolean;
 }
 

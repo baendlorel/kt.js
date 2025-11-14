@@ -1,5 +1,6 @@
+import type { RouteConfig, RouteMatch } from '@/types/router.js';
+
 import { throws } from '@/lib/error.js';
-import { RouteConfig, RouteMatch } from '../../types/router.js';
 import { extractParams, normalizePath } from './utils.js';
 
 // todo 改造为函数式，这里可以不用class的

@@ -9,6 +9,7 @@ const ktnull = ((o) => {
     o[Symbol.toPrimitive] = () => '';
   }
   Object.freeze(o);
+  return o;
 })(Object.create(null));
 
 export { ktnull };

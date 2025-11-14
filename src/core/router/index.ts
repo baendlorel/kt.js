@@ -1,14 +1,7 @@
-import { throws } from '@/lib/error.js';
-import {
-  Router,
-  RouterConfig,
-  RouteContext,
-  NavigateOptions,
-  RawRouteConfig,
-  RouteConfig,
-} from '../../types/router.js';
-import { GuardLevel } from './consts.js';
+import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 
+import { throws } from '@/lib/error.js';
+import { GuardLevel } from './consts.js';
 import { RouteMatcher } from './matcher.js';
 import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
 
@@ -53,7 +46,7 @@ export function createRouter(config: RouterConfig): Router {
   let current: RouteContext | null = null;
   const history: RouteContext[] = [];
 
-  const navigatePrepare = function (options: NavigateOptions) {
+  const navigatePrepare = (options: NavOptions) => {
     // Resolve target route
     let targetPath: string;
     let targetRoute;
@@ -107,7 +100,7 @@ export function createRouter(config: RouterConfig): Router {
   /**
    * Navigate to a route
    */
-  const navigateSync = function (options: NavigateOptions): boolean {
+  const navigateSync = (options: NavOptions): boolean => {
     try {
       const prep = navigatePrepare(options);
       if (!prep) {
@@ -146,8 +139,8 @@ export function createRouter(config: RouterConfig): Router {
    * Navigate to a route asynchronously (supports async guards)
    * Uses Promise chain instead of async/await to minimize transpilation overhead
    */
-  const navigateAsync = function (options: NavigateOptions): Promise<boolean> {
-    return new Promise((resolve) => {
+  const navigateAsync = (options: NavOptions): Promise<boolean> =>
+    new Promise((resolve) => {
       try {
         const prep = navigatePrepare(options);
         if (!prep) {
@@ -187,11 +180,10 @@ export function createRouter(config: RouterConfig): Router {
         resolve(false);
       }
     });
-  };
 
   const navigate = asyncGuards ? navigateSync : navigateAsync;
 
-  function executeGuards(to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): boolean {
+  const executeGuards = (to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): boolean => {
     if (silentLevel === GuardLevel.None) {
       return true;
     }
@@ -212,16 +204,20 @@ export function createRouter(config: RouterConfig): Router {
     }
 
     return true;
-  }
+  };
 
-  function executeGuardsAsync(to: RouteContext, from: RouteContext | null, silentLevel: GuardLevel): Promise<boolean> {
+  const executeGuardsAsync = (
+    to: RouteContext,
+    from: RouteContext | null,
+    silentLevel: GuardLevel
+  ): Promise<boolean> => {
     return Promise.resolve(true);
-  }
+  };
 
   /**
    * Execute after hooks
    */
-  function executeAfterHooks(to: RouteContext, from: RouteContext | null) {
+  const executeAfterHooks = (to: RouteContext, from: RouteContext | null) => {
     // Route-level after
     const targetRoute = to.matched[to.matched.length - 1];
     if (targetRoute?.after) {
@@ -229,12 +225,12 @@ export function createRouter(config: RouterConfig): Router {
     }
 
     afterEach(to, from);
-  }
+  };
 
   /**
    * Execute after hooks asynchronously
    */
-  function executeAfterHooksAsync(to: RouteContext, from: RouteContext | null): Promise<void> {
+  const executeAfterHooksAsync = (to: RouteContext, from: RouteContext | null): Promise<void> => {
     const targetRoute = to.matched[to.matched.length - 1];
 
     // Helper to normalize hook result to Promise<void>
@@ -250,12 +246,12 @@ export function createRouter(config: RouterConfig): Router {
 
     // Chain global afterEach
     return routeAfterPromise.then(() => normalizeHook(afterEach(to, from)));
-  }
+  };
 
   /**
    * Normalize navigation argument
    */
-  function normalizeLocation(location: string | NavigateOptions): NavigateOptions {
+  const normalizeLocation = (location: string | NavOptions): NavOptions => {
     if (typeof location === 'string') {
       // Parse path and query
       const [path, queryString] = location.split('?');
@@ -265,7 +261,7 @@ export function createRouter(config: RouterConfig): Router {
       };
     }
     return location;
-  }
+  };
 
   // Listen to browser back/forward
   window.addEventListener('popstate', (event) => {
@@ -283,17 +279,17 @@ export function createRouter(config: RouterConfig): Router {
       return history.concat();
     },
 
-    push(location: string | NavigateOptions): boolean | Promise<boolean> {
+    push(location: string | NavOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate(options);
     },
 
-    silentPush(location: string | NavigateOptions): boolean | Promise<boolean> {
+    silentPush(location: string | NavOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate({ ...options, guardLevel: GuardLevel.Global });
     },
 
-    replace(location: string | NavigateOptions): boolean | Promise<boolean> {
+    replace(location: string | NavOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate({ ...options, replace: true });
     },

@@ -1,5 +1,6 @@
-import { HTMLTag } from '@/global.js';
-import { RawAttr, RawContent } from '@/types/h.js';
+import type { HTMLTag } from '@/global.js';
+import type { RawAttr, RawContent } from '@/types/h.js';
+
 import { $h } from '@/lib/index.js';
 import { throws } from '@/lib/error.js';
 

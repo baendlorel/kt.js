@@ -46,7 +46,7 @@ export interface RouteContext {
 /**
  * Base navigation options containing target information
  */
-export interface NavigateBaseOptions {
+export interface NavBaseOptions {
   /** Target path (alternative to name) */
   path?: string;
 
@@ -63,7 +63,7 @@ export interface NavigateBaseOptions {
 /**
  * Complete navigation options including control flags
  */
-export interface NavigateOptions extends NavigateBaseOptions {
+export interface NavOptions extends NavBaseOptions {
   guardLevel?: GuardLevel;
   replace?: boolean;
 }
@@ -105,13 +105,13 @@ export interface Router {
   history: RouteContext[];
 
   /** Navigate with guards */
-  push(location: string | NavigateOptions): boolean | Promise<boolean>;
+  push(location: string | NavOptions): boolean | Promise<boolean>;
 
   /** Navigate without beforeEach guard */
-  silentPush(location: string | NavigateOptions): boolean | Promise<boolean>;
+  silentPush(location: string | NavOptions): boolean | Promise<boolean>;
 
   /** Replace current history entry */
-  replace(location: string | NavigateOptions): boolean | Promise<boolean>;
+  replace(location: string | NavOptions): boolean | Promise<boolean>;
 
   /** Navigate back in history */
   back(): void;

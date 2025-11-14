@@ -5,6 +5,7 @@ import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
 import { buildQuery, defaultHook, normalizePath, resolves, parseQuery, emplaceParams } from './utils.js';
 
+// todo 因为有了legacy版本，因此不需要慈悲了，尽情使用async、await即可
 /**
  * Create a new router instance
  */

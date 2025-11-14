@@ -1,6 +1,5 @@
 // @ts-check
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 // plugins
 import typescript from '@rollup/plugin-typescript';
@@ -10,8 +9,7 @@ import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+// todo 这里要全改了
 /**
  * Create rollup config for a package
  * @param {Object} options
@@ -21,9 +19,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  * @param {Record<string, string>} [options.external] - External dependencies
  * @returns {import('rollup').RollupOptions[]}
  */
-export function createPackageConfig({ packageName, packageDir, entry = 'index.ts', external = {} }) {
-  const srcDir = path.resolve(__dirname, '..', packageDir, 'src');
-  const distDir = path.resolve(__dirname, '..', packageDir, 'dist');
+export function createPackageConfig({ packageDir, entry = 'index.ts', external = {} }) {
+  const srcDir = path.resolve(import.meta.dirname, '..', packageDir, 'src');
+  const distDir = path.resolve(import.meta.dirname, '..', packageDir, 'dist');
 
   /**
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
@@ -31,17 +29,13 @@ export function createPackageConfig({ packageName, packageDir, entry = 'index.ts
   const aliasOpts = {
     entries: [
       { find: /^@\//, replacement: srcDir + '/' },
-      { find: '@ktjs/core', replacement: path.resolve(__dirname, '..', 'packages/core/src/index.ts') },
-      { find: '@ktjs/router', replacement: path.resolve(__dirname, '..', 'packages/router/src/main.ts') },
-      { find: '@ktjs/shortcuts', replacement: path.resolve(__dirname, '..', 'packages/shortcuts/src/index.ts') },
+      { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
+      { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
+      {
+        find: '@ktjs/shortcuts',
+        replacement: path.resolve(import.meta.dirname, '..', 'packages/shortcuts/src/index.ts'),
+      },
     ],
-  };
-
-  const replaceOpts = {
-    preventAssignment: true,
-    values: {
-      __func__: JSON.stringify(packageName),
-    },
   };
 
   const externals = Object.keys(external);
@@ -56,18 +50,13 @@ export function createPackageConfig({ packageName, packageDir, entry = 'index.ts
           format: 'esm',
           sourcemap: false,
         },
-        {
-          file: path.resolve(distDir, 'index.cjs'),
-          format: 'cjs',
-          sourcemap: false,
-        },
       ],
       plugins: [
         alias(aliasOpts),
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(__dirname, '..', packageDir, 'tsconfig.json'),
+          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
           declaration: false,
         }),
         terser({
@@ -92,7 +81,7 @@ export function createPackageConfig({ packageName, packageDir, entry = 'index.ts
         alias(aliasOpts),
         replace(replaceOpts),
         dts({
-          tsconfig: path.resolve(__dirname, '..', packageDir, 'tsconfig.json'),
+          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
         }),
       ],
       external: externals,

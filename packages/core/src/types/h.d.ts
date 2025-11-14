@@ -1,5 +1,6 @@
-import type { otherstring } from '@ktjs/shared';
+import type { HTMLTag, otherstring } from '@ktjs/shared';
 
+export type HFunction = <T extends HTMLTag>(tag: T, attr?: RawAttr, content?: RawContent) => HTMLElementTagNameMap[T];
 export type RawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
 export type RawAttr = KAttribute | string;
 

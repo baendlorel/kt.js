@@ -9,6 +9,6 @@
       "@ktjs/shared": ["../shared/index.ts"] // share common folder
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"], // include tests
   "references": [{ "path": "../shared" }] // share common folder
 }

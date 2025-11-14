@@ -11,6 +11,4 @@ export type {
   RouteContext,
   NavOptions,
   RouteMatch,
-  NavigationGuard,
-  AfterNavigationHook,
 } from './types/router.js';

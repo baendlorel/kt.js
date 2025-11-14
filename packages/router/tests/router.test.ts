@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { createRouter, SilentLevel } from '../../src/index.js';
+import { createRouter } from '../src/index.js';
+import { GuardLevel } from '../src/consts.js';
 
 describe('Router', () => {
   beforeEach(() => {
@@ -179,7 +180,7 @@ describe('Router', () => {
   });
 
   describe('NavigateOptions with flags', () => {
-    it('should support silentLevel flag in push', () => {
+    it('should support GuardLevel flag in push', () => {
       const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
@@ -187,13 +188,13 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: SilentLevel.Global });
+      router.push({ path: '/', guardLevel: GuardLevel.Global });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
     });
 
-    it('should support silentLevel.All to skip all guards', () => {
+    it('should support GuardLevel.All to skip all guards', () => {
       const beforeEach = vi.fn(() => true);
       const beforeEnter = vi.fn(() => true);
 
@@ -202,7 +203,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: SilentLevel.All });
+      router.push({ path: '/', guardLevel: GuardLevel.Default });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(beforeEnter).not.toHaveBeenCalled();

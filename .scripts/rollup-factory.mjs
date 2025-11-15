@@ -39,6 +39,7 @@ export function createPackageConfig({
   const aliasOpts = {
     entries: [
       { find: /^@\//, replacement: srcDir + '/' },
+      // Note: @ktjs/shared is internal and should be bundled, not aliased
       { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
       { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
       {
@@ -50,7 +51,6 @@ export function createPackageConfig({
 
   const externals = Object.keys(external);
 
-  // Extract global name from package name (e.g., '@ktjs/core' -> 'ktCore')
   const globalName = packageName.replace(/^@ktjs\//, 'kt');
 
   const configs = [];
@@ -117,8 +117,11 @@ export function createPackageConfig({
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(import.meta.dirname, '..', 'tsconfig.build.legacy.json'),
-          declaration: false,
+          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+          compilerOptions: {
+            target: 'es5',
+            declaration: false,
+          },
         }),
         terser({
           format: {
@@ -146,10 +149,29 @@ export function createPackageConfig({
     input: path.resolve(srcDir, entry),
     output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
     plugins: [
-      alias(aliasOpts),
+      alias({
+        entries: [
+          { find: /^@\//, replacement: srcDir + '/' },
+          // Note: @ktjs/shared is internal and should be bundled, not aliased
+          { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
+          { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
+          {
+            find: '@ktjs/shortcuts',
+            replacement: path.resolve(import.meta.dirname, '..', 'packages/shortcuts/src/index.ts'),
+          },
+          // Resolve shared package internal @/ alias for type declarations
+          {
+            find: /^@\/global\.js$/,
+            replacement: path.resolve(import.meta.dirname, '..', 'packages/shared/types/global.d.ts'),
+          },
+        ],
+      }),
       replace(replaceOpts),
       dts({
         tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+        compilerOptions: {
+          composite: false,
+        },
       }),
     ],
     external: externals,

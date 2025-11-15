@@ -7,6 +7,6 @@
     "stripInternal": true,
     "declaration": false
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["tests/**/*"]
+  "include": [],
+  "exclude": ["**/tests/**/*"]
 }

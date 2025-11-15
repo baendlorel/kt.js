@@ -39,7 +39,7 @@ export function createPackageConfig({
   const aliasOpts = {
     entries: [
       { find: /^@\//, replacement: srcDir + '/' },
-      // Note: @ktjs/shared is internal and should be bundled, not aliased
+      { find: '@ktjs/shared', replacement: path.resolve(import.meta.dirname, '..', 'packages/shared/index.ts') },
       { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
       { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
       {
@@ -74,6 +74,7 @@ export function createPackageConfig({
     });
   }
 
+  console.log('cur tsconfig', path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'));
   configs.push({
     input: path.resolve(srcDir, entry),
     output: outputs,
@@ -82,8 +83,7 @@ export function createPackageConfig({
       replace(replaceOpts),
       resolve(),
       typescript({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
-        declaration: false,
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
       }),
       terser({
         format: {
@@ -117,10 +117,9 @@ export function createPackageConfig({
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
           compilerOptions: {
             target: 'es5',
-            declaration: false,
           },
         }),
         terser({
@@ -168,7 +167,7 @@ export function createPackageConfig({
       }),
       replace(replaceOpts),
       dts({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
         compilerOptions: {
           composite: false,
         },

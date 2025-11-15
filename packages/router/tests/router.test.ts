@@ -182,19 +182,21 @@ describe('Router', () => {
   describe('NavigateOptions with flags', () => {
     it('should support GuardLevel flag in push', () => {
       const beforeEach = vi.fn(() => true);
+      const beforeEnter = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', beforeEnter }],
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: GuardLevel.Global });
+      router.push({ path: '/', guardLevel: GuardLevel.Route });
 
       expect(beforeEach).not.toHaveBeenCalled();
+      expect(beforeEnter).toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
     });
 
-    it('should support GuardLevel.All to skip all guards', () => {
+    it('should support GuardLevel.None to skip all guards', () => {
       const beforeEach = vi.fn(() => true);
       const beforeEnter = vi.fn(() => true);
 
@@ -203,7 +205,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: GuardLevel.Default });
+      router.push({ path: '/', guardLevel: GuardLevel.None });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(beforeEnter).not.toHaveBeenCalled();

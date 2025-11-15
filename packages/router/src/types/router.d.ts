@@ -107,7 +107,7 @@ export interface Router {
   /** Navigate with guards */
   push(location: string | NavOptions): boolean | Promise<boolean>;
 
-  /** Navigate without beforeEach guard */
+  /** Navigate without global guards(`beforeEach` guards) */
   silentPush(location: string | NavOptions): boolean | Promise<boolean>;
 
   /** Replace current history entry */

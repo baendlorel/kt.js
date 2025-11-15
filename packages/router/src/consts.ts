@@ -14,7 +14,7 @@ export const enum GuardLevel {
   Global = 0b0001,
 
   /**
-   * Only applies routes' guard
+   * Only applies guards of routes(`beforeEnter` guards)
    */
   Route = 0b0010,
 

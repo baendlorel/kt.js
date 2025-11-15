@@ -276,7 +276,7 @@ export const createRouter = (config: RouterConfig): Router => {
 
     silentPush(location: string | NavOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
-      return navigate({ ...options, guardLevel: GuardLevel.Global });
+      return navigate({ ...options, guardLevel: GuardLevel.Route });
     },
 
     replace(location: string | NavOptions): boolean | Promise<boolean> {

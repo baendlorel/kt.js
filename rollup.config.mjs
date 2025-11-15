@@ -2,8 +2,6 @@
 import pkg from './package.json' with { type: 'json' };
 import path from 'node:path';
 
-// todo 增加legacy版本来支持ie9等老旧环境
-
 // plugins
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
@@ -23,6 +21,7 @@ import { replaceOpts } from './.scripts/replace.mjs';
  * build config
  */
 const tsconfig = './tsconfig.build.json';
+const tsconfigLegacy = './tsconfig.build.legacy.json';
 
 /**
  * @type {import('@rollup/plugin-alias').RollupAliasOptions}
@@ -37,6 +36,7 @@ const aliasOpts = {
  * @type {import('rollup').RollupOptions[]}
  */
 const options = [
+  // Modern builds (ESM + IIFE)
   {
     input: 'src/index.ts',
     output: [
@@ -62,17 +62,55 @@ const options = [
       constEnum(),
       terser({
         format: {
-          comments: false, // remove comments
+          comments: false,
         },
         compress: {
           reduce_vars: true,
           drop_console: true,
-          dead_code: true, // ✅ Safe: remove dead code
-          evaluate: true, // ✅ Safe: evaluate constant expressions
+          dead_code: true,
+          evaluate: true,
         },
         mangle: {
           properties: {
-            regex: /^_/, // only mangle properties starting with '_'
+            regex: /^_/,
+          },
+        },
+      }),
+    ].filter(Boolean),
+    external: [],
+  },
+  // Legacy IIFE build (ES5 for old browsers)
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: 'dist/index.legacy.js',
+        format: 'iife',
+        name: 'kt',
+        sourcemap: false,
+      },
+    ],
+
+    plugins: [
+      alias(aliasOpts),
+      replace(replaceOpts),
+      resolve(),
+      typescript({ tsconfig: tsconfigLegacy }),
+      funcMacro(),
+      constEnum(),
+      terser({
+        format: {
+          comments: false,
+        },
+        compress: {
+          reduce_vars: true,
+          drop_console: true,
+          dead_code: true,
+          evaluate: true,
+        },
+        mangle: {
+          properties: {
+            regex: /^_/,
           },
         },
       }),

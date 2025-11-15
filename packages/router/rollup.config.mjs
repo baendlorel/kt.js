@@ -6,4 +6,6 @@ export default createPackageConfig({
   packageDir: 'packages/router',
   entry: 'main.ts',
   external: { '@ktjs/core': '@ktjs/core' },
+  withIIFE: true,
+  withLegacy: true,
 });

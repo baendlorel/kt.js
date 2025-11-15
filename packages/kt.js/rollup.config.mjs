@@ -9,4 +9,6 @@ export default createPackageConfig({
     '@ktjs/router': '@ktjs/router',
     '@ktjs/shortcuts': '@ktjs/shortcuts',
   },
+  withIIFE: true,
+  withLegacy: true,
 });

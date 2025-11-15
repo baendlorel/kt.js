@@ -5,4 +5,6 @@ export default createPackageConfig({
   packageName: '@ktjs/shortcuts',
   packageDir: 'packages/shortcuts',
   external: { '@ktjs/core': '@ktjs/core' },
+  withIIFE: true,
+  withLegacy: true,
 });

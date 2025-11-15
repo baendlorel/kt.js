@@ -14,13 +14,22 @@ import { replaceOpts } from './replace.mjs';
 /**
  * Create rollup config for a package
  * @param {Object} options
- * @param {string} options.packageName - Package name
+ * @param {string} options.packageName - Package name (for iife global name)
  * @param {string} options.packageDir - Package directory relative to workspace root
  * @param {string} [options.entry='index.ts'] - Entry file name
  * @param {Record<string, string>} [options.external] - External dependencies
+ * @param {boolean} [options.withIIFE=true] - Generate IIFE bundle
+ * @param {boolean} [options.withLegacy=false] - Generate legacy version (ES5 IIFE only)
  * @returns {import('rollup').RollupOptions[]}
  */
-export function createPackageConfig({ packageDir, entry = 'index.ts', external = {} }) {
+export function createPackageConfig({
+  packageName,
+  packageDir,
+  entry = 'index.ts',
+  external = {},
+  withIIFE = true,
+  withLegacy = false,
+}) {
   const srcDir = path.resolve(import.meta.dirname, '..', packageDir, 'src');
   const distDir = path.resolve(import.meta.dirname, '..', packageDir, 'dist');
 
@@ -41,14 +50,65 @@ export function createPackageConfig({ packageDir, entry = 'index.ts', external =
 
   const externals = Object.keys(external);
 
-  return [
-    // ESM and CJS builds
+  // Extract global name from package name (e.g., '@ktjs/core' -> 'ktCore')
+  const globalName = packageName.replace(/^@ktjs\//, 'kt');
+
+  const configs = [];
+
+  // Modern builds (ESM + IIFE)
+  /** @type {import('rollup').OutputOptions[]} */
+  const outputs = [
     {
+      file: path.resolve(distDir, 'index.mjs'),
+      format: 'esm',
+      sourcemap: false,
+    },
+  ];
+
+  if (withIIFE) {
+    outputs.push({
+      file: path.resolve(distDir, 'index.iife.js'),
+      format: 'iife',
+      name: globalName,
+      sourcemap: false,
+    });
+  }
+
+  configs.push({
+    input: path.resolve(srcDir, entry),
+    output: outputs,
+    plugins: [
+      alias(aliasOpts),
+      replace(replaceOpts),
+      resolve(),
+      typescript({
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+        declaration: false,
+      }),
+      terser({
+        format: {
+          comments: false,
+        },
+        compress: {
+          reduce_vars: true,
+          drop_console: true,
+          dead_code: true,
+          evaluate: true,
+        },
+      }),
+    ],
+    external: externals,
+  });
+
+  // Legacy IIFE build (ES5)
+  if (withLegacy) {
+    configs.push({
       input: path.resolve(srcDir, entry),
       output: [
         {
-          file: path.resolve(distDir, 'index.mjs'),
-          format: 'esm',
+          file: path.resolve(distDir, 'index.legacy.js'),
+          format: 'iife',
+          name: globalName,
           sourcemap: false,
         },
       ],
@@ -57,7 +117,7 @@ export function createPackageConfig({ packageDir, entry = 'index.ts', external =
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+          tsconfig: path.resolve(import.meta.dirname, '..', 'tsconfig.build.legacy.json'),
           declaration: false,
         }),
         terser({
@@ -70,22 +130,30 @@ export function createPackageConfig({ packageDir, entry = 'index.ts', external =
             dead_code: true,
             evaluate: true,
           },
+          mangle: {
+            properties: {
+              regex: /^_/,
+            },
+          },
         }),
       ],
       external: externals,
-    },
-    // Type declarations
-    {
-      input: path.resolve(srcDir, entry),
-      output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
-      plugins: [
-        alias(aliasOpts),
-        replace(replaceOpts),
-        dts({
-          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
-        }),
-      ],
-      external: externals,
-    },
-  ];
+    });
+  }
+
+  // Type declarations
+  configs.push({
+    input: path.resolve(srcDir, entry),
+    output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
+    plugins: [
+      alias(aliasOpts),
+      replace(replaceOpts),
+      dts({
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+      }),
+    ],
+    external: externals,
+  });
+
+  return /** @type {import('rollup').RollupOptions[]} */ (configs);
 }

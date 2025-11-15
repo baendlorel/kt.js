@@ -5,6 +5,6 @@ export * from './h/index.js';
 export * from './enhance/specialize.js';
 
 // Export constants
-export { ktnull } from '../../shared/lib/consts.js';
+export { ktnull } from '@ktjs/shared';
 
 export type { RawContent, RawAttr, EventHandler, KAttribute } from './types/h.js';

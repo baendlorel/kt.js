@@ -74,7 +74,6 @@ export function createPackageConfig({
     });
   }
 
-  console.log('cur tsconfig', path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'));
   configs.push({
     input: path.resolve(srcDir, entry),
     output: outputs,
@@ -100,6 +99,7 @@ export function createPackageConfig({
     external: externals,
   });
 
+  console.log('configs[0].plugins', configs[0].plugins);
   // Legacy IIFE build (ES5)
   if (withLegacy) {
     configs.push({

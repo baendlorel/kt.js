@@ -1,5 +1,5 @@
-import { $append, $isArray } from '@ktjs/shared';
 import type { RawContent } from '@/types/h.js';
+import { $append, $isArray } from '@/lib/index.js';
 
 export function applyContent(element: HTMLElement, content: RawContent): void {
   if ($isArray(content)) {

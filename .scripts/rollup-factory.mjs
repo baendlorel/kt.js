@@ -48,7 +48,6 @@ export function createPackageConfig({
   const aliasOpts = {
     entries: [
       { find: /^@\//, replacement: srcDir + '/' },
-      { find: '@ktjs/shared', replacement: path.resolve(import.meta.dirname, '..', 'packages/shared/index.ts') },
       { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
       { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
       {
@@ -160,7 +159,6 @@ export function createPackageConfig({
       alias({
         entries: [
           { find: /^@\//, replacement: srcDir + '/' },
-          // Note: @ktjs/shared is internal and should be bundled, not aliased
           { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
           { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
           {

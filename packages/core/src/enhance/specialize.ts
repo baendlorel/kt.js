@@ -1,4 +1,4 @@
-import type { HTMLTag } from '@ktjs/shared';
+import { HTMLTag } from '@/types/global.js';
 
 /**
  * # Specialized Ehancement

@@ -74,7 +74,7 @@ export function createPackageConfig({
     });
   }
 
-  console.log('cur tsconfig', path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'));
+  console.log('cur tsconfig', path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'));
   configs.push({
     input: path.resolve(srcDir, entry),
     output: outputs,
@@ -83,7 +83,7 @@ export function createPackageConfig({
       replace(replaceOpts),
       resolve(),
       typescript({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
       }),
       terser({
         format: {
@@ -117,7 +117,7 @@ export function createPackageConfig({
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
+          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
           compilerOptions: {
             target: 'es5',
           },
@@ -167,7 +167,7 @@ export function createPackageConfig({
       }),
       replace(replaceOpts),
       dts({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json'),
+        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
         compilerOptions: {
           composite: false,
         },

@@ -1,15 +1,28 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "stripInternal": true,
-    "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ktjs/core": ["packages/core/src/index.ts"],
+      "@ktjs/router": ["packages/router/src/main.ts"],
+      "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
+    }
   },
   "include": [],
-  "exclude": ["**/tests/**/*"]
+  "exclude": ["**/tests/**/*"],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/router" },
+    { "path": "./packages/shortcuts" },
+    { "path": "./packages/kt.js" }
+  ]
 }

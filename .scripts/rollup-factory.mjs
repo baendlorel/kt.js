@@ -12,9 +12,13 @@ import dts from 'rollup-plugin-dts';
 
 import { replaceOpts } from './replace.mjs';
 
+const underRoot = (/** @type {string[]} */ ...args) => {
+  return path.resolve(import.meta.dirname, '..', ...args);
+};
+
 const getTSConfigDir = (/** @type {string} */ packageDir) => {
-  const a = path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json');
-  const b = path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json');
+  const a = underRoot(packageDir, 'tsconfig.json');
+  const b = underRoot(packageDir, 'tsconfig.build.json');
   return existsSync(b) ? b : a;
 };
 
@@ -37,24 +41,43 @@ export function createPackageConfig({
   withIIFE = true,
   withLegacy = false,
 }) {
-  const srcDir = path.resolve(import.meta.dirname, '..', packageDir, 'src');
-  const distDir = path.resolve(import.meta.dirname, '..', packageDir, 'dist');
+  const srcDir = underRoot(packageDir, 'src');
+  const distDir = underRoot(packageDir, 'dist');
 
   const tsconfigDir = getTSConfigDir(packageDir);
-
   /**
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
    */
   const aliasOpts = {
     entries: [
       { find: /^@\//, replacement: srcDir + '/' },
-      { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
-      { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
+      { find: '@ktjs/core', replacement: underRoot('packages/core/src/index.ts') },
+      { find: '@ktjs/router', replacement: underRoot('packages/router/src/main.ts') },
       {
         find: '@ktjs/shortcuts',
-        replacement: path.resolve(import.meta.dirname, '..', 'packages/shortcuts/src/index.ts'),
+        replacement: underRoot('packages/shortcuts/src/index.ts'),
       },
     ],
+  };
+
+  /**
+   * @type {import('@rollup/plugin-terser').Options}
+   */
+  const terserOpts = {
+    format: {
+      comments: false,
+    },
+    compress: {
+      reduce_vars: true,
+      drop_console: true,
+      dead_code: true,
+      evaluate: true,
+    },
+    mangle: {
+      properties: {
+        regex: /^_/,
+      },
+    },
   };
 
   const externals = Object.keys(external);
@@ -89,25 +112,12 @@ export function createPackageConfig({
       alias(aliasOpts),
       replace(replaceOpts),
       resolve(),
-      typescript({
-        tsconfig: tsconfigDir,
-      }),
-      terser({
-        format: {
-          comments: false,
-        },
-        compress: {
-          reduce_vars: true,
-          drop_console: true,
-          dead_code: true,
-          evaluate: true,
-        },
-      }),
+      typescript({ tsconfig: tsconfigDir }),
+      terser(terserOpts),
     ],
     external: externals,
   });
 
-  console.log('configs[0].plugins', configs[0].plugins);
   // Legacy IIFE build (ES5)
   if (withLegacy) {
     configs.push({
@@ -130,22 +140,7 @@ export function createPackageConfig({
             target: 'es5',
           },
         }),
-        terser({
-          format: {
-            comments: false,
-          },
-          compress: {
-            reduce_vars: true,
-            drop_console: true,
-            dead_code: true,
-            evaluate: true,
-          },
-          mangle: {
-            properties: {
-              regex: /^_/,
-            },
-          },
-        }),
+        terser(terserOpts),
       ],
       external: externals,
     });
@@ -156,29 +151,9 @@ export function createPackageConfig({
     input: path.resolve(srcDir, entry),
     output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
     plugins: [
-      alias({
-        entries: [
-          { find: /^@\//, replacement: srcDir + '/' },
-          { find: '@ktjs/core', replacement: path.resolve(import.meta.dirname, '..', 'packages/core/src/index.ts') },
-          { find: '@ktjs/router', replacement: path.resolve(import.meta.dirname, '..', 'packages/router/src/main.ts') },
-          {
-            find: '@ktjs/shortcuts',
-            replacement: path.resolve(import.meta.dirname, '..', 'packages/shortcuts/src/index.ts'),
-          },
-          // Resolve shared package internal @/ alias for type declarations
-          {
-            find: /^@\/global\.js$/,
-            replacement: path.resolve(import.meta.dirname, '..', 'packages/shared/types/global.d.ts'),
-          },
-        ],
-      }),
+      alias(aliasOpts),
       replace(replaceOpts),
-      dts({
-        tsconfig: tsconfigDir,
-        compilerOptions: {
-          composite: false,
-        },
-      }),
+      dts({ tsconfig: tsconfigDir, compilerOptions: { composite: false } }),
     ],
     external: externals,
   });

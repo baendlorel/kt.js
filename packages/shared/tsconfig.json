@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "rootDir": ".",
-    "baseUrl": ".",
-    "composite": true
-  },
-  "include": ["**/*.ts", "**/*.d.ts"]
-}

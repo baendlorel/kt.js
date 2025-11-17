@@ -1,7 +1,8 @@
-import type { HTMLTag, otherstring } from '@ktjs/shared';
-import { $h, $throw } from '@ktjs/shared';
-
+import type { HTMLTag, otherstring } from '@/types/global.js';
 import type { RawAttr, RawContent } from '@/types/h.js';
+
+import { $h } from '@/lib/dom.js';
+import { $throw } from '@/lib/error.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 

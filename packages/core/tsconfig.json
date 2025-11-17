@@ -7,10 +7,8 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@ktjs/shared": ["../shared/index.ts"] // share common folder
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"], // include tests
-  "references": [{ "path": "../shared" }] // share common folder
+  "include": ["src/**/*.ts"] // include tests
 }

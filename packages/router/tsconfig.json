@@ -8,10 +8,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@ktjs/shared": ["../shared/index.ts"],
       "@ktjs/core": ["../core/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "references": [{ "path": "../core" }, { "path": "../shared" }]
+  "references": [{ "path": "../core" }]
 }

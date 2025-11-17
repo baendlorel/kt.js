@@ -1,4 +1,4 @@
-import { HTMLTag, otherstring } from '../types/global.js';
+import type { HTMLTag, otherstring } from '../types/global.js';
 import { ktnull } from './consts.js';
 
 /**

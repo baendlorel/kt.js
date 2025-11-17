@@ -127,6 +127,7 @@ describe('h event handlers', () => {
       let contextElement: HTMLElement | null = null;
       const button = h('button', {
         '@click': function (this: HTMLElement) {
+          // eslint-disable-next-line @typescript-eslint/no-this-alias
           contextElement = this;
         },
       });

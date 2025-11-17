@@ -1,5 +1,6 @@
 // @ts-check
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 
 // plugins
 import typescript from '@rollup/plugin-typescript';
@@ -10,6 +11,12 @@ import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
 import { replaceOpts } from './replace.mjs';
+
+const getTSConfigDir = (/** @type {string} */ packageDir) => {
+  const a = path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json');
+  const b = path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.build.json');
+  return existsSync(b) ? b : a;
+};
 
 /**
  * Create rollup config for a package
@@ -32,6 +39,8 @@ export function createPackageConfig({
 }) {
   const srcDir = path.resolve(import.meta.dirname, '..', packageDir, 'src');
   const distDir = path.resolve(import.meta.dirname, '..', packageDir, 'dist');
+
+  const tsconfigDir = getTSConfigDir(packageDir);
 
   /**
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
@@ -82,7 +91,7 @@ export function createPackageConfig({
       replace(replaceOpts),
       resolve(),
       typescript({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+        tsconfig: tsconfigDir,
       }),
       terser({
         format: {
@@ -117,7 +126,7 @@ export function createPackageConfig({
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+          tsconfig: tsconfigDir,
           compilerOptions: {
             target: 'es5',
           },
@@ -167,7 +176,7 @@ export function createPackageConfig({
       }),
       replace(replaceOpts),
       dts({
-        tsconfig: path.resolve(import.meta.dirname, '..', packageDir, 'tsconfig.json'),
+        tsconfig: tsconfigDir,
         compilerOptions: {
           composite: false,
         },

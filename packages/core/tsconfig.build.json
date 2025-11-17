@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "NodeNext",
@@ -10,5 +10,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"] // include tests
+  "include": ["src/**/*.ts"], // include tests
+  "exclude": ["tests/**/*.ts"]
 }

@@ -44,7 +44,7 @@ export function createPackageConfig({
   const srcDir = underRoot(packageDir, 'src');
   const distDir = underRoot(packageDir, 'dist');
 
-  const tsconfigDir = getTSConfigDir(packageDir);
+  const tsconfig = getTSConfigDir(packageDir);
   /**
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
    */
@@ -112,7 +112,7 @@ export function createPackageConfig({
       alias(aliasOpts),
       replace(replaceOpts),
       resolve(),
-      typescript({ tsconfig: tsconfigDir }),
+      typescript({ tsconfig, outputToFilesystem: true }),
       terser(terserOpts),
     ],
     external: externals,
@@ -135,7 +135,8 @@ export function createPackageConfig({
         replace(replaceOpts),
         resolve(),
         typescript({
-          tsconfig: tsconfigDir,
+          tsconfig,
+          outputToFilesystem: true,
           compilerOptions: {
             target: 'es5',
           },
@@ -150,11 +151,7 @@ export function createPackageConfig({
   configs.push({
     input: path.resolve(srcDir, entry),
     output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
-    plugins: [
-      alias(aliasOpts),
-      replace(replaceOpts),
-      dts({ tsconfig: tsconfigDir, compilerOptions: { composite: false } }),
-    ],
+    plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig, compilerOptions: { composite: false } })],
     external: externals,
   });
 

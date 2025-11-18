@@ -1,4 +1,4 @@
-import { $throw } from '@ktjs/shared';
+import { $throw } from '../../core/src/lib/index.js';
 
 import type { RouteConfig, RouteMatch } from '@/types/router.js';
 import { extractParams, normalizePath } from './utils.js';

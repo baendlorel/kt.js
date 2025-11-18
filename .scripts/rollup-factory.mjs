@@ -41,8 +41,8 @@ export function createPackageConfig({
   withIIFE = true,
   withLegacy = false,
 }) {
-  const srcDir = underRoot(packageDir, 'src');
-  const distDir = underRoot(packageDir, 'dist');
+  const src = underRoot(packageDir, 'src');
+  const dist = underRoot(packageDir, 'dist');
 
   const tsconfig = getTSConfigDir(packageDir);
   /**
@@ -50,13 +50,13 @@ export function createPackageConfig({
    */
   const aliasOpts = {
     entries: [
-      { find: /^@\//, replacement: srcDir + '/' },
-      { find: '@ktjs/core', replacement: underRoot('packages/core/src/index.ts') },
-      { find: '@ktjs/router', replacement: underRoot('packages/router/src/main.ts') },
-      {
-        find: '@ktjs/shortcuts',
-        replacement: underRoot('packages/shortcuts/src/index.ts'),
-      },
+      { find: /^@\//, replacement: src + '/' },
+      // { find: '@ktjs/core', replacement: underRoot('packages/core/src/index.ts') },
+      // { find: '@ktjs/router', replacement: underRoot('packages/router/src/main.ts') },
+      // {
+      //   find: '@ktjs/shortcuts',
+      //   replacement: underRoot('packages/shortcuts/src/index.ts'),
+      // },
     ],
   };
 
@@ -90,7 +90,7 @@ export function createPackageConfig({
   /** @type {import('rollup').OutputOptions[]} */
   const outputs = [
     {
-      file: path.resolve(distDir, 'index.mjs'),
+      file: path.resolve(dist, 'index.mjs'),
       format: 'esm',
       sourcemap: false,
     },
@@ -98,7 +98,7 @@ export function createPackageConfig({
 
   if (withIIFE) {
     outputs.push({
-      file: path.resolve(distDir, 'index.iife.js'),
+      file: path.resolve(dist, 'index.iife.js'),
       format: 'iife',
       name: globalName,
       sourcemap: false,
@@ -106,7 +106,7 @@ export function createPackageConfig({
   }
 
   configs.push({
-    input: path.resolve(srcDir, entry),
+    input: path.resolve(src, entry),
     output: outputs,
     plugins: [
       alias(aliasOpts),
@@ -121,10 +121,10 @@ export function createPackageConfig({
   // Legacy IIFE build (ES5)
   if (withLegacy) {
     configs.push({
-      input: path.resolve(srcDir, entry),
+      input: path.resolve(src, entry),
       output: [
         {
-          file: path.resolve(distDir, 'index.legacy.js'),
+          file: path.resolve(dist, 'index.legacy.js'),
           format: 'iife',
           name: globalName,
           sourcemap: false,
@@ -149,8 +149,8 @@ export function createPackageConfig({
 
   // Type declarations
   configs.push({
-    input: path.resolve(srcDir, entry),
-    output: [{ file: path.resolve(distDir, 'index.d.ts'), format: 'es' }],
+    input: path.resolve(src, entry),
+    output: [{ file: path.resolve(dist, 'index.d.ts'), format: 'es' }],
     plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig, compilerOptions: { composite: false } })],
     external: externals,
   });

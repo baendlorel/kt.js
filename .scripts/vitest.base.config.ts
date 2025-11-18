@@ -10,7 +10,6 @@ export const test: ViteUserConfig['test'] = {
 export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname) => {
   const cwd = process.cwd();
   const currentDirname = path.basename(dirname);
-  console.log('@ means', path.resolve(`packages/${currentDirname}/src/`));
   return {
     alias: {
       '@': path.join(cwd, `packages/${currentDirname}/src/`),

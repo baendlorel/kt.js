@@ -1,4 +1,4 @@
-import type { HTMLTag, otherstring } from './global.d.ts';
+import type { HTMLTag, otherstring } from '@ktjs/shared/types';
 
 export type HFunction = <T extends HTMLTag>(tag: T, attr?: RawAttr, content?: RawContent) => HTMLElementTagNameMap[T];
 export type RawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;

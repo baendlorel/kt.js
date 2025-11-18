@@ -1,4 +1,4 @@
-export { ktnull } from './lib/consts.js';
+export { ktnull } from '@ktjs/shared';
 
 export * from './h/index.js';
 

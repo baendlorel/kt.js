@@ -1,4 +1,4 @@
-import { $throw } from '../../core/src/lib/index.js';
+import { $throw } from '@ktjs/shared';
 
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';

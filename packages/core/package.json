@@ -31,6 +31,9 @@
     "url": "https://github.com/baendlorel/kt.js",
     "directory": "packages/core"
   },
+  "dependencies": {
+    "@ktjs/shared": "workspace:*"
+  },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "dev": "rollup -c rollup.config.mjs -w"

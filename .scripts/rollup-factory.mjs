@@ -49,15 +49,7 @@ export function createPackageConfig({
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
    */
   const aliasOpts = {
-    entries: [
-      { find: /^@\//, replacement: src + '/' },
-      // { find: '@ktjs/core', replacement: underRoot('packages/core/src/index.ts') },
-      // { find: '@ktjs/router', replacement: underRoot('packages/router/src/main.ts') },
-      // {
-      //   find: '@ktjs/shortcuts',
-      //   replacement: underRoot('packages/shortcuts/src/index.ts'),
-      // },
-    ],
+    entries: [{ find: /^@\//, replacement: src + '/' }],
   };
 
   /**
@@ -151,7 +143,7 @@ export function createPackageConfig({
   configs.push({
     input: path.resolve(src, entry),
     output: [{ file: path.resolve(dist, 'index.d.ts'), format: 'es' }],
-    plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig, compilerOptions: { composite: false } })],
+    plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig })],
     external: externals,
   });
 

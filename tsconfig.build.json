@@ -4,12 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "stripInternal": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
     "esModuleInterop": true,
     "strict": true,
-    "composite": true,
     "baseUrl": ".",
     "paths": {
       "@ktjs/core": ["packages/core/src/index.ts"],

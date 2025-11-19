@@ -1,7 +1,15 @@
-import { KTRuntime } from './types/runtime.js';
-
 import { $throw } from './lib/error.js';
 import { $defineProperties } from './lib/native.js';
+
+export interface KTRuntime {
+  throws: (message: string) => never;
+}
+
+declare global {
+  interface Window {
+    readonly __ktjs__: KTRuntime;
+  }
+}
 
 (() => {
   const __ktjs__: KTRuntime = Object.create(null);

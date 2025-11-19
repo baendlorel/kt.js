@@ -14,6 +14,7 @@ export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname)
     alias: {
       '@': path.join(cwd, `packages/${currentDirname}/src/`),
       '@tests': path.join(cwd, `packages/${currentDirname}/tests`),
+      '@ktjs/runtime': path.join(cwd, 'packages/core/src/runtime.ts'),
       '@ktjs/core': path.join(cwd, 'packages/core/src/index.ts'),
       '@ktjs/router': path.join(cwd, 'packages/router/src/main.ts'),
       '@ktjs/shortcuts': path.join(cwd, 'packages/shortcuts/src/index.ts'),

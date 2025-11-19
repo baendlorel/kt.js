@@ -1,4 +1,4 @@
-import '../../core/src/types/runtime.js';
+import '@ktjs/runtime';
 
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';

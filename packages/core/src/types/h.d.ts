@@ -75,4 +75,5 @@ type KPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `@${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
+// todo 这里要改成KT开头
 export type KAttribute = KBaseAttribute & KEventHandlersOrAttribute & KPrefixedEventHandlers;

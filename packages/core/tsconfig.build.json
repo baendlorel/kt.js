@@ -1,20 +1,10 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "composite": false,
-    "declaration": false,
-    "emitDeclarationOnly": false,
-    "declarationMap": false,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "module": "NodeNext", // Required for rollup plugin to work correctly with moduleResolution: NodeNext
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
-  },
-  "include": ["src/**/*.ts"], // include tests
-  "exclude": ["tests/**/*.ts"]
+  }
 }

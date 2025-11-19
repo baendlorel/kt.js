@@ -3,6 +3,13 @@
     "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+
+    // composite false
+    "composite": false,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "declarationMap": false,
+
     "stripInternal": true,
     "esModuleInterop": true,
     "strict": true,
@@ -13,7 +20,7 @@
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
     }
   },
-  "include": [],
+  "include": ["**/src/**/*.ts"],
   "exclude": ["**/tests/**/*"],
   "references": [
     { "path": "./packages/core" },

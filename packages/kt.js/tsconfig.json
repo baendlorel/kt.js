@@ -11,6 +11,5 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../core" }, { "path": "../router" }, { "path": "../shortcuts" }]
+  "include": ["src/**/*.ts"]
 }

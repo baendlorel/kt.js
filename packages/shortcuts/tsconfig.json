@@ -1,17 +1,10 @@
 {
-  "extends": "../../tsconfig.build.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "./dist",
-    "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["../core/src/*"],
-      "@ktjs/core": ["../core/src/index.ts"]
+      // "@ktjs/types/*": ["../core/src/types/*"]
     }
-  },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../core" }]
+  }
 }

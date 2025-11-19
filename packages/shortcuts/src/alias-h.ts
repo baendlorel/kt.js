@@ -1,5 +1,5 @@
 import type { KTRawAttr, KTRawContent } from '@ktjs/core';
-import type { HTMLTag } from '@/types/global.js';
+import type { HTMLTag } from '@ktjs/types/global.d.ts';
 
 import { h } from '@ktjs/core';
 

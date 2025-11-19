@@ -3,18 +3,18 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "declaration": true,
+    "composite": true,
     "esModuleInterop": true,
     "strict": true,
-    "composite": true,
     "baseUrl": ".",
     "paths": {
+      "@ktjs/types/*": ["packages/core/src/types/*"], // not working
       "@ktjs/core": ["packages/core/src/index.ts"],
       "@ktjs/router": ["packages/router/src/main.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
     }
   },
-  "include": [],
+  "include": ["**/src/**/*.ts"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/router" },

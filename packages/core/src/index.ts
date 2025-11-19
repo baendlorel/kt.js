@@ -8,4 +8,3 @@ export * from './enhance/specialize.js';
 
 export type { KTRawContent, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';
 export type { KTRuntime } from './runtime.js';
-export type { HTMLTag, otherstring } from './types/global.js';

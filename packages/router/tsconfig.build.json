@@ -1,15 +1,10 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "module": "NodeNext",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
-  },
-  // todo 这里能否在配置文件工厂里统一改成这样
-  "include": ["src/**/*.ts"],
-  "exclude": ["tests/**/*.ts"],
-  "references": [{ "path": "../core" }]
+  }
 }

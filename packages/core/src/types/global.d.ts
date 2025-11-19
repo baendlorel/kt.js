@@ -3,6 +3,7 @@ export type otherstring = string & {};
 /**
  * Normal HTML tags like `div`, `span`, `a`, etc.
  */
+// & 这里也要允许其他字符串
 export type HTMLTag = keyof HTMLElementTagNameMap;
 
 /**

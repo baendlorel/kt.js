@@ -4,7 +4,7 @@ import type { HTMLTag } from '@/types/global.js';
 import { h } from '@ktjs/core';
 
 export const aliasH = <T extends HTMLTag>(tag: T) => {
-  return function (attr?: KTRawAttr, content?: KTRawContent) {
+  return (attr?: KTRawAttr, content?: KTRawContent) => {
     return h(tag, attr, content);
   };
 };

@@ -4,8 +4,7 @@
     "module": "NodeNext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["../core/src/*"], // this is for declaration files in core(they are using @/lib/xxx, @/types/xxx) to be found correctly
-      "@ktjs/types/*": ["../core/src/types/*"]
+      "@/*": ["../core/src/*"] // this is for declaration files in core(they are using @/lib/xxx, @/types/xxx) to be found correctly
     }
   }
 }

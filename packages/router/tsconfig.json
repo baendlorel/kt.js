@@ -1,16 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
-  },
-  // todo 接下来要大胆归并、修改配置文件!
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "references": [{ "path": "../core" }]
+  }
 }

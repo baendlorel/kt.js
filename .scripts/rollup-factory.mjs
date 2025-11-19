@@ -28,8 +28,8 @@ const getTSConfigDir = (/** @type {string} */ packageDir) => {
  * @param {string} options.packageName - Package name (for iife global name)
  * @param {string} options.packageDir - Package directory relative to workspace root
  * @param {string} [options.entry='index.ts'] - Entry file name
- * @param {Record<string, string>} [options.external] - External dependencies
- * @param {boolean} [options.withIIFE=true] - Generate IIFE bundle
+ * @param {string[]} [options.external] - External dependencies
+ * @param {string} [options.iifeName=''] - Generate IIFE bundle
  * @param {boolean} [options.withLegacy=false] - Generate legacy version (ES5 IIFE only)
  * @returns {import('rollup').RollupOptions[]}
  */
@@ -37,10 +37,11 @@ export function createPackageConfig({
   packageName,
   packageDir,
   entry = 'index.ts',
-  external = {},
-  withIIFE = true,
+  external = [],
+  iifeName = '',
   withLegacy = false,
 }) {
+  const withIIFE = Boolean(iifeName);
   const src = underRoot(packageDir, 'src');
   const dist = underRoot(packageDir, 'dist');
 
@@ -72,9 +73,15 @@ export function createPackageConfig({
     },
   };
 
-  const externals = Object.keys(external);
-
-  const globalName = packageName.replace(/^@ktjs\//, 'kt');
+  // Create globals mapping for IIFE format
+  /**
+   * @type {Record<string, string>}
+   */
+  const globals = {
+    '@ktjs/core': '__ktjs_core__',
+    '@ktjs/router': '__ktjs_router__',
+    '@ktjs/shortcuts': '__ktjs_shortcuts__',
+  };
 
   const configs = [];
 
@@ -92,7 +99,8 @@ export function createPackageConfig({
     outputs.push({
       file: path.resolve(dist, 'index.iife.js'),
       format: 'iife',
-      name: globalName,
+      name: iifeName,
+      globals,
       sourcemap: false,
     });
   }
@@ -107,7 +115,7 @@ export function createPackageConfig({
       typescript({ tsconfig, outputToFilesystem: true }),
       terser(terserOpts),
     ],
-    external: externals,
+    external,
   });
 
   // Legacy IIFE build (ES5)
@@ -118,7 +126,8 @@ export function createPackageConfig({
         {
           file: path.resolve(dist, 'index.legacy.js'),
           format: 'iife',
-          name: globalName,
+          name: iifeName,
+          globals,
           sourcemap: false,
         },
       ],
@@ -135,7 +144,7 @@ export function createPackageConfig({
         }),
         terser(terserOpts),
       ],
-      external: externals,
+      external,
     });
   }
 
@@ -144,7 +153,7 @@ export function createPackageConfig({
     input: path.resolve(src, entry),
     output: [{ file: path.resolve(dist, 'index.d.ts'), format: 'es' }],
     plugins: [alias(aliasOpts), replace(replaceOpts), dts({ tsconfig })],
-    external: externals,
+    external,
   });
 
   return /** @type {import('rollup').RollupOptions[]} */ (configs);

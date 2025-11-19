@@ -5,6 +5,6 @@ export default createPackageConfig({
   packageName: '@ktjs/router',
   packageDir: 'packages/router',
   entry: 'main.ts',
-  withIIFE: true,
+  // iifeName: '__ktjs_router__',
   withLegacy: true,
 });

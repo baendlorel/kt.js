@@ -4,7 +4,7 @@ import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
 export default createPackageConfig({
   packageName: '@ktjs/shortcuts',
   packageDir: 'packages/shortcuts',
-  external: { '@ktjs/core': '@ktjs/core' },
-  withIIFE: true,
+  external: ['@ktjs/core'],
+  // iifeName: '__ktjs_shortcuts__',
   withLegacy: true,
 });

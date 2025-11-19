@@ -1,4 +1,4 @@
-import { $throw } from '../../core/src/lib/index.js';
+import '../../core/src/types/runtime.js';
 
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';
@@ -9,6 +9,8 @@ import { buildQuery, defaultHook, normalizePath, parseQuery, emplaceParams } fro
  * Create a new router instance
  */
 export const createRouter = (config: RouterConfig): Router => {
+  const throws: (message: string) => never = window.__ktjs__.throws;
+
   // # default configs
   const beforeEach = config.beforeEach ?? defaultHook;
   const afterEach = config.afterEach ?? (defaultHook as () => void);
@@ -113,14 +115,14 @@ export const createRouter = (config: RouterConfig): Router => {
     if (options.name) {
       targetRoute = findByName(options.name);
       if (!targetRoute) {
-        $throw(`Route not found: ${options.name}`);
+        throws(`Route not found: ${options.name}`);
       }
       targetPath = targetRoute.path;
     } else if (options.path) {
       targetPath = normalizePath(options.path);
       targetRoute = match(targetPath)?.route;
     } else {
-      $throw('Either path or name must be provided');
+      throws('Either path or name must be provided');
     }
 
     // Substitute params

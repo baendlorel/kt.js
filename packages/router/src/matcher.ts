@@ -1,4 +1,4 @@
-import { $throw } from '../../core/src/lib/index.js';
+import '../../core/src/types/runtime.js';
 
 import type { RouteConfig, RouteMatch } from '@/types/router.js';
 import { extractParams, normalizePath } from './utils.js';
@@ -13,7 +13,7 @@ export const createMatcher = (routes: RouteConfig[]) => {
     const route = routes[i];
     if (route.name !== undefined) {
       if (route.name in nameMap) {
-        $throw(`Duplicate route name detected: '${route.name}'`);
+        window.__ktjs__.throws(`Duplicate route name detected: '${route.name}'`);
       }
       nameMap[route.name] = route;
     }

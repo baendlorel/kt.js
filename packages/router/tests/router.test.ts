@@ -1,3 +1,4 @@
+import '@ktjs/runtime';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createRouter } from '../src/index.js';
 import { GuardLevel } from '../src/consts.js';

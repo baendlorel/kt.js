@@ -8,10 +8,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@ktjs/core/*": ["../core/src/*"],
       "@ktjs/runtime": ["../core/src/runtime.js"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "../core/src/runtime.js"],
   "references": [{ "path": "../core" }]
 }

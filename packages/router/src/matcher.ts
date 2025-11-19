@@ -1,5 +1,3 @@
-import '@ktjs/runtime';
-
 import type { RouteConfig, RouteMatch } from '@/types/router.js';
 import { extractParams, normalizePath } from './utils.js';
 

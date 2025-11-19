@@ -32,7 +32,7 @@
 		"lint": "oxlint .",
 		"cover": "vitest --coverage",
 		"lines": "clear && find ./packages -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" \\) | xargs wc -l",
-		"clean": "pnpm --filter \"./packages/**\" exec rimraf dist"
+		"clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\""
 	},
 	"license": "MIT",
 	"devDependencies": {

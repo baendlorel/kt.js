@@ -294,3 +294,5 @@ export const createRouter = (config: RouterConfig): Router => {
     },
   };
 };
+
+export { GuardLevel };

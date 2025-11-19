@@ -1,8 +1,8 @@
 import type { HTMLTag, otherstring } from './global.d.ts';
 
-export type HFunction = <T extends HTMLTag>(tag: T, attr?: RawAttr, content?: RawContent) => HTMLElementTagNameMap[T];
-export type RawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
-export type RawAttr = KAttribute | string;
+export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
+export type KTRawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
+export type KTRawAttr = KTAttribute | string;
 
 /**
  * Event handler type for DOM events
@@ -12,7 +12,7 @@ export type EventHandler<T extends Event = Event> = (this: HTMLElement, ev: T) =
 /**
  * Used to create enhanced HTML elements
  */
-interface KBaseAttribute {
+interface KTBaseAttribute {
   [k: string]: any;
 
   id?: string;
@@ -63,7 +63,7 @@ interface KBaseAttribute {
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }
 
-type KEventHandlersOrAttribute = {
+type KTEventHandlersOrAttribute = {
   [EventName in keyof HTMLElementEventMap]?: ((ev: HTMLElementEventMap[EventName]) => void) | string;
 };
 
@@ -71,9 +71,8 @@ type KEventHandlersOrAttribute = {
  * Event handlers with @ prefix (e.g., @click, @input)
  * When key starts with @, it's always registered as an event handler
  */
-type KPrefixedEventHandlers = {
+type KTPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `@${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-// todo 这里要改成KT开头
-export type KAttribute = KBaseAttribute & KEventHandlersOrAttribute & KPrefixedEventHandlers;
+export type KTAttribute = KTBaseAttribute & KTEventHandlersOrAttribute & KTPrefixedEventHandlers;

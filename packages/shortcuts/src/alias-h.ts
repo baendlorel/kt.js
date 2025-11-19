@@ -1,10 +1,10 @@
 import type { HTMLTag } from '@/types/global.js';
-import type { RawAttr, RawContent } from '@ktjs/core';
+import type { KTRawAttr, KTRawContent } from '@ktjs/core';
 
 import { h } from '@ktjs/core';
 
-export const aliasH = function <T extends HTMLTag>(tag: T) {
-  return function (attr?: RawAttr, content?: RawContent) {
+export const aliasH = <T extends HTMLTag>(tag: T) => {
+  return function (attr?: KTRawAttr, content?: KTRawContent) {
     return h(tag, attr, content);
   };
 };

@@ -1,5 +1,5 @@
 import type { HTMLTag, otherstring } from '@/types/global.js';
-import type { RawAttr, RawContent } from '@/types/h.js';
+import type { KTRawAttr, KTRawContent } from '@/types/h.js';
 
 import { $h } from '@/lib/dom.js';
 import { $throw } from '@/lib/error.js';
@@ -15,7 +15,7 @@ type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagN
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
  */
-export const h = <T extends HTMLTag>(tag: T, attr: RawAttr = '', content: RawContent = ''): HTML<T> => {
+export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRawContent = ''): HTML<T> => {
   if (typeof tag !== 'string') {
     $throw('__func__ tagName must be a string.');
   }

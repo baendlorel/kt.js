@@ -1,4 +1,4 @@
-import type { RawAttr, KAttribute } from '@/types/h.js';
+import type { KTRawAttr, KTAttribute } from '@/types/h.js';
 import { $throw, $keys, $setAttr, $on } from '@/lib/index.js';
 
 function booleanHandler(element: HTMLElement, key: string, value: any) {
@@ -48,7 +48,7 @@ const defaultHandler = function (element: HTMLElement, key: string, value: any) 
   return $setAttr.call(element, key, value);
 };
 
-function attrIsObject(element: HTMLElement, attr: KAttribute) {
+function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   const classValue = attr.class;
   const style = attr.style;
   if (classValue !== undefined) {
@@ -67,7 +67,7 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
     delete attr.style;
   }
 
-  const keys = $keys(attr) as Array<keyof KAttribute & string>;
+  const keys = $keys(attr) as Array<keyof KTAttribute & string>;
   for (let i = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
     const o = attr[key];
@@ -94,11 +94,11 @@ function attrIsObject(element: HTMLElement, attr: KAttribute) {
   }
 }
 
-export function applyAttr(element: HTMLElement, attr: RawAttr) {
+export function applyAttr(element: HTMLElement, attr: KTRawAttr) {
   if (typeof attr === 'string') {
     element.className = attr;
   } else if (typeof attr === 'object' && attr !== null) {
-    attrIsObject(element, attr as KAttribute);
+    attrIsObject(element, attr as KTAttribute);
   } else {
     $throw('__func__ attr must be an object.');
   }

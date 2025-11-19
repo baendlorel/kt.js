@@ -3,13 +3,11 @@
   "version": "0.5.0",
   "description": "Router for kt.js - client-side routing with navigation guards",
   "type": "module",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
     "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs",
     "default": "./dist/index.mjs"
   },
   "files": [

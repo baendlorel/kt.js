@@ -7,10 +7,9 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@ktjs/runtime": ["../core/src/runtime.js"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "../core/src/runtime.js"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   "references": [{ "path": "../core" }]
 }

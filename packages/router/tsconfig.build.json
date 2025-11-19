@@ -7,9 +7,12 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@ktjs/runtime": ["../core/src/runtime.js"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  // todo 这里能否在配置文件工厂里统一改成这样
+  "include": ["src/**/*.ts"],
+  "exclude": ["tests/**/*.ts"],
   "references": [{ "path": "../core" }]
 }

@@ -1,3 +1,4 @@
+import type {} from '@ktjs/runtime';
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';

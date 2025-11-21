@@ -21,6 +21,7 @@ export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRa
     $throw('__func__ tagName must be a string.');
   }
 
+  // todo 是否考虑不要缓存document方法了？
   // * start creating the element
   const element = $h(tag) as HTML<T>;
 

@@ -3,6 +3,10 @@
  */
 export const defaultHook = (): boolean => true;
 
+export const throws: (message: string) => never = (m) => {
+  throw new Error(`@ktjs/router: ${m}`);
+};
+
 export const normalizePath = (...paths: string[]) => {
   const p = paths
     .map((p) => p.split('/'))

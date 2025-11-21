@@ -1,5 +1,5 @@
 import type { KTRawAttr } from '@ktjs/core';
-import { KTAttribute } from '@/types/h.js';
+import type { KTAttribute } from '@/types/h.js';
 
 /**
  * Wrap `h`(or its shortcuts) with default attributes.

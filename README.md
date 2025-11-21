@@ -36,17 +36,30 @@ pnpm add @ktjs/shortcuts
 
 As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.
 
-KT.js follows one rule: full controll of dom and avoid unless repainting.
+KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
 
-## Current Core Features
+## Key Features
 
-- **`h` function**: and its aliases
-- **Router**:
-  - Auto-adapt to environment: uses async navigation guards when `Promise` is available, falls back to synchronous mode otherwise
-- **Full ES5 compatibility**: works in IE9+ and other legacy browsers
+- **Monorepo Architecture**: Modular packages that can be installed independently or together
+- **Tiny Bundle Size**: Minimal runtime overhead with aggressive tree-shaking
+- **`h` function**: Create DOM elements with a simple, flexible API
+  - Shortcut functions for all HTML elements (`div`, `span`, `button`, etc.)
+  - Event handlers with `@<eventName>` syntax or function attributes
+  - Full TypeScript support with intelligent type inference
+- **Client-Side Router**:
+  - Hash-based routing with dynamic parameters
+  - Navigation guards with async/sync auto-adaptation
+  - Query string parsing and route matching
+  - Minimal footprint and zero dependencies
+- **Shortcuts & Utilities**:
+  - `withDefaults`: Wrap element creation functions with default properties
+  - Convenient shorthand functions for common operations
+  - Form helpers and layout utilities
+- **Full ES5 Compatibility**: Works in IE9+ and all modern browsers
   - Transpiled to ES5 with no modern syntax
-  - Optional minimal Promise polyfill included for older environments
-- **ktnull**: a special value representing "null", used for filtering. Since native DOM APIs do not ignore `undefined` or `null`, this feature is provided to maintain native behavior while enhancing usability.
+  - Optional minimal Promise polyfill for older environments
+- **`ktnull`**: A special value for filtering null/undefined while preserving native DOM behavior
+- **Shared Runtime**: Efficient code sharing across packages with zero overhead
 
 ## Getting started
 
@@ -99,35 +112,62 @@ If you give a function in attributes, it will be treated as an event listener, a
 const button = btn(
   {
     click: () => alert('Clicked!'),
-    dblclick:'22',
-    '@dblclick': function trueHandler(){...}
+    dblclick: '22',
+    '@dblclick': function trueHandler() {
+      /* ... */
+    },
   },
-  'Click me');
+  'Click me'
+);
 
-// this equals
+// This is equivalent to:
 const button = btn(undefined, 'Click me');
 button.setAttribute('dblclick', '22');
 button.addEventListener('click', () => alert('Clicked!'));
-button.addEventListener('dblclick', function trueHandler(){...});
+button.addEventListener('dblclick', function trueHandler() {
+  /* ... */
+});
 ```
 
-Work with `@emotion/css`
+### Working with CSS-in-JS Libraries
+
+KT.js works seamlessly with CSS-in-JS libraries like `@emotion/css`:
 
 ```ts
 import { css } from '@emotion/css';
+import { h, div } from 'kt.js';
 
 const className = css`
   color: red;
   font-size: 20px;
 `;
 
+// Pass class name as attribute
 h('div', { class: className }, 'Styled text');
-h('div', className, 'Styled text');
+
+// Or as the first string argument
+div(className, 'Styled text');
+```
+
+### Using Shortcuts with Default Values
+
+The `withDefaults` function allows you to create element factories with predefined properties:
+
+```ts
+import { withDefaults, div, button } from 'kt.js';
+
+// Create a styled div factory
+const card = withDefaults(div, { class: 'card' });
+const blueCard = withDefaults(card, { style: 'background: blue' });
+
+// Use them
+const myCard = card('card-body', 'Content'); // <div class="card"><div class="card-body">Content</div></div>
+const myBlueCard = blueCard('title', 'Blue!'); // <div class="card" style="background: blue"><div class="title">Blue!</div></div>
 ```
 
 ## Router
 
-KT.js includes a lightweight client-side router (hash-based):
+KT.js includes a powerful yet lightweight client-side router:
 
 ```ts
 import { createRouter, div, h1 } from 'kt.js';
@@ -136,48 +176,65 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'home',
       handler: () => div({}, [h1({}, 'Home Page')]),
     },
     {
       path: '/user/:id',
+      name: 'user',
       handler: (ctx) => div({}, [h1({}, `User ${ctx.params.id}`)]),
+      beforeEnter: (to, from) => {
+        // Route-specific guard
+        console.log('Entering user page');
+        return true;
+      },
     },
   ],
   container: document.getElementById('app'),
   beforeEach: async (to, from) => {
-    // Navigation guard - return false to block navigation
-    console.log('navigating to:', to.path);
+    // Global navigation guard - return false to block navigation
+    console.log('Navigating to:', to.path);
     return true;
   },
   afterEach: (to) => {
     // Called after successful navigation
-    document.title = to.path;
+    document.title = to.name || to.path;
   },
   onError: (error) => {
     console.error('Router error:', error);
   },
 });
 
+// Start the router
 router.start();
 
 // Navigate programmatically
 router.push('/user/123');
 router.push('/user/456?page=2');
 
+// Navigate by route name
+router.push({ name: 'user', params: { id: '789' } });
+
 // Get current route
 const current = router.current();
 console.log(current?.path, current?.params, current?.query);
 ```
 
-**Features:**
+### Router Features
 
-- Hash-based routing (`#/path`)
-- Dynamic route parameters (`/user/:id`)
-- Query string parsing (`?key=value`)
-- Async navigation guards (`beforeEach`) - automatically disabled in non-Promise environments
-- Lifecycle hooks (`afterEach`)
-- Error handling (`onError`)
-- Minimal footprint
+- **Hash-based Routing**: Uses URL hash for client-side navigation (`#/path`)
+- **Dynamic Parameters**: Support for dynamic route segments (`/user/:id`)
+- **Query Strings**: Automatic parsing of query parameters (`?key=value`)
+- **Named Routes**: Navigate using route names instead of paths
+- **Navigation Guards**:
+  - `beforeEach`: Global guard before navigation
+  - `beforeEnter`: Per-route guard
+  - `afterEach`: Global hook after navigation
+  - Async support with automatic sync fallback for non-Promise environments
+  - `GuardLevel` for fine-grained control over guard execution
+- **Error Handling**: `onError` callback for handling navigation errors
+- **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
+- **Zero Dependencies**: Fully self-contained router implementation
 
 ## `ktnull`
 

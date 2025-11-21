@@ -1,13 +1,104 @@
 # Change Log 🕒
 
-## 0.5.x 2025-11-08
+## 0.5.x 2025-11-08 ~ 2025-11-22
 
-- Rewrite `Router`
-- Add `@<eventName>` at `h` function's attribute argument. `@<eventName>` like `@click` will be treated as event handler to avoid some conflicts with existing attributes.
+### Major Features
 
-- Fix the problem that the passed `attr.class` is not properly restored
+- **Monorepo Architecture**: Restructured the project into a monorepo using pnpm workspaces with multiple packages:
+  - `@ktjs/core`: Core DOM manipulation utilities
+  - `@ktjs/router`: Client-side routing
+  - `@ktjs/shortcuts`: Convenient shortcut functions
+  - `kt.js`: Main entry package that re-exports all functionality
 
-- Fix problems of `attr.style` with type `object` causing invalid keys being set on `element.style`
+- **Router Rewrite**: Completely rewrote the router with improved architecture
+  - Function-style matcher implementation
+  - Async/await support with automatic fallback to sync mode
+  - Improved navigation guards with `GuardLevel` enum (using bitwise operations)
+  - Distinguished `RawRouteConfig` and `RouteConfig` for better type safety
+  - Optimized route matching and parameter substitution (`emplaceParams`)
+  - Enhanced path normalization and route flattening
+  - Reduced code duplication by extracting `navigatePrepare` logic
+
+- **Runtime Mechanism**: Introduced a shared runtime system (`@ktjs/runtime`)
+  - Enables sharing of common functions like `throws` across packages
+  - Smart module resolution through path aliases
+  - No import statements in build output for cleaner bundles
+
+- **Enhanced Shortcuts Package**:
+  - Added `withDefaults` function for wrapping `h` or alias functions with default properties
+  - Added `aliasH` to simplify creating h function aliases
+  - Supports `$defines` property for defining default values
+  - Proper type inference for both `h` and alias variants
+
+- **Build System Improvements**:
+  - Created unified Rollup configuration factory
+  - Removed unnecessary `external` and `cjs` configurations
+  - Simplified IIFE naming and globals mapping
+  - Added `clean` command to remove all build artifacts and caches
+  - Proper handling of `runtime.ts` in build process
+
+- **Attribute Enhancements**:
+  - Added `kt` prefix to all special attributes (`ktattr`, `ktcontent`)
+  - `@<eventName>` syntax for event handlers (e.g., `@click`) to avoid conflicts with existing attributes
+  - Function values in attributes are automatically treated as event handlers
+  - Improved type hints for input element `type` property while preserving string compatibility
+  - Complete event type annotations for better IDE autocomplete
+
+- **Content System**:
+  - Enhanced `ktnull` implementation - returns empty string for toString methods to avoid DOM node creation overhead
+  - Better handling of content arrays with mixed types
+  - Improved append operations with native DOM methods
+
+### Bug Fixes
+
+- Fixed `attr.class` not being properly restored in some cases
+- Fixed `attr.style` with object type causing invalid keys being set on `element.style`
+- Fixed global runtime `kt` not found in router's `index.ts`
+- Fixed tests and build configuration errors and warnings
+- Fixed type resolution issues in `tests/` folders - non-repo types were incorrectly typed as `any`
+- Fixed route matcher import issues after shared module refactoring
+- Fixed `normalizeParams` regex errors
+- Fixed `ktnull` element filtering in append operations
+
+### Development Experience
+
+- **Testing Infrastructure**:
+  - Proper monorepo test configuration with Vitest
+  - Each package has its own `vitest.config.ts`
+  - Global test files now properly included in root `tsconfig.json`
+  - `@ktjs/runtime` alias resolution in test environment
+  - All existing tests passing
+
+- **Linting & Code Quality**:
+  - Stricter ESLint rules with upgraded oxlint
+  - Consistent code formatting (if statements now require braces)
+  - Removed unnecessary `any` types in favor of proper type annotations
+  - Added type imports with `import type` for better tree-shaking
+  - Converted to arrow functions for consistency
+
+- **Developer Tools**:
+  - Added example HTML file for quick testing
+  - Better error messages with `$throw` utility
+  - Cached commonly used native methods for performance
+  - Symbol-based private properties to avoid naming conflicts
+
+### Performance Optimizations
+
+- Cached `document` and native DOM methods
+- Reduced repeated branch evaluations
+- Optimized route matching with pre-flattened routes
+- Used `push` + `reverse` instead of `unshift` for better performance
+- Minimized object creation in hot paths
+- Terser minification enabled for smaller bundles
+
+### Breaking Changes
+
+- Removed `shared` package, merged into `@ktjs/core`
+- Package naming changed from `@ktjs` to individual package names under `@ktjs/` scope
+- `throws` renamed to `$throw` for consistency with other shared utilities
+- `substituteParams` renamed to `emplaceParams`
+- `silentLevel` renamed to `GuardLevel` with new enum-based approach
+- Router configuration field changes for better clarity
 
 ## 0.4.x 2025-11-04
 

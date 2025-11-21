@@ -1,15 +1,13 @@
 import type {} from '@ktjs/core';
-import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from '@/types/router.js';
+import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { buildQuery, defaultHook, normalizePath, parseQuery, emplaceParams } from './utils.js';
+import { buildQuery, defaultHook, normalizePath, parseQuery, emplaceParams, throws } from './lib.js';
 
 /**
  * Create a new router instance
  */
 export const createRouter = (config: RouterConfig): Router => {
-  const throws: (message: string) => never = window.__ktjs__.throws;
-
   // # default configs
   const beforeEach = config.beforeEach ?? defaultHook;
   const afterEach = config.afterEach ?? (defaultHook as () => void);
@@ -121,7 +119,7 @@ export const createRouter = (config: RouterConfig): Router => {
       targetPath = normalizePath(options.path);
       targetRoute = match(targetPath)?.route;
     } else {
-      throws('Either path or name must be provided');
+      throws(`Either path or name must be provided`);
     }
 
     // Substitute params

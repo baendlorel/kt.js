@@ -13,7 +13,7 @@
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
     }
   },
-  "include": ["**/src/**/*.ts"],
+  "include": ["**/src/**/*.ts", "**/tests/**/*.ts"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/router" },

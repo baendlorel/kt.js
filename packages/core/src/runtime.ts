@@ -3,6 +3,7 @@ import { $defines } from './lib/native.js';
 
 export interface KTRuntime {
   throws: (message: string) => never;
+  defines: <T>(o: T, properties: PropertyDescriptorMap & ThisType<any>) => T;
 }
 
 declare global {
@@ -17,6 +18,7 @@ declare global {
   // & We can add new functions when we need more
   $defines(__ktjs__, {
     throws: { value: $throw, enumerable: true },
+    defines: { value: $defines, enumerable: true },
   });
 
   $defines(window, { __ktjs__: { value: __ktjs__, enumerable: true } });

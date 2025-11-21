@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["../core/src/*"]
+      "@/*": ["../core/src/*"],
+      "@ktjs/core": ["../core/src/index.ts"]
     }
   }
 }

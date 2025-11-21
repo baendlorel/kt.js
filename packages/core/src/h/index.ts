@@ -5,6 +5,7 @@ import { $h } from '@/lib/dom.js';
 import { $throw } from '@/lib/error.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
+import { $defines } from '@/lib/native.js';
 
 type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
 
@@ -29,3 +30,5 @@ export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRa
 
   return element;
 };
+
+$defines(h, { __ktjs_h__: { value: 'h' } });

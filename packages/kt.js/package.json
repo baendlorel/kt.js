@@ -31,8 +31,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@ktjs/core": "workspace:*",
-    "@ktjs/shortcuts": "workspace:*"
+    "@ktjs/core": "workspace:^*",
+    "@ktjs/shortcuts": "workspace:^*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

@@ -15,17 +15,17 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@ktjs/core": ["packages/core/src/index.ts"],
-      "@ktjs/router": ["packages/router/src/main.ts"],
-      "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"]
+      "@ktjs/core": ["../packages/core/src/index.ts"],
+      "@ktjs/router": ["../packages/router/src/main.ts"],
+      "@ktjs/shortcuts": ["../packages/shortcuts/src/index.ts"]
     }
   },
-  "include": ["**/src/**/*.ts"],
-  "exclude": ["**/tests/**/*"],
+  "include": ["../packages/**/src/**/*.ts"],
+  "exclude": ["../packages/**/tests/**/*"],
   "references": [
-    { "path": "./packages/core" },
-    { "path": "./packages/router" },
-    { "path": "./packages/shortcuts" },
-    { "path": "./packages/kt.js" }
+    { "path": "../packages/core" },
+    { "path": "../packages/router" },
+    { "path": "../packages/shortcuts" },
+    { "path": "../packages/kt.js" }
   ]
 }

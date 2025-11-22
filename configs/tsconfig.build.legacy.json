@@ -10,6 +10,6 @@
     "declarationMap": true,
     "emitDeclarationOnly": true
   },
-  "include": [],
-  "exclude": ["**/tests/**/*"]
+  "include": ["../packages/**/src/**/*.ts"],
+  "exclude": ["../packages/**/tests/**/*"]
 }

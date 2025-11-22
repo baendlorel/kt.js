@@ -16,7 +16,7 @@ Convenient shortcut functions for common DOM operations in KT.js.
   - Pre-configured form controls
   - Input type helpers
 - **Layout Helpers**: Common layout patterns and containers
-- **`withDefaults`**: Create element factories with default properties (not exported yet, use internal implementation)
+- **`withDefaults`**: Create element factories with default properties
   - Works with both `h` function and shortcut functions
   - Supports nested defaults (defaults on top of defaults)
   - Full type inference for all properties
@@ -27,7 +27,6 @@ Convenient shortcut functions for common DOM operations in KT.js.
 pnpm add @ktjs/shortcuts @ktjs/core
 ```
 
-**Note:** `withDefaults` is not currently exported from this package. The shortcuts are available for direct use.
 
 ## Basic Usage
 

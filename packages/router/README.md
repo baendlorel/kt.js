@@ -30,7 +30,7 @@ Client-side router with navigation guards for KT.js.
   - Query string parameters (`query`)
 - **Error Handling**: Comprehensive error handling with `onError` callback
 - **Type-Safe**: Full TypeScript support with intelligent type inference
-- **Zero Dependencies**: Fully self-contained implementation (does **not** require `@ktjs/core`)
+- **Zero Dependencies**: Fully self-contained implementation (does **not** require `@ktjs/core` for runtime, only for TypeScript types)
 - **ES5 Compatible**: Works in IE9+ and all modern browsers
 
 ## Installation

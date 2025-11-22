@@ -225,7 +225,7 @@ console.log(router.current?.path, router.current?.params, router.current?.query)
   - `GuardLevel` for fine-grained control over guard execution
 - **Error Handling**: `onError` and `onNotFound` callbacks
 - **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
-- **Zero Dependencies**: Fully self-contained router implementation
+- **Zero Dependencies**: Fully self-contained router implementation (does not require `@ktjs/core` for runtime, only for TypeScript types)
 - **Pure Routing**: No rendering logic - you control the DOM
 
 ## `ktnull`

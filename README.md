@@ -1,7 +1,8 @@
-# KT.js
+# kt.js v0.5.x
 
-[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
-[![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
+<img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
+
+[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js) [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
 [CHANGLOG✨](CHANGELOG.md)
 
@@ -27,9 +28,9 @@ You can install the full package or individual packages as needed:
 pnpm add kt.js
 
 # Or install individual packages
-pnpm add @ktjs/core
-pnpm add @ktjs/router
-pnpm add @ktjs/shortcuts
+pnpm add @ktjs/core  # indepentent package
+pnpm add @ktjs/router # indepentent package
+pnpm add @ktjs/shortcuts # replies on core
 ```
 
 ## Philosophy
@@ -62,22 +63,6 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 - **Shared Runtime**: Efficient code sharing across packages with zero overhead
 
 ## Getting started
-
-### Using IIFE (direct browser usage)
-
-KT.js provides an IIFE build that can be included directly in HTML:
-
-```html
-<script src="https://unpkg.com/kt.js@0.3.0/dist/index.iife.js"></script>
-<script>
-  // kt is available globally
-  const { h, div } = kt;
-  const app = div('container', 'Hello World');
-  document.body.appendChild(app);
-</script>
-```
-
-### Using ES Modules
 
 Install via package managers:
 
@@ -238,26 +223,19 @@ console.log(current?.path, current?.params, current?.query);
 
 ## `ktnull`
 
-`ktnull` is an internal falsy value. It is assigned by `Object.freeze(Object.create(null))`.
+`ktnull`, assigned by `Object.create(null)`, is a falsy value.
 It is used for filtering, you can do like this:
-
-> Since `ktnull` is an empty object, it can be used on the 2nd argument position of `h` or the 1st position of `div`, representing attributes.
 
 ```ts
 import { div, ktnull } from 'kt.js';
-const list = div(ktnull, [
-  div(ktnull, 'Item 1'),
-  someCondition ? div(ktnull, 'item 1.5') : ktnull,
-  div(ktnull, 'Item 2'),
-  undefined,
-]);
+const list = div('', [false ? div('', 'item 1') : ktnull, div('', 'Item 2'), undefined]);
 ```
 
 Then it will create:
 
 ```html
 <div>
-  <div>Item 1</div>
+  <!-- there won't be <div>Item 1</div> -->
   <div>Item 2</div>
   undefined
 </div>
@@ -269,24 +247,12 @@ KT.js is transpiled to ES5 and works in all modern browsers as well as legacy br
 
 ### Promise Polyfill
 
-For environments without native `Promise` support (like IE11 and below), KT.js provides a minimal Promise polyfill:
-
-```html
-<script src="https://unpkg.com/kt.js@0.3.0/dist/index.iife.js"></script>
-```
-
-Or when using module bundlers:
+For environments without native `Promise` support (like IE).
 
 ```js
 import 'some promise polyfill'; // Will fallback to sync version if Promise is not available
 import { h, div, createRouter } from 'kt.js';
 ```
-
-**Note:** The Router will work without Promise support, but navigation guards (`beforeEach`) will run synchronously and cannot use async/await patterns.
-
-## Notes
-
-- `call`, `apply` on `Function.prototype` is trusted.
 
 ## License
 

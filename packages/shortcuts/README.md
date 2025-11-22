@@ -1,5 +1,9 @@
 # @ktjs/shortcuts
 
+<img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
+
+> 📦 Part of [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md) - A simple and easy-to-use web framework that never re-renders.
+
 Convenient shortcut functions for common DOM operations in KT.js.
 
 ## Overview
@@ -26,7 +30,6 @@ Convenient shortcut functions for common DOM operations in KT.js.
 ```bash
 pnpm add @ktjs/shortcuts @ktjs/core
 ```
-
 
 ## Basic Usage
 

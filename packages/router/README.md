@@ -1,5 +1,9 @@
 # @ktjs/router
 
+<img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
+
+> 📦 Part of [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md) - A simple and easy-to-use web framework that never re-renders.
+
 Client-side router with navigation guards for KT.js.
 
 ## Overview
@@ -108,7 +112,7 @@ const router = createRouter({
           console.log('Access denied');
           return false; // Block navigation
         }
-        
+
         // Render admin panel
         const app = document.getElementById('app')!;
         app.innerHTML = '';

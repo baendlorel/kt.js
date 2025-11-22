@@ -1,5 +1,9 @@
 # kt.js
 
+<img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
+
+> 📦 Main entry package - For full documentation, see [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md).
+
 Main entry package for KT.js framework - a simple and easy-to-use web framework that never re-renders.
 
 ## Overview
@@ -33,10 +37,7 @@ This package re-exports everything from:
 import { h, div, button, withDefaults } from 'kt.js';
 
 // Create elements
-const app = div('app', [
-  h('h1', {}, 'Welcome to KT.js'),
-  button({ '@click': () => alert('Hello!') }, 'Click me'),
-]);
+const app = div('app', [h('h1', {}, 'Welcome to KT.js'), button({ '@click': () => alert('Hello!') }, 'Click me')]);
 
 // Use shortcuts with defaults
 const card = withDefaults(div, { class: 'card' });

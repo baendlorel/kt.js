@@ -50,29 +50,41 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      handler: () => div({}, [h1({}, 'Home Page')]),
+      beforeEnter: (to) => {
+        // Render your home page
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(div({}, [h1({}, 'Home Page')]));
+      },
     },
     {
       path: '/about',
       name: 'about',
-      handler: () => div({}, [h1({}, 'About Page')]),
+      beforeEnter: (to) => {
+        // Render your about page
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(div({}, [h1({}, 'About Page')]));
+      },
     },
     {
       path: '/user/:id',
       name: 'user',
-      handler: (ctx) =>
-        div({}, [
-          h1({}, `User Profile`),
-          div({}, `User ID: ${ctx.params.id}`),
-          div({}, `Query: ${JSON.stringify(ctx.query)}`),
-        ]),
+      beforeEnter: (to) => {
+        // Render user profile with params
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(
+          div({}, [
+            h1({}, `User Profile`),
+            div({}, `User ID: ${to.params.id}`),
+            div({}, `Query: ${JSON.stringify(to.query)}`),
+          ])
+        );
+      },
     },
   ],
-  container: document.getElementById('app'),
 });
-
-// Start the router
-router.start();
 
 // Navigate programmatically
 router.push('/user/123?tab=profile');
@@ -90,14 +102,22 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      handler: () => div({}, 'Admin Panel'),
-      beforeEnter: (to, from) => {
-        // Route-specific guard
+      beforeEnter: (to) => {
+        // Route-specific guard and rendering
         if (!isAuthenticated()) {
           console.log('Access denied');
           return false; // Block navigation
         }
+        
+        // Render admin panel
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(div({}, 'Admin Panel'));
         return true;
+      },
+      after: (to) => {
+        // Called after this route is successfully entered
+        console.log('Admin page rendered');
       },
     },
   ],
@@ -113,7 +133,7 @@ const router = createRouter({
     // Or return true to allow
     return true;
   },
-  afterEach: (to) => {
+  afterEach: (to, from) => {
     // Called after successful navigation
     document.title = to.name || to.path;
 
@@ -123,7 +143,10 @@ const router = createRouter({
   onError: (error) => {
     console.error('Navigation error:', error);
   },
-  container: document.getElementById('app'),
+  onNotFound: (path) => {
+    console.log('404:', path);
+    // You can render a 404 page here
+  },
 });
 ```
 
@@ -143,7 +166,7 @@ router.push({
 ### Accessing Current Route
 
 ```typescript
-const current = router.current();
+const current = router.current;
 
 if (current) {
   console.log('Path:', current.path); // e.g., '/user/123'
@@ -164,22 +187,32 @@ Creates and returns a router instance.
 - `routes` (Array): Array of route configurations
   - `path` (string): Route path with optional dynamic segments (`:param`)
   - `name` (string, optional): Route name for named navigation
-  - `handler` (function): Function that returns the element to render
-  - `beforeEnter` (function, optional): Route-specific navigation guard
-- `container` (HTMLElement): DOM element to render route content
-- `beforeEach` (function, optional): Global guard before every navigation
-- `afterEach` (function, optional): Global hook after successful navigation
-- `onError` (function, optional): Error handler for navigation failures
+  - `meta` (object, optional): Metadata attached to the route
+  - `beforeEnter` (function, optional): Route-specific guard, receives `(to: RouteContext) => boolean | void | Promise<boolean | void>`
+  - `after` (function, optional): Route-specific hook after navigation
+  - `children` (array, optional): Nested child routes
+- `beforeEach` (function, optional): Global guard before every navigation, receives `(to: RouteContext, from: RouteContext | null)`
+- `afterEach` (function, optional): Global hook after successful navigation, receives `(to: RouteContext, from: RouteContext | null)`
+- `onNotFound` (function, optional): Handler for 404 errors, receives `(path: string)`
+- `onError` (function, optional): Error handler for navigation failures, receives `(error: Error, route?: RouteConfig)`
+- `asyncGuards` (boolean, optional): Enable async guards (default: `true`)
+
+**Router Instance Properties:**
+
+- `current` (property): Current active route context (or `null`)
+- `history` (property): Array of navigation history
 
 **Router Instance Methods:**
 
-- `start()`: Initialize the router and handle the current URL
 - `push(location)`: Navigate to a new location (string path or route object)
-- `current()`: Get current route information
+- `silentPush(location)`: Navigate without global guards (`beforeEach` guards)
+- `replace(location)`: Replace current history entry
+- `back()`: Navigate back in history
+- `forward()`: Navigate forward in history
 
-### Route Handler Context
+### Route Context
 
-Route handlers receive a context object with:
+Guards and hooks receive a `RouteContext` object with:
 
 - `params`: Object containing dynamic route parameters
 - `query`: Object containing query string parameters

@@ -106,21 +106,6 @@ const list = h(
 // Results in: <ul><li>Even: 2</li><li>Even: 4</li></ul>
 ```
 
-### Runtime Utilities
-
-The core package provides shared runtime utilities accessible via `@ktjs/runtime`:
-
-```typescript
-import { $throw } from '@ktjs/runtime';
-
-// Enhanced error throwing with better stack traces
-function validateInput(value: string) {
-  if (!value) {
-    $throw('Input cannot be empty');
-  }
-}
-```
-
 ## API Reference
 
 ### `h(tag, attributes?, content?)`

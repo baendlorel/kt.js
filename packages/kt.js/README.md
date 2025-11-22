@@ -20,46 +20,67 @@ This package re-exports everything from:
   - `h` function for creating elements
   - `ktnull` for conditional rendering
   - Runtime utilities and helpers
-- **`@ktjs/router`** - Client-side routing
-  - Hash-based routing
-  - Navigation guards (beforeEach, afterEach, beforeEnter)
-  - Dynamic route parameters and query strings
-  - Named routes
 - **`@ktjs/shortcuts`** - Convenient shortcuts
   - Element creation shortcuts (div, span, button, etc.)
   - `withDefaults` for creating element factories
   - Form helpers and layout utilities
 
+**Note:** The router (`@ktjs/router`) is a separate package and needs to be installed independently.
+
 ## Quick Start
 
 ```typescript
-import { h, div, button, createRouter, withDefaults } from 'kt.js';
+import { h, div, button, withDefaults } from 'kt.js';
 
 // Create elements
-const app = div('app', [h('h1', {}, 'Welcome to KT.js'), button({ '@click': () => alert('Hello!') }, 'Click me')]);
+const app = div('app', [
+  h('h1', {}, 'Welcome to KT.js'),
+  button({ '@click': () => alert('Hello!') }, 'Click me'),
+]);
 
 // Use shortcuts with defaults
 const card = withDefaults(div, { class: 'card' });
 const myCard = card('card-body', 'Card content');
 
-// Set up routing
+document.body.appendChild(app);
+```
+
+### Using with Router
+
+If you need routing, install `@ktjs/router` separately:
+
+```bash
+pnpm add @ktjs/router
+```
+
+```typescript
+import { div } from 'kt.js';
+import { createRouter } from '@ktjs/router';
+
 const router = createRouter({
   routes: [
     {
       path: '/',
       name: 'home',
-      handler: () => div({}, 'Home Page'),
+      beforeEnter: (to) => {
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(div({}, 'Home Page'));
+      },
     },
     {
       path: '/about',
       name: 'about',
-      handler: () => div({}, 'About Page'),
+      beforeEnter: (to) => {
+        const app = document.getElementById('app')!;
+        app.innerHTML = '';
+        app.appendChild(div({}, 'About Page'));
+      },
     },
   ],
-  container: document.getElementById('app'),
 });
 
-router.start();
+router.push('/');
 ```
 
 ## Why Use the Main Package?
@@ -74,8 +95,10 @@ router.start();
 If you only need specific functionality, you can install individual packages:
 
 - Need only DOM utilities? → `pnpm add @ktjs/core`
-- Need only routing? → `pnpm add @ktjs/router @ktjs/core`
+- Need only routing? → `pnpm add @ktjs/router`
 - Need only shortcuts? → `pnpm add @ktjs/shortcuts @ktjs/core`
+- Need everything except router? → `pnpm add kt.js` (this package)
+- Need everything including router? → `pnpm add kt.js @ktjs/router`
 
 This can result in slightly smaller dependency trees in your `node_modules`.
 
@@ -96,11 +119,10 @@ For complete documentation, examples, and guides, see:
 - ✅ ES5 compatible (works in IE9+)
 - ✅ Zero dependencies (self-contained)
 - ✅ Tiny bundle size with excellent tree-shaking
-- ✅ Hash-based routing with navigation guards
-- ✅ Async/sync auto-adaptation
 - ✅ Conditional rendering with `ktnull`
 - ✅ Event handler shortcuts with `@<eventName>` syntax
 - ✅ Element factories with `withDefaults`
+- ✅ Router available as separate package (`@ktjs/router`)
 
 ## Browser Compatibility
 

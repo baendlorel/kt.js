@@ -17,20 +17,20 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 KT.js is now a **monorepo** containing multiple packages:
 
 - **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function
-- **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards
+- **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
 - **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
 - **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
 
 You can install the full package or individual packages as needed:
 
 ```bash
-# Install the full package
+# Install the main package (includes core + shortcuts)
 pnpm add kt.js
 
 # Or install individual packages
-pnpm add @ktjs/core  # indepentent package
-pnpm add @ktjs/router # indepentent package
-pnpm add @ktjs/shortcuts # replies on core
+pnpm add @ktjs/core       # Core DOM utilities (independent)
+pnpm add @ktjs/router     # Client-side router (independent)
+pnpm add @ktjs/shortcuts  # Shortcuts (requires @ktjs/core)
 ```
 
 ## Philosophy
@@ -47,11 +47,11 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - Shortcut functions for all HTML elements (`div`, `span`, `button`, etc.)
   - Event handlers with `@<eventName>` syntax or function attributes
   - Full TypeScript support with intelligent type inference
-- **Client-Side Router**:
+- **Client-Side Router** (separate package):
   - Hash-based routing with dynamic parameters
   - Navigation guards with async/sync auto-adaptation
   - Query string parsing and route matching
-  - Minimal footprint and zero dependencies
+  - Pure routing logic - no rendering, no dependencies
 - **Shortcuts & Utilities**:
   - `withDefaults`: Wrap element creation functions with default properties
   - Convenient shorthand functions for common operations
@@ -152,30 +152,39 @@ const myBlueCard = blueCard('title', 'Blue!'); // <div class="card" style="backg
 
 ## Router
 
-KT.js includes a powerful yet lightweight client-side router:
+The router is available as a separate package `@ktjs/router`:
 
 ```ts
-import { createRouter, div, h1 } from 'kt.js';
+import { createRouter } from '@ktjs/router';
+import { div, h1 } from 'kt.js';
 
 const router = createRouter({
   routes: [
     {
       path: '/',
       name: 'home',
-      handler: () => div({}, [h1({}, 'Home Page')]),
+      beforeEnter: (to) => {
+        // Render your page here
+        document.getElementById('app')!.innerHTML = '';
+        document.getElementById('app')!.appendChild(
+          div({}, [h1({}, 'Home Page')])
+        );
+      },
     },
     {
       path: '/user/:id',
       name: 'user',
-      handler: (ctx) => div({}, [h1({}, `User ${ctx.params.id}`)]),
-      beforeEnter: (to, from) => {
-        // Route-specific guard
+      beforeEnter: (to) => {
+        // Route-specific guard and rendering
         console.log('Entering user page');
+        document.getElementById('app')!.innerHTML = '';
+        document.getElementById('app')!.appendChild(
+          div({}, [h1({}, `User ${to.params.id}`)])
+        );
         return true;
       },
     },
   ],
-  container: document.getElementById('app'),
   beforeEach: async (to, from) => {
     // Global navigation guard - return false to block navigation
     console.log('Navigating to:', to.path);
@@ -190,9 +199,6 @@ const router = createRouter({
   },
 });
 
-// Start the router
-router.start();
-
 // Navigate programmatically
 router.push('/user/123');
 router.push('/user/456?page=2');
@@ -201,8 +207,7 @@ router.push('/user/456?page=2');
 router.push({ name: 'user', params: { id: '789' } });
 
 // Get current route
-const current = router.current();
-console.log(current?.path, current?.params, current?.query);
+console.log(router.current?.path, router.current?.params, router.current?.query);
 ```
 
 ### Router Features
@@ -213,13 +218,15 @@ console.log(current?.path, current?.params, current?.query);
 - **Named Routes**: Navigate using route names instead of paths
 - **Navigation Guards**:
   - `beforeEach`: Global guard before navigation
-  - `beforeEnter`: Per-route guard
+  - `beforeEnter`: Per-route guard (can also be used for rendering)
   - `afterEach`: Global hook after navigation
+  - `after`: Per-route hook after navigation
   - Async support with automatic sync fallback for non-Promise environments
   - `GuardLevel` for fine-grained control over guard execution
-- **Error Handling**: `onError` callback for handling navigation errors
+- **Error Handling**: `onError` and `onNotFound` callbacks
 - **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
 - **Zero Dependencies**: Fully self-contained router implementation
+- **Pure Routing**: No rendering logic - you control the DOM
 
 ## `ktnull`
 

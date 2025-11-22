@@ -4,7 +4,6 @@
     "module": "NodeNext",
     "baseUrl": ".",
     "paths": {
-      // ?? 但是如果有其他子包里也用了@/怎么办？这个数组添加新项吗？
       "@/*": ["../core/src/*"] // this is for declaration files in core(they are using @/lib/xxx, @/types/xxx) to be found correctly
     }
   }

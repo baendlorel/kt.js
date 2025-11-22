@@ -50,7 +50,7 @@ export function createPackageConfig({
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
    */
   const aliasOpts = {
-    entries: [{ find: /^@\//, replacement: src + '/' }],
+    entries: [{ find: /^@\//, replacement: underRoot('packages/core', 'src') + '/' }],
   };
 
   /**

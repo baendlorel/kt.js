@@ -33,7 +33,12 @@
 		"lint": "oxlint .",
 		"cover": "vitest --coverage",
 		"lines": "clear && find ./packages -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" \\) | xargs wc -l",
-		"clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\""
+		"clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\"",
+		"publish:all": "pnpm -r publish --access public",
+		"publish:core": "pnpm --filter @ktjs/core publish --access public",
+		"publish:router": "pnpm --filter @ktjs/router publish --access public",
+		"publish:shortcuts": "pnpm --filter @ktjs/shortcuts publish --access public",
+		"publish:kt.js": "pnpm --filter kt.js publish --access public"
 	},
 	"license": "MIT",
 	"devDependencies": {

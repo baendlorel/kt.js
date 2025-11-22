@@ -14,6 +14,8 @@ type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagN
  * @param tag tag of an `HTMLElement`
  * @param attr attribute object or className
  * @param content a string or an array of HTMLEnhancedElement as child nodes
+ *
+ * __PKG_INFO__
  */
 export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRawContent = ''): HTML<T> => {
   if (typeof tag !== 'string') {

@@ -8,7 +8,7 @@ export const aliasH = <T extends HTMLTag>(tag: T) => {
     return h(tag, attr, content);
   };
 
-  window.__ktjs__.defines(newFunc, { __ktjs_h__: { value: tag } });
+  window.__ktjs__.mark(newFunc, tag);
 
   return newFunc;
 };

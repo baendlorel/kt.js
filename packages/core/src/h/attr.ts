@@ -1,11 +1,11 @@
 import type { KTRawAttr, KTAttribute } from '@/types/h.js';
-import { $throw, $keys, $setAttr, $on } from '@/lib/index.js';
+import { $throw, $keys } from '@/lib/index.js';
 
 function booleanHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {
     (element as any)[key] = !!value;
   } else {
-    $setAttr.call(element, key, value);
+    element.setAttribute(key, value);
   }
 }
 
@@ -13,7 +13,7 @@ function valueHandler(element: HTMLElement, key: string, value: any) {
   if (key in element) {
     (element as any)[key] = value;
   } else {
-    $setAttr.call(element, key, value);
+    element.setAttribute(key, value);
   }
 }
 
@@ -45,7 +45,7 @@ const handlers: Record<string, (element: HTMLElement, key: string, value: any) =
 };
 
 const defaultHandler = function (element: HTMLElement, key: string, value: any) {
-  return $setAttr.call(element, key, value);
+  return element.setAttribute(key, value);
 };
 
 function attrIsObject(element: HTMLElement, attr: KTAttribute) {
@@ -58,7 +58,7 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
 
   if (style) {
     if (typeof style === 'string') {
-      $setAttr.call(element, 'style', style);
+      element.setAttribute('style', style);
     } else if (typeof style === 'object') {
       for (const key in style) {
         element.style[key as any] = (style as any)[key];
@@ -75,14 +75,14 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     // force register @xxx as an event handler
     // !if o is not valid, the throwing job will be done by $on, not kt.js
     if (key.startsWith('@')) {
-      $on.call(element, key.slice(1), o); // chop off the `@`
+      element.addEventListener(key.slice(1), o); // chop off the `@`
       continue;
     }
 
     if (typeof o !== 'function') {
       (handlers[key] || defaultHandler)(element, key, o);
     } else {
-      $on.call(element, key, o);
+      element.addEventListener(key, o);
     }
   }
 

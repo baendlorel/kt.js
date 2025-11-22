@@ -28,6 +28,7 @@
 		"build:router": "pnpm --filter @ktjs/router run build",
 		"build:shortcuts": "pnpm --filter @ktjs/shortcuts run build",
 		"build:kt.js": "pnpm --filter kt.js run build",
+		"check": "tsc --noEmit",
 		"test": "vitest",
 		"lint": "oxlint .",
 		"cover": "vitest --coverage",

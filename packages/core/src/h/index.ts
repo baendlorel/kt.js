@@ -1,11 +1,10 @@
 import type { HTMLTag, otherstring } from '@/types/global.js';
 import type { KTRawAttr, KTRawContent } from '@/types/h.js';
 
-import { $h } from '@/lib/dom.js';
 import { $throw } from '@/lib/error.js';
+import { $mark } from '@/lib/native.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
-import { $defines } from '@/lib/native.js';
 
 type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
 
@@ -21,9 +20,8 @@ export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRa
     $throw('__func__ tagName must be a string.');
   }
 
-  // todo 是否考虑不要缓存document方法了？
   // * start creating the element
-  const element = $h(tag) as HTML<T>;
+  const element = document.createElement(tag) as HTML<T>;
 
   // * Handle content
   applyAttr(element, attr);
@@ -32,4 +30,4 @@ export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRa
   return element;
 };
 
-$defines(h, { __ktjs_h__: { value: 'h' } });
+$mark(h, 'h');

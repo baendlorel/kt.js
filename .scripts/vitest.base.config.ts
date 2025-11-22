@@ -8,18 +8,29 @@ export const test: ViteUserConfig['test'] = {
 };
 
 export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname) => {
-  const cwd = process.cwd();
+  // Calculate project root from the current dirname
+  // dirname could be 'configs/' or 'packages/*/', we need to find the project root
+  let projectRoot = dirname;
+
+  // If dirname is inside packages/, go up two levels to reach project root
+  if (dirname.includes('/packages/')) {
+    projectRoot = path.resolve(dirname, '../..');
+  }
+  // If dirname is configs/, go up one level to reach project root
+  else if (dirname.endsWith('/configs') || dirname.endsWith('\\configs')) {
+    projectRoot = path.resolve(dirname, '..');
+  }
+
   const currentDirname = path.basename(dirname);
 
-  console.log('cwd', cwd, path.join(cwd, `packages/core/src/`));
   return {
     alias: {
-      '@': path.join(cwd, `packages/core/src/`), // @ is fixed to core/src
-      '@tests': path.join(cwd, `packages/${currentDirname}/tests`),
-      '@ktjs/runtime': path.join(cwd, 'packages/core/src/runtime.ts'),
-      '@ktjs/core': path.join(cwd, 'packages/core/src/index.ts'),
-      '@ktjs/router': path.join(cwd, 'packages/router/src/main.ts'),
-      '@ktjs/shortcuts': path.join(cwd, 'packages/shortcuts/src/index.ts'),
+      '@': path.join(projectRoot, 'packages/core/src/'), // @ is fixed to core/src
+      '@tests': path.join(projectRoot, `packages/${currentDirname}/tests`),
+      '@ktjs/runtime': path.join(projectRoot, 'packages/core/src/runtime.ts'),
+      '@ktjs/core': path.join(projectRoot, 'packages/core/src/index.ts'),
+      '@ktjs/router': path.join(projectRoot, 'packages/router/src/main.ts'),
+      '@ktjs/shortcuts': path.join(projectRoot, 'packages/shortcuts/src/index.ts'),
     },
   };
 };

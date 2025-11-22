@@ -29,7 +29,7 @@
 		"build:shortcuts": "pnpm --filter @ktjs/shortcuts run build",
 		"build:kt.js": "pnpm --filter kt.js run build",
 		"check": "tsc --noEmit",
-		"test": "vitest",
+		"test": "vitest --config configs/vitest.config.ts",
 		"lint": "oxlint .",
 		"cover": "vitest --coverage",
 		"lines": "clear && find ./packages -type f \\( -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.cjs\" \\) | xargs wc -l",

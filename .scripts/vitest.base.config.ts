@@ -1,4 +1,4 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import { ViteUserConfig } from 'vitest/config';
 
 export const test: ViteUserConfig['test'] = {
@@ -10,6 +10,8 @@ export const test: ViteUserConfig['test'] = {
 export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname) => {
   const cwd = process.cwd();
   const currentDirname = path.basename(dirname);
+
+  console.log('cwd', cwd, path.join(cwd, `packages/core/src/`));
   return {
     alias: {
       '@': path.join(cwd, `packages/core/src/`), // @ is fixed to core/src

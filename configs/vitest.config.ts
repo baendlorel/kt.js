@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import { resolve } from './.scripts/vitest.base.config';
+import { resolve } from '../.scripts/vitest.base.config';
 
 export default defineConfig({
   test: {

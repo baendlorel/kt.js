@@ -18,6 +18,10 @@ declare global {
 }
 
 (() => {
+  if ('__ktjs__' in window) {
+    return;
+  }
+
   const __ktjs__: KTRuntime = Object.create(null);
 
   // & We can add new functions when we need more

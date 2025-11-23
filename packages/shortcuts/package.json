@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/shortcuts",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "Shortcut functions for kt.js - common DOM operations",
   "type": "module",
   "module": "./dist/index.mjs",
@@ -30,7 +30,7 @@
     "directory": "packages/shortcuts"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:^*"
+    "@ktjs/core": "workspace:*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

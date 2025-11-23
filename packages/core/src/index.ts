@@ -1,4 +1,4 @@
-import './runtime.js';
+export * from './runtime.js';
 
 export { ktnull } from './lib/consts.js';
 

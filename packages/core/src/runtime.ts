@@ -18,8 +18,9 @@ declare global {
 }
 
 // fixme 打包产物有重复定义什么东西的报错，要看看
-(() => {
-  if ('__ktjs__' in window) {
+export default (() => {
+  const runtimeKey = '__ktjs__';
+  if (runtimeKey in window) {
     return;
   }
 
@@ -33,5 +34,7 @@ declare global {
   };
   $defines(__ktjs__, descriptor);
 
-  $defines(window, { __ktjs__: { value: __ktjs__, enumerable: true } });
+  $defines(window, { [runtimeKey]: { value: __ktjs__, enumerable: true } });
+
+  return {};
 })();

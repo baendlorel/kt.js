@@ -1,6 +1,11 @@
 # Change Log 🕒
 
-## 0.5.x 2025-11-08 ~ 2025-11-22
+## 0.5.1-x 2025-11-22
+
+- fix the runtime module's key is wrongly mangled.
+- fix the verion sync procedure.
+
+## 0.5.0 2025-11-08 ~ 2025-11-22
 
 ### Major Features
 

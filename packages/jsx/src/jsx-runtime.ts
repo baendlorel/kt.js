@@ -1,6 +1,7 @@
 import type { HTMLTag, KTRawAttr, KTRawContent } from '@ktjs/core';
 import { h, ktnull } from '@ktjs/core';
 
+// todo 进一步研究jsx的内容，要看看这一块的规范到底如何
 /**
  * JSX Factory function - called by JSX transpiler for each JSX element
  * This is for classic JSX transform (jsx: "react")

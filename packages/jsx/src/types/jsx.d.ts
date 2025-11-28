@@ -14,11 +14,11 @@ declare global {
     /**
      * Props for all intrinsic HTML elements
      */
-    interface IntrinsicElements {
+    type IntrinsicElements = {
       [K in HTMLTag]: KTAttribute & {
         children?: KTRawContent;
       };
-    }
+    };
 
     /**
      * For class components (if needed in the future)

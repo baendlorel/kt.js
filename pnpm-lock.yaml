@@ -71,25 +71,31 @@ importers:
 
   packages/core: {}
 
-  packages/kt.js:
-    dependencies:
+  packages/jsx:
+    devDependencies:
       '@ktjs/core':
         specifier: workspace:*
         version: link:../core
+
+  packages/kt.js:
+    dependencies:
+      '@ktjs/core':
+        specifier: workspace:^*
+        version: link:../core
       '@ktjs/shortcuts':
-        specifier: workspace:*
+        specifier: workspace:^*
         version: link:../shortcuts
 
   packages/router:
     dependencies:
       '@ktjs/core':
-        specifier: workspace:*
+        specifier: workspace:^*
         version: link:../core
 
   packages/shortcuts:
     dependencies:
       '@ktjs/core':
-        specifier: workspace:*
+        specifier: workspace:^*
         version: link:../core
 
 packages:

@@ -1,7 +1,8 @@
 # Change Log 🕒
 
-## 0.5.1-x 2025-11-22
+## 0.5.1-x 2025-11-28
 
+- fix the documentation that gives wrong function names for button shortcut.
 - fix the runtime module's key is wrongly mangled.
 - fix the verion sync procedure.
 

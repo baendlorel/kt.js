@@ -34,10 +34,10 @@ This package re-exports everything from:
 ## Quick Start
 
 ```typescript
-import { h, div, button, withDefaults } from 'kt.js';
+import { h, div, btn, withDefaults } from 'kt.js';
 
 // Create elements
-const app = div('app', [h('h1', {}, 'Welcome to KT.js'), button({ '@click': () => alert('Hello!') }, 'Click me')]);
+const app = div('app', [h('h1', {}, 'Welcome to KT.js'), btn({ '@click': () => alert('Hello!') }, 'Click me')]);
 
 // Use shortcuts with defaults
 const card = withDefaults(div, { class: 'card' });

@@ -36,20 +36,20 @@ pnpm add @ktjs/shortcuts @ktjs/core
 ### Element Shortcuts
 
 ```typescript
-import { div, span, button, input, h1, p } from '@ktjs/shortcuts';
+import { div, span, btn, input, h1, p } from '@ktjs/shortcuts';
 
 // Instead of h('div', ...)
 const container = div({ class: 'container' }, [
   h1({}, 'Title'),
   p({}, 'Description'),
-  button({ '@click': () => alert('Hi') }, 'Click me'),
+  btn({ '@click': () => alert('Hi') }, 'Click me'),
 ]);
 
 // Form elements
 const form = div('form-wrapper', [
   input({ type: 'text', placeholder: 'Name' }),
   input({ type: 'email', placeholder: 'Email' }),
-  button({ type: 'submit' }, 'Submit'),
+  btn({ type: 'submit' }, 'Submit'),
 ]);
 
 // Quick elements with just content
@@ -107,7 +107,7 @@ const createTextInput = (placeholder: string, name: string) => {
 };
 
 const createSubmitButton = (text: string) => {
-  return button({ type: 'submit', class: 'btn-primary' }, text);
+  return btn({ type: 'submit', class: 'btn-primary' }, text);
 };
 
 const loginForm = div('login-form', [

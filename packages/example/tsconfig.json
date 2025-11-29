@@ -1,13 +1,14 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../configs/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react",
-    "jsxFactory": "jsx",
-    "module": "ESNext",
-    "target": "ES2020",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@ktjs/core": ["../core/src"],
+      "@ktjs/jsx": ["../jsx/src"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/jsx"
   },
-  "include": ["*.tsx", "*.ts"]
+  "include": ["*.tsx", "*.ts", "../jsx/src/**.ts"]
 }

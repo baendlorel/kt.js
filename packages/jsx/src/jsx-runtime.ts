@@ -11,7 +11,8 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KT
  * Note: kt.js doesn't have a real Fragment concept,
  * so we return ktnull for empty fragments or flatten children
  */
-function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
+// todo 实在不需要也可以在此函数内直接报错说自己不支持
+export function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
   const { children } = props || {};
 
   if (!children) {

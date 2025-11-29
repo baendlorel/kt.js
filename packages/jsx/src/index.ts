@@ -27,7 +27,3 @@ export { jsx, jsxs, jsxDEV, Fragment, h, createElement } from './jsx-runtime.js'
 
 // Export types
 export type * from './types/jsx.d.ts';
-
-// Re-export core utilities that are commonly used with JSX
-export { ktnull } from '@ktjs/core';
-export type { KTAttribute, KTRawContent, KTRawAttr } from '@ktjs/core';

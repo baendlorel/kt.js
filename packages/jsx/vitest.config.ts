@@ -1,15 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { test, resolve } from '../../.scripts/vitest.base.config';
 
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'jsdom',
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@ktjs/core': path.resolve(__dirname, '../core/src'),
-    },
-  },
-});
+export default defineConfig({ test, resolve: resolve(import.meta.dirname) });

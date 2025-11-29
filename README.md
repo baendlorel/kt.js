@@ -1,4 +1,4 @@
-# kt.js v0.5.x
+# kt.js
 
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
@@ -166,9 +166,7 @@ const router = createRouter({
       beforeEnter: (to) => {
         // Render your page here
         document.getElementById('app')!.innerHTML = '';
-        document.getElementById('app')!.appendChild(
-          div({}, [h1({}, 'Home Page')])
-        );
+        document.getElementById('app')!.appendChild(div({}, [h1({}, 'Home Page')]));
       },
     },
     {
@@ -178,9 +176,7 @@ const router = createRouter({
         // Route-specific guard and rendering
         console.log('Entering user page');
         document.getElementById('app')!.innerHTML = '';
-        document.getElementById('app')!.appendChild(
-          div({}, [h1({}, `User ${to.params.id}`)])
-        );
+        document.getElementById('app')!.appendChild(div({}, [h1({}, `User ${to.params.id}`)]));
         return true;
       },
     },

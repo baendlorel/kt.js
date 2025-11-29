@@ -34,7 +34,6 @@ const getTSConfigDir = (/** @type {string} */ packageDir) => {
  * @returns {import('rollup').RollupOptions[]}
  */
 export function createPackageConfig({
-  packageName,
   packageDir,
   entry = 'index.ts',
   external = [],

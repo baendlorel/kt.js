@@ -17,7 +17,6 @@ declare global {
   }
 }
 
-// fixme 打包产物有重复定义什么东西的报错，要看看
 export default (() => {
   const runtimeKey = '__ktjs__';
   if (runtimeKey in window) {

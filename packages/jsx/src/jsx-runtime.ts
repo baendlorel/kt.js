@@ -1,33 +1,9 @@
-import type { HTMLTag, KTRawAttr, KTRawContent } from '@ktjs/core';
+import type { HTMLTag, KTRawAttr, KTRawContent, KTRawContents } from '@ktjs/core';
 import { h, ktnull } from '@ktjs/core';
 
-// todo 进一步研究jsx的内容，要看看这一块的规范到底如何
-/**
- * JSX Factory function - called by JSX transpiler for each JSX element
- * This is for classic JSX transform (jsx: "react")
- * @param tag HTML tag name or component
- * @param props Element attributes/props
- * @param children Child elements
- */
-export function jsx<T extends HTMLTag>(
-  tag: T,
-  props: KTRawAttr & { children?: KTRawContent },
-  ...children: KTRawContent[]
-): HTMLElement {
-  const { children: propsChildren, ...attrs } = props || {};
-
-  // Combine children from props and varargs
-  let allChildren: KTRawContent = propsChildren;
-
-  if (children.length > 0) {
-    if (propsChildren) {
-      allChildren = Array.isArray(propsChildren) ? [...propsChildren, ...children] : [propsChildren, ...children];
-    } else {
-      allChildren = children.length === 1 ? children[0] : children;
-    }
-  }
-
-  return h(tag, attrs, allChildren);
+export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KTRawContents): HTMLElement {
+  const propObj = typeof props === 'string' ? { class: props } : props;
+  return h(tag, propObj, children);
 }
 
 /**
@@ -35,7 +11,7 @@ export function jsx<T extends HTMLTag>(
  * Note: kt.js doesn't have a real Fragment concept,
  * so we return ktnull for empty fragments or flatten children
  */
-export function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
+function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
   const { children } = props || {};
 
   if (!children) {

@@ -3,6 +3,7 @@ import type { HTMLTag, otherstring } from './global.d.ts';
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 export type KTRawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
 export type KTRawAttr = KTAttribute | string;
+export type KTRawContents = (HTMLElement | string | undefined)[];
 
 /**
  * Event handler type for DOM events

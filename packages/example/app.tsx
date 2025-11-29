@@ -1,4 +1,4 @@
-import { jsx } from '../src/jsx-runtime';
+import { jsx } from '../jsx/src/jsx-runtime.js';
 
 // Simple counter component
 function createCounter() {

@@ -5,7 +5,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@ktjs/core": ["../core/src"],
-      "@ktjs/jsx": ["../jsx/src"]
+      "@ktjs/jsx": ["../jsx/src"],
+      "@ktjs/jsx/jsx-runtime": ["../jsx/src/jsx-runtime"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/jsx"

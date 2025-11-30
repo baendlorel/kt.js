@@ -1,42 +1,25 @@
 import type { HTMLTag } from '@ktjs/core';
 import type { KTAttribute, KTRawContent } from '@ktjs/core';
 
-/**
- * JSX namespace for TypeScript JSX type checking
- */
 declare global {
+  function createElement<K extends HTMLTag>(
+    tag: K,
+    props?: KTAttribute & { children?: KTRawContent },
+    ...children: any[]
+  ): HTMLBodyElement; //K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement;
+
   namespace JSX {
-    /**
-     * The type returned by JSX elements
-     */
-    type Element = HTMLElement;
+    type Element = HTMLDivElement;
 
-    /**
-     * Props for all intrinsic HTML elements
-     */
-    type IntrinsicElements = {
-      [K in HTMLTag]: KTAttribute & {
-        children?: KTRawContent;
-      };
-    };
-
-    /**
-     * For class components (if needed in the future)
-     */
-    interface ElementClass {
-      render(): Element;
+    // 为常用元素提供更精确的类型
+    interface IntrinsicElements {
+      [tag: string]: KTAttribute & { children?: KTRawContent };
     }
 
-    /**
-     * Props for all JSX elements
-     */
     interface IntrinsicAttributes {
       key?: string | number;
     }
 
-    /**
-     * Props for class-based components
-     */
     interface ElementChildrenAttribute {
       children: {};
     }

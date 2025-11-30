@@ -1,9 +1,9 @@
 import type { HTMLTag, KTRawAttr, KTRawContent, KTRawContents } from '@ktjs/core';
 import { h, ktnull } from '@ktjs/core';
 
-export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KTRawContents): HTMLElement {
+export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KTRawContents): HTMLElementTagNameMap[T] {
   const propObj = typeof props === 'string' ? { class: props } : props;
-  return h(tag, propObj, children);
+  return h(tag, propObj, children) as HTMLElementTagNameMap[T];
 }
 
 /**

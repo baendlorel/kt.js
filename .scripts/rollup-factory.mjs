@@ -31,6 +31,7 @@ const getTSConfigDir = (/** @type {string} */ packageDir) => {
  * @param {string[]} [options.external] - External dependencies
  * @param {string} [options.iifeName=''] - Generate IIFE bundle
  * @param {boolean} [options.withLegacy=false] - Generate legacy version (ES5 IIFE only)
+ * @param {boolean} [options.withCjs=false] - Generate CommonJS bundle
  * @returns {import('rollup').RollupOptions[]}
  */
 export function createPackageConfig({
@@ -39,6 +40,7 @@ export function createPackageConfig({
   external = [],
   iifeName = '',
   withLegacy = false,
+  withCjs = false,
 }) {
   const withIIFE = Boolean(iifeName);
   const src = underRoot(packageDir, 'src');
@@ -93,6 +95,14 @@ export function createPackageConfig({
       sourcemap: false,
     },
   ];
+
+  if (withCjs) {
+    outputs.push({
+      file: path.resolve(dist, 'index.cjs'),
+      format: 'cjs',
+      sourcemap: false,
+    });
+  }
 
   if (withIIFE) {
     outputs.push({

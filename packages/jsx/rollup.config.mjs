@@ -8,6 +8,7 @@ const baseConfigs = createPackageConfig({
   external: ['@ktjs/core'],
   iifeName: '', // No IIFE needed for jsx package
   withLegacy: false,
+  withCjs: true,
 });
 
 // Export: base configs + additional jsx-runtime configs

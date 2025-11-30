@@ -9,9 +9,6 @@ describe('JSX Type Inference', () => {
   it('should infer HTMLButtonElement for button tag', () => {
     const button = <button>Click me</button>;
 
-    // Type assertion to verify compile-time type
-    const _typeCheck: HTMLButtonElement = button;
-
     expect(button).toBeInstanceOf(HTMLButtonElement);
     expect(button.tagName).toBe('BUTTON');
   });
@@ -28,8 +25,6 @@ describe('JSX Type Inference', () => {
   it('should infer HTMLInputElement for input tag', () => {
     const input = <input type="text" />;
 
-    const _typeCheck: HTMLInputElement = input;
-
     expect(input).toBeInstanceOf(HTMLInputElement);
     expect(input.tagName).toBe('INPUT');
 
@@ -39,8 +34,6 @@ describe('JSX Type Inference', () => {
 
   it('should infer HTMLAnchorElement for anchor tag', () => {
     const anchor = <a href="https://example.com">Link</a>;
-
-    const _typeCheck: HTMLAnchorElement = anchor;
 
     expect(anchor).toBeInstanceOf(HTMLAnchorElement);
     expect(anchor.tagName).toBe('A');

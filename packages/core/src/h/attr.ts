@@ -75,7 +75,7 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     // force register on:xxx as an event handler
     // !if o is not valid, the throwing job will be done by `on`, not kt.js
     if (key.startsWith('on:')) {
-      element.addEventListener(key.slice(1), o); // chop off the `@`
+      element.addEventListener(key.slice(3), o); // chop off the `@`
       continue;
     }
 

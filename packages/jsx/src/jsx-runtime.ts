@@ -7,7 +7,6 @@ import { h, ktnull } from '@ktjs/core';
  * @param _metadata metadata is ignored
  */
 export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: any[]): HTMLElementTagNameMap[T] {
-  console.log('JSX runtime called:', tag, props, _metadata);
   const propObj = typeof props === 'string' ? { class: props } : props;
   if (propObj === undefined || propObj === null) {
     return h(tag) as HTMLElementTagNameMap[T];
@@ -70,7 +69,10 @@ export function Fragment(props: { children?: KTRawContent }): HTMLElement | type
 /**
  * JSX Development runtime - same as jsx but with additional dev checks
  */
-export const jsxDEV = jsx;
+export const jsxDEV: typeof jsx = (...args) => {
+  console.log('JSX runtime called:', ...args);
+  return jsx(...args);
+};
 
 /**
  * JSX runtime for React 17+ automatic runtime

@@ -82,6 +82,9 @@ importers:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
+      '@ktjs/jsx':
+        specifier: workspace:^*
+        version: link:../jsx
       '@ktjs/shortcuts':
         specifier: workspace:^*
         version: link:../shortcuts

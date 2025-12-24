@@ -73,7 +73,7 @@ type KTEventHandlersOrAttribute = {
  * When key starts with @, it's always registered as an event handler
  */
 type KTPrefixedEventHandlers = {
-  [EventName in keyof HTMLElementEventMap as `@${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
+  [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
 export type KTAttribute = KTBaseAttribute & KTEventHandlersOrAttribute & KTPrefixedEventHandlers;

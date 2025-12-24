@@ -72,9 +72,9 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     const key = keys[i];
     const o = attr[key];
 
-    // force register @xxx as an event handler
-    // !if o is not valid, the throwing job will be done by $on, not kt.js
-    if (key.startsWith('@')) {
+    // force register on:xxx as an event handler
+    // !if o is not valid, the throwing job will be done by `on`, not kt.js
+    if (key.startsWith('on:')) {
       element.addEventListener(key.slice(1), o); // chop off the `@`
       continue;
     }
@@ -100,6 +100,6 @@ export function applyAttr(element: HTMLElement, attr: KTRawAttr) {
   } else if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
   } else {
-    $throw('__func__ attr must be an object.');
+    $throw('attr must be an object/string.');
   }
 }

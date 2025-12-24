@@ -14,7 +14,7 @@ Write UI code with JSX syntax while maintaining KT.js's philosophy of direct DOM
 - 🎯 **Direct DOM Manipulation**: JSX compiles to direct `h()` calls, no virtual DOM
 - 🔧 **Full TypeScript Support**: Complete type safety with IntelliSense
 - ⚡ **Zero Runtime Overhead**: JSX is pure syntax sugar over KT.js's `h` function
-- 🎨 **Event Handler Syntax**: Support for both function props and `@eventName` syntax
+- 🎨 **Event Handler Syntax**: Support for both function props and `on:eventName` syntax
 - 📦 **Multiple Runtime Modes**: Support both automatic and classic JSX transforms
 - 🔌 **Easy Integration**: Works with Babel, TypeScript, and modern build tools
 
@@ -67,7 +67,7 @@ const greeting = <div class="greeting">Hello, KT.js!</div>;
 const button = (
   <button
     class="btn primary"
-    @click={() => alert('Clicked!')}
+    on:click={() => alert('Clicked!')}
   >
     Click me
   </button>
@@ -97,13 +97,13 @@ You can use event handlers in two ways:
 // 1. Function props (automatically converted to event listeners)
 <button click={() => console.log('clicked')}>Button 1</button>
 
-// 2. @-prefixed attributes (explicit event handlers)
-<button @click={(e) => console.log('clicked', e)}>Button 2</button>
+// 2. on:-prefixed attributes (explicit event handlers)
+<button on:click={(e) => console.log('clicked', e)}>Button 2</button>
 
 // 3. Mix both (regular attribute + event listener)
 <input
   change="change-value"          // Regular attribute
-  @change={(e) => console.log(e)} // Event listener
+  on:change={(e) => console.log(e)} // Event listener
 />
 ```
 
@@ -240,7 +240,7 @@ const buttonStyle = css`
 `;
 
 const button = (
-  <button class={buttonStyle} @click={() => alert('Styled!')}>
+  <button class={buttonStyle} on:click={() => alert('Styled!')}>
     Styled Button
   </button>
 );
@@ -263,7 +263,7 @@ function Card({ title, content, onClose }: CardProps) {
       <div class="card-header">
         <h3>{title}</h3>
         {onClose && (
-          <button class="close" @click={onClose}>×</button>
+          <button class="close" on:click={onClose}>×</button>
         )}
       </div>
       <div class="card-body">
@@ -336,7 +336,7 @@ declare global {
 const app = (
   <div class="container">
     <h1>Hello</h1>
-    <button @click={() => alert('Hi')}>Click</button>
+    <button on:click={() => alert('Hi')}>Click</button>
   </div>
 );
 
@@ -345,7 +345,7 @@ import { h, div, button } from '@ktjs/core';
 
 const app = div({ class: 'container' }, [
   h('h1', {}, 'Hello'),
-  button({ '@click': () => alert('Hi') }, 'Click')
+  button({ 'on:click': () => alert('Hi') }, 'Click')
 ]);
 ```
 

@@ -7,7 +7,7 @@
 - **JSX/TSX Support**: Added full JSX syntax support with the new `@ktjs/jsx` package
   - JSX now compiles directly to `h()` function calls - zero virtual DOM overhead
   - Full TypeScript integration with proper HTML element type inference
-  - Support for `@click` event handler syntax
+  - Support for `on:click` event handler syntax
   - Included in the main `kt.js` package as a required dependency
   - No Fragment support - KT.js doesn't have a Fragment concept
 
@@ -63,7 +63,7 @@
 
 - **Attribute Enhancements**:
   - Added `kt` prefix to all special attributes (`ktattr`, `ktcontent`)
-  - `@<eventName>` syntax for event handlers (e.g., `@click`) to avoid conflicts with existing attributes
+  - `on:<eventName>` syntax for event handlers (e.g., `on:click`) to avoid conflicts with existing attributes
   - Function values in attributes are automatically treated as event handlers
   - Improved type hints for input element `type` property while preserving string compatibility
   - Complete event type annotations for better IDE autocomplete

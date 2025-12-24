@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/shortcuts",
-  "version": "0.6.0",
+  "version": "0.6.6",
   "description": "Shortcut functions for kt.js - common DOM operations",
   "type": "module",
   "module": "./dist/index.mjs",

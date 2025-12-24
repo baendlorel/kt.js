@@ -25,5 +25,9 @@
 // Export JSX runtime functions
 export { jsx, jsxs, jsxDEV, Fragment, h, createElement } from './jsx-runtime.js';
 
+export function ref<T extends HTMLElement>(): { value: T } {
+  return { value: null as unknown as T };
+}
+
 // Export types
 export type * from './types/jsx.d.ts';

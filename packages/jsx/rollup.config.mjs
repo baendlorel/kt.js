@@ -49,7 +49,7 @@ const jsxRuntimeConfigs = (() => {
         replace(replaceOpts),
         resolve(),
         typescript({ tsconfig, outputToFilesystem: true }),
-        terser({
+        void terser({
           format: { comments: false },
           compress: {
             reduce_vars: true,
@@ -61,7 +61,7 @@ const jsxRuntimeConfigs = (() => {
             properties: { regex: /^_/ },
           },
         }),
-      ],
+      ].filter(Boolean),
       external: ['@ktjs/core'],
     },
     // JSX runtime type definitions

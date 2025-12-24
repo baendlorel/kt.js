@@ -1,8 +1,19 @@
 import type { HTMLTag, KTRawAttr, KTRawContent, KTRawContents } from '@ktjs/core';
 import { h, ktnull } from '@ktjs/core';
 
-export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KTRawContents): HTMLElementTagNameMap[T] {
+/**
+ * @param tag html tag
+ * @param props properties/attributes
+ * @param _metadata metadata is ignored
+ */
+export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: any[]): HTMLElementTagNameMap[T] {
   const propObj = typeof props === 'string' ? { class: props } : props;
+  if (propObj === undefined || propObj === null) {
+    return h(tag) as HTMLElementTagNameMap[T];
+  }
+
+  const children = propObj.children as KTRawContents;
+  delete propObj.children;
   return h(tag, propObj, children) as HTMLElementTagNameMap[T];
 }
 
@@ -11,35 +22,36 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ...children: KT
  * Note: kt.js doesn't have a real Fragment concept,
  * so we return ktnull for empty fragments or flatten children
  */
-// todo 实在不需要也可以在此函数内直接报错说自己不支持
 export function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
-  const { children } = props || {};
+  window.__ktjs__.throws("kt.js doesn't have a Fragment concept");
 
-  if (!children) {
-    return ktnull;
-  }
+  // const { children } = props || {};
 
-  // If single child, return it directly
-  if (!Array.isArray(children)) {
-    return children as HTMLElement;
-  }
+  // if (!children) {
+  //   return ktnull;
+  // }
 
-  // For multiple children, create a document fragment wrapper
-  // This is a limitation - JSX fragments must be wrapped in kt.js
-  const wrapper = document.createElement('div');
-  wrapper.setAttribute('data-kt-fragment', 'true');
+  // // If single child, return it directly
+  // if (!Array.isArray(children)) {
+  //   return children as HTMLElement;
+  // }
 
-  children.forEach((child) => {
-    if (child && child !== ktnull) {
-      if (typeof child === 'string') {
-        wrapper.appendChild(document.createTextNode(child));
-      } else if (child instanceof HTMLElement) {
-        wrapper.appendChild(child);
-      }
-    }
-  });
+  // // For multiple children, create a document fragment wrapper
+  // // This is a limitation - JSX fragments must be wrapped in kt.js
+  // const wrapper = document.createElement('div');
+  // wrapper.setAttribute('data-kt-fragment', 'true');
 
-  return wrapper;
+  // children.forEach((child) => {
+  //   if (child && child !== ktnull) {
+  //     if (typeof child === 'string') {
+  //       wrapper.appendChild(document.createTextNode(child));
+  //     } else if (child instanceof HTMLElement) {
+  //       wrapper.appendChild(child);
+  //     }
+  //   }
+  // });
+
+  // return wrapper;
 }
 
 /**

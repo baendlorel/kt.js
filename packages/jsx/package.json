@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/jsx",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "description": "JSX/TSX support for KT.js - Build UIs with JSX syntax while keeping direct DOM control",
   "author": {
     "name": "Kasukabe Tsumugi",
@@ -57,7 +57,7 @@
     "directory": "packages/jsx"
   },
   "peerDependencies": {
-    "@ktjs/core": "^0.5.0"
+    "@ktjs/core": "workspace:*"
   },
   "devDependencies": {
     "@ktjs/core": "workspace:*"

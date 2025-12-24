@@ -122,8 +122,8 @@ export function createPackageConfig({
       replace(replaceOpts),
       resolve(),
       typescript({ tsconfig, outputToFilesystem: true }),
-      terser(terserOpts),
-    ],
+      void terser(terserOpts),
+    ].filter(Boolean),
     external,
   });
 

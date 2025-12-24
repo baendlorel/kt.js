@@ -4,7 +4,7 @@ import { jsx } from '../jsx/src/jsx-runtime.js';
 function createCounter() {
   let count = 0;
 
-  const counterDisplay = (<span class="counter">{count}</span>) as HTMLSpanElement;
+  const counterDisplay = (<span class="counter">{String(count)}</span>) as HTMLSpanElement;
 
   const incrementBtn = <button>Increment</button>;
 

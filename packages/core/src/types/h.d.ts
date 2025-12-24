@@ -1,7 +1,7 @@
 import type { HTMLTag, otherstring } from './global.d.ts';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
-export type KTRawContent = (HTMLElement | string | undefined)[] | HTMLElement | string;
+export type KTRawContent = (HTMLElement | string | undefined | number)[] | HTMLElement | string | number;
 export type KTRawAttr = KTAttribute | string;
 export type KTRawContents = (HTMLElement | string | undefined)[];
 
@@ -51,7 +51,7 @@ interface KTBaseAttribute {
   valueAsDate?: Date;
   valueAsNumber?: number;
   label?: string;
-  disabled?: string;
+  disabled?: boolean;
 
   min?: string | number;
   max?: string | number;

@@ -151,8 +151,8 @@ export function createPackageConfig({
             target: 'es5',
           },
         }),
-        terser(terserOpts),
-      ],
+        void terser(terserOpts),
+      ].filter(Boolean),
       external,
     });
   }

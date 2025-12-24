@@ -18,6 +18,7 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
 
   if ('ref' in propObj && typeof propObj.ref === 'object' && propObj.ref !== null) {
     propObj.ref.value = el;
+    delete propObj.ref;
   }
   return el;
 }

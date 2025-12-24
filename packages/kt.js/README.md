@@ -16,6 +16,16 @@ Main entry package for KT.js framework - a simple and easy-to-use web framework 
 pnpm add kt.js
 ```
 
+## JSX is now Supported！！
+
+```tsx
+import { ref } from 'kt.js';
+const myDivRef = ref<HTMLDivElement>();
+const myElement = <div ref={myDivRef}>Hello, KT.js with JSX!</div>;
+
+// Now myDivRef.value points to the created div element
+```
+
 ## What's Included
 
 This package re-exports everything from:

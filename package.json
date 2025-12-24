@@ -38,6 +38,7 @@
     "pub": "pnpm -r publish --access public",
     "publish:all": "pnpm -r publish --access public",
     "publish:core": "pnpm --filter @ktjs/core publish --access public",
+    "publish:jsx": "pnpm --filter @ktjs/jsx publish --access public",
     "publish:router": "pnpm --filter @ktjs/router publish --access public",
     "publish:shortcuts": "pnpm --filter @ktjs/shortcuts publish --access public",
     "publish:kt.js": "pnpm --filter kt.js publish --access public",

@@ -68,10 +68,6 @@ type KTEventHandlersOrAttribute = {
   [EventName in keyof HTMLElementEventMap]?: ((ev: HTMLElementEventMap[EventName]) => void) | string;
 };
 
-/**
- * Event handlers with @ prefix (e.g., @click, @input)
- * When key starts with @, it's always registered as an event handler
- */
 type KTPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };

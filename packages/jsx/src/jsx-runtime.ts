@@ -14,11 +14,17 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
 
   const children = propObj.children as KTRawContents;
   delete propObj.children;
-  const el = h(tag, propObj, children) as HTMLElementTagNameMap[T];
 
-  if ('ref' in propObj && typeof propObj.ref === 'object' && propObj.ref !== null) {
-    propObj.ref.value = el;
+  // deal with ref attribute
+  const hasRef = 'ref' in propObj && typeof propObj.ref === 'object' && propObj.ref !== null;
+  const ref = hasRef ? propObj.ref : null;
+  if (hasRef) {
     delete propObj.ref;
+  }
+
+  const el = h(tag, propObj, children) as HTMLElementTagNameMap[T];
+  if (hasRef) {
+    ref.value = el;
   }
   return el;
 }

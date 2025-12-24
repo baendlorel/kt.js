@@ -17,6 +17,7 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 KT.js is now a **monorepo** containing multiple packages:
 
 - **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function
+- **[@ktjs/jsx](./packages/jsx)**: JSX/TSX support with full TypeScript integration (included in kt.js package)
 - **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
 - **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
 - **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
@@ -24,11 +25,12 @@ KT.js is now a **monorepo** containing multiple packages:
 You can install the full package or individual packages as needed:
 
 ```bash
-# Install the main package (includes core + shortcuts)
+# Install the main package (includes core + jsx + shortcuts)
 pnpm add kt.js
 
 # Or install individual packages
 pnpm add @ktjs/core       # Core DOM utilities (independent)
+pnpm add @ktjs/jsx        # JSX/TSX support (requires @ktjs/core)
 pnpm add @ktjs/router     # Client-side router (independent)
 pnpm add @ktjs/shortcuts  # Shortcuts (requires @ktjs/core)
 ```
@@ -47,6 +49,11 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - Shortcut functions for all HTML elements (`div`, `span`, `button`, etc.)
   - Event handlers with `@<eventName>` syntax or function attributes
   - Full TypeScript support with intelligent type inference
+- **JSX/TSX Support**: Full JSX syntax support with TypeScript integration
+  - Zero virtual DOM - JSX compiles directly to `h()` function calls
+  - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
+  - Support for `@click` event handler syntax
+  - No Fragment support - KT.js doesn't have a Fragment concept
 - **Client-Side Router** (separate package):
   - Hash-based routing with dynamic parameters
   - Navigation guards with async/sync auto-adaptation
@@ -90,6 +97,73 @@ This will create the following DOM structure:
   </div>
 </section>
 ```
+
+### Using JSX/TSX
+
+KT.js now has full JSX support! With the `@ktjs/jsx` package (included in the main `kt.js` package), you can write components using familiar JSX syntax:
+
+**TypeScript Configuration** (`tsconfig.json`):
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/jsx"
+  }
+}
+```
+
+**Basic JSX Example**:
+```tsx
+import { jsx } from 'kt.js';
+
+function Counter() {
+  const count = 0;
+
+  return (
+    <div class="counter">
+      <h1>Counter: {count}</h1>
+      <button @click={() => console.log('Clicked!')}>
+        Increment
+      </button>
+    </div>
+  );
+}
+
+// JSX compiles to direct h() function calls - no virtual DOM!
+const counterElement = <Counter />;
+```
+
+**Event Handling with @ Syntax**:
+```tsx
+function App() {
+  const handleClick = () => alert('Button clicked!');
+
+  return (
+    <div>
+      <button @click={handleClick}>Click me</button>
+      <button onclick={handleClick}>Also works</button>
+    </div>
+  );
+}
+```
+
+**Type Safety**:
+```tsx
+// TypeScript knows this is an HTMLButtonElement
+const button: HTMLButtonElement = <button>Click</button>;
+
+// TypeScript knows this is an HTMLInputElement
+const input: HTMLInputElement = <input type="text" value="hello" />;
+
+// TypeScript provides autocomplete for HTML attributes
+const div: HTMLDivElement = <div className="container" id="main" />;
+```
+
+**Important Notes**:
+- KT.js JSX has **no Fragment support** - we don't have a Fragment concept
+- JSX compiles directly to `h()` function calls - **zero virtual DOM overhead**
+- Use `@click` syntax for event handlers to avoid conflicts with existing attributes
+- All JSX elements have proper HTML element type inference in TypeScript
 
 If you give a function in attributes, it will be treated as an event listener, and the key will be considered as the event name. `@<eventName>` will also be considered as the handler to avoid conflicts with existing attributes:
 

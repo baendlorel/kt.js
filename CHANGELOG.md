@@ -1,5 +1,23 @@
 # Change Log 🕒
 
+## 0.6.6 2025-12-24
+
+### Major Features
+
+- **JSX/TSX Support**: Added full JSX syntax support with the new `@ktjs/jsx` package
+  - JSX now compiles directly to `h()` function calls - zero virtual DOM overhead
+  - Full TypeScript integration with proper HTML element type inference
+  - Support for `@click` event handler syntax
+  - Included in the main `kt.js` package as a required dependency
+  - No Fragment support - KT.js doesn't have a Fragment concept
+
+### Changes
+
+- **Dependency Updates**: `@ktjs/jsx` is now a required dependency of the main `kt.js` package
+- **TypeScript Configuration**: Updated shared tsconfig to include `@ktjs/jsx` path mapping
+- **Build Configuration**: Updated Rollup config to handle `@ktjs/jsx` as external dependency
+- **Documentation**: Updated README with comprehensive JSX usage examples and configuration
+
 ## 0.5.1-x 2025-11-28
 
 - fix the documentation that gives wrong function names for button shortcut.

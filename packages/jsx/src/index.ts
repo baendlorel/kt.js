@@ -37,9 +37,7 @@ interface Ref<T> {
   update: () => T;
 }
 
-export function ref<T extends HTMLElement>(): Ref<T> {
-  return {} as Ref<T>;
-}
+export * from './ref.js';
 
 // Export types
 export type * from './types/jsx.d.ts';

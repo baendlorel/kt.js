@@ -1,12 +1,9 @@
+import { Ref } from '../../../jsx/src/ref.ts';
 import type { HTMLTag, otherstring } from './global.d.ts';
 
-export type KTH = <T extends HTMLTag>(
-  tag: T,
-  attr?: KTRawAttr,
-  content?: KTRawContent | (() => KTRawContent)
-) => HTMLElementTagNameMap[T];
-type Ctt = HTMLElement | string | number | undefined;
-export type KTRawContent = (Ctt | (() => Ctt))[] | Ctt;
+export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
+type Ctt = Ref<any> | HTMLElement | string | number | undefined;
+export type KTRawContent = Ctt[] | Ctt;
 export type KTRawAttr = KTAttribute | string;
 export type KTRawContents = (HTMLElement | string | undefined)[];
 

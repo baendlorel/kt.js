@@ -1,28 +1,22 @@
 import type { KTRawContent } from '@/types/h.js';
 import { $append, $isArray } from '@/lib/index.js';
+import { Ref } from '../../../jsx/src/ref.js';
 
-export function applyContent(element: HTMLElement, content: KTRawContent | (() => KTRawContent)): void {
-  console.log('applyContent', content);
-  if (typeof content === 'function') {
-    content = content();
-  }
-
+export function applyContent(element: HTMLElement, content: KTRawContent): void {
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
       let c = content[i];
-      if (typeof c === 'function') {
-        c = c();
-      } else if (typeof c === 'number') {
-        $append.call(element, c.toString());
+      if (c instanceof Ref) {
+        $append.call(element, c.value);
       } else {
-        $append.call(element, c!);
+        $append.call(element, c as string);
       }
     }
   } else {
-    if (typeof content === 'number') {
-      $append.call(element, content.toString());
+    if (content instanceof Ref) {
+      $append.call(element, content.value);
     } else {
-      $append.call(element, content!);
+      $append.call(element, content as string);
     }
   }
 }

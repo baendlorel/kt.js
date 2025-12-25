@@ -1,5 +1,6 @@
 import type { HTMLTag, KTRawAttr, KTRawContent, KTRawContents } from '@ktjs/core';
 import { h, ktnull } from '@ktjs/core';
+import { Ref } from './ref.js';
 
 /**
  * @param tag html tag
@@ -16,14 +17,13 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
   delete propObj.children;
 
   // deal with ref attribute
-  const hasRef = 'ref' in propObj && typeof propObj.ref === 'object' && propObj.ref !== null;
-  const ref = hasRef ? propObj.ref : null;
-  if (hasRef) {
+  const ref = 'ref' in propObj && propObj.ref instanceof Ref ? (propObj.ref as Ref<HTMLElementTagNameMap[T]>) : null;
+  if (ref) {
     delete propObj.ref;
   }
 
   const el = h(tag, propObj, children) as HTMLElementTagNameMap[T];
-  if (hasRef) {
+  if (ref) {
     ref.value = el;
     ref.update = () => {
       const old = ref.value as HTMLElement;

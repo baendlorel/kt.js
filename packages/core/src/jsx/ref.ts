@@ -1,14 +1,10 @@
 const noop = () => ({}) as any;
-export class Ref<T> {
+export interface KTRef<T> {
   value: T;
   update: () => T;
-
-  constructor(value: T) {
-    this.value = value;
-    this.update = noop;
-  }
+  isRef: true;
 }
 
-export function ref<T>(value?: T): Ref<T> {
-  return new Ref<T>(value as T);
+export function ref<T>(value?: T): KTRef<T> {
+  return { value: value as T, update: noop, isRef: true };
 }

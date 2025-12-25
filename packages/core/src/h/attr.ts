@@ -80,9 +80,10 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     }
 
     if (typeof o === 'function') {
-      attr[key] = o();
+      (handlers[key] || defaultHandler)(element, key, o());
+    } else {
+      (handlers[key] || defaultHandler)(element, key, o);
     }
-    (handlers[key] || defaultHandler)(element, key, attr[key]);
   }
 
   if (classValue !== undefined) {

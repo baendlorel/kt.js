@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/core",
-  "version": "0.6.17",
+  "version": "0.7.0",
   "description": "Core functionality for kt.js - DOM manipulation utilities",
   "type": "module",
   "module": "./dist/index.mjs",

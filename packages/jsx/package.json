@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/jsx",
-  "version": "0.6.18",
+  "version": "0.7.0",
   "description": "JSX/TSX support for KT.js - Build UIs with JSX syntax while keeping direct DOM control",
   "author": {
     "name": "Kasukabe Tsumugi",

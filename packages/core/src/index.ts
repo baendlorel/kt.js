@@ -10,3 +10,4 @@ export * from './jsx/index.js';
 export type { HTMLTag } from './types/global.js';
 export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';
 export type { KTRuntime } from './runtime.js';
+export * from './types/jsx.js';

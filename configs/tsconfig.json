@@ -10,7 +10,6 @@
     "paths": {
       "@ktjs/runtime": ["../packages/core/src/runtime.ts"],
       "@ktjs/core": ["../packages/core/src/index.ts"],
-      "@ktjs/jsx": ["../packages/jsx/src/index.ts"],
       "@ktjs/router": ["../packages/router/src/main.ts"],
       "@ktjs/shortcuts": ["../packages/shortcuts/src/index.ts"]
     }
@@ -18,7 +17,6 @@
   "include": ["../packages/**/src/**/*.ts", "../packages/**/tests/**/*.ts"],
   "references": [
     { "path": "../packages/core" },
-    { "path": "../packages/jsx" },
     { "path": "../packages/router" },
     { "path": "../packages/shortcuts" },
     { "path": "../packages/kt.js" }

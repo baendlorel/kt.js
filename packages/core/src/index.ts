@@ -4,7 +4,8 @@ export { ktnull } from './lib/consts.js';
 
 export * from './h/index.js';
 
-export * from './enhance/specialize.js';
+// Export JSX functionality
+export * from './jsx/index.js';
 
 export type { HTMLTag } from './types/global.js';
 export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';

@@ -5,11 +5,11 @@
     "paths": {
       "@/*": ["src/*"],
       "@ktjs/core": ["../core/src"],
-      "@ktjs/jsx": ["../jsx/src/index.ts"],
-      "@ktjs/jsx/jsx-runtime": ["../jsx/dist/jsx-runtime", "../jsx/src/jsx-runtime", "../jsx/dist/jsx-runtime.d.ts"]
+      "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],
+      "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]
     },
     "jsx": "react",
     "jsxFactory": "jsx"
   },
-  "include": ["*.tsx", "*.ts", "../jsx/src/**.ts"]
+  "include": ["*.tsx", "*.ts", "../core/src/**.ts"]
 }

@@ -1,5 +1,7 @@
-import type { HTMLTag, KTRawAttr, KTRawContent, KTRawContents } from '@ktjs/core';
-import { h, ktnull } from '@ktjs/core';
+import type { HTMLTag } from '../types/global.js';
+import type { KTRawAttr, KTRawContent, KTRawContents } from '../types/h.js';
+import { h } from '../h/index.js';
+import { ktnull } from '../lib/consts.js';
 import { Ref } from './ref.js';
 
 /**

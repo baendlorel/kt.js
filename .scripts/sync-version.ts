@@ -21,7 +21,6 @@ function syncVersions(targetVersion: string) {
     { path: './packages/kt.js/package.json', name: 'kt.js' },
     { path: './packages/core/package.json', name: '@ktjs/core' },
     { path: './packages/shortcuts/package.json', name: '@ktjs/shortcuts' },
-    { path: './packages/jsx/package.json', name: '@ktjs/jsx' },
     { path: './packages/router/package.json', name: '@ktjs/router' },
   ];
 

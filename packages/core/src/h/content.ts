@@ -1,6 +1,6 @@
 import type { KTRawContent } from '@/types/h.js';
 import { $append, $isArray } from '@/lib/index.js';
-import { Ref } from '../../../jsx/src/ref.js';
+import { Ref } from '../jsx/ref.js';
 
 export function applyContent(element: HTMLElement, content: KTRawContent): void {
   if ($isArray(content)) {

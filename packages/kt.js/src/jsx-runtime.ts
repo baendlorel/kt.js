@@ -1,2 +1,2 @@
-// Re-export JSX runtime from @ktjs/jsx
-export * from '@ktjs/jsx/jsx-runtime';
+// Re-export JSX runtime from @ktjs/core
+export * from '@ktjs/core/jsx-runtime';

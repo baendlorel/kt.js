@@ -1,10 +1,9 @@
-import type { KTAttribute, KTRawContent } from '@ktjs/core';
+import type { KTAttribute, KTRawContent } from '../../types/h.js';
 
 declare global {
   namespace JSX {
     type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
 
-    // 为常用元素提供更精确的类型
     interface IntrinsicElements {
       [tag: string]: KTAttribute & { children?: KTRawContent };
     }

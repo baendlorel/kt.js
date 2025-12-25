@@ -1,4 +1,4 @@
-import { Ref } from '../../../jsx/src/ref.ts';
+import { Ref } from '../jsx/ref.js';
 import type { HTMLTag, otherstring } from './global.d.ts';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];

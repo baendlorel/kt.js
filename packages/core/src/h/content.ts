@@ -2,6 +2,7 @@ import type { KTRawContent } from '@/types/h.js';
 import { $append, $isArray } from '@/lib/index.js';
 
 export function applyContent(element: HTMLElement, content: KTRawContent | (() => KTRawContent)): void {
+  console.log('applyContent', content);
   if (typeof content === 'function') {
     content = content();
   }

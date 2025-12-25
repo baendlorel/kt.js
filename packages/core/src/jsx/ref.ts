@@ -9,6 +9,6 @@ export class Ref<T> {
   }
 }
 
-export function ref<T>(value: T): Ref<T> {
-  return new Ref<T>(value);
+export function ref<T>(value?: T): Ref<T> {
+  return new Ref<T>(value as T);
 }

@@ -1,4 +1,4 @@
-import type { KTAttribute, KTRawContent } from '../../types/h.js';
+import type { KTAttribute, KTRawContent } from './h.js';
 
 declare global {
   namespace JSX {

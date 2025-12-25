@@ -24,6 +24,3 @@
 export { jsx, jsxs, jsxDEV, Fragment, createElement } from './jsx-runtime.js';
 
 export * from './ref.js';
-
-// Export types
-export type * from './types/jsx.d.ts';

@@ -64,12 +64,8 @@ interface KTBaseAttribute {
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }
 
-type KTEventHandlersOrAttribute = {
-  [EventName in keyof HTMLElementEventMap]?: ((ev: HTMLElementEventMap[EventName]) => void) | string;
-};
-
 type KTPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-export type KTAttribute = KTBaseAttribute & KTEventHandlersOrAttribute & KTPrefixedEventHandlers;
+export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;

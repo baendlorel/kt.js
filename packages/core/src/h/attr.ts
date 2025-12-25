@@ -79,11 +79,10 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
       continue;
     }
 
-    if (typeof o !== 'function') {
-      (handlers[key] || defaultHandler)(element, key, o);
-    } else {
-      element.addEventListener(key, o);
+    if (typeof o === 'function') {
+      attr[key] = o();
     }
+    (handlers[key] || defaultHandler)(element, key, attr[key]);
   }
 
   if (classValue !== undefined) {

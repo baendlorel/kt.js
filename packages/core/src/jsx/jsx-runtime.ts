@@ -14,6 +14,7 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
   if (propObj === undefined || propObj === null) {
     return h(tag) as HTMLElementTagNameMap[T];
   }
+  h.kDepth++;
 
   const children = propObj.children as KTRawContents & { ref?: any };
   delete propObj.children;
@@ -34,6 +35,7 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
       return ref.value;
     };
   }
+  h.kDepth--;
   return el;
 }
 

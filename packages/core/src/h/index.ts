@@ -8,6 +8,11 @@ import { applyContent } from './content.js';
 
 type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
 
+type H = (<T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTML<T>) & {
+  kDepth: number;
+  kUpdater: (() => void)[];
+};
+
 /**
  * Create an enhanced HTMLElement.
  * - Only supports HTMLElements, **NOT** SVGElements or other Elements.
@@ -17,19 +22,19 @@ type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagN
  *
  * __PKG_INFO__
  */
-export const h = <T extends HTMLTag>(tag: T, attr: KTRawAttr = '', content: KTRawContent = ''): HTML<T> => {
+export const h: H = ((tag, attr = '', content = '') => {
   if (typeof tag !== 'string') {
     $throw('__func__ tagName must be a string.');
   }
 
   // * start creating the element
-  const element = document.createElement(tag) as HTML<T>;
+  const element = document.createElement(tag) as any;
 
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
   return element;
-};
+}) as H;
 
 $mark(h, 'h');

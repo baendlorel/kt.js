@@ -40,6 +40,7 @@
     "publish:router": "pnpm --filter @ktjs/router publish --access public",
     "publish:shortcuts": "pnpm --filter @ktjs/shortcuts publish --access public",
     "publish:kt.js": "pnpm --filter kt.js publish --access public",
+    "pubjsx": "pnpm --filter @ktjs/core run build && && pnpm --filter kt.js run build && pnpm --filter @ktjs/core publish --access public && pnpm --filter kt.js publish --access public",
     "sync": "tsx .scripts/sync-version.ts"
   },
   "license": "MIT",

@@ -10,7 +10,7 @@
       "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core/jsx"
+    "jsxImportSource": "@ktjs/core"
   },
   "include": ["*.tsx", "*.ts"],
   "references": [{ "path": "../core" }]

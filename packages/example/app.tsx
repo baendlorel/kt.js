@@ -53,7 +53,7 @@ function createEventDemo() {
   return (
     <div class="card">
       <h2>Event Handler Demo</h2>
-      <button onclick={() => alert('Hello from JSX!')}>Click me!</button>
+      <button on:click={(e) => alert('Hello from JSX!')}>Click me!</button>
     </div>
   );
 }

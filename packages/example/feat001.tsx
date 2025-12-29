@@ -8,7 +8,7 @@ const FCA: any = function () {
     count.value += 1;
     const d = <div>{count}</div>;
     document.body.appendChild(d);
-  }, 2000);
+  }, 1200);
   return Promise.resolve(d);
 };
 

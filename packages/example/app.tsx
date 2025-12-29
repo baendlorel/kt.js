@@ -1,4 +1,4 @@
-import { jsx } from '@ktjs/core/jsx';
+import '@ktjs/core/jsx';
 
 // Simple counter component
 function createCounter() {

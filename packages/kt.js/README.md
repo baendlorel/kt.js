@@ -64,7 +64,6 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 - **Full ES5 Compatibility**: Works in IE9+ and all modern browsers
   - Transpiled to ES5 with no modern syntax
   - Optional minimal Promise polyfill for older environments
-- **`ktnull`**: A special value for filtering null/undefined while preserving native DOM behavior
 - **Shared Runtime**: Efficient code sharing across packages with zero overhead
 
 ## Getting started
@@ -300,26 +299,6 @@ console.log(router.current?.path, router.current?.params, router.current?.query)
 - **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
 - **Zero Dependencies**: Fully self-contained router implementation (does not require `@ktjs/core` for runtime, only for TypeScript types)
 - **Pure Routing**: No rendering logic - you control the DOM
-
-## `ktnull`
-
-`ktnull`, assigned by `Object.create(null)`, is a falsy value.
-It is used for filtering, you can do like this:
-
-```ts
-import { div, ktnull } from 'kt.js';
-const list = div('', [false ? div('', 'item 1') : ktnull, div('', 'Item 2'), undefined]);
-```
-
-Then it will create:
-
-```html
-<div>
-  <!-- there won't be <div>Item 1</div> -->
-  <div>Item 2</div>
-  undefined
-</div>
-```
 
 ## Browser Compatibility
 

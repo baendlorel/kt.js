@@ -24,10 +24,6 @@ Core DOM manipulation utilities for KT.js framework.
   - Accurate HTMLElement type inference
   - Event handler type hints with proper event types
   - Support for custom attributes and properties
-- **`ktnull`**: Special value for filtering null/undefined in DOM operations
-  - Works as a placeholder that won't create DOM nodes
-  - Can be used in attribute or content positions
-  - Preserves native DOM behavior while enabling conditional rendering
 - **ES5 Compatible**: Transpiled to ES5 for maximum browser compatibility
 - **Zero Dependencies**: Fully self-contained implementation
 
@@ -93,23 +89,6 @@ const input = h('input', {
 });
 ```
 
-### Using ktnull for Conditional Rendering
-
-```typescript
-import { h, ktnull } from '@ktjs/core';
-
-const items = [1, 2, 3, 4, 5];
-
-const list = h(
-  'ul',
-  {},
-  items.map(
-    (item) => (item % 2 === 0 ? h('li', {}, `Even: ${item}`) : ktnull) // Won't create a DOM node
-  )
-);
-// Results in: <ul><li>Even: 2</li><li>Even: 4</li></ul>
-```
-
 ## API Reference
 
 ### `h(tag, attributes?, content?)`
@@ -123,10 +102,6 @@ Creates an HTMLElement with the specified tag, attributes, and content.
 - `content` (string | HTMLElement | Array, optional): Element content
 
 **Returns:** HTMLElement
-
-### `ktnull`
-
-A special frozen empty object used to represent "no element" in content arrays. When used in place of an element, it won't create any DOM node.
 
 ## Type System
 

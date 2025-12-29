@@ -1,7 +1,6 @@
 import type { HTMLTag } from '../types/global.js';
 import type { KTRawAttr, KTRawContent, KTRawContents } from '../types/h.js';
 import { h } from '../h/index.js';
-import { ktnull } from '../lib/consts.js';
 import { KTRef } from './ref.js';
 
 /**
@@ -47,15 +46,14 @@ export function jsx<T extends HTMLTag>(
 /**
  * Fragment support - returns an array of children
  * Note: kt.js doesn't have a real Fragment concept,
- * so we return ktnull for empty fragments or flatten children
  */
-export function Fragment(props: { children?: KTRawContent }): HTMLElement | typeof ktnull {
+export function Fragment(props: { children?: KTRawContent }): HTMLElement {
   window.__ktjs__.throws("kt.js doesn't have a Fragment concept");
 
   // const { children } = props || {};
 
   // if (!children) {
-  //   return ktnull;
+  //   return ;
   // }
 
   // // If single child, return it directly
@@ -69,13 +67,11 @@ export function Fragment(props: { children?: KTRawContent }): HTMLElement | type
   // wrapper.setAttribute('data-kt-fragment', 'true');
 
   // children.forEach((child) => {
-  //   if (child && child !== ktnull) {
   //     if (typeof child === 'string') {
   //       wrapper.appendChild(document.createTextNode(child));
   //     } else if (child instanceof HTMLElement) {
   //       wrapper.appendChild(child);
   //     }
-  //   }
   // });
 
   // return wrapper;

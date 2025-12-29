@@ -1,7 +1,5 @@
 export * from './runtime.js';
 
-export { ktnull } from './lib/consts.js';
-
 export * from './h/index.js';
 
 // Export JSX functionality

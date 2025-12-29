@@ -1,5 +1,3 @@
-import { ktnull } from './consts.js';
-
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
  * & `window.document` is safe because it is not configurable and its setter is undefined
@@ -10,8 +8,7 @@ const originAppend = HTMLElement.prototype.append;
 export const $append: typeof originAppend = // for ie 9/10/11
   typeof originAppend === 'function'
     ? function (this: HTMLElement, ...args) {
-        const nodes = args.filter((a) => a !== ktnull);
-        return originAppend.apply(this, nodes);
+        return originAppend.apply(this, args);
       }
     : function (this: HTMLElement, ...nodes: Array<Node | string>) {
         if (nodes.length < 50) {
@@ -19,7 +16,7 @@ export const $append: typeof originAppend = // for ie 9/10/11
             const node = nodes[i];
             if (typeof node === 'string') {
               $appendChild.call(this, document.createTextNode(node));
-            } else if (node !== ktnull) {
+            } else {
               $appendChild.call(this, node);
             }
           }
@@ -29,7 +26,7 @@ export const $append: typeof originAppend = // for ie 9/10/11
             const node = nodes[i];
             if (typeof node === 'string') {
               $appendChild.call(fragment, document.createTextNode(node));
-            } else if (node !== ktnull) {
+            } else {
               $appendChild.call(fragment, node);
             }
           }

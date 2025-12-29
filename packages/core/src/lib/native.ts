@@ -11,3 +11,6 @@ const emptyPromiseHandler: (...args: any[]) => Promise<any> = () => ({}) as unkn
 if (typeof Promise === 'undefined') {
   window.Promise = { resolve: emptyPromiseHandler, reject: emptyPromiseHandler } as any;
 }
+
+export const $isThenable = (o: any): o is Promise<any> =>
+  typeof o === 'object' && o !== null && 'then' in o && typeof o.then === 'function';

@@ -1,42 +1,41 @@
-import type { KTRawContent } from '@/types/h.js';
-import { $append, $isArray } from '@/lib/index.js';
+import type { KTAvailableContent, KTRawContent } from '@/types/h.js';
+import { $append, $isArray, $isThenable } from '@/lib/index.js';
 import { KTRef } from '../jsx/ref.js';
 
-function apd(element: HTMLElement, content: KTRawContent) {
-  // Handle Promise content
-  if (content instanceof Promise) {
-    // Create a placeholder comment node
+function apd(element: HTMLElement | DocumentFragment, content: KTRawContent) {
+  if ($isThenable(content)) {
     const placeholder = document.createComment('kt-async');
     $append.call(element, placeholder);
-
-    // When promise resolves, replace placeholder with actual content
     content
       .then((resolved) => {
         const fragment = document.createDocumentFragment();
-
-        if ($isArray(resolved)) {
-          for (let i = 0; i < resolved.length; i++) {
-            apd(fragment as any, resolved[i]);
-          }
-        } else {
-          apd(fragment as any, resolved);
-        }
-
-        // Replace placeholder with resolved content
-        placeholder.parentNode?.replaceChild(fragment, placeholder);
+        apdSync(fragment, resolved);
+        placeholder.replaceWith(fragment);
       })
       .catch((err) => {
-        console.error('KT.js: Promise content failed to resolve:', err);
-        placeholder.parentNode?.removeChild(placeholder);
+        console.error('KT.js: ', err);
+        placeholder.remove();
       });
-
-    return;
-  }
-
-  if (content && (content as KTRef<any>).isKT) {
+  } else if (content && (content as KTRef<any>).isKT) {
     $append.call(element, (content as KTRef<any>).value);
   } else {
+    console.log('appending content:', content);
     $append.call(element, content as string);
+  }
+}
+
+function apdSync(element: HTMLElement | DocumentFragment, resolved: KTAvailableContent[] | KTAvailableContent) {
+  if ($isArray(resolved)) {
+    for (let i = 0; i < resolved.length; i++) {
+      const r = resolved[i];
+      if ($isThenable(r)) {
+        apd(element, r);
+      } else {
+        $append.call(element, r as Node);
+      }
+    }
+  } else {
+    $append.call(element, resolved as Node);
   }
 }
 

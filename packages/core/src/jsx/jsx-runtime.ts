@@ -85,8 +85,8 @@ export function Fragment(props: { children?: KTRawContent }): HTMLElement | type
  * JSX Development runtime - same as jsx but with additional dev checks
  */
 export const jsxDEV: typeof jsx = (...args) => {
-  console.log('JSX DEV called:', ...args);
-  console.log('chilren', (args[1] as any)?.children);
+  // console.log('JSX DEV called:', ...args);
+  // console.log('children', (args[1] as any)?.children);
   return jsx(...args);
 };
 

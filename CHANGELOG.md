@@ -2,8 +2,79 @@
 
 ## 0.7-0.10.x 2025-12-24 ~ 2025-12-29
 
-- remove `ktnull`
-- improve jsx
+### Major Features
+
+- **JSX Package Consolidation**: Merged `@ktjs/jsx` package into `@ktjs/core`
+  - JSX functionality is now built into the core package
+  - Simplified package structure by removing standalone JSX package
+  - Removed `@ktjs/jsx` dependency from `kt.js` package
+
+- **Function Component Support**: Added support for functional components (v0.9.0)
+  - Functions can now be used as JSX elements
+  - Automatic component invocation in JSX runtime
+  - Better component composition patterns
+
+- **Promise Component Support**: Enhanced async component handling (v0.10.0)
+  - Components can now return Promises
+  - Native support for async rendering
+  - Improved handling of promise-based content
+
+- **Function-based Attributes and Children**: Functions can be used as attribute values and children (v0.7.1)
+  - Dynamic content generation through function invocation
+  - Enhanced reactive-like behavior without adding a full reactive system
+  - Functions are automatically executed to retrieve their return values
+
+### Breaking Changes
+
+- **Removed `ktnull`**: The special `ktnull` value has been removed
+  - Simplifies the API surface
+  - Native `null` and `undefined` handling improved
+- **Update Mechanism Removed**: Cancelled the update mechanism to ensure lightweight design
+  - Maintains KT.js's philosophy of minimal overhead
+  - Focus on direct DOM manipulation
+
+- **Ref Type Restrictions**: JSX `ref` is now limited to HTML elements only
+  - More strict typing for better type safety
+  - Prevents misuse of ref on non-HTML elements
+
+- **Deleted `@ktjs/enhance`**: Removed enhancement features
+  - Streamlined codebase for better maintainability
+
+### Improvements
+
+- **Type System Enhancements**:
+  - More refined type names
+  - Better JSX type inference
+  - Improved type exports from core package
+  - Fixed type errors in example package
+
+- **Ref Improvements**:
+  - Ref no longer requires default values (v0.8.2)
+  - Changed ref detection mechanism (v0.8.3)
+  - Ref now properly removed from attributes to prevent DOM pollution (v0.6.10)
+
+- **Event Handler Syntax**: Confirmed `on:click` syntax for event handlers instead of `@click` or `onclick`
+  - Consistent event binding pattern
+  - Avoids conflicts with native attributes
+
+- **Build Configuration**:
+  - Added convenient packaging commands
+  - Improved example package configuration
+  - Vite and tsconfig alignment for better development experience
+  - Fixed build scripts issues
+
+- **Testing**: Added tests for function-as-tag usage
+
+- **Documentation**:
+  - Synchronized README between root and `kt.js` sub-package
+  - Added SSR TODO notes
+  - Updated changelogs
+
+### Development Experience
+
+- Example application is now fully runnable with proper configuration
+- Better IDE support with improved type definitions
+- Development workflow optimizations
 
 ## 0.6.6 2025-12-24
 

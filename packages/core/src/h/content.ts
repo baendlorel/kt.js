@@ -6,14 +6,14 @@ export function applyContent(element: HTMLElement, content: KTRawContent): void 
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
       let c = content[i];
-      if (c && (c as KTRef<any>).isRef) {
+      if (c && (c as KTRef<any>).isKT) {
         $append.call(element, (c as KTRef<any>).value);
       } else {
         $append.call(element, c as string);
       }
     }
   } else {
-    if (content && (content as KTRef<any>).isRef) {
+    if (content && (content as KTRef<any>).isKT) {
       $append.call(element, (content as KTRef<any>).value);
     } else {
       $append.call(element, content as string);

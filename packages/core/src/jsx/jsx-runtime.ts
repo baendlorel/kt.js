@@ -27,12 +27,6 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
   const el = h(tag, propObj, children) as HTMLElementTagNameMap[T];
   if (ref) {
     ref.value = el;
-    ref.update = () => {
-      const old = ref.value as HTMLElement;
-      ref.value = h(tag, propObj, children) as HTMLElementTagNameMap[T];
-      old.replaceWith(ref.value);
-      return ref.value;
-    };
   }
   return el;
 }

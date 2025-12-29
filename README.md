@@ -16,11 +16,10 @@ For more awesome packages, check out [my homepage💛](https://baendlorel.github
 
 KT.js is now a **monorepo** containing multiple packages:
 
-- **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function
-- **[@ktjs/jsx](./packages/jsx)**: JSX/TSX support with full TypeScript integration (included in kt.js package)
+- **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
+- **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function. SX/TSX support with full TypeScript integration (included in kt.js package)
 - **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
 - **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
-- **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
 
 You can install the full package or individual packages as needed:
 
@@ -30,7 +29,6 @@ pnpm add kt.js
 
 # Or install individual packages
 pnpm add @ktjs/core       # Core DOM utilities (independent)
-pnpm add @ktjs/jsx        # JSX/TSX support (requires @ktjs/core)
 pnpm add @ktjs/router     # Client-side router (independent)
 pnpm add @ktjs/shortcuts  # Shortcuts (requires @ktjs/core)
 ```
@@ -103,6 +101,7 @@ This will create the following DOM structure:
 KT.js now has full JSX support! With the `@ktjs/jsx` package (included in the main `kt.js` package), you can write components using familiar JSX syntax:
 
 **TypeScript Configuration** (`tsconfig.json`):
+
 ```json
 {
   "compilerOptions": {
@@ -113,6 +112,7 @@ KT.js now has full JSX support! With the `@ktjs/jsx` package (included in the ma
 ```
 
 **Basic JSX Example**:
+
 ```tsx
 import { jsx } from 'kt.js';
 
@@ -134,6 +134,7 @@ const counterElement = <Counter />;
 ```
 
 **Event Handling with @ Syntax**:
+
 ```tsx
 function App() {
   const handleClick = () => alert('Button clicked!');
@@ -148,6 +149,7 @@ function App() {
 ```
 
 **Type Safety**:
+
 ```tsx
 // TypeScript knows this is an HTMLButtonElement
 const button: HTMLButtonElement = <button>Click</button>;
@@ -160,6 +162,7 @@ const div: HTMLDivElement = <div className="container" id="main" />;
 ```
 
 **Important Notes**:
+
 - KT.js JSX has **no Fragment support** - we don't have a Fragment concept
 - JSX compiles directly to `h()` function calls - **zero virtual DOM overhead**
 - Use `@click` syntax for event handlers to avoid conflicts with existing attributes

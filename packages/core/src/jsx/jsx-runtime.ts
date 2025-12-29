@@ -5,11 +5,24 @@ import { ktnull } from '../lib/consts.js';
 import { KTRef } from './ref.js';
 
 /**
- * @param tag html tag
+ * @param tag html tag or function component
  * @param props properties/attributes
  * @param _metadata metadata is ignored
  */
-export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: any[]): HTMLElementTagNameMap[T] {
+export function jsx<T extends HTMLTag>(
+  tag: T | Function,
+  props: KTRawAttr,
+  ..._metadata: any[]
+): HTMLElementTagNameMap[T] | HTMLElement {
+  // Handle function components
+  if (typeof tag === 'function') {
+    const propObj = typeof props === 'string' ? { class: props } : props || {};
+    const children = propObj.children;
+
+    return tag({ ...propObj, children });
+  }
+
+  // Handle regular HTML tags
   const propObj = typeof props === 'string' ? { class: props } : props;
   if (propObj === undefined || propObj === null) {
     return h(tag) as HTMLElementTagNameMap[T];
@@ -24,7 +37,7 @@ export function jsx<T extends HTMLTag>(tag: T, props: KTRawAttr, ..._metadata: a
     delete propObj.ref;
   }
 
-  const el = h(tag, propObj, children) as HTMLElementTagNameMap[T];
+  const el = h(tag as T, propObj, children) as HTMLElementTagNameMap[T];
   if (ref) {
     ref.value = el;
   }

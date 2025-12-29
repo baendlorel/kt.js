@@ -1,6 +1,6 @@
 import { ref } from '@ktjs/core/jsx';
 
-function a() {
+function FCA() {
   const count = ref(1);
   const d = <div>{count}</div>;
   document.body.appendChild(d);
@@ -9,5 +9,13 @@ function a() {
     const d = <div>{count}</div>;
     document.body.appendChild(d);
   }, 2000);
+  return d;
 }
-a();
+FCA();
+
+const c = (
+  <div style="color: red;">
+    <FCA />
+  </div>
+);
+document.body.appendChild(c);

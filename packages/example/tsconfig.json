@@ -2,6 +2,7 @@
   "extends": "../../configs/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "composite": false,
     "paths": {
       "@/*": ["src/*"],
       "@ktjs/core": ["../core/src"],
@@ -11,5 +12,6 @@
     "jsx": "react",
     "jsxFactory": "jsx"
   },
-  "include": ["*.tsx", "*.ts", "../core/src/**.ts"]
+  "include": ["*.tsx", "*.ts"],
+  "references": [{ "path": "../core" }]
 }

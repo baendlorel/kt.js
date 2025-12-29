@@ -24,7 +24,7 @@ type H = (<T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) 
  */
 export const h: H = ((tag, attr = '', content = '') => {
   if (typeof tag !== 'string') {
-    $throw('__func__ tagName must be a string.');
+    $throw('tagName must be a string.');
   }
 
   // * start creating the element

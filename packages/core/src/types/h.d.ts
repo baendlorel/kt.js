@@ -3,7 +3,11 @@ import type { HTMLTag, otherstring } from './global.d.ts';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 type KTAvailableContent = KTRef<any> | HTMLElement | string | number | undefined;
-export type KTRawContent = KTAvailableContent[] | KTAvailableContent;
+export type KTRawContent =
+  | KTAvailableContent[]
+  | KTAvailableContent
+  | Promise<KTAvailableContent[]>
+  | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | string;
 export type KTRawContents = (HTMLElement | string | undefined)[];
 

@@ -4,6 +4,11 @@ export interface KTRef<T> {
   isKT: true;
 }
 
-export function ref<T>(value?: T): KTRef<T> {
+/**
+ * Reference to the created HTML element.
+ * - can alse be used to store normal values, but it is not reactive.
+ * @param value mostly an HTMLElement
+ */
+export function ktref<T = HTMLElement>(value?: T): KTRef<T> {
   return { value: value as T, isKT: true };
 }

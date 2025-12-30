@@ -52,6 +52,10 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
   - Support for `@click` event handler syntax
   - No Fragment support - KT.js doesn't have a Fragment concept
+- **Async Components**: Built-in support for Promise-based components
+  - `KTAsync` component for handling async operations
+  - Automatic placeholder management during loading
+  - Seamless integration with JSX/TSX syntax
 - **Client-Side Router** (separate package):
   - Hash-based routing with dynamic parameters
   - Navigation guards with async/sync auto-adaptation
@@ -163,6 +167,73 @@ const div: HTMLDivElement = <div className="container" id="main" />;
 - JSX compiles directly to `h()` function calls - **zero virtual DOM overhead**
 - Use `@click` syntax for event handlers to avoid conflicts with existing attributes
 - All JSX elements have proper HTML element type inference in TypeScript
+
+### Async Components with KTAsync
+
+KT.js provides built-in support for async components through the `KTAsync` component:
+
+```tsx
+import { KTAsync, ref } from 'kt.js';
+
+// Define an async component that returns a Promise<HTMLElement>
+const AsyncUserCard = function () {
+  return fetch('/api/user')
+    .then((res) => res.json())
+    .then((user) => (
+      <div class="user-card">
+        <h2>{user.name}</h2>
+        <p>{user.email}</p>
+      </div>
+    ));
+};
+
+// Use KTAsync to handle the async component
+function App() {
+  return (
+    <div class="app">
+      <h1>User Profile</h1>
+      <KTAsync component={AsyncUserCard} />
+    </div>
+  );
+}
+
+// The component starts with a placeholder comment node
+// When the Promise resolves, it automatically replaces with the actual element
+```
+
+**How KTAsync works:**
+
+1. Creates a placeholder comment node (`ktjs-suspense-placeholder`) immediately
+2. Calls your component function (which should return a `Promise<HTMLElement>` or `HTMLElement`)
+3. When the Promise resolves, automatically replaces the placeholder with the resolved element
+4. If your component returns a non-Promise value, it's used directly without async handling
+
+**Example with dynamic updates:**
+
+```tsx
+const DynamicContent = function () {
+  const count = ref(0);
+  const container = (
+    <div>
+      <p>Count: {count}</p>
+      <button on:click={() => count.value++}>Increment</button>
+    </div>
+  );
+
+  // Simulate async data loading
+  return new Promise<HTMLElement>((resolve) => {
+    setTimeout(() => resolve(container), 500);
+  });
+};
+
+// Usage
+const app = (
+  <div>
+    <h1>Loading async content...</h1>
+    <KTAsync component={DynamicContent} />
+  </div>
+);
+```
 
 If you give a function in attributes, it will be treated as an event listener, and the key will be considered as the event name. `@<eventName>` will also be considered as the handler to avoid conflicts with existing attributes:
 

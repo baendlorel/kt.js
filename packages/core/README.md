@@ -17,6 +17,11 @@ Core DOM manipulation utilities for KT.js framework.
   - Special `@<eventName>` syntax for event handlers
   - Function attributes automatically treated as event listeners
   - Full TypeScript support with intelligent type inference
+- **KTAsync Component**: Handle async components with ease
+  - Automatic handling of Promise-based components
+  - Seamless integration with JSX/TSX
+  - Fallback placeholder during async loading
+  - Type-safe async component support
 - **DOM Utilities**: Helper functions for common DOM operations
   - Native method caching for performance
   - Symbol-based private properties for internal state
@@ -88,6 +93,43 @@ const input = h('input', {
   '@change': (e) => console.log('Changed'), // Event listener
 });
 ```
+
+### Async Components
+
+```typescript
+import { KTAsync } from '@ktjs/core';
+
+// Define an async component that returns a Promise
+const AsyncComponent = function () {
+  return new Promise<HTMLElement>((resolve) => {
+    setTimeout(() => {
+      const element = h('div', { class: 'loaded' }, 'Content loaded!');
+      resolve(element);
+    }, 1000);
+  });
+};
+
+// Use KTAsync to handle the async component
+const container = h('div', {}, [
+  h('h1', {}, 'Loading...'),
+  KTAsync({ component: AsyncComponent }),
+]);
+
+// With JSX/TSX
+const App = () => (
+  <div>
+    <h1>Loading...</h1>
+    <KTAsync component={AsyncComponent} />
+  </div>
+);
+```
+
+**How it works:**
+
+- `KTAsync` creates a placeholder comment node immediately
+- When the Promise resolves, it automatically replaces the placeholder with the actual element
+- If the component returns a non-Promise value, it's used directly
+- No manual DOM manipulation needed - just return a Promise from your component
 
 ## API Reference
 

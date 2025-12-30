@@ -22,6 +22,8 @@ export type EventHandler<T extends Event = Event> = (this: HTMLElement, ev: T) =
 interface KTBaseAttribute {
   [k: string]: any;
 
+  ref?: KTRef<HTMLElement>;
+
   id?: string;
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;

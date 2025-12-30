@@ -31,7 +31,7 @@ export function jsx<T extends HTMLTag>(
   delete propObj.children;
 
   // deal with ref attribute
-  const ref = propObj.ref?.isRef ? (propObj.ref as KTRef<HTMLElementTagNameMap[T]>) : null;
+  const ref = propObj.ref?.isKT ? (propObj.ref as KTRef<HTMLElementTagNameMap[T]>) : null;
   if (ref) {
     delete propObj.ref;
   }

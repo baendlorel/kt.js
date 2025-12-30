@@ -75,3 +75,10 @@ type KTPrefixedEventHandlers = {
 };
 
 export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;
+
+export type KTComponent = (
+  props: {
+    ref?: KTRef<HTMLElement>;
+    children?: KTRawContent;
+  } & KTAttribute
+) => HTMLElement | Promise<HTMLElement>;

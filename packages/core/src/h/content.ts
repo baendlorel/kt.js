@@ -11,13 +11,8 @@ function apdSingle(element: HTMLElement | DocumentFragment, c: KTAvailableConten
 }
 
 function apd(element: HTMLElement | DocumentFragment, c: KTAvailableContent[] | KTAvailableContent) {
-  console.log('apd', c);
-
   if ($isThenable(c)) {
-    c.then((r) => {
-      console.log('append awaited', r, element);
-      apd(element, r);
-    });
+    c.then((r) => apd(element, r));
   } else if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
       // & might be thenable here too

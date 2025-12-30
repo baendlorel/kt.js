@@ -1,5 +1,5 @@
 import { ref } from '@ktjs/core/jsx';
-import { Suspense } from '@ktjs/core';
+import { KTAsync } from '@ktjs/core';
 
 const FCA = function (): Promise<HTMLElement> {
   const count = ref(1);
@@ -18,7 +18,7 @@ const FCA = function (): Promise<HTMLElement> {
 
 const c = (
   <div style="color: red;">
-    <Suspense component={FCA} on:click={(e) => console.log(e)} />
+    <KTAsync component={FCA} on:click={(e) => console.log(e)} />
   </div>
 );
 document.body.appendChild(c);

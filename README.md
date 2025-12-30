@@ -45,7 +45,7 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 - **Tiny Bundle Size**: Minimal runtime overhead with aggressive tree-shaking
 - **`h` function**: Create DOM elements with a simple, flexible API
   - Shortcut functions for all HTML elements (`div`, `span`, `button`, etc.)
-  - Event handlers with `@<eventName>` syntax or function attributes
+  - Event handlers with `on:<eventName>` syntax or function attributes
   - Full TypeScript support with intelligent type inference
 - **JSX/TSX Support**: Full JSX syntax support with TypeScript integration
   - Zero virtual DOM - JSX compiles directly to `h()` function calls
@@ -105,7 +105,7 @@ KT.js now has full JSX support! With the `@ktjs/jsx` package (included in the ma
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/jsx"
+    "jsxImportSource": "kt.js"
   }
 }
 ```
@@ -121,9 +121,7 @@ function Counter() {
   return (
     <div class="counter">
       <h1>Counter: {count}</h1>
-      <button @click={() => console.log('Clicked!')}>
-        Increment
-      </button>
+      <button on:click={() => console.log('Clicked!')}>Increment</button>
     </div>
   );
 }
@@ -140,8 +138,7 @@ function App() {
 
   return (
     <div>
-      <button @click={handleClick}>Click me</button>
-      <button onclick={handleClick}>Also works</button>
+      <button on:click={handleClick}>Click me</button>
     </div>
   );
 }
@@ -172,9 +169,8 @@ If you give a function in attributes, it will be treated as an event listener, a
 ```ts
 const button = btn(
   {
-    click: () => alert('Clicked!'),
     dblclick: '22',
-    '@dblclick': function trueHandler() {
+    'on:dblclick': function trueHandler() {
       /* ... */
     },
   },

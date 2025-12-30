@@ -1,8 +1,9 @@
 import { ref } from '@ktjs/core/jsx';
+import { Suspense } from '@ktjs/core';
 
-const FCA: any = function () {
+const FCA = function (): Promise<HTMLElement> {
   const count = ref(1);
-  const d = <div>{count}</div>;
+  const d = (<div>{count}</div>) as HTMLElement;
   setTimeout(() => {
     count.value += 1;
     const d = <div>{count}</div>;
@@ -17,7 +18,7 @@ const FCA: any = function () {
 
 const c = (
   <div style="color: red;">
-    <FCA />
+    <Suspense component={FCA} on:click={(e) => console.log(e)} />
   </div>
 );
 document.body.appendChild(c);

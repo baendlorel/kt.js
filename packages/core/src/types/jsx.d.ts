@@ -8,9 +8,10 @@ declare global {
       [tag: string]: KTAttribute & { children?: KTRawContent };
     }
 
-    interface IntrinsicAttributes {
-      key?: string | number;
-    }
+    // interface IntrinsicAttributes {
+    //   key?: string | number;
+    // }
+    type IntrinsicAttributes = KTAttribute;
 
     interface ElementChildrenAttribute {
       children: {};

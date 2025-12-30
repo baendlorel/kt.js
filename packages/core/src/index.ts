@@ -5,7 +5,7 @@ export * from './h/index.js';
 // Export JSX functionality
 export * from './jsx/index.js';
 
-export { Suspense } from './jsx/suspense.js';
+export { KTAsync } from './jsx/async.js';
 
 export type { HTMLTag } from './types/global.js';
 export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';

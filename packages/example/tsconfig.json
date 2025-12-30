@@ -5,6 +5,7 @@
     "composite": false,
     "paths": {
       "@/*": ["src/*"],
+      "@ktjs/core/*": ["../core/src/*"],
       "@ktjs/core": ["../core/src"],
       "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],
       "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]

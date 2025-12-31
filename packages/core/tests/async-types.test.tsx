@@ -1,4 +1,3 @@
-/** @jsxImportSource @ktjs/core */
 import { describe, it, expect } from 'vitest';
 import { KTAsync } from '../src/jsx/async.js';
 

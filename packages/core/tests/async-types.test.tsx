@@ -18,7 +18,7 @@ describe('KTAsync type inference', () => {
     };
 
     // This should work - all required props provided
-    const result1 = <KTAsync component={MyComponent} name="Alice" age={30} on:click={() => console.log('clicked')} />;
+    const result1 = <KTAsync component={MyComponent} name="Alice" age="30" on:click={() => console.log('clicked')} />;
 
     expect(result1).toBeInstanceOf(Comment);
 

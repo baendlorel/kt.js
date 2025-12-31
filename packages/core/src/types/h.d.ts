@@ -1,5 +1,5 @@
 import { KTRef } from '../jsx/ref.js';
-import type { HTMLTag, otherstring } from './global.d.ts';
+import type { HTMLTag, otherstring } from './global.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 type KTAvailableContent = KTRef<any> | HTMLElement | string | number | undefined;

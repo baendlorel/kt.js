@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { KTAsync } from '../src/jsx/async.js';
+import '../types/jsx.js';
 
 describe('KTAsync type inference', () => {
   it('should infer props from component function', () => {

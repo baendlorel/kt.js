@@ -7,11 +7,13 @@ import { $isThenable } from '@/lib/native.js';
  */
 type ExtractComponentProps<T> = T extends (props: infer P) => any ? Omit<P, 'ref' | 'children'> : {};
 
-export function KTAsync<T extends KTComponent>(props: {
-  ref?: KTRef<HTMLElement>;
-  component: T;
-  children?: KTRawContent;
-}) {
+export function KTAsync<T extends KTComponent>(
+  props: {
+    ref?: KTRef<HTMLElement>;
+    component: T;
+    children?: KTRawContent;
+  } & ExtractComponentProps<T>
+): HTMLElement {
   const raw = props.component(props);
   let comp: HTMLElement = document.createComment('ktjs-suspense-placeholder') as unknown as HTMLElement;
   if ($isThenable(raw)) {

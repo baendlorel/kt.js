@@ -55,6 +55,9 @@ interface KTBaseAttribute {
   for?: string;
 
   name?: string;
+  title?: string;
+  placeholder?: string;
+  contenteditable?: boolean;
   value?: string;
   valueAsDate?: Date;
   valueAsNumber?: number;
@@ -82,5 +85,6 @@ export type KTComponent = (
   props: {
     ref?: KTRef<HTMLElement>;
     children?: KTRawContent;
-  } & KTAttribute
+  } & KTAttribute &
+    any
 ) => HTMLElement | Promise<HTMLElement>;

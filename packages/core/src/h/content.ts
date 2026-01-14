@@ -1,8 +1,12 @@
 import type { KTAvailableContent, KTRawContent } from '@/types/h.js';
 import { $append, $isArray, $isThenable } from '@/lib/index.js';
-import { KTRef } from '../jsx/ref.js';
 
 function apdSingle(element: HTMLElement | DocumentFragment, c: KTAvailableContent) {
+  // & JSX should ignore false, undefined, and null
+  if (c === false || c === undefined || c === null) {
+    return;
+  }
+
   if (typeof c === 'object' && c !== null && 'isKT' in c) {
     $append.call(element, c.value as Node);
   } else {

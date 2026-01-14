@@ -9,6 +9,6 @@ export interface KTRef<T> {
  * - can alse be used to store normal values, but it is not reactive.
  * @param value mostly an HTMLElement
  */
-export function ktref<T = HTMLElement>(value?: T): KTRef<T> {
+export function ref<T = HTMLElement>(value?: T): KTRef<T> {
   return { value: value as T, isKT: true };
 }

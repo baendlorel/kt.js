@@ -1,8 +1,8 @@
-import { ktref } from '@ktjs/core/jsx';
+import { ref } from '@ktjs/core/jsx';
 import { KTAsync } from '@ktjs/core';
 
 const FCA = function (): Promise<HTMLElement> {
-  const count = ktref(1);
+  const count = ref(1);
   const d = (<div>{count}</div>) as HTMLElement;
   setTimeout(() => {
     count.value += 1;

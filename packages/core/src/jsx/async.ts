@@ -10,12 +10,15 @@ type ExtractComponentProps<T> = T extends (props: infer P) => any ? Omit<P, 'ref
 export function KTAsync<T extends KTComponent>(
   props: {
     ref?: KTRef<HTMLElement>;
+    skeleton?: HTMLElement;
     component: T;
     children?: KTRawContent;
   } & ExtractComponentProps<T>
 ): HTMLElement {
   const raw = props.component(props);
-  let comp: HTMLElement = document.createComment('ktjs-suspense-placeholder') as unknown as HTMLElement;
+  let comp: HTMLElement =
+    props.skeleton ?? (document.createComment('ktjs-suspense-placeholder') as unknown as HTMLElement);
+
   if ($isThenable(raw)) {
     raw.then((resolved) => comp.replaceWith(resolved));
   } else {

@@ -14,7 +14,7 @@ function apdSingle(element: HTMLElement | DocumentFragment, c: KTAvailableConten
   }
 }
 
-function apd(element: HTMLElement | DocumentFragment, c: KTAvailableContent[] | KTAvailableContent) {
+function apd(element: HTMLElement | DocumentFragment, c: KTAvailableContent) {
   if ($isThenable(c)) {
     c.then((r) => apd(element, r));
   } else if ($isArray(c)) {

@@ -2,11 +2,19 @@ import { KTRef } from '../jsx/ref.js';
 import type { HTMLTag, otherstring } from './global.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
-type KTAvailableContent = KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined;
-type KTAvailableContents = KTAvailableContent[] | KTAvailableContent;
-export type KTRawContent = KTAvailableContents | Promise<KTAvailableContents>;
+type KTAvailableContent =
+  | KTRef<any>
+  | HTMLElement
+  | Element
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | (KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined)[];
+export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | string;
-export type KTRawContents = KTAvailableContents;
+export type KTRawContents = KTAvailableContent;
 
 /**
  * Event handler type for DOM events

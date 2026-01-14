@@ -3,13 +3,10 @@ import type { HTMLTag, otherstring } from './global.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 type KTAvailableContent = KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined;
-export type KTRawContent =
-  | KTAvailableContent[]
-  | KTAvailableContent
-  | Promise<KTAvailableContent[]>
-  | Promise<KTAvailableContent>;
+type KTAvailableContents = KTAvailableContent[] | KTAvailableContent;
+export type KTRawContent = KTAvailableContents | Promise<KTAvailableContents>;
 export type KTRawAttr = KTAttribute | string;
-export type KTRawContents = (HTMLElement | string | undefined)[];
+export type KTRawContents = KTAvailableContents;
 
 /**
  * Event handler type for DOM events

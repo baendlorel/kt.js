@@ -1,5 +1,5 @@
 import type { HTMLTag } from '../types/global.js';
-import type { KTRawAttr, KTRawContent, KTRawContents } from '../types/h.js';
+import type { KTAttribute, KTRawContent, KTRawContents } from '../types/h.js';
 import { h } from '../h/index.js';
 import { KTRef } from './ref.js';
 
@@ -10,9 +10,10 @@ import { KTRef } from './ref.js';
  */
 export function jsx<T extends HTMLTag>(
   tag: T | Function,
-  props: KTRawAttr,
+  props: KTAttribute = {},
   ..._metadata: any[]
-): (HTMLElementTagNameMap[T] | HTMLElement) & { redraw: (props?: KTRawAttr) => void } {
+): (HTMLElementTagNameMap[T] | HTMLElement) & { redraw: (props: KTAttribute) => void } {
+  // todo 新增重绘api
   // Handle function components
   if (typeof tag === 'function') {
     const propObj = typeof props === 'string' ? { class: props } : props || {};
@@ -21,22 +22,17 @@ export function jsx<T extends HTMLTag>(
     return tag({ ...propObj, children });
   }
 
-  // Handle regular HTML tags
-  const propObj = typeof props === 'string' ? { class: props } : props;
-  if (propObj === undefined || propObj === null) {
-    return h(tag) as HTMLElementTagNameMap[T];
-  }
-
-  const children = propObj.children as KTRawContents & { ref?: any };
-  delete propObj.children;
+  const children = props.children as KTRawContents & { ref?: any };
+  delete props.children;
 
   // deal with ref attribute
-  const ref = propObj.ref?.isKT ? (propObj.ref as KTRef<HTMLElementTagNameMap[T]>) : null;
+  // todo 可以支持ref是一个同步的初始化函数的情况?
+  const ref = props.ref?.isKT ? (props.ref as KTRef<HTMLElementTagNameMap[T]>) : null;
   if (ref) {
-    delete propObj.ref;
+    delete props.ref;
   }
 
-  const el = h(tag as T, propObj, children) as HTMLElementTagNameMap[T];
+  const el = h(tag as T, props, children) as HTMLElementTagNameMap[T];
   if (ref) {
     ref.value = el;
   }

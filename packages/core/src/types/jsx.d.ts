@@ -1,8 +1,16 @@
 import type { KTAttribute, KTRawContent } from './h.js';
 
+export type KTHTMLElement = HTMLElement & {
+  /**
+   * Automically generate a redraw function if it is not provided
+   * @param props
+   */
+  redraw: (props?: KTAttribute, children?: KTRawContent) => void;
+};
+
 declare global {
   namespace JSX {
-    type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
+    type Element = KTHTMLElement;
 
     interface IntrinsicElements {
       [tag: string]: KTAttribute & { children?: KTRawContent };
@@ -18,5 +26,3 @@ declare global {
     }
   }
 }
-
-export {};

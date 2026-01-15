@@ -141,9 +141,9 @@ export const createRouter = (config: RouterConfig): Router => {
     const to: RouteContext = {
       path: targetPath,
       name: matched.route.name,
-      params: { ...matched.params, ...(options.params || {}) },
-      query: options.query || {},
-      meta: matched.route.meta || {},
+      params: { ...matched.params, ...(options.params ?? {}) },
+      query: options.query ?? {},
+      meta: matched.route.meta ?? {},
       matched: matched.result,
     };
 
@@ -181,7 +181,7 @@ export const createRouter = (config: RouterConfig): Router => {
       history.push(to);
 
       // Execute after hooks
-      executeAfterHooksSync(to, history[history.length - 2] || null);
+      executeAfterHooksSync(to, history[history.length - 2] ?? null);
 
       return true;
     } catch (error) {
@@ -213,7 +213,7 @@ export const createRouter = (config: RouterConfig): Router => {
         window.history.pushState({ path: to.path }, '', url);
       }
 
-      executeAfterHooks(to, history[history.length - 2] || null);
+      executeAfterHooks(to, history[history.length - 2] ?? null);
       return true;
     } catch (error) {
       onError(error as Error);

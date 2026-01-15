@@ -1,42 +1,75 @@
-import type { HTMLTag } from '../types/global.js';
-import type { KTAttribute, KTRawContent, KTRawContents } from '../types/h.js';
-import { h } from '../h/index.js';
+import type { HTMLTag } from '@/types/global.js';
+import type { KTAttribute, KTRawContent, KTRawContents } from '@/types/h.js';
+import type { KTHTMLElement } from '@/types/jsx.js';
+
+import { h } from '@/h/index.js';
 import { KTRef } from './ref.js';
+
+type JSXTag =
+  | HTMLTag
+  | ((props?: any) => HTMLElement)
+  | ((props?: any) => Promise<HTMLElement>)
+  | ((props?: any) => KTHTMLElement)
+  | ((props?: any) => Promise<KTHTMLElement>);
 
 /**
  * @param tag html tag or function component
  * @param props properties/attributes
- * @param _metadata metadata is ignored
  */
-export function jsx<T extends HTMLTag>(
-  tag: T | Function,
-  props: KTAttribute = {},
-  ..._metadata: any[]
-): (HTMLElementTagNameMap[T] | HTMLElement) & { redraw: (props: KTAttribute) => void } {
-  // todo 新增重绘api
-  // Handle function components
-  if (typeof tag === 'function') {
-    const propObj = typeof props === 'string' ? { class: props } : props || {};
-    const children = propObj.children;
-
-    return tag({ ...propObj, children });
-  }
-
-  const children = props.children as KTRawContents & { ref?: any };
-  delete props.children;
-
-  // deal with ref attribute
-  // todo 可以支持ref是一个同步的初始化函数的情况?
-  const ref = props.ref?.isKT ? (props.ref as KTRef<HTMLElementTagNameMap[T]>) : null;
+export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
+  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : null;
   if (ref) {
     delete props.ref;
   }
 
-  const el = h(tag as T, props, children) as HTMLElementTagNameMap[T];
-  if (ref) {
-    ref.value = el;
+  // Handle function components
+  if (typeof tag === 'function') {
+    let el = tag(props) as KTHTMLElement;
+    if (!el.redraw) {
+      el.redraw = (newProps?: KTAttribute) => {
+        props = newProps ? { ...props, ...newProps } : props;
+
+        // $ same as below
+        const old = el;
+        el = tag(props) as KTHTMLElement;
+        el.redraw = old.redraw; // inherit redraw
+        if (ref) {
+          ref.value = el;
+        }
+        old.replaceWith(el);
+      };
+    }
+
+    if (ref) {
+      ref.value = el;
+    }
+    return el;
+  } else {
+    // & deal children here
+    let children = props.children as KTRawContents & { ref?: any };
+    delete props.children;
+
+    let el = h(tag, props, children) as KTHTMLElement;
+    if (ref) {
+      ref.value = el;
+    }
+
+    el.redraw = (newProps?: KTAttribute, newChildren?: KTRawContent) => {
+      props = newProps ? { ...props, ...newProps } : props;
+      children = (newChildren ?? children) as KTRawContents & { ref?: any };
+
+      // $ same as above
+      const old = el;
+      el = h(tag, props, children) as KTHTMLElement;
+      el.redraw = old.redraw; // inherit redraw
+      if (ref) {
+        ref.value = el;
+      }
+      old.replaceWith(el);
+    };
+
+    return el;
   }
-  return el;
 }
 
 /**
@@ -46,7 +79,7 @@ export function jsx<T extends HTMLTag>(
 export function Fragment(props: { children?: KTRawContent }): HTMLElement {
   window.__ktjs__.throws("kt.js doesn't have a Fragment concept");
 
-  // const { children } = props || {};
+  // const { children } = props ?? {};
 
   // if (!children) {
   //   return ;

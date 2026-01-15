@@ -12,7 +12,7 @@ export function jsx<T extends HTMLTag>(
   tag: T | Function,
   props: KTRawAttr,
   ..._metadata: any[]
-): HTMLElementTagNameMap[T] | HTMLElement {
+): (HTMLElementTagNameMap[T] | HTMLElement) & { redraw: (props?: KTRawAttr) => void } {
   // Handle function components
   if (typeof tag === 'function') {
     const propObj = typeof props === 'string' ? { class: props } : props || {};

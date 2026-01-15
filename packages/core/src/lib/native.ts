@@ -13,4 +13,4 @@ if (typeof Promise === 'undefined') {
 }
 
 export const $isThenable = (o: any): o is Promise<any> =>
-  typeof o === 'object' && o !== null && 'then' in o && typeof o.then === 'function';
+  typeof o === 'object' && o !== null && typeof o.then === 'function';

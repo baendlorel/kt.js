@@ -46,16 +46,26 @@ export const createRouter = (config: RouterConfig): Router => {
   const history: RouteContext[] = [];
 
   // # methods
-  const executeGuardsSync = (to: RouteContext, from: RouteContext | null, guardLevel: GuardLevel): boolean => {
+  const executeGuardsSync = (
+    to: RouteContext,
+    from: RouteContext | null,
+    guardLevel: GuardLevel
+  ): { continue: boolean; redirectTo?: NavOptions } => {
     try {
       if (guardLevel === GuardLevel.None) {
-        return true;
+        return { continue: true };
       }
 
       if (guardLevel & GuardLevel.Global) {
         const result = beforeEach(to, from);
         if (result === false) {
-          return false;
+          return { continue: false };
+        }
+        if (typeof result === 'string') {
+          return { continue: false, redirectTo: { path: result } };
+        }
+        if (result && typeof result === 'object' && !('then' in result)) {
+          return { continue: false, redirectTo: result as NavOptions };
         }
       }
 
@@ -63,14 +73,20 @@ export const createRouter = (config: RouterConfig): Router => {
         const targetRoute = to.matched[to.matched.length - 1];
         const result = targetRoute.beforeEnter(to);
         if (result === false) {
-          return false;
+          return { continue: false };
+        }
+        if (typeof result === 'string') {
+          return { continue: false, redirectTo: { path: result } };
+        }
+        if (result && typeof result === 'object' && !('then' in result)) {
+          return { continue: false, redirectTo: result as NavOptions };
         }
       }
 
-      return true;
+      return { continue: true };
     } catch (error) {
       onError(error as Error);
-      return false;
+      return { continue: false };
     }
   };
 
@@ -78,29 +94,43 @@ export const createRouter = (config: RouterConfig): Router => {
     to: RouteContext,
     from: RouteContext | null,
     guardLevel: GuardLevel
-  ): Promise<boolean> => {
+  ): Promise<{ continue: boolean; redirectTo?: NavOptions }> => {
     try {
       if (guardLevel === GuardLevel.None) {
-        return true;
+        return { continue: true };
       }
 
       if (guardLevel & GuardLevel.Global) {
         const result = await beforeEach(to, from);
         if (result === false) {
-          return false;
+          return { continue: false };
+        }
+        if (typeof result === 'string') {
+          return { continue: false, redirectTo: { path: result } };
+        }
+        if (result && typeof result === 'object') {
+          return { continue: false, redirectTo: result };
         }
       }
 
       if (guardLevel & GuardLevel.Route) {
         const targetRoute = to.matched[to.matched.length - 1];
-        const result = targetRoute.beforeEnter(to);
-        return result !== false;
+        const result = await targetRoute.beforeEnter(to);
+        if (result === false) {
+          return { continue: false };
+        }
+        if (typeof result === 'string') {
+          return { continue: false, redirectTo: { path: result } };
+        }
+        if (result && typeof result === 'object') {
+          return { continue: false, redirectTo: result };
+        }
       }
 
-      return true;
+      return { continue: true };
     } catch (error) {
       onError(error as Error);
-      return false;
+      return { continue: false };
     }
   };
 
@@ -155,8 +185,14 @@ export const createRouter = (config: RouterConfig): Router => {
     };
   };
 
-  const navigateSync = (options: NavOptions): boolean => {
+  const navigateSync = (options: NavOptions, redirectCount = 0): boolean => {
     try {
+      // Prevent infinite redirect loop
+      if (redirectCount > 10) {
+        onError(new Error('Maximum redirect count exceeded'));
+        return false;
+      }
+
       const prep = navigatePrepare(options);
       if (!prep) {
         return false;
@@ -164,7 +200,12 @@ export const createRouter = (config: RouterConfig): Router => {
       const { guardLevel, replace, to, fullPath } = prep;
 
       // Execute guards
-      if (!executeGuardsSync(to, current, guardLevel)) {
+      const guardResult = executeGuardsSync(to, current, guardLevel);
+      if (!guardResult.continue) {
+        // Check if there's a redirect
+        if (guardResult.redirectTo) {
+          return navigateSync(guardResult.redirectTo, redirectCount + 1);
+        }
         return false;
       }
 
@@ -190,8 +231,14 @@ export const createRouter = (config: RouterConfig): Router => {
     }
   };
 
-  const navigateAsync = async (options: NavOptions): Promise<boolean> => {
+  const navigateAsync = async (options: NavOptions, redirectCount = 0): Promise<boolean> => {
     try {
+      // Prevent infinite redirect loop
+      if (redirectCount > 10) {
+        onError(new Error('Maximum redirect count exceeded'));
+        return false;
+      }
+
       const prep = navigatePrepare(options);
       if (!prep) {
         return false;
@@ -199,8 +246,12 @@ export const createRouter = (config: RouterConfig): Router => {
 
       const { guardLevel, replace, to, fullPath } = prep;
 
-      const passed = await executeGuards(to, current, guardLevel);
-      if (!passed) {
+      const guardResult = await executeGuards(to, current, guardLevel);
+      if (!guardResult.continue) {
+        // Check if there's a redirect
+        if (guardResult.redirectTo) {
+          return navigateAsync(guardResult.redirectTo, redirectCount + 1);
+        }
         return false;
       }
 
@@ -212,6 +263,9 @@ export const createRouter = (config: RouterConfig): Router => {
       } else {
         window.history.pushState({ path: to.path }, '', url);
       }
+
+      current = to;
+      history.push(to);
 
       executeAfterHooks(to, history[history.length - 2] ?? null);
       return true;

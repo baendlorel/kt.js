@@ -10,8 +10,10 @@ export interface RawRouteConfig {
   name?: string;
   /** Optional metadata attached to the route */
   meta?: Record<string, any>;
-  /** Route-level guard executed before entering this route */
-  beforeEnter?: (context: RouteContext) => boolean | void | Promise<boolean | void>;
+  /** Route-level guard executed before entering this route. Return false to block, string/object to redirect */
+  beforeEnter?: (
+    context: RouteContext
+  ) => string | NavBaseOptions | boolean | void | Promise<string | NavBaseOptions | boolean | void>;
   /** Route-level hook executed after navigation */
   after?: (context: RouteContext) => void | Promise<void>;
   /** Nested child routes */
@@ -75,8 +77,11 @@ export interface RouterConfig {
   /** Array of route definitions */
   routes: RawRouteConfig[];
 
-  /** Global guard executed before each navigation (except silentPush) */
-  beforeEach?: (to: RouteContext, from: RouteContext | null) => boolean | void | Promise<boolean | void>;
+  /** Global guard executed before each navigation (except silentPush). Return false to block, string/object to redirect */
+  beforeEach?: (
+    to: RouteContext,
+    from: RouteContext | null
+  ) => string | NavBaseOptions | boolean | void | Promise<string | NavBaseOptions | boolean | void>;
 
   /** Global hook executed after each navigation */
   afterEach?: (to: RouteContext, from: RouteContext | null) => void | Promise<void>;

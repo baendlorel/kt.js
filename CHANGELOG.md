@@ -1,5 +1,41 @@
 # Change Log 🕒
 
+## 0.11-0.13.x 2026-01-15
+
+### Major Features
+
+- **Redraw Mechanism**: Added `redraw()` function to JSX components for controlled re-rendering
+  - Elements returned by JSX now include a `redraw()` method
+  - Supports updating props and children dynamically
+  - Efficient replacement strategy that inherits redraw method
+  - Compatible with both function components and native elements
+  - Enables fine-grained control over when and what gets updated
+
+### Improvements
+
+- **JSX Runtime Enhancements**:
+  - Function components now support the redraw pattern
+  - Better handling of ref during component updates
+  - Consistent API between native elements and function components
+  - Improved type definitions for JSX elements
+
+- **Type System**:
+  - Added `KTHTMLElement` type with redraw support
+  - Better type inference for function components
+  - Enhanced JSX type exports
+
+### Breaking Changes
+
+- **Fragment Removal**: Removed Fragment support
+  - `Fragment` now throws an error when used
+  - KT.js philosophy: direct DOM manipulation without virtual DOM abstraction
+  - Use arrays or container elements instead
+
+### Bug Fixes
+
+- Fixed ref not being properly reassigned during redraw
+- Improved component replacement logic to maintain consistency
+
 ## 0.7-0.10.x 2025-12-24 ~ 2025-12-29
 
 ### Major Features

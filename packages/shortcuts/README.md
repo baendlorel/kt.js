@@ -2,9 +2,13 @@
 
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
-> 📦 Part of [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md) - A simple and easy-to-use web framework that never re-renders.
+[![npm version](https://img.shields.io/npm/v/@ktjs/shortcuts.svg)](https://www.npmjs.com/package/@ktjs/shortcuts)
+
+> 📦 Part of [KT.js](https://github.com/baendlorel/kt.js) - A simple and easy-to-use web framework that never re-renders.
 
 Convenient shortcut functions for common DOM operations in KT.js.
+
+**Current Version:** 0.7.3
 
 ## Overview
 

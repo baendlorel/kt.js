@@ -2,26 +2,39 @@
 
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
-> 📦 Part of [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md) - A simple and easy-to-use web framework that never re-renders.
+[![npm version](https://img.shields.io/npm/v/@ktjs/core.svg)](https://www.npmjs.com/package/@ktjs/core)
 
-Core DOM manipulation utilities for KT.js framework.
+> 📦 Part of [KT.js](https://github.com/baendlorel/kt.js) - A simple and easy-to-use web framework that never re-renders.
+
+Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX support.
 
 ## Overview
 
 `@ktjs/core` is the foundation of KT.js, providing the essential `h` function and DOM utilities for building web applications with direct DOM manipulation. It emphasizes performance, type safety, and minimal abstraction over native DOM APIs.
 
+**Current Version:** 0.13.0
+
 ## Features
 
 - **`h` Function**: Create HTMLElements with a simple, flexible API
   - Support for attributes, content, and event handlers
-  - Special `@<eventName>` syntax for event handlers
+  - `on:<eventName>` syntax for event handlers (e.g., `on:click`)
   - Function attributes automatically treated as event listeners
   - Full TypeScript support with intelligent type inference
+- **JSX/TSX Support**: Built-in JSX runtime (no separate package needed)
+  - Zero virtual DOM - JSX compiles directly to `h()` function calls
+  - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
+  - Support for function components
+  - **NEW**: `redraw()` method for controlled re-rendering
 - **KTAsync Component**: Handle async components with ease
   - Automatic handling of Promise-based components
   - Seamless integration with JSX/TSX
   - Fallback placeholder during async loading
   - Type-safe async component support
+- **Redraw Mechanism**: Fine-grained control over component updates
+  - Update props and children selectively
+  - Efficient replacement strategy
+  - Works with both native elements and function components
 - **DOM Utilities**: Helper functions for common DOM operations
   - Native method caching for performance
   - Symbol-based private properties for internal state
@@ -68,20 +81,20 @@ const card = h('div', { class: 'card' }, [
 ```typescript
 import { h } from '@ktjs/core';
 
-// Function attribute (treated as event listener)
+// on: prefixed attribute (event handler)
 const button1 = h(
   'button',
   {
-    click: () => alert('Clicked!'),
+    'on:click': () => alert('Clicked!'),
   },
   'Button 1'
 );
 
-// @-prefixed attribute (explicitly an event handler)
+// Function attribute (also treated as event listener)
 const button2 = h(
   'button',
   {
-    '@click': (e) => console.log('Event:', e),
+    click: (e) => console.log('Event:', e),
     'data-id': '123', // Regular attribute
   },
   'Button 2'
@@ -89,18 +102,75 @@ const button2 = h(
 
 // Both regular and event handler for same name
 const input = h('input', {
-  change: 'change-value', // Regular attribute
-  '@change': (e) => console.log('Changed'), // Event listener
+  value: 'initial', // Regular attribute
+  'on:change': (e) => console.log('Changed'), // Event listener
 });
+```
+
+### JSX/TSX Support
+
+```tsx
+import { h } from '@ktjs/core';
+
+// Configure tsconfig.json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/core"
+  }
+}
+
+// Use JSX syntax
+const App = () => (
+  <div class="app">
+    <h1>Hello KT.js</h1>
+    <button on:click={() => alert('Hi')}>Click me</button>
+  </div>
+);
+
+// Function components
+const Greeting = ({ name }: { name: string }) => (
+  <div class="greeting">Hello, {name}!</div>
+);
+
+const app = <Greeting name="World" />;
+```
+
+### Redraw Mechanism (v0.11+)
+
+The new `redraw()` method allows you to update components efficiently:
+
+```tsx
+import { h, KTHTMLElement } from '@ktjs/core';
+
+// With JSX - get element with redraw method
+const counter = (<button on:click={() => counter.redraw({ count: count + 1 })}>Count: {0}</button>) as KTHTMLElement;
+
+// Function component with redraw
+const Counter = ({ count = 0 }: { count?: number }) => (
+  <div>
+    <div>Count: {count}</div>
+    <button on:click={() => element.redraw({ count: count + 1 })}>Increment</button>
+  </div>
+);
+
+const element = (<Counter />) as KTHTMLElement;
+
+// Update props manually
+element.redraw({ count: 10 });
+
+// Update children (for native elements)
+const div = (<div>Old content</div>) as KTHTMLElement;
+div.redraw(undefined, 'New content');
 ```
 
 ### Async Components
 
 ```typescript
-import { KTAsync } from '@ktjs/core';
+import { KTAsync, h } from '@ktjs/core';
 
 // Define an async component that returns a Promise
-const AsyncComponent = function () {
+const AsyncComponent = () => {
   return new Promise<HTMLElement>((resolve) => {
     setTimeout(() => {
       const element = h('div', { class: 'loaded' }, 'Content loaded!');
@@ -122,11 +192,21 @@ const App = () => (
     <KTAsync component={AsyncComponent} />
   </div>
 );
+
+// With custom placeholder
+const AppWithSkeleton = () => (
+  <div>
+    <KTAsync
+      component={AsyncComponent}
+      skeleton={<div class="skeleton">Loading...</div>}
+    />
+  </div>
+);
 ```
 
 **How it works:**
 
-- `KTAsync` creates a placeholder comment node immediately
+- `KTAsync` creates a placeholder (comment node or custom skeleton) immediately
 - When the Promise resolves, it automatically replaces the placeholder with the actual element
 - If the component returns a non-Promise value, it's used directly
 - No manual DOM manipulation needed - just return a Promise from your component

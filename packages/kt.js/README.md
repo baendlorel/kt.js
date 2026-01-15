@@ -4,7 +4,9 @@
 
 [![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js) [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-[CHANGLOG✨](CHANGELOG.md)
+[CHANGLOG✨](../../CHANGELOG.md)
+
+**Current Version:** 0.13.x
 
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
@@ -50,8 +52,8 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 - **JSX/TSX Support**: Full JSX syntax support with TypeScript integration
   - Zero virtual DOM - JSX compiles directly to `h()` function calls
   - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
-  - Support for `@click` event handler syntax
-  - No Fragment support - KT.js doesn't have a Fragment concept
+  - Support for `on:click` event handler syntax
+  - **NEW**: `redraw()` method for controlled component updates
 - **Async Components**: Built-in support for Promise-based components
   - `KTAsync` component for handling async operations
   - Automatic placeholder management during loading

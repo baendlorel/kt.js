@@ -2,9 +2,13 @@
 
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
-> 📦 Part of [KT.js](https://raw.githubusercontent.com/baendlorel/kt.js/dev/README.md) - A simple and easy-to-use web framework that never re-renders.
+[![npm version](https://img.shields.io/npm/v/@ktjs/router.svg)](https://www.npmjs.com/package/@ktjs/router)
+
+> 📦 Part of [KT.js](https://github.com/baendlorel/kt.js) - A simple and easy-to-use web framework that never re-renders.
 
 Client-side router with navigation guards for KT.js.
+
+**Current Version:** 0.13.0
 
 ## Overview
 

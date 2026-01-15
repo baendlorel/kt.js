@@ -6,6 +6,8 @@
 
 [CHANGLOG✨](CHANGELOG.md)
 
+**Current Version:** 0.13.0 (Core & Router: 0.13.0, Shortcuts: 0.7.3)
+
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
 KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
@@ -50,8 +52,8 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 - **JSX/TSX Support**: Full JSX syntax support with TypeScript integration
   - Zero virtual DOM - JSX compiles directly to `h()` function calls
   - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
-  - Support for `@click` event handler syntax
-  - No Fragment support - KT.js doesn't have a Fragment concept
+  - Support for `on:click` event handler syntax
+  - **NEW**: `redraw()` method for controlled component updates (v0.11+)
 - **Async Components**: Built-in support for Promise-based components
   - `KTAsync` component for handling async operations
   - Automatic placeholder management during loading

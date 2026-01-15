@@ -2,7 +2,6 @@ import type { HTMLTag, otherstring } from '@/types/global.js';
 import type { KTRawAttr, KTRawContent } from '@/types/h.js';
 
 import { $throw } from '@/lib/error.js';
-import { $mark } from '@/lib/native.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
@@ -36,5 +35,3 @@ export const h: H = ((tag, attr = '', content = '') => {
 
   return element;
 }) as H;
-
-$mark(h, 'h');

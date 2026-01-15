@@ -77,7 +77,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
  * Note: kt.js doesn't have a real Fragment concept,
  */
 export function Fragment(props: { children?: KTRawContent }): HTMLElement {
-  window.__ktjs__.throws("kt.js doesn't have a Fragment concept");
+  throw new Error("kt.js doesn't have a Fragment concept");
 
   // const { children } = props ?? {};
 

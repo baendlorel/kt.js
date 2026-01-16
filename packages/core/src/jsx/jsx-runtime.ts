@@ -123,3 +123,29 @@ export const jsxs = jsx;
 
 // Export h as the classic JSX factory for backward compatibility
 export { h, h as createElement };
+
+/**
+ * A helper to create redrawable elements
+ * ```tsx
+ * export function MyComponent() {
+ *    let aa = 10;
+ *    // ...
+ *    // aa might be changed
+ *    return createRedrawable(() => <div>{aa}</div>);
+ * }
+ * ```
+ * Then the returned element has a `redraw` method to redraw itself with new values.
+ * @param creator
+ * @returns created element
+ */
+export function createRedrawable(creator: () => KTHTMLElement): KTHTMLElement {
+  let element = creator();
+  const redraw = () => {
+    const old = element;
+    element = creator();
+    old.replaceWith(element);
+    element.redraw = redraw;
+  };
+  element.redraw = redraw;
+  return element;
+}

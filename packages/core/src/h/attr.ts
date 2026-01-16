@@ -1,52 +1,8 @@
 import type { KTRawAttr, KTAttribute } from '@/types/h.js';
-import { $throw, $keys, $mustHaveValue } from '@/lib/index.js';
+import { $throw, $keys } from '@/lib/index.js';
+import { handlers, ktEventHandlers } from './attr-helpers.js';
 
-function booleanHandler(element: HTMLElement, key: string, value: any) {
-  if (key in element) {
-    (element as any)[key] = !!value;
-  } else {
-    element.setAttribute(key, value);
-  }
-}
-
-function valueHandler(element: HTMLElement, key: string, value: any) {
-  if (key in element) {
-    (element as any)[key] = value;
-  } else {
-    element.setAttribute(key, value);
-  }
-}
-
-// Attribute handlers map for optimized lookup
-const handlers: Record<string, (element: HTMLElement, key: string, value: any) => void> = {
-  checked: booleanHandler,
-  selected: booleanHandler,
-  value: valueHandler,
-  valueAsDate: valueHandler,
-  valueAsNumber: valueHandler,
-  defaultValue: valueHandler,
-  defaultChecked: booleanHandler,
-  defaultSelected: booleanHandler,
-  disabled: booleanHandler,
-  readOnly: booleanHandler,
-  multiple: booleanHandler,
-  required: booleanHandler,
-  autofocus: booleanHandler,
-  open: booleanHandler,
-  controls: booleanHandler,
-  autoplay: booleanHandler,
-  loop: booleanHandler,
-  muted: booleanHandler,
-  defer: booleanHandler,
-  async: booleanHandler,
-  hidden: function (element, _key, value) {
-    element.hidden = !!value;
-  },
-};
-
-const defaultHandler = function (element: HTMLElement, key: string, value: any) {
-  return element.setAttribute(key, value);
-};
+const defaultHandler = (element: HTMLElement, key: string, value: any) => element.setAttribute(key, value);
 
 function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   const classValue = attr.class;
@@ -77,34 +33,9 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     // !if o is not valid, the throwing job will be done by `on`, not kt.js
 
     // # special handling for kt.js specific events
-    if (key === 'on:ktchange') {
-      $mustHaveValue(element);
-      element.addEventListener('change', () => o(element.value));
-      continue;
-    }
-    if (key === 'ontrim:ktchange') {
-      $mustHaveValue(element);
-      element.addEventListener('change', () => o(element.value.trim()));
-      continue;
-    }
-    if (key === 'on:ktchangenumber') {
-      $mustHaveValue(element);
-      element.addEventListener('change', () => o(Number(element.value)));
-      continue;
-    }
-    if (key === 'on:ktinput') {
-      $mustHaveValue(element);
-      element.addEventListener('input', () => o(element.value));
-      continue;
-    }
-    if (key === 'ontrim:ktinput') {
-      $mustHaveValue(element);
-      element.addEventListener('input', () => o(element.value.trim()));
-      continue;
-    }
-    if (key === 'on:ktinputnumber') {
-      $mustHaveValue(element);
-      element.addEventListener('input', () => o(Number(element.value)));
+    const ktEvent = ktEventHandlers[key];
+    if (ktEvent) {
+      ktEvent(element as HTMLInputElement, o);
       continue;
     }
 

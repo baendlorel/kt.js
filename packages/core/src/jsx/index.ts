@@ -21,7 +21,7 @@
  */
 
 // Export JSX runtime functions (excluding h which is already exported from core)
-export { jsx, jsxs, jsxDEV, Fragment, createElement } from './jsx-runtime.js';
+export { jsx, jsxs, jsxDEV, Fragment, createElement, createRedrawable } from './jsx-runtime.js';
 
 export * from './ref.js';
 

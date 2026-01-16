@@ -51,7 +51,7 @@ function createList() {
 // Event handler demo
 function createEventDemo() {
   return (
-    <div class="card">
+    <div k-if={2} class="card">
       <h2>Event Handler Demo</h2>
       <button on:click={(e) => alert('Hello from JSX!')}>Click me!</button>
     </div>

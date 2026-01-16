@@ -37,6 +37,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
           ref.value = el;
         }
         old.replaceWith(el);
+        return el;
       };
     }
 
@@ -66,6 +67,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
         ref.value = el;
       }
       old.replaceWith(el);
+      return el;
     };
 
     return el;
@@ -145,6 +147,7 @@ export function createRedrawable(creator: () => KTHTMLElement): KTHTMLElement {
     element = creator();
     old.replaceWith(element);
     element.redraw = redraw;
+    return element;
   };
   element.redraw = redraw;
   return element;

@@ -5,7 +5,7 @@ export type KTHTMLElement = HTMLElement & {
    * Automically generate a redraw function if it is not provided
    * @param props
    */
-  redraw: (props?: KTAttribute, children?: KTRawContent) => void;
+  redraw: (props?: KTAttribute, children?: KTRawContent) => KTHTMLElement;
 };
 
 declare global {

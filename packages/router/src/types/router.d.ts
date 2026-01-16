@@ -10,6 +10,8 @@ export interface RawRouteConfig {
   name?: string;
   /** Optional metadata attached to the route */
   meta?: Record<string, any>;
+  /** Optional component to render */
+  component: () => HTMLElement | Promise<HTMLElement>;
   /** Route-level guard executed before entering this route. Return false to block, string/object to redirect */
   beforeEnter?: (
     context: RouteContext
@@ -108,6 +110,9 @@ export interface Router {
 
   /** Navigation history */
   history: RouteContext[];
+
+  /** Set the router view container */
+  setRouterView(view: HTMLElement): void;
 
   /** Navigate with guards */
   push(location: string | NavOptions): boolean | Promise<boolean>;

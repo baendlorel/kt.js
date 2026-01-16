@@ -17,6 +17,7 @@ export const createRouter = (config: RouterConfig): Router => {
 
   // # private values
   const routes: RouteConfig[] = [];
+  let routerView: HTMLElement | null = null;
 
   /**
    * Normalize routes by adding default guards
@@ -31,6 +32,7 @@ export const createRouter = (config: RouterConfig): Router => {
         beforeEnter: route.beforeEnter ?? defaultHook,
         after: route.after ?? (defaultHook as () => void),
         children: route.children ? normalize(route.children, path) : [],
+        component: route.component,
       };
 
       // directly push the normalized route to the list
@@ -221,6 +223,23 @@ export const createRouter = (config: RouterConfig): Router => {
       current = to;
       history.push(to);
 
+      // Render component if routerView exists
+      if (routerView && to.matched.length > 0) {
+        const route = to.matched[to.matched.length - 1];
+        if (route.component) {
+          const element = route.component();
+          if (element instanceof Promise) {
+            element.then((el) => {
+              routerView!.innerHTML = '';
+              routerView!.appendChild(el);
+            });
+          } else {
+            routerView.innerHTML = '';
+            routerView.appendChild(element);
+          }
+        }
+      }
+
       // Execute after hooks
       executeAfterHooksSync(to, history[history.length - 2] ?? null);
 
@@ -266,6 +285,16 @@ export const createRouter = (config: RouterConfig): Router => {
 
       current = to;
       history.push(to);
+
+      // Render component if routerView exists
+      if (routerView && to.matched.length > 0) {
+        const route = to.matched[to.matched.length - 1];
+        if (route.component) {
+          const element = await route.component();
+          routerView.innerHTML = '';
+          routerView.appendChild(element);
+        }
+      }
 
       executeAfterHooks(to, history[history.length - 2] ?? null);
       return true;
@@ -322,6 +351,10 @@ export const createRouter = (config: RouterConfig): Router => {
       return history.concat();
     },
 
+    setRouterView(view: HTMLElement) {
+      routerView = view;
+    },
+
     push(location: string | NavOptions): boolean | Promise<boolean> {
       const options = normalizeLocation(location);
       return navigate(options);
@@ -348,3 +381,4 @@ export const createRouter = (config: RouterConfig): Router => {
 };
 
 export { GuardLevel };
+export { KTRouter } from './kt-router.js';

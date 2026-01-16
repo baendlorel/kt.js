@@ -103,4 +103,4 @@ export type KTComponent = (
     children?: KTRawContent;
   } & KTAttribute &
     any
-) => KTHTMLElement | Promise<KTHTMLElement>;
+) => KTHTMLElement | Promise<KTHTMLElement> | any;

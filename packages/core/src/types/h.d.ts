@@ -84,7 +84,17 @@ type KTPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;
+type KTSpecialEventHandlers = {
+  'on:ktchange'?: (value: string) => void;
+  'ontrim:ktchange'?: (value: string) => void;
+  'on:ktchangenumber'?: (value: number) => void;
+
+  'on:ktinput'?: (value: string) => void;
+  'ontrim:ktinput'?: (value: string) => void;
+  'on:ktinputnumber'?: (value: number) => void;
+};
+
+export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers & KTSpecialEventHandlers;
 
 export type KTComponent = (
   props: {

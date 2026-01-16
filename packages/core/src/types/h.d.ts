@@ -29,6 +29,7 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   ref?: KTRef<HTMLElement>;
+  'k-if'?: any;
 
   id?: string;
   class?: string;

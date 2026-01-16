@@ -1,10 +1,16 @@
 import type { KTRawAttr, KTAttribute } from '@/types/h.js';
-import { $throw, $keys } from '@/lib/index.js';
 import { handlers, ktEventHandlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement, key: string, value: any) => element.setAttribute(key, value);
 
-function attrIsObject(element: HTMLElement, attr: KTAttribute) {
+function attrIsObject(element: HTMLElement, attr: KTAttribute): boolean {
+  // & deal k-if first
+  if ('k-if' in attr) {
+    if (!attr['k-if']) {
+      return false;
+    }
+  }
+
   const classValue = attr.class;
   const style = attr.style;
   if (classValue !== undefined) {
@@ -23,10 +29,7 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     delete attr.style;
   }
 
-  const keys = $keys(attr) as Array<keyof KTAttribute & string>;
-  // todo 这里的处理每次遍历都要if所有的情况，能否用map或者对象来优化？
-  for (let i = keys.length - 1; i >= 0; i--) {
-    const key = keys[i];
+  for (const key in attr) {
     const o = attr[key];
 
     // force register on:xxx as an event handler
@@ -58,14 +61,17 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   if (style !== undefined) {
     attr.style = style;
   }
+
+  return true;
 }
 
-export function applyAttr(element: HTMLElement, attr: KTRawAttr) {
+export function applyAttr(element: HTMLElement, attr: KTRawAttr): boolean {
   if (typeof attr === 'string') {
     element.className = attr;
+    return true;
   } else if (typeof attr === 'object' && attr !== null) {
-    attrIsObject(element, attr as KTAttribute);
+    return attrIsObject(element, attr as KTAttribute);
   } else {
-    $throw('attr must be an object/string.');
+    throw new Error('kt.js: attr must be an object/string.');
   }
 }

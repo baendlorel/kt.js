@@ -3,16 +3,9 @@ import type { HTMLTag, otherstring } from './global.js';
 import { KTHTMLElement } from './jsx.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
-type KTAvailableContent =
-  | KTRef<any>
-  | HTMLElement
-  | Element
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | (KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined)[];
+
+type SingleContent = KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined;
+type KTAvailableContent = SingleContent | SingleContent[] | SingleContent[][];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | string;
 export type KTRawContents = KTAvailableContent;
@@ -103,5 +96,5 @@ export type KTComponent = (
     ref?: KTRef<KTHTMLElement>;
     children?: KTRawContent;
   } & KTAttribute &
-    any
+    any,
 ) => KTHTMLElement | Promise<KTHTMLElement> | any;

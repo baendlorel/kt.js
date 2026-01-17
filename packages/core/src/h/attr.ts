@@ -15,7 +15,6 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute): boolean {
   const style = attr.style;
   if (classValue !== undefined) {
     element.className = classValue;
-    delete attr.class;
   }
 
   if (style) {
@@ -26,10 +25,13 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute): boolean {
         element.style[key as any] = (style as any)[key];
       }
     }
-    delete attr.style;
   }
 
   for (const key in attr) {
+    if (key === 'class' || key === 'style' || key === 'k-if') {
+      continue;
+    }
+
     const o = attr[key];
 
     // force register on:xxx as an event handler
@@ -53,13 +55,6 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute): boolean {
     } else {
       (handlers[key] || defaultHandler)(element, key, o);
     }
-  }
-
-  if (classValue !== undefined) {
-    attr.class = classValue;
-  }
-  if (style !== undefined) {
-    attr.style = style;
   }
 
   return true;

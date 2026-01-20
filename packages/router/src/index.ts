@@ -45,8 +45,39 @@ export const createRouter = (config: RouterConfig): Router => {
   // Normalize routes with default guards
   normalize(config.routes, '/');
   const { findByName, match } = createMatcher(routes);
-  let current: RouteContext | null = null;
-  const history: RouteContext[] = [];
+
+  /**
+   * Initialize current route from URL
+   */
+  const initCurrentRoute = (): RouteContext | null => {
+    const hash = window.location.hash.slice(1); // Remove '#'
+    if (!hash) {
+      return null;
+    }
+
+    // Parse path and query
+    const [path, queryString] = hash.split('?');
+    const normalizedPath = normalizePath(path);
+
+    // Match route
+    const matched = match(normalizedPath);
+    if (!matched) {
+      return null;
+    }
+
+    // Build route context
+    return {
+      path: normalizedPath,
+      name: matched.route.name,
+      params: matched.params,
+      query: queryString ? parseQuery(queryString) : {},
+      meta: matched.route.meta ?? {},
+      matched: matched.result,
+    };
+  };
+
+  let current: RouteContext | null = initCurrentRoute();
+  const history: RouteContext[] = current ? [current] : [];
 
   // # methods
   const executeGuardsSync = (

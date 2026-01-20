@@ -49,10 +49,10 @@ export const createRouter = (config: RouterConfig): Router => {
   /**
    * Initialize current route from URL
    */
-  const initCurrentRoute = (): RouteContext | null => {
+  const initCurrentRoute = () => {
     const hash = window.location.hash.slice(1); // Remove '#'
     if (!hash) {
-      return null;
+      return (current = null);
     }
 
     // Parse path and query
@@ -62,21 +62,21 @@ export const createRouter = (config: RouterConfig): Router => {
     // Match route
     const matched = match(normalizedPath);
     if (!matched) {
-      return null;
+      return (current = null);
     }
 
     // Build route context
-    return {
+    return (current = {
       path: normalizedPath,
       name: matched.route.name,
       params: matched.params,
       query: queryString ? parseQuery(queryString) : {},
       meta: matched.route.meta ?? {},
       matched: matched.result,
-    };
+    });
   };
 
-  let current: RouteContext | null = initCurrentRoute();
+  let current: RouteContext | null = null;
   const history: RouteContext[] = current ? [current] : [];
 
   // # methods
@@ -409,6 +409,7 @@ export const createRouter = (config: RouterConfig): Router => {
     forward() {
       window.history.forward();
     },
+    initCurrentRoute,
   };
 };
 

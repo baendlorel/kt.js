@@ -130,6 +130,8 @@ export interface Router {
 
   /** Navigate forward in history */
   forward(): void;
+
+  initCurrentRoute(): void;
 }
 
 export interface RouteMatch {

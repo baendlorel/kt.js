@@ -14,6 +14,8 @@ export const createRouter = (config: RouterConfig): Router => {
   const onNotFound = config.onNotFound ?? defaultHook;
   const onError = config.onError ?? defaultHook;
   const asyncGuards = config.asyncGuards ?? true;
+  // default to 'hash' mode
+  const mode = config.mode ?? 'hash';
   const baseUrl = config.baseUrl ?? '';
 
   // # private values
@@ -50,22 +52,41 @@ export const createRouter = (config: RouterConfig): Router => {
    * Initialize current route from URL
    */
   const initCurrentRoute = () => {
-    const hash = window.location.hash.slice(1); // Remove '#'
-    if (!hash) {
-      return (current = null);
+    if (mode === 'hash') {
+      const hash = window.location.hash.slice(1); // Remove '#'
+      if (!hash) {
+        return (current = null);
+      }
+
+      // Parse path and query
+      const [path, queryString] = hash.split('?');
+      const normalizedPath = normalizePath(path);
+
+      // Match route
+      const matched = match(normalizedPath);
+      if (!matched) {
+        return (current = null);
+      }
+
+      // Build route context
+      return (current = {
+        path: normalizedPath,
+        name: matched.route.name,
+        params: matched.params,
+        query: queryString ? parseQuery(queryString) : {},
+        meta: matched.route.meta ?? {},
+        matched: matched.result,
+      });
     }
 
-    // Parse path and query
-    const [path, queryString] = hash.split('?');
+    // history mode
+    const pathWithQuery = window.location.pathname + window.location.search;
+    const [path, queryString] = pathWithQuery.split('?');
     const normalizedPath = normalizePath(path);
-
-    // Match route
     const matched = match(normalizedPath);
     if (!matched) {
       return (current = null);
     }
-
-    // Build route context
     return (current = {
       path: normalizedPath,
       name: matched.route.name,
@@ -243,17 +264,34 @@ export const createRouter = (config: RouterConfig): Router => {
         return false;
       }
 
-      // Update browser history
+      // Update browser history depending on mode
       const url = fullPath;
-      if (replace) {
-        window.history.replaceState({ path: to.path }, '', url);
+      if (mode === 'history') {
+        if (replace) {
+          window.history.replaceState({ path: to.path }, '', url);
+        } else {
+          window.history.pushState({ path: to.path }, '', url);
+        }
       } else {
-        window.history.pushState({ path: to.path }, '', url);
+        const hashUrl = '#' + fullPath;
+        if (replace) {
+          window.location.replace(hashUrl);
+        } else {
+          window.location.hash = fullPath;
+        }
       }
 
-      // Update current route
+      // Update current route in memory
       current = to;
-      history.push(to);
+      if (replace) {
+        if (history.length > 0) {
+          history[history.length - 1] = to;
+        } else {
+          history.push(to);
+        }
+      } else {
+        history.push(to);
+      }
 
       // Render component if routerView exists
       if (routerView && to.matched.length > 0) {
@@ -309,14 +347,31 @@ export const createRouter = (config: RouterConfig): Router => {
       // ---- Guards passed ----
 
       const url = fullPath;
-      if (replace) {
-        window.history.replaceState({ path: to.path }, '', url);
+      if (mode === 'history') {
+        if (replace) {
+          window.history.replaceState({ path: to.path }, '', url);
+        } else {
+          window.history.pushState({ path: to.path }, '', url);
+        }
       } else {
-        window.history.pushState({ path: to.path }, '', url);
+        const hashUrl = '#' + fullPath;
+        if (replace) {
+          window.location.replace(hashUrl);
+        } else {
+          window.location.hash = fullPath;
+        }
       }
 
       current = to;
-      history.push(to);
+      if (replace) {
+        if (history.length > 0) {
+          history[history.length - 1] = to;
+        } else {
+          history.push(to);
+        }
+      } else {
+        history.push(to);
+      }
 
       // Render component if routerView exists
       if (routerView && to.matched.length > 0) {
@@ -366,12 +421,62 @@ export const createRouter = (config: RouterConfig): Router => {
   };
 
   // # register events
-  // Listen to browser back/forward
-  window.addEventListener('popstate', (event) => {
-    if (event.state?.path) {
-      navigate({ path: event.state.path, guardLevel: GuardLevel.Global, replace: true });
-    }
-  });
+  if (mode === 'history') {
+    // Listen to browser back/forward for history mode
+    window.addEventListener('popstate', (event) => {
+      if (event.state?.path) {
+        // navigate without pushing new history entry
+        navigate({ path: event.state.path, guardLevel: GuardLevel.Global, replace: true });
+      }
+    });
+  } else {
+    // hash mode: listen to hashchange
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.slice(1);
+      const [path] = hash.split('?');
+      const normalizedPath = normalizePath(path);
+      if (current && current.path === normalizedPath) {
+        return;
+      }
+      // render route for new hash without adding extra history entry
+      const matched = match(normalizedPath);
+      if (!matched) {
+        onNotFound(normalizedPath);
+        return;
+      }
+      const queryString = window.location.hash.slice(1).split('?')[1];
+      const to: RouteContext = {
+        path: normalizedPath,
+        name: matched.route.name,
+        params: matched.params,
+        query: queryString ? parseQuery(queryString) : {},
+        meta: matched.route.meta ?? {},
+        matched: matched.result,
+      };
+
+      // apply without modifying browser history
+      current = to;
+      history.push(to);
+
+      if (routerView && to.matched.length > 0) {
+        const route = to.matched[to.matched.length - 1];
+        if (route.component) {
+          const element = route.component();
+          if (element instanceof Promise) {
+            element.then((el) => {
+              routerView!.innerHTML = '';
+              routerView!.appendChild(el);
+            });
+          } else {
+            routerView.innerHTML = '';
+            routerView.appendChild(element);
+          }
+        }
+      }
+
+      executeAfterHooksSync(to, history[history.length - 2] ?? null);
+    });
+  }
 
   // Router instance
   return {

@@ -14,7 +14,7 @@ export interface RawRouteConfig {
   component: () => HTMLElement | Promise<HTMLElement>;
   /** Route-level guard executed before entering this route. Return false to block, string/object to redirect */
   beforeEnter?: (
-    context: RouteContext
+    context: RouteContext,
   ) => string | NavBaseOptions | boolean | void | Promise<string | NavBaseOptions | boolean | void>;
   /** Route-level hook executed after navigation */
   after?: (context: RouteContext) => void | Promise<void>;
@@ -76,13 +76,15 @@ export interface NavOptions extends NavBaseOptions {
  * Router configuration
  */
 export interface RouterConfig {
+  baseUrl?: string;
+
   /** Array of route definitions */
   routes: RawRouteConfig[];
 
   /** Global guard executed before each navigation (except silentPush). Return false to block, string/object to redirect */
   beforeEach?: (
     to: RouteContext,
-    from: RouteContext | null
+    from: RouteContext | null,
   ) => string | NavBaseOptions | boolean | void | Promise<string | NavBaseOptions | boolean | void>;
 
   /** Global hook executed after each navigation */

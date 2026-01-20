@@ -14,6 +14,7 @@ export const createRouter = (config: RouterConfig): Router => {
   const onNotFound = config.onNotFound ?? defaultHook;
   const onError = config.onError ?? defaultHook;
   const asyncGuards = config.asyncGuards ?? true;
+  const baseUrl = config.baseUrl ?? '';
 
   // # private values
   const routes: RouteConfig[] = [];
@@ -26,7 +27,7 @@ export const createRouter = (config: RouterConfig): Router => {
     rawRoutes.map((route) => {
       const path = normalizePath(parentPath, route.path);
       const normalized = {
-        path,
+        path: baseUrl + path,
         name: route.name ?? '',
         meta: route.meta ?? {},
         beforeEnter: route.beforeEnter ?? defaultHook,
@@ -51,7 +52,7 @@ export const createRouter = (config: RouterConfig): Router => {
   const executeGuardsSync = (
     to: RouteContext,
     from: RouteContext | null,
-    guardLevel: GuardLevel
+    guardLevel: GuardLevel,
   ): { continue: boolean; redirectTo?: NavOptions } => {
     try {
       if (guardLevel === GuardLevel.None) {
@@ -95,7 +96,7 @@ export const createRouter = (config: RouterConfig): Router => {
   const executeGuards = async (
     to: RouteContext,
     from: RouteContext | null,
-    guardLevel: GuardLevel
+    guardLevel: GuardLevel,
   ): Promise<{ continue: boolean; redirectTo?: NavOptions }> => {
     try {
       if (guardLevel === GuardLevel.None) {

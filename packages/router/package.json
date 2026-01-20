@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/router",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "Router for kt.js - client-side routing with navigation guards",
   "type": "module",
   "module": "./dist/index.mjs",

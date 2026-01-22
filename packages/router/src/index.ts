@@ -18,11 +18,11 @@ export const createRouter = (config: RouterConfig): Router => {
 
   // # private values
   const routes: RouteConfig[] = [];
+  const history: RouteContext[] = [];
   let routerView: HTMLElement | null = null;
+  let current: RouteContext | null = null;
 
-  /**
-   * Normalize routes by adding default guards
-   */
+  // # methods
   const normalize = (rawRoutes: RawRouteConfig[], parentPath: string): RouteConfig[] =>
     rawRoutes.map((route) => {
       const path = normalizePath(parentPath, route.path);
@@ -42,14 +42,6 @@ export const createRouter = (config: RouterConfig): Router => {
       return normalized;
     });
 
-  // Normalize routes with default guards
-  normalize(config.routes, '/');
-  const { findByName, match } = createMatcher(routes);
-
-  let current: RouteContext | null = null;
-  const history: RouteContext[] = current ? [current] : [];
-
-  // # methods
   const executeGuardsSync = (
     to: RouteContext,
     from: RouteContext | null,
@@ -341,15 +333,15 @@ export const createRouter = (config: RouterConfig): Router => {
    * Normalize navigation argument
    */
   const normalizeLocation = (loc: string | NavOptions): NavOptions => {
-    if (typeof loc === 'string') {
-      // Parse path and query
-      const [path, queryString] = loc.split('?');
-      return {
-        path,
-        query: queryString ? parseQuery(queryString) : undefined,
-      };
+    if (typeof loc !== 'string') {
+      return loc;
     }
-    return loc;
+
+    const [path, queryString] = loc.split('?');
+    return {
+      path,
+      query: queryString ? parseQuery(queryString) : undefined,
+    };
   };
 
   // # register events
@@ -399,6 +391,10 @@ export const createRouter = (config: RouterConfig): Router => {
 
     executeAfterHooksSync(to, history[history.length - 2] ?? null);
   });
+
+  // # initialize
+  normalize(config.routes, '/');
+  const { findByName, match } = createMatcher(routes);
 
   // Router instance
   return {

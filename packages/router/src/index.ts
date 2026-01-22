@@ -345,7 +345,6 @@ export const createRouter = (config: RouterConfig): Router => {
   };
 
   // # register events
-  // hash mode: listen to hashchange
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash.slice(1);
     const [path] = hash.split('?');
@@ -393,11 +392,7 @@ export const createRouter = (config: RouterConfig): Router => {
   });
 
   // # initialize
-  normalize(config.routes, '/');
-  const { findByName, match } = createMatcher(routes);
-
-  // Router instance
-  return {
+  const instance: Router = {
     get current() {
       return current;
     },
@@ -433,6 +428,14 @@ export const createRouter = (config: RouterConfig): Router => {
       window.history.forward();
     },
   };
+  normalize(config.routes, '/');
+  const { findByName, match } = createMatcher(routes);
+  const currentHash = window.location.hash.slice(1);
+  if (currentHash) {
+    instance.push(currentHash);
+  }
+
+  return instance;
 };
 
 export { GuardLevel };

@@ -101,10 +101,6 @@ export interface RouterConfig {
    * Default is `true`
    */
   asyncGuards?: boolean;
-  /**
-   * Router mode: 'history' uses HTML5 history API, 'hash' uses URL hash. Default is 'hash'.
-   */
-  mode?: 'history' | 'hash';
 }
 
 /**
@@ -134,8 +130,6 @@ export interface Router {
 
   /** Navigate forward in history */
   forward(): void;
-
-  initCurrentRoute(): void;
 }
 
 export interface RouteMatch {

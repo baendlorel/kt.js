@@ -87,6 +87,8 @@ export const createRouter = (config: RouterConfig): Router => {
     if (!matched) {
       return (current = null);
     }
+
+    alert('queryString ' + queryString + ' -- ' + JSON.stringify(parseQuery(queryString)));
     return (current = {
       path: normalizedPath,
       name: matched.route.name,

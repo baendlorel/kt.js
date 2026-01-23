@@ -2,20 +2,18 @@ import type {} from '@ktjs/core';
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { buildQuery, defaultHook, normalizePath, parseQuery, emplaceParams, throws } from './lib.js';
+import { buildQuery, fn, normalizePath, parseQuery, emplaceParams, throws } from './lib.js';
 
 /**
  * Create a new router instance
  */
-export const createRouter = (config: RouterConfig): Router => {
-  // # default configs
-  const beforeEach = config.beforeEach ?? defaultHook;
-  const afterEach = config.afterEach ?? (defaultHook as () => void);
-  const onNotFound = config.onNotFound ?? defaultHook;
-  const onError = config.onError ?? defaultHook;
-  const asyncGuards = config.asyncGuards ?? true;
-  const baseUrl = config.baseUrl ?? '';
-
+export const createRouter = ({
+  beforeEach = fn,
+  afterEach = fn,
+  onNotFound = fn,
+  onError = fn,
+  baseUrl = '',
+}: RouterConfig): Router => {
   // # private values
   const routes: RouteConfig[] = [];
   const history: RouteContext[] = [];
@@ -30,8 +28,8 @@ export const createRouter = (config: RouterConfig): Router => {
         path: baseUrl + path,
         name: route.name ?? '',
         meta: route.meta ?? {},
-        beforeEnter: route.beforeEnter ?? defaultHook,
-        after: route.after ?? (defaultHook as () => void),
+        beforeEnter: route.beforeEnter ?? fn,
+        after: route.after ?? (fn as () => void),
         children: route.children ? normalize(route.children, path) : [],
         component: route.component,
       };
@@ -304,7 +302,7 @@ export const createRouter = (config: RouterConfig): Router => {
       window.history.forward();
     },
   };
-  normalize(config.routes, '/');
+  normalize(routes, '/');
   const { findByName, match } = createMatcher(routes);
   const currentHash = window.location.hash.slice(1);
   if (currentHash) {

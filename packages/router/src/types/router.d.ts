@@ -95,12 +95,6 @@ export interface RouterConfig {
 
   /** Handler for routing errors */
   onError?: (error: Error, route?: RouteConfig) => void;
-
-  // # options
-  /**
-   * Default is `true`
-   */
-  asyncGuards?: boolean;
 }
 
 /**

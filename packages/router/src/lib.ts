@@ -1,7 +1,7 @@
 /**
  * Default guard that always returns true
  */
-export const defaultHook = (): boolean => true;
+export const fn = (() => true) as (...args: any[]) => void;
 
 export const throws: (message: string) => never = (m) => {
   throw new Error(`@ktjs/router: ${m}`);

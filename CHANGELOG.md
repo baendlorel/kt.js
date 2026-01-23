@@ -1,5 +1,55 @@
 # Change Log 🕒
 
+## 0.14.x 2026-01-16 ~ 2026-01-23
+
+### Major Features
+
+- **k-if Directive**: Added `k-if` attribute for conditional element creation (v0.14.6)
+  - Elements with `k-if={false}` will not be created in the DOM
+  - One-time evaluation (not reactive)
+  - Simple and lightweight conditional rendering without virtual DOM overhead
+  - Example: `<div k-if={isVisible}>Content</div>`
+
+- **Router Simplification**: Major router architecture improvements (v0.14.7-0.14.9)
+  - Now **hash-mode only** - removed history mode for simpler implementation
+  - Removed sync guards - now **async-only** with Promise-based guards
+  - Removed separate hooks - consolidated into guard system
+  - Router initialization simplified - automatic setup on `createRouter()`
+  - Cleaner API surface with bitwise guard levels for fine control
+  - Added `RouterView` concept for better component integration
+  - Added `baseUrl` support for path prefixing (v0.14.3)
+
+- **Enhanced Array Support**: Children can now be arrays for easier `.map()` integration (v0.14.1)
+  - `KTAvailableContent` extended to support arrays
+  - Simplifies rendering lists without wrapping elements
+  - Example: `<div>{items.map(item => <span>{item}</span>)}</div>`
+
+### Improvements
+
+- **Redraw API Enhancement**: `redraw()` now returns the new element (v0.14.2)
+  - Easier to chain operations and maintain references
+  - Better integration with component lifecycle
+
+- **Type Improvements**: Deeper recursive type definitions for better type inference
+  - More accurate type checking for nested structures
+  - Enhanced TypeScript experience
+
+- **Code Quality**: Refactored router to use destructuring for cleaner parameter handling
+  - Improved code readability
+  - Better maintainability
+
+### Breaking Changes
+
+- **Router**: Hash-mode only - history mode removed
+- **Router**: Synchronous guards removed - all guards must be async or return immediately
+- **Router**: Separate `after` hooks consolidated into guard system
+
+### Bug Fixes
+
+- Fixed `k-if` being incorrectly added as DOM attribute
+- Improved router initialization timing
+- Fixed route matching edge cases
+
 ## 0.11-0.13.x 2026-01-15
 
 ### Major Features

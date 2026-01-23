@@ -6,7 +6,7 @@
 
 [CHANGLOG✨](CHANGELOG.md)
 
-**Current Version:** 0.13.0 (Core & Router: 0.13.0, Shortcuts: 0.7.3)
+**Current Version:** 0.14.x (Core: 0.14.6, Router: 0.14.9, Shortcuts: 0.7.3)
 
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
@@ -53,15 +53,18 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - Zero virtual DOM - JSX compiles directly to `h()` function calls
   - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
   - Support for `on:click` event handler syntax
-  - **NEW**: `redraw()` method for controlled component updates (v0.11+)
+  - `redraw()` method for controlled component updates (v0.11+)
+  - `k-if` directive for conditional rendering (v0.14.6+)
+  - Array children support for seamless `.map()` integration (v0.14.1+)
 - **Async Components**: Built-in support for Promise-based components
   - `KTAsync` component for handling async operations
   - Automatic placeholder management during loading
   - Seamless integration with JSX/TSX syntax
 - **Client-Side Router** (separate package):
-  - Hash-based routing with dynamic parameters
-  - Navigation guards with async/sync auto-adaptation
-  - Query string parsing and route matching
+  - Hash-based routing only (simplified from v0.14.7+)
+  - Async navigation guards with Promise support
+  - Dynamic route parameters and query string parsing
+  - RouterView component for declarative routing
   - Pure routing logic - no rendering, no dependencies
 - **Shortcuts & Utilities**:
   - `withDefaults`: Wrap element creation functions with default properties
@@ -167,8 +170,67 @@ const div: HTMLDivElement = <div className="container" id="main" />;
 
 - KT.js JSX has **no Fragment support** - we don't have a Fragment concept
 - JSX compiles directly to `h()` function calls - **zero virtual DOM overhead**
-- Use `@click` syntax for event handlers to avoid conflicts with existing attributes
+- Use `on:click` syntax for event handlers to avoid conflicts with existing attributes
 - All JSX elements have proper HTML element type inference in TypeScript
+- Use `k-if` attribute for conditional rendering (v0.14.6+)
+- Children can be arrays for easy `.map()` integration (v0.14.1+)
+
+**Conditional Rendering with k-if** (v0.14.6+):
+
+```tsx
+import { jsx } from 'kt.js';
+
+function UserProfile({ user, isLoggedIn }: { user: any; isLoggedIn: boolean }) {
+  return (
+    <div>
+      <h1>Profile</h1>
+      {/* Element only created if condition is true */}
+      <div k-if={isLoggedIn}>
+        <p>Welcome, {user.name}!</p>
+        <button>Logout</button>
+      </div>
+      {/* Element only created if condition is true */}
+      <div k-if={!isLoggedIn}>
+        <p>Please log in</p>
+        <button>Login</button>
+      </div>
+    </div>
+  );
+}
+```
+
+**Array Children Support** (v0.14.1+):
+
+```tsx
+import { jsx } from 'kt.js';
+
+function TodoList({ todos }: { todos: string[] }) {
+  return (
+    <div>
+      <h2>Todo List</h2>
+      <ul>
+        {/* Map arrays directly as children */}
+        {todos.map((todo) => (
+          <li>{todo}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// Mix mapped elements with other elements
+function MixedList({ items }: { items: string[] }) {
+  return (
+    <ul>
+      <li>Header Item</li>
+      {items.map((item) => (
+        <li>{item}</li>
+      ))}
+      <li>Footer Item</li>
+    </ul>
+  );
+}
+```
 
 ### Async Components with KTAsync
 
@@ -247,7 +309,7 @@ const button = btn(
       /* ... */
     },
   },
-  'Click me'
+  'Click me',
 );
 
 // This is equivalent to:
@@ -353,21 +415,22 @@ console.log(router.current?.path, router.current?.params, router.current?.query)
 
 ### Router Features
 
-- **Hash-based Routing**: Uses URL hash for client-side navigation (`#/path`)
+- **Hash-based Routing Only** (v0.14.7+): Uses URL hash for client-side navigation (`#/path`)
 - **Dynamic Parameters**: Support for dynamic route segments (`/user/:id`)
 - **Query Strings**: Automatic parsing of query parameters (`?key=value`)
 - **Named Routes**: Navigate using route names instead of paths
-- **Navigation Guards**:
-  - `beforeEach`: Global guard before navigation
-  - `beforeEnter`: Per-route guard (can also be used for rendering)
+- **Async Navigation Guards**:
+  - `beforeEach`: Global guard before navigation (async)
+  - `beforeEnter`: Per-route guard (can also be used for rendering, async)
   - `afterEach`: Global hook after navigation
-  - `after`: Per-route hook after navigation
-  - Async support with automatic sync fallback for non-Promise environments
+  - All guards support Promise-based async operations
+  - Guards can return `false` to cancel, string/object to redirect
   - `GuardLevel` for fine-grained control over guard execution
 - **Error Handling**: `onError` and `onNotFound` callbacks
 - **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
 - **Zero Dependencies**: Fully self-contained router implementation (does not require `@ktjs/core` for runtime, only for TypeScript types)
 - **Pure Routing**: No rendering logic - you control the DOM
+- **Automatic Initialization**: Router auto-initializes on creation (v0.14.7+)
 
 ## Browser Compatibility
 

@@ -12,7 +12,7 @@ Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX suppor
 
 `@ktjs/core` is the foundation of KT.js, providing the essential `h` function and DOM utilities for building web applications with direct DOM manipulation. It emphasizes performance, type safety, and minimal abstraction over native DOM APIs.
 
-**Current Version:** 0.13.0
+**Current Version:** 0.14.6
 
 ## Features
 
@@ -25,7 +25,9 @@ Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX suppor
   - Zero virtual DOM - JSX compiles directly to `h()` function calls
   - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
   - Support for function components
-  - **NEW**: `redraw()` method for controlled re-rendering
+  - `redraw()` method for controlled re-rendering
+  - **k-if directive**: Conditional element creation with `k-if` attribute
+  - Array children support for seamless list rendering
 - **KTAsync Component**: Handle async components with ease
   - Automatic handling of Promise-based components
   - Seamless integration with JSX/TSX
@@ -87,7 +89,7 @@ const button1 = h(
   {
     'on:click': () => alert('Clicked!'),
   },
-  'Button 1'
+  'Button 1',
 );
 
 // Function attribute (also treated as event listener)
@@ -97,7 +99,7 @@ const button2 = h(
     click: (e) => console.log('Event:', e),
     'data-id': '123', // Regular attribute
   },
-  'Button 2'
+  'Button 2',
 );
 
 // Both regular and event handler for same name
@@ -136,9 +138,43 @@ const Greeting = ({ name }: { name: string }) => (
 const app = <Greeting name="World" />;
 ```
 
+### Conditional Rendering with k-if (v0.14.6+)
+
+The `k-if` directive allows conditional element creation:
+
+```tsx
+import { h } from '@ktjs/core';
+
+// Element will only be created if condition is true
+const isVisible = true;
+const element = <div k-if={isVisible}>This will be rendered</div>;
+
+// Element will not be created if condition is false
+const isHidden = false;
+const hidden = <div k-if={isHidden}>This will NOT be rendered</div>;
+// hidden will be undefined/null
+
+// Practical example
+const UserProfile = ({ user, isLoggedIn }: { user: any; isLoggedIn: boolean }) => (
+  <div>
+    <h1>User Profile</h1>
+    <div k-if={isLoggedIn}>
+      <p>Welcome, {user.name}!</p>
+      <button>Logout</button>
+    </div>
+    <div k-if={!isLoggedIn}>
+      <p>Please log in to continue</p>
+      <button>Login</button>
+    </div>
+  </div>
+);
+```
+
+**Note**: `k-if` is evaluated **once** at element creation time. It's not reactive - if you need dynamic visibility, use CSS or manually recreate the element.
+
 ### Redraw Mechanism (v0.11+)
 
-The new `redraw()` method allows you to update components efficiently:
+The `redraw()` method allows you to update components efficiently:
 
 ```tsx
 import { h, KTHTMLElement } from '@ktjs/core';
@@ -162,6 +198,39 @@ element.redraw({ count: 10 });
 // Update children (for native elements)
 const div = (<div>Old content</div>) as KTHTMLElement;
 div.redraw(undefined, 'New content');
+```
+
+### Array Children Support (v0.14.1+)
+
+Children can now be arrays for easier list rendering:
+
+```tsx
+import { h } from '@ktjs/core';
+
+// Map arrays directly as children
+const items = ['Apple', 'Banana', 'Orange'];
+const list = (
+  <ul>
+    {items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+);
+
+// Mix mapped elements with other elements
+const TodoList = ({ todos }: { todos: string[] }) => (
+  <div>
+    <h2>Todo List</h2>
+    <ul>
+      {todos.map((todo) => (
+        <li>{todo}</li>
+      ))}
+      <li>
+        <button>Add More</button>
+      </li>
+    </ul>
+  </div>
+);
 ```
 
 ### Async Components

@@ -8,28 +8,25 @@
 
 Client-side router with navigation guards for KT.js.
 
-**Current Version:** 0.13.0
+**Current Version:** 0.14.9
 
 ## Overview
 
-`@ktjs/router` is a lightweight, hash-based client-side router with powerful navigation guards and async/sync auto-adaptation. It provides all the essential routing features you need without the bloat.
+`@ktjs/router` is a lightweight, hash-based client-side router with powerful async navigation guards. It provides all the essential routing features you need without the bloat. Simplified in v0.14.7+ to focus exclusively on hash-based routing for better performance and maintainability.
 
 ## Features
 
-- **Hash-Based Routing**: Uses URL hash for client-side navigation (`#/path`)
+- **Hash-Based Routing**: Uses URL hash for client-side navigation (`#/path`) - **hash-mode only** since v0.14.7
 - **Path Matching**: Static and dynamic route matching with parameter extraction
   - Dynamic segments: `/user/:id`
   - Wildcard matching support
   - Optimized matching algorithm with pre-flattened routes
-- **Navigation Guards**: Control navigation flow with powerful guard system
+- **Async Navigation Guards**: Control navigation flow with Promise-based guard system
   - `beforeEach`: Global guard before every navigation
   - `beforeEnter`: Per-route guard for specific routes
   - `afterEach`: Global hook after successful navigation
   - Guard-level control with bitwise operations for fine-grained execution
-- **Async/Sync Support**: Automatically adapts to environment
-  - Uses async guards when `Promise` is available
-  - Falls back to synchronous mode in older browsers
-  - No configuration needed - it just works
+  - All guards are async - return `Promise` or immediate values
 - **Named Routes**: Navigate using route names instead of paths
 - **Query Parameters**: Built-in query string parsing and handling
 - **Route Context**: Access route information in handlers
@@ -87,7 +84,7 @@ const router = createRouter({
             h1({}, `User Profile`),
             div({}, `User ID: ${to.params.id}`),
             div({}, `Query: ${JSON.stringify(to.query)}`),
-          ])
+          ]),
         );
       },
     },
@@ -196,27 +193,61 @@ Creates and returns a router instance.
   - `path` (string): Route path with optional dynamic segments (`:param`)
   - `name` (string, optional): Route name for named navigation
   - `meta` (object, optional): Metadata attached to the route
-  - `beforeEnter` (function, optional): Route-specific guard, receives `(to: RouteContext) => boolean | void | Promise<boolean | void>`
+  - `component` (function): Function that returns HTMLElement or Promise<HTMLElement>
+  - `beforeEnter` (function, optional): Route-specific guard, receives `(to: RouteContext) => boolean | string | NavOptions | void | Promise<...>`
   - `after` (function, optional): Route-specific hook after navigation
   - `children` (array, optional): Nested child routes
-- `beforeEach` (function, optional): Global guard before every navigation, receives `(to: RouteContext, from: RouteContext | null)`
-- `afterEach` (function, optional): Global hook after successful navigation, receives `(to: RouteContext, from: RouteContext | null)`
-- `onNotFound` (function, optional): Handler for 404 errors, receives `(path: string)`
-- `onError` (function, optional): Error handler for navigation failures, receives `(error: Error, route?: RouteConfig)`
-- `asyncGuards` (boolean, optional): Enable async guards (default: `true`)
+- `beforeEach` (function, optional): Global guard before every navigation, receives `(to: RouteContext, from: RouteContext | null) => boolean | string | NavOptions | void | Promise<...>`
+- `afterEach` (function, optional): Global hook after successful navigation, receives `(to: RouteContext, from: RouteContext | null) => void | Promise<void>`
+- `onNotFound` (function, optional): Handler for 404 errors, receives `(path: string) => void`
+- `onError` (function, optional): Error handler for navigation failures, receives `(error: Error) => void`
+- `prefix` (string, optional): URL prefix for all routes (default: `''`)
 
 **Router Instance Properties:**
 
 - `current` (property): Current active route context (or `null`)
 - `history` (property): Array of navigation history
+- `routes` (property): Normalized route configurations
 
 **Router Instance Methods:**
 
-- `push(location)`: Navigate to a new location (string path or route object)
-- `silentPush(location)`: Navigate without global guards (`beforeEach` guards)
+- `push(location)`: Navigate to a new location (string path or route object with `name`/`params`)
 - `replace(location)`: Replace current history entry
 - `back()`: Navigate back in history
-- `forward()`: Navigate forward in history
+- `listen()`: Start listening to hash changes (auto-called on router creation since v0.14.7)
+- `init(routes)`: Initialize router with route configurations
+
+### Navigation Guards (v0.14.7+)
+
+All guards are **async** and can return:
+
+- `false`: Cancel navigation
+- `string`: Redirect to the given path
+- `NavOptions` object: Redirect with options `{ name, params, query }`
+- `void` or `undefined`: Continue navigation
+
+```typescript
+// Global guard
+beforeEach: (async (to, from) => {
+  // Check authentication
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated && to.path !== '/login') {
+    return '/login'; // Redirect to login
+  }
+  // Return nothing to continue
+},
+  // Route guard
+  {
+    path: '/admin',
+    component: () => AdminPage(),
+    beforeEnter: async (to) => {
+      const hasPermission = await checkAdminPermission();
+      if (!hasPermission) {
+        return false; // Cancel navigation
+      }
+    },
+  });
+```
 
 ### Route Context
 
@@ -231,15 +262,22 @@ Guards and hooks receive a `RouteContext` object with:
 
 The router includes several performance optimizations:
 
-- **Pre-flattened Routes**: Nested routes are flattened during initialization
-- **Efficient Matching**: Optimized regex-based path matching
-- **Cached Methods**: Native DOM methods are cached
-- **Minimal Re-renders**: Only updates DOM when route actually changes
+- **Hash-Mode Only**: Simplified implementation focusing on hash-based routing (v0.14.7+)
+- **Pre-flattened Routes**: Nested routes are flattened during initialization for faster lookups
+- **Efficient Matching**: Optimized regex-based path matching with caching
+- **Async Guards**: All guards use Promise-based architecture for consistent async handling
 - **Guard Level Control**: Fine-grained control over guard execution using bitwise operations
+- **Automatic Initialization**: Router auto-initializes on creation, no manual setup needed
 
 ## Browser Compatibility
 
-Works in all modern browsers and IE9+ with ES5 transpilation. In environments without `Promise` support, navigation guards run synchronously.
+Works in all modern browsers that support:
+
+- Hash-based navigation
+- ES5 (with transpilation)
+- Promise API (required for async guards)
+
+For older browsers without Promise support, include a Promise polyfill.
 
 ## License
 

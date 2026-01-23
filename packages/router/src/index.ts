@@ -42,50 +42,6 @@ export const createRouter = (config: RouterConfig): Router => {
       return normalized;
     });
 
-  const executeGuardsSync = (
-    to: RouteContext,
-    from: RouteContext | null,
-    guardLevel: GuardLevel,
-  ): { continue: boolean; redirectTo?: NavOptions } => {
-    try {
-      if (guardLevel === GuardLevel.None) {
-        return { continue: true };
-      }
-
-      if (guardLevel & GuardLevel.Global) {
-        const result = beforeEach(to, from);
-        if (result === false) {
-          return { continue: false };
-        }
-        if (typeof result === 'string') {
-          return { continue: false, redirectTo: { path: result } };
-        }
-        if (result && typeof result === 'object' && !('then' in result)) {
-          return { continue: false, redirectTo: result as NavOptions };
-        }
-      }
-
-      if (guardLevel & GuardLevel.Route) {
-        const targetRoute = to.matched[to.matched.length - 1];
-        const result = targetRoute.beforeEnter(to);
-        if (result === false) {
-          return { continue: false };
-        }
-        if (typeof result === 'string') {
-          return { continue: false, redirectTo: { path: result } };
-        }
-        if (result && typeof result === 'object' && !('then' in result)) {
-          return { continue: false, redirectTo: result as NavOptions };
-        }
-      }
-
-      return { continue: true };
-    } catch (error) {
-      onError(error as Error);
-      return { continue: false };
-    }
-  };
-
   const executeGuards = async (
     to: RouteContext,
     from: RouteContext | null,
@@ -181,79 +137,7 @@ export const createRouter = (config: RouterConfig): Router => {
     };
   };
 
-  const navigateSync = (options: NavOptions, redirectCount = 0): boolean => {
-    try {
-      // Prevent infinite redirect loop
-      if (redirectCount > 10) {
-        onError(new Error('Maximum redirect count exceeded'));
-        return false;
-      }
-
-      const prep = navigatePrepare(options);
-      if (!prep) {
-        return false;
-      }
-      const { guardLevel, replace, to, fullPath } = prep;
-
-      // Execute guards
-      const guardResult = executeGuardsSync(to, current, guardLevel);
-      if (!guardResult.continue) {
-        // Check if there's a redirect
-        if (guardResult.redirectTo) {
-          return navigateSync(guardResult.redirectTo, redirectCount + 1);
-        }
-        return false;
-      }
-
-      // Update browser history depending on mode
-      const url = fullPath;
-      const hashUrl = '#' + fullPath;
-      if (replace) {
-        window.location.replace(hashUrl);
-      } else {
-        window.location.hash = fullPath;
-      }
-
-      // Update current route in memory
-      current = to;
-      if (replace) {
-        if (history.length > 0) {
-          history[history.length - 1] = to;
-        } else {
-          history.push(to);
-        }
-      } else {
-        history.push(to);
-      }
-
-      // Render component if routerView exists
-      if (routerView && to.matched.length > 0) {
-        const route = to.matched[to.matched.length - 1];
-        if (route.component) {
-          const element = route.component();
-          if (element instanceof Promise) {
-            element.then((el) => {
-              routerView!.innerHTML = '';
-              routerView!.appendChild(el);
-            });
-          } else {
-            routerView.innerHTML = '';
-            routerView.appendChild(element);
-          }
-        }
-      }
-
-      // Execute after hooks
-      executeAfterHooksSync(to, history[history.length - 2] ?? null);
-
-      return true;
-    } catch (error) {
-      onError(error as Error);
-      return false;
-    }
-  };
-
-  const navigateAsync = async (options: NavOptions, redirectCount = 0): Promise<boolean> => {
+  const navigate = async (options: NavOptions, redirectCount = 0): Promise<boolean> => {
     try {
       // Prevent infinite redirect loop
       if (redirectCount > 10) {
@@ -272,7 +156,7 @@ export const createRouter = (config: RouterConfig): Router => {
       if (!guardResult.continue) {
         // Check if there's a redirect
         if (guardResult.redirectTo) {
-          return navigateAsync(guardResult.redirectTo, redirectCount + 1);
+          return await navigate(guardResult.redirectTo, redirectCount + 1);
         }
         return false;
       }
@@ -313,14 +197,6 @@ export const createRouter = (config: RouterConfig): Router => {
       onError(error as Error);
       return false;
     }
-  };
-
-  const navigate = asyncGuards ? navigateSync : navigateAsync;
-
-  const executeAfterHooksSync = (to: RouteContext, from: RouteContext | null) => {
-    const targetRoute = to.matched[to.matched.length - 1];
-    targetRoute.after(to);
-    afterEach(to, from);
   };
 
   const executeAfterHooks = async (to: RouteContext, from: RouteContext | null): Promise<void> => {
@@ -388,7 +264,7 @@ export const createRouter = (config: RouterConfig): Router => {
       }
     }
 
-    executeAfterHooksSync(to, history[history.length - 2] ?? null);
+    executeAfterHooks(to, history[history.length - 2] ?? null);
   });
 
   // # initialize

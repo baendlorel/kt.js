@@ -13,6 +13,7 @@ export const createRouter = ({
   onNotFound = fn,
   onError = fn,
   prefix = '',
+  routes: rawRoutes,
 }: RouterConfig): Router => {
   // # private values
   const routes: RouteConfig[] = [];
@@ -302,7 +303,7 @@ export const createRouter = ({
       window.history.forward();
     },
   };
-  normalize(routes, '/');
+  normalize(rawRoutes, '/');
   const { findByName, match } = createMatcher(routes);
   const currentHash = window.location.hash.slice(1);
   if (currentHash) {

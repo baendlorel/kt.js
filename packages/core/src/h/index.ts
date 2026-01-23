@@ -30,11 +30,7 @@ export const h: H = ((tag, attr = '', content = '') => {
   const element = document.createElement(tag) as any;
 
   // * Handle content
-  const kif = applyAttr(element, attr);
-  if (!kif) {
-    return document.createComment('k-if') as any;
-  }
-
+  applyAttr(element, attr);
   applyContent(element, content);
 
   return element;

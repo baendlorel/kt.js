@@ -47,19 +47,13 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
   // Handle function components
   if (typeof tag === 'function') {
     el = tag(props) as KTHTMLElement;
-    el.redraw = el.redraw ?? redraw;
-    ref.value = el;
-    return el;
   } else {
-    // & deal children here
-    let children = props.children as KTRawContents & { ref?: any };
-    delete props.children;
-
-    el = h(tag, props, children) as KTHTMLElement;
-    el.redraw = redraw;
-    ref.value = el;
-    return el;
+    el = h(tag, props, props.children) as KTHTMLElement;
   }
+
+  el.redraw = el.redraw ?? redraw;
+  ref.value = el;
+  return el;
 }
 
 /**

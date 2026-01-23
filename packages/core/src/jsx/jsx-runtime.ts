@@ -18,38 +18,36 @@ const dummyRef = { value: null } as unknown as KTRef<KTHTMLElement>;
  * @param tag html tag or function component
  * @param props properties/attributes
  */
+// todo 加入对k-if的全面支持
 export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
-  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : dummyRef;
-  if (ref) {
+  let ref = dummyRef;
+  if (props.ref?.isKT) {
+    ref = props.ref as KTRef<KTHTMLElement>;
     delete props.ref;
   }
-  // todo 加入对k-if的全面支持
+
+  let el: KTHTMLElement;
+  const redraw = (newProps?: KTAttribute) => {
+    props = newProps ? { ...props, ...newProps } : props;
+    props.ref = ref; // inherit the ref
+
+    const old = el;
+    el = jsx(tag, props);
+    old.replaceWith(el);
+    return el;
+  };
+
+  if ('k-if' in props && !props['k-if']) {
+    el = document.createComment('k-if') as unknown as KTHTMLElement;
+    ref.value = el as KTHTMLElement;
+    el.redraw = redraw;
+    return el;
+  }
 
   // Handle function components
   if (typeof tag === 'function') {
-    if ('k-if' in props) {
-      if (!props['k-if']) {
-        let el = document.createComment('k-if') as unknown as KTHTMLElement;
-        ref.value = el as KTHTMLElement;
-        return el;
-      }
-    }
-
-    let el = tag(props) as KTHTMLElement;
-    if (!el.redraw) {
-      el.redraw = (newProps?: KTAttribute) => {
-        props = newProps ? { ...props, ...newProps } : props;
-
-        // $ same as below
-        const old = el;
-        el = tag(props) as KTHTMLElement;
-        el.redraw = old.redraw; // inherit redraw
-        ref.value = el;
-        old.replaceWith(el);
-        return el;
-      };
-    }
-
+    el = tag(props) as KTHTMLElement;
+    el.redraw = el.redraw ?? redraw;
     ref.value = el;
     return el;
   } else {
@@ -57,22 +55,9 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
     let children = props.children as KTRawContents & { ref?: any };
     delete props.children;
 
-    let el = h(tag, props, children) as KTHTMLElement;
+    el = h(tag, props, children) as KTHTMLElement;
+    el.redraw = redraw;
     ref.value = el;
-
-    el.redraw = (newProps?: KTAttribute, newChildren?: KTRawContent) => {
-      props = newProps ? { ...props, ...newProps } : props;
-      children = (newChildren ?? children) as KTRawContents & { ref?: any };
-
-      // $ same as above
-      const old = el;
-      el = h(tag, props, children) as KTHTMLElement;
-      el.redraw = old.redraw; // inherit redraw
-      ref.value = el;
-      old.replaceWith(el);
-      return el;
-    };
-
     return el;
   }
 }

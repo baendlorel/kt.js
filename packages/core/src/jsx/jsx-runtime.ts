@@ -14,11 +14,11 @@ type JSXTag =
 
 const dummyRef = { value: null } as unknown as KTRef<KTHTMLElement>;
 
+// todo 是否进一步削减h函数的分支，比如去掉string为attr的情况
 /**
  * @param tag html tag or function component
  * @param props properties/attributes
  */
-// todo 加入对k-if的全面支持
 export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
   const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : dummyRef;
 

@@ -5,11 +5,11 @@ const defaultHandler = (element: HTMLElement, key: string, value: any) => elemen
 
 function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   const classValue = attr.class;
-  const style = attr.style;
   if (classValue !== undefined) {
     element.className = classValue;
   }
 
+  const style = attr.style;
   if (style) {
     if (typeof style === 'string') {
       element.setAttribute('style', style);
@@ -44,10 +44,10 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
 }
 
 export function applyAttr(element: HTMLElement, attr: KTRawAttr) {
-  if (typeof attr === 'string') {
-    element.className = attr;
-  } else if (typeof attr === 'object' && attr !== null) {
+  if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
+  } else if (typeof attr === 'string') {
+    element.className = attr;
   } else {
     throw new Error('kt.js: attr must be an object/string.');
   }

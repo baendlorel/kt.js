@@ -12,18 +12,29 @@ type JSXTag =
   | ((props?: any) => KTHTMLElement)
   | ((props?: any) => Promise<KTHTMLElement>);
 
+const dummyRef = { value: null } as unknown as KTRef<KTHTMLElement>;
+
 /**
  * @param tag html tag or function component
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
-  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : null;
+  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : dummyRef;
   if (ref) {
     delete props.ref;
   }
+  // todo 加入对k-if的全面支持
 
   // Handle function components
   if (typeof tag === 'function') {
+    if ('k-if' in props) {
+      if (!props['k-if']) {
+        let el = document.createComment('k-if') as unknown as KTHTMLElement;
+        ref.value = el as KTHTMLElement;
+        return el;
+      }
+    }
+
     let el = tag(props) as KTHTMLElement;
     if (!el.redraw) {
       el.redraw = (newProps?: KTAttribute) => {
@@ -33,17 +44,13 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
         const old = el;
         el = tag(props) as KTHTMLElement;
         el.redraw = old.redraw; // inherit redraw
-        if (ref) {
-          ref.value = el;
-        }
+        ref.value = el;
         old.replaceWith(el);
         return el;
       };
     }
 
-    if (ref) {
-      ref.value = el;
-    }
+    ref.value = el;
     return el;
   } else {
     // & deal children here
@@ -51,9 +58,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
     delete props.children;
 
     let el = h(tag, props, children) as KTHTMLElement;
-    if (ref) {
-      ref.value = el;
-    }
+    ref.value = el;
 
     el.redraw = (newProps?: KTAttribute, newChildren?: KTRawContent) => {
       props = newProps ? { ...props, ...newProps } : props;
@@ -63,9 +68,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
       const old = el;
       el = h(tag, props, children) as KTHTMLElement;
       el.redraw = old.redraw; // inherit redraw
-      if (ref) {
-        ref.value = el;
-      }
+      ref.value = el;
       old.replaceWith(el);
       return el;
     };

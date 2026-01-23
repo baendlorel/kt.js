@@ -21,7 +21,7 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   }
 
   for (const key in attr) {
-    if (key === 'class' || key === 'style' || key === 'children' || key === 'k-if') {
+    if (key === 'class' || key === 'style' || key === 'children' || key === 'k-if' || key === 'ref') {
       continue;
     }
 

@@ -1,11 +1,11 @@
 import type { KTAttribute, KTRawContent } from './h.js';
 
-export type KTHTMLElement = HTMLElement & {
+export type KTHTMLElement<El extends HTMLElement = HTMLElement> = El & {
   /**
    * Automically generate a redraw function if it is not provided
    * @param props
    */
-  redraw: (props?: KTAttribute, children?: KTRawContent) => KTHTMLElement;
+  redraw: (props?: KTAttribute, ...args: any[]) => KTHTMLElement;
 };
 
 declare global {

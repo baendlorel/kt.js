@@ -20,17 +20,11 @@ const dummyRef = { value: null } as unknown as KTRef<KTHTMLElement>;
  */
 // todo 加入对k-if的全面支持
 export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
-  let ref = dummyRef;
-  if (props.ref?.isKT) {
-    ref = props.ref as KTRef<KTHTMLElement>;
-    delete props.ref;
-  }
+  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : dummyRef;
 
   let el: KTHTMLElement;
   const redraw = (newProps?: KTAttribute) => {
     props = newProps ? { ...props, ...newProps } : props;
-    props.ref = ref; // inherit the ref
-
     const old = el;
     el = jsx(tag, props);
     old.replaceWith(el);
@@ -39,7 +33,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
 
   if ('k-if' in props && !props['k-if']) {
     el = document.createComment('k-if') as unknown as KTHTMLElement;
-    ref.value = el as KTHTMLElement;
+    ref.value = el;
     el.redraw = redraw;
     return el;
   }
@@ -51,7 +45,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
     el = h(tag, props, props.children) as KTHTMLElement;
   }
 
-  el.redraw = el.redraw ?? redraw;
+  el.redraw ??= redraw;
   ref.value = el;
   return el;
 }
@@ -119,18 +113,18 @@ export { h, h as createElement };
  * }
  * ```
  * Then the returned element has a `redraw` method to redraw itself with new values.
- * @param creator
+ * @param creator a simple creator function that returns an element
  * @returns created element
  */
 export function createRedrawable(creator: () => KTHTMLElement): KTHTMLElement {
-  let element = creator();
+  let el = creator();
   const redraw = () => {
-    const old = element;
-    element = creator();
-    old.replaceWith(element);
-    element.redraw = redraw;
-    return element;
+    const old = el;
+    el = creator();
+    old.replaceWith(el);
+    el.redraw = redraw;
+    return el;
   };
-  element.redraw = redraw;
-  return element;
+  el.redraw = redraw;
+  return el;
 }

@@ -12,7 +12,7 @@ export const createRouter = ({
   afterEach = fn,
   onNotFound = fn,
   onError = fn,
-  baseUrl = '',
+  prefix = '',
 }: RouterConfig): Router => {
   // # private values
   const routes: RouteConfig[] = [];
@@ -25,7 +25,7 @@ export const createRouter = ({
     rawRoutes.map((route) => {
       const path = normalizePath(parentPath, route.path);
       const normalized = {
-        path: baseUrl + path,
+        path: prefix + path,
         name: route.name ?? '',
         meta: route.meta ?? {},
         beforeEnter: route.beforeEnter ?? fn,
@@ -40,7 +40,7 @@ export const createRouter = ({
       return normalized;
     });
 
-  const executeGuards = async (
+  const guard = async (
     to: RouteContext,
     from: RouteContext | null,
     guardLevel: GuardLevel,
@@ -150,7 +150,7 @@ export const createRouter = ({
 
       const { guardLevel, replace, to, fullPath } = prep;
 
-      const guardResult = await executeGuards(to, current, guardLevel);
+      const guardResult = await guard(to, current, guardLevel);
       if (!guardResult.continue) {
         // Check if there's a redirect
         if (guardResult.redirectTo) {

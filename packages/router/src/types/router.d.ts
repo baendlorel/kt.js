@@ -76,7 +76,10 @@ export interface NavOptions extends NavBaseOptions {
  * Router configuration
  */
 export interface RouterConfig {
-  baseUrl?: string;
+  /**
+   * Might not be needed while using hash routing
+   */
+  prefix?: string;
 
   /** Array of route definitions */
   routes: RawRouteConfig[];

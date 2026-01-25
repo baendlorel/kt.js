@@ -141,7 +141,7 @@ export function createRedrawableNoref(creator: () => KTHTMLElement): KTHTMLEleme
  * ```
  * Then the returned element has a `redraw` method to redraw itself with new values.
  * @param creator a simple creator function that returns an element
- * @returns created element
+ * @returns created element's ref
  */
 export function createRedrawable(creator: () => KTHTMLElement): KTRef<KTHTMLElement> {
   const elRef = ref<KTHTMLElement>();

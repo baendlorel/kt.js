@@ -1,5 +1,9 @@
 # Change Log 🕒
 
+## 0.15.x 2026-01-25
+
+- **Add Function**: `createRedrawable`, `createRedrawableNonref`
+
 ## 0.14.x 2026-01-16 ~ 2026-01-23
 
 ### Major Features

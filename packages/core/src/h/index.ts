@@ -7,10 +7,9 @@ import { applyContent } from './content.js';
 
 type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
 
-type H = (<T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTML<T>) & {
-  kDepth: number;
-  kUpdater: (() => void)[];
-};
+const defaultCreator = (tag: string) => document.createElement(tag);
+const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/1999/xhtml', tag);
+let creator = defaultCreator;
 
 /**
  * Create an enhanced HTMLElement.
@@ -21,17 +20,24 @@ type H = (<T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) 
  *
  * __PKG_INFO__
  */
-export const h: H = ((tag, attr = '', content = '') => {
+export const h = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
   if (typeof tag !== 'string') {
     $throw('tagName must be a string.');
   }
 
+  let lastCreator = creator;
+  if ((tag as string) === 'svg') {
+    creator = svgCreator;
+  }
+
   // * start creating the element
-  const element = document.createElement(tag) as any;
+  const element = creator(tag) as HTML<T>;
 
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
+  creator = lastCreator; // restore previous creator
+
   return element;
-}) as H;
+};

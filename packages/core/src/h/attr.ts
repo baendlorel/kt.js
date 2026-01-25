@@ -43,7 +43,7 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
   }
 }
 
-export function applyAttr(element: HTMLElement, attr: KTRawAttr) {
+export function applyAttr(element: HTMLElement, attr?: KTRawAttr) {
   if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
   } else if (typeof attr === 'string') {

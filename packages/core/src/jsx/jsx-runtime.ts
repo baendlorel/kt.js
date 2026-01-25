@@ -1,9 +1,9 @@
 import type { HTMLTag } from '@/types/global.js';
-import type { KTAttribute, KTRawContent, KTRawContents } from '@/types/h.js';
+import type { KTAttribute, KTRawContent } from '@/types/h.js';
 import type { KTHTMLElement } from '@/types/jsx.js';
 
 import { h } from '@/h/index.js';
-import { KTRef } from './ref.js';
+import { KTRef, ref } from './ref.js';
 
 type JSXTag =
   | HTMLTag
@@ -109,14 +109,14 @@ export { h, h as createElement };
  *    let aa = 10;
  *    // ...
  *    // aa might be changed
- *    return createRedrawable(() => <div>{aa}</div>);
+ *    return createRedrawableNoref(() => <div>{aa}</div>);
  * }
  * ```
  * Then the returned element has a `redraw` method to redraw itself with new values.
  * @param creator a simple creator function that returns an element
  * @returns created element
  */
-export function createRedrawable(creator: () => KTHTMLElement): KTHTMLElement {
+export function createRedrawableNoref(creator: () => KTHTMLElement): KTHTMLElement {
   let el = creator();
   const redraw = () => {
     const old = el;
@@ -127,4 +127,33 @@ export function createRedrawable(creator: () => KTHTMLElement): KTHTMLElement {
   };
   el.redraw = redraw;
   return el;
+}
+
+/**
+ * A helper to create redrawable elements
+ * ```tsx
+ * export function MyComponent() {
+ *    let aa = 10;
+ *    // ...
+ *    // aa might be changed
+ *    return createRedrawable(() => <div>{aa}</div>);
+ * }
+ * ```
+ * Then the returned element has a `redraw` method to redraw itself with new values.
+ * @param creator a simple creator function that returns an element
+ * @returns created element
+ */
+export function createRedrawable(creator: () => KTHTMLElement): KTRef<KTHTMLElement> {
+  const elRef = ref<KTHTMLElement>();
+
+  elRef.value = creator();
+  const redraw = () => {
+    const old = elRef.value;
+    elRef.value = creator();
+    old.replaceWith(elRef.value);
+    elRef.value.redraw = redraw;
+    return elRef.value;
+  };
+  elRef.value.redraw = redraw;
+  return elRef;
 }

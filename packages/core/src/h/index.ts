@@ -29,11 +29,6 @@ export const h = <T extends HTMLTag | SVGTag>(tag: T, attr?: KTRawAttr, content?
     $throw('tagName must be a string.');
   }
 
-  let lastCreator = creator;
-  if ((tag as string) === 'svg') {
-    creator = svgCreator;
-  }
-
   // * start creating the element
   const element = creator(tag) as HTML<T>;
 
@@ -41,7 +36,11 @@ export const h = <T extends HTMLTag | SVGTag>(tag: T, attr?: KTRawAttr, content?
   applyAttr(element, attr);
   applyContent(element, content);
 
-  creator = lastCreator; // restore previous creator
+  if (tag === 'svg') {
+    const div = document.createElement('div');
+    div.innerHTML = element.outerHTML;
+    return div.firstChild as HTML<T>;
+  }
 
   return element;
 };

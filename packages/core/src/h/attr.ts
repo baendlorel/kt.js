@@ -1,12 +1,12 @@
 import type { KTRawAttr, KTAttribute } from '@/types/h.js';
 import { handlers, ktEventHandlers } from './attr-helpers.js';
 
-const defaultHandler = (element: HTMLElement, key: string, value: any) => element.setAttribute(key, value);
+const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: any) => element.setAttribute(key, value);
 
-function attrIsObject(element: HTMLElement, attr: KTAttribute) {
+function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
   const classValue = attr.class;
   if (classValue !== undefined) {
-    element.className = classValue;
+    (element as HTMLElement).className = classValue;
   }
 
   const style = attr.style;
@@ -38,16 +38,16 @@ function attrIsObject(element: HTMLElement, attr: KTAttribute) {
     }
     // normal attributes
     else {
-      (handlers[key] || defaultHandler)(element, key, o);
+      (handlers[key] || defaultHandler)(element as any, key, o);
     }
   }
 }
 
-export function applyAttr(element: HTMLElement, attr?: KTRawAttr) {
+export function applyAttr(element: HTMLElement | SVGElement, attr?: KTRawAttr) {
   if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
   } else if (typeof attr === 'string') {
-    element.className = attr;
+    (element as HTMLElement).className = attr;
   } else {
     throw new Error('kt.js: attr must be an object/string.');
   }

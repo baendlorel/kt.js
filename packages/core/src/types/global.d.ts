@@ -3,7 +3,8 @@ export type otherstring = string & {};
 /**
  * Normal HTML tags like `div`, `span`, `a`, etc.
  */
-export type HTMLTag = keyof HTMLElementTagNameMap & otherstring;
+export type HTMLTag = keyof HTMLElementTagNameMap;
+export type SVGTag = keyof SVGElementTagNameMap;
 
 /**
  * Get the tags that makes HTMLElementTagNameMap[tag] = HTMLElement

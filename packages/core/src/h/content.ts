@@ -1,7 +1,7 @@
 import type { KTAvailableContent, KTRawContent } from '@/types/h.js';
 import { $append, $isArray, $isThenable } from '@/lib/index.js';
 
-function apdSingle(element: HTMLElement | DocumentFragment, c: KTAvailableContent) {
+function apdSingle(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailableContent) {
   // & JSX should ignore false, undefined, and null
   if (c === false || c === undefined || c === null) {
     return;
@@ -14,7 +14,7 @@ function apdSingle(element: HTMLElement | DocumentFragment, c: KTAvailableConten
   }
 }
 
-function apd(element: HTMLElement | DocumentFragment, c: KTAvailableContent) {
+function apd(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailableContent) {
   if ($isThenable(c)) {
     c.then((r) => apd(element, r));
   } else if ($isArray(c)) {
@@ -35,7 +35,7 @@ function apd(element: HTMLElement | DocumentFragment, c: KTAvailableContent) {
   }
 }
 
-export function applyContent(element: HTMLElement, content: KTRawContent): void {
+export function applyContent(element: HTMLElement | SVGElement, content: KTRawContent): void {
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
       apd(element, content[i]);

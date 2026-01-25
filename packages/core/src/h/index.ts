@@ -1,15 +1,19 @@
-import type { HTMLTag, otherstring } from '@/types/global.js';
+import type { HTMLTag, otherstring, SVGTag } from '@/types/global.js';
 import type { KTRawAttr, KTRawContent } from '@/types/h.js';
 
 import { $throw } from '@/lib/error.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
-type HTML<T extends HTMLTag & otherstring> = T extends HTMLTag ? HTMLElementTagNameMap[T] : HTMLElement;
+type HTML<T extends (HTMLTag | SVGTag) & otherstring> = T extends SVGTag
+  ? SVGElementTagNameMap[T]
+  : T extends HTMLTag
+    ? HTMLElementTagNameMap[T]
+    : HTMLElement;
 
 const defaultCreator = (tag: string) => document.createElement(tag);
-const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/1999/xhtml', tag);
-let creator = defaultCreator;
+const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag);
+let creator: typeof defaultCreator | typeof svgCreator = defaultCreator;
 
 /**
  * Create an enhanced HTMLElement.
@@ -20,7 +24,7 @@ let creator = defaultCreator;
  *
  * __PKG_INFO__
  */
-export const h = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
+export const h = <T extends HTMLTag | SVGTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
   if (typeof tag !== 'string') {
     $throw('tagName must be a string.');
   }

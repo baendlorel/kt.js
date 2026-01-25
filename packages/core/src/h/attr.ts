@@ -6,7 +6,7 @@ const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: a
 function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
   const classValue = attr.class;
   if (classValue !== undefined) {
-    (element as HTMLElement).className = classValue;
+    element.setAttribute('class', classValue);
   }
 
   const style = attr.style;

@@ -58,7 +58,7 @@ interface KTBaseAttribute {
   title?: string;
   placeholder?: string;
   contenteditable?: boolean;
-  value?: string;
+  value?: any;
   valueAsDate?: Date;
   valueAsNumber?: number;
   label?: string;
@@ -76,7 +76,9 @@ interface KTBaseAttribute {
 }
 
 type KTPrefixedEventHandlers = {
-  [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
+  [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?:
+    | ((ev: HTMLElementEventMap[EventName]) => void)
+    | ((...args: any[]) => any);
 };
 
 type KTSpecialEventHandlers = {

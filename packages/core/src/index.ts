@@ -10,3 +10,4 @@ export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute 
 export type * from './types/jsx.js';
 
 // todo 可以考虑加入SSR服务端渲染
+// todo 可以考虑加入k-for

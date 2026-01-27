@@ -80,12 +80,30 @@ type KTPrefixedEventHandlers = {
 };
 
 type KTSpecialEventHandlers = {
+  /**
+   * Directly extract `value` from the input element
+   */
   'on:ktchange'?: (value: string) => void;
+  /**
+   * Directly extract `value` and trim it
+   */
   'ontrim:ktchange'?: (value: string) => void;
+  /**
+   * Directly extract `value` and parse it to number
+   */
   'on:ktchangenumber'?: (value: number) => void;
 
+  /**
+   * Directly extract `value` from the input element
+   */
   'on:ktinput'?: (value: string) => void;
+  /**
+   * Directly extract `value` and trim it
+   */
   'ontrim:ktinput'?: (value: string) => void;
+  /**
+   * Directly extract `value` and parse it to number
+   */
   'on:ktinputnumber'?: (value: number) => void;
 };
 

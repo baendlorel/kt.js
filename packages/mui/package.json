@@ -1,0 +1,43 @@
+{
+  "name": "@ktjs/mui",
+  "version": "0.1.0",
+  "description": "Material-UI inspired components for kt.js - pre-styled UI components",
+  "type": "module",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "ui",
+    "components",
+    "material-ui",
+    "mui",
+    "web"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baendlorel/kt.js",
+    "directory": "packages/mui"
+  },
+  "dependencies": {
+    "kt.js": "workspace:^*"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "dev": "rollup -c rollup.config.mjs -w"
+  }
+}

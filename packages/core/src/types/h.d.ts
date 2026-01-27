@@ -76,9 +76,7 @@ interface KTBaseAttribute {
 }
 
 type KTPrefixedEventHandlers = {
-  [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?:
-    | ((ev: HTMLElementEventMap[EventName]) => void)
-    | (Function & {});
+  [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
 type KTSpecialEventHandlers = {

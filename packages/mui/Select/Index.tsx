@@ -25,8 +25,8 @@ const emptyFn = () => {};
  * Select component - mimics MUI Select appearance and behavior
  */
 export function Select(props: SelectProps) {
-  const {
-    value: initValue = '',
+  let {
+    value = '',
     options = [],
     label = '',
     placeholder = '',
@@ -36,7 +36,6 @@ export function Select(props: SelectProps) {
     disabled = false,
   } = props;
 
-  let value = initValue;
   let isOpen = false;
   let isFocused = false;
   const selectRef = ref<HTMLDivElement>();
@@ -72,8 +71,8 @@ export function Select(props: SelectProps) {
   // Handle option click
   const handleOptionClick = (newValue: string) => {
     value = newValue;
-    onChange(value);
     isOpen = false;
+    onChange(value);
     updateMenu();
     updateLabelState();
 

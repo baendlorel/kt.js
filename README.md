@@ -6,8 +6,6 @@
 
 [CHANGLOG✨](CHANGELOG.md)
 
-**Current Version:** 0.14.x (Core: 0.14.6, Router: 0.14.9, Shortcuts: 0.7.3)
-
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
 KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
@@ -56,6 +54,11 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - `redraw()` method for controlled component updates (v0.11+)
   - `k-if` directive for conditional rendering (v0.14.6+)
   - Array children support for seamless `.map()` integration (v0.14.1+)
+- **List Rendering**: Efficient list rendering with `KTFor` component (v0.16.0+)
+  - Key-based DOM reuse similar to Svelte's `{#each}` blocks
+  - Minimal DOM operations for optimal performance
+  - Comment anchor node for flexible positioning
+  - `KTForStatic` for simple lists without key optimization
 - **Async Components**: Built-in support for Promise-based components
   - `KTAsync` component for handling async operations
   - Automatic placeholder management during loading

@@ -1,5 +1,36 @@
 # Change Log 🕒
 
+## 0.16.x 2026-01-27
+
+### Major Features
+
+- **KTFor Component**: Efficient list rendering with key-based optimization (v0.16.0)
+  - Key-based DOM reuse algorithm similar to Svelte's `{#each}` blocks
+  - Minimal DOM operations - only updates nodes that changed
+  - Returns Comment anchor node (`<!-- kt-for -->`) for flexible positioning
+  - All list items rendered as siblings after the anchor
+  - Full TypeScript support with generic types
+  - `redraw()` method for controlled list updates
+  - Example: `<KTFor list={items} key={(item) => item.id} mapper={(item) => <div>{item.name}</div>} />`
+
+- **KTForStatic Component**: Simple list rendering without key optimization (v0.16.0)
+  - For small static lists where key-based optimization is not needed
+  - Rebuilds entire list on each update
+  - Simpler API - no `key` function required
+  - Example: `<KTForStatic list={items} mapper={(item) => <div>{item}</div>} />`
+
+### Type Improvements
+
+- **KTForAnchor Type**: Extended Comment node interface with `redraw` capability
+  - Type-safe access to redraw method on list anchor nodes
+  - Better TypeScript integration for list components
+
+- **Event Handler Type Flexibility**: Event handlers now accept custom function signatures
+  - `KTPrefixedEventHandlers` uses `Function & {}` pattern like `otherstring`
+  - Allows both standard event handlers and custom callback signatures
+  - Resolves type conflicts in custom components (e.g., MUI components)
+  - No more type errors when defining custom event props
+
 ## 0.15.x 2026-01-25
 
 - **Add Function**: `createRedrawable`, `createRedrawableNonref`

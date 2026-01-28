@@ -42,7 +42,6 @@ const trivial = (item: any) => item;
  */
 export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
   const { list: initList, key: getKey = trivial, mapper } = props;
-
   // Cache: key -> { node: HTMLElement, item: T }
   const nodeCache = new Map<string | number, { node: HTMLElement; item: T }>();
   // Current key order
@@ -172,69 +171,6 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
 
   // Initialize the list
   initialize();
-
-  return anchor;
-}
-
-/**
- * Simple list rendering without key optimization
- * Rebuilds the entire list on each update - use for small static lists
- *
- * Returns a Comment anchor node. All items are rendered after this anchor.
- *
- * @example
- * ```tsx
- * const listAnchor = <KTForConst
- *   list={items}
- *   mapper={(item) => <div>{item}</div>}
- * /> as KTForAnchor;
- * ```
- */
-export function KTForConst<T>(props: Omit<KTForProps<T>, 'key'>): KTForAnchor {
-  const { list: initList, mapper } = props;
-
-  // Create anchor comment node
-  const anchor = document.createComment('kt-for-const') as KTForAnchor;
-  let nodes: HTMLElement[] = [];
-
-  // Simple rebuild on redraw
-  const rebuild = (newList: T[]) => {
-    // Remove all old nodes
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      if (node.parentNode) {
-        node.parentNode.removeChild(node);
-      }
-    }
-    nodes = [];
-
-    // Create new nodes
-    let previousNode: Node = anchor;
-    for (let i = 0; i < newList.length; i++) {
-      const item = newList[i];
-      const node = mapper(item, i, newList);
-      nodes.push(node);
-
-      if (anchor.parentNode) {
-        if (previousNode.nextSibling) {
-          anchor.parentNode.insertBefore(node, previousNode.nextSibling);
-        } else {
-          anchor.parentNode.appendChild(node);
-        }
-        previousNode = node;
-      }
-    }
-  };
-
-  // Initial render
-  rebuild(initList);
-
-  // Mount redraw
-  anchor.redraw = (newProps?: { list?: T[]; mapper?: (item: T, index: number, array: T[]) => HTMLElement }) => {
-    if (newProps?.list) {
-      rebuild(newProps.list);
-    }
-  };
 
   return anchor;
 }

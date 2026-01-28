@@ -5,7 +5,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@ktjs/mui": ["index.ts"],
+      "@ktjs/mui": ["src/index.ts"],
       "@ktjs/core": ["../core/src"],
       "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],
       "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"],

@@ -14,7 +14,7 @@ export interface KTForProps<T> {
 /**
  * Extended Comment node with redraw capability for KTFor
  */
-export interface KTForAnchor extends Comment {
+export interface KTForAnchor extends HTMLElement {
   redraw: (newProps?: { list?: any[]; mapper?: (item: any, index: number, array: any[]) => HTMLElement }) => void;
 }
 
@@ -48,7 +48,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
   let currentKeys: (string | number)[] = [];
 
   // Create anchor comment node - marks the position of the list
-  const anchor = document.createComment('kt-for') as KTForAnchor;
+  const anchor = document.createComment('kt-for') as unknown as KTForAnchor;
 
   /**
    * Get all nodes currently in the DOM that belong to this list
@@ -170,6 +170,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
     if (newProps?.list) {
       smartUpdate(newProps.list, newProps.mapper);
     }
+    return anchor;
   };
 
   // Initialize the list

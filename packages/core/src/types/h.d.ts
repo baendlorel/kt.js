@@ -4,7 +4,7 @@ import { KTHTMLElement } from './jsx.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 
-type SingleContent = KTRef<any> | HTMLElement | Element | string | number | boolean | null | undefined;
+type SingleContent = KTRef<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | string;

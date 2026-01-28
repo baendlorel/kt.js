@@ -38,193 +38,112 @@ pnpm add @ktjs/router
 
 ### Basic JSX Syntax
 
-KT.js supports standard JSX syntax. Elements are created as **real DOM nodes** immediately:
+JSX creates **real DOM nodes** immediately (not virtual DOM):
 
 ```tsx
-// Simple element
-const button = <button class="btn">Click me</button>;
-// button is HTMLButtonElement
-
-// Nested elements
+const button = <button class="btn">Click me</button>; // HTMLButtonElement
 const card = (
   <div class="card">
     <h2>Title</h2>
-    <p>Description text</p>
   </div>
-);
-// card is HTMLDivElement
+); // HTMLDivElement
 ```
 
-**Key Points:**
-
-- JSX creates real HTMLElement instances, not virtual DOM
-- Use `class` (not `className`) for CSS classes
+- Use `class` (not `className`)
+- Use `on:<eventName>` for event handlers
 
 ### Event Handlers
 
-Use `on:<eventName>` syntax for event listeners:
-
 ```tsx
-const button = <button on:click={() => console.log('clicked')}>Click me</button>;
-
-const input = (
-  <input type="text" on:input={(e) => console.log(e.target.value)} on:blur={() => console.log('blurred')} />
-);
+<button on:click={() => console.log('clicked')}>Click</button>
+<input on:input={(e) => console.log(e.target.value)} />
 ```
 
 ### Function Components
 
-Function components are just functions that return HTMLElement:
-
 ```tsx
-// Simple component
 function Greeting({ name }: { name: string }) {
   return <div>Hello, {name}!</div>;
 }
-
 const element = <Greeting name="World" />;
 ```
 
 ### Conditional Rendering with k-if
 
-Use `k-if` attribute for conditional element creation:
-
 ```tsx
-// Element is created only if condition is true
-const message = <div k-if={isVisible}>Hello!</div>;
-// If isVisible is false, returns a comment node instead
+const message = <div k-if={isVisible}>Hello!</div>; // Creates comment node if false
 
-// Common pattern
-function UserStatus({ isLoggedIn }: { isLoggedIn: boolean }) {
-  return (
-    <div>
-      <span k-if={isLoggedIn}>Welcome back!</span>
-      <button k-if={!isLoggedIn}>Login</button>
-    </div>
-  );
-}
+<span k-if={isLoggedIn}>Welcome!</span>
+<button k-if={!isLoggedIn}>Login</button>
 ```
 
-**Key Points:**
+- One-time evaluation (not reactive)
+- Returns comment node (`<!-- k-if -->`) when false
 
-- One-time evaluation (not reactive) - condition is checked at element creation
-- When false, creates a comment node (`<!-- k-if -->`)
-- No overhead compared to manual conditional logic
-- Works with any truthy/falsy value
+## The Redraw Mechanism (Core Feature)
 
-## The Redraw Mechanism (Most Important!)
-
-This is the **core feature** that makes KT.js unique. Since there's no automatic re-rendering, you manually control updates using the `redraw()` method.
-
-### Redraw on Native Elements
+Manually control updates with `redraw()` - no automatic re-rendering.
 
 ```tsx
 import { KTHTMLElement } from 'kt.js';
 
-// Create element with type assertion
-const div = (<div>Initial content</div>) as KTHTMLElement;
-
-// Update content manually
+// Native elements
+const div = (<div>Initial</div>) as KTHTMLElement;
 div.redraw(undefined, 'New content');
-// The div now shows "New content"
+div.redraw({ class: 'active' }, 'Updated');
 
-// Update attributes
-const button = (<button class="btn">Click</button>) as KTHTMLElement;
-button.redraw({ class: 'btn active' }, 'Clicked!');
-```
-
-### Redraw on Function Components
-
-```tsx
-// Counter component with state
+// Function components
 function Counter({ count = 0 }: { count?: number }) {
   return (
-    <div class="counter">
+    <div>
       <span>Count: {count}</span>
-      <button on:click={() => element.redraw({ count: count + 1 })}>Increment</button>
+      <button on:click={() => element.redraw({ count: count + 1 })}>+</button>
     </div>
   );
 }
-
-// Create component instance
 const element = (<Counter />) as KTHTMLElement;
-
-// The button click calls element.redraw() which:
-// 1. Calls Counter({ count: 1 }) to create new DOM
-// 2. Replaces old element with new one in the DOM
-// 3. Preserves the redraw method on the new element
-
-// You can also trigger updates externally
-element.redraw({ count: 10 });
+element.redraw({ count: 10 }); // Re-executes Counter with new props
 ```
 
-### Signature
+**Signature:** `element.redraw(newProps?, newChildren?)`
 
-```typescript
-element.redraw(newProps?: object, newChildren?: string | HTMLElement | Array)
-```
+**Key points:**
 
-- **For function components**: Only `newProps` is used. The component is called again with merged props.
-- **For native elements**: Both `newProps` and `newChildren` can be updated.
-
-### Important Notes
-
-1. **`redraw()` replaces the element**: The old element is replaced with a new one using `replaceWith()`
-2. **Redraw method is preserved**: The new element automatically gets the same `redraw` method
-3. **Props are merged**: New props merge with existing ones (shallow merge)
-4. **Type assertion required**: Cast to `KTHTMLElement` to access the `redraw` method
+- Replaces element using `replaceWith()`
+- Props are merged (shallow)
+- Redraw method is preserved
+- Cast to `KTHTMLElement` to access
 
 ## Ref System
-
-Use `ref()` to get references to created elements:
 
 ```tsx
 import { ref } from 'kt.js';
 
-const buttonRef = ref<HTMLButtonElement>();
-
-const button = <button ref={buttonRef}>Click me</button>;
-
-// Access the element
-buttonRef.value.disabled = true;
-buttonRef.value.textContent = 'Disabled';
+const inputRef = ref<HTMLInputElement>();
+const input = <input ref={inputRef} />;
+inputRef.value.focus(); // Direct DOM access
 ```
 
-**Note**: `ref()` is NOT reactive like Vue refs - it's just a container to store element references.
+Note: Not reactive, just a container for element references.
 
 ## Async Components
-
-Handle async components with `KTAsync`:
 
 ```tsx
 import { KTAsync } from 'kt.js';
 
-// Async component that loads data
 async function UserProfile({ userId }: { userId: string }) {
   const data = await fetch(`/api/users/${userId}`).then((r) => r.json());
-
   return (
-    <div class="profile">
+    <div>
       <h2>{data.name}</h2>
-      <p>{data.bio}</p>
     </div>
   );
 }
 
-// Use with KTAsync
-const app = (
-  <div>
-    <h1>User Profile</h1>
-    <KTAsync component={() => UserProfile({ userId: '123' })} skeleton={<div class="loading">Loading...</div>} />
-  </div>
-);
+<KTAsync component={() => UserProfile({ userId: '123' })} skeleton={<div>Loading...</div>} />;
 ```
 
-**How it works:**
-
-- Creates a placeholder (skeleton or comment node) immediately
-- When Promise resolves, replaces placeholder with actual element
-- No manual DOM manipulation needed
+Creates placeholder, replaces with resolved element.
 
 ## List Rendering with KTFor
 
@@ -373,77 +292,29 @@ interface RouteContext {
 ```typescript
 // Global guard
 beforeEach: async (to, from) => {
-  // Check authentication
-  if (!isAuthenticated()) {
-    return '/login';  // Redirect
-  }
-  // Return nothing to continue
+  if (!isAuthenticated()) return '/login'; // Redirect
 }
 
 // Per-route guard
-{
-  path: '/admin',
-  beforeEnter: (to) => {
-    if (!isAdmin()) {
-      return false;  // Cancel navigation
-    }
-  }
-}
+{ path: '/admin', beforeEnter: (to) => !isAdmin() ? false : undefined }
 ```
 
-### Nested Routes
-
-```typescript
-const router = createRouter({
-  routes: [
-    {
-      path: '/user',
-      beforeEnter: (to) => {
-        // Render user layout
-      },
-      children: [
-        {
-          path: '/user/profile',
-          beforeEnter: (to) => {
-            // Render profile page inside user layout
-          },
-        },
-        {
-          path: '/user/settings',
-          beforeEnter: (to) => {
-            // Render settings page inside user layout
-          },
-        },
-      ],
-    },
-  ],
-});
-```
-
-## Common Patterns
-
-### Building Interactive UIs with KTFor
+## Common Patterns - TodoApp Example
 
 ```tsx
-import { KTFor, KTHTMLElement } from 'kt.js';
+import { KTFor } from 'kt.js';
 
 function TodoApp() {
-  interface TodoItem {
-    id: number;
-    text: string;
-  }
-
-  let todos: TodoItem[] = [];
+  let todos: Array<{ id: number; text: string }> = [];
   let nextId = 1;
 
   const input = (<input type="text" />) as HTMLInputElement;
-
   const todoList = (
     <KTFor
       list={todos}
       key={(item) => item.id}
       map={(item) => (
-        <div class="todo-item">
+        <div>
           <span>{item.text}</span>
           <button
             on:click={() => {
@@ -458,62 +329,23 @@ function TodoApp() {
     />
   );
 
-  const addButton = (
-    <button
-      on:click={() => {
-        if (input.value.trim()) {
-          todos = [...todos, { id: nextId++, text: input.value.trim() }];
-          todoList.redraw({ list: todos });
-          input.value = '';
-        }
-      }}
-    >
-      Add Todo
-    </button>
-  );
-
   return (
     <div>
-      <h1>Todo List</h1>
-      <div>
-        {input}
-        {addButton}
-      </div>
+      <h1>Todos</h1>
+      {input}
+      <button
+        on:click={() => {
+          if (input.value.trim()) {
+            todos = [...todos, { id: nextId++, text: input.value.trim() }];
+            todoList.redraw({ list: todos });
+            input.value = '';
+          }
+        }}
+      >
+        Add
+      </button>
       {todoList}
     </div>
-  );
-}
-```
-
-### Form Handling
-
-```tsx
-function LoginForm() {
-  const emailInput = (<input type="email" placeholder="Email" />) as HTMLInputElement;
-  const passwordInput = (<input type="password" placeholder="Password" />) as HTMLInputElement;
-  const errorMsg = (<div class="error"></div>) as KTHTMLElement;
-
-  const handleSubmit = async () => {
-    try {
-      await login(emailInput.value, passwordInput.value);
-      router.push('/dashboard');
-    } catch (error) {
-      errorMsg.redraw(undefined, 'Login failed!');
-    }
-  };
-
-  return (
-    <form
-      on:submit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
-      {emailInput}
-      {passwordInput}
-      <button type="submit">Login</button>
-      {errorMsg}
-    </form>
   );
 }
 ```
@@ -530,91 +362,23 @@ function LoginForm() {
 
 ## Best Practices
 
-1. **Cast to KTHTMLElement when you need redraw**:
+1. **Cast to KTHTMLElement for redraw**: `const el = (<Component />) as KTHTMLElement;`
+2. **Store references for updates**: Save element variable to call `redraw()` later
+3. **Use KTFor for dynamic lists**: Key-based reuse is more efficient than `.map()`
+4. **Use k-if for conditionals**: Cleaner than ternary for simple conditions
+5. **Keep state external**: Use closures or stores, not component-local variables
 
-   ```tsx
-   const element = (<Component />) as KTHTMLElement;
-   ```
+## Common Mistakes
 
-2. **Store element references for updates**:
-
-   ```tsx
-   const counter = (<Counter count={0} />) as KTHTMLElement;
-   // Later: counter.redraw({ count: 5 });
-   ```
-
-3. **Use refs for direct DOM access**:
-
-   ```tsx
-   const inputRef = ref<HTMLInputElement>();
-   const input = <input ref={inputRef} />;
-   inputRef.value.focus();
-   ```
-
-4. **Keep state in closures or external stores**:
-
-   ```tsx
-   function Component() {
-     let count = 0; // This persists across redraws if needed elsewhere
-     return <div>Count: {count}</div>;
-   }
-   ```
-
-5. **Router handles page-level rendering**:
-   - Use router's `beforeEnter` to render entire pages
-   - Use `redraw()` for component-level updates within a page
-
-6. **Use KTFor for dynamic lists**:
-
-   ```tsx
-   // ✅ Good: Key-based reuse
-   const list = <KTFor list={items} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
-
-   // ⚠️ OK for small static lists
-   const staticList = (
-     <ul>
-       {items.map((item) => (
-         <li>{item}</li>
-       ))}
-     </ul>
-   );
-   ```
-
-7. **Use k-if for conditional rendering**:
-
-   ```tsx
-   // ✅ Clean and efficient
-   <div k-if={isVisible}>Content</div>;
-
-   // ❌ Avoid manual conditional logic when k-if is simpler
-   {
-     isVisible ? <div>Content</div> : null;
-   }
-   ```
-
-## Common Mistakes to Avoid
-
-❌ **Don't expect automatic updates**:
+❌ **No automatic updates**: Changing variables won't update DOM
 
 ```tsx
 let count = 0;
 const div = <div>Count: {count}</div>;
-count++; // This won't update the DOM!
+count++; // DOM unchanged!
 ```
 
-✅ **Use redraw instead**:
-
-```tsx
-let count = 0;
-const element = (<div>Count: {count}</div>) as KTHTMLElement;
-count++;
-element.redraw(undefined, `Count: ${count}`);
-```
-
-```tsx
-const element = (<Component />) as KTHTMLElement;
-element.redraw(); // Works!
-```
+✅ **Use redraw**: `element.redraw(undefined, 'New content')`
 
 ## Summary
 

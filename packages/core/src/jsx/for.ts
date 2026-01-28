@@ -35,12 +35,13 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
 
   // Render initial list
   const elements: HTMLElement[] = [];
-  currentList.forEach((item, index, array) => {
-    const itemKey = currentKey(item, index, array);
-    const node = currentMap(item, index, array);
+  for (let index = 0; index < currentList.length; index++) {
+    const item = currentList[index];
+    const itemKey = currentKey(item, index, currentList);
+    const node = currentMap(item, index, currentList);
     nodeMap.set(itemKey, node);
     elements.push(node);
-  });
+  }
 
   // Attach elements array to anchor
   anchor.__kt_for_list__ = elements;
@@ -60,12 +61,13 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
     if (!parent) {
       // If not in DOM yet, just rebuild the list
       const newElements: HTMLElement[] = [];
-      currentList.forEach((item, index, array) => {
-        const itemKey = currentKey(item, index, array);
-        const node = currentMap(item, index, array);
+      for (let index = 0; index < currentList.length; index++) {
+        const item = currentList[index];
+        const itemKey = currentKey(item, index, currentList);
+        const node = currentMap(item, index, currentList);
         nodeMap.set(itemKey, node);
         newElements.push(node);
-      });
+      }
       anchor.__kt_for_list__ = newElements;
       return anchor;
     }
@@ -75,8 +77,9 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
     const newKeys = new Set<any>();
     const newElements: HTMLElement[] = [];
 
-    newList.forEach((item, index, array) => {
-      const itemKey = newKey(item, index, array);
+    for (let index = 0; index < newList.length; index++) {
+      const item = newList[index];
+      const itemKey = newKey(item, index, newList);
       newKeys.add(itemKey);
 
       // Reuse existing node if key exists
@@ -86,11 +89,11 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
         newElements.push(existingNode);
       } else {
         // Create new node
-        const node = newMap(item, index, array);
+        const node = newMap(item, index, newList);
         newNodeMap.set(itemKey, node);
         newElements.push(node);
       }
-    });
+    }
 
     // Remove nodes that are no longer in the list
     nodeMap.forEach((node, key) => {
@@ -101,13 +104,14 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
 
     // Insert/reorder nodes in correct order
     let referenceNode: Node | null = anchor.nextSibling;
-    newElements.forEach((node) => {
+    for (let index = 0; index < newElements.length; index++) {
+      const node = newElements[index];
       // If node is not in correct position, insert it
       if (referenceNode !== node) {
         parent.insertBefore(node, referenceNode);
       }
       referenceNode = node.nextSibling;
-    });
+    }
 
     // Update node map and element list
     nodeMap.clear();

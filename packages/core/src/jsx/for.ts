@@ -1,24 +1,21 @@
-import { h } from '../h/index.js';
-import type { KTHTMLElement } from '../types/jsx.js';
-
 export interface KTForProps<T> {
   list: T[];
   /**
    * Key function to uniquely identify each item
    * Using stable keys enables efficient DOM reuse and updates
    */
-  key: (item: T, index: number) => string | number;
+  key: (item: T, index: number, array: T[]) => string | number;
   /**
    * Mapper function to render each item
    */
-  mapper: (item: T, index: number) => HTMLElement;
+  mapper: (item: T, index: number, array: T[]) => HTMLElement;
 }
 
 /**
  * Extended Comment node with redraw capability for KTFor
  */
 export interface KTForAnchor extends Comment {
-  redraw: (newProps?: { list?: any[]; mapper?: (item: any, index: number) => HTMLElement }) => void;
+  redraw: (newProps?: { list?: any[]; mapper?: (item: any, index: number, array: any[]) => HTMLElement }) => void;
 }
 
 /**
@@ -80,8 +77,8 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
   const initialize = () => {
     for (let i = 0; i < initList.length; i++) {
       const item = initList[i];
-      const key = getKey(item, i);
-      const node = mapper(item, i);
+      const key = getKey(item, i, initList);
+      const node = mapper(item, i, initList);
       nodeCache.set(key, { node, item });
       currentKeys.push(key);
 
@@ -101,9 +98,9 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
    * Smart update method - only modifies DOM nodes that changed
    * Uses key-based diff algorithm to minimize DOM operations
    */
-  const smartUpdate = (newList: T[], newMapper?: (item: T, index: number) => HTMLElement) => {
+  const smartUpdate = (newList: T[], newMapper?: (item: T, index: number, array: T[]) => HTMLElement) => {
     const mapperFn = newMapper ?? mapper;
-    const newKeys = newList.map((item, index) => getKey(item, index));
+    const newKeys = newList.map((item, index) => getKey(item, index, newList));
 
     if (!anchor.parentNode) {
       // If anchor is not in DOM yet, just update cache
@@ -113,7 +110,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
       for (let i = 0; i < newList.length; i++) {
         const item = newList[i];
         const key = newKeys[i];
-        const node = mapperFn(item, i);
+        const node = mapperFn(item, i, newList);
         nodeCache.set(key, { node, item });
         currentKeys.push(key);
       }
@@ -141,7 +138,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
 
       // New item: create and cache
       if (!cached) {
-        const node = mapperFn(item, i);
+        const node = mapperFn(item, i, newList);
         cached = { node, item };
         nodeCache.set(key, cached);
       } else {
@@ -165,7 +162,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
   };
 
   // Mount redraw method on anchor
-  anchor.redraw = (newProps?: { list?: T[]; mapper?: (item: T, index: number) => HTMLElement }) => {
+  anchor.redraw = (newProps?: { list?: T[]; mapper?: (item: T, index: number, array: T[]) => HTMLElement }) => {
     if (newProps?.list) {
       smartUpdate(newProps.list, newProps.mapper);
     }
@@ -185,17 +182,17 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
  *
  * @example
  * ```tsx
- * const listAnchor = <KTForStatic
+ * const listAnchor = <KTForConst
  *   list={items}
  *   mapper={(item) => <div>{item}</div>}
  * /> as KTForAnchor;
  * ```
  */
-export function KTForStatic<T>(props: Omit<KTForProps<T>, 'key'>): KTForAnchor {
+export function KTForConst<T>(props: Omit<KTForProps<T>, 'key'>): KTForAnchor {
   const { list: initList, mapper } = props;
 
   // Create anchor comment node
-  const anchor = document.createComment('kt-for-static') as KTForAnchor;
+  const anchor = document.createComment('kt-for-const') as KTForAnchor;
   let nodes: HTMLElement[] = [];
 
   // Simple rebuild on redraw
@@ -213,7 +210,7 @@ export function KTForStatic<T>(props: Omit<KTForProps<T>, 'key'>): KTForAnchor {
     let previousNode: Node = anchor;
     for (let i = 0; i < newList.length; i++) {
       const item = newList[i];
-      const node = mapper(item, i);
+      const node = mapper(item, i, newList);
       nodes.push(node);
 
       if (anchor.parentNode) {
@@ -231,7 +228,7 @@ export function KTForStatic<T>(props: Omit<KTForProps<T>, 'key'>): KTForAnchor {
   rebuild(initList);
 
   // Mount redraw
-  anchor.redraw = (newProps?: { list?: T[]; mapper?: (item: T, index: number) => HTMLElement }) => {
+  anchor.redraw = (newProps?: { list?: T[]; mapper?: (item: T, index: number, array: T[]) => HTMLElement }) => {
     if (newProps?.list) {
       rebuild(newProps.list);
     }

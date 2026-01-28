@@ -4,7 +4,7 @@ export interface KTForProps<T> {
    * Key function to uniquely identify each item
    * Using stable keys enables efficient DOM reuse and updates
    */
-  key: (item: T, index: number, array: T[]) => string | number;
+  key?: (item: T, index: number, array: T[]) => string | number;
   /**
    * Mapper function to render each item
    */
@@ -17,6 +17,8 @@ export interface KTForProps<T> {
 export interface KTForAnchor extends Comment {
   redraw: (newProps?: { list?: any[]; mapper?: (item: any, index: number, array: any[]) => HTMLElement }) => void;
 }
+
+const trivial = (item: any) => item;
 
 /**
  * KTFor component - Efficient list rendering with key-based DOM reuse
@@ -39,7 +41,7 @@ export interface KTForAnchor extends Comment {
  * ```
  */
 export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
-  const { list: initList, key: getKey, mapper } = props;
+  const { list: initList, key: getKey = trivial, mapper } = props;
 
   // Cache: key -> { node: HTMLElement, item: T }
   const nodeCache = new Map<string | number, { node: HTMLElement; item: T }>();

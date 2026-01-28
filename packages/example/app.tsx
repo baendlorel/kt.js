@@ -1,3 +1,4 @@
+import { KTFor } from '@ktjs/core';
 import '@ktjs/core/jsx';
 
 // Simple counter component
@@ -63,9 +64,14 @@ const app = (
   <div>
     <h1>@ktjs/jsx Demo</h1>
     <p>Testing JSX support for KT.js</p>
-    {createCounter()}
-    {createList()}
-    {createEventDemo()}
+    <KTFor
+      list={[1, 2, 3, 4, 5]}
+      mapper={(item, index, array) => (
+        <div>
+          Item {item} (index: {index}, total: {array.length})
+        </div>
+      )}
+    />
   </div>
 );
 

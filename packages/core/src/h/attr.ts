@@ -4,7 +4,7 @@ import { handlers, ktEventHandlers } from './attr-helpers.js';
 const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: any) => element.setAttribute(key, value);
 
 function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
-  const classValue = attr.class;
+  const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     element.setAttribute('class', classValue);
   }
@@ -21,7 +21,14 @@ function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
   }
 
   for (const key in attr) {
-    if (key === 'class' || key === 'style' || key === 'children' || key === 'k-if' || key === 'ref') {
+    if (
+      key === 'class' ||
+      key === 'className' ||
+      key === 'style' ||
+      key === 'children' ||
+      key === 'k-if' ||
+      key === 'ref'
+    ) {
       continue;
     }
 

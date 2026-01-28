@@ -28,6 +28,7 @@ interface KTBaseAttribute {
   // # normal HTML attributes
   id?: string;
   class?: string;
+  className?: string;
   style?: string | Partial<CSSStyleDeclaration>;
 
   type?:

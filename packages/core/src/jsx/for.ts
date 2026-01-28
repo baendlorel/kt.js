@@ -1,13 +1,14 @@
 import { KTHTMLElement } from '@/types/jsx.js';
 import { KTRef } from './ref.js';
+import { KTAttribute } from '@/types/h.js';
 
-type KForElement<T> = KTHTMLElement<HTMLElement, (props: Partial<KTForProps<T>>) => void> & {
+type KForElement = KTHTMLElement & {
   __kt_for_list__: HTMLElement[];
-  redraw: <T>(newProps: Partial<KTForProps<T>>) => void;
+  redraw: (newProps?: KTAttribute) => void;
 };
 
 export interface KTForProps<T> {
-  ref?: KTRef<KForElement<T>>;
+  ref?: KTRef<KForElement>;
   list: T[];
   key?: (item: T, index: number, array: T[]) => any;
   map: (item: T, index: number, array: T[]) => HTMLElement;
@@ -17,12 +18,12 @@ export interface KTForProps<T> {
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__
  */
-export function KTFor<T>(props: KTForProps<T>): KForElement<T> {
+export function KTFor<T>(props: KTForProps<T>): KForElement {
   const { list, map } = props;
   const key = props.key ?? ((item: T) => item);
 
   // Create anchor comment node
-  const anchor = document.createComment('kt-for') as unknown as KForElement<T>;
+  const anchor = document.createComment('kt-for') as unknown as KForElement;
 
   // Store current state
   let currentList = list;
@@ -45,7 +46,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement<T> {
   anchor.__kt_for_list__ = elements;
 
   // Redraw function for updates
-  anchor.redraw = <U>(newProps: Partial<KTForProps<U>>) => {
+  anchor.redraw = (newProps = props) => {
     const newList = (newProps.list ?? currentList) as unknown as T[];
     const newKey = (newProps.key ?? currentKey) as typeof key;
     const newMap = (newProps.map ?? currentMap) as typeof map;
@@ -66,7 +67,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement<T> {
         newElements.push(node);
       });
       anchor.__kt_for_list__ = newElements;
-      return;
+      return anchor;
     }
 
     // Build new key map
@@ -112,6 +113,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement<T> {
     nodeMap.clear();
     newNodeMap.forEach((node, key) => nodeMap.set(key, node));
     anchor.__kt_for_list__ = newElements;
+    return anchor;
   };
 
   // Set ref if provided

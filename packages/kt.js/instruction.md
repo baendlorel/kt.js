@@ -308,7 +308,7 @@ function TodoApp() {
   let todos: Array<{ id: number; text: string }> = [];
   let nextId = 1;
 
-  const input = (<input type="text" />) as HTMLInputElement;
+  const input = (<input type="text" />) as KTHTMLElement<HTMLInputElement>;
   const todoList = (
     <KTFor
       list={todos}

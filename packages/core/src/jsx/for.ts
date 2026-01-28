@@ -60,6 +60,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
     if (!parent) {
       // If not in DOM yet, just rebuild the list
       const newElements: HTMLElement[] = [];
+      nodeMap.clear();
       for (let index = 0; index < currentList.length; index++) {
         const item = currentList[index];
         const itemKey = currentKey(item, index, currentList);
@@ -71,50 +72,122 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
       return anchor;
     }
 
-    // Build new key map
-    const newNodeMap = new Map<any, HTMLElement>();
-    const newKeys = new Set<any>();
-    const newElements: HTMLElement[] = [];
+    const oldLength = (anchor as any).__kt_for_list__.length;
+    const newLength = newList.length;
 
-    for (let index = 0; index < newList.length; index++) {
-      const item = newList[index];
-      const itemKey = newKey(item, index, newList);
-      newKeys.add(itemKey);
+    // Fast path: empty list
+    if (newLength === 0) {
+      nodeMap.forEach((node) => node.remove());
+      nodeMap.clear();
+      (anchor as any).__kt_for_list__ = [];
+      return anchor;
+    }
 
-      // Reuse existing node if key exists
+    // Fast path: all new items
+    if (oldLength === 0) {
+      const newElements: HTMLElement[] = [];
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < newLength; i++) {
+        const item = newList[i];
+        const itemKey = newKey(item, i, newList);
+        const node = newMap(item, i, newList);
+        nodeMap.set(itemKey, node);
+        newElements.push(node);
+        fragment.appendChild(node);
+      }
+      parent.insertBefore(fragment, anchor.nextSibling);
+      (anchor as any).__kt_for_list__ = newElements;
+      return anchor;
+    }
+
+    // Build key index map and new elements array in one pass
+    const newKeyToNewIndex = new Map<any, number>();
+    const newElements: HTMLElement[] = new Array(newLength);
+    let maxNewIndexSoFar = 0;
+    let moved = false;
+
+    for (let i = 0; i < newLength; i++) {
+      const item = newList[i];
+      const itemKey = newKey(item, i, newList);
+      newKeyToNewIndex.set(itemKey, i);
+
       if (nodeMap.has(itemKey)) {
-        const existingNode = nodeMap.get(itemKey)!;
-        newNodeMap.set(itemKey, existingNode);
-        newElements.push(existingNode);
+        // Reuse existing node
+        const node = nodeMap.get(itemKey)!;
+        newElements[i] = node;
+
+        // Track if items moved
+        if (i < maxNewIndexSoFar) {
+          moved = true;
+        } else {
+          maxNewIndexSoFar = i;
+        }
       } else {
         // Create new node
-        const node = newMap(item, index, newList);
-        newNodeMap.set(itemKey, node);
-        newElements.push(node);
+        newElements[i] = newMap(item, i, newList);
       }
     }
 
-    // Remove nodes that are no longer in the list
+    // Remove nodes not in new list
+    const toRemove: HTMLElement[] = [];
     nodeMap.forEach((node, key) => {
-      if (!newKeys.has(key)) {
-        node.remove();
+      if (!newKeyToNewIndex.has(key)) {
+        toRemove.push(node);
       }
     });
-
-    // Insert/reorder nodes in correct order
-    let referenceNode: Node | null = anchor.nextSibling;
-    for (let index = 0; index < newElements.length; index++) {
-      const node = newElements[index];
-      // If node is not in correct position, insert it
-      if (referenceNode !== node) {
-        parent.insertBefore(node, referenceNode);
-      }
-      referenceNode = node.nextSibling;
+    for (let i = 0; i < toRemove.length; i++) {
+      toRemove[i].remove();
     }
 
-    // Update node map and element list
+    // Update DOM with minimal operations
+    if (moved) {
+      // Use longest increasing subsequence to minimize moves
+      const seq = getSequence(newElements.map((el, i) => (nodeMap.has(newKey(newList[i], i, newList)) ? i : -1)));
+
+      let j = seq.length - 1;
+      let anchor: Node | null = null;
+
+      // Traverse from end to start for stable insertions
+      for (let i = newLength - 1; i >= 0; i--) {
+        const node = newElements[i];
+
+        if (j < 0 || i !== seq[j]) {
+          // Node needs to be moved or inserted
+          if (anchor) {
+            parent.insertBefore(node, anchor);
+          } else {
+            // Insert at end
+            let nextSibling = (anchor as any).nextSibling;
+            let temp = nextSibling;
+            while (temp && newElements.includes(temp as HTMLElement)) {
+              temp = temp.nextSibling;
+            }
+            parent.insertBefore(node, temp);
+          }
+        } else {
+          j--;
+        }
+        anchor = node;
+      }
+    } else {
+      // No moves needed, just insert new nodes
+      let currentNode = anchor.nextSibling;
+      for (let i = 0; i < newLength; i++) {
+        const node = newElements[i];
+        if (currentNode !== node) {
+          parent.insertBefore(node, currentNode);
+        } else {
+          currentNode = currentNode.nextSibling;
+        }
+      }
+    }
+
+    // Update maps
     nodeMap.clear();
-    newNodeMap.forEach((node, key) => nodeMap.set(key, node));
+    for (let i = 0; i < newLength; i++) {
+      const itemKey = newKey(newList[i], i, newList);
+      nodeMap.set(itemKey, newElements[i]);
+    }
     (anchor as any).__kt_for_list__ = newElements;
     return anchor;
   };
@@ -125,4 +198,53 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
   }
 
   return anchor;
+}
+
+// Longest Increasing Subsequence algorithm (optimized for diff)
+function getSequence(arr: number[]): number[] {
+  const p = arr.slice();
+  const result = [0];
+  let i: number, j: number, u: number, v: number, c: number;
+  const len = arr.length;
+
+  for (i = 0; i < len; i++) {
+    const arrI = arr[i];
+    if (arrI === -1) continue;
+
+    j = result[result.length - 1];
+    if (arr[j] < arrI) {
+      p[i] = j;
+      result.push(i);
+      continue;
+    }
+
+    u = 0;
+    v = result.length - 1;
+
+    while (u < v) {
+      c = ((u + v) / 2) | 0;
+      if (arr[result[c]] < arrI) {
+        u = c + 1;
+      } else {
+        v = c;
+      }
+    }
+
+    if (arrI < arr[result[u]]) {
+      if (u > 0) {
+        p[i] = result[u - 1];
+      }
+      result[u] = i;
+    }
+  }
+
+  u = result.length;
+  v = result[u - 1];
+
+  while (u-- > 0) {
+    result[u] = v;
+    v = p[v];
+  }
+
+  return result;
 }

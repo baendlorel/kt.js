@@ -1,23 +1,17 @@
 # Change Log 🕒
 
-## 0.16.x 2026-01-27
+## 0.16.x 2026-01-28
 
 ### Major Features
 
 - **KTFor Component**: Efficient list rendering with key-based optimization (v0.16.0)
-  - Key-based DOM reuse algorithm similar to Svelte's `{#each}` blocks
-  - Minimal DOM operations - only updates nodes that changed
-  - Returns Comment anchor node (`<!-- kt-for -->`) for flexible positioning
-  - All list items rendered as siblings after the anchor
-  - Full TypeScript support with generic types
+  - Returns Comment anchor node (`<!-- kt-for -->`) with `__kt_for_list__` property
+  - Elements stored in `__kt_for_list__` array attached to anchor
+  - Auto-appends list items when anchor is appended to parent via `applyContent`
+  - Key-based DOM reuse for minimal updates (default key: identity function)
   - `redraw()` method for controlled list updates
-  - Example: `<KTFor list={items} key={(item) => item.id} mapper={(item) => <div>{item.name}</div>} />`
-
-- **KTForStatic Component**: Simple list rendering without key optimization (v0.16.0)
-  - For small static lists where key-based optimization is not needed
-  - Rebuilds entire list on each update
-  - Simpler API - no `key` function required
-  - Example: `<KTForStatic list={items} mapper={(item) => <div>{item}</div>} />`
+  - Props: `list`, `map`, `key` (optional)
+  - Example: `<KTFor list={items} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />`
 
 ### Type Improvements
 

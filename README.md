@@ -55,10 +55,9 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
   - `k-if` directive for conditional rendering (v0.14.6+)
   - Array children support for seamless `.map()` integration (v0.14.1+)
 - **List Rendering**: Efficient list rendering with `KTFor` component (v0.16.0+)
-  - Key-based DOM reuse similar to Svelte's `{#each}` blocks
-  - Minimal DOM operations for optimal performance
-  - Comment anchor node for flexible positioning
-  - `KTForStatic` for simple lists without key optimization
+  - Comment anchor with `__kt_for_list__` array property
+  - Key-based DOM reuse for minimal updates
+  - Auto-appends list items when anchor added to parent
 - **Async Components**: Built-in support for Promise-based components
   - `KTAsync` component for handling async operations
   - Automatic placeholder management during loading

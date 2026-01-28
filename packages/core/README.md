@@ -29,11 +29,10 @@ Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX suppor
   - **k-if directive**: Conditional element creation with `k-if` attribute
   - Array children support for seamless list rendering
 - **KTFor Component**: Efficient list rendering with key-based optimization (v0.16.0)
-  - Key-based DOM reuse similar to Svelte's `{#each}` blocks
-  - Minimal DOM operations - only updates what changed
-  - Returns Comment anchor node for flexible positioning
+  - Returns Comment anchor with `__kt_for_list__` array storing rendered elements
+  - Auto-appends list items when anchor is added via `applyContent`
+  - Key-based DOM reuse with customizable key function (default: identity)
   - Type-safe with full TypeScript generics support
-  - `KTForStatic` variant for simple lists without key optimization
 - **KTAsync Component**: Handle async components with ease
   - Automatic handling of Promise-based components
   - Seamless integration with JSX/TSX
@@ -211,7 +210,7 @@ div.redraw(undefined, 'New content');
 The `KTFor` component provides efficient list rendering with key-based DOM reuse:
 
 ```tsx
-import { KTFor, KTForStatic, KTForAnchor } from '@ktjs/core';
+import { KTFor } from '@ktjs/core';
 
 interface Todo {
   id: number;
@@ -228,8 +227,8 @@ let todos: Todo[] = [
 const todoList = (
   <KTFor
     list={todos}
-    key={(item) => item.id} // Stable key for efficient updates
-    mapper={(item, index) => (
+    key={(item) => item.id} // Optional, defaults to identity function
+    map={(item, index) => (
       <div class={`todo ${item.done ? 'done' : ''}`}>
         <input type="checkbox" checked={item.done} />
         <span>{item.text}</span>
@@ -237,28 +236,22 @@ const todoList = (
       </div>
     )}
   />
-) as KTForAnchor;
+);
 
-// Add to DOM (anchor + all items are rendered)
+// Add to DOM - anchor comment + __kt_for_list__ items are appended
 document.body.appendChild(todoList);
 
 // Update the list - only changed items are updated
 todos = [...todos, { id: 3, text: 'New task', done: false }];
 todoList.redraw({ list: todos });
-
-// For simple static lists, use KTForStatic (no key optimization)
-const simpleList = (
-  <KTForStatic list={['Apple', 'Banana', 'Orange']} mapper={(item) => <div>{item}</div>} />
-) as KTForAnchor;
 ```
 
 **How it works:**
 
-- Returns a Comment node (`<!-- kt-for -->`) as anchor point
-- All list items are rendered as siblings after the anchor
-- Uses key-based diff algorithm to reuse DOM nodes
+- Returns Comment anchor (`<!-- kt-for -->`) with `__kt_for_list__` array property
+- When appended via `applyContent`, anchor and all list items are added to DOM
+- Uses key-based diff to reuse DOM nodes on `redraw()`
 - Only adds/removes/moves nodes that changed
-- Similar to Svelte's `{#each}` blocks
 
 ````
 

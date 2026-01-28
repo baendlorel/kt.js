@@ -95,9 +95,9 @@ importers:
 
   packages/mui:
     dependencies:
-      kt.js:
+      '@ktjs/core':
         specifier: workspace:^*
-        version: link:../kt.js
+        version: link:../core
 
   packages/router:
     dependencies:

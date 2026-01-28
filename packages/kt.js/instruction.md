@@ -85,6 +85,33 @@ function Greeting({ name }: { name: string }) {
 const element = <Greeting name="World" />;
 ```
 
+### Conditional Rendering with k-if
+
+Use `k-if` attribute for conditional element creation:
+
+```tsx
+// Element is created only if condition is true
+const message = <div k-if={isVisible}>Hello!</div>;
+// If isVisible is false, returns a comment node instead
+
+// Common pattern
+function UserStatus({ isLoggedIn }: { isLoggedIn: boolean }) {
+  return (
+    <div>
+      <span k-if={isLoggedIn}>Welcome back!</span>
+      <button k-if={!isLoggedIn}>Login</button>
+    </div>
+  );
+}
+```
+
+**Key Points:**
+
+- One-time evaluation (not reactive) - condition is checked at element creation
+- When false, creates a comment node (`<!-- k-if -->`)
+- No overhead compared to manual conditional logic
+- Works with any truthy/falsy value
+
 ## The Redraw Mechanism (Most Important!)
 
 This is the **core feature** that makes KT.js unique. Since there's no automatic re-rendering, you manually control updates using the `redraw()` method.
@@ -198,6 +225,68 @@ const app = (
 - Creates a placeholder (skeleton or comment node) immediately
 - When Promise resolves, replaces placeholder with actual element
 - No manual DOM manipulation needed
+
+## List Rendering with KTFor
+
+Efficient list rendering with key-based DOM reuse:
+
+```tsx
+import { KTFor } from 'kt.js';
+
+interface Todo {
+  id: number;
+  text: string;
+  done: boolean;
+}
+
+let todos: Todo[] = [
+  { id: 1, text: 'Learn KT.js', done: true },
+  { id: 2, text: 'Build app', done: false },
+];
+
+// Create optimized list
+const todoList = (
+  <KTFor
+    list={todos}
+    key={(item) => item.id} // Optional, defaults to identity function
+    map={(item, index) => (
+      <div class={`todo ${item.done ? 'done' : ''}`}>
+        <input type="checkbox" checked={item.done} />
+        <span>{item.text}</span>
+        <button on:click={() => deleteTodo(item.id)}>Delete</button>
+      </div>
+    )}
+  />
+);
+
+// Add to DOM
+document.body.appendChild(todoList);
+
+// Update list - only changed items are updated
+todos = [...todos, { id: 3, text: 'New task', done: false }];
+todoList.redraw({ list: todos });
+```
+
+**How it works:**
+
+- Returns a Comment anchor node (`<!-- kt-for -->`) with `__kt_for_list__` property
+- Stores rendered elements in `__kt_for_list__` array
+- When appended via `applyContent`, anchor and all list items are added to DOM
+- Uses key-based diff algorithm to reuse DOM nodes on updates
+- Only adds/removes/moves nodes that actually changed
+
+**Props:**
+
+- `list`: Array of items to render
+- `map`: Function that maps each item to an HTMLElement `(item, index, array) => HTMLElement`
+- `key`: Optional key function for DOM reuse `(item, index, array) => any` (default: identity function)
+
+**Key Points:**
+
+- Key function determines which DOM nodes can be reused
+- Default key (identity) works for primitive arrays
+- Use stable keys (like IDs) for optimal performance with objects
+- `redraw()` method accepts partial props: `{ list?, map?, key? }`
 
 ## Router (@ktjs/router)
 
@@ -333,33 +422,50 @@ const router = createRouter({
 
 ## Common Patterns
 
-### Building Interactive UIs
+### Building Interactive UIs with KTFor
 
 ```tsx
-import { KTHTMLElement } from 'kt.js';
+import { KTFor, KTHTMLElement } from 'kt.js';
 
 function TodoApp() {
-  const todos: string[] = [];
-
-  function TodoList({ items }: { items: string[] }) {
-    return (
-      <ul>
-        {items.map((todo) => (
-          <li>{todo}</li>
-        ))}
-      </ul>
-    );
+  interface TodoItem {
+    id: number;
+    text: string;
   }
 
+  let todos: TodoItem[] = [];
+  let nextId = 1;
+
   const input = (<input type="text" />) as HTMLInputElement;
-  const list = (<TodoList items={todos} />) as KTHTMLElement;
+
+  const todoList = (
+    <KTFor
+      list={todos}
+      key={(item) => item.id}
+      map={(item) => (
+        <div class="todo-item">
+          <span>{item.text}</span>
+          <button
+            on:click={() => {
+              todos = todos.filter((t) => t.id !== item.id);
+              todoList.redraw({ list: todos });
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+    />
+  );
 
   const addButton = (
     <button
       on:click={() => {
-        todos.push(input.value);
-        input.value = '';
-        list.redraw({ items: [...todos] });
+        if (input.value.trim()) {
+          todos = [...todos, { id: nextId++, text: input.value.trim() }];
+          todoList.redraw({ list: todos });
+          input.value = '';
+        }
       }}
     >
       Add Todo
@@ -373,7 +479,7 @@ function TodoApp() {
         {input}
         {addButton}
       </div>
-      {list}
+      {todoList}
     </div>
   );
 }
@@ -458,6 +564,34 @@ function LoginForm() {
    - Use router's `beforeEnter` to render entire pages
    - Use `redraw()` for component-level updates within a page
 
+6. **Use KTFor for dynamic lists**:
+
+   ```tsx
+   // ✅ Good: Key-based reuse
+   const list = <KTFor list={items} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
+
+   // ⚠️ OK for small static lists
+   const staticList = (
+     <ul>
+       {items.map((item) => (
+         <li>{item}</li>
+       ))}
+     </ul>
+   );
+   ```
+
+7. **Use k-if for conditional rendering**:
+
+   ```tsx
+   // ✅ Clean and efficient
+   <div k-if={isVisible}>Content</div>;
+
+   // ❌ Avoid manual conditional logic when k-if is simpler
+   {
+     isVisible ? <div>Content</div> : null;
+   }
+   ```
+
 ## Common Mistakes to Avoid
 
 ❌ **Don't expect automatic updates**:
@@ -487,5 +621,7 @@ element.redraw(); // Works!
 - **KT.js is about manual control**: You decide when to update the DOM
 - **JSX creates real DOM**: No virtual DOM, no reconciliation
 - **`redraw()` is the update mechanism**: Call it when you want to update a component
+- **`k-if` for conditional rendering**: One-time evaluation, creates comment node when false
+- **`KTFor` for efficient lists**: Key-based DOM reuse with minimal updates
 - **Router handles page navigation**: Use it for SPA routing with guards
 - **Simple and direct**: No magic, no hidden reactivity, just JavaScript and DOM APIs

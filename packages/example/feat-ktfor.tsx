@@ -1,4 +1,4 @@
-import { KTFor } from '@ktjs/core';
+import { KTFor, KTHTMLElement } from '@ktjs/core';
 import '@ktjs/core/jsx';
 
 // Demo 1: Basic KTFor with simple list
@@ -69,7 +69,7 @@ function createKeyedDemo() {
   );
 
   let nextId = 4;
-  const input = (<input type="text" placeholder="Add new todo..." />) as HTMLInputElement;
+  const input = (<input type="text" placeholder="Add new todo..." />) as KTHTMLElement<HTMLInputElement>;
 
   const addButton = (
     <button
@@ -177,42 +177,6 @@ function createDynamicDemo() {
   );
 }
 
-// Demo 4: KTForStatic (no key optimization)
-function createStaticDemo() {
-  let items = ['Static 1', 'Static 2', 'Static 3'];
-
-  const forElement = (
-    <KTForStatic
-      list={items}
-      map={(item, index) => (
-        <div class="static-item">
-          {item} (index: {index})
-        </div>
-      )}
-    />
-  );
-
-  const refreshBtn = (
-    <button
-      on:click={() => {
-        items = items.map((item) => `${item} ✓`);
-        forElement.redraw({ list: [...items] });
-      }}
-    >
-      Refresh (Rebuilds All)
-    </button>
-  );
-
-  return (
-    <div class="demo-card">
-      <h3>KTForStatic</h3>
-      <p>Simple list without key optimization - rebuilds all items on update</p>
-      {refreshBtn}
-      <div class="static-list">{forElement}</div>
-    </div>
-  );
-}
-
 // Demo 5: Nested data
 function createNestedDemo() {
   interface Category {
@@ -267,7 +231,6 @@ const app = (
       {createBasicDemo()}
       {createKeyedDemo()}
       {createDynamicDemo()}
-      {createStaticDemo()}
       {createNestedDemo()}
     </div>
   </div>

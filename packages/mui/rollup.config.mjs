@@ -7,6 +7,7 @@ const mainConfig = createPackageConfig({
   packageDir: 'packages/mui',
   iifeName: '__ktjs_mui__',
   withLegacy: false,
+  external: ['kt.js', 'kt.js/jsx-runtime'],
 });
 
 export default mainConfig;

@@ -1,3 +1,5 @@
+import './kt-mui-styles.css';
+
 // UI Components
 export { Alert } from './Alert/Index.js';
 export { Button } from './Button/Index.js';
@@ -10,3 +12,5 @@ export { Select } from './Select/Index.js';
 
 // Icons
 export * from './Icons/index.js';
+
+// todo css单独导出可能有点问题

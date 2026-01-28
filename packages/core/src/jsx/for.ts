@@ -56,15 +56,18 @@ export function KTFor<T>(props: KTForProps<T>): KTForAnchor {
    */
   const getListNodes = (): HTMLElement[] => {
     const nodes: HTMLElement[] = [];
-    if (!anchor.parentNode) return nodes;
+    if (!anchor.parentNode) {
+      return nodes;
+    }
 
     let current = anchor.nextSibling;
-    const keySet = new Set(currentKeys);
 
     // Collect nodes that belong to this list
     while (current) {
       const isListNode = Array.from(nodeCache.values()).some((cached) => cached.node === current);
-      if (!isListNode) break;
+      if (!isListNode) {
+        break;
+      }
       nodes.push(current as HTMLElement);
       current = current.nextSibling;
     }

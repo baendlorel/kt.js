@@ -1,4 +1,3 @@
-const noop = () => ({}) as any;
 export interface KTRef<T> {
   value: T;
   isKT: true;

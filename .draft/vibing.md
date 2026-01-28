@@ -115,7 +115,7 @@ type Params<Fn extends (...args: any[]) => any> = ParamPossibility<Fn, 17>;
 const sss = <T extends keyof HTMLElementTagNameMap>(
   tag: T,
   attr?: string | KAttribute,
-  content?: (HTMLKElement | string)[] | HTMLKElement | string
+  content?: (HTMLKElement | string)[] | HTMLKElement | string,
 ) => ({}) as HTMLKElement<T>;
 const ssss = bindParams(sss, 'a');
 ```
@@ -200,3 +200,8 @@ const ssss = bindParams(sss, 'a');
 现在你已经完成了router的编写。请根据现在的routerconfig机制和异步同步机制来调整测试代码以做到正确地测试异步和同步版本。目前的默认为true的机制是没问题
 
 ---
+
+请你完成ktfor组件，要求如下：
+1、有anchor，其实是comment节点。
+2、渲染一个数组时，会把生成的elements存在一个数组里，这个数组会以`__kt_for_list__`的属性名被贴在anchor上。当h函数中，apdSingle到拥有`__kt_for_list__`属性且值为array的元素时，不仅要把这个元素append上去，还要把`__kt_for_list__`也append到这个元素之后。
+3、ktfor的属性为list key map。其中key和map都是以item index array为入参的函数。key可选，拥有默认值item=>item也就是恒等映射

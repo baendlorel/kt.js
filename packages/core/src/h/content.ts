@@ -11,6 +11,12 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement, c: KTAv
     $append.call(element, c.value as Node);
   } else {
     $append.call(element, c as Node);
+
+    // Handle KTFor anchor
+    const list = (c as any).__kt_for_list__ as any[];
+    if ($isArray(list)) {
+      apd(element, list);
+    }
   }
 }
 

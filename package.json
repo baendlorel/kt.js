@@ -61,6 +61,7 @@
     "rollup-plugin-const-enum": "^1.1.4",
     "rollup-plugin-dts": "^6.2.3",
     "rollup-plugin-func-macro": "^1.1.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.9"

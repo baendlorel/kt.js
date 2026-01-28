@@ -4,7 +4,6 @@
     "composite": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
       "@ktjs/mui": ["src/index.ts"],
       "@ktjs/core": ["../core/src"],
       "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],

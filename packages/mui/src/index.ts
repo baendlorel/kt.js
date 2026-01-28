@@ -1,6 +1,3 @@
-// Global styles
-import './styles.css';
-
 // UI Components
 export { Alert } from './Alert/Index.js';
 export { Button } from './Button/Index.js';

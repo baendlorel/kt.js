@@ -11,7 +11,7 @@
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     },
-    "./styles.css": "./dist/styles.css"
+    "./kt-mui-styles": "./dist/kt-mui-styles"
   },
   "files": [
     "dist"

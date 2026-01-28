@@ -3,7 +3,6 @@ import { KTRef } from './ref.js';
 import { KTAttribute } from '@/types/h.js';
 
 type KForElement = KTHTMLElement & {
-  __kt_for_list__: HTMLElement[];
   redraw: (newProps?: KTAttribute) => void;
 };
 
@@ -44,7 +43,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
   }
 
   // Attach elements array to anchor
-  anchor.__kt_for_list__ = elements;
+  (anchor as any).__kt_for_list__ = elements;
 
   // Redraw function for updates
   anchor.redraw = (newProps = props) => {
@@ -68,7 +67,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
         nodeMap.set(itemKey, node);
         newElements.push(node);
       }
-      anchor.__kt_for_list__ = newElements;
+      (anchor as any).__kt_for_list__ = newElements;
       return anchor;
     }
 
@@ -116,7 +115,7 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
     // Update node map and element list
     nodeMap.clear();
     newNodeMap.forEach((node, key) => nodeMap.set(key, node));
-    anchor.__kt_for_list__ = newElements;
+    (anchor as any).__kt_for_list__ = newElements;
     return anchor;
   };
 

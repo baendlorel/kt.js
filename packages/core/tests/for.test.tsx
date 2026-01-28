@@ -28,9 +28,9 @@ describe('KTFor Component', () => {
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect(anchor.__kt_for_list__).toBeDefined();
-    expect(Array.isArray(anchor.__kt_for_list__)).toBe(true);
-    expect(anchor.__kt_for_list__.length).toBe(3);
+    expect((anchor as any).__kt_for_list__).toBeDefined();
+    expect(Array.isArray((anchor as any).__kt_for_list__)).toBe(true);
+    expect((anchor as any).__kt_for_list__.length).toBe(3);
   });
 
   it('should render list elements', () => {
@@ -57,7 +57,7 @@ describe('KTFor Component', () => {
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect(anchor.__kt_for_list__.length).toBe(3);
+    expect((anchor as any).__kt_for_list__.length).toBe(3);
   });
 
   it('should use custom key function', () => {
@@ -205,7 +205,7 @@ describe('KTFor Component', () => {
 
     const items = container.querySelectorAll('div');
     expect(items.length).toBe(0);
-    expect(anchor.__kt_for_list__.length).toBe(0);
+    expect((anchor as any).__kt_for_list__.length).toBe(0);
   });
 
   it('should work before being added to DOM', () => {
@@ -215,12 +215,12 @@ describe('KTFor Component', () => {
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect(anchor.__kt_for_list__.length).toBe(3);
+    expect((anchor as any).__kt_for_list__.length).toBe(3);
 
     // Redraw before adding to DOM
     anchor.redraw({ list: [4, 5] });
 
-    expect(anchor.__kt_for_list__.length).toBe(2);
+    expect((anchor as any).__kt_for_list__.length).toBe(2);
 
     // Now add to DOM
     container.appendChild(anchor);

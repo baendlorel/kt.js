@@ -17,6 +17,8 @@
   "include": ["../packages/**/src/**/*.ts", "../packages/**/tests/**/*.ts"],
   "references": [
     { "path": "../packages/core" },
+    { "path": "../packages/example" },
+    { "path": "../packages/mui" },
     { "path": "../packages/router" },
     { "path": "../packages/shortcuts" },
     { "path": "../packages/kt.js" }

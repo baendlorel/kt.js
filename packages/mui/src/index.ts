@@ -3,6 +3,7 @@ import './main.css';
 // UI Components
 export { Alert } from './Alert/Index.js';
 export { Button } from './Button/Index.js';
+export { Checkbox, CheckboxGroup } from './Checkbox/Index.js';
 export { Dialog } from './Dialog/Index.js';
 export { FormLabel } from './FormLabel/Index.js';
 export { LinearProgress } from './LinearProgress/Index.js';

@@ -7,6 +7,7 @@ import {
   Dialog,
   LinearProgress,
   RadioGroup,
+  CheckboxGroup,
   Select,
   FormLabel,
   // Icons
@@ -336,6 +337,53 @@ export function FeatMui() {
     );
   }
 
+  // Checkbox Demo
+  function createCheckboxDemo() {
+    const selectedValues = ref<string[]>(['html', 'css']);
+    const outputText = (<div class="output-text">Selected: html, css</div>) as KTHTMLElement<HTMLDivElement>;
+
+    const checkboxGroup = CheckboxGroup({
+      value: ['html', 'css'],
+      'mui:change': (values) => {
+        selectedValues.value = values;
+        outputText.textContent = values.length > 0 ? `Selected: ${values.join(', ')}` : 'None selected';
+      },
+      options: [
+        { value: 'html', text: 'HTML' },
+        { value: 'css', text: 'CSS' },
+        { value: 'javascript', text: 'JavaScript' },
+        { value: 'typescript', text: 'TypeScript' },
+        { value: 'react', text: 'React (Disabled)', disabled: true },
+      ],
+    });
+
+    return (
+      <div class="demo-section">
+        <h2>Checkbox Component</h2>
+        <p class="description">Checkboxes allow users to select multiple options from a set.</p>
+
+        <FormLabel>Select technologies:</FormLabel>
+        {checkboxGroup}
+        {outputText}
+
+        <div style="margin-top: 20px;">
+          <h3>Different Colors</h3>
+          <CheckboxGroup
+            row
+            value={['primary']}
+            options={[
+              { value: 'primary', text: 'Primary', color: 'primary' },
+              { value: 'secondary', text: 'Secondary', color: 'secondary' },
+              { value: 'success', text: 'Success', color: 'success' },
+              { value: 'error', text: 'Error', color: 'error' },
+              { value: 'warning', text: 'Warning', color: 'warning' },
+            ]}
+          />
+        </div>
+      </div>
+    );
+  }
+
   // Select Demo
   function createSelectDemo() {
     const selectedValue = ref<string>('apple');
@@ -421,6 +469,7 @@ export function FeatMui() {
       {createDialogDemo()}
       {createProgressDemo()}
       {createRadioDemo()}
+      {createCheckboxDemo()}
       {createSelectDemo()}
       {createIconsDemo()}
     </div>

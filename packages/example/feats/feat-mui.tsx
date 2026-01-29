@@ -231,14 +231,14 @@ export function FeatMui() {
             <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
 
             <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
-              <Button variant="text" on:click={() => dialogRef.value.redraw({ open: false })}>
+              <Button variant="text" on:click={() => dialogRef.value.toggle(false)}>
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 on:click={() => {
                   alert('Action confirmed!');
-                  dialogRef.value.redraw({ open: false });
+                  dialogRef.value.toggle(false);
                 }}
               >
                 Confirm

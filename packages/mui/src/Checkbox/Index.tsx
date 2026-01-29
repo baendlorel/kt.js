@@ -3,7 +3,7 @@ import './Checkbox.css';
 
 interface CheckboxProps {
   value: string;
-  text?: string | KTHTMLElement | HTMLElement;
+  label?: string | KTHTMLElement | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
   'mui:change'?: (checked: boolean, value: string) => void;
@@ -53,7 +53,7 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
   let {
     checked = false,
     value = '',
-    text = '',
+    label = '',
     size = 'medium',
     'mui:change': onChange = emptyFn,
     disabled = false,
@@ -111,7 +111,9 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
         {checkedIcon}
         {indeterminateIcon}
       </span>
-      {text && <span class="mui-checkbox-label">{text}</span>}
+      <span k-if={label} class="mui-checkbox-label">
+        {label}
+      </span>
     </label>
   ) as KTMuiCheckbox;
 

@@ -349,11 +349,11 @@ export function FeatMui() {
         outputText.textContent = values.length > 0 ? `Selected: ${values.join(', ')}` : 'None selected';
       },
       options: [
-        { value: 'html', text: 'HTML' },
-        { value: 'css', text: 'CSS' },
-        { value: 'javascript', text: 'JavaScript' },
-        { value: 'typescript', text: 'TypeScript' },
-        { value: 'react', text: 'React (Disabled)', disabled: true },
+        { value: 'html', label: 'HTML' },
+        { value: 'css', label: 'CSS' },
+        { value: 'javascript', label: 'JavaScript' },
+        { value: 'typescript', label: 'TypeScript' },
+        { value: 'react', label: 'React (Disabled)', disabled: true },
       ],
     });
 
@@ -372,11 +372,11 @@ export function FeatMui() {
             row
             value={['primary']}
             options={[
-              { value: 'primary', text: 'Primary', color: 'primary' },
-              { value: 'secondary', text: 'Secondary', color: 'secondary' },
-              { value: 'success', text: 'Success', color: 'success' },
-              { value: 'error', text: 'Error', color: 'error' },
-              { value: 'warning', text: 'Warning', color: 'warning' },
+              { value: 'primary', label: 'Primary', color: 'primary' },
+              { value: 'secondary', label: 'Secondary', color: 'secondary' },
+              { value: 'success', label: 'Success', color: 'success' },
+              { value: 'error', label: 'Error', color: 'error' },
+              { value: 'warning', label: 'Warning', color: 'warning' },
             ]}
           />
         </div>

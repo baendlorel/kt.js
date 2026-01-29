@@ -7,7 +7,7 @@ interface TextFieldProps {
 
   label?: string;
   placeholder?: string;
-  value?: string;
+  value?: any;
   type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
   disabled?: boolean;
   required?: boolean;

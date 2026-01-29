@@ -13,6 +13,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core"
   },
-  "include": ["*.tsx", "*.ts"],
+  "include": ["*.tsx", "*.ts", "feats/**/*.tsx"],
   "references": [{ "path": "../core" }]
 }

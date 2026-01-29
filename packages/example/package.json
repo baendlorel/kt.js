@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:*"
+    "@ktjs/core": "workspace:*",
+    "@ktjs/mui": "workspace:*"
   },
   "devDependencies": {
     "vite": "^7.3.0"

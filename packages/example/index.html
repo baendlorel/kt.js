@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KT.js Demo</title>
+  <title>KT.js Framework Showcase</title>
   <style>
     * {
       margin: 0;
@@ -13,276 +13,210 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Roboto', system-ui, -apple-system, sans-serif;
       background: #f5f5f5;
-      padding: 20px;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    /* App Container */
-    .app-container {
-      max-width: 1400px;
-      margin: 0 auto;
+    .app-layout {
+      display: flex;
+      height: 100vh;
     }
 
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background: white;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    header h1 {
-      color: #333;
-      margin-bottom: 10px;
+    .sidebar-header {
+      padding: 32px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .subtitle {
-      color: #666;
-      font-size: 14px;
-    }
-
-    code {
-      background: #f0f0f0;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9em;
-    }
-
-    /* Demo Grid */
-    .demos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .demo-card {
-      background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .demo-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .demo-card h3 {
-      color: #333;
+    .sidebar-header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
       margin-bottom: 8px;
-      font-size: 18px;
     }
 
-    .demo-card>p {
+    .sidebar-header p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    .nav-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+
+    .nav-section-title {
+      padding: 8px 24px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin: 16px 0 4px 0;
+    }
+
+    .nav-item {
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: white;
+      font-weight: 500;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .content-header {
+      background: white;
+      padding: 24px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .content-header h2 {
+      font-size: 1.75rem;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .content-header p {
       color: #666;
-      font-size: 13px;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      font-size: 0.875rem;
     }
 
-    /* Buttons */
-    button {
-      background: #007bff;
+    .content-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px;
+    }
+
+    /* Demo Sections */
+    .demo-section {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .demo-section h3 {
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .demo-section p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    button:not([class*="mui-"]) {
+      background: #667eea;
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
-      transition: background 0.2s;
+      transition: all 0.2s;
       margin-right: 8px;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
-    button:hover {
-      background: #0056b3;
+    button:not([class*="mui-"]):hover {
+      background: #5568d3;
+      transform: translateY(-1px);
     }
 
     .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       margin-bottom: 16px;
     }
 
-    .add-btn {
-      background: #28a745;
+    .textfield-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
     }
 
-    .add-btn:hover {
-      background: #218838;
+    .output-text {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      border-left: 4px solid #667eea;
     }
 
-    .delete-btn {
-      background: #dc3545;
-      padding: 4px 8px;
-      font-size: 12px;
-      margin-left: auto;
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 24px;
     }
 
-    .delete-btn:hover {
-      background: #c82333;
-    }
-
-    /* List Items */
-    .list-item {
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      border-left: 3px solid #007bff;
-    }
-
-    .list-container {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    /* Todo List */
-    .input-group {
+    .icon-item {
       display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .input-group input {
-      flex: 1;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .todo-list {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .todo-item {
-      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 10px;
-      background: #f8f9fa;
-      border-radius: 6px;
-      margin-bottom: 8px;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
       transition: all 0.2s;
-    }
-
-    .todo-item.done {
-      opacity: 0.6;
-      background: #e8f5e9;
-    }
-
-    .todo-item.done .todo-text {
-      text-decoration: line-through;
-    }
-
-    .todo-text {
-      flex: 1;
-      font-size: 14px;
-    }
-
-    input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
       cursor: pointer;
     }
 
-    /* Number Grid */
-    .number-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-      gap: 8px;
-      margin-top: 16px;
+    .icon-item:hover {
+      background: #f5f5f5;
+      border-color: #667eea;
+      transform: translateY(-2px);
     }
 
-    .number-item {
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      transition: all 0.3s;
-    }
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 240px;
+      }
 
-    /* Static List */
-    .static-list {
-      margin-top: 16px;
-    }
-
-    .static-item {
-      padding: 10px;
-      background: #fff3cd;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      border-left: 3px solid #ffc107;
-    }
-
-    /* Category Grid */
-    .category-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .category {
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      border: 1px solid #dee2e6;
-    }
-
-    .category h4 {
-      color: #495057;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-
-    .category ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .category li {
-      padding: 6px 0;
-      color: #6c757d;
-      font-size: 14px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .category li:last-child {
-      border-bottom: none;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
+      .content-body {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 
 <body>
   <div id="app"></div>
-  <!-- Switch between different demos by uncommenting: -->
-  <!-- <script type="module" src="./app.tsx"></script> -->
-  <!-- <script type="module" src="./feat001.tsx"></script> -->
-  <script type="module" src="./feat-ktfor.tsx"></script>
+  <script type="module" src="./app.tsx"></script>
 </body>
 
 </html>

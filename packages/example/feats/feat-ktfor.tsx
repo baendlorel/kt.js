@@ -33,7 +33,7 @@ function createKeyedDemo() {
     done: boolean;
   }
 
-  let todos: Todo[] = [
+  let tdlist: Todo[] = [
     { id: 1, text: 'Learn KT.js', done: true },
     { id: 2, text: 'Build an app', done: false },
     { id: 3, text: 'Deploy to production', done: false },
@@ -41,7 +41,7 @@ function createKeyedDemo() {
 
   const forElement = (
     <KTFor
-      list={todos}
+      list={tdlist}
       key={(item) => item.id}
       map={(item) => (
         <div class={`todo-item ${item.done ? 'done' : ''}`}>
@@ -50,15 +50,15 @@ function createKeyedDemo() {
             checked={item.done}
             on:change={(e) => {
               item.done = (e.target as HTMLInputElement).checked;
-              forElement.redraw({ list: [...todos] });
+              forElement.redraw({ list: [...tdlist] });
             }}
           />
           <span class="todo-text">{item.text}</span>
           <button
             class="delete-btn"
             on:click={() => {
-              todos = todos.filter((t) => t.id !== item.id);
-              forElement.redraw({ list: todos });
+              tdlist = tdlist.filter((t) => t.id !== item.id);
+              forElement.redraw({ list: tdlist });
             }}
           >
             ✕
@@ -76,8 +76,8 @@ function createKeyedDemo() {
       class="add-btn"
       on:click={() => {
         if (input.value.trim()) {
-          todos = [...todos, { id: nextId++, text: input.value.trim(), done: false }];
-          forElement.redraw({ list: todos });
+          tdlist = [...tdlist, { id: nextId++, text: input.value.trim(), done: false }];
+          forElement.redraw({ list: tdlist });
           input.value = '';
         }
       }}

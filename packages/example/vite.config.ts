@@ -12,6 +12,7 @@ export default defineConfig({
       '@ktjs/core/jsx-runtime': resolve(import.meta.dirname, '../core/src/jsx/jsx-runtime.ts'),
       '@ktjs/core/jsx': resolve(import.meta.dirname, '../core/src/jsx/index.ts'),
       '@ktjs/core': resolve(import.meta.dirname, '../core/src/index.ts'),
+      '@ktjs/mui': resolve(import.meta.dirname, '../mui/src/index.ts'),
       '@': resolve(import.meta.dirname, '../core/src/'),
     },
   },

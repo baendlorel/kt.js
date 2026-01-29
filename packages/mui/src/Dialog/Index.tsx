@@ -14,7 +14,10 @@ interface DialogProps {
 const noop = () => {};
 
 export type KTMuiDialog = KTHTMLElement & {
-  toggle: (open: boolean) => void;
+  /**
+   * Controls whether the dialog is open or closed
+   */
+  open: boolean;
 };
 
 /**
@@ -85,26 +88,29 @@ export function Dialog(props: DialogProps): KTMuiDialog {
     return originalRemove.call(container);
   };
 
-  container.toggle = (isOpen: boolean) => {
-    if (isOpen === open) {
-      return;
-    }
+  Object.defineProperty(container, 'open', {
+    get: () => open,
+    set: (isOpen: boolean) => {
+      if (isOpen === open) {
+        return;
+      }
 
-    open = isOpen;
+      open = isOpen;
 
-    if (isOpen) {
-      // Opening: set display first, then add class with double RAF for animation
-      container.style.display = 'flex';
-      setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
-    } else {
-      container.classList.remove('kt-dialog-backdrop-open');
-      setTimeout(() => {
-        if (!open) {
-          container.style.display = 'none';
-        }
-      }, 225);
-    }
-  };
+      if (isOpen) {
+        // Opening: set display first, then add class with double RAF for animation
+        container.style.display = 'flex';
+        setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
+      } else {
+        container.classList.remove('kt-dialog-backdrop-open');
+        setTimeout(() => {
+          if (!open) {
+            container.style.display = 'none';
+          }
+        }, 225);
+      }
+    },
+  });
 
   return container;
 }

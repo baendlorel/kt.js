@@ -209,12 +209,12 @@ export function FeatMui() {
     const dialogRef = ref<KTMuiDialog>();
 
     const openDialog = () => {
-      dialogRef.value.toggle(true);
+      dialogRef.value.open = true;
     };
 
     const handleClose = () => {
       console.log('Dialog closed');
-      dialogRef.value.toggle(false);
+      dialogRef.value.open = false;
     };
 
     return (
@@ -232,14 +232,14 @@ export function FeatMui() {
             <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
 
             <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
-              <Button variant="text" on:click={() => dialogRef.value.toggle(false)}>
+              <Button variant="text" on:click={() => (dialogRef.value.open = false)}>
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 on:click={() => {
                   alert('Action confirmed!');
-                  dialogRef.value.toggle(false);
+                  dialogRef.value.open = false;
                 }}
               >
                 Confirm

@@ -217,23 +217,14 @@ function createNestedDemo() {
   );
 }
 
-// Main app with all demos
-const app = (
-  <div class="app-container">
-    <header>
-      <h1>KTFor Component Demo</h1>
-      <p class="subtitle">
-        Efficient list rendering with key-based DOM reuse - anchor comment node with <code>__kt_for_list__</code>
-      </p>
-    </header>
-
-    <div class="demos-grid">
+// Main demo component
+export function FeatKTFor() {
+  return (
+    <div>
       {createBasicDemo()}
       {createKeyedDemo()}
       {createDynamicDemo()}
       {createNestedDemo()}
     </div>
-  </div>
-);
-
-document.getElementById('app')!.appendChild(app);
+  );
+}

@@ -1,4 +1,4 @@
-import { ref } from '@ktjs/core';
+import { KTHTMLElement, ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import {
   Alert,
@@ -11,17 +11,17 @@ import {
   Select,
   FormLabel,
   // Icons
-  Home,
-  Delete,
-  ContentCopy,
-  Download,
-  Menu,
+  HomeIcon,
+  DeleteIcon,
+  ContentCopyIcon,
+  DownloadIcon,
+  MenuIcon,
 } from '@ktjs/mui';
 
 /**
  * MUI Components Demo - Showcases all available components from @ktjs/mui
  */
-export function createMuiDemo() {
+export function FeatMui() {
   // Button Demo
   function createButtonDemo() {
     const clickCount = ref<number>(0);
@@ -35,9 +35,7 @@ export function createMuiDemo() {
     return (
       <div class="demo-section">
         <h2>Button Component</h2>
-        <p class="description">
-          Buttons come in different variants, colors, and sizes. Click count: {counterText}
-        </p>
+        <p class="description">Buttons come in different variants, colors, and sizes. Click count: {counterText}</p>
 
         <div class="button-group">
           <h3>Variants</h3>
@@ -89,17 +87,17 @@ export function createMuiDemo() {
 
         <div class="button-group">
           <h3>With Icons</h3>
-          <Button variant="contained" startIcon={<Home />}>
+          <Button variant="contained" startIcon={<HomeIcon />}>
             Home
           </Button>
-          <Button variant="contained" color="error" startIcon={<Delete />}>
+          <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
             Delete
           </Button>
-          <Button variant="outlined" endIcon={<Download />}>
+          <Button variant="outlined" endIcon={<DownloadIcon />}>
             Download
           </Button>
           <Button variant="contained" iconOnly>
-            {<Menu />}
+            <MenuIcon />
           </Button>
         </div>
 
@@ -169,7 +167,7 @@ export function createMuiDemo() {
 
   // TextField Demo
   function createTextFieldDemo() {
-    const outputText = (<div class="output-text">Type something...</div>) as HTMLDivElement;
+    const outputText = (<div class="output-text">Type something...</div>) as KTHTMLElement<HTMLDivElement>;
 
     const handleInput = (value: string) => {
       outputText.textContent = value ? `You typed: ${value}` : 'Type something...';
@@ -255,7 +253,7 @@ export function createMuiDemo() {
   // LinearProgress Demo
   function createProgressDemo() {
     const progress = ref<number>(0);
-    const progressBar = LinearProgress({ value: 0 });
+    const progressBar = LinearProgress({ progress: 0 });
 
     let intervalId: number | null = null;
 
@@ -290,9 +288,7 @@ export function createMuiDemo() {
         <h2>LinearProgress Component</h2>
         <p class="description">Progress indicators show the completion status of an operation.</p>
 
-        <div style="margin: 20px 0;">
-          {progressBar}
-        </div>
+        <div style="margin: 20px 0;">{progressBar}</div>
 
         <div class="button-group">
           <Button variant="contained" on:click={startProgress}>
@@ -314,7 +310,7 @@ export function createMuiDemo() {
   // Radio Demo
   function createRadioDemo() {
     const selectedValue = ref<string>('option1');
-    const outputText = (<div class="output-text">Selected: option1</div>) as HTMLDivElement;
+    const outputText = (<div class="output-text">Selected: option1</div>) as KTHTMLElement<HTMLDivElement>;
 
     const radioGroup = RadioGroup({
       name: 'demo-radio',
@@ -323,19 +319,11 @@ export function createMuiDemo() {
         selectedValue.value = value;
         outputText.textContent = `Selected: ${value}`;
       },
-      children: [
-        <div>
-          <Radio value="option1" label="Option 1" />
-        </div>,
-        <div>
-          <Radio value="option2" label="Option 2" />
-        </div>,
-        <div>
-          <Radio value="option3" label="Option 3" />
-        </div>,
-        <div>
-          <Radio value="option4" label="Option 4 (Disabled)" disabled />
-        </div>,
+      options: [
+        { value: 'option1', text: 'Option 1' },
+        { value: 'option2', text: 'Option 2' },
+        { value: 'option3', text: 'Option 3' },
+        { value: 'option4', text: 'Option 4 (Disabled)', disabled: true },
       ],
     });
 
@@ -354,7 +342,7 @@ export function createMuiDemo() {
   // Select Demo
   function createSelectDemo() {
     const selectedValue = ref<string>('apple');
-    const outputText = (<div class="output-text">Selected: apple</div>) as HTMLDivElement;
+    const outputText = (<div class="output-text">Selected: apple</div>) as KTHTMLElement<HTMLDivElement>;
 
     const options = [
       { value: 'apple', label: 'Apple' },
@@ -383,13 +371,7 @@ export function createMuiDemo() {
         {outputText}
 
         <div style="margin-top: 20px;">
-          <Select
-            label="Disabled Select"
-            disabled
-            value="banana"
-            options={options}
-            'mui:change={(value) => {}}
-          />
+          <Select label="Disabled Select" disabled value="banana" options={options} mui:change={(value) => {}} />
         </div>
       </div>
     );
@@ -404,23 +386,23 @@ export function createMuiDemo() {
 
         <div class="icons-grid">
           <div class="icon-item">
-            <Home />
+            <HomeIcon />
             <span>Home</span>
           </div>
           <div class="icon-item">
-            <Delete />
+            <DeleteIcon />
             <span>Delete</span>
           </div>
           <div class="icon-item">
-            <ContentCopy />
+            <ContentCopyIcon />
             <span>Copy</span>
           </div>
           <div class="icon-item">
-            <Download />
+            <DownloadIcon />
             <span>Download</span>
           </div>
           <div class="icon-item">
-            <Menu />
+            <MenuIcon />
             <span>Menu</span>
           </div>
         </div>

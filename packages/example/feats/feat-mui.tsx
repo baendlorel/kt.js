@@ -15,6 +15,7 @@ import {
   ContentCopyIcon,
   DownloadIcon,
   MenuIcon,
+  KTMuiLinearProgress,
 } from '@ktjs/mui';
 import { KTMuiDialog } from 'node_modules/@ktjs/mui/src/Dialog/Index.js';
 
@@ -252,22 +253,19 @@ export function FeatMui() {
 
   // LinearProgress Demo
   function createProgressDemo() {
-    const progress = ref<number>(0);
-    const progressBar = LinearProgress({ progress: 0 });
+    const progressBar = (<LinearProgress progress={0} variant="determinate" />) as KTMuiLinearProgress;
 
     let intervalId: number | null = null;
 
     const startProgress = () => {
       if (intervalId !== null) return;
 
-      progress.value = 0;
-      progressBar.redraw({ value: 0 });
+      progressBar.progress = 0;
 
       intervalId = window.setInterval(() => {
-        progress.value += 5;
-        progressBar.redraw({ value: progress.value });
+        progressBar.progress += 5;
 
-        if (progress.value >= 100) {
+        if (progressBar.progress >= 100) {
           window.clearInterval(intervalId!);
           intervalId = null;
         }
@@ -279,8 +277,7 @@ export function FeatMui() {
         window.clearInterval(intervalId);
         intervalId = null;
       }
-      progress.value = 0;
-      progressBar.redraw({ value: 0 });
+      progressBar.progress = 0;
     };
 
     return (

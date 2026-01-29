@@ -1,4 +1,4 @@
-import './kt-mui-styles.css';
+import './main.css';
 
 // UI Components
 export { Alert } from './Alert/Index.js';

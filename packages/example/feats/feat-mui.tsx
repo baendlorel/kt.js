@@ -187,6 +187,7 @@ export function FeatMui() {
           <TextField label="Password" type="password" value="secret123" />
           <TextField label="Email" type="email" placeholder="your@email.com" />
           <TextField label="Small Size" size="small" />
+          <TextField size="small" placeholder="ssdf" />
         </div>
 
         <div style="margin-top: 20px;">

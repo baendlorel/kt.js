@@ -23,6 +23,7 @@
     "monorepo"
   ],
   "scripts": {
+    "exp": "pnpm --filter @ktjs/example dev",
     "build": "pnpm --filter \"./packages/**\" run build",
     "build:core": "pnpm --filter @ktjs/core run build",
     "build:mui": "pnpm --filter @ktjs/core run build",

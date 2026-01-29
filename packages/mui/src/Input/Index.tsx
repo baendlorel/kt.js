@@ -63,7 +63,8 @@ export function TextField(props: TextFieldProps): KTHTMLElement {
       error && 'mui-textfield-error',
       disabled && 'mui-textfield-disabled',
       fullWidth && 'mui-textfield-fullwidth',
-      (isFocused || hasValue) && 'mui-textfield-has-value',
+      label && (isFocused || hasValue) && 'mui-textfield-has-value',
+      !label && 'mui-textfield-no-label',
     ]
       .filter(Boolean)
       .join(' ');
@@ -132,15 +133,13 @@ export function TextField(props: TextFieldProps): KTHTMLElement {
   const container = (
     <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={props.style ? props.style : ''}>
       <div class="mui-textfield-wrapper">
-        {label && (
-          <label class="mui-textfield-label">
-            {label}
-            {required && <span class="mui-textfield-required">*</span>}
-          </label>
-        )}
+        <label k-if={label} class="mui-textfield-label">
+          {label}
+          {required && <span class="mui-textfield-required">*</span>}
+        </label>
         <div class="mui-textfield-input-wrapper">{inputElement}</div>
         <fieldset class="mui-textfield-fieldset">
-          <legend class="mui-textfield-legend">
+          <legend k-if={label} class="mui-textfield-legend">
             <span>
               {label}
               {required && '*'}

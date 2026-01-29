@@ -195,6 +195,11 @@ textarea.mui-textfield-input {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
+/* No label variant - adjust fieldset position */
+.mui-textfield-no-label .mui-textfield-fieldset {
+  top: 0;
+}
+
 /* Legend (for label space) */
 .mui-textfield-legend {
   float: unset;

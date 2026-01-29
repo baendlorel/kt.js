@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/mui",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "Material-UI inspired components for kt.js - pre-styled UI components",
   "type": "module",
   "module": "./dist/index.mjs",
@@ -11,7 +11,7 @@
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     },
-    "./kt-mui-styles": "./dist/index.css"
+    "./styles": "./dist/index.css"
   },
   "files": [
     "dist"

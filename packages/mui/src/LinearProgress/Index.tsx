@@ -1,4 +1,4 @@
-import { KTHTMLElement } from '@ktjs/core';
+import { KTHTMLElement, ref } from '@ktjs/core';
 import './LinearProgress.css';
 
 interface LinearProgressProps {
@@ -26,9 +26,7 @@ export function LinearProgress(props: LinearProgressProps) {
     `mui-linear-progress-${color}`,
     `mui-linear-progress-${variant}`,
     props.class ? props.class : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].join(' ');
 
   // Convert sx object to style string
   let styleString = props.style || '';
@@ -44,12 +42,30 @@ export function LinearProgress(props: LinearProgressProps) {
   }
 
   // Calculate progress percentage
-  const progressValue = Math.min(Math.max(value, 0), 100);
-  const barStyle = variant === 'determinate' ? `width: ${progressValue}%` : '';
+  let progressValue = Math.min(Math.max(value, 0), 100);
+  const barRef = ref();
 
-  return (
+  const container = (
     <div class={classes} style={styleString} role="progressbar" aria-valuenow={progressValue}>
-      <div class="mui-linear-progress-bar" style={barStyle}></div>
+      <div
+        ref={barRef}
+        class="mui-linear-progress-bar"
+        style={variant === 'determinate' ? `width: ${progressValue}%` : ''}
+      ></div>
     </div>
-  );
+  ) as KTMuiLinearProgress;
+
+  Object.defineProperty(container, 'progress', {
+    get() {
+      return progressValue;
+    },
+    set(newValue: number) {
+      progressValue = Math.min(Math.max(newValue, 0), 100);
+      if (variant === 'determinate') {
+        barRef.value.style.width = `${progressValue}%`;
+      }
+    },
+  });
+
+  return container;
 }

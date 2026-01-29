@@ -11,6 +11,7 @@ export { Radio, RadioGroup } from './Radio/Index.js';
 export { Select } from './Select/Index.js';
 
 export type { KTMuiDialog } from './Dialog/Index.js';
+export type { KTMuiLinearProgress } from './LinearProgress/Index.js';
 
 // Icons
 export * from './Icons/index.js';

@@ -41,13 +41,13 @@ export function Dialog(props: DialogProps): KTMuiDialog {
   };
 
   const handleBackdropClick = (e: MouseEvent) => {
-    if (e.target === backdrop) {
+    if (e.target === container) {
       onClose();
     }
   };
 
   // Backdrop element
-  const backdrop = (
+  const container = (
     <div
       class={`kt-dialog-backdrop ${open ? 'kt-dialog-backdrop-open' : ''}`}
       on:click={handleBackdropClick}
@@ -77,15 +77,15 @@ export function Dialog(props: DialogProps): KTMuiDialog {
   document.addEventListener('keydown', keyDownHandler);
 
   // Store cleanup function
-  const originalRemove = backdrop.remove;
-  backdrop.remove = () => {
+  const originalRemove = container.remove;
+  container.remove = () => {
     if (keyDownHandler) {
       document.removeEventListener('keydown', keyDownHandler);
     }
-    return originalRemove.call(backdrop);
+    return originalRemove.call(container);
   };
 
-  backdrop.toggle = (isOpen: boolean) => {
+  container.toggle = (isOpen: boolean) => {
     if (isOpen === open) {
       return;
     }
@@ -94,17 +94,17 @@ export function Dialog(props: DialogProps): KTMuiDialog {
 
     if (isOpen) {
       // Opening: set display first, then add class with double RAF for animation
-      backdrop.style.display = 'flex';
-      setTimeout(() => backdrop.classList.add('kt-dialog-backdrop-open'), 50);
+      container.style.display = 'flex';
+      setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
     } else {
-      backdrop.classList.remove('kt-dialog-backdrop-open');
+      container.classList.remove('kt-dialog-backdrop-open');
       setTimeout(() => {
         if (!open) {
-          backdrop.style.display = 'none';
+          container.style.display = 'none';
         }
       }, 225);
     }
   };
 
-  return backdrop;
+  return container;
 }

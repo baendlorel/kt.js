@@ -1,3 +1,4 @@
+import { KTHTMLElement } from '@ktjs/core';
 import './LinearProgress.css';
 
 interface LinearProgressProps {
@@ -10,11 +11,15 @@ interface LinearProgressProps {
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 }
 
+export type KTMuiLinearProgress = KTHTMLElement & {
+  progress: number;
+};
+
 /**
  * LinearProgress component - mimics MUI LinearProgress appearance and behavior
  */
 export function LinearProgress(props: LinearProgressProps) {
-  const { variant = 'indeterminate', progress: value = 0, color = 'primary', sx } = props;
+  let { variant = 'indeterminate', progress: value = 0, color = 'primary', sx } = props;
 
   const classes = [
     'mui-linear-progress',

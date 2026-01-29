@@ -1,4 +1,4 @@
-import { KTHTMLElement } from 'kt.js';
+import { KTHTMLElement } from '@ktjs/core';
 import './Dialog.css';
 
 interface DialogProps {

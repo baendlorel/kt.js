@@ -204,16 +204,17 @@ export function FeatMui() {
 
   // Dialog Demo
   function createDialogDemo() {
-    const dialogRef = ref<HTMLDivElement>();
+    const dialogRef = ref<KTHTMLElement>();
 
     const openDialog = () => {
       if (dialogRef.value) {
-        (dialogRef.value as any).open();
+        dialogRef.value.redraw({ open: true });
       }
     };
 
     const handleClose = () => {
       console.log('Dialog closed');
+      dialogRef.value?.redraw({ open: false });
     };
 
     return (
@@ -225,20 +226,20 @@ export function FeatMui() {
           Open Dialog
         </Button>
 
-        <Dialog ref={dialogRef} title="Dialog Title" onClose={handleClose}>
+        <Dialog ref={dialogRef} title="Dialog Title" mui:close={handleClose}>
           <div style="padding: 20px;">
             <p>This is a dialog with some content inside.</p>
             <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
 
             <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
-              <Button variant="text" on:click={() => (dialogRef.value as any)?.close()}>
+              <Button variant="text" on:click={() => dialogRef.value?.redraw({ open: false })}>
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 on:click={() => {
                   alert('Action confirmed!');
-                  (dialogRef.value as any)?.close();
+                  dialogRef.value?.redraw({ open: false });
                 }}
               >
                 Confirm

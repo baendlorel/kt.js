@@ -2,8 +2,8 @@ import { KTHTMLElement } from 'kt.js';
 import './Dialog.css';
 
 interface DialogProps {
-  open: boolean;
-  onClose?: () => void;
+  open?: boolean;
+  'mui:close'?: () => void;
   title?: string;
   children?: HTMLElement | HTMLElement[] | string;
   actions?: HTMLElement | HTMLElement[];
@@ -16,7 +16,7 @@ interface DialogProps {
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: DialogProps) {
-  const { open = false, onClose, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+  let { open = false, 'mui:close': onClose, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
 
   // Handle backdrop click
   const handleBackdropClick = (e: MouseEvent) => {

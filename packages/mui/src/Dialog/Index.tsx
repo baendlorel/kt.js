@@ -89,10 +89,21 @@ export function Dialog(props: DialogProps): KTMuiDialog {
     if (isOpen === open) {
       return;
     }
+
     open = isOpen;
 
-    backdrop.style.display = isOpen ? 'flex' : 'none';
-    requestAnimationFrame(() => backdrop.classList.toggle('kt-dialog-backdrop-open', isOpen));
+    if (isOpen) {
+      // Opening: set display first, then add class with double RAF for animation
+      backdrop.style.display = 'flex';
+      setTimeout(() => backdrop.classList.add('kt-dialog-backdrop-open'), 50);
+    } else {
+      backdrop.classList.remove('kt-dialog-backdrop-open');
+      setTimeout(() => {
+        if (!open) {
+          backdrop.style.display = 'none';
+        }
+      }, 225);
+    }
   };
 
   return backdrop;

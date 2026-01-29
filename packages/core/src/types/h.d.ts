@@ -7,7 +7,7 @@ export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawC
 type SingleContent = KTRef<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
-export type KTRawAttr = KTAttribute | string;
+export type KTRawAttr = KTAttribute | null | undefined | '' | false;
 export type KTRawContents = KTAvailableContent;
 
 /**

@@ -50,12 +50,13 @@ function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
   }
 }
 
-export function applyAttr(element: HTMLElement | SVGElement, attr?: KTRawAttr) {
+export function applyAttr(element: HTMLElement | SVGElement, attr: KTRawAttr) {
+  if (!attr) {
+    return;
+  }
   if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
-  } else if (typeof attr === 'string') {
-    (element as HTMLElement).className = attr;
   } else {
-    throw new Error('kt.js: attr must be an object/string.');
+    throw new Error('kt.js: attr must be an object.');
   }
 }

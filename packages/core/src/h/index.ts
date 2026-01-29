@@ -11,9 +11,7 @@ type HTML<T extends (HTMLTag | SVGTag) & otherstring> = T extends SVGTag
     ? HTMLElementTagNameMap[T]
     : HTMLElement;
 
-const defaultCreator = (tag: string) => document.createElement(tag);
-const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag);
-let creator: typeof defaultCreator | typeof svgCreator = defaultCreator;
+const svgTempWrapper = document.createElement('div');
 
 /**
  * Create an enhanced HTMLElement.
@@ -30,16 +28,15 @@ export const h = <T extends HTMLTag | SVGTag>(tag: T, attr?: KTRawAttr, content?
   }
 
   // * start creating the element
-  const element = creator(tag) as HTML<T>;
+  const element = document.createElement(tag) as HTML<T>;
 
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
   if (tag === 'svg') {
-    const div = document.createElement('div');
-    div.innerHTML = element.outerHTML;
-    return div.firstChild as HTML<T>;
+    svgTempWrapper.innerHTML = element.outerHTML;
+    return svgTempWrapper.firstChild as HTML<T>;
   }
 
   return element;

@@ -12,5 +12,3 @@ export { Select } from './Select/Index.js';
 
 // Icons
 export * from './Icons/index.js';
-
-// todo css单独导出可能有点问题

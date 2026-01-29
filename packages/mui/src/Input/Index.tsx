@@ -26,10 +26,14 @@ interface TextFieldProps {
 
 const emptyFn = () => {};
 
+type KTMuiTextField = KTHTMLElement & {
+  value: string;
+};
+
 /**
  * TextField component - mimics MUI TextField appearance and behavior
  */
-export function TextField(props: TextFieldProps): KTHTMLElement {
+export function TextField(props: TextFieldProps): KTMuiTextField {
   const {
     label = '',
     placeholder = '',
@@ -147,10 +151,20 @@ export function TextField(props: TextFieldProps): KTHTMLElement {
       </div>
       {helperText && <p class="mui-textfield-helper-text">{helperText}</p>}
     </div>
-  );
+  ) as KTMuiTextField;
 
   // Initialize classes
   setTimeout(() => updateClasses(), 0);
+
+  Object.defineProperty(container, 'value', {
+    get() {
+      return inputRef.value.value;
+    },
+    set(newValue: string) {
+      inputRef.value.value = newValue;
+      updateClasses();
+    },
+  });
 
   return container;
 }

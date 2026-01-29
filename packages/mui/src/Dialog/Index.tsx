@@ -59,15 +59,17 @@ export function Dialog(props: DialogProps): KTMuiDialog {
         }`}
         on:click={(e: MouseEvent) => e.stopPropagation()}
       >
-        {title && (
-          <div class="kt-dialog-title">
-            <h2>{title}</h2>
-          </div>
-        )}
+        <div k-if={title} class="kt-dialog-title">
+          <h2>{title}</h2>
+        </div>
 
-        {children && <div class="kt-dialog-content">{children}</div>}
+        <div k-if={children} class="kt-dialog-content">
+          {children}
+        </div>
 
-        {actions && <div class="kt-dialog-actions">{actions}</div>}
+        <div k-if={actions} class="kt-dialog-actions">
+          {actions}
+        </div>
       </div>
     </div>
   ) as KTMuiDialog;

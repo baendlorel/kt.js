@@ -11,24 +11,38 @@ interface DialogProps {
   fullWidth?: boolean;
 }
 
+const noop = () => {};
+
+export type KTMuiDialog = KTHTMLElement & {
+  toggle: (open: boolean) => void;
+};
+
 /**
  * Dialog component - mimics MUI Dialog appearance and behavior
  * Only handles open/close state, title and content are passed as props
  */
-export function Dialog(props: DialogProps) {
-  let { open = false, 'mui:close': onClose, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+export function Dialog(props: DialogProps): KTMuiDialog {
+  let {
+    open = false,
+    'mui:close': onClose = noop,
+    title,
+    children,
+    actions,
+    maxWidth = 'sm',
+    fullWidth = false,
+  } = props;
 
-  // Handle backdrop click
-  const handleBackdropClick = (e: MouseEvent) => {
-    if (e.target === backdrop) {
-      onClose?.();
+  // Handle ESC key - store handler for cleanup
+  const keyDownHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      open = false;
+      onClose();
     }
   };
 
-  // Handle ESC key
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && open) {
-      onClose?.();
+  const handleBackdropClick = (e: MouseEvent) => {
+    if (e.target === backdrop) {
+      onClose();
     }
   };
 
@@ -56,14 +70,28 @@ export function Dialog(props: DialogProps) {
         {actions && <div class="kt-dialog-actions">{actions}</div>}
       </div>
     </div>
-  ) as KTHTMLElement;
+  ) as KTMuiDialog;
 
-  // Add/remove ESC key listener
-  if (open) {
-    document.addEventListener('keydown', handleKeyDown);
-  } else {
-    document.removeEventListener('keydown', handleKeyDown);
-  }
+  document.addEventListener('keydown', keyDownHandler);
+
+  // Store cleanup function
+  const originalRemove = backdrop.remove;
+  backdrop.remove = () => {
+    if (keyDownHandler) {
+      document.removeEventListener('keydown', keyDownHandler);
+    }
+    return originalRemove.call(backdrop);
+  };
+
+  backdrop.toggle = (isOpen: boolean) => {
+    if (isOpen === open) {
+      return;
+    }
+    open = isOpen;
+
+    backdrop.style.display = isOpen ? 'flex' : 'none';
+    requestAnimationFrame(() => backdrop.classList.toggle('kt-dialog-backdrop-open', isOpen));
+  };
 
   return backdrop;
 }

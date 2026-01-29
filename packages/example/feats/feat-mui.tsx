@@ -6,7 +6,6 @@ import {
   TextField,
   Dialog,
   LinearProgress,
-  Radio,
   RadioGroup,
   Select,
   FormLabel,
@@ -17,6 +16,7 @@ import {
   DownloadIcon,
   MenuIcon,
 } from '@ktjs/mui';
+import { KTMuiDialog } from 'node_modules/@ktjs/mui/src/Dialog/Index.js';
 
 /**
  * MUI Components Demo - Showcases all available components from @ktjs/mui
@@ -205,17 +205,15 @@ export function FeatMui() {
 
   // Dialog Demo
   function createDialogDemo() {
-    const dialogRef = ref<KTHTMLElement>();
+    const dialogRef = ref<KTMuiDialog>();
 
     const openDialog = () => {
-      if (dialogRef.value) {
-        dialogRef.value.redraw({ open: true });
-      }
+      dialogRef.value.toggle(true);
     };
 
     const handleClose = () => {
       console.log('Dialog closed');
-      dialogRef.value?.redraw({ open: false });
+      dialogRef.value.toggle(false);
     };
 
     return (
@@ -233,14 +231,14 @@ export function FeatMui() {
             <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
 
             <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
-              <Button variant="text" on:click={() => dialogRef.value?.redraw({ open: false })}>
+              <Button variant="text" on:click={() => dialogRef.value.redraw({ open: false })}>
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 on:click={() => {
                   alert('Action confirmed!');
-                  dialogRef.value?.redraw({ open: false });
+                  dialogRef.value.redraw({ open: false });
                 }}
               >
                 Confirm

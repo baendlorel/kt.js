@@ -59,16 +59,14 @@ export function TextField(props: TextFieldProps): KTHTMLElement {
     const classes = [
       'mui-textfield-root',
       `mui-textfield-size-${size}`,
-      isFocused && 'mui-textfield-focused',
-      error && 'mui-textfield-error',
-      disabled && 'mui-textfield-disabled',
-      fullWidth && 'mui-textfield-fullwidth',
-      label && (isFocused || hasValue) && 'mui-textfield-has-value',
-      !label && 'mui-textfield-no-label',
-    ]
-      .filter(Boolean)
-      .join(' ');
-    container.className = classes;
+      isFocused ? 'mui-textfield-focused' : '',
+      error ? 'mui-textfield-error' : '',
+      disabled ? 'mui-textfield-disabled' : '',
+      fullWidth ? 'mui-textfield-fullwidth' : '',
+      label && (isFocused || hasValue) ? 'mui-textfield-has-value' : '',
+      label ? '' : 'mui-textfield-no-label',
+    ];
+    container.className = classes.join(' ');
   };
 
   const handleInput = (e: Event) => {

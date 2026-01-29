@@ -81,6 +81,10 @@ const card = h('div', { class: 'card' }, [
   h('p', {}, 'Description'),
   h('button', {}, 'Click me'),
 ]);
+
+// Note: attr parameter must be an object
+// String className shorthand is NOT supported:
+// h('div', 'my-class') ❌ - This will throw an error
 ```
 
 ### Event Handlers
@@ -344,7 +348,7 @@ Creates an HTMLElement with the specified tag, attributes, and content.
 **Parameters:**
 
 - `tag` (string): HTML tag name (e.g., 'div', 'span', 'button')
-- `attributes` (object, optional): Element attributes and event handlers
+- `attributes` (object, optional): Element attributes and event handlers. **Must be an object** - string className shorthand is not supported.
 - `content` (string | HTMLElement | Array, optional): Element content
 
 **Returns:** HTMLElement
@@ -354,8 +358,9 @@ Creates an HTMLElement with the specified tag, attributes, and content.
 The package includes comprehensive TypeScript definitions:
 
 - `HTMLTag`: Union type of all valid HTML tag names
-- `KAttribute`: Attribute object type with string or function values
-- `KContent`: Valid content types (string, Element, Array, etc.)
+- `KTAttribute`: Attribute object type for element attributes and event handlers
+- `KTRawAttr`: Union type for raw attribute parameter (`KTAttribute | null | undefined | '' | false`)
+- `KTRawContent`: Valid content types (string, Element, Array, Promise, etc.)
 - Event handler types with proper event object types
 
 ## Performance Considerations

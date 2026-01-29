@@ -25,6 +25,14 @@
   - Resolves type conflicts in custom components (e.g., MUI components)
   - No more type errors when defining custom event props
 
+### Breaking Changes
+
+- **h function**: Removed support for `attr` parameter as string (className shorthand)
+  - `h('div', 'my-class')` is no longer supported
+  - Use object syntax instead: `h('div', { class: 'my-class' })`
+  - `KTRawAttr` type no longer includes `string`
+  - Simplifies type system and enforces consistent API usage
+
 ## 0.15.x 2026-01-25
 
 - **Add Function**: `createRedrawable`, `createRedrawableNonref`

@@ -10,18 +10,16 @@ interface AlertProps {
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | KTHTMLElement | false;
-  onClose?: () => void;
+  'mui:close'?: () => void;
 }
 
-/**
+/**s
  * Alert component - mimics MUI Alert appearance and behavior
  */
 export function Alert(props: AlertProps): KTHTMLElement {
-  const { children, severity = 'info', variant = 'standard', icon, onClose, sx } = props;
+  const { children, severity = 'info', variant = 'standard', icon, 'mui:close': onClose, sx } = props;
 
-  const classes = ['mui-alert', `mui-alert-${severity}`, `mui-alert-${variant}`, props.class ? props.class : '']
-    .filter(Boolean)
-    .join(' ');
+  const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
 
   // Convert sx object to style string
   let styleString = props.style || '';
@@ -99,7 +97,7 @@ export function Alert(props: AlertProps): KTHTMLElement {
         </button>
       )}
     </div>
-  ) as unknown as KTHTMLElement;
+  );
 
   return alert;
 }

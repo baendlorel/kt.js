@@ -12,7 +12,7 @@ Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX suppor
 
 `@ktjs/core` is the foundation of KT.js, providing the essential `h` function and DOM utilities for building web applications with direct DOM manipulation. It emphasizes performance, type safety, and minimal abstraction over native DOM APIs.
 
-**Current Version:** 0.16.0
+**Current Version:** 0.18.1
 
 ## Features
 
@@ -42,6 +42,10 @@ Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX suppor
   - Update props and children selectively
   - Efficient replacement strategy
   - Works with both native elements and function components
+- **Ref Enhancement**: Change event binding support for `ref` (v0.18.1)
+  - New methods `addOnChange` and `removeOnChange` for listening to value changes
+  - Automatically calls registered callbacks when `ref.value` is updated
+  - When both old and new values are DOM nodes, automatically replaces old node with new one in the DOM
 - **DOM Utilities**: Helper functions for common DOM operations
   - Native method caching for performance
   - Symbol-based private properties for internal state

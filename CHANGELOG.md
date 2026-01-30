@@ -1,5 +1,19 @@
 # Change Log 🕒
 
+## 0.18.x 2026-01-30
+
+### Major Features
+
+- **Ref Enhancement**: Added change event binding support to `ref` (v0.18.1)
+  - New methods `addOnChange` and `removeOnChange` for listening to value changes
+  - Automatically calls registered callbacks when `ref.value` is updated
+  - When both old and new values are DOM nodes, automatically replaces old node with new one in the DOM
+  - Example: `ref.addOnChange((newVal, oldVal) => console.log('Value changed:', newVal))`
+
+- **Alert Component Update**: Changed `onclose` event to `mui:close` in MUI Alert component
+  - Better alignment with MUI naming conventions
+  - Example: `<Alert mui:close={() => console.log('closed')}>Message</Alert>`
+
 ## 0.16.x 2026-01-28
 
 ### Major Features

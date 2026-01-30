@@ -107,7 +107,7 @@
   border: 0;
   box-sizing: content-box;
   background: none;
-  height: 1.4375em;
+  height: auto;
   margin: 0;
   display: block;
   min-width: 0;
@@ -132,6 +132,14 @@
   outline: none;
 }
 
+/* Textarea specific styles - override height */
+textarea.mui-textfield-input {
+  height: auto !important;
+  resize: none;
+  overflow: auto;
+  min-height: 1.4375em;
+}
+
 .mui-textfield-input::placeholder {
   color: rgba(0, 0, 0, 0.42);
   opacity: 1;
@@ -145,13 +153,6 @@
 .mui-textfield-disabled .mui-textfield-input {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
-}
-
-/* Textarea */
-textarea.mui-textfield-input {
-  height: auto;
-  resize: none;
-  overflow: auto;
 }
 
 /* Fieldset (border) */

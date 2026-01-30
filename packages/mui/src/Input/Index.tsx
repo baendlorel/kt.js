@@ -10,6 +10,7 @@ interface TextFieldProps {
   value?: any;
   type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
   disabled?: boolean;
+  readonly?: boolean;
   required?: boolean;
   error?: boolean;
   helperText?: string;
@@ -40,6 +41,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     value = '',
     type = 'text',
     disabled = false,
+    readonly = false,
     required = false,
     error = false,
     helperText = '',
@@ -109,6 +111,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       placeholder={getPlaceholder()}
       value={value}
       disabled={disabled}
+      readonly={readonly}
       required={required}
       rows={rows}
       on:input={handleInput}
@@ -124,6 +127,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       placeholder={getPlaceholder()}
       value={value}
       disabled={disabled}
+      readonly={readonly}
       required={required}
       on:input={handleInput}
       on:change={handleChange}

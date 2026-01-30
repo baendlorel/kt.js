@@ -181,6 +181,8 @@ export function FeatMui() {
         <p class="description">Text fields let users enter and edit text.</p>
 
         <div class="textfield-grid">
+          <TextField label="多行" size="small" multiline rows={4} />
+
           <TextField label="Standard" placeholder="Enter text..." mui:input={handleInput} />
           <TextField label="Required Field" required />
           <TextField label="Disabled" disabled value="Cannot edit this" />
@@ -189,6 +191,7 @@ export function FeatMui() {
           <TextField label="Password" type="password" value="secret123" />
           <TextField label="Email" type="email" placeholder="your@email.com" />
           <TextField label="Small Size" size="small" />
+          <TextField label="readonly" readonly value="cannot modify" />
           <TextField size="small" placeholder="ssdf" />
         </div>
 

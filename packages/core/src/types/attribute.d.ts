@@ -768,3 +768,213 @@ export interface AttributesMap {
     xlinkHref?: string; // legacy xlink:href
   };
 }
+
+export interface SVGAttributesMap {
+  a: AttributesMap['svg'] & { href?: string; x?: number | string; y?: number | string };
+  animate: AttributesMap['svg'] & {
+    attributeName?: string;
+    from?: string | number;
+    to?: string | number;
+    dur?: string;
+    repeatCount?: string | number;
+  };
+  animateMotion: AttributesMap['svg'] & { path?: string; dur?: string; rotate?: string };
+  animateTransform: AttributesMap['svg'] & { type?: string; from?: string; to?: string; dur?: string };
+  circle: AttributesMap['svg'] & { cx?: number | string; cy?: number | string; r?: number | string };
+  clipPath: AttributesMap['svg'] & { clipPathUnits?: 'userSpaceOnUse' | 'objectBoundingBox' };
+  defs: AttributesMap['svg'];
+  desc: AttributesMap['svg'];
+  ellipse: AttributesMap['svg'] & {
+    cx?: number | string;
+    cy?: number | string;
+    rx?: number | string;
+    ry?: number | string;
+  };
+
+  // Filter primitives (provide common props)
+  feBlend: AttributesMap['svg'] & { in?: string; in2?: string; mode?: string };
+  feColorMatrix: AttributesMap['svg'] & {
+    type?: 'matrix' | 'saturate' | 'hueRotate' | 'luminanceToAlpha';
+    values?: string;
+  };
+  feComponentTransfer: AttributesMap['svg'] & {};
+  feComposite: AttributesMap['svg'] & {
+    in?: string;
+    in2?: string;
+    operator?: string;
+    k1?: number | string;
+    k2?: number | string;
+    k3?: number | string;
+    k4?: number | string;
+  };
+  feConvolveMatrix: AttributesMap['svg'] & {
+    order?: string | number;
+    kernelMatrix?: string;
+    divisor?: string | number;
+    bias?: string | number;
+  };
+  feDiffuseLighting: AttributesMap['svg'] & {};
+  feDisplacementMap: AttributesMap['svg'] & {
+    in?: string;
+    in2?: string;
+    scale?: number | string;
+    xChannelSelector?: string;
+    yChannelSelector?: string;
+  };
+  feDistantLight: AttributesMap['svg'] & { azimuth?: number | string; elevation?: number | string };
+  feDropShadow: AttributesMap['svg'] & {
+    dx?: number | string;
+    dy?: number | string;
+    stdDeviation?: number | string;
+    floodColor?: string;
+    floodOpacity?: number | string;
+  };
+  feFlood: AttributesMap['svg'] & { floodColor?: string; floodOpacity?: number | string };
+  feFuncA: AttributesMap['svg'] & {};
+  feFuncB: AttributesMap['svg'] & {};
+  feFuncG: AttributesMap['svg'] & {};
+  feFuncR: AttributesMap['svg'] & {};
+  feGaussianBlur: AttributesMap['svg'] & { stdDeviation?: number | string; edgeMode?: string };
+  feImage: AttributesMap['svg'] & { href?: string };
+  feMerge: AttributesMap['svg'] & {};
+  feMergeNode: AttributesMap['svg'] & { in?: string };
+  feMorphology: AttributesMap['svg'] & { operator?: 'erode' | 'dilate'; radius?: number | string };
+  feOffset: AttributesMap['svg'] & { dx?: number | string; dy?: number | string };
+  fePointLight: AttributesMap['svg'] & { x?: number | string; y?: number | string; z?: number | string };
+  feSpecularLighting: AttributesMap['svg'] & {
+    specularConstant?: number | string;
+    specularExponent?: number | string;
+    surfaceScale?: number | string;
+  };
+  feSpotLight: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    z?: number | string;
+    pointsAtX?: number | string;
+    pointsAtY?: number | string;
+    pointsAtZ?: number | string;
+    specularExponent?: number | string;
+    limitingConeAngle?: number | string;
+  };
+  feTile: AttributesMap['svg'] & {};
+  feTurbulence: AttributesMap['svg'] & {
+    baseFrequency?: number | string;
+    numOctaves?: number | string;
+    seed?: number | string;
+    stitchTiles?: string;
+    type?: 'fractalNoise' | 'turbulence';
+  };
+
+  filter: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+    filterUnits?: string;
+    primitiveUnits?: string;
+  };
+  foreignObject: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+  };
+  g: AttributesMap['svg'];
+  image: AttributesMap['svg'] & {
+    href?: string;
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+  };
+  line: AttributesMap['svg'] & {
+    x1?: number | string;
+    y1?: number | string;
+    x2?: number | string;
+    y2?: number | string;
+  };
+  linearGradient: AttributesMap['svg'] & {
+    x1?: number | string;
+    y1?: number | string;
+    x2?: number | string;
+    y2?: number | string;
+    gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
+    gradientTransform?: string;
+  };
+  marker: AttributesMap['svg'] & {
+    markerUnits?: string;
+    markerWidth?: number | string;
+    markerHeight?: number | string;
+    refX?: number | string;
+    refY?: number | string;
+    orient?: string;
+  };
+  mask: AttributesMap['svg'] & {
+    maskUnits?: string;
+    maskContentUnits?: string;
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+  };
+  metadata: AttributesMap['svg'];
+  mpath: AttributesMap['svg'] & { href?: string };
+  path: AttributesMap['svg'] & { d?: string; pathLength?: number | string };
+  pattern: AttributesMap['svg'] & {
+    patternUnits?: string;
+    patternContentUnits?: string;
+    width?: number | string;
+    height?: number | string;
+    x?: number | string;
+    y?: number | string;
+  };
+  polygon: AttributesMap['svg'] & { points?: string };
+  polyline: AttributesMap['svg'] & { points?: string };
+  radialGradient: AttributesMap['svg'] & {
+    cx?: number | string;
+    cy?: number | string;
+    r?: number | string;
+    fx?: number | string;
+    fy?: number | string;
+    gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
+    gradientTransform?: string;
+  };
+  rect: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+    rx?: number | string;
+    ry?: number | string;
+  };
+  script: AttributesMap['svg'] & { href?: string; type?: string };
+  set: AttributesMap['svg'] & { attributeName?: string; to?: string | number; begin?: string; dur?: string };
+  stop: AttributesMap['svg'] & { offset?: number | string; stopColor?: string; stopOpacity?: number | string };
+  style: AttributesMap['svg'] & { media?: string };
+  svg: AttributesMap['svg'];
+  switch: AttributesMap['svg'];
+  symbol: AttributesMap['svg'] & { viewBox?: string; preserveAspectRatio?: string };
+  text: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    dx?: number | string;
+    dy?: number | string;
+    textLength?: number | string;
+  };
+  textPath: AttributesMap['svg'] & { href?: string; startOffset?: number | string };
+  title: AttributesMap['svg'];
+  tspan: AttributesMap['svg'] & {
+    x?: number | string;
+    y?: number | string;
+    dx?: number | string;
+    dy?: number | string;
+  };
+  use: AttributesMap['svg'] & {
+    href?: string;
+    x?: number | string;
+    y?: number | string;
+    width?: number | string;
+    height?: number | string;
+  };
+  view: AttributesMap['svg'] & { viewBox?: string; preserveAspectRatio?: string };
+}

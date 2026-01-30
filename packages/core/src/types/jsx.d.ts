@@ -59,6 +59,8 @@ declare global {
       strong: AttributesMap['strong'];
       small: AttributesMap['small'];
       pre: AttributesMap['pre'];
+      fieldset: AttributesMap['fieldset'];
+      legend: AttributesMap['legend'];
     }
 
     interface IntrinsicAttributes {

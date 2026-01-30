@@ -1,13 +1,13 @@
-import { KTHTMLElement, ref } from 'kt.js';
+import { KTRef, KTHTMLElement } from '@ktjs/core';
 import './Checkbox.css';
-import { generateHandler } from 'src/common/handler.js';
+import { generateHandler } from '../../common/handler.js';
 
 interface CheckboxProps {
   value: string;
   label?: string | KTHTMLElement | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
-  'kt:change'?: (checked: boolean, value: string) => void;
+  'kt:change'?: ((checked: boolean, value: string) => void) | KTRef<boolean>;
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
   indeterminate?: boolean;
@@ -60,11 +60,11 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     value = '',
     label = '',
     size = 'medium',
-    'kt:change': onChange = emptyFn,
     disabled = false,
     color = 'primary',
     indeterminate = false,
   } = props;
+  const onChange = generateHandler<boolean>(props, 'kt:change');
 
   const inputEl = (
     <input
@@ -165,7 +165,7 @@ interface CheckboxGroupProps {
   value?: string[];
   size?: 'small' | 'medium';
   options: CheckboxProps[];
-  'kt:change'?: (values: string[]) => void;
+  'kt:change'?: ((values: string[]) => void) | KTRef<string[]>;
   row?: boolean;
 }
 
@@ -191,7 +191,7 @@ export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
     o.size = size;
     o.checked = selectedValues.has(o.value);
 
-    const originalChange = o['kt:change'];
+    const originalChange = generateHandler<boolean>(o, 'kt:change');
     if (originalChange) {
       o['kt:change'] = (checked: boolean, value: string) => {
         originalChange(checked, value);

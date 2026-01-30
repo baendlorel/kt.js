@@ -1,6 +1,6 @@
 import { KTRef } from '@ktjs/core';
 
-export type ChangeHandler<T = string> = (value: T) => void;
+export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
 
 export const emptyFn = () => {};
 

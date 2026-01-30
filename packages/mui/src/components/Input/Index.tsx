@@ -65,11 +65,6 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
   const onChangeTrim = generateHandler(props, 'kt-trim:change');
   const onBlur = generateHandler(props, 'kt:blur');
   const onFocus = generateHandler(props, 'kt:focus');
-
-  let isFocused = false;
-  const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;
-
-  // Update container classes
   const updateContainerClass = () => {
     container.className = [
       'mui-textfield-root',
@@ -83,37 +78,32 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     ].join(' ');
   };
 
-  const handleInput = (e: Event) => {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+  const handleInput = () => {
     updateContainerClass();
-    onInput(target.value, e);
-    onInputTrim(target.value.trim(), e);
+    onInput(inputEl.value);
+    onInputTrim(inputEl.value.trim());
   };
 
-  const handleChange = (e: Event) => {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    onChange(target.value, e);
-    onChangeTrim(target.value.trim(), e);
+  const handleChange = () => {
+    onChange(inputEl.value);
+    onChangeTrim(inputEl.value.trim());
   };
 
-  const handleFocus = (e: Event) => {
+  const handleFocus = () => {
     isFocused = true;
     updateContainerClass();
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    onFocus(target.value, e);
+    onFocus(inputEl.value);
   };
 
-  const handleBlur = (e: Event) => {
+  const handleBlur = () => {
     isFocused = false;
     updateContainerClass();
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    onBlur(target.value, e);
+    onBlur(inputEl.value);
   };
 
-  // Create input or textarea element
-  // Only show placeholder when label is floating (focused or has value)
   const getPlaceholder = () => (label && !isFocused && !value ? '' : placeholder);
 
+  let isFocused = false;
   const inputEl = multiline
     ? ((
         <textarea
@@ -145,6 +135,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
           on:blur={handleBlur}
         />
       ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>);
+  const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;
 
   const wrapperRef = createRedrawable(() => (
     <div class="mui-textfield-wrapper">

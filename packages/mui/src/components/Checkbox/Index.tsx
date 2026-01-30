@@ -1,5 +1,6 @@
 import { KTHTMLElement, ref } from 'kt.js';
 import './Checkbox.css';
+import { generateHandler } from 'src/common/handler.js';
 
 interface CheckboxProps {
   value: string;
@@ -17,10 +18,14 @@ const emptyFn = () => {};
 type KTMuiCheckbox = KTHTMLElement & {
   checked: boolean;
   value: string;
+  disabled: boolean;
 };
 
 type KTMuiCheckboxGroup = KTHTMLElement & {
   value: string[];
+  disabled: boolean[];
+  disableAll: () => void;
+  enableAll: () => void;
 };
 
 /**
@@ -44,7 +49,7 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     if (disabled) {
       return;
     }
-    checked = inputRef.value.checked;
+    checked = inputEl.checked;
     indeterminate = false;
     toggleIcon(checked, indeterminate);
     onChange(checked, value);
@@ -61,7 +66,16 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     indeterminate = false,
   } = props;
 
-  const inputRef = ref<HTMLInputElement>();
+  const inputEl = (
+    <input
+      type="checkbox"
+      class="mui-checkbox-input"
+      checked={checked}
+      value={value}
+      disabled={disabled}
+      on:change={handleChange}
+    />
+  ) as KTHTMLElement<HTMLInputElement>;
 
   // Unchecked icon
   const uncheckedIcon = (
@@ -97,15 +111,7 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     <label
       class={`mui-checkbox-wrapper mui-checkbox-size-${size} ${disabled ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${color}`}
     >
-      <input
-        ref={inputRef}
-        type="checkbox"
-        class="mui-checkbox-input"
-        checked={checked}
-        value={value}
-        disabled={disabled}
-        on:change={handleChange}
-      />
+      {inputEl}
       <span class="mui-checkbox-icon">
         {uncheckedIcon}
         {checkedIcon}
@@ -117,19 +123,38 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     </label>
   ) as KTMuiCheckbox;
 
-  Object.defineProperty(container, 'checked', {
-    get() {
-      return checked;
+  Object.defineProperties(container, {
+    checked: {
+      get() {
+        return checked;
+      },
+      set(newChecked: boolean) {
+        checked = newChecked;
+        indeterminate = false;
+        inputEl.checked = checked;
+        toggleIcon(checked, indeterminate);
+      },
     },
-    set(newChecked: boolean) {
-      checked = newChecked;
-      indeterminate = false;
-      inputRef.value.checked = checked;
-      toggleIcon(checked, indeterminate);
+    value: {
+      get() {
+        return value;
+      },
+      set(newValue: string) {
+        value = newValue;
+        inputEl.value = value;
+      },
+    },
+    disabled: {
+      get() {
+        return disabled;
+      },
+      set(newDisabled) {
+        disabled = Boolean(newDisabled);
+        inputEl.disabled = disabled;
+        container.classList.toggle('mui-checkbox-disabled', disabled);
+      },
     },
   });
-
-  container.value = value;
 
   return container;
 }
@@ -148,7 +173,8 @@ interface CheckboxGroupProps {
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
-  let { value = [], size = 'medium', 'kt:change': onChange = emptyFn, row = false } = props;
+  let { value = [], size = 'medium', row = false } = props;
+  const onChange = generateHandler<string[]>(props, 'kt:change');
 
   let selectedValues = new Set(value);
 
@@ -187,16 +213,43 @@ export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
     </div>
   ) as KTMuiCheckboxGroup;
 
-  Object.defineProperty(container, 'value', {
-    get() {
-      return Array.from(selectedValues);
+  Object.defineProperties(container, {
+    value: {
+      get() {
+        return Array.from(selectedValues);
+      },
+      set(newValues: string[]) {
+        selectedValues = new Set(newValues);
+        for (let i = 0; i < checkboxes.length; i++) {
+          const checkbox = checkboxes[i];
+          checkbox.checked = selectedValues.has(checkbox.value);
+        }
+      },
     },
-    set(newValues: string[]) {
-      selectedValues = new Set(newValues);
-      for (let i = 0; i < checkboxes.length; i++) {
-        const checkbox = checkboxes[i];
-        checkbox.checked = selectedValues.has(checkbox.value);
-      }
+    disabled: {
+      get() {
+        return checkboxes.map((cb) => cb.disabled);
+      },
+      set(newDisabled: boolean[]) {
+        for (let i = 0; i < checkboxes.length; i++) {
+          const checkbox = checkboxes[i];
+          checkbox.disabled = Boolean(newDisabled);
+        }
+      },
+    },
+    disableAll: {
+      value: () => {
+        for (let i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].disabled = true;
+        }
+      },
+    },
+    enableAll: {
+      value: () => {
+        for (let i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].disabled = false;
+        }
+      },
     },
   });
 

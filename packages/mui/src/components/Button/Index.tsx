@@ -1,5 +1,6 @@
 import { KTHTMLElement } from 'kt.js';
 import './Button.css';
+import { emptyFn } from '../../common/handler.js';
 
 interface ButtonProps {
   class?: string;
@@ -17,8 +18,6 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   'on:click'?: (event: Event) => void;
 }
-
-const emptyFn = () => {};
 
 /**
  * Button component - mimics MUI Button appearance and behavior

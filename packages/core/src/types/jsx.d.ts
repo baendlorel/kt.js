@@ -2,13 +2,12 @@ import { KTRef } from '@/jsx/ref.ts';
 import { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTAttribute, KTRawContent } from './h.js';
 
-type Redraw = (props?: KTAttribute, ...args: any[]) => KTHTMLElement;
-export type KTHTMLElement<El extends HTMLElement = HTMLElement, R extends Function = Redraw> = El & {
+export type KTHTMLElement<El extends HTMLElement = HTMLElement> = El & {
   /**
    * Automically generate a redraw function if it is not provided
    * @param props
    */
-  redraw: R;
+  redraw: (props?: KTAttribute, ...args: any[]) => KTHTMLElement;
 };
 
 declare global {

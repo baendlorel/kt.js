@@ -78,39 +78,11 @@ interface KTBaseAttribute {
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }
 
-type KTPrefixedEventHandlers = {
+export type KTPrefixedEventHandlers = {
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-type KTSpecialEventHandlers = {
-  /**
-   * Directly extract `value` from the input element
-   */
-  'on:ktchange'?: (value: string) => void;
-  /**
-   * Directly extract `value` and trim it
-   */
-  'ontrim:ktchange'?: (value: string) => void;
-  /**
-   * Directly extract `value` and parse it to number
-   */
-  'on:ktchangenumber'?: (value: number) => void;
-
-  /**
-   * Directly extract `value` from the input element
-   */
-  'on:ktinput'?: (value: string) => void;
-  /**
-   * Directly extract `value` and trim it
-   */
-  'ontrim:ktinput'?: (value: string) => void;
-  /**
-   * Directly extract `value` and parse it to number
-   */
-  'on:ktinputnumber'?: (value: number) => void;
-};
-
-export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers & KTSpecialEventHandlers;
+export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;
 
 export type KTComponent = (
   props: {

@@ -20,12 +20,14 @@ interface TextFieldProps {
   maxRows?: number;
   size?: 'small' | 'medium';
   'kt:input'?: (value: string, event: Event) => void;
+  'kt-trim:input'?: (value: string, event: Event) => void;
   'kt:change'?: (value: string, event: Event) => void;
+  'kt-trim:change'?: (value: string, event: Event) => void;
   'kt:blur'?: (value: string, event: Event) => void;
   'kt:focus'?: (value: string, event: Event) => void;
 }
 
-const emptyFn = () => {};
+const noop = () => {};
 
 type KTMuiTextField = KTHTMLElement & {
   value: string;
@@ -35,7 +37,7 @@ type KTMuiTextField = KTHTMLElement & {
  * TextField component - mimics MUI TextField appearance and behavior
  */
 export function TextField(props: TextFieldProps): KTMuiTextField {
-  const {
+  let {
     label = '',
     placeholder = '',
     value = '',
@@ -50,10 +52,12 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     rows = 3,
     maxRows = 10,
     size = 'medium',
-    'kt:input': onInput = emptyFn,
-    'kt:change': onChange = emptyFn,
-    'kt:blur': onBlur = emptyFn,
-    'kt:focus': onFocus = emptyFn,
+    'kt:input': onInput = noop,
+    'kt-trim:input': onInputTrim = noop,
+    'kt:change': onChange = noop,
+    'kt-trim:change': onChangeTrim = noop,
+    'kt:blur': onBlur = noop,
+    'kt:focus': onFocus = noop,
   } = props;
 
   let isFocused = false;
@@ -61,29 +65,29 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
 
   // Update container classes
   const updateClasses = () => {
-    const hasValue = inputRef.value?.value || '';
-    const classes = [
+    container.className = [
       'mui-textfield-root',
       `mui-textfield-size-${size}`,
       isFocused ? 'mui-textfield-focused' : '',
       error ? 'mui-textfield-error' : '',
       disabled ? 'mui-textfield-disabled' : '',
       fullWidth ? 'mui-textfield-fullwidth' : '',
-      label && (isFocused || hasValue) ? 'mui-textfield-has-value' : '',
+      label && (isFocused || inputRef.value.value) ? 'mui-textfield-has-value' : '',
       label ? '' : 'mui-textfield-no-label',
-    ];
-    container.className = classes.join(' ');
+    ].join(' ');
   };
 
   const handleInput = (e: Event) => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     updateClasses();
     onInput(target.value, e);
+    onInputTrim(target.value.trim(), e);
   };
 
   const handleChange = (e: Event) => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     onChange(target.value, e);
+    onChangeTrim(target.value.trim(), e);
   };
 
   const handleFocus = (e: Event) => {
@@ -160,13 +164,15 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
   // Initialize classes
   setTimeout(() => updateClasses(), 0);
 
-  Object.defineProperty(container, 'value', {
-    get() {
-      return inputRef.value.value;
-    },
-    set(newValue: string) {
-      inputRef.value.value = newValue;
-      updateClasses();
+  Object.defineProperties(container, {
+    value: {
+      get() {
+        return inputRef.value.value;
+      },
+      set(newValue: string) {
+        inputRef.value.value = newValue;
+        updateClasses();
+      },
     },
   });
 

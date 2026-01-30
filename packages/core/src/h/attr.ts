@@ -1,5 +1,5 @@
 import type { KTRawAttr, KTAttribute } from '@/types/h.js';
-import { handlers, ktEventHandlers } from './attr-helpers.js';
+import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: any) => element.setAttribute(key, value);
 
@@ -34,13 +34,8 @@ function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
 
     const o = attr[key];
 
-    // # special handling for kt.js specific events
-    const ktEvent = ktEventHandlers[key];
-    if (ktEvent) {
-      ktEvent(element as HTMLInputElement, o);
-    }
     // normal event handler
-    else if (key.startsWith('on:')) {
+    if (key.startsWith('on:')) {
       element.addEventListener(key.slice(3), o); // chop off the `@`
     }
     // normal attributes

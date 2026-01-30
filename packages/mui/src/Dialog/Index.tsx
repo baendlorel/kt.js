@@ -3,7 +3,7 @@ import './Dialog.css';
 
 interface DialogProps {
   open?: boolean;
-  'mui:close'?: () => void;
+  'kt:close'?: () => void;
   title?: string;
   children?: HTMLElement | HTMLElement[] | string;
   actions?: HTMLElement | HTMLElement[];
@@ -27,7 +27,7 @@ export type KTMuiDialog = KTHTMLElement & {
 export function Dialog(props: DialogProps): KTMuiDialog {
   let {
     open = false,
-    'mui:close': onClose = noop,
+    'kt:close': onClose = noop,
     title,
     children,
     actions,

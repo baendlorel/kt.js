@@ -316,7 +316,7 @@ export function FeatMui() {
     const radioGroup = RadioGroup({
       name: 'demo-radio',
       value: 'option1',
-      'mui:change': (value) => {
+      'kt:change': (value) => {
         selectedValue.value = value;
         outputText.textContent = `Selected: ${value}`;
       },
@@ -347,7 +347,7 @@ export function FeatMui() {
 
     const checkboxGroup = CheckboxGroup({
       value: ['html', 'css'],
-      'mui:change': (values) => {
+      'kt:change': (values) => {
         selectedValues.value = values;
         outputText.textContent = values.length > 0 ? `Selected: ${values.join(', ')}` : 'None selected';
       },
@@ -404,7 +404,7 @@ export function FeatMui() {
       label: 'Choose a fruit',
       value: 'apple',
       options,
-      'mui:change': (value) => {
+      'kt:change': (value) => {
         selectedValue.value = value;
         outputText.textContent = `Selected: ${value}`;
       },

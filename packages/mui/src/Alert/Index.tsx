@@ -10,14 +10,14 @@ interface AlertProps {
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | KTHTMLElement | false;
-  'mui:close'?: () => void;
+  'kt:close'?: () => void;
 }
 
 /**s
  * Alert component - mimics MUI Alert appearance and behavior
  */
 export function Alert(props: AlertProps): KTHTMLElement {
-  const { children, severity = 'info', variant = 'standard', icon, 'mui:close': onClose, sx } = props;
+  const { children, severity = 'info', variant = 'standard', icon, 'kt:close': onClose, sx } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
 

@@ -19,10 +19,10 @@ interface TextFieldProps {
   rows?: number;
   maxRows?: number;
   size?: 'small' | 'medium';
-  'mui:input'?: (value: string, event: Event) => void;
-  'mui:change'?: (value: string, event: Event) => void;
-  'mui:blur'?: (value: string, event: Event) => void;
-  'mui:focus'?: (value: string, event: Event) => void;
+  'kt:input'?: (value: string, event: Event) => void;
+  'kt:change'?: (value: string, event: Event) => void;
+  'kt:blur'?: (value: string, event: Event) => void;
+  'kt:focus'?: (value: string, event: Event) => void;
 }
 
 const emptyFn = () => {};
@@ -50,10 +50,10 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     rows = 3,
     maxRows = 10,
     size = 'medium',
-    'mui:input': onInput = emptyFn,
-    'mui:change': onChange = emptyFn,
-    'mui:blur': onBlur = emptyFn,
-    'mui:focus': onFocus = emptyFn,
+    'kt:input': onInput = emptyFn,
+    'kt:change': onChange = emptyFn,
+    'kt:blur': onBlur = emptyFn,
+    'kt:focus': onFocus = emptyFn,
   } = props;
 
   let isFocused = false;

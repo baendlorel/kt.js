@@ -6,7 +6,7 @@ interface RadioProps {
   text: string | KTHTMLElement | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
-  'mui:change'?: (checked: boolean, value: string) => void;
+  'kt:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'default';
 }
@@ -38,7 +38,7 @@ export function Radio(props: RadioProps): RadioComponent {
     value = '',
     text = '',
     size = 'small',
-    'mui:change': onChange = emptyFn,
+    'kt:change': onChange = emptyFn,
     disabled: initDisabled = false,
     color = 'primary',
   } = props;
@@ -102,8 +102,8 @@ interface RadioGroupProps {
   name?: string;
   size?: 'small' | 'medium';
   options: RadioProps[];
-  'mui:change'?: (value: string) => void;
-  'mui:click'?: (checked: boolean) => void;
+  'kt:change'?: (value: string) => void;
+  'kt:click'?: (checked: boolean) => void;
   row?: boolean;
 }
 
@@ -111,7 +111,7 @@ interface RadioGroupProps {
  * RadioGroup component - groups multiple radios together
  */
 export function RadioGroup(props: RadioGroupProps) {
-  const { value = '', size = 'small', 'mui:change': onChange = emptyFn, row = false } = props;
+  const { value = '', size = 'small', 'kt:change': onChange = emptyFn, row = false } = props;
 
   const changeHandler = (checked: boolean, value: string) => {
     if (checked) {
@@ -124,14 +124,14 @@ export function RadioGroup(props: RadioGroupProps) {
     o.size = size;
     o.checked = value === o.value;
 
-    const originalChange = o['mui:change'];
+    const originalChange = o['kt:change'];
     if (originalChange) {
-      o['mui:change'] = (checked: boolean, newValue: string) => {
+      o['kt:change'] = (checked: boolean, newValue: string) => {
         originalChange(checked, newValue);
         changeHandler(checked, newValue);
       };
     } else {
-      o['mui:change'] = changeHandler;
+      o['kt:change'] = changeHandler;
     }
     return Radio(o);
   });

@@ -14,7 +14,7 @@ interface SelectProps {
   options: SelectOption[];
   label?: string;
   placeholder?: string;
-  'mui:change'?: (value: string) => void;
+  'kt:change'?: (value: string) => void;
   fullWidth?: boolean;
   disabled?: boolean;
 }
@@ -31,7 +31,7 @@ export function Select(props: SelectProps) {
     label = '',
     placeholder = '',
     size = 'medium',
-    'mui:change': onChange = emptyFn,
+    'kt:change': onChange = emptyFn,
     fullWidth = false,
     disabled = false,
   } = props;

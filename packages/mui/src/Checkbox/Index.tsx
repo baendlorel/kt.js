@@ -6,7 +6,7 @@ interface CheckboxProps {
   label?: string | KTHTMLElement | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
-  'mui:change'?: (checked: boolean, value: string) => void;
+  'kt:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
   indeterminate?: boolean;
@@ -55,7 +55,7 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
     value = '',
     label = '',
     size = 'medium',
-    'mui:change': onChange = emptyFn,
+    'kt:change': onChange = emptyFn,
     disabled = false,
     color = 'primary',
     indeterminate = false,
@@ -140,7 +140,7 @@ interface CheckboxGroupProps {
   value?: string[];
   size?: 'small' | 'medium';
   options: CheckboxProps[];
-  'mui:change'?: (values: string[]) => void;
+  'kt:change'?: (values: string[]) => void;
   row?: boolean;
 }
 
@@ -148,7 +148,7 @@ interface CheckboxGroupProps {
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
-  let { value = [], size = 'medium', 'mui:change': onChange = emptyFn, row = false } = props;
+  let { value = [], size = 'medium', 'kt:change': onChange = emptyFn, row = false } = props;
 
   let selectedValues = new Set(value);
 
@@ -165,14 +165,14 @@ export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
     o.size = size;
     o.checked = selectedValues.has(o.value);
 
-    const originalChange = o['mui:change'];
+    const originalChange = o['kt:change'];
     if (originalChange) {
-      o['mui:change'] = (checked: boolean, value: string) => {
+      o['kt:change'] = (checked: boolean, value: string) => {
         originalChange(checked, value);
         changeHandler(checked, value);
       };
     } else {
-      o['mui:change'] = changeHandler;
+      o['kt:change'] = changeHandler;
     }
     return Checkbox(o);
   });

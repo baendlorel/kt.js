@@ -24,9 +24,10 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
   let el: KTHTMLElement;
   const redraw = (newProps?: KTAttribute) => {
     props = newProps ? { ...props, ...newProps } : props;
-    const old = el;
     el = jsx(tag, props);
-    old.replaceWith(el);
+    if (ref !== dummyRef) {
+      ref.value = el; // ref setter automatically replaces old element in DOM
+    }
     return el;
   };
 
@@ -53,7 +54,7 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
  * Fragment support - returns an array of children
  * Note: kt.js doesn't have a real Fragment concept,
  */
-export function Fragment(props: { children?: KTRawContent }): HTMLElement {
+export function Fragment(_props: { children?: KTRawContent }): HTMLElement {
   throw new Error("kt.js doesn't have a Fragment concept");
 
   // const { children } = props ?? {};
@@ -147,9 +148,7 @@ export function createRedrawable(creator: () => KTHTMLElement): KTRef<KTHTMLElem
 
   elRef.value = creator();
   const redraw = () => {
-    const old = elRef.value;
-    elRef.value = creator();
-    old.replaceWith(elRef.value);
+    elRef.value = creator(); // ref setter automatically calls replaceWith
     elRef.value.redraw = redraw;
     return elRef.value;
   };

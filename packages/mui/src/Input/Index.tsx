@@ -111,7 +111,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       placeholder={getPlaceholder()}
       value={value}
       disabled={disabled}
-      readonly={readonly}
+      readOnly={readonly}
       required={required}
       rows={rows}
       on:input={handleInput}
@@ -127,7 +127,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       placeholder={getPlaceholder()}
       value={value}
       disabled={disabled}
-      readonly={readonly}
+      readOnly={readonly}
       required={required}
       on:input={handleInput}
       on:change={handleChange}

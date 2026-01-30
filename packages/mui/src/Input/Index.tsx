@@ -1,5 +1,6 @@
-import { createRedrawable, KTHTMLElement, ref } from 'kt.js';
+import { KTRef, createRedrawable, KTHTMLElement } from '@ktjs/core';
 import './Input.css';
+import { ChangeHandler, generateHandler } from '../common/handler.js';
 
 interface TextFieldProps {
   class?: string;
@@ -18,15 +19,13 @@ interface TextFieldProps {
   multiline?: boolean;
   rows?: number;
   size?: 'small' | 'medium';
-  'kt:input'?: (value: string, event: Event) => void;
-  'kt-trim:input'?: (value: string, event: Event) => void;
-  'kt:change'?: (value: string, event: Event) => void;
-  'kt-trim:change'?: (value: string, event: Event) => void;
-  'kt:blur'?: (value: string, event: Event) => void;
-  'kt:focus'?: (value: string, event: Event) => void;
+  'kt:input'?: ChangeHandler | KTRef<string>;
+  'kt-trim:input'?: ChangeHandler | KTRef<string>;
+  'kt:change'?: ChangeHandler | KTRef<string>;
+  'kt-trim:change'?: ChangeHandler | KTRef<string>;
+  'kt:blur'?: ChangeHandler | KTRef<string>;
+  'kt:focus'?: ChangeHandler | KTRef<string>;
 }
-
-const noop = () => {};
 
 type KTMuiTextField = KTHTMLElement & {
   value: string;
@@ -58,13 +57,14 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     multiline = false,
     rows = 3,
     size = 'medium',
-    'kt:input': onInput = noop,
-    'kt-trim:input': onInputTrim = noop,
-    'kt:change': onChange = noop,
-    'kt-trim:change': onChangeTrim = noop,
-    'kt:blur': onBlur = noop,
-    'kt:focus': onFocus = noop,
   } = props;
+
+  const onInput = generateHandler(props, 'kt:input');
+  const onInputTrim = generateHandler(props, 'kt-trim:input');
+  const onChange = generateHandler(props, 'kt:change');
+  const onChangeTrim = generateHandler(props, 'kt-trim:change');
+  const onBlur = generateHandler(props, 'kt:blur');
+  const onFocus = generateHandler(props, 'kt:focus');
 
   let isFocused = false;
   const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;

@@ -18,9 +18,9 @@ export interface KTRef<T> {
  * - can alse be used to store normal values, but it is not reactive.
  * @param value mostly an HTMLElement
  */
-export function ref<T = HTMLElement>(value?: T): KTRef<T> {
+export function ref<T = HTMLElement>(value?: T, onChange?: ChangeHandler<T>): KTRef<T> {
   let _value: T = value as any;
-  let _onChanges: Array<ChangeHandler<T>> = [];
+  let _onChanges: Array<ChangeHandler<T>> = onChange ? [onChange] : [];
 
   return {
     isKT: true,

@@ -1,4 +1,4 @@
-import { KTHTMLElement, ref } from 'kt.js';
+import { createRedrawable, KTHTMLElement, ref } from 'kt.js';
 import './Input.css';
 
 interface TextFieldProps {
@@ -31,6 +31,14 @@ const noop = () => {};
 
 type KTMuiTextField = KTHTMLElement & {
   value: string;
+  label: string;
+  placeholder: string;
+  type: string;
+  disabled: boolean;
+  readonly: boolean;
+  required: boolean;
+  error: boolean;
+  helperText: string;
 };
 
 /**
@@ -61,10 +69,10 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
   } = props;
 
   let isFocused = false;
-  const inputRef = ref<HTMLInputElement | HTMLTextAreaElement>();
+  const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;
 
   // Update container classes
-  const updateClasses = () => {
+  const updateContainerClass = () => {
     container.className = [
       'mui-textfield-root',
       `mui-textfield-size-${size}`,
@@ -72,14 +80,14 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       error ? 'mui-textfield-error' : '',
       disabled ? 'mui-textfield-disabled' : '',
       fullWidth ? 'mui-textfield-fullwidth' : '',
-      label && (isFocused || inputRef.value.value) ? 'mui-textfield-has-value' : '',
+      label && isFocused && inputEl.value ? 'mui-textfield-has-value' : '',
       label ? '' : 'mui-textfield-no-label',
     ].join(' ');
   };
 
   const handleInput = (e: Event) => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    updateClasses();
+    updateContainerClass();
     onInput(target.value, e);
     onInputTrim(target.value.trim(), e);
   };
@@ -92,14 +100,14 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
 
   const handleFocus = (e: Event) => {
     isFocused = true;
-    updateClasses();
+    updateContainerClass();
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     onFocus(target.value, e);
   };
 
   const handleBlur = (e: Event) => {
     isFocused = false;
-    updateClasses();
+    updateContainerClass();
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     onBlur(target.value, e);
   };
@@ -108,70 +116,139 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
   // Only show placeholder when label is floating (focused or has value)
   const getPlaceholder = () => (label && !isFocused && !value ? '' : placeholder);
 
-  const inputElement = multiline ? (
-    <textarea
-      ref={inputRef}
-      class="mui-textfield-input"
-      placeholder={getPlaceholder()}
-      value={value}
-      disabled={disabled}
-      readOnly={readonly}
-      required={required}
-      rows={rows}
-      on:input={handleInput}
-      on:change={handleChange}
-      on:focus={handleFocus}
-      on:blur={handleBlur}
-    />
-  ) : (
-    <input
-      ref={inputRef}
-      type={type}
-      class="mui-textfield-input"
-      placeholder={getPlaceholder()}
-      value={value}
-      disabled={disabled}
-      readOnly={readonly}
-      required={required}
-      on:input={handleInput}
-      on:change={handleChange}
-      on:focus={handleFocus}
-      on:blur={handleBlur}
-    />
-  );
+  const inputEl = multiline
+    ? ((
+        <textarea
+          class="mui-textfield-input"
+          placeholder={getPlaceholder()}
+          value={value}
+          disabled={disabled}
+          readOnly={readonly}
+          required={required}
+          rows={rows}
+          on:input={handleInput}
+          on:change={handleChange}
+          on:focus={handleFocus}
+          on:blur={handleBlur}
+        />
+      ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>)
+    : ((
+        <input
+          type={type}
+          class="mui-textfield-input"
+          placeholder={getPlaceholder()}
+          value={value}
+          disabled={disabled}
+          readOnly={readonly}
+          required={required}
+          on:input={handleInput}
+          on:change={handleChange}
+          on:focus={handleFocus}
+          on:blur={handleBlur}
+        />
+      ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>);
+
+  const wrapperRef = createRedrawable(() => (
+    <div class="mui-textfield-wrapper">
+      <label k-if={label} class="mui-textfield-label">
+        {label}
+        {required && <span class="mui-textfield-required">*</span>}
+      </label>
+      <div class="mui-textfield-input-wrapper">{inputEl}</div>
+      <fieldset class="mui-textfield-fieldset">
+        <legend k-if={label} class="mui-textfield-legend">
+          <span>
+            {label}
+            {required && '*'}
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  ));
 
   const container = (
     <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={props.style ? props.style : ''}>
-      <div class="mui-textfield-wrapper">
-        <label k-if={label} class="mui-textfield-label">
-          {label}
-          {required && <span class="mui-textfield-required">*</span>}
-        </label>
-        <div class="mui-textfield-input-wrapper">{inputElement}</div>
-        <fieldset class="mui-textfield-fieldset">
-          <legend k-if={label} class="mui-textfield-legend">
-            <span>
-              {label}
-              {required && '*'}
-            </span>
-          </legend>
-        </fieldset>
-      </div>
-      {helperText && <p class="mui-textfield-helper-text">{helperText}</p>}
+      {wrapperRef}
+      {helperTextEl}
     </div>
   ) as KTMuiTextField;
 
   // Initialize classes
-  setTimeout(() => updateClasses(), 0);
+  setTimeout(() => updateContainerClass(), 0);
 
   Object.defineProperties(container, {
     value: {
       get() {
-        return inputRef.value.value;
+        return inputEl.value;
       },
       set(newValue: string) {
-        inputRef.value.value = newValue;
-        updateClasses();
+        inputEl.value = newValue;
+        updateContainerClass();
+      },
+    },
+    label: {
+      get() {
+        return label;
+      },
+      set(newLabel) {
+        label = newLabel;
+        wrapperRef.value.redraw(); // label takes too much and should be redrawn
+        updateContainerClass();
+      },
+    },
+    placeholder: {
+      get() {
+        return placeholder;
+      },
+      set(newPlaceholder) {
+        placeholder = newPlaceholder;
+        inputEl.placeholder = getPlaceholder();
+      },
+    },
+    type: {
+      get() {
+        return type;
+      },
+      set(newType) {
+        type = newType || 'text';
+        (inputEl as any).type = type;
+      },
+    },
+    disabled: {
+      get() {
+        return disabled;
+      },
+      set(val: boolean) {
+        disabled = !!val;
+        inputEl.disabled = disabled;
+        container.classList.toggle('mui-textfield-disabled', disabled);
+      },
+    },
+    readonly: {
+      get() {
+        return readonly;
+      },
+      set(val) {
+        readonly = Boolean(val);
+        inputEl.readOnly = readonly;
+      },
+    },
+    error: {
+      get() {
+        return error;
+      },
+      set(val: boolean) {
+        error = Boolean(val);
+        container.classList.toggle('mui-textfield-error', error);
+      },
+    },
+    helperText: {
+      get() {
+        return helperText;
+      },
+      set(text) {
+        helperTextEl.textContent = text;
+        helperTextEl.style.display = text ? 'block' : 'none';
       },
     },
   });

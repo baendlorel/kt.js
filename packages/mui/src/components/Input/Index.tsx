@@ -2,14 +2,15 @@ import { KTRef, createRedrawable, KTHTMLElement } from '@ktjs/core';
 import './Input.css';
 import { ChangeHandler, generateHandler } from '../../common/handler.js';
 
-interface TextFieldProps {
+type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+
+interface TextFieldProps<T extends InputTypes> {
   class?: string;
   style?: string;
-
   label?: string;
   placeholder?: string;
   value?: any;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+  type?: T;
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
@@ -19,12 +20,12 @@ interface TextFieldProps {
   multiline?: boolean;
   rows?: number;
   size?: 'small' | 'medium';
-  'kt:input'?: ChangeHandler | KTRef<string>;
-  'kt-trim:input'?: ChangeHandler | KTRef<string>;
-  'kt:change'?: ChangeHandler | KTRef<string>;
-  'kt-trim:change'?: ChangeHandler | KTRef<string>;
-  'kt:blur'?: ChangeHandler | KTRef<string>;
-  'kt:focus'?: ChangeHandler | KTRef<string>;
+  'kt:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
+  'kt-trim:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
+  'kt:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
+  'kt-trim:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
+  'kt:blur'?: () => void;
+  'kt:focus'?: () => void;
 }
 
 export type KTMuiTextField = KTHTMLElement & {
@@ -42,7 +43,7 @@ export type KTMuiTextField = KTHTMLElement & {
 /**
  * TextField component - mimics MUI TextField appearance and behavior
  */
-export function TextField(props: TextFieldProps): KTMuiTextField {
+export function TextField<T extends InputTypes>(props: TextFieldProps<T>): KTMuiTextField {
   let {
     label = '',
     placeholder = '',
@@ -59,12 +60,13 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     size = 'medium',
   } = props;
 
-  const onInput = generateHandler(props, 'kt:input');
-  const onInputTrim = generateHandler(props, 'kt-trim:input');
-  const onChange = generateHandler(props, 'kt:change');
-  const onChangeTrim = generateHandler(props, 'kt-trim:change');
-  const onBlur = generateHandler(props, 'kt:blur');
-  const onFocus = generateHandler(props, 'kt:focus');
+  const onInput = generateHandler<string | number>(props, 'kt:input');
+  const onInputTrim = generateHandler<string | number>(props, 'kt-trim:input');
+  const onChange = generateHandler<string | number>(props, 'kt:change');
+  const onChangeTrim = generateHandler<string | number>(props, 'kt-trim:change');
+  const onBlur = generateHandler<string | number>(props, 'kt:blur');
+  const onFocus = generateHandler<string | number>(props, 'kt:focus');
+
   const updateContainerClass = () => {
     container.className = [
       'mui-textfield-root',
@@ -80,13 +82,28 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
 
   const handleInput = () => {
     updateContainerClass();
-    onInput(inputEl.value);
-    onInputTrim(inputEl.value.trim());
+
+    if (type === 'number') {
+      const v = Number(inputEl.value);
+      onInput(v);
+      onInputTrim(v);
+    } else {
+      onInput(inputEl.value);
+      onInputTrim(inputEl.value.trim());
+    }
   };
 
   const handleChange = () => {
-    onChange(inputEl.value);
-    onChangeTrim(inputEl.value.trim());
+    updateContainerClass();
+
+    if (type === 'number') {
+      const v = Number(inputEl.value);
+      onChange(v);
+      onChangeTrim(v);
+    } else {
+      onChange(inputEl.value);
+      onChangeTrim(inputEl.value.trim());
+    }
   };
 
   const handleFocus = () => {
@@ -122,7 +139,7 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
       ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>)
     : ((
         <input
-          type={type}
+          type={type as any}
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
           value={value}

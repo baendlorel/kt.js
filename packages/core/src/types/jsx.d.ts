@@ -55,6 +55,10 @@ declare global {
       audio: AttributesMap['audio'];
       canvas: AttributesMap['canvas'];
       svg: AttributesMap['svg'];
+      code: AttributesMap['code'];
+      strong: AttributesMap['strong'];
+      small: AttributesMap['small'];
+      pre: AttributesMap['pre'];
     }
 
     interface IntrinsicAttributes {

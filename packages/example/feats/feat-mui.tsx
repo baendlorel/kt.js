@@ -126,7 +126,7 @@ export function FeatMui() {
       const alert = Alert({
         severity,
         children: `This is a ${severity} alert #${alertCount}!`,
-        onClose: () => alert.remove(),
+        'kt:close': () => alert.remove(),
       });
       alertContainer.value?.appendChild(alert);
     };
@@ -159,7 +159,7 @@ export function FeatMui() {
           <Alert severity="warning" variant="outlined">
             This is an outlined warning alert!
           </Alert>
-          <Alert severity="error" onClose={() => console.log('Alert closed')}>
+          <Alert severity="error" kt:close={() => console.log('Alert closed')}>
             This alert can be closed!
           </Alert>
         </div>
@@ -183,7 +183,7 @@ export function FeatMui() {
         <div class="textfield-grid">
           <TextField label="多行" size="small" multiline rows={4} />
 
-          <TextField label="Standard" placeholder="Enter text..." mui:input={handleInput} />
+          <TextField label="Standard" placeholder="Enter text..." kt:input={handleInput} />
           <TextField label="Required Field" required />
           <TextField label="Disabled" disabled value="Cannot edit this" />
           <TextField label="Error State" error helperText="This field has an error" />
@@ -230,7 +230,7 @@ export function FeatMui() {
           Open Dialog
         </Button>
 
-        <Dialog ref={dialogRef} title="Dialog Title" mui:close={handleClose}>
+        <Dialog ref={dialogRef} title="Dialog Title" kt:close={handleClose}>
           <div style="padding: 20px;">
             <p>This is a dialog with some content inside.</p>
             <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
@@ -419,7 +419,7 @@ export function FeatMui() {
         {outputText}
 
         <div style="margin-top: 20px;">
-          <Select label="Disabled Select" disabled value="banana" options={options} mui:change={(value) => {}} />
+          <Select label="Disabled Select" disabled value="banana" options={options} kt:change={(value) => {}} />
         </div>
       </div>
     );

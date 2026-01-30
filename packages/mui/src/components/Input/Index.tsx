@@ -1,6 +1,6 @@
 import { KTRef, createRedrawable, KTHTMLElement } from '@ktjs/core';
 import './Input.css';
-import { ChangeHandler, generateHandler } from '../common/handler.js';
+import { ChangeHandler, generateHandler } from '../../common/handler.js';
 
 interface TextFieldProps {
   class?: string;
@@ -27,7 +27,7 @@ interface TextFieldProps {
   'kt:focus'?: ChangeHandler | KTRef<string>;
 }
 
-type KTMuiTextField = KTHTMLElement & {
+export type KTMuiTextField = KTHTMLElement & {
   value: string;
   label: string;
   placeholder: string;

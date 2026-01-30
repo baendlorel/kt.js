@@ -17,7 +17,6 @@ interface TextFieldProps {
   fullWidth?: boolean;
   multiline?: boolean;
   rows?: number;
-  maxRows?: number;
   size?: 'small' | 'medium';
   'kt:input'?: (value: string, event: Event) => void;
   'kt-trim:input'?: (value: string, event: Event) => void;
@@ -58,7 +57,6 @@ export function TextField(props: TextFieldProps): KTMuiTextField {
     fullWidth = false,
     multiline = false,
     rows = 3,
-    maxRows = 10,
     size = 'medium',
     'kt:input': onInput = noop,
     'kt-trim:input': onInputTrim = noop,

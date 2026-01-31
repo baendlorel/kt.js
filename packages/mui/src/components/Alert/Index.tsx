@@ -1,11 +1,11 @@
 import type { KTHTMLElement } from '@ktjs/core';
 import './Alert.css';
 
-interface AlertProps {
+interface KTMuiAlertProps {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
-
   children: string | HTMLElement | KTHTMLElement | Array<string | HTMLElement | KTHTMLElement>;
+
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | KTHTMLElement | false;
@@ -15,7 +15,7 @@ interface AlertProps {
 /**s
  * Alert component - mimics MUI Alert appearance and behavior
  */
-export function Alert(props: AlertProps): KTHTMLElement {
+export function Alert(props: KTMuiAlertProps): KTHTMLElement {
   const { children, style = '', severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;

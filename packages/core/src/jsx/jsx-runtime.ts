@@ -1,51 +1,34 @@
 import type { HTMLTag } from '../types/global.js';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
-import type { KTHTMLElement } from '../types/jsx.js';
 
 import { h } from '../h/index.js';
 import { type KTRef, ref } from './ref.js';
 
-type JSXTag =
-  | HTMLTag
-  | ((props?: any) => HTMLElement)
-  | ((props?: any) => Promise<HTMLElement>)
-  | ((props?: any) => KTHTMLElement)
-  | ((props?: any) => Promise<KTHTMLElement>);
+type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
-const dummyRef = { value: null } as unknown as KTRef<KTHTMLElement>;
+const dummyRef = { value: null } as unknown as KTRef<HTMLElement>;
 
 /**
  * @param tag html tag or function component
  * @param props properties/attributes
  */
-export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
-  const ref = props.ref?.isKT ? (props.ref as KTRef<KTHTMLElement>) : dummyRef;
+export function jsx(tag: JSXTag, props: KTAttribute = {}): HTMLElement {
+  const ref = props.ref?.isKT ? (props.ref as KTRef<HTMLElement>) : dummyRef;
 
-  let el: KTHTMLElement;
-  const redraw = (newProps?: KTAttribute) => {
-    props = newProps ? { ...props, ...newProps } : props;
-    el = jsx(tag, props);
-    if (ref !== dummyRef) {
-      ref.value = el; // & ref setter automatically replaces old element in DOM
-    }
-    return el;
-  };
-
+  let el: HTMLElement;
   if ('k-if' in props && !props['k-if']) {
-    el = document.createComment('k-if') as unknown as KTHTMLElement;
+    el = document.createComment('k-if') as unknown as HTMLElement;
     ref.value = el; // & ref setter automatically replaces old element in DOM
-    el.redraw = redraw;
     return el;
   }
 
   // Handle function components
   if (typeof tag === 'function') {
-    el = tag(props) as KTHTMLElement;
+    el = tag(props) as HTMLElement;
   } else {
-    el = h(tag, props, props.children) as KTHTMLElement;
+    el = h(tag, props, props.children) as HTMLElement;
   }
 
-  el.redraw ??= redraw;
   ref.value = el;
   return el;
 }
@@ -109,33 +92,6 @@ export { h, h as createElement };
  *    let aa = 10;
  *    // ...
  *    // aa might be changed
- *    return createRedrawableNoref(() => <div>{aa}</div>);
- * }
- * ```
- * Then the returned element has a `redraw` method to redraw itself with new values.
- * @param creator a simple creator function that returns an element
- * @returns created element
- */
-export function createRedrawableNoref<T extends KTHTMLElement>(creator: () => T): T {
-  let el = creator();
-  const redraw = () => {
-    const old = el;
-    el = creator();
-    old.replaceWith(el);
-    el.redraw = redraw;
-    return el;
-  };
-  el.redraw = redraw;
-  return el;
-}
-
-/**
- * A helper to create redrawable elements
- * ```tsx
- * export function MyComponent() {
- *    let aa = 10;
- *    // ...
- *    // aa might be changed
  *    return createRedrawable(() => <div>{aa}</div>);
  * }
  * ```
@@ -143,15 +99,15 @@ export function createRedrawableNoref<T extends KTHTMLElement>(creator: () => T)
  * @param creator a simple creator function that returns an element
  * @returns created element's ref
  */
-export function createRedrawable<T extends KTHTMLElement>(creator: () => T): KTRef<T> {
-  const elRef = ref<T>();
+export function createRedrawable<T>(creator: () => T): KTRef<T> & { redraw: () => T } {
+  const elRef = ref<T>() as KTRef<T> & { redraw: () => T };
 
-  elRef.value = creator();
   const redraw = () => {
     elRef.value = creator(); // ref setter automatically calls replaceWith
-    elRef.value.redraw = redraw;
+    elRef.redraw = redraw;
     return elRef.value;
   };
-  elRef.value.redraw = redraw;
+
+  redraw();
   return elRef;
 }

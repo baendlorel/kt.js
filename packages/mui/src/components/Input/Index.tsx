@@ -1,4 +1,4 @@
-import { createRedrawable, type KTHTMLElement } from '@ktjs/core';
+import { createRedrawable } from '@ktjs/core';
 import './Input.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -99,7 +99,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
           on:focus={handleFocus}
           on:blur={handleBlur}
         />
-      ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>)
+      ) as HTMLTextAreaElement)
     : ((
         <input
           type={type as any}

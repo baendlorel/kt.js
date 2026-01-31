@@ -1,18 +1,10 @@
 import type { KTRef } from '../jsx/ref.ts';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
-import type { KTAttribute, KTRawContent } from './h.js';
-
-export type KTHTMLElement<El extends HTMLElement = HTMLElement> = El & {
-  /**
-   * Automically generate a redraw function if it is not provided
-   * @param props
-   */
-  redraw: (props?: KTAttribute, ...args: any[]) => KTHTMLElement;
-};
+import type { KTRawContent } from './h.js';
 
 declare global {
   namespace JSX {
-    type Element = KTHTMLElement;
+    type Element = HTMLElement;
 
     interface IntrinsicElements {
       // Document-level & metadata

@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { readFileSync, writeFileSync } from 'fs';
+import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 function syncVersions(targetVersion: string) {
@@ -16,39 +16,36 @@ function syncVersions(targetVersion: string) {
     process.exit(1);
   }
 
-  const packages = [
-    { path: './package.json', name: 'rootDir' },
-    { path: './packages/kt.js/package.json', name: 'kt.js' },
-    { path: './packages/core/package.json', name: '@ktjs/core' },
-    { path: './packages/shortcuts/package.json', name: '@ktjs/shortcuts' },
-    { path: './packages/router/package.json', name: '@ktjs/router' },
-  ];
-
   console.log(`Start syncing to: ${targetVersion}`);
 
   let successCount = 0;
   let errorCount = 0;
 
-  for (const pkg of packages) {
+  const packagesDir = join(process.cwd(), 'packages');
+  const packageFolders = readdirSync(packagesDir);
+  packageFolders.push('..');
+
+  for (const pkg of packageFolders) {
     try {
-      const filePath = join(process.cwd(), pkg.path);
-      const packageJson = JSON.parse(readFileSync(filePath, 'utf8'));
+      const filePath = join(packagesDir, pkg, 'package.json');
+      const content = readFileSync(filePath, 'utf8');
+      const packageJson = JSON.parse(content);
+      if (packageJson.version === undefined) {
+        continue;
+      }
 
       const oldVersion = packageJson.version;
-
       if (oldVersion === targetVersion) {
-        console.log(`✅ ${pkg.name} is already [${targetVersion}]`);
+        console.log(`✅ ${packageJson.name} is already [${targetVersion}]`);
         successCount++;
         continue;
       }
 
       packageJson.version = targetVersion;
       writeFileSync(filePath, JSON.stringify(packageJson, null, 2) + '\n');
-
-      console.log(`✅ ${pkg.name}: ${oldVersion} → ${targetVersion}`);
-      successCount++;
+      console.log(`✅ ${packageJson.name}: ${oldVersion} → ${targetVersion}`);
     } catch (error) {
-      console.error(`❌ ${pkg.name}: update failed - ${error instanceof Error ? error.message : String(error)}`);
+      console.error(`❌ ${pkg}: update failed - ${error instanceof Error ? error.message : String(error)}`);
       errorCount++;
     }
   }

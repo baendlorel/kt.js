@@ -18,6 +18,7 @@ function formatDateFull(dt = new Date()) {
 }
 
 const __KEBAB_NAME__ = pkg.name.replace('rollup-plugin-', '');
+const __VERSION__ = pkg.version;
 const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase());
 
 const __PKG_INFO__ = `## About
@@ -40,6 +41,7 @@ export const replaceOpts = {
     __NAME__,
     __KEBAB_NAME__,
     __PKG_INFO__,
+    __VERSION__,
   },
 };
 
@@ -55,8 +57,7 @@ export const replaceLiteralOpts = {
   'logger.debug(': "console.log(`%cdebug - __func__:`, 'color:#8617a5',",
   'logger.succ(': "console.log(`%cdebug - __func__:`, 'color:#00a00b',",
   'logger.verbose(': "console.log(`%cdebug - __func__:`, 'color:#10aaaf',",
-  'logger.WorkspaceNotFound(':
-    "console.log(`%cerror - __func__:`, 'color:#fb2c36','Workspace not found, id:',",
+  'logger.WorkspaceNotFound(': "console.log(`%cerror - __func__:`, 'color:#fb2c36','Workspace not found, id:',",
   'logger.TabNotFoundInWorkspace(':
     "console.log(`%cerror - __func__:`, 'color:#fb2c36','Tab not found in workspace. tabid,workspaceid:',",
 };

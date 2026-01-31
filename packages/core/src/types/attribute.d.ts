@@ -9,7 +9,7 @@ type BaseAttr = {
   // # base attributes
   class?: string;
   className?: string;
-  style?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
 
   // # Events
   // Mouse events

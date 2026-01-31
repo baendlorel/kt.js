@@ -9,8 +9,8 @@
     "dist/",
     "node_modules/",
     "coverage/",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
+    "**/tests/**/*.ts",
+    "**/tests/**/*.tsx",
     "build/",
     "example/",
     ".scripts/"

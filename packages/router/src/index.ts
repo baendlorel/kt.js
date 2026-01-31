@@ -1,7 +1,8 @@
+import { $emptyFn, $throw, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
+
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { $emptyFn, $throw, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
 
 /**
  * Create a new router instance

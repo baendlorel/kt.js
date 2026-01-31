@@ -46,10 +46,10 @@ export function KTFor<T>(props: KTForProps<T>): KForElement {
   (anchor as any).__kt_for_list__ = elements;
 
   // Redraw function for updates
-  anchor.redraw = (newProps = props) => {
-    const newList = (newProps.list ?? currentList) as unknown as T[];
-    const newKey = (newProps.key ?? currentKey) as typeof key;
-    const newMap = (newProps.map ?? currentMap) as typeof map;
+  anchor.redraw = (newProps) => {
+    const newList = (newProps?.list ?? currentList) as unknown as T[];
+    const newKey = (newProps?.key ?? currentKey) as typeof key;
+    const newMap = (newProps?.map ?? currentMap) as typeof map;
 
     // Update stored values
     currentList = newList;

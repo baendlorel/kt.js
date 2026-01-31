@@ -22,7 +22,7 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   // # kt-specific attributes
-  ref?: KTRef<HTMLElement>;
+  ref?: KTRef<KTHTMLElement>;
   'k-if'?: any;
 
   // # normal HTML attributes

@@ -1,19 +1,10 @@
 {
   "extends": "../../configs/tsconfig.json",
   "compilerOptions": {
-    "composite": false,
-    "baseUrl": ".",
-    "paths": {
-      "@ktjs/mui": ["src/index.ts"],
-      "@ktjs/core": ["../core/src"],
-      "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],
-      "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"],
-      "@ktjs/shortcuts": ["../shortcuts/src"],
-      "kt.js": ["../kt.js/src/index.ts"],
-      "kt.js/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]
-    },
-    "jsx": "react-jsx",
-    "jsxImportSource": "kt.js"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "composite": true,
+    "baseUrl": "."
   },
   "include": ["./**/*"]
 }

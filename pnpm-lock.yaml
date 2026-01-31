@@ -75,7 +75,11 @@ importers:
         specifier: ^4.0.9
         version: 4.0.9(@types/node@24.10.1)(jsdom@27.2.0)(terser@5.44.1)
 
-  packages/core: {}
+  packages/core:
+    dependencies:
+      '@ktjs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/example:
     dependencies:
@@ -91,21 +95,26 @@ importers:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
-      '@ktjs/shortcuts':
-        specifier: workspace:^*
-        version: link:../shortcuts
 
   packages/mui:
     dependencies:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
+      '@ktjs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/router:
     dependencies:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
+      '@ktjs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/shared: {}
 
   packages/shortcuts:
     dependencies:

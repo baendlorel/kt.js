@@ -1,4 +1,4 @@
-import { createRedrawable, ref, type KTHTMLElement } from 'kt.js';
+import { createRedrawable, ref, type KTHTMLElement } from '@ktjs/core';
 import './Select.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 

@@ -2,13 +2,13 @@ import type {} from '@ktjs/core';
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { buildQuery, fn, normalizePath, parseQuery, emplaceParams, throws } from './lib.js';
+import { $fn, $throws, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
 
 /**
  * Create a new router instance
  */
 export const createRouter = ({
-  beforeEach = fn,
+  beforeEach = $fn,
   afterEach = fn,
   onNotFound = fn,
   onError = fn,

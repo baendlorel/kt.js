@@ -1,4 +1,4 @@
-import type { KTAttribute } from 'kt.js';
+import type { KTAttribute } from '@ktjs/core';
 
 export default function HomeIcon(props: KTAttribute) {
   return (

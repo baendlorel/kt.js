@@ -3,7 +3,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-function syncVersions(targetVersion: string) {
+function syncVersions(targetVersion: string, jsx: string | undefined) {
   if (!targetVersion) {
     console.log('Usage: tsx sync-version.ts <version>');
     process.exit(1);
@@ -22,7 +22,7 @@ function syncVersions(targetVersion: string) {
   let errorCount = 0;
 
   const packagesDir = join(process.cwd(), 'packages');
-  const packageFolders = readdirSync(packagesDir);
+  const packageFolders = jsx === 'jsx' ? ['core', 'kt.js'] : readdirSync(packagesDir);
   packageFolders.push('..');
 
   for (const pkg of packageFolders) {
@@ -58,4 +58,5 @@ function syncVersions(targetVersion: string) {
 }
 
 const targetVersion = process.argv[2];
-syncVersions(targetVersion);
+const jsx = process.argv[3];
+syncVersions(targetVersion, jsx);

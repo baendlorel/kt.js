@@ -22,6 +22,7 @@ export default defineConfig({
       '@ktjs/core/jsx': resolve(import.meta.dirname, '../core/src/jsx/index.ts'),
       '@ktjs/core': resolve(import.meta.dirname, '../core/src/index.ts'),
       '@ktjs/mui': resolve(import.meta.dirname, '../mui/src/index.ts'),
+      '@ktjs/shared': resolve(import.meta.dirname, '../shared/src/index.ts'),
       'kt.js': resolve(import.meta.dirname, '../kt.js/src/index.ts'),
       '@': resolve(import.meta.dirname, '../core/src/'),
     },

@@ -26,14 +26,14 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): KTHTMLElement {
     props = newProps ? { ...props, ...newProps } : props;
     el = jsx(tag, props);
     if (ref !== dummyRef) {
-      ref.value = el; // ref setter automatically replaces old element in DOM
+      ref.value = el; // & ref setter automatically replaces old element in DOM
     }
     return el;
   };
 
   if ('k-if' in props && !props['k-if']) {
     el = document.createComment('k-if') as unknown as KTHTMLElement;
-    ref.value = el;
+    ref.value = el; // & ref setter automatically replaces old element in DOM
     el.redraw = redraw;
     return el;
   }
@@ -116,7 +116,7 @@ export { h, h as createElement };
  * @param creator a simple creator function that returns an element
  * @returns created element
  */
-export function createRedrawableNoref(creator: () => KTHTMLElement): KTHTMLElement {
+export function createRedrawableNoref<T extends KTHTMLElement>(creator: () => T): T {
   let el = creator();
   const redraw = () => {
     const old = el;
@@ -143,8 +143,8 @@ export function createRedrawableNoref(creator: () => KTHTMLElement): KTHTMLEleme
  * @param creator a simple creator function that returns an element
  * @returns created element's ref
  */
-export function createRedrawable(creator: () => KTHTMLElement): KTRef<KTHTMLElement> {
-  const elRef = ref<KTHTMLElement>();
+export function createRedrawable<T extends KTHTMLElement>(creator: () => T): KTRef<T> {
+  const elRef = ref<T>();
 
   elRef.value = creator();
   const redraw = () => {

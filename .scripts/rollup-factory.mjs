@@ -53,7 +53,6 @@ export function createPackageConfig({
   const aliasOpts = {
     entries: [{ find: /^@\//, replacement: underRoot('packages/core', 'src') + '/' }],
   };
-  console.log('aliasOpts', aliasOpts);
 
   /**
    * @type {import('@rollup/plugin-terser').Options}

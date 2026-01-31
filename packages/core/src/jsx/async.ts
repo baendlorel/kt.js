@@ -1,6 +1,6 @@
 import { $isThenable } from '@ktjs/shared';
-import type { KTHTMLElement } from '@/types/jsx.js';
-import type { KTComponent, KTRawContent } from '@/types/h.js';
+import type { KTHTMLElement } from '../types/jsx.js';
+import type { KTComponent, KTRawContent } from '../types/h.js';
 import type { KTRef } from './ref.js';
 
 /**

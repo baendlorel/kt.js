@@ -1,8 +1,8 @@
-import type { HTMLTag } from '@/types/global.js';
-import type { KTAttribute, KTRawContent } from '@/types/h.js';
-import type { KTHTMLElement } from '@/types/jsx.js';
+import type { HTMLTag } from '../types/global.js';
+import type { KTAttribute, KTRawContent } from '../types/h.js';
+import type { KTHTMLElement } from '../types/jsx.js';
 
-import { h } from '@/h/index.js';
+import { h } from '../h/index.js';
 import { type KTRef, ref } from './ref.js';
 
 type JSXTag =

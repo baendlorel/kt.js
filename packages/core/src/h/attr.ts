@@ -1,4 +1,4 @@
-import type { KTRawAttr, KTAttribute } from '@/types/h.js';
+import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: any) => element.setAttribute(key, value);

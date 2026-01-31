@@ -1,5 +1,3 @@
-# @ktjs/core
-
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
 [![npm version](https://img.shields.io/npm/v/@ktjs/core.svg)](https://www.npmjs.com/package/@ktjs/core)

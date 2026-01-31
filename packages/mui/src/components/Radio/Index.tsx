@@ -1,40 +1,12 @@
 import { KTHTMLElement, KTRef } from '@ktjs/core';
 import './Radio.css';
 import { generateHandler } from '../../common/handler.js';
-
-interface RadioProps {
-  value: string;
-  text: string | KTHTMLElement | HTMLElement;
-  checked?: boolean;
-  size?: 'small' | 'medium';
-  'kt:change'?: (checked: boolean, value: string) => void;
-  disabled?: boolean;
-  color?: 'primary' | 'secondary' | 'default';
-}
-
-export type KTMuiRadio = KTHTMLElement & {
-  /**
-   * The value of the radio button
-   * @readonly
-   */
-  readonly value: string;
-
-  /**
-   * Reactive checked state of the radio button
-   */
-  checked: boolean;
-};
-export type KTMuiRadioGroup = KTHTMLElement & {
-  /**
-   * Reactive checked state of the radio button
-   */
-  value: string;
-};
+import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup } from './radio.js';
 
 /**
  * Radio component - mimics MUI Radio appearance and behavior
  */
-export function Radio(props: RadioProps): KTMuiRadio {
+export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   const onChange = generateHandler<boolean>(props, 'kt:change');
 
   const toggleIcon = (checked: boolean) => {
@@ -123,7 +95,7 @@ interface RadioGroupProps {
   value?: string;
   name?: string;
   size?: 'small' | 'medium';
-  options: RadioProps[];
+  options: KTMuiRadioProps[];
   'kt:change'?: ((value: string) => void) | KTRef<string>;
   'kt:click'?: (checked: boolean) => void;
   row?: boolean;

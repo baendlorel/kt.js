@@ -1,36 +1,12 @@
 import { KTRef, KTHTMLElement } from '@ktjs/core';
 import './Checkbox.css';
 import { generateHandler } from '../../common/handler.js';
-
-// todo 样写成k-model，或者svelte怎么写的我不记得了。那种写法更好呢？
-interface CheckboxProps {
-  value: string;
-  label?: string | KTHTMLElement | HTMLElement;
-  checked?: boolean;
-  size?: 'small' | 'medium';
-  'kt:change'?: ((checked: boolean, value: string) => void) | KTRef<boolean>;
-  disabled?: boolean;
-  color?: 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
-  indeterminate?: boolean;
-}
-
-type KTMuiCheckbox = KTHTMLElement & {
-  checked: boolean;
-  value: string;
-  disabled: boolean;
-};
-
-type KTMuiCheckboxGroup = KTHTMLElement & {
-  value: string[];
-  disabled: boolean[];
-  disableAll: () => void;
-  enableAll: () => void;
-};
+import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
 /**
  * Checkbox component - mimics MUI Checkbox appearance and behavior
  */
-export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
+export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
   const toggleIcon = (checked: boolean, indeterminate: boolean) => {
     if (indeterminate) {
       uncheckedIcon.style.display = 'none';
@@ -158,20 +134,10 @@ export function Checkbox(props: CheckboxProps): KTMuiCheckbox {
   return container;
 }
 
-interface CheckboxGroupProps {
-  class?: string;
-  style?: string;
-  value?: string[];
-  size?: 'small' | 'medium';
-  options: CheckboxProps[];
-  'kt:change'?: ((values: string[]) => void) | KTRef<string[]>;
-  row?: boolean;
-}
-
 /**
  * CheckboxGroup component - groups multiple checkboxes together
  */
-export function CheckboxGroup(props: CheckboxGroupProps): KTMuiCheckboxGroup {
+export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   let { value = [], size = 'medium', row = false } = props;
   const onChange = generateHandler<string[]>(props, 'kt:change');
 

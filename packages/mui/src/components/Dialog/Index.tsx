@@ -1,7 +1,8 @@
 import { KTHTMLElement } from '@ktjs/core';
 import './Dialog.css';
+import { emptyFn } from '../../common/handler.js';
 
-interface DialogProps {
+interface KTMuiDialogProps {
   open?: boolean;
   'kt:close'?: () => void;
   title?: string;
@@ -10,8 +11,6 @@ interface DialogProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
   fullWidth?: boolean;
 }
-
-const noop = () => {};
 
 export type KTMuiDialog = KTHTMLElement & {
   /**
@@ -24,10 +23,10 @@ export type KTMuiDialog = KTHTMLElement & {
  * Dialog component - mimics MUI Dialog appearance and behavior
  * Only handles open/close state, title and content are passed as props
  */
-export function Dialog(props: DialogProps): KTMuiDialog {
+export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let {
     open = false,
-    'kt:close': onClose = noop,
+    'kt:close': onClose = emptyFn,
     title,
     children,
     actions,

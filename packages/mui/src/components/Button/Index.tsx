@@ -1,10 +1,11 @@
 import { KTHTMLElement } from 'kt.js';
 import './Button.css';
 import { emptyFn } from '../../common/handler.js';
+import { parseStyle } from '../../common/attribute.js';
 
 interface ButtonProps {
   class?: string;
-  style?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
 
   children: string | HTMLElement | KTHTMLElement;
   variant?: 'contained' | 'outlined' | 'text';
@@ -83,13 +84,7 @@ export function Button(props: ButtonProps): KTHTMLElement {
   };
 
   return (
-    <button
-      class={classes}
-      style={props.style ? props.style : ''}
-      type={type}
-      disabled={disabled}
-      on:click={handleClick}
-    >
+    <button class={classes} style={parseStyle(props.style)} type={type} disabled={disabled} on:click={handleClick}>
       {startIcon && <span class="mui-button-start-icon">{startIcon}</span>}
       <span class="mui-button-label">{children}</span>
       {endIcon && <span class="mui-button-end-icon">{endIcon}</span>}

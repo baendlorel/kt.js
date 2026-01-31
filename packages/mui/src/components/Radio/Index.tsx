@@ -1,7 +1,8 @@
-import { KTHTMLElement, KTRef } from '@ktjs/core';
+import { KTHTMLElement } from '@ktjs/core';
 import './Radio.css';
 import { generateHandler } from '../../common/handler.js';
-import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup } from './radio.js';
+import { parseStyle } from '../../common/attribute.js';
+import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 
 /**
  * Radio component - mimics MUI Radio appearance and behavior
@@ -24,7 +25,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     onChange(checked, value);
   };
 
-  let { checked = false, value = '', text = '', size = 'small', disabled = false, color = 'primary' } = props;
+  let { checked = false, value = '', label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
 
   const input = (
     <input
@@ -57,7 +58,8 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 
   const container = (
     <label
-      class={`mui-radio-wrapper mui-radio-size-${size} ${disabled ? 'mui-radio-disabled' : ''} mui-radio-color-${color}`}
+      class={`mui-radio-wrapper ${props.class ?? ''} mui-radio-size-${size} ${disabled ? 'mui-radio-disabled' : ''} mui-radio-color-${color}`}
+      style={parseStyle(props.style)}
     >
       {input}
       <span class="mui-radio-icon">
@@ -89,22 +91,10 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   return container;
 }
 
-interface RadioGroupProps {
-  class?: string;
-  style?: string;
-  value?: string;
-  name?: string;
-  size?: 'small' | 'medium';
-  options: KTMuiRadioProps[];
-  'kt:change'?: ((value: string) => void) | KTRef<string>;
-  'kt:click'?: (checked: boolean) => void;
-  row?: boolean;
-}
-
 /**
  * RadioGroup component - groups multiple radios together
  */
-export function RadioGroup(props: RadioGroupProps): KTMuiRadioGroup {
+export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   let { value = '', size = 'small', row = false } = props;
 
   const onChange = generateHandler<string>(props, 'kt:change');
@@ -135,7 +125,7 @@ export function RadioGroup(props: RadioGroupProps): KTMuiRadioGroup {
   const container = (
     <div
       class={`mui-radio-group ${row ? 'mui-radio-group-row' : ''} ${props.class ?? ''}`}
-      style={props.style ?? ''}
+      style={parseStyle(props.style)}
       role="radiogroup"
     >
       {radios}

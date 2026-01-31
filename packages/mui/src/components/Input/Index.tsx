@@ -1,6 +1,7 @@
 import { createRedrawable, KTHTMLElement } from '@ktjs/core';
 import './Input.css';
 import { generateHandler } from '../../common/handler.js';
+import { parseStyle } from '../../common/attribute.js';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 
 /**
@@ -136,7 +137,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
   ));
 
   const container = (
-    <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={props.style ? props.style : ''}>
+    <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={parseStyle(props.style)}>
       {wrapperRef}
       {helperTextEl}
     </div>

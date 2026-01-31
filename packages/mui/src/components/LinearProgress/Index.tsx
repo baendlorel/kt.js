@@ -1,10 +1,10 @@
 import { KTHTMLElement, ref } from '@ktjs/core';
 import './LinearProgress.css';
+import { parseStyle } from '../../common/attribute.js';
 
 interface LinearProgressProps {
   class?: string;
-  style?: string;
-  sx?: Record<string, any>;
+  style?: string | Partial<CSSStyleDeclaration>;
 
   variant?: 'determinate' | 'indeterminate';
   progress?: number;
@@ -22,7 +22,7 @@ export type KTMuiLinearProgress = KTHTMLElement & {
  * LinearProgress component - mimics MUI LinearProgress appearance and behavior
  */
 export function LinearProgress(props: LinearProgressProps) {
-  let { variant = 'indeterminate', progress: value = 0, color = 'primary', sx } = props;
+  let { variant = 'indeterminate', progress: value = 0, color = 'primary' } = props;
 
   const classes = [
     'mui-linear-progress',
@@ -31,18 +31,7 @@ export function LinearProgress(props: LinearProgressProps) {
     props.class ? props.class : '',
   ].join(' ');
 
-  // Convert sx object to style string
-  let styleString = props.style || '';
-  if (sx) {
-    const sxStyles = Object.entries(sx)
-      .map(([key, value]) => {
-        // Convert camelCase to kebab-case
-        const cssKey = key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
-        return `${cssKey}: ${value}`;
-      })
-      .join('; ');
-    styleString = styleString ? `${styleString}; ${sxStyles}` : sxStyles;
-  }
+  const styleString = parseStyle(props.style);
 
   // Calculate progress percentage
   let progressValue = Math.min(Math.max(value, 0), 100);

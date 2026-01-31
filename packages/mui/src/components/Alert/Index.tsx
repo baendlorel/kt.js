@@ -3,8 +3,7 @@ import './Alert.css';
 
 interface AlertProps {
   class?: string;
-  style?: string;
-  sx?: Record<string, any>;
+  style?: string | Partial<CSSStyleDeclaration>;
 
   children: string | HTMLElement | KTHTMLElement | Array<string | HTMLElement | KTHTMLElement>;
   severity?: 'error' | 'warning' | 'info' | 'success';
@@ -17,14 +16,14 @@ interface AlertProps {
  * Alert component - mimics MUI Alert appearance and behavior
  */
 export function Alert(props: AlertProps): KTHTMLElement {
-  const { children, severity = 'info', variant = 'standard', icon, 'kt:close': onClose, sx } = props;
+  const { children, style = '', severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
 
   // Convert sx object to style string
-  let styleString = props.style || '';
-  if (sx) {
-    const sxStyles = Object.entries(sx)
+  let styleString = typeof style === 'string' ? style : '';
+  if (style && typeof style === 'object') {
+    const sxStyles = Object.entries(style)
       .map(([key, value]) => {
         // Convert camelCase to kebab-case
         const cssKey = key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);

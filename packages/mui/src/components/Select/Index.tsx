@@ -1,17 +1,19 @@
 import { createRedrawable, KTHTMLElement, ref } from 'kt.js';
 import './Select.css';
+import { generateHandler } from '../../common/handler.js';
+import { parseStyle } from '../../common/attribute.js';
 
-interface SelectOption {
+interface KTMuiSelectOption {
   value: string;
   label: string;
 }
 
-interface SelectProps {
+export interface KTMuiSelectProps {
   class?: string;
-  style?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
   size?: 'small' | 'medium';
   value?: string;
-  options: SelectOption[];
+  options: KTMuiSelectOption[];
   label?: string;
   placeholder?: string;
   'kt:change'?: (value: string) => void;
@@ -19,23 +21,21 @@ interface SelectProps {
   disabled?: boolean;
 }
 
-const emptyFn = () => {};
-
 /**
  * Select component - mimics MUI Select appearance and behavior
  */
-export function Select(props: SelectProps) {
+export function Select(props: KTMuiSelectProps) {
   let {
     value = '',
     options = [],
     label = '',
     placeholder = '',
     size = 'medium',
-    'kt:change': onChange = emptyFn,
     fullWidth = false,
     disabled = false,
   } = props;
 
+  const onChange = generateHandler<string>(props, 'kt:change');
   let isOpen = false;
   let isFocused = false;
   const selectRef = ref<HTMLDivElement>();
@@ -144,8 +144,8 @@ export function Select(props: SelectProps) {
   const container = (
     <div
       ref={selectRef}
-      class={`mui-select-wrapper mui-select-size-${size} ${props.class ? props.class : ''} ${fullWidth ? 'mui-select-fullWidth' : ''} ${disabled ? 'mui-select-disabled' : ''}`}
-      style={props.style ? props.style : ''}
+      class={`mui-select-wrapper mui-select-size-${size} ${props.class ?? ''} ${fullWidth ? 'mui-select-fullWidth' : ''} ${disabled ? 'mui-select-disabled' : ''}`}
+      style={parseStyle(props.style)}
     >
       {label && <label class={`mui-select-label ${value || isFocused ? 'focused' : ''}`}>{label}</label>}
 

@@ -22,7 +22,7 @@ type BaseAttr = {
   'on:mouseleave'?: (ev: MouseEvent) => void;
   'on:mouseover'?: (ev: MouseEvent) => void;
   'on:mouseout'?: (ev: MouseEvent) => void;
-  'on:contextmenu'?: (ev: MouseEvent) => void;
+  'on:contextmenu'?: (ev: PointerEvent) => void;
 
   // Keyboard events
   'on:keydown'?: (ev: KeyboardEvent) => void;
@@ -739,7 +739,7 @@ export interface AttributesMap {
 
   svg: BaseAttr & {
     class?: string;
-    style?: string;
+    style?: string | Partial<CSSStyleDeclaration>;
     width?: number | string;
     height?: number | string;
     viewBox?: string;

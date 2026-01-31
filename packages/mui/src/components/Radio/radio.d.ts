@@ -1,13 +1,28 @@
-import type { KTHTMLElement } from 'kt.js';
+import { KTRef } from '@ktjs/core';
+import type { KTHTMLElement } from '@ktjs/core';
 
 export interface KTMuiRadioProps {
+  class?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
   value: string;
-  text: string | KTHTMLElement | HTMLElement;
+  label: string | KTHTMLElement | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
   'kt:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'default';
+}
+
+export interface KTMuiRadioGroupProps {
+  class?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
+  value?: string;
+  name?: string;
+  size?: 'small' | 'medium';
+  options: KTMuiRadioProps[];
+  'kt:change'?: ((value: string) => void) | KTRef<string>;
+  'kt:click'?: (checked: boolean) => void;
+  row?: boolean;
 }
 
 export type KTMuiRadio = KTHTMLElement & {

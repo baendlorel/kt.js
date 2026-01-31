@@ -1,4 +1,4 @@
-import { KTRef, KTHTMLElement } from '@ktjs/core';
+import { KTHTMLElement } from '@ktjs/core';
 import './Checkbox.css';
 import { generateHandler } from '../../common/handler.js';
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';

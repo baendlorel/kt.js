@@ -5,7 +5,7 @@ export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url
 
 export interface KTMuiTextFieldProps<T extends InputTypes> {
   class?: string;
-  style?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
   label?: string;
   placeholder?: string;
   value?: any;

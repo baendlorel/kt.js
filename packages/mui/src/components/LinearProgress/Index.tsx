@@ -12,6 +12,9 @@ interface LinearProgressProps {
 }
 
 export type KTMuiLinearProgress = KTHTMLElement & {
+  /**
+   * Reactive property to get or set the current progress value (0-100)
+   */
   progress: number;
 };
 

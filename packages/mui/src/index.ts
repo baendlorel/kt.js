@@ -12,7 +12,7 @@ export { Radio, RadioGroup } from './components/Radio/Index.js';
 export { Select } from './components/Select/Index.js';
 
 export type { KTMuiRadio, KTMuiRadioGroup } from './components/Radio/Index.js';
-export type { KTMuiTextField } from './components/Input/Index.js';
+export type { KTMuiTextField, KTMuiTextFieldProps } from './components/Input/input.js';
 export type { KTMuiDialog } from './components/Dialog/Index.js';
 export type { KTMuiLinearProgress } from './components/LinearProgress/Index.js';
 

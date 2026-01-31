@@ -141,7 +141,7 @@ export function RadioGroup(props: RadioGroupProps): KTMuiRadioGroup {
     if (checked) {
       onChange(value);
     }
-    radios.forEach((radio) => (radio.value = value));
+    radios.forEach((radio) => (radio.checked = radio.value === value));
   };
 
   const radios = props.options.map((o) => {
@@ -162,8 +162,8 @@ export function RadioGroup(props: RadioGroupProps): KTMuiRadioGroup {
 
   const container = (
     <div
-      class={`mui-radio-group ${row ? 'mui-radio-group-row' : ''} ${props.class ? props.class : ''}`}
-      style={props.style ? props.style : ''}
+      class={`mui-radio-group ${row ? 'mui-radio-group-row' : ''} ${props.class ?? ''}`}
+      style={props.style ?? ''}
       role="radiogroup"
     >
       {radios}
@@ -177,7 +177,7 @@ export function RadioGroup(props: RadioGroupProps): KTMuiRadioGroup {
       },
       set(newValue: string) {
         value = newValue;
-        radios.forEach((radio) => (radio.value = value));
+        radios.forEach((radio) => (radio.checked = radio.value === value));
       },
     },
   });

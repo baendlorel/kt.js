@@ -1,49 +1,12 @@
-import { KTRef, createRedrawable, KTHTMLElement } from '@ktjs/core';
+import { createRedrawable, KTHTMLElement } from '@ktjs/core';
 import './Input.css';
-import { ChangeHandler, generateHandler } from '../../common/handler.js';
-
-type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
-
-interface TextFieldProps<T extends InputTypes> {
-  class?: string;
-  style?: string;
-  label?: string;
-  placeholder?: string;
-  value?: any;
-  type?: T;
-  disabled?: boolean;
-  readonly?: boolean;
-  required?: boolean;
-  error?: boolean;
-  helperText?: string;
-  fullWidth?: boolean;
-  multiline?: boolean;
-  rows?: number;
-  size?: 'small' | 'medium';
-  'kt:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt-trim:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt-trim:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt:blur'?: () => void;
-  'kt:focus'?: () => void;
-}
-
-export type KTMuiTextField = KTHTMLElement & {
-  value: string;
-  label: string;
-  placeholder: string;
-  type: string;
-  disabled: boolean;
-  readonly: boolean;
-  required: boolean;
-  error: boolean;
-  helperText: string;
-};
+import { generateHandler } from '../../common/handler.js';
+import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 
 /**
  * TextField component - mimics MUI TextField appearance and behavior
  */
-export function TextField<T extends InputTypes>(props: TextFieldProps<T>): KTMuiTextField {
+export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   let {
     label = '',
     placeholder = '',

@@ -1,4 +1,4 @@
-import { KTFor, KTHTMLElement } from '@ktjs/core';
+import { KTForElement, KTFor } from '@ktjs/core';
 import '@ktjs/core/jsx';
 
 // Demo 1: Basic KTFor with simple list
@@ -66,10 +66,10 @@ function createKeyedDemo() {
         </div>
       )}
     />
-  );
+  ) as KTForElement;
 
   let nextId = 4;
-  const input = (<input type="text" placeholder="Add new todo..." />) as KTHTMLElement<HTMLInputElement>;
+  const input = (<input type="text" placeholder="Add new todo..." />) as HTMLInputElement;
 
   const addButton = (
     <button
@@ -113,7 +113,7 @@ function createDynamicDemo() {
         </div>
       )}
     />
-  );
+  ) as KTForElement;
 
   const shuffleBtn = (
     <button

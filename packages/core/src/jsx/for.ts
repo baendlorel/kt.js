@@ -1,13 +1,12 @@
-import type { KTHTMLElement } from '../types/jsx.js';
 import type { KTAttribute } from '../types/h.js';
 import type { KTRef } from './ref.js';
 
-type KForElement = KTHTMLElement & {
+export type KTForElement = JSX.Element & {
   redraw: (newProps?: KTAttribute) => void;
 };
 
 export interface KTForProps<T> {
-  ref?: KTRef<KForElement>;
+  ref?: KTRef<KTForElement>;
   list: T[];
   key?: (item: T, index: number, array: T[]) => any;
   map: (item: T, index: number, array: T[]) => HTMLElement;
@@ -17,12 +16,12 @@ export interface KTForProps<T> {
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__
  */
-export function KTFor<T>(props: KTForProps<T>): KForElement {
+export function KTFor<T>(props: KTForProps<T>): KTForElement {
   const { list, map } = props;
   const key = props.key ?? ((item: T) => item);
 
   // Create anchor comment node
-  const anchor = document.createComment('kt-for') as unknown as KForElement;
+  const anchor = document.createComment('kt-for') as unknown as KTForElement;
 
   // Store current state
   let currentList = list;

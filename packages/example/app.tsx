@@ -1,4 +1,4 @@
-import { KTHTMLElement, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 
 // Import all feat components
@@ -54,7 +54,7 @@ const navItems: { [section: string]: NavItem[] } = {
 };
 
 // Page components mapping
-const pageComponents: { [key: string]: () => KTHTMLElement } = {
+const pageComponents: { [key: string]: () => JSX.Element } = {
   home: FeatHome,
   counter: FeatCounter,
   events: FeatEvents,

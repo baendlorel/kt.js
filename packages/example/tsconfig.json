@@ -5,5 +5,5 @@
     "jsxImportSource": "@ktjs/core"
   },
   "include": ["*.tsx", "*.ts", "feats/**/*.tsx"],
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../mui" }]
 }

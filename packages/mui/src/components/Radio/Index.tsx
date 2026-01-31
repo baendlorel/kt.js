@@ -1,5 +1,4 @@
-import type { KTHTMLElement } from '@ktjs/core';
-import { generateHandler, parseStyle } from '@ktjs/shared';
+import { $defines, generateHandler, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 import './Radio.css';
@@ -36,7 +35,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
       disabled={disabled}
       on:change={handleChange}
     />
-  ) as KTHTMLElement<HTMLInputElement>;
+  ) as HTMLInputElement;
 
   const uncheckedIcon = (
     <span class="mui-radio-icon-unchecked">
@@ -70,7 +69,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     </label>
   ) as KTMuiRadio;
 
-  Object.defineProperties(container, {
+  $defines(container, {
     value: {
       get() {
         return value;
@@ -132,7 +131,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     </div>
   ) as KTMuiRadioGroup;
 
-  Object.defineProperties(container, {
+  $defines(container, {
     value: {
       get() {
         return value;

@@ -35,7 +35,7 @@ export function FeatHome() {
         <h3>Quick Example</h3>
         <p style="color: #666;">Here's how you create and update elements in KT.js:</p>
         <pre style="background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 0.875rem;">
-          {`const div = (<div>Initial</div>) as KTHTMLElement;
+          {`const div = (<div>Initial</div>) as JSX.Element;
 div.redraw(undefined, 'Updated content');
 
 function Counter({ count = 0 }) {
@@ -48,7 +48,7 @@ function Counter({ count = 0 }) {
     </div>
   );
 }
-const el = (<Counter />) as KTHTMLElement;`}
+const el = (<Counter />) as JSX.Element;`}
         </pre>
       </div>
     </div>

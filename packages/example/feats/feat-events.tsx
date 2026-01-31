@@ -1,13 +1,10 @@
 import '@ktjs/core/jsx';
-import { KTHTMLElement } from '@ktjs/core/jsx';
 
 /**
  * Event Handling Demo - Shows how to use event handlers in KT.js
  */
 export function FeatEvents() {
-  const output = (
-    <div class="output-text">Click a button to see event handling in action</div>
-  ) as KTHTMLElement<HTMLDivElement>;
+  const output = (<div class="output-text">Click a button to see event handling in action</div>) as HTMLDivElement;
 
   return (
     <div class="demo-section">

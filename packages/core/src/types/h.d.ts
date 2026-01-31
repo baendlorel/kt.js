@@ -1,6 +1,5 @@
 import type { KTRef } from '../jsx/ref.js';
 import type { HTMLTag, otherstring } from './global.js';
-import type { KTHTMLElement } from './jsx.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 
@@ -22,7 +21,7 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   // # kt-specific attributes
-  ref?: KTRef<KTHTMLElement>;
+  ref?: KTRef<JSX.Element>;
   'k-if'?: any;
 
   // # normal HTML attributes
@@ -86,8 +85,8 @@ export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;
 
 export type KTComponent = (
   props: {
-    ref?: KTRef<KTHTMLElement>;
+    ref?: KTRef<JSX.Element>;
     children?: KTRawContent;
   } & KTAttribute &
     any,
-) => KTHTMLElement | Promise<KTHTMLElement> | any;
+) => JSX.Element | Promise<JSX.Element> | any;

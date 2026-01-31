@@ -1,4 +1,4 @@
-import { KTHTMLElement, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import {
   Alert,
@@ -169,7 +169,7 @@ export function FeatMui() {
 
   // TextField Demo
   function createTextFieldDemo() {
-    const outputText = (<div class="output-text">Type something...</div>) as KTHTMLElement<HTMLDivElement>;
+    const outputText = (<div class="output-text">Type something...</div>) as HTMLDivElement;
 
     const handleInput = (value: string) => {
       outputText.textContent = value ? `You typed: ${value}` : 'Type something...';
@@ -311,7 +311,7 @@ export function FeatMui() {
   // Radio Demo
   function createRadioDemo() {
     const selectedValue = ref<string>('option1');
-    const outputText = (<div class="output-text">Selected: option1</div>) as KTHTMLElement<HTMLDivElement>;
+    const outputText = <div class="output-text">Selected: option1</div>;
 
     const radioGroup = RadioGroup({
       name: 'demo-radio',
@@ -343,7 +343,7 @@ export function FeatMui() {
   // Checkbox Demo
   function createCheckboxDemo() {
     const selectedValues = ref<string[]>(['html', 'css']);
-    const outputText = (<div class="output-text">Selected: html, css</div>) as KTHTMLElement<HTMLDivElement>;
+    const outputText = <div class="output-text">Selected: html, css</div>;
 
     const checkboxGroup = CheckboxGroup({
       value: ['html', 'css'],
@@ -390,7 +390,7 @@ export function FeatMui() {
   // Select Demo
   function createSelectDemo() {
     const selectedValue = ref<string>('apple');
-    const outputText = (<div class="output-text">Selected: apple</div>) as KTHTMLElement<HTMLDivElement>;
+    const outputText = <div class="output-text">Selected: apple</div>;
 
     const options = [
       { value: 'apple', label: 'Apple' },

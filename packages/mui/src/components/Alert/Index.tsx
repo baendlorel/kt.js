@@ -1,4 +1,4 @@
-import { $entries } from '@ktjs/shared';
+import { parseStyle } from '@ktjs/shared';
 import './Alert.css';
 
 interface KTMuiAlertProps {
@@ -12,31 +12,19 @@ interface KTMuiAlertProps {
   'kt:close'?: () => void;
 }
 
-/**s
- * Alert component - mimics MUI Alert appearance and behavior
- */
 export function Alert(props: KTMuiAlertProps): JSX.Element {
-  const { children, style = '', severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
+  const { children, severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
 
-  // Convert sx object to style string
-  let styleString = typeof style === 'string' ? style : '';
-  if (style && typeof style === 'object') {
-    const sxStyles = $entries(style)
-      .map(([key, value]) => {
-        // Convert camelCase to kebab-case
-        const cssKey = (key as string).replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
-        return `${cssKey}: ${value}`;
-      })
-      .join('; ');
-    styleString = styleString ? `${styleString}; ${sxStyles}` : sxStyles;
-  }
-
   // Icon SVG paths for different severities
   const getIcon = () => {
-    if (icon === false) return null;
-    if (icon) return icon;
+    if (icon === false) {
+      return null;
+    }
+    if (icon) {
+      return icon;
+    }
 
     const iconSize = '22px';
     const iconClass = 'mui-alert-icon';
@@ -82,7 +70,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
   const alertIcon = getIcon();
 
   const alert = (
-    <div class={classes} style={styleString} role="alert">
+    <div class={classes} style={parseStyle(props.style)} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{children}</div>
       {onClose && (

@@ -85,10 +85,8 @@ const message = <div k-if={isVisible}>Hello!</div>; // Creates comment node if f
 Manually control updates with `redraw()` - no automatic re-rendering.
 
 ```tsx
-import { KTHTMLElement } from 'kt.js';
-
 // Native elements
-const div = (<div>Initial</div>) as KTHTMLElement;
+const div = <div>Initial</div>;
 div.redraw(undefined, 'New content');
 div.redraw({ class: 'active' }, 'Updated');
 
@@ -101,7 +99,7 @@ function Counter({ count = 0 }: { count?: number }) {
     </div>
   );
 }
-const element = (<Counter />) as KTHTMLElement;
+const element = <Counter />;
 element.redraw({ count: 10 }); // Re-executes Counter with new props
 ```
 
@@ -112,7 +110,6 @@ element.redraw({ count: 10 }); // Re-executes Counter with new props
 - Replaces element using `replaceWith()`
 - Props are merged (shallow)
 - Redraw method is preserved
-- Cast to `KTHTMLElement` to access
 
 ## Ref System
 
@@ -308,7 +305,7 @@ function TodoApp() {
   let todos: Array<{ id: number; text: string }> = [];
   let nextId = 1;
 
-  const input = (<input type="text" />) as KTHTMLElement<HTMLInputElement>;
+  const input = <input type="text" />;
   const todoList = (
     <KTFor
       list={todos}
@@ -362,7 +359,6 @@ function TodoApp() {
 
 ## Best Practices
 
-1. **Cast to KTHTMLElement for redraw**: `const el = (<Component />) as KTHTMLElement;`
 2. **Store references for updates**: Save element variable to call `redraw()` later
 3. **Use KTFor for dynamic lists**: Key-based reuse is more efficient than `.map()`
 4. **Use k-if for conditionals**: Cleaner than ternary for simple conditions

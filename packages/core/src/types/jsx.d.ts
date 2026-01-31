@@ -178,7 +178,7 @@ declare global {
     }
 
     interface IntrinsicAttributes {
-      ref?: KTRef<HTMLElement>;
+      ref?: KTRef<any>;
       'k-if'?: any;
       children?: KTRawContent;
     }

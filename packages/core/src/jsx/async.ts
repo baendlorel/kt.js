@@ -1,5 +1,4 @@
 import { $isThenable } from '@ktjs/shared';
-import type { KTHTMLElement } from '../types/jsx.js';
 import type { KTComponent, KTRawContent } from '../types/h.js';
 import type { KTRef } from './ref.js';
 
@@ -10,20 +9,20 @@ type ExtractComponentProps<T> = T extends (props: infer P) => any ? Omit<P, 'ref
 
 export function KTAsync<T extends KTComponent>(
   props: {
-    ref?: KTRef<KTHTMLElement>;
-    skeleton?: KTHTMLElement;
+    ref?: KTRef<JSX.Element>;
+    skeleton?: JSX.Element;
     component: T;
     children?: KTRawContent;
   } & ExtractComponentProps<T>,
-): KTHTMLElement {
+): JSX.Element {
   const raw = props.component(props);
-  let comp: KTHTMLElement =
-    props.skeleton ?? (document.createComment('ktjs-suspense-placeholder') as unknown as KTHTMLElement);
+  let comp: JSX.Element =
+    props.skeleton ?? (document.createComment('ktjs-suspense-placeholder') as unknown as JSX.Element);
 
   if ($isThenable(raw)) {
     raw.then((resolved) => comp.replaceWith(resolved));
   } else {
-    comp = raw as KTHTMLElement;
+    comp = raw as JSX.Element;
   }
 
   return comp;

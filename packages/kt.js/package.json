@@ -1,6 +1,6 @@
 {
   "name": "kt.js",
-  "version": "0.18.10",
+  "version": "0.19.0",
   "author": {
     "name": "Kasukabe Tsumugi",
     "email": "futami16237@gmail.com"
@@ -41,8 +41,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@ktjs/core": "workspace:^*",
-    "@ktjs/shortcuts": "workspace:^*"
+    "@ktjs/core": "workspace:^*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

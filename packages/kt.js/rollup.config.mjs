@@ -5,7 +5,7 @@ import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
 const mainConfig = createPackageConfig({
   packageName: 'kt.js',
   packageDir: 'packages/kt.js',
-  external: ['@ktjs/core', '@ktjs/router', '@ktjs/shortcuts'],
+  external: ['@ktjs/core', '@ktjs/router'],
   iifeName: 'kt',
   withLegacy: true,
 });
@@ -15,7 +15,7 @@ const jsxRuntimeConfig = createPackageConfig({
   packageName: 'kt.js',
   packageDir: 'packages/kt.js',
   entry: 'jsx-runtime.ts',
-  external: ['@ktjs/core', '@ktjs/router', '@ktjs/shortcuts'],
+  external: ['@ktjs/core', '@ktjs/router'],
   iifeName: '',
   withLegacy: false,
   withCjs: false,

@@ -36,7 +36,7 @@ function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
 
     // normal event handler
     if (key.startsWith('on:')) {
-      element.addEventListener(key.slice(3), o); // chop off the `@`
+      element.addEventListener(key.slice(3), o); // chop off the `on:`
     }
     // normal attributes
     else {

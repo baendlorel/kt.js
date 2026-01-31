@@ -4,7 +4,7 @@ import type { KTRawContent } from './h.js';
 
 declare global {
   namespace JSX {
-    type Element = HTMLElement;
+    type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
 
     interface IntrinsicElements {
       // Document-level & metadata

@@ -1,21 +1,21 @@
-import type { KTHTMLElement } from '@ktjs/core';
+import { $entries } from '@ktjs/shared';
 import './Alert.css';
 
 interface KTMuiAlertProps {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
-  children: string | HTMLElement | KTHTMLElement | Array<string | HTMLElement | KTHTMLElement>;
+  children: string | HTMLElement | JSX.Element | Array<string | HTMLElement | JSX.Element>;
 
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
-  icon?: HTMLElement | KTHTMLElement | false;
+  icon?: HTMLElement | false;
   'kt:close'?: () => void;
 }
 
 /**s
  * Alert component - mimics MUI Alert appearance and behavior
  */
-export function Alert(props: KTMuiAlertProps): KTHTMLElement {
+export function Alert(props: KTMuiAlertProps): JSX.Element {
   const { children, style = '', severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
@@ -23,10 +23,10 @@ export function Alert(props: KTMuiAlertProps): KTHTMLElement {
   // Convert sx object to style string
   let styleString = typeof style === 'string' ? style : '';
   if (style && typeof style === 'object') {
-    const sxStyles = Object.entries(style)
+    const sxStyles = $entries(style)
       .map(([key, value]) => {
         // Convert camelCase to kebab-case
-        const cssKey = key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+        const cssKey = (key as string).replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
         return `${cssKey}: ${value}`;
       })
       .join('; ');

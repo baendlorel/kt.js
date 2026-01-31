@@ -17,8 +17,9 @@ export function jsx(tag: JSXTag, props: KTAttribute = {}): HTMLElement {
 
   let el: HTMLElement;
   if ('k-if' in props && !props['k-if']) {
+    // & make comment placeholder in case that ref might be redrawn later
     el = document.createComment('k-if') as unknown as HTMLElement;
-    ref.value = el; // & ref setter automatically replaces old element in DOM
+    ref.value = el;
     return el;
   }
 

@@ -1,6 +1,6 @@
 import { createRedrawable } from '@ktjs/core';
 import './Input.css';
-import { generateHandler, parseStyle } from '@ktjs/shared';
+import { $defines, generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 
 /**
@@ -114,7 +114,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
           on:focus={handleFocus}
           on:blur={handleBlur}
         />
-      ) as KTHTMLElement<HTMLInputElement | HTMLTextAreaElement>);
+      ) as HTMLInputElement);
   const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;
 
   const wrapperRef = createRedrawable(() => (
@@ -145,7 +145,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
   // Initialize classes
   setTimeout(() => updateContainerClass(), 0);
 
-  Object.defineProperties(container, {
+  $defines(container, {
     value: {
       get() {
         return inputEl.value;
@@ -161,7 +161,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
       },
       set(newLabel) {
         label = newLabel;
-        wrapperRef.value.redraw(); // label takes too much and should be redrawn
+        wrapperRef.redraw(); // label takes too much and should be redrawn
         updateContainerClass();
       },
     },

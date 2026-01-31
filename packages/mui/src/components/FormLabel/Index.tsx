@@ -1,8 +1,7 @@
-import type { KTHTMLElement } from '@ktjs/core';
 import './FormLabel.css';
 
 interface FormLabelProps {
-  children: string | HTMLElement | KTHTMLElement;
+  children: string | HTMLElement | JSX.Element;
   required?: boolean;
   error?: boolean;
   disabled?: boolean;
@@ -15,7 +14,7 @@ interface FormLabelProps {
 /**
  * FormLabel component - mimics MUI FormLabel appearance and behavior
  */
-export function FormLabel(props: FormLabelProps): KTHTMLElement {
+export function FormLabel(props: FormLabelProps): JSX.Element {
   const {
     children,
     required = false,
@@ -58,5 +57,5 @@ export function FormLabel(props: FormLabelProps): KTHTMLElement {
       </label>
     );
 
-  return element as KTHTMLElement;
+  return element;
 }

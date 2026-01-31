@@ -1,5 +1,4 @@
-import type { KTHTMLElement } from '@ktjs/core';
-import { generateHandler } from '@ktjs/shared';
+import { $defines, generateHandler } from '@ktjs/shared';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 import './Checkbox.css';
@@ -51,7 +50,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
       disabled={disabled}
       on:change={handleChange}
     />
-  ) as KTHTMLElement<HTMLInputElement>;
+  ) as HTMLInputElement;
 
   // Unchecked icon
   const uncheckedIcon = (
@@ -99,7 +98,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     </label>
   ) as KTMuiCheckbox;
 
-  Object.defineProperties(container, {
+  $defines(container, {
     checked: {
       get() {
         return checked;
@@ -179,7 +178,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     </div>
   ) as KTMuiCheckboxGroup;
 
-  Object.defineProperties(container, {
+  $defines(container, {
     value: {
       get() {
         return Array.from(selectedValues);

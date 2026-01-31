@@ -2,11 +2,12 @@
 
 import { $emptyFn } from './misc.js';
 
+// # dom natives
+
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
  * & `window.document` is safe because it is not configurable and its setter is undefined
  */
-
 export const $appendChild = HTMLElement.prototype.appendChild;
 const originAppend = HTMLElement.prototype.append;
 export const $append: typeof originAppend = // for ie 9/10/11
@@ -36,7 +37,12 @@ export const $append: typeof originAppend = // for ie 9/10/11
         }
       };
 
-// Style parsing utilities
+export const { get: $buttonDisabledGetter, set: $buttonDisabledSetter } = Object.getOwnPropertyDescriptor(
+  HTMLButtonElement.prototype,
+  'disabled',
+) as Required<PropertyDescriptor>;
+
+// # DOM utilities
 
 export const parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefined) => {
   if (typeof style === 'string') {
@@ -54,10 +60,7 @@ export const parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefi
   return '';
 };
 
-// Event handling utilities
-
 export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
-
 export const generateHandler = <T = string>(props: any, key: string): ChangeHandler<T> => {
   const handler = props[key];
   if (typeof handler === 'function') {

@@ -1,5 +1,5 @@
-import { type KTHTMLElement, ref } from '@ktjs/core';
-import { parseStyle } from '@ktjs/shared';
+import { ref } from '@ktjs/core';
+import { $defines, parseStyle } from '@ktjs/shared';
 import './LinearProgress.css';
 
 interface LinearProgressProps {
@@ -11,7 +11,7 @@ interface LinearProgressProps {
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 }
 
-export type KTMuiLinearProgress = KTHTMLElement & {
+export type KTMuiLinearProgress = JSX.Element & {
   /**
    * Reactive property to get or set the current progress value (0-100)
    */
@@ -47,15 +47,17 @@ export function LinearProgress(props: LinearProgressProps) {
     </div>
   ) as KTMuiLinearProgress;
 
-  Object.defineProperty(container, 'progress', {
-    get() {
-      return progressValue;
-    },
-    set(newValue: number) {
-      progressValue = Math.min(Math.max(newValue, 0), 100);
-      if (variant === 'determinate') {
-        barRef.value.style.width = `${progressValue}%`;
-      }
+  $defines(container, {
+    progress: {
+      get() {
+        return progressValue;
+      },
+      set(newValue: number) {
+        progressValue = Math.min(Math.max(newValue, 0), 100);
+        if (variant === 'determinate') {
+          barRef.value.style.width = `${progressValue}%`;
+        }
+      },
     },
   });
 

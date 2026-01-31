@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "composite": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ktjs/runtime": ["packages/core/src/runtime.ts"],
+      "@ktjs/router": ["packages/router/src/main.ts"],
+      "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
+      "@ktjs/mui": ["packages/mui/src/index.ts"],
+      "@ktjs/shared": ["packages/shared/src/index.ts"],
+
+      // & core
+      "@ktjs/core": ["packages/core/src/index.ts"],
+      "@ktjs/core/jsx": ["packages/core/src/jsx/index.ts"],
+      "@ktjs/core/jsx-runtime": ["packages/core/src/jsx/jsx-runtime.ts"],
+
+      "kt.js": ["packages/kt.js/src/index.ts"],
+      "kt.js/jsx-runtime": ["packages/kt.js/src/jsx/jsx-runtime.ts"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "kt.js"
+  },
+  "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx"],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/example" },
+    { "path": "./packages/mui" },
+    { "path": "./packages/router" },
+    { "path": "./packages/shortcuts" },
+    { "path": "./packages/shared" },
+    { "path": "./packages/kt.js" }
+  ]
+}

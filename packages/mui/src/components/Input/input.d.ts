@@ -1,5 +1,5 @@
-import { KTRef, KTHTMLElement } from 'kt.js';
-import { ChangeHandler } from '../../common/handler.ts';
+import type { KTRef, KTHTMLElement } from '@ktjs/core';
+import type { ChangeHandler } from '../../common/handler.ts';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 

@@ -1,4 +1,4 @@
-import { KTRef } from '@ktjs/core';
+import type { KTRef } from '@ktjs/core';
 
 export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
 

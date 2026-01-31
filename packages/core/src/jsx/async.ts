@@ -1,7 +1,7 @@
-import { KTHTMLElement } from '@/types/jsx.js';
-import { KTComponent, KTRawContent } from '@/types/h.js';
-import { KTRef } from './ref.js';
 import { $isThenable } from '@ktjs/shared';
+import type { KTHTMLElement } from '@/types/jsx.js';
+import type { KTComponent, KTRawContent } from '@/types/h.js';
+import type { KTRef } from './ref.js';
 
 /**
  * Extract component props type (excluding ref and children)
@@ -14,7 +14,7 @@ export function KTAsync<T extends KTComponent>(
     skeleton?: KTHTMLElement;
     component: T;
     children?: KTRawContent;
-  } & ExtractComponentProps<T>
+  } & ExtractComponentProps<T>,
 ): KTHTMLElement {
   const raw = props.component(props);
   let comp: KTHTMLElement =

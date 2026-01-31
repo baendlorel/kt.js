@@ -1,6 +1,6 @@
-import { KTHTMLElement } from '@ktjs/core';
-import './Dialog.css';
+import type { KTHTMLElement } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
+import './Dialog.css';
 
 interface KTMuiDialogProps {
   open?: boolean;

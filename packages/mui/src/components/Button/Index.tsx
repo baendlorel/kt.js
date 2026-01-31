@@ -1,6 +1,6 @@
-import { KTHTMLElement } from 'kt.js';
-import './Button.css';
+import type { KTHTMLElement } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
+import './Button.css';
 
 interface ButtonProps {
   class?: string;

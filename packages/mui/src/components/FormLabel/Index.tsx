@@ -1,4 +1,4 @@
-import { KTHTMLElement } from 'kt.js';
+import type { KTHTMLElement } from '@ktjs/core';
 import './FormLabel.css';
 
 interface FormLabelProps {

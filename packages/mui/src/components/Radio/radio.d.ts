@@ -1,5 +1,4 @@
-import { KTRef } from '@ktjs/core';
-import type { KTHTMLElement } from '@ktjs/core';
+import type { KTRef, KTHTMLElement } from '@ktjs/core';
 
 export interface KTMuiRadioProps {
   class?: string;

@@ -1,17 +1,16 @@
-import type {} from '@ktjs/core';
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';
 import { createMatcher } from './matcher.js';
-import { $fn, $throws, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
+import { $emptyFn, $throw, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
 
 /**
  * Create a new router instance
  */
 export const createRouter = ({
-  beforeEach = $fn,
-  afterEach = fn,
-  onNotFound = fn,
-  onError = fn,
+  beforeEach = $emptyFn,
+  afterEach = $emptyFn,
+  onNotFound = $emptyFn,
+  onError = $emptyFn,
   prefix = '',
   routes: rawRoutes,
 }: RouterConfig): Router => {
@@ -29,8 +28,8 @@ export const createRouter = ({
         path: prefix + path,
         name: route.name ?? '',
         meta: route.meta ?? {},
-        beforeEnter: route.beforeEnter ?? fn,
-        after: route.after ?? (fn as () => void),
+        beforeEnter: route.beforeEnter ?? $emptyFn,
+        after: route.after ?? $emptyFn,
         children: route.children ? normalize(route.children, path) : [],
         component: route.component,
       };
@@ -93,14 +92,14 @@ export const createRouter = ({
     if (options.name) {
       targetRoute = findByName(options.name);
       if (!targetRoute) {
-        throws(`Route not found: ${options.name}`);
+        $throw(`Route not found: ${options.name}`);
       }
       targetPath = targetRoute.path;
     } else if (options.path) {
       targetPath = normalizePath(options.path);
       targetRoute = match(targetPath)?.route;
     } else {
-      throws(`Either path or name must be provided`);
+      $throw(`Either path or name must be provided`);
     }
 
     // Substitute params

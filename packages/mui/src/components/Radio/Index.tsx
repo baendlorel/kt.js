@@ -1,7 +1,8 @@
-import { KTHTMLElement } from '@ktjs/core';
-import './Radio.css';
+import type { KTHTMLElement } from '@ktjs/core';
 import { generateHandler, parseStyle } from '@ktjs/shared';
+
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
+import './Radio.css';
 
 /**
  * Radio component - mimics MUI Radio appearance and behavior

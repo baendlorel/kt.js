@@ -1,7 +1,8 @@
-import { KTHTMLElement } from '@ktjs/core';
-import './Checkbox.css';
+import type { KTHTMLElement } from '@ktjs/core';
 import { generateHandler } from '@ktjs/shared';
+
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
+import './Checkbox.css';
 
 /**
  * Checkbox component - mimics MUI Checkbox appearance and behavior

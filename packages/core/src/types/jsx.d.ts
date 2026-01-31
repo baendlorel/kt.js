@@ -1,5 +1,5 @@
-import { KTRef } from '@/jsx/ref.ts';
-import { AttributesMap, SVGAttributesMap } from './attribute.js';
+import type { KTRef } from '@/jsx/ref.ts';
+import type { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTAttribute, KTRawContent } from './h.js';
 
 export type KTHTMLElement<El extends HTMLElement = HTMLElement> = El & {

@@ -1,6 +1,6 @@
-import { createRedrawable, ref, type KTHTMLElement } from '@ktjs/core';
+import { createRedrawable, ref } from '@ktjs/core';
 import './Select.css';
-import { generateHandler, parseStyle } from '@ktjs/shared';
+import { $defines, generateHandler, parseStyle } from '@ktjs/shared';
 
 interface KTMuiSelectOption {
   value: string;
@@ -20,10 +20,22 @@ export interface KTMuiSelectProps {
   disabled?: boolean;
 }
 
+export type KTMuiSelect = JSX.Element & {
+  /**
+   * Reactive `value` of the select component
+   */
+  value: string;
+
+  /**
+   * Reactive `disabled` state of the select component
+   */
+  disabled: boolean;
+};
+
 /**
  * Select component - mimics MUI Select appearance and behavior
  */
-export function Select(props: KTMuiSelectProps) {
+export function Select(props: KTMuiSelectProps): KTMuiSelect {
   let {
     value = '',
     options = [],
@@ -38,6 +50,7 @@ export function Select(props: KTMuiSelectProps) {
   let isOpen = false;
   let isFocused = false;
   const selectRef = ref<HTMLDivElement>();
+  const selectLabelRef = ref<HTMLLabelElement>();
 
   // Toggle dropdown
   const toggleMenu = () => {
@@ -52,11 +65,8 @@ export function Select(props: KTMuiSelectProps) {
   const updateMenu = () => {
     if (isOpen) {
       menu.value.style.display = 'block';
-      // Trigger reflow to enable animation
-      void menu.value.offsetHeight;
-      menu.value.classList.add('mui-select-menu-open');
+      void menu.value.offsetHeight; // & Trigger reflow to enable animation
     } else {
-      menu.value.classList.remove('mui-select-menu-open');
       // Hide after animation completes
       setTimeout(() => {
         if (!isOpen) {
@@ -64,6 +74,7 @@ export function Select(props: KTMuiSelectProps) {
         }
       }, 200);
     }
+    menu.value.classList.toggle('mui-select-menu-open', isOpen);
     selectRef.value.classList.toggle('mui-select-open', isOpen);
   };
 
@@ -75,11 +86,8 @@ export function Select(props: KTMuiSelectProps) {
     updateMenu();
     updateLabelState();
 
-    valueDisplay.value.redraw();
-    setTimeout(() => {
-      // Trigger redraw of parent if needed
-      menu.value.redraw();
-    }, 200);
+    valueDisplay.redraw();
+    setTimeout(() => menu.redraw(), 200);
   };
 
   // Close menu when clicking outside
@@ -103,19 +111,12 @@ export function Select(props: KTMuiSelectProps) {
 
   // Update label focused state
   const updateLabelState = () => {
-    const labelElement = selectRef.value.querySelector('.mui-select-label');
-    if (labelElement) {
-      if (isFocused || value) {
-        labelElement.classList.add('focused');
-      } else {
-        labelElement.classList.remove('focused');
-      }
-    }
+    selectLabelRef.value.classList?.toggle('focused', isFocused || !!value);
   };
 
   const valueDisplay = createRedrawable(() => {
     const o = options.find((opt) => opt.value === value);
-    let inner: KTHTMLElement | string;
+    let inner: JSX.Element | string;
     if (o === undefined) {
       inner = <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>;
     } else {
@@ -126,7 +127,7 @@ export function Select(props: KTMuiSelectProps) {
 
   const menu = createRedrawable(() => {
     return (
-      <div class="mui-select-menu" style={{ display: 'none' }}>
+      <div class="mui-select-menu" style="display: none;">
         {options.map((option) => (
           <div
             class={`mui-select-option ${option.value === value ? 'selected' : ''}`}
@@ -146,7 +147,9 @@ export function Select(props: KTMuiSelectProps) {
       class={`mui-select-wrapper mui-select-size-${size} ${props.class ?? ''} ${fullWidth ? 'mui-select-fullWidth' : ''} ${disabled ? 'mui-select-disabled' : ''}`}
       style={parseStyle(props.style)}
     >
-      {label && <label class={`mui-select-label ${value || isFocused ? 'focused' : ''}`}>{label}</label>}
+      <label k-if={label} ref={selectLabelRef} class={`mui-select-label ${value || isFocused ? 'focused' : ''}`}>
+        {label}
+      </label>
 
       <div
         class="mui-select-control mui-select-outlined"
@@ -170,7 +173,30 @@ export function Select(props: KTMuiSelectProps) {
 
       {menu}
     </div>
-  );
+  ) as KTMuiSelect;
+
+  $defines(container, {
+    value: {
+      get: () => value,
+      set: (newValue: string) => {
+        value = newValue;
+        updateLabelState();
+        valueDisplay.redraw();
+        menu.redraw();
+      },
+    },
+    disabled: {
+      get: () => disabled,
+      set: (newDisabled: boolean) => {
+        disabled = newDisabled;
+        if (disabled) {
+          isOpen = false;
+          updateMenu();
+        }
+        container.classList.toggle('mui-select-disabled', disabled);
+      },
+    },
+  });
 
   // Add global click listener
   setTimeout(() => {

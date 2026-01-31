@@ -1,8 +1,8 @@
-import type { KTHTMLElement, KTRef } from '@ktjs/core';
+import type { KTRef } from '@ktjs/core';
 
 export interface KTMuiCheckboxProps {
   value: string;
-  label?: string | KTHTMLElement | HTMLElement;
+  label?: string | JSX.Element | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
   'kt:change'?: ((checked: boolean, value: string) => void) | KTRef<boolean>;
@@ -21,13 +21,13 @@ export interface KTMuiCheckboxGroupProps {
   row?: boolean;
 }
 
-export type KTMuiCheckbox = KTHTMLElement & {
+export type KTMuiCheckbox = JSX.Element & {
   checked: boolean;
   value: string;
   disabled: boolean;
 };
 
-export type KTMuiCheckboxGroup = KTHTMLElement & {
+export type KTMuiCheckboxGroup = JSX.Element & {
   value: string[];
   disabled: boolean[];
   disableAll: () => void;

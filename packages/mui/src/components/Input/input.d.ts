@@ -1,4 +1,4 @@
-import type { KTRef, KTHTMLElement } from '@ktjs/core';
+import type { KTRef } from '@ktjs/core';
 import type { ChangeHandler } from '../../common/handler.ts';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
@@ -27,7 +27,7 @@ export interface KTMuiTextFieldProps<T extends InputTypes> {
   'kt:focus'?: () => void;
 }
 
-export type KTMuiTextField = KTHTMLElement & {
+export type KTMuiTextField = JSX.Element & {
   /**
    * Reactive `value` of the input field
    */

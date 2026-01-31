@@ -1,10 +1,10 @@
-import type { KTRef, KTHTMLElement } from '@ktjs/core';
+import type { KTRef } from '@ktjs/core';
 
 export interface KTMuiRadioProps {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   value: string;
-  label: string | KTHTMLElement | HTMLElement;
+  label: string | JSX.Element | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';
   'kt:change'?: (checked: boolean, value: string) => void;
@@ -24,7 +24,7 @@ export interface KTMuiRadioGroupProps {
   row?: boolean;
 }
 
-export type KTMuiRadio = KTHTMLElement & {
+export type KTMuiRadio = JSX.Element & {
   /**
    * The value of the radio button
    * @readonly
@@ -36,7 +36,7 @@ export type KTMuiRadio = KTHTMLElement & {
    */
   checked: boolean;
 };
-export type KTMuiRadioGroup = KTHTMLElement & {
+export type KTMuiRadioGroup = JSX.Element & {
   /**
    * Reactive checked state of the radio button
    */

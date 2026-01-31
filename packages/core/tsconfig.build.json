@@ -1,10 +1,6 @@
 {
   "extends": "../../configs/tsconfig.build.json",
   "compilerOptions": {
-    "module": "NodeNext", // Required for rollup plugin to work correctly with moduleResolution: NodeNext
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "module": "NodeNext" // Required for rollup plugin to work correctly with moduleResolution: NodeNext
   }
 }

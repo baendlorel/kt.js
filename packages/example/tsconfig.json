@@ -1,16 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "composite": false,
-    "paths": {
-      "@/*": ["src/*"],
-      "@ktjs/mui": ["../mui/src/index.ts"],
-      "@ktjs/core/*": ["../core/src/*"],
-      "@ktjs/core": ["../core/src/index.ts"],
-      "@ktjs/core/jsx": ["../core/src/jsx/index.ts"],
-      "@ktjs/core/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]
-    },
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core"
   },

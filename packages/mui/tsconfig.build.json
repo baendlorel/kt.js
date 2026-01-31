@@ -1,13 +1,6 @@
 {
   "extends": "../../configs/tsconfig.build.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "baseUrl": ".",
-    "jsx": "react-jsx",
-    "jsxImportSource": "kt.js",
-    "paths": {
-      "kt.js": ["../kt.js/src/index.ts"],
-      "kt.js/jsx-runtime": ["../core/src/jsx/jsx-runtime.ts"]
-    }
+    "module": "NodeNext"
   }
 }

@@ -4,12 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@ktjs/core": ["src"],
-      "@ktjs/core/jsx": ["src/jsx/index.ts"],
-      "@ktjs/core/jsx-runtime": ["src/jsx/jsx-runtime.ts"]
-    },
-    "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
+      "@ktjs/shared": ["../shared/src/index.ts"]
+    }
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*", "tests/**/*"],
+  "references": [{ "path": "../shared" }]
 }

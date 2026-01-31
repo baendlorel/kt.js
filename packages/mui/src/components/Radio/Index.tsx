@@ -80,8 +80,8 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
       get() {
         return checked;
       },
-      set(newChecked: string) {
-        checked = newChecked === value;
+      set(newChecked) {
+        checked = newChecked;
         input.checked = checked;
         toggleIcon(checked);
       },

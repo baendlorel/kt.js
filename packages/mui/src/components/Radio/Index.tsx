@@ -1,7 +1,6 @@
 import { KTHTMLElement } from '@ktjs/core';
 import './Radio.css';
-import { generateHandler } from '../../common/handler.js';
-import { parseStyle } from '../../common/attribute.js';
+import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 
 /**

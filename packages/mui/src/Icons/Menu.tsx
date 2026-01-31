@@ -1,4 +1,4 @@
-import { KTAttribute } from 'kt.js';
+import type { KTAttribute } from 'kt.js';
 
 export default function MenuIcon(props: KTAttribute) {
   return (

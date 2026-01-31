@@ -1,6 +1,6 @@
-import { KTHTMLElement, ref } from '@ktjs/core';
+import { type KTHTMLElement, ref } from '@ktjs/core';
 import './LinearProgress.css';
-import { parseStyle } from '../../common/attribute.js';
+import { parseStyle } from '@ktjs/shared';
 
 interface LinearProgressProps {
   class?: string;

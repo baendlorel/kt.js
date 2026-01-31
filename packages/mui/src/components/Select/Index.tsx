@@ -1,7 +1,6 @@
-import { createRedrawable, KTHTMLElement, ref } from 'kt.js';
+import { createRedrawable, ref, type KTHTMLElement } from 'kt.js';
 import './Select.css';
-import { generateHandler } from '../../common/handler.js';
-import { parseStyle } from '../../common/attribute.js';
+import { generateHandler, parseStyle } from '@ktjs/shared';
 
 interface KTMuiSelectOption {
   value: string;
@@ -54,7 +53,7 @@ export function Select(props: KTMuiSelectProps) {
     if (isOpen) {
       menu.value.style.display = 'block';
       // Trigger reflow to enable animation
-      menu.value.offsetHeight;
+      void menu.value.offsetHeight;
       menu.value.classList.add('mui-select-menu-open');
     } else {
       menu.value.classList.remove('mui-select-menu-open');

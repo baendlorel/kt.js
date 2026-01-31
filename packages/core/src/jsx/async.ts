@@ -1,7 +1,7 @@
 import { KTHTMLElement } from '@/types/jsx.js';
 import { KTComponent, KTRawContent } from '@/types/h.js';
 import { KTRef } from './ref.js';
-import { $isThenable } from '@/lib/native.js';
+import { $isThenable } from '@ktjs/shared';
 
 /**
  * Extract component props type (excluding ref and children)

@@ -35,7 +35,8 @@
     "directory": "packages/mui"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:^*"
+    "@ktjs/core": "workspace:^*",
+    "@ktjs/shared": "workspace:*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

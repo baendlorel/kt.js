@@ -3,7 +3,7 @@ import type { KTAttribute, KTRawContent } from '@/types/h.js';
 import type { KTHTMLElement } from '@/types/jsx.js';
 
 import { h } from '@/h/index.js';
-import { KTRef, ref } from './ref.js';
+import { type KTRef, ref } from './ref.js';
 
 type JSXTag =
   | HTMLTag

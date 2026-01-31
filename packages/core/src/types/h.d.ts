@@ -1,6 +1,6 @@
-import { KTRef } from '../jsx/ref.js';
+import type { KTRef } from '../jsx/ref.js';
 import type { HTMLTag, otherstring } from './global.js';
-import { KTHTMLElement } from './jsx.js';
+import type { KTHTMLElement } from './jsx.js';
 
 export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
 

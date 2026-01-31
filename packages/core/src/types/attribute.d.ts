@@ -1,9 +1,9 @@
-import { otherstring } from './global.js';
+import type { otherstring } from './global.js';
 
 type a = HTMLElementEventMap;
 
 // Base events available to all HTML elements
-type BaseAttr = {
+interface BaseAttr {
   [k: string]: any;
 
   // # base attributes
@@ -95,7 +95,7 @@ type BaseAttr = {
 
   // Resize event
   'on:resize'?: (ev: UIEvent) => void;
-};
+}
 
 // Form-specific events
 interface FormElementEvents {

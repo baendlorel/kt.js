@@ -1,4 +1,4 @@
-import { KTAttribute } from 'kt.js';
+import type { KTAttribute } from 'kt.js';
 export default function ContentCopyIcon(props: KTAttribute) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em" {...props}>

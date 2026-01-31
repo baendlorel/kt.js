@@ -17,8 +17,8 @@ import {
   DownloadIcon,
   MenuIcon,
   KTMuiLinearProgress,
+  KTMuiDialog,
 } from '@ktjs/mui';
-import { KTMuiDialog } from 'node_modules/@ktjs/mui/src/Dialog/Index.js';
 
 /**
  * MUI Components Demo - Showcases all available components from @ktjs/mui
@@ -321,10 +321,10 @@ export function FeatMui() {
         outputText.textContent = `Selected: ${value}`;
       },
       options: [
-        { value: 'option1', text: 'Option 1' },
-        { value: 'option2', text: 'Option 2' },
-        { value: 'option3', text: 'Option 3' },
-        { value: 'option4', text: 'Option 4 (Disabled)', disabled: true },
+        { value: 'option1', label: 'Option 1' },
+        { value: 'option2', label: 'Option 2' },
+        { value: 'option3', label: 'Option 3' },
+        { value: 'option4', label: 'Option 4 (Disabled)', disabled: true },
       ],
     });
 

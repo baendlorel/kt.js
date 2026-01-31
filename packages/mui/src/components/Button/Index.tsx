@@ -1,7 +1,6 @@
 import { KTHTMLElement } from 'kt.js';
 import './Button.css';
-import { emptyFn } from '../../common/handler.js';
-import { parseStyle } from '../../common/attribute.js';
+import { $emptyFn, parseStyle } from '@ktjs/shared';
 
 interface ButtonProps {
   class?: string;
@@ -35,7 +34,7 @@ export function Button(props: ButtonProps): KTHTMLElement {
     startIcon,
     endIcon,
     type = 'button',
-    'on:click': onClick = emptyFn,
+    'on:click': onClick = $emptyFn,
   } = props;
 
   const classes = [

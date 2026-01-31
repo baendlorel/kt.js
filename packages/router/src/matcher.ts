@@ -1,5 +1,5 @@
 import type { RouteConfig, RouteMatch } from './types/router.js';
-import { extractParams, normalizePath, throws } from './lib.js';
+import { $throws, extractParams, normalizePath } from '@ktjs/shared';
 
 /**
  * Route matcher for finding matching routes and extracting params
@@ -11,7 +11,7 @@ export const createMatcher = (routes: RouteConfig[]) => {
     const route = routes[i];
     if (route.name !== undefined) {
       if (route.name in nameMap) {
-        throws(`Duplicate route name detected: '${route.name}'`);
+        $throws(`Duplicate route name detected: '${route.name}'`);
       }
       nameMap[route.name] = route;
     }

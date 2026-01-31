@@ -1,7 +1,6 @@
-import { createRedrawable, KTHTMLElement } from '@ktjs/core';
+import { createRedrawable, type KTHTMLElement } from '@ktjs/core';
 import './Input.css';
-import { generateHandler } from '../../common/handler.js';
-import { parseStyle } from '../../common/attribute.js';
+import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 
 /**

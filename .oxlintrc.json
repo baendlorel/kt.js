@@ -11,6 +11,7 @@
     "coverage/",
     "tests/**/*.ts",
     "build/",
+    "example/",
     ".scripts/"
   ],
   "plugins": [

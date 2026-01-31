@@ -1,7 +1,7 @@
 import type { HTMLTag, otherstring, SVGTag } from '@/types/global.js';
 import type { KTRawAttr, KTRawContent } from '@/types/h.js';
 
-import { $throw } from '@/lib/error.js';
+import { $throw } from '@ktjs/shared';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 

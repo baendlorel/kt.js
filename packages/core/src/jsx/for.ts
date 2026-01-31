@@ -1,6 +1,6 @@
-import { KTHTMLElement } from '@/types/jsx.js';
-import { KTRef } from './ref.js';
-import { KTAttribute } from '@/types/h.js';
+import type { KTHTMLElement } from '@/types/jsx.js';
+import type { KTAttribute } from '@/types/h.js';
+import type { KTRef } from './ref.js';
 
 type KForElement = KTHTMLElement & {
   redraw: (newProps?: KTAttribute) => void;

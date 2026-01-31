@@ -1,6 +1,6 @@
 import { KTHTMLElement } from '@ktjs/core';
 import './Dialog.css';
-import { emptyFn } from '../../common/handler.js';
+import { $emptyFn } from '@ktjs/shared';
 
 interface KTMuiDialogProps {
   open?: boolean;
@@ -26,7 +26,7 @@ export type KTMuiDialog = KTHTMLElement & {
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let {
     open = false,
-    'kt:close': onClose = emptyFn,
+    'kt:close': onClose = $emptyFn,
     title,
     children,
     actions,

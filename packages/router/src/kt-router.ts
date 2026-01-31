@@ -1,4 +1,4 @@
-import { KTHTMLElement } from '@ktjs/core';
+import type { KTHTMLElement } from '@ktjs/core';
 import type { Router } from './types/router.js';
 
 /**

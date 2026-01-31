@@ -1,5 +1,5 @@
 import type { KTAvailableContent, KTRawContent } from '@/types/h.js';
-import { $append, $isArray, $isThenable } from '@/lib/index.js';
+import { $append, $isArray, $isThenable } from '@ktjs/shared';
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailableContent) {
   // & JSX should ignore false, undefined, and null

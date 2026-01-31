@@ -2,6 +2,7 @@ import { KTRef, KTHTMLElement } from '@ktjs/core';
 import './Checkbox.css';
 import { generateHandler } from '../../common/handler.js';
 
+// todo 样写成k-model，或者svelte怎么写的我不记得了。那种写法更好呢？
 interface CheckboxProps {
   value: string;
   label?: string | KTHTMLElement | HTMLElement;
@@ -12,8 +13,6 @@ interface CheckboxProps {
   color?: 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
   indeterminate?: boolean;
 }
-
-const emptyFn = () => {};
 
 type KTMuiCheckbox = KTHTMLElement & {
   checked: boolean;

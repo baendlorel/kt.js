@@ -75,7 +75,7 @@ export function TextField<T extends InputTypes>(props: TextFieldProps<T>): KTMui
       error ? 'mui-textfield-error' : '',
       disabled ? 'mui-textfield-disabled' : '',
       fullWidth ? 'mui-textfield-fullwidth' : '',
-      label && isFocused && inputEl.value ? 'mui-textfield-has-value' : '',
+      label && inputEl.value ? 'mui-textfield-has-value' : '',
       label ? '' : 'mui-textfield-no-label',
     ].join(' ');
   };

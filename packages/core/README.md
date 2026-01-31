@@ -1,378 +1,453 @@
-# @ktjs/core
-
 <img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
 
-[![npm version](https://img.shields.io/npm/v/@ktjs/core.svg)](https://www.npmjs.com/package/@ktjs/core)
+[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js) [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-> 📦 Part of [KT.js](https://github.com/baendlorel/kt.js) - A simple and easy-to-use web framework that never re-renders.
+[CHANGLOG✨](CHANGELOG.md)
 
-Core DOM manipulation utilities for KT.js framework with built-in JSX/TSX support.
+## What's New (v0.19.x)
 
-## Overview
+- Release `0.19.0` (2026-01-31): build & packaging fixes, TypeScript and lint cleanups, MUI-focused fixes (JSX handling, `jsxImportSource` set to `@ktjs/core`, radio/checkbox/TextField fixes), and repo cleanup (removed alias detection, moved shared utilities into `shared`). See the full details in the CHANGELOG.
 
-`@ktjs/core` is the foundation of KT.js, providing the essential `h` function and DOM utilities for building web applications with direct DOM manipulation. It emphasizes performance, type safety, and minimal abstraction over native DOM APIs.
+> Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
-**Current Version:** 0.18.1
+KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
 
-## Features
+For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
 
-- **`h` Function**: Create HTMLElements with a simple, flexible API
-  - Support for attributes, content, and event handlers
-  - `on:<eventName>` syntax for event handlers (e.g., `on:click`)
-  - Function attributes automatically treated as event listeners
-  - Full TypeScript support with intelligent type inference
-- **JSX/TSX Support**: Built-in JSX runtime (no separate package needed)
-  - Zero virtual DOM - JSX compiles directly to `h()` function calls
-  - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
-  - Support for function components
-  - `redraw()` method for controlled re-rendering
-  - **k-if directive**: Conditional element creation with `k-if` attribute
-  - Array children support for seamless list rendering
-- **KTFor Component**: Efficient list rendering with key-based optimization (v0.16.0)
-  - Returns Comment anchor with `__kt_for_list__` array storing rendered elements
-  - Auto-appends list items when anchor is added via `applyContent`
-  - Key-based DOM reuse with customizable key function (default: identity)
-  - Type-safe with full TypeScript generics support
-- **KTAsync Component**: Handle async components with ease
-  - Automatic handling of Promise-based components
-  - Seamless integration with JSX/TSX
-  - Fallback placeholder during async loading
-  - Type-safe async component support
-- **Redraw Mechanism**: Fine-grained control over component updates
-  - Update props and children selectively
-  - Efficient replacement strategy
-  - Works with both native elements and function components
-- **Ref Enhancement**: Change event binding support for `ref` (v0.18.1)
-  - New methods `addOnChange` and `removeOnChange` for listening to value changes
-  - Automatically calls registered callbacks when `ref.value` is updated
-  - When both old and new values are DOM nodes, automatically replaces old node with new one in the DOM
-- **DOM Utilities**: Helper functions for common DOM operations
-  - Native method caching for performance
-  - Symbol-based private properties for internal state
-- **Type-Safe**: Complete TypeScript definitions
-  - Accurate HTMLElement type inference
-  - Event handler type hints with proper event types
-  - Support for custom attributes and properties
-- **ES5 Compatible**: Transpiled to ES5 for maximum browser compatibility
-- **Zero Dependencies**: Fully self-contained implementation
+## Architecture
 
-## Installation
+KT.js is now a **monorepo** containing multiple packages:
+
+- **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
+- **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function. SX/TSX support with full TypeScript integration (included in kt.js package)
+- **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
+- **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
+
+You can install the full package or individual packages as needed:
 
 ```bash
-pnpm add @ktjs/core
+# Install the main package (includes core + jsx + shortcuts)
+pnpm add kt.js
+
+# Or install individual packages
+pnpm add @ktjs/core       # Core DOM utilities (independent)
+pnpm add @ktjs/router     # Client-side router (independent)
+pnpm add @ktjs/shortcuts  # Shortcuts (requires @ktjs/core)
 ```
 
-## Usage
+## Philosophy
 
-### Basic Element Creation
+As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.
 
-```typescript
-import { h } from '@ktjs/core';
+KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
 
-// Simple element
-const div = h('div', { class: 'container' }, 'Hello World');
+## Key Features
 
-// With multiple attributes
-const input = h('input', {
-  type: 'text',
-  placeholder: 'Enter text',
-  value: 'initial',
-});
+- **Monorepo Architecture**: Modular packages that can be installed independently or together
+- **Tiny Bundle Size**: Minimal runtime overhead with aggressive tree-shaking
+- **`h` function**: Create DOM elements with a simple, flexible API
+  - Shortcut functions for all HTML elements (`div`, `span`, `button`, etc.)
+  - Event handlers with `on:<eventName>` syntax or function attributes
+  - Full TypeScript support with intelligent type inference
+- **JSX/TSX Support**: Full JSX syntax support with TypeScript integration
+  - Zero virtual DOM - JSX compiles directly to `h()` function calls
+  - Full HTML element type inference (`<button>` returns `HTMLButtonElement`)
+  - Support for `on:click` event handler syntax
+  - `redraw()` method for controlled component updates (v0.11+)
+  - `k-if` directive for conditional rendering (v0.14.6+)
+  - Array children support for seamless `.map()` integration (v0.14.1+)
+- **List Rendering**: Efficient list rendering with `KTFor` component (v0.16.0+)
+  - Comment anchor with `__kt_for_list__` array property
+  - Key-based DOM reuse for minimal updates
+  - Auto-appends list items when anchor added to parent
+- **Async Components**: Built-in support for Promise-based components
+  - `KTAsync` component for handling async operations
+  - Automatic placeholder management during loading
+  - Seamless integration with JSX/TSX syntax
+- **Client-Side Router** (separate package):
+  - Hash-based routing only (simplified from v0.14.7+)
+  - Async navigation guards with Promise support
+  - Dynamic route parameters and query string parsing
+  - RouterView component for declarative routing
+  - Pure routing logic - no rendering, no dependencies
+- **Shortcuts & Utilities**:
+  - `withDefaults`: Wrap element creation functions with default properties
+  - Convenient shorthand functions for common operations
+  - Form helpers and layout utilities
+- **Full ES5 Compatibility**: Works in IE9+ and all modern browsers
+  - Transpiled to ES5 with no modern syntax
+  - Optional minimal Promise polyfill for older environments
+- **Shared Runtime**: Efficient code sharing across packages with zero overhead
 
-// Nested elements
-const card = h('div', { class: 'card' }, [
-  h('h2', {}, 'Title'),
-  h('p', {}, 'Description'),
-  h('button', {}, 'Click me'),
-]);
+## Getting started
 
-// Note: attr parameter must be an object
-// String className shorthand is NOT supported:
-// h('div', 'my-class') ❌ - This will throw an error
+Install via package managers:
+
+```bash
+npm install kt.js
+# or
+pnpm add kt.js
 ```
 
-### Event Handlers
+```ts
+import { h, div } from 'kt.js';
 
-```typescript
-import { h } from '@ktjs/core';
-
-// on: prefixed attribute (event handler)
-const button1 = h(
-  'button',
-  {
-    'on:click': () => alert('Clicked!'),
-  },
-  'Button 1',
-);
-
-// Function attribute (also treated as event listener)
-const button2 = h(
-  'button',
-  {
-    click: (e) => console.log('Event:', e),
-    'data-id': '123', // Regular attribute
-  },
-  'Button 2',
-);
-
-// Both regular and event handler for same name
-const input = h('input', {
-  value: 'initial', // Regular attribute
-  'on:change': (e) => console.log('Changed'), // Event listener
-});
+const container = div('container', [div('header'), div('body', 'something'), div('footer')]);
+const app = h('section', { id: 'app' }, container);
 ```
 
-### JSX/TSX Support
+This will create the following DOM structure:
 
-```tsx
-import { h } from '@ktjs/core';
+```html
+<section id="app">
+  <div class="container">
+    <div class="header"></div>
+    <div class="body">something</div>
+    <div class="footer"></div>
+  </div>
+</section>
+```
 
-// Configure tsconfig.json
+### Using JSX/TSX
+
+KT.js now has full JSX support! With the `@ktjs/jsx` package (included in the main `kt.js` package), you can write components using familiar JSX syntax:
+
+**TypeScript Configuration** (`tsconfig.json`):
+
+```json
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
+    "jsxImportSource": "kt.js"
   }
 }
-
-// Use JSX syntax
-const App = () => (
-  <div class="app">
-    <h1>Hello KT.js</h1>
-    <button on:click={() => alert('Hi')}>Click me</button>
-  </div>
-);
-
-// Function components
-const Greeting = ({ name }: { name: string }) => (
-  <div class="greeting">Hello, {name}!</div>
-);
-
-const app = <Greeting name="World" />;
 ```
 
-### Conditional Rendering with k-if (v0.14.6+)
-
-The `k-if` directive allows conditional element creation:
+**Basic JSX Example**:
 
 ```tsx
-import { h } from '@ktjs/core';
+import { jsx } from 'kt.js';
 
-// Element will only be created if condition is true
-const isVisible = true;
-const element = <div k-if={isVisible}>This will be rendered</div>;
+function Counter() {
+  const count = 0;
 
-// Element will not be created if condition is false
-const isHidden = false;
-const hidden = <div k-if={isHidden}>This will NOT be rendered</div>;
-// hidden will be undefined/null
-
-// Practical example
-const UserProfile = ({ user, isLoggedIn }: { user: any; isLoggedIn: boolean }) => (
-  <div>
-    <h1>User Profile</h1>
-    <div k-if={isLoggedIn}>
-      <p>Welcome, {user.name}!</p>
-      <button>Logout</button>
+  return (
+    <div class="counter">
+      <h1>Counter: {count}</h1>
+      <button on:click={() => console.log('Clicked!')}>Increment</button>
     </div>
-    <div k-if={!isLoggedIn}>
-      <p>Please log in to continue</p>
-      <button>Login</button>
-    </div>
-  </div>
-);
-```
-
-**Note**: `k-if` is evaluated **once** at element creation time. It's not reactive - if you need dynamic visibility, use CSS or manually recreate the element.
-
-### Redraw Mechanism (v0.11+)
-
-The `redraw()` method allows you to update components efficiently:
-
-```tsx
-import { h, KTHTMLElement } from '@ktjs/core';
-
-// With JSX - get element with redraw method
-const counter = (<button on:click={() => counter.redraw({ count: count + 1 })}>Count: {0}</button>) as KTHTMLElement;
-
-// Function component with redraw
-const Counter = ({ count = 0 }: { count?: number }) => (
-  <div>
-    <div>Count: {count}</div>
-    <button on:click={() => element.redraw({ count: count + 1 })}>Increment</button>
-  </div>
-);
-
-const element = (<Counter />) as KTHTMLElement;
-
-// Update props manually
-element.redraw({ count: 10 });
-
-// Update children (for native elements)
-const div = (<div>Old content</div>) as KTHTMLElement;
-div.redraw(undefined, 'New content');
-```
-
-### List Rendering with KTFor (v0.16.0)
-
-The `KTFor` component provides efficient list rendering with key-based DOM reuse:
-
-```tsx
-import { KTFor } from '@ktjs/core';
-
-interface Todo {
-  id: number;
-  text: string;
-  done: boolean;
+  );
 }
 
-let todos: Todo[] = [
-  { id: 1, text: 'Buy milk', done: false },
-  { id: 2, text: 'Write code', done: true },
-];
-
-// Create optimized list with key-based reuse
-const todoList = (
-  <KTFor
-    list={todos}
-    key={(item) => item.id} // Optional, defaults to identity function
-    map={(item, index) => (
-      <div class={`todo ${item.done ? 'done' : ''}`}>
-        <input type="checkbox" checked={item.done} />
-        <span>{item.text}</span>
-        <button on:click={() => deleteTodo(item.id)}>Delete</button>
-      </div>
-    )}
-  />
-);
-
-// Add to DOM - anchor comment + __kt_for_list__ items are appended
-document.body.appendChild(todoList);
-
-// Update the list - only changed items are updated
-todos = [...todos, { id: 3, text: 'New task', done: false }];
-todoList.redraw({ list: todos });
+// JSX compiles to direct h() function calls - no virtual DOM!
+const counterElement = <Counter />;
 ```
 
-**How it works:**
-
-- Returns Comment anchor (`<!-- kt-for -->`) with `__kt_for_list__` array property
-- When appended via `applyContent`, anchor and all list items are added to DOM
-- Uses key-based diff to reuse DOM nodes on `redraw()`
-- Only adds/removes/moves nodes that changed
-
-````
-
-### Array Children Support (v0.14.1+)
-
-Children can now be arrays for easier list rendering:
+**Event Handling with @ Syntax**:
 
 ```tsx
-import { h } from '@ktjs/core';
+function App() {
+  const handleClick = () => alert('Button clicked!');
 
-// Map arrays directly as children
-const items = ['Apple', 'Banana', 'Orange'];
-const list = (
-  <ul>
-    {items.map((item) => (
-      <li>{item}</li>
-    ))}
-  </ul>
-);
+  return (
+    <div>
+      <button on:click={handleClick}>Click me</button>
+    </div>
+  );
+}
+```
+
+**Type Safety**:
+
+```tsx
+// TypeScript knows this is an HTMLButtonElement
+const button: HTMLButtonElement = <button>Click</button>;
+
+// TypeScript knows this is an HTMLInputElement
+const input: HTMLInputElement = <input type="text" value="hello" />;
+
+// TypeScript provides autocomplete for HTML attributes
+const div: HTMLDivElement = <div className="container" id="main" />;
+```
+
+**Important Notes**:
+
+- KT.js JSX has **no Fragment support** - we don't have a Fragment concept
+- JSX compiles directly to `h()` function calls - **zero virtual DOM overhead**
+- Use `on:click` syntax for event handlers to avoid conflicts with existing attributes
+- All JSX elements have proper HTML element type inference in TypeScript
+- Use `k-if` attribute for conditional rendering (v0.14.6+)
+- Children can be arrays for easy `.map()` integration (v0.14.1+)
+
+**Conditional Rendering with k-if** (v0.14.6+):
+
+```tsx
+import { jsx } from 'kt.js';
+
+function UserProfile({ user, isLoggedIn }: { user: any; isLoggedIn: boolean }) {
+  return (
+    <div>
+      <h1>Profile</h1>
+      {/* Element only created if condition is true */}
+      <div k-if={isLoggedIn}>
+        <p>Welcome, {user.name}!</p>
+        <button>Logout</button>
+      </div>
+      {/* Element only created if condition is true */}
+      <div k-if={!isLoggedIn}>
+        <p>Please log in</p>
+        <button>Login</button>
+      </div>
+    </div>
+  );
+}
+```
+
+**Array Children Support** (v0.14.1+):
+
+```tsx
+import { jsx } from 'kt.js';
+
+function TodoList({ todos }: { todos: string[] }) {
+  return (
+    <div>
+      <h2>Todo List</h2>
+      <ul>
+        {/* Map arrays directly as children */}
+        {todos.map((todo) => (
+          <li>{todo}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 // Mix mapped elements with other elements
-const TodoList = ({ todos }: { todos: string[] }) => (
-  <div>
-    <h2>Todo List</h2>
+function MixedList({ items }: { items: string[] }) {
+  return (
     <ul>
-      {todos.map((todo) => (
-        <li>{todo}</li>
+      <li>Header Item</li>
+      {items.map((item) => (
+        <li>{item}</li>
       ))}
-      <li>
-        <button>Add More</button>
-      </li>
+      <li>Footer Item</li>
     </ul>
-  </div>
-);
-````
+  );
+}
+```
 
-### Async Components
+### Async Components with KTAsync
 
-```typescript
-import { KTAsync, h } from '@ktjs/core';
+KT.js provides built-in support for async components through the `KTAsync` component:
 
-// Define an async component that returns a Promise
-const AsyncComponent = () => {
-  return new Promise<HTMLElement>((resolve) => {
-    setTimeout(() => {
-      const element = h('div', { class: 'loaded' }, 'Content loaded!');
-      resolve(element);
-    }, 1000);
-  });
+```tsx
+import { KTAsync, ref } from 'kt.js';
+
+// Define an async component that returns a Promise<HTMLElement>
+const AsyncUserCard = function () {
+  return fetch('/api/user')
+    .then((res) => res.json())
+    .then((user) => (
+      <div class="user-card">
+        <h2>{user.name}</h2>
+        <p>{user.email}</p>
+      </div>
+    ));
 };
 
 // Use KTAsync to handle the async component
-const container = h('div', {}, [
-  h('h1', {}, 'Loading...'),
-  KTAsync({ component: AsyncComponent }),
-]);
+function App() {
+  return (
+    <div class="app">
+      <h1>User Profile</h1>
+      <KTAsync component={AsyncUserCard} />
+    </div>
+  );
+}
 
-// With JSX/TSX
-const App = () => (
-  <div>
-    <h1>Loading...</h1>
-    <KTAsync component={AsyncComponent} />
-  </div>
-);
+// The component starts with a placeholder comment node
+// When the Promise resolves, it automatically replaces with the actual element
+```
 
-// With custom placeholder
-const AppWithSkeleton = () => (
+**How KTAsync works:**
+
+1. Creates a placeholder comment node (`ktjs-suspense-placeholder`) immediately
+2. Calls your component function (which should return a `Promise<HTMLElement>` or `HTMLElement`)
+3. When the Promise resolves, automatically replaces the placeholder with the resolved element
+4. If your component returns a non-Promise value, it's used directly without async handling
+
+**Example with dynamic updates:**
+
+```tsx
+const DynamicContent = function () {
+  const count = ref(0);
+  const container = (
+    <div>
+      <p>Count: {count}</p>
+      <button on:click={() => count.value++}>Increment</button>
+    </div>
+  );
+
+  // Simulate async data loading
+  return new Promise<HTMLElement>((resolve) => {
+    setTimeout(() => resolve(container), 500);
+  });
+};
+
+// Usage
+const app = (
   <div>
-    <KTAsync
-      component={AsyncComponent}
-      skeleton={<div class="skeleton">Loading...</div>}
-    />
+    <h1>Loading async content...</h1>
+    <KTAsync component={DynamicContent} />
   </div>
 );
 ```
 
-**How it works:**
+If you give a function in attributes, it will be treated as an event listener, and the key will be considered as the event name. `@<eventName>` will also be considered as the handler to avoid conflicts with existing attributes:
 
-- `KTAsync` creates a placeholder (comment node or custom skeleton) immediately
-- When the Promise resolves, it automatically replaces the placeholder with the actual element
-- If the component returns a non-Promise value, it's used directly
-- No manual DOM manipulation needed - just return a Promise from your component
+```ts
+const button = btn(
+  {
+    dblclick: '22',
+    'on:dblclick': function trueHandler() {
+      /* ... */
+    },
+  },
+  'Click me',
+);
 
-## API Reference
+// This is equivalent to:
+const button = btn(undefined, 'Click me');
+button.setAttribute('dblclick', '22');
+button.addEventListener('click', () => alert('Clicked!'));
+button.addEventListener('dblclick', function trueHandler() {
+  /* ... */
+});
+```
 
-### `h(tag, attributes?, content?)`
+### Working with CSS-in-JS Libraries
 
-Creates an HTMLElement with the specified tag, attributes, and content.
+KT.js works seamlessly with CSS-in-JS libraries like `@emotion/css`:
 
-**Parameters:**
+```ts
+import { css } from '@emotion/css';
+import { h, div } from 'kt.js';
 
-- `tag` (string): HTML tag name (e.g., 'div', 'span', 'button')
-- `attributes` (object, optional): Element attributes and event handlers. **Must be an object** - string className shorthand is not supported.
-- `content` (string | HTMLElement | Array, optional): Element content
+const className = css`
+  color: red;
+  font-size: 20px;
+`;
 
-**Returns:** HTMLElement
+// Pass class name as attribute
+h('div', { class: className }, 'Styled text');
 
-## Type System
+// Or as the first string argument
+div(className, 'Styled text');
+```
 
-The package includes comprehensive TypeScript definitions:
+### Using Shortcuts with Default Values
 
-- `HTMLTag`: Union type of all valid HTML tag names
-- `KTAttribute`: Attribute object type for element attributes and event handlers
-- `KTRawAttr`: Union type for raw attribute parameter (`KTAttribute | null | undefined | '' | false`)
-- `KTRawContent`: Valid content types (string, Element, Array, Promise, etc.)
-- Event handler types with proper event object types
+The `withDefaults` function allows you to create element factories with predefined properties:
 
-## Performance Considerations
+```ts
+import { withDefaults, div, button } from 'kt.js';
 
-- Native DOM methods are cached for repeated use
-- Symbol-based properties avoid prototype pollution
-- Minimal object creation in hot paths
-- Tree-shakeable - only import what you use
+// Create a styled div factory
+const card = withDefaults(div, { class: 'card' });
+const blueCard = withDefaults(card, { style: 'background: blue' });
+
+// Use them
+const myCard = card('card-body', 'Content'); // <div class="card"><div class="card-body">Content</div></div>
+const myBlueCard = blueCard('title', 'Blue!'); // <div class="card" style="background: blue"><div class="title">Blue!</div></div>
+```
+
+## Router
+
+The router is available as a separate package `@ktjs/router`:
+
+```ts
+import { createRouter } from '@ktjs/router';
+import { div, h1 } from 'kt.js';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      beforeEnter: (to) => {
+        // Render your page here
+        document.getElementById('app')!.innerHTML = '';
+        document.getElementById('app')!.appendChild(div({}, [h1({}, 'Home Page')]));
+      },
+    },
+    {
+      path: '/user/:id',
+      name: 'user',
+      beforeEnter: (to) => {
+        // Route-specific guard and rendering
+        console.log('Entering user page');
+        document.getElementById('app')!.innerHTML = '';
+        document.getElementById('app')!.appendChild(div({}, [h1({}, `User ${to.params.id}`)]));
+        return true;
+      },
+    },
+  ],
+  beforeEach: async (to, from) => {
+    // Global navigation guard - return false to block navigation
+    console.log('Navigating to:', to.path);
+    return true;
+  },
+  afterEach: (to) => {
+    // Called after successful navigation
+    document.title = to.name || to.path;
+  },
+  onError: (error) => {
+    console.error('Router error:', error);
+  },
+});
+
+// Navigate programmatically
+router.push('/user/123');
+router.push('/user/456?page=2');
+
+// Navigate by route name
+router.push({ name: 'user', params: { id: '789' } });
+
+// Get current route
+console.log(router.current?.path, router.current?.params, router.current?.query);
+```
+
+### Router Features
+
+- **Hash-based Routing Only** (v0.14.7+): Uses URL hash for client-side navigation (`#/path`)
+- **Dynamic Parameters**: Support for dynamic route segments (`/user/:id`)
+- **Query Strings**: Automatic parsing of query parameters (`?key=value`)
+- **Named Routes**: Navigate using route names instead of paths
+- **Async Navigation Guards**:
+  - `beforeEach`: Global guard before navigation (async)
+  - `beforeEnter`: Per-route guard (can also be used for rendering, async)
+  - `afterEach`: Global hook after navigation
+  - All guards support Promise-based async operations
+  - Guards can return `false` to cancel, string/object to redirect
+  - `GuardLevel` for fine-grained control over guard execution
+- **Error Handling**: `onError` and `onNotFound` callbacks
+- **Optimized Performance**: Pre-flattened routes and efficient matching algorithm
+- **Zero Dependencies**: Fully self-contained router implementation (does not require `@ktjs/core` for runtime, only for TypeScript types)
+- **Pure Routing**: No rendering logic - you control the DOM
+- **Automatic Initialization**: Router auto-initializes on creation (v0.14.7+)
+
+## Browser Compatibility
+
+KT.js is transpiled to ES5 and works in all modern browsers as well as legacy browsers including IE9+.
+
+### Promise Polyfill
+
+For environments without native `Promise` support (like IE).
+
+```js
+import 'some promise polyfill'; // Will fallback to sync version if Promise is not available
+import { h, div, createRouter } from 'kt.js';
+```
 
 ## License
 

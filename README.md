@@ -4,6 +4,10 @@
 
 [CHANGLOG✨](CHANGELOG.md)
 
+## What's New (v0.19.x)
+
+- Release `0.19.0` (2026-01-31): build & packaging fixes, TypeScript and lint cleanups, MUI-focused fixes (JSX handling, `jsxImportSource` set to `@ktjs/core`, radio/checkbox/TextField fixes), and repo cleanup (removed alias detection, moved shared utilities into `shared`). See the full details in the CHANGELOG.
+
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
 KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.

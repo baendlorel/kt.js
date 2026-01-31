@@ -1,5 +1,21 @@
 # Change Log 🕒
 
+## 0.19.0 2026-01-31
+
+### Highlights
+
+- Prepared and published the `0.19.0` release: packaging and build improvements, and consolidated `tsconfig` at repo root to simplify builds.
+- MUI package fixes and improvements:
+  - Fixed JSX handling for MUI builds and set `jsxImportSource` to `@ktjs/core` for compatibility.
+  - Various component fixes: radio `checked` setter fix, checkbox ref binding, TextField enhancements and event typing improvements.
+  - Updated event prefix handling and attribute/type improvements to reduce runtime and typing issues.
+- Code cleanup and repo hygiene:
+  - Removed alias detection and eliminated `@/` path usages.
+  - Moved shared utilities into `shared` for clearer package boundaries; fixed incorrect core/shared imports.
+  - Removed unused `router` lib artifacts.
+- Type and lint improvements: many TypeScript typing fixes, lint cleanups, and improved `createRedrawable` typings.
+- Documentation improvements: README and package docs adjusted and draft docs reorganized.
+
 ## 0.18.x 2026-01-30
 
 ### Major Features

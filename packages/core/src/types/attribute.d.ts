@@ -1,5 +1,7 @@
 import { otherstring } from './global.js';
 
+type a = HTMLElementEventMap;
+
 // Base events available to all HTML elements
 type BaseAttr = {
   [k: string]: any;
@@ -11,9 +13,9 @@ type BaseAttr = {
 
   // # Events
   // Mouse events
-  'on:click'?: (ev: MouseEvent) => void;
-  'on:dblclick'?: (ev: MouseEvent) => void;
-  'on:mousedown'?: (ev: MouseEvent) => void;
+  'on:click'?: (ev: PointerEvent) => void;
+  'on:dblclick'?: (ev: PointerEvent) => void;
+  'on:mousedown'?: (ev: PointerEvent) => void;
   'on:mouseup'?: (ev: MouseEvent) => void;
   'on:mousemove'?: (ev: MouseEvent) => void;
   'on:mouseenter'?: (ev: MouseEvent) => void;

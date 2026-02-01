@@ -24,21 +24,46 @@ const DEFAULT_SVG_TAGS = [
   'view',
 ];
 
+const prox = (o: any) => {
+  if (!o || typeof o !== 'object') {
+    // If it's a function, return a proxy that traps calls
+    if (typeof o === 'function') {
+      return new Proxy(o, {
+        apply(target, thisArg, argumentsList) {
+          console.log(`Calling function with arguments:`, argumentsList);
+          return target.apply(thisArg, argumentsList);
+        },
+      });
+    }
+    return o;
+  }
+
+  return new Proxy(o, {
+    get(target, prop, receiver) {
+      const val = target[prop as keyof typeof target];
+      console.log(`Accessing property "${String(prop)}"`);
+      // If the property is a function (visitor handler), return a wrapper
+      if (typeof val === 'function') {
+        return function (this: any, ...args: any[]) {
+          console.log(`Calling visitor "${String(prop)}" with args:`, args);
+          return val.apply(this, args);
+        };
+      }
+      return prox(val);
+    },
+  });
+};
+
 // Basic Babel plugin skeleton – transforms calls like
 // createElement('svg', ...) -> createElementNS('http://...','svg', ...)
 export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions = {}): PluginObj {
-  const svgTags = options.svgTags ?? DEFAULT_SVG_TAGS;
-  const ns = options.namespaceURI ?? 'http://www.w3.org/2000/svg';
-  const createNames = options.createElementNames ?? ['createElement', 'h'];
-
   return {
     name: 'babel-plugin-ktjsx',
-    visitor: {
+    visitor: prox({
       CallExpression(path: any) {
         console.log('current path:', path);
         const callee = path.node.callee;
         if (!t.isIdentifier(callee)) return;
-        if (!createNames.includes(callee.name)) return;
 
         const args = path.node.arguments;
         if (!args || args.length === 0) return;
@@ -59,7 +84,6 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
             if (!p.isCallExpression()) return false;
             const pc = p.node.callee;
             if (!t.isIdentifier(pc)) return false;
-            if (!createNames.includes(pc.name)) return false;
             const pargs = p.node.arguments;
             if (!pargs || pargs.length === 0) return false;
             const pfirst = pargs[0];
@@ -72,13 +96,13 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
         }
 
         // Only modify when it's the svg root, or when inside an svg and the tag is an SVG tag
-        if (!isSvgRoot && !(insideSvg && svgTags.includes(tag))) return;
+        if (!isSvgRoot && !insideSvg) return;
 
         // Rewrite tag to svg:tag
         const newTag = `svg:${tag}`;
         path.node.arguments[0] = t.stringLiteral(newTag);
       },
-    },
+    }),
   } as PluginObj;
 }
 

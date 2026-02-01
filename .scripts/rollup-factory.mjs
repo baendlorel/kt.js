@@ -65,7 +65,7 @@ export function createPackageConfig({
     },
     compress: {
       reduce_vars: true,
-      drop_console: true,
+      drop_console: false,
       dead_code: true,
       evaluate: true,
     },

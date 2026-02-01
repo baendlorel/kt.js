@@ -20,7 +20,8 @@
   "license": "MIT",
   "description": "Babel plugin to make JSX-generated SVG use proper namespaces.",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "node tests/run.js"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

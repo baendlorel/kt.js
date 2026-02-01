@@ -21,17 +21,16 @@ KT.js is now a **monorepo** containing multiple packages:
 - **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
 - **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function. SX/TSX support with full TypeScript integration (included in kt.js package)
 - **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
-- **[@ktjs/shortcuts](./packages/shortcuts)**: Convenient shortcut functions for common operations
 
 You can install the full package or individual packages as needed:
 
 ```bash
-# Install the main package (includes core + jsx + shortcuts)
 pnpm add kt.js
 
 # Or install individual packages
 pnpm add @ktjs/core       # Core DOM utilities (independent)
-pnpm add @ktjs/router     # Client-side router (independent)
+pnpm add @ktjs/router     # Client-side router (requires @ktjs/core)
+pnpm add @ktjs/mui        # Material UI components (requires @ktjs/core)
 pnpm add @ktjs/shortcuts  # Shortcuts (requires @ktjs/core)
 ```
 

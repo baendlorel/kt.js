@@ -25,7 +25,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "kt.js"
   },
-  "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx"],
+  "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx", "packages/**/**/*.js"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/example" },

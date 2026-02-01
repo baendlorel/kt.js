@@ -1,3 +1,4 @@
+// @ts-check
 import type { PluginObj } from '@babel/core';
 import * as t from '@babel/types';
 
@@ -23,7 +24,8 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
         }
 
         const tag = oname.name;
-        const isSvgRoot = tag === 'svg' || typeof tag === 'string';
+        console.log(' oname.name', oname.name);
+        const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
 
         let insideSvg = false;
         if (!isSvgRoot) {
@@ -37,7 +39,8 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
             }
             if (t.isJSXIdentifier(popping)) {
               const ptag = popping.name;
-              return ptag === 'svg' || typeof ptag === 'string';
+              console.log('PTAG', ptag);
+              return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
             }
             if (t.isJSXNamespacedName(popping)) {
               return t.isJSXIdentifier(popping.namespace) && popping.namespace.name === 'svg';

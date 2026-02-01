@@ -1,19 +1,10 @@
 import { $throw } from '@ktjs/shared';
-import type { HTMLTag, MathMLTag, otherstring, SVGTag } from '../types/global.js';
-import type { KTRawAttr, KTRawContent } from '../types/h.js';
+import type { HTMLTag, MathMLTag, SVGTag } from '../types/global.js';
+import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 
-type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
-  ? SVGElementTagNameMap[T]
-  : T extends HTMLTag
-    ? HTMLElementTagNameMap[T]
-    : T extends MathMLTag
-      ? MathMLElementTagNameMap[T]
-      : HTMLElement;
-
-const tempWrapper = document.createElement('div');
 const htmlCreator = (tag: string) => document.createElement(tag);
 const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag);
 const mathMLCreator = (tag: string) => document.createElementNS('http://www.w3.org/1998/Math/MathML', tag);
@@ -59,16 +50,6 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
-
-  // if (tag === 'svg') {
-  //   tempWrapper.innerHTML = element.outerHTML;
-  //   return tempWrapper.firstChild as HTML<T>;
-  // }
-
-  // if (tag === 'math') {
-  //   tempWrapper.innerHTML = element.outerHTML;
-  //   return tempWrapper.firstChild as HTML<T>;
-  // }
 
   return element;
 };

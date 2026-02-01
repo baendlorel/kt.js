@@ -1,7 +1,13 @@
 import type { KTRef } from '../jsx/ref.js';
-import type { HTMLTag, otherstring } from './global.js';
+import type { HTMLTag, MathMLTag, SVGTag, otherstring } from './global.js';
 
-export type KTH = <T extends HTMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent) => HTMLElementTagNameMap[T];
+export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
+  ? SVGElementTagNameMap[T]
+  : T extends HTMLTag
+    ? HTMLElementTagNameMap[T]
+    : T extends MathMLTag
+      ? MathMLElementTagNameMap[T]
+      : HTMLElement;
 
 type SingleContent = KTRef<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
@@ -22,7 +28,10 @@ interface KTBaseAttribute {
 
   // # kt-specific attributes
   ref?: KTRef<JSX.Element>;
+
+  // todo 是否要让k-if是KTRef的时候具备响应能力?
   'k-if'?: any;
+  'k-model'?: KTRef<any>;
 
   // # normal HTML attributes
   id?: string;

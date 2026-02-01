@@ -1,21 +1,13 @@
 // @ts-check
+import { PluginObj } from '@babel/core';
 import * as t from '@babel/types';
 
-/**
- * Options for the plugin (kept for compatibility with original TS types).
- * @typedef {Object} KTJSXPluginOptions
- */
+type KTJSXPluginOptions = {};
 
-/**
- * Flag added to SVG elements to mark processed nodes.
- * @type {string}
- */
-export const SVG_ATTR_FLAG = '__kt_svg__';
+const SVG_ATTR_FLAG = '__kt_svg__';
+const MATHML_ATTR_FLAG = '__kt_mathml__';
 
-/**
- * @param {string} tag
- */
-function isSvgTag(tag) {
+function isSvgTag(tag: string) {
   return tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
 }
 
@@ -25,7 +17,7 @@ function isSvgTag(tag) {
  * @param {KTJSXPluginOptions} [options]
  * @returns {import('@babel/core').PluginObj}
  */
-export default function babelPluginKtjsx(babel, options) {
+export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): PluginObj {
   return {
     name: 'babel-plugin-ktjsx',
     visitor: {

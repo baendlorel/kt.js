@@ -6,5 +6,5 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*.js"]
+  "include": ["src/**/*.*", "src/index.ts"]
 }

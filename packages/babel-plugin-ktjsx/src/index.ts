@@ -7,102 +7,81 @@ export interface KTJSXPluginOptions {
   createElementNames?: string[];
 }
 
-const DEFAULT_SVG_TAGS = [
-  'svg',
-  'g',
-  'path',
-  'rect',
-  'circle',
-  'ellipse',
-  'line',
-  'polyline',
-  'polygon',
-  'text',
-  'use',
-  'defs',
-  'symbol',
-  'view',
-];
-
-const prox = (o: any) => {
-  if (!o || typeof o !== 'object') {
-    // If it's a function, return a proxy that traps calls
-    if (typeof o === 'function') {
-      return new Proxy(o, {
-        apply(target, thisArg, argumentsList) {
-          console.log(`Calling function with arguments:`, argumentsList);
-          return target.apply(thisArg, argumentsList);
-        },
-      });
-    }
-    return o;
-  }
-
-  return new Proxy(o, {
-    get(target, prop, receiver) {
-      const val = target[prop as keyof typeof target];
-      console.log(`Accessing property "${String(prop)}"`);
-      // If the property is a function (visitor handler), return a wrapper
-      if (typeof val === 'function') {
-        return function (this: any, ...args: any[]) {
-          console.log(`Calling visitor "${String(prop)}" with args:`, args);
-          return val.apply(this, args);
-        };
-      }
-      return prox(val);
-    },
-  });
-};
-
 // Basic Babel plugin skeleton – transforms calls like
 // createElement('svg', ...) -> createElementNS('http://...','svg', ...)
 export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions = {}): PluginObj {
+  const svgTags = options.svgTags ?? ['svg'];
+
   return {
     name: 'babel-plugin-ktjsx',
-    visitor: prox({
-      CallExpression(path: any) {
-        console.log('current path:', path);
-        const callee = path.node.callee;
-        if (!t.isIdentifier(callee)) return;
+    visitor: {
+      // Handle raw JSX nodes so plugin works even when run before JSX->createElement transform
+      JSXOpeningElement(path: any) {
+        const name = path.node.name;
+        if (t.isJSXNamespacedName(name)) return;
+        if (!t.isJSXIdentifier(name)) return;
 
-        const args = path.node.arguments;
-        if (!args || args.length === 0) return;
+        const tag = name.name;
 
-        const first = args[0];
-        if (!t.isStringLiteral(first)) return;
-
-        const tag = first.value;
-        console.log('current tag:', tag);
-
-        // Determine whether this call represents an SVG root
         const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
 
         // If not root, check if we're inside an SVG ancestor
         let insideSvg = false;
         if (!isSvgRoot) {
           const parentSvg = path.findParent((p: any) => {
-            if (!p.isCallExpression()) return false;
-            const pc = p.node.callee;
-            if (!t.isIdentifier(pc)) return false;
-            const pargs = p.node.arguments;
-            if (!pargs || pargs.length === 0) return false;
-            const pfirst = pargs[0];
-            if (!t.isStringLiteral(pfirst)) return false;
-            const ptag = pfirst.value;
-            return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
+            if (!p.isJSXElement()) return false;
+            const opening = p.node.openingElement;
+            const pn = opening.name;
+            if (t.isJSXIdentifier(pn)) {
+              const ptag = pn.name;
+              return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
+            }
+            if (t.isJSXNamespacedName(pn)) {
+              return t.isJSXIdentifier(pn.namespace) && pn.namespace.name === 'svg';
+            }
+            return false;
           });
           insideSvg = !!parentSvg;
-          console.log('current tag:', tag, 'insideSvg:', insideSvg);
         }
 
-        // Only modify when it's the svg root, or when inside an svg and the tag is an SVG tag
-        if (!isSvgRoot && !insideSvg) return;
+        if (!isSvgRoot && !(insideSvg && svgTags.includes(tag))) return;
 
-        // Rewrite tag to svg:tag
-        const newTag = `svg:${tag}`;
-        path.node.arguments[0] = t.stringLiteral(newTag);
+        path.node.name = t.jsxNamespacedName(t.jsxIdentifier('svg'), t.jsxIdentifier(tag));
       },
-    }),
+      JSXClosingElement(path: any) {
+        const name = path.node.name;
+        if (t.isJSXNamespacedName(name)) return;
+        if (!t.isJSXIdentifier(name)) return;
+
+        const tag = name.name;
+
+        const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
+        let insideSvg = false;
+        if (!isSvgRoot) {
+          const parentSvg = path.findParent((p: any) => {
+            if (!p.isJSXElement()) return false;
+            const opening = p.node.openingElement;
+            const pn = opening.name;
+            if (t.isJSXIdentifier(pn)) {
+              const ptag = pn.name;
+              return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
+            }
+            if (t.isJSXNamespacedName(pn)) {
+              return t.isJSXIdentifier(pn.namespace) && pn.namespace.name === 'svg';
+            }
+            return false;
+          });
+          insideSvg = !!parentSvg;
+        }
+
+        if (!isSvgRoot && !(insideSvg && svgTags.includes(tag))) return;
+
+        path.node.name = t.jsxNamespacedName(t.jsxIdentifier('svg'), t.jsxIdentifier(tag));
+      },
+      JSXElement(path: any) {
+        console.log('JSXElement found', path);
+      },
+    },
   } as PluginObj;
 }
 

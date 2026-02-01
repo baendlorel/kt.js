@@ -28,5 +28,5 @@ if (!res) {
 }
 
 console.log('\n--- Transformed output ---\n');
-console.log(res);
+console.log(res.code);
 console.log('\n--- Written to tests/out.js ---\n');

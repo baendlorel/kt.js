@@ -1,5 +1,5 @@
 {
-  "name": "@ktjs/rollup-plugin-ktjsx",
+  "name": "@ktjs/babel-plugin-ktjsx",
   "version": "0.0.0",
   "private": true,
   "main": "dist/index.cjs.js",
@@ -14,9 +14,11 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.3.0",
     "rollup": "^3.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@babel/core": "^7.0.0",
+    "@babel/types": "^7.0.0"
   },
   "peerDependencies": {
-    "rollup": "^3.0.0"
+    "@babel/core": "^7.0.0"
   }
 }

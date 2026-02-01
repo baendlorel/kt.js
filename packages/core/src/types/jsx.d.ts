@@ -7,6 +7,8 @@ declare global {
     type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
 
     interface IntrinsicElements {
+      [k: string]: AttributesMap['div']; // Allow any element with div attributes as fallback
+
       // Document-level & metadata
       html: AttributesMap['html'];
       head: AttributesMap['head'];
@@ -175,6 +177,67 @@ declare global {
       tspan: SVGAttributesMap['tspan'];
       use: SVGAttributesMap['use'];
       view: SVGAttributesMap['view'];
+
+      // 'svg:svg': AttributesMap['svg'];
+      // 'svg:a': SVGAttributesMap['a'];
+      // 'svg:animate': SVGAttributesMap['animate'];
+      // 'svg:animateMotion': SVGAttributesMap['animateMotion'];
+      // 'svg:animateTransform': SVGAttributesMap['animateTransform'];
+      // 'svg:circle': SVGAttributesMap['circle'];
+      // 'svg:clipPath': SVGAttributesMap['clipPath'];
+      // 'svg:defs': SVGAttributesMap['defs'];
+      // 'svg:desc': SVGAttributesMap['desc'];
+      // 'svg:ellipse': SVGAttributesMap['ellipse'];
+      // 'svg:feBlend': SVGAttributesMap['feBlend'];
+      // 'svg:feColorMatrix': SVGAttributesMap['feColorMatrix'];
+      // 'svg:feComponentTransfer': SVGAttributesMap['feComponentTransfer'];
+      // 'svg:feComposite': SVGAttributesMap['feComposite'];
+      // 'svg:feConvolveMatrix': SVGAttributesMap['feConvolveMatrix'];
+      // 'svg:feDiffuseLighting': SVGAttributesMap['feDiffuseLighting'];
+      // 'svg:feDisplacementMap': SVGAttributesMap['feDisplacementMap'];
+      // 'svg:feDistantLight': SVGAttributesMap['feDistantLight'];
+      // 'svg:feDropShadow': SVGAttributesMap['feDropShadow'];
+      // 'svg:feFlood': SVGAttributesMap['feFlood'];
+      // 'svg:feFuncA': SVGAttributesMap['feFuncA'];
+      // 'svg:feFuncB': SVGAttributesMap['feFuncB'];
+      // 'svg:feFuncG': SVGAttributesMap['feFuncG'];
+      // 'svg:feFuncR': SVGAttributesMap['feFuncR'];
+      // 'svg:feGaussianBlur': SVGAttributesMap['feGaussianBlur'];
+      // 'svg:feImage': SVGAttributesMap['feImage'];
+      // 'svg:feMerge': SVGAttributesMap['feMerge'];
+      // 'svg:feMergeNode': SVGAttributesMap['feMergeNode'];
+      // 'svg:feMorphology': SVGAttributesMap['feMorphology'];
+      // 'svg:feOffset': SVGAttributesMap['feOffset'];
+      // 'svg:fePointLight': SVGAttributesMap['fePointLight'];
+      // 'svg:feSpecularLighting': SVGAttributesMap['feSpecularLighting'];
+      // 'svg:feSpotLight': SVGAttributesMap['feSpotLight'];
+      // 'svg:feTile': SVGAttributesMap['feTile'];
+      // 'svg:feTurbulence': SVGAttributesMap['feTurbulence'];
+      // 'svg:filter': SVGAttributesMap['filter'];
+      // 'svg:foreignObject': SVGAttributesMap['foreignObject'];
+      // 'svg:g': SVGAttributesMap['g'];
+      // 'svg:image': SVGAttributesMap['image'];
+      // 'svg:line': SVGAttributesMap['line'];
+      // 'svg:linearGradient': SVGAttributesMap['linearGradient'];
+      // 'svg:marker': SVGAttributesMap['marker'];
+      // 'svg:mask': SVGAttributesMap['mask'];
+      // 'svg:metadata': SVGAttributesMap['metadata'];
+      // 'svg:mpath': SVGAttributesMap['mpath'];
+      // 'svg:path': SVGAttributesMap['path'];
+      // 'svg:pattern': SVGAttributesMap['pattern'];
+      // 'svg:polygon': SVGAttributesMap['polygon'];
+      // 'svg:polyline': SVGAttributesMap['polyline'];
+      // 'svg:radialGradient': SVGAttributesMap['radialGradient'];
+      // 'svg:rect': SVGAttributesMap['rect'];
+      // 'svg:set': SVGAttributesMap['set'];
+      // 'svg:stop': SVGAttributesMap['stop'];
+      // 'svg:switch': SVGAttributesMap['switch'];
+      // 'svg:symbol': SVGAttributesMap['symbol'];
+      // 'svg:text': SVGAttributesMap['text'];
+      // 'svg:textPath': SVGAttributesMap['textPath'];
+      // 'svg:tspan': SVGAttributesMap['tspan'];
+      // 'svg:use': SVGAttributesMap['use'];
+      // 'svg:view': SVGAttributesMap['view'];
     }
 
     interface IntrinsicAttributes {

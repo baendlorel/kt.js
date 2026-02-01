@@ -6,7 +6,14 @@ export class KTRef<T> {
    */
   isKT = true;
 
+  /**
+   * @internal
+   */
   private _value: T;
+
+  /**
+   * @internal
+   */
   private _onChanges: Array<RefChangeHandler<T>>;
 
   constructor(_value: T, _onChanges: Array<RefChangeHandler<T>>) {

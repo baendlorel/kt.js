@@ -41,6 +41,7 @@
     "pub": "pnpm -r publish --access public",
     "pubjsx": "pnpm --filter @ktjs/core run build && pnpm --filter kt.js run build && pnpm --filter @ktjs/core publish --access public && pnpm --filter kt.js publish --access public",
     "pub:router": "pnpm --filter @ktjs/router run build && pnpm --filter @ktjs/router publish --access public",
+    "pub:shared": "pnpm --filter @ktjs/shared run build && pnpm --filter @ktjs/shared publish --access public",
     "pub:mui": "pnpm --filter @ktjs/mui run build && pnpm --filter @ktjs/mui publish --access public",
     "pub:plugin": "pnpm --filter @ktjs/babel-plugin-ktjsx run build && pnpm --filter @ktjs/babel-plugin-ktjsx publish --access public",
     "sync": "tsx .scripts/sync-version.ts"

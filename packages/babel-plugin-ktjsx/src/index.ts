@@ -13,21 +13,23 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
   return {
     name: 'babel-plugin-ktjsx',
     visitor: {
-      // Handle raw JSX nodes so plugin works even when run before JSX->createElement transform
       JSXElement(path: any) {
-        // Consolidated handling: update both opening and closing element names here.
         const opening = path.node.openingElement;
-        if (!opening) return;
+        if (!opening) {
+          return;
+        }
 
         const oname = opening.name;
-        // skip if already namespaced
-        if (t.isJSXNamespacedName(oname)) return;
-        if (!t.isJSXIdentifier(oname)) return;
+        if (t.isJSXNamespacedName(oname)) {
+          return;
+        }
+        if (!t.isJSXIdentifier(oname)) {
+          return;
+        }
 
         const tag = oname.name;
         const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
 
-        // If not root, check ancestor JSX elements for an SVG root
         let insideSvg = false;
         if (!isSvgRoot) {
           const parentSvg = path.findParent((p: any) => {
@@ -48,13 +50,14 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
 
         if (!isSvgRoot && !(insideSvg && svgTags.includes(tag))) return;
 
-        // Update opening name
-        opening.name = t.jsxNamespacedName(t.jsxIdentifier('svg'), t.jsxIdentifier(tag));
-
-        // Update closing name if present (non self-closing)
-        const closing = path.node.closingElement;
-        if (closing && !t.isJSXNamespacedName(closing.name) && t.isJSXIdentifier(closing.name)) {
-          closing.name = t.jsxNamespacedName(t.jsxIdentifier('svg'), t.jsxIdentifier(tag));
+        // Add boolean attribute __kt_svg__ to opening element if not present
+        const attrs = opening.attributes || [];
+        const hasFlag = attrs.some(
+          (a: any) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === '__kt_svg__',
+        );
+        if (!hasFlag) {
+          attrs.push(t.jsxAttribute(t.jsxIdentifier('__kt_svg__')));
+          opening.attributes = attrs;
         }
       },
     },

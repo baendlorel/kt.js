@@ -25,9 +25,9 @@ function syncVersions(targetVersion: string, jsx: string | undefined) {
   const packageFolders = jsx === 'jsx' ? ['core', 'kt.js'] : readdirSync(packagesDir);
   packageFolders.push('..');
 
-  for (const pkg of packageFolders) {
+  for (const subDir of packageFolders) {
     try {
-      const filePath = join(packagesDir, pkg, 'package.json');
+      const filePath = join(packagesDir, subDir, 'package.json');
       const content = readFileSync(filePath, 'utf8');
       const packageJson = JSON.parse(content);
       if (packageJson.version === undefined) {
@@ -36,16 +36,16 @@ function syncVersions(targetVersion: string, jsx: string | undefined) {
 
       const oldVersion = packageJson.version;
       if (oldVersion === targetVersion) {
-        console.log(`✅ ${packageJson.name} is already [${targetVersion}]`);
+        console.log(`✅ ${subDir}/${packageJson.name} is already [${targetVersion}]`);
         successCount++;
         continue;
       }
 
       packageJson.version = targetVersion;
       writeFileSync(filePath, JSON.stringify(packageJson, null, 2) + '\n');
-      console.log(`✅ ${packageJson.name}: ${oldVersion} → ${targetVersion}`);
+      console.log(`✅ ${subDir}/${packageJson.name}: ${oldVersion} → ${targetVersion}`);
     } catch (error) {
-      console.error(`❌ ${pkg}: update failed - ${error instanceof Error ? error.message : String(error)}`);
+      console.error(`❌ ${subDir}: update failed - ${error instanceof Error ? error.message : String(error)}`);
       errorCount++;
     }
   }

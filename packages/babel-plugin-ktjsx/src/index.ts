@@ -2,8 +2,6 @@
 import { PluginObj } from '@babel/core';
 import * as t from '@babel/types';
 
-type KTJSXPluginOptions = {};
-
 const SVG_ATTR_FLAG = '__kt_svg__';
 const MATHML_ATTR_FLAG = '__kt_mathml__';
 

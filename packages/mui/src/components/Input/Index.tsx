@@ -81,6 +81,17 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
     onBlur(inputEl.value);
   };
 
+  const handleWrapperMouseDown = (e: MouseEvent) => {
+    if (disabled) {
+      return;
+    }
+    const target = e.target as Node | null;
+    if (!target || target === inputEl) {
+      return;
+    }
+    setTimeout(() => inputEl.focus(), 0);
+  };
+
   const getPlaceholder = () => (label && !isFocused && !value ? '' : placeholder);
 
   let isFocused = false;
@@ -118,7 +129,7 @@ export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): 
   const helperTextEl = <p class="mui-textfield-helper-text">{helperText}</p>;
 
   const wrapperRef = createRedrawable(() => (
-    <div class="mui-textfield-wrapper">
+    <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
       <label k-if={label} class="mui-textfield-label">
         {label}
         {required && <span class="mui-textfield-required">*</span>}

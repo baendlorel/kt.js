@@ -60,15 +60,15 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   applyAttr(element, attr);
   applyContent(element, content);
 
-  if (tag === 'svg') {
-    tempWrapper.innerHTML = element.outerHTML;
-    return tempWrapper.firstChild as HTML<T>;
-  }
+  // if (tag === 'svg') {
+  //   tempWrapper.innerHTML = element.outerHTML;
+  //   return tempWrapper.firstChild as HTML<T>;
+  // }
 
-  if (tag === 'math') {
-    tempWrapper.innerHTML = element.outerHTML;
-    return tempWrapper.firstChild as HTML<T>;
-  }
+  // if (tag === 'math') {
+  //   tempWrapper.innerHTML = element.outerHTML;
+  //   return tempWrapper.firstChild as HTML<T>;
+  // }
 
   return element;
 };

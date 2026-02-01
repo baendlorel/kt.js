@@ -1,0 +1,22 @@
+{
+  "name": "@ktjs/rollup-plugin-ktjsx",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.3.0",
+    "rollup": "^3.0.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "rollup": "^3.0.0"
+  }
+}

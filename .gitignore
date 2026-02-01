@@ -1,6 +1,7 @@
 .vscode/settings.json
 
 .draft/.**
+.rollup.cache
 
 # Logs
 logs

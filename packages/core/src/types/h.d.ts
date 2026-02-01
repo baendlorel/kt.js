@@ -31,6 +31,7 @@ interface KTBaseAttribute {
 
   // todo 是否要让k-if是KTRef的时候具备响应能力?
   'k-if'?: any;
+  // todo k-model如何指定value还是checked还是别的什么?
   'k-model'?: KTRef<any>;
 
   // # normal HTML attributes

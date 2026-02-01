@@ -60,6 +60,6 @@ export class KTRef<T> {
  * - can alse be used to store normal values, but it is not reactive.
  * @param value mostly an HTMLElement
  */
-export function ref<T = HTMLElement>(value?: T, onChange?: RefChangeHandler<T>): KTRef<T> {
+export function ref<T = JSX.Element>(value?: T, onChange?: RefChangeHandler<T>): KTRef<T> {
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }

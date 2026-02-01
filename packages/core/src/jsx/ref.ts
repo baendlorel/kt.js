@@ -74,22 +74,37 @@ export function ref<T = JSX.Element>(value?: T, onChange?: RefChangeHandler<T>):
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 
+export type KTSurfaceRef<T extends Object> = {
+  [K in keyof T]: KTRef<T[K]>;
+} & {
+  /**
+   * Get the dereferenced object like the original one
+   */
+  kcollect: () => T;
+};
+
+function kcollect<T extends Object>(this: KTSurfaceRef<T>): T {
+  const newObj: any = {};
+  const entries = $entries(this);
+  for (let i = 0; i < entries.length; i++) {
+    const key = entries[i][0];
+    if (key === 'kcollect') {
+      continue;
+    }
+    newObj[key] = entries[i][1].value;
+  }
+  return newObj;
+}
+
 /**
  * A ref that respond to `obj.depth1prop`
  * - `obj.a.b` is not reactive
  */
-export function surfaceRef<T extends Object>(obj: T): KTRef<T> {
+export const surfaceRef = <T extends Object>(obj: T): KTSurfaceRef<T> => {
   const entries = $entries(obj);
+  const newObj = { kcollect } as KTSurfaceRef<T>;
   for (let i = 0; i < entries.length; i++) {
-    const [key, value] = entries[i];
-    Object.defineProperty(obj, key, {
-      get() {
-        return value;
-      },
-      set(newValue) {
-        (obj as any)[key] = newValue;
-      },
-    });
+    (newObj[entries[i][0]] as KTRef<any>) = ref(entries[i][1]);
   }
-  return {} as KTRef<T>;
-}
+  return newObj;
+};

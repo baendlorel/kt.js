@@ -15,7 +15,11 @@ function isMathTag(tag: string) {
   return tag === 'math' || (typeof tag === 'string' && tag.startsWith('math:'));
 }
 
-export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): PluginObj {
+//_: any, options: KTJSXPluginOptions
+/**
+ * Transform `<svg ...>` and `<math ...>` JSX elements to include a special attribute flag
+ */
+export default function babelKTjsx(): PluginObj {
   return {
     name: 'babel-plugin-ktjsx',
     visitor: {
@@ -104,5 +108,3 @@ export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): P
     },
   };
 }
-
-export { babelPluginKtjsx };

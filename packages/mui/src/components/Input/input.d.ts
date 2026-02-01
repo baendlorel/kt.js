@@ -3,7 +3,7 @@ import type { ChangeHandler } from '../../common/handler.ts';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
-export interface KTMuiTextFieldProps<T extends InputTypes> {
+export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   label?: string;

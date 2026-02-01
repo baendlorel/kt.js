@@ -5,7 +5,6 @@ import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
 const configs = createPackageConfig({
   packageName: '@ktjs/babel-plugin-ktjsx',
   packageDir: 'packages/babel-plugin-ktjsx',
-  iifeName: '__ktjs_babel-plugin-ktjsx__',
   withLegacy: false,
   external: [],
 });

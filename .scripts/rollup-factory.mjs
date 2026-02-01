@@ -5,6 +5,7 @@ import { existsSync } from 'node:fs';
 // plugins
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
@@ -122,6 +123,7 @@ export function createPackageConfig({
       alias(aliasOpts),
       replace(replaceOpts),
       resolve(),
+      commonjs(),
       typescript({ tsconfig, outputToFilesystem: true }),
       void terser(terserOpts),
     ].filter(Boolean),

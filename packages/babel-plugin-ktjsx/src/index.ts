@@ -35,6 +35,7 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
     name: 'babel-plugin-ktjsx',
     visitor: {
       CallExpression(path: any) {
+        console.log('current path:', path);
         const callee = path.node.callee;
         if (!t.isIdentifier(callee)) return;
         if (!createNames.includes(callee.name)) return;
@@ -46,13 +47,36 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
         if (!t.isStringLiteral(first)) return;
 
         const tag = first.value;
-        if (!svgTags.includes(tag)) return;
+        console.log('current tag:', tag);
 
-        // Replace callee name to createElementNS and inject namespace arg
-        path.node.callee = t.identifier('createElementNS');
-        const nsArg = t.stringLiteral(ns);
-        const tagArg = t.stringLiteral(tag);
-        path.node.arguments = [nsArg, tagArg, ...args.slice(1)];
+        // Determine whether this call represents an SVG root
+        const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
+
+        // If not root, check if we're inside an SVG ancestor
+        let insideSvg = false;
+        if (!isSvgRoot) {
+          const parentSvg = path.findParent((p: any) => {
+            if (!p.isCallExpression()) return false;
+            const pc = p.node.callee;
+            if (!t.isIdentifier(pc)) return false;
+            if (!createNames.includes(pc.name)) return false;
+            const pargs = p.node.arguments;
+            if (!pargs || pargs.length === 0) return false;
+            const pfirst = pargs[0];
+            if (!t.isStringLiteral(pfirst)) return false;
+            const ptag = pfirst.value;
+            return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
+          });
+          insideSvg = !!parentSvg;
+          console.log('current tag:', tag, 'insideSvg:', insideSvg);
+        }
+
+        // Only modify when it's the svg root, or when inside an svg and the tag is an SVG tag
+        if (!isSvgRoot && !(insideSvg && svgTags.includes(tag))) return;
+
+        // Rewrite tag to svg:tag
+        const newTag = `svg:${tag}`;
+        path.node.arguments[0] = t.stringLiteral(newTag);
       },
     },
   } as PluginObj;

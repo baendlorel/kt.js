@@ -8,15 +8,26 @@
   "files": [
     "dist"
   ],
+  "author": {
+    "name": "ktjs",
+    "email": "dev@ktjs.local"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktjs/kt.js"
+  },
+  "license": "MIT",
+  "description": "Babel plugin to make JSX-generated SVG use proper namespaces.",
   "scripts": {
     "build": "rollup -c"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^12.3.0",
-    "rollup": "^3.0.0",
-    "typescript": "^5.9.3",
     "@babel/core": "^7.0.0",
-    "@babel/types": "^7.0.0"
+    "@babel/types": "^7.0.0",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/babel__core": "^7.20.5",
+    "rollup": "^3.0.0",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0"

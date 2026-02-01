@@ -11,12 +11,10 @@ function isSvgTag(tag: string) {
   return tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
 }
 
-/**
- * Babel plugin to mark SVG elements.
- * @param {import('@babel/core')} babel - The Babel instance (unused directly).
- * @param {KTJSXPluginOptions} [options]
- * @returns {import('@babel/core').PluginObj}
- */
+function isMathTag(tag: string) {
+  return tag === 'math' || (typeof tag === 'string' && tag.startsWith('math:'));
+}
+
 export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): PluginObj {
   return {
     name: 'babel-plugin-ktjsx',
@@ -40,6 +38,7 @@ export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): P
 
         const tag = oname.name;
         const isSvgRoot = isSvgTag(tag);
+        const isMathRoot = isMathTag(tag);
 
         let insideSvg = false;
         if (!isSvgRoot) {
@@ -55,7 +54,6 @@ export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): P
               return false;
             }
             if (t.isJSXIdentifier(popping)) {
-              console.log('Popping:', popping);
               return isSvgTag(popping.name);
             }
             if (t.isJSXNamespacedName(popping)) {
@@ -66,18 +64,43 @@ export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): P
           insideSvg = !!parentSvg;
         }
 
-        // & If this element is neither an svg root nor inside an svg, skip.
-        if (!isSvgRoot && !insideSvg) {
+        let insideMath = false;
+        if (!isMathRoot) {
+          /**
+           * @type {import('@babel/core').NodePath | null}
+           */
+          const parentMath = path.findParent((p) => {
+            if (!p.isJSXElement()) {
+              return false;
+            }
+            const popping = p.node.openingElement && p.node.openingElement.name;
+            if (!popping) {
+              return false;
+            }
+            if (t.isJSXIdentifier(popping)) {
+              return isMathTag(popping.name);
+            }
+            if (t.isJSXNamespacedName(popping)) {
+              return t.isJSXIdentifier(popping.namespace) && popping.namespace.name === 'math';
+            }
+            return false;
+          });
+          insideMath = !!parentMath;
+        }
+
+        // If this element is neither an svg/math root nor inside one, skip.
+        const inSvgContext = isSvgRoot || insideSvg;
+        const inMathContext = isMathRoot || insideMath;
+        if (!inSvgContext && !inMathContext) {
           return;
         }
 
-        // Add boolean attribute SVG_ATTR_FLAG to opening element if not present
+        // Add boolean attribute (SVG or MATHML) to opening element if not present
         const attrs = opening.attributes || [];
-        const hasFlag = attrs.some(
-          (a) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === SVG_ATTR_FLAG,
-        );
+        const flag = inSvgContext ? SVG_ATTR_FLAG : MATHML_ATTR_FLAG;
+        const hasFlag = attrs.some((a) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === flag);
         if (!hasFlag) {
-          attrs.push(t.jsxAttribute(t.jsxIdentifier(SVG_ATTR_FLAG)));
+          attrs.push(t.jsxAttribute(t.jsxIdentifier(flag)));
           opening.attributes = attrs;
         }
       },

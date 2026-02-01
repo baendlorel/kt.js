@@ -13,6 +13,13 @@ import * as t from '@babel/types';
 export const SVG_ATTR_FLAG = '__kt_svg__';
 
 /**
+ * @param {string} tag
+ */
+function isSvgTag(tag) {
+  return tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
+}
+
+/**
  * Babel plugin to mark SVG elements.
  * @param {import('@babel/core')} babel - The Babel instance (unused directly).
  * @param {KTJSXPluginOptions} [options]
@@ -40,8 +47,7 @@ export default function babelPluginKtjsx(babel, options) {
         }
 
         const tag = oname.name;
-        console.log(' oname.name', oname.name);
-        const isSvgRoot = tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
+        const isSvgRoot = isSvgTag(tag);
 
         let insideSvg = false;
         if (!isSvgRoot) {
@@ -57,9 +63,8 @@ export default function babelPluginKtjsx(babel, options) {
               return false;
             }
             if (t.isJSXIdentifier(popping)) {
-              const ptag = popping.name;
-              console.log('PTAG', ptag);
-              return ptag === 'svg' || (typeof ptag === 'string' && ptag.startsWith('svg:'));
+              console.log('Popping:', popping);
+              return isSvgTag(popping.name);
             }
             if (t.isJSXNamespacedName(popping)) {
               return t.isJSXIdentifier(popping.namespace) && popping.namespace.name === 'svg';

@@ -7,6 +7,6 @@
       "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "../babel-plugin-ktjsx/src/index.js"],
   "references": [{ "path": "../shared" }]
 }

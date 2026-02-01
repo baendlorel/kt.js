@@ -1,7 +1,7 @@
 import { $append, $isArray, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 
-function apdSingle(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailableContent) {
+function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & JSX should ignore false, undefined, and null
   if (c === false || c === undefined || c === null) {
     return;
@@ -20,7 +20,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement, c: KTAv
   }
 }
 
-function apd(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailableContent) {
+function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   if ($isThenable(c)) {
     c.then((r) => apd(element, r));
   } else if ($isArray(c)) {
@@ -41,7 +41,7 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement, c: KTAvailabl
   }
 }
 
-export function applyContent(element: HTMLElement | SVGElement, content: KTRawContent): void {
+export function applyContent(element: HTMLElement | SVGElement | MathMLElement, content: KTRawContent): void {
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
       apd(element, content[i]);

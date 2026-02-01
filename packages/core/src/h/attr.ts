@@ -1,9 +1,10 @@
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { handlers } from './attr-helpers.js';
 
-const defaultHandler = (element: HTMLElement | SVGElement, key: string, value: any) => element.setAttribute(key, value);
+const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
+  element.setAttribute(key, value);
 
-function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
+function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTAttribute) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     element.setAttribute('class', classValue);
@@ -45,7 +46,7 @@ function attrIsObject(element: HTMLElement | SVGElement, attr: KTAttribute) {
   }
 }
 
-export function applyAttr(element: HTMLElement | SVGElement, attr: KTRawAttr) {
+export function applyAttr(element: HTMLElement | SVGElement | MathMLElement, attr: KTRawAttr) {
   if (!attr) {
     return;
   }

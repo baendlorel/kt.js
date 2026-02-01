@@ -5,6 +5,7 @@ export type otherstring = string & {};
  */
 export type HTMLTag = keyof HTMLElementTagNameMap;
 export type SVGTag = keyof SVGElementTagNameMap;
+export type MathMLTag = keyof MathMLElementTagNameMap;
 
 /**
  * Get the tags that makes HTMLElementTagNameMap[tag] = HTMLElement

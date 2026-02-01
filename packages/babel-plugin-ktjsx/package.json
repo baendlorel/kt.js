@@ -1,7 +1,6 @@
 {
   "name": "@ktjs/babel-plugin-ktjsx",
   "version": "0.0.1",
-  "private": true,
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.mjs",

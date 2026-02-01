@@ -1,14 +1,30 @@
 // @ts-check
-import type { PluginObj } from '@babel/core';
 import * as t from '@babel/types';
 
-export interface KTJSXPluginOptions {}
+/**
+ * Options for the plugin (kept for compatibility with original TS types).
+ * @typedef {Object} KTJSXPluginOptions
+ */
+
+/**
+ * Flag added to SVG elements to mark processed nodes.
+ * @type {string}
+ */
 export const SVG_ATTR_FLAG = '__kt_svg__';
 
-export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions): PluginObj {
+/**
+ * Babel plugin to mark SVG elements.
+ * @param {import('@babel/core')} babel - The Babel instance (unused directly).
+ * @param {KTJSXPluginOptions} [options]
+ * @returns {import('@babel/core').PluginObj}
+ */
+export default function babelPluginKtjsx(babel, options) {
   return {
     name: 'babel-plugin-ktjsx',
     visitor: {
+      /**
+       * @param {import('@babel/core').NodePath<import('@babel/types').JSXElement>} path
+       */
       JSXElement(path) {
         const opening = path.node.openingElement;
         if (!opening) {
@@ -29,7 +45,10 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
 
         let insideSvg = false;
         if (!isSvgRoot) {
-          const parentSvg = path.findParent((p: any) => {
+          /**
+           * @type {import('@babel/core').NodePath | null}
+           */
+          const parentSvg = path.findParent((p) => {
             if (!p.isJSXElement()) {
               return false;
             }
@@ -66,7 +85,7 @@ export default function babelPluginKtjsx(babel: any, options: KTJSXPluginOptions
         }
       },
     },
-  } as PluginObj;
+  };
 }
 
 export { babelPluginKtjsx };

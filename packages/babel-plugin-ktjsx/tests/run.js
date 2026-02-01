@@ -4,7 +4,7 @@ import babel from '@babel/core';
 
 let plugin;
 try {
-  const pluginMod = await import(path.resolve(import.meta.dirname, '../dist/index.mjs'));
+  const pluginMod = await import(path.resolve(import.meta.dirname, '../src/index.js'));
   plugin = (pluginMod && (pluginMod.default || pluginMod)) || pluginMod;
   console.log(plugin);
 } catch (err) {

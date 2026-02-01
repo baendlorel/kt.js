@@ -19,9 +19,6 @@ export default function babelPluginKtjsx(_: any, options: KTJSXPluginOptions): P
   return {
     name: 'babel-plugin-ktjsx',
     visitor: {
-      /**
-       * @param {import('@babel/core').NodePath<import('@babel/types').JSXElement>} path
-       */
       JSXElement(path) {
         const opening = path.node.openingElement;
         if (!opening) {

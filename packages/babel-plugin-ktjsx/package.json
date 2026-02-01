@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/babel-plugin-ktjsx",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -10,8 +10,8 @@
     "dist"
   ],
   "author": {
-    "name": "ktjs",
-    "email": "dev@ktjs.local"
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "description": "Babel plugin to make JSX-generated SVG use proper namespaces.",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b --force",
     "test": "node tests/run.js"
   },
   "devDependencies": {

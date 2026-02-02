@@ -205,3 +205,11 @@ const ssss = bindParams(sss, 'a');
 1、有anchor，其实是comment节点。
 2、渲染一个数组时，会把生成的elements存在一个数组里，这个数组会以`__kt_for_list__`的属性名被贴在anchor上。当h函数中，apdSingle到拥有`__kt_for_list__`属性且值为array的元素时，不仅要把这个元素append上去，还要把`__kt_for_list__`也append到这个元素之后。
 3、ktfor的属性为list key map。其中key和map都是以item index array为入参的函数。key可选，拥有默认值item=>item也就是恒等映射
+
+---
+
+帮我创建一个子包，功能是做为tsconfig的插件，增加新的语言特性
+
+1、 要能支持在attribute里写`@click`这样的表达式，也就是`<div @click="func"></div>`
+2、 包的格式配置和core包类似
+3、包的名字、细节你可以自己决定

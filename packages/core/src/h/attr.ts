@@ -28,6 +28,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       key === 'style' ||
       key === 'children' ||
       key === 'k-if' ||
+      key.startsWith('k-model') ||
       key === 'ref'
     ) {
       continue;

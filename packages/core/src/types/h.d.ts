@@ -33,7 +33,11 @@ interface KTBaseAttribute {
    * If a `KTRef` is bound, it will be reactive; otherwise, it will be static.
    */
   'k-if'?: any;
-  // todo k-model如何指定value还是checked还是别的什么?
+
+  /**
+   * Register two-way data binding between an input element and a KTRef.
+   * - Default to regist `input` event and `value` property(`checked` for checkboxes and radios).
+   */
   'k-model'?: KTRef<any>;
 
   // # normal HTML attributes

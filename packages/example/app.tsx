@@ -6,9 +6,7 @@ import { FeatHome } from './feats/feat-home.js';
 import { FeatCounter } from './feats/feat-counter.js';
 import { FeatEvents } from './feats/feat-events.js';
 import { FeatKTFor } from './feats/feat-ktfor.js';
-import { FeatMui } from './feats/feat-mui.js';
 import { FeatDirectives } from './feats/feat-directives.js';
-import { createDialogOpenRefDemo } from './feats/feat-dialog.js';
 // Import MUI component demos
 import { MuiButtonDemo } from './feats/ui/mui-button.js';
 import { MuiAlertDemo } from './feats/ui/mui-alert.js';
@@ -63,12 +61,6 @@ const navItems: { [section: string]: NavItem[] } = {
   ],
   'MUI Components': [
     {
-      id: 'mui',
-      label: 'All MUI Demos',
-      title: 'MUI Component Library',
-      description: 'Material-UI inspired components for KT.js',
-    },
-    {
       id: 'mui-button',
       label: 'Button',
       title: 'MUI Button',
@@ -122,12 +114,6 @@ const navItems: { [section: string]: NavItem[] } = {
       title: 'MUI Icons',
       description: 'Material-UI Icons',
     },
-    {
-      id: 'dialog',
-      label: 'Dialog (open ref)',
-      title: 'MUI Dialog with open ref',
-      description: 'Dialog controlled by open ref',
-    },
   ],
 };
 
@@ -138,7 +124,6 @@ const pageComponents: { [key: string]: () => JSX.Element } = {
   counter: FeatCounter,
   events: FeatEvents,
   ktfor: FeatKTFor,
-  mui: FeatMui,
   'mui-button': MuiButtonDemo,
   'mui-alert': MuiAlertDemo,
   'mui-textfield': MuiTextFieldDemo,
@@ -148,7 +133,6 @@ const pageComponents: { [key: string]: () => JSX.Element } = {
   'mui-checkbox': MuiCheckboxDemo,
   'mui-select': MuiSelectDemo,
   'mui-icons': MuiIconsDemo,
-  dialog: createDialogOpenRefDemo,
 };
 
 // Create the main app

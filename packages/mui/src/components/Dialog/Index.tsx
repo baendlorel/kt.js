@@ -1,8 +1,12 @@
 import { isKTRef, KTRef, ref } from '@ktjs/core';
-import { $defines, $emptyFn } from '@ktjs/shared';
+import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
 interface KTMuiDialogProps {
+  /**
+   * Controls whether the dialog is open or closed
+   * - Provide a `KTRef` to make it reactive
+   */
   open?: boolean | KTRef<boolean>;
   'kt:close'?: () => void;
   title?: string;
@@ -12,13 +16,7 @@ interface KTMuiDialogProps {
   fullWidth?: boolean;
 }
 
-export type KTMuiDialog = JSX.Element & {
-  /**
-   * Controls whether the dialog is open or closed
-   * - Provide a `KTRef` to make it reactive
-   */
-  open: boolean;
-};
+export type KTMuiDialog = JSX.Element;
 
 /**
  * Dialog component - mimics MUI Dialog appearance and behavior
@@ -96,13 +94,6 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }
     return originalRemove.call(container);
   };
-
-  $defines(container, {
-    open: {
-      get: () => open.value,
-      set: (isOpen: boolean) => (open.value = isOpen),
-    },
-  });
 
   return container;
 }

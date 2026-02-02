@@ -1,4 +1,4 @@
-import type { otherstring } from './global.js';
+import type { otherstring } from '@ktjs/shared';
 
 type a = HTMLElementEventMap;
 

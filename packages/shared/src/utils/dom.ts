@@ -1,10 +1,9 @@
 // DOM manipulation utilities
 
+import { InputElementTag } from '../types/global.js';
 import { $emptyFn } from './misc.js';
 
 // # dom natives
-
-export const $replaceWith = Element.prototype.replaceWith;
 
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
@@ -71,4 +70,18 @@ export const generateHandler = <T = string>(props: any, key: string): ChangeHand
     return (value) => (handler.value = value);
   }
   return $emptyFn;
+};
+
+/**
+ * Used for `k-model`
+ */
+export const applyModel = (
+  element: HTMLElementTagNameMap[InputElementTag],
+  valueRef: { value: unknown; addOnChange: (fn: (newValue: unknown) => void) => void },
+  propName: 'value' | 'checked',
+  eventName: 'change' | 'input',
+) => {
+  (element as any)[propName] = valueRef.value; // initialize
+  valueRef.addOnChange((newValue) => ((element as any)[propName] = newValue));
+  element.addEventListener(eventName, () => (valueRef.value = (element as any)[propName]));
 };

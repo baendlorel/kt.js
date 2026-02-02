@@ -7,5 +7,6 @@ export * from './utils/dom.js';
 export * from './utils/misc.js';
 export * from './utils/url.js';
 export * from './consts/index.js';
+export * from './types/global.js';
 
 Object.defineProperty(window, '__NAME__', { value: '__VERSION__' });

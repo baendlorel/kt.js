@@ -1,5 +1,5 @@
 import { $throw } from '@ktjs/shared';
-import type { HTMLTag, MathMLTag, SVGTag } from '../types/global.js';
+import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
 import { isKTRef } from '../jsx/ref.js';

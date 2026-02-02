@@ -1,4 +1,4 @@
-import { InputElementTag } from '../types/global.js';
+import { InputElementTag } from '@ktjs/shared';
 import { KTRef } from '../jsx/ref.js';
 
 function register(element: any, valueRef: KTRef<any>, propName: 'value' | 'checked', eventName: 'change' | 'input') {

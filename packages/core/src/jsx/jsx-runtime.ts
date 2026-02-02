@@ -1,4 +1,4 @@
-import type { HTMLTag } from '../types/global.js';
+import type { HTMLTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';

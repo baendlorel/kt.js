@@ -3,6 +3,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
 import { isKTRef, type KTRef, ref } from './ref.js';
+import { $replaceWith } from '@ktjs/shared';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
@@ -23,39 +24,37 @@ const placeholder = () => document.createComment('k-if') as unknown as JSX.Eleme
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  const ref = props.ref?.isKT ? (props.ref as KTRef<JSX.Element>) : dummyRef;
+  const maybeDummyRef = props.ref?.isKT ? (props.ref as KTRef<JSX.Element>) : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {
     const kif = props['k-if'];
+    let condition = kif; // assume boolean by default
+
+    // Handle reactive k-if
     if (isKTRef(kif)) {
-      kif.addOnChange((newKif) => {
-        if (newKif) {
-          const newEl = create(tag, props);
-          (ref.value as unknown as ChildNode).replaceWith(newEl);
-          ref.value = newEl;
-        } else {
-          el = placeholder();
-          (ref.value as unknown as ChildNode).replaceWith(el);
-          ref.value = el;
+      kif.addOnChange((newValue, oldValue) => {
+        if (newValue === oldValue) {
+          return;
         }
+        const oldEl = el;
+        el = newValue ? create(tag, props) : placeholder();
+        $replaceWith.call(oldEl, el);
+        maybeDummyRef.value = el;
       });
+      condition = kif.value;
     }
 
-    // & make comment placeholder in case that ref might be redrawn later
-    el = placeholder();
-    ref.value = el;
-    return el;
+    if (!condition) {
+      // & make comment placeholder in case that ref might be redrawn later
+      el = placeholder();
+      maybeDummyRef.value = el;
+      return el;
+    }
   }
 
-  // Handle function components
-  if (typeof tag === 'function') {
-    el = tag(props) as JSX.Element;
-  } else {
-    el = h(tag, props, props.children) as JSX.Element;
-  }
-
-  ref.value = el;
+  el = create(tag, props);
+  maybeDummyRef.value = el;
   return el;
 }
 

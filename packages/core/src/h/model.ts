@@ -2,9 +2,9 @@ import { InputElementTag } from '../types/global.js';
 import { KTRef } from '../jsx/ref.js';
 
 function register(element: any, valueRef: KTRef<any>, propName: 'value' | 'checked', eventName: 'change' | 'input') {
-  element.addEventListener(eventName, () => (valueRef.value = element[propName]));
-  element[propName] = valueRef.value;
+  element[propName] = valueRef.value; // initialize
   valueRef.addOnChange((newValue) => (element[propName] = newValue));
+  element.addEventListener(eventName, () => (valueRef.value = element[propName]));
 }
 
 export function applyModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
@@ -19,4 +19,5 @@ export function applyModel(element: HTMLElementTagNameMap[InputElementTag], valu
   } else if (element instanceof HTMLTextAreaElement) {
     register(element, valueRef, 'value', 'input');
   }
+  console.warn('[kt.js warn] not supported element for k-model:', element.tagName);
 }

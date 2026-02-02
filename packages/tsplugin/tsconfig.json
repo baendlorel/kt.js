@@ -1,9 +1,0 @@
-{
-  "extends": "../../configs/tsconfig.build.json",
-  "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "module": "NodeNext",
-    "stripInternal": true
-  }
-}

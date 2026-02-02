@@ -9,6 +9,16 @@ import { FeatKTFor } from './feats/feat-ktfor.js';
 import { FeatMui } from './feats/feat-mui.js';
 import { FeatDirectives } from './feats/feat-directives.js';
 import { createDialogOpenRefDemo } from './feats/feat-dialog.js';
+// Import MUI component demos
+import { MuiButtonDemo } from './feats/ui/mui-button.js';
+import { MuiAlertDemo } from './feats/ui/mui-alert.js';
+import { MuiTextFieldDemo } from './feats/ui/mui-textfield.js';
+import { MuiDialogDemo } from './feats/ui/mui-dialog.js';
+import { MuiProgressDemo } from './feats/ui/mui-progress.js';
+import { MuiRadioDemo } from './feats/ui/mui-radio.js';
+import { MuiCheckboxDemo } from './feats/ui/mui-checkbox.js';
+import { MuiSelectDemo } from './feats/ui/mui-select.js';
+import { MuiIconsDemo } from './feats/ui/mui-icons.js';
 
 // Navigation structure
 interface NavItem {
@@ -59,10 +69,64 @@ const navItems: { [section: string]: NavItem[] } = {
       description: 'Material-UI inspired components for KT.js',
     },
     {
-      id: 'dialog',
+      id: 'mui-button',
+      label: 'Button',
+      title: 'MUI Button',
+      description: 'Material-UI Button component',
+    },
+    {
+      id: 'mui-alert',
+      label: 'Alert',
+      title: 'MUI Alert',
+      description: 'Material-UI Alert component',
+    },
+    {
+      id: 'mui-textfield',
+      label: 'TextField',
+      title: 'MUI TextField',
+      description: 'Material-UI TextField component',
+    },
+    {
+      id: 'mui-dialog',
       label: 'Dialog',
       title: 'MUI Dialog',
-      description: 'Material-UI Dialog',
+      description: 'Material-UI Dialog component',
+    },
+    {
+      id: 'mui-progress',
+      label: 'Progress',
+      title: 'MUI LinearProgress',
+      description: 'Material-UI Progress indicator',
+    },
+    {
+      id: 'mui-radio',
+      label: 'Radio',
+      title: 'MUI Radio',
+      description: 'Material-UI Radio component',
+    },
+    {
+      id: 'mui-checkbox',
+      label: 'Checkbox',
+      title: 'MUI Checkbox',
+      description: 'Material-UI Checkbox component',
+    },
+    {
+      id: 'mui-select',
+      label: 'Select',
+      title: 'MUI Select',
+      description: 'Material-UI Select component',
+    },
+    {
+      id: 'mui-icons',
+      label: 'Icons',
+      title: 'MUI Icons',
+      description: 'Material-UI Icons',
+    },
+    {
+      id: 'dialog',
+      label: 'Dialog (open ref)',
+      title: 'MUI Dialog with open ref',
+      description: 'Dialog controlled by open ref',
     },
   ],
 };
@@ -75,6 +139,15 @@ const pageComponents: { [key: string]: () => JSX.Element } = {
   events: FeatEvents,
   ktfor: FeatKTFor,
   mui: FeatMui,
+  'mui-button': MuiButtonDemo,
+  'mui-alert': MuiAlertDemo,
+  'mui-textfield': MuiTextFieldDemo,
+  'mui-dialog': MuiDialogDemo,
+  'mui-progress': MuiProgressDemo,
+  'mui-radio': MuiRadioDemo,
+  'mui-checkbox': MuiCheckboxDemo,
+  'mui-select': MuiSelectDemo,
+  'mui-icons': MuiIconsDemo,
   dialog: createDialogOpenRefDemo,
 };
 

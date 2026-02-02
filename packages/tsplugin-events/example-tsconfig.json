@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "jsxImportSource": "kt.js",
+    "strict": true,
+    "plugins": [
+      {
+        "name": "@ktjs/tsplugin-events"
+      }
+    ]
+  },
+  "include": ["src/**/*"]
+}

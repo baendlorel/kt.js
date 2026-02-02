@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
 /**
- * TypeScript plugin factory for transforming Vue-style @event shorthand to on:event
- * This plugin converts JSX attributes like @click to on:click
+ * Transformer factory for compiling Vue-style @event shorthand to on:event
+ * This transforms JSX attributes like @click to on:click during compilation
  */
-export default function (): ts.TransformerFactory<ts.SourceFile> {
+export function createTransformer(): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     const { factory } = context;
 
@@ -36,5 +36,52 @@ export default function (): ts.TransformerFactory<ts.SourceFile> {
     };
 
     return (sourceFile) => ts.visitNode(sourceFile, visit) as ts.SourceFile;
+  };
+}
+
+/**
+ * TypeScript language service plugin to support @event shorthand in JSX
+ * This plugin filters out errors for @event attributes and provides better diagnostics
+ */
+export default function init(modules: { typescript: any }): {
+  create(info: any): any;
+} {
+  const ts = modules.typescript as typeof import('typescript');
+
+  return {
+    create(info) {
+      const { languageService } = info;
+
+      // Create proxy to intercept language service methods
+      const proxy: ts.LanguageService = Object.create(null);
+
+      // Copy all methods from the original service
+      for (const key of Object.keys(languageService) as Array<keyof ts.LanguageService>) {
+        const service = languageService[key];
+        if (typeof service === 'function') {
+          (proxy as any)[key] = (...args: any[]) => (service as any).apply(languageService, args);
+        }
+      }
+
+      // Intercept semantic diagnostics to filter @event errors
+      const originalGetSemanticDiagnostics = languageService.getSemanticDiagnostics;
+      proxy.getSemanticDiagnostics = (fileName: string) => {
+        const diagnostics = originalGetSemanticDiagnostics.call(languageService, fileName);
+
+        // Filter out errors about @event attributes not existing
+        return diagnostics.filter((diagnostic: ts.Diagnostic) => {
+          if (diagnostic.category === ts.DiagnosticCategory.Error) {
+            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+            // Check if this is a "Property '@...' does not exist" error
+            if (message.includes("Property '@") && message.includes("does not exist")) {
+              return false; // Filter out this error
+            }
+          }
+          return true;
+        });
+      };
+
+      return proxy;
+    }
   };
 }

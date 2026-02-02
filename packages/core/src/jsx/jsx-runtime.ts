@@ -7,7 +7,7 @@ import { $replaceWith } from '@ktjs/shared';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
-const dummyRef = { value: null } as unknown as KTRef<HTMLElement>;
+const dummyRef = { value: null } as unknown as KTRef<JSX.Element>;
 
 const create = (tag: JSXTag, props: KTAttribute): HTMLElement => {
   if (typeof tag === 'function') {
@@ -24,7 +24,7 @@ const placeholder = () => document.createComment('k-if') as unknown as JSX.Eleme
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  const maybeDummyRef = props.ref?.isKT ? (props.ref as KTRef<JSX.Element>) : dummyRef;
+  const maybeDummyRef = isKTRef<JSX.Element>(props.ref) ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {

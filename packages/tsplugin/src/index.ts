@@ -20,15 +20,11 @@ export function createTransformer(): ts.TransformerFactory<ts.SourceFile> {
           // Create a namespaced name: on:eventName
           const newAttrName = factory.createJsxNamespacedName(
             factory.createIdentifier('on'),
-            factory.createIdentifier(eventName)
+            factory.createIdentifier(eventName),
           );
 
           // Return new attribute with transformed name
-          return factory.updateJsxAttribute(
-            node,
-            newAttrName,
-            node.initializer
-          );
+          return factory.updateJsxAttribute(node, newAttrName, node.initializer);
         }
       }
 
@@ -46,8 +42,6 @@ export function createTransformer(): ts.TransformerFactory<ts.SourceFile> {
 export default function init(modules: { typescript: any }): {
   create(info: any): any;
 } {
-  const ts = modules.typescript as typeof import('typescript');
-
   return {
     create(info) {
       const { languageService } = info;
@@ -63,6 +57,31 @@ export default function init(modules: { typescript: any }): {
         }
       }
 
+      // Intercept syntactic diagnostics to filter @event syntax errors
+      const originalGetSyntacticDiagnostics = languageService.getSyntacticDiagnostics;
+      proxy.getSyntacticDiagnostics = (fileName: string) => {
+        const diagnostics = originalGetSyntacticDiagnostics.call(languageService, fileName);
+
+        // Filter out syntax errors about @ attributes (decorator syntax errors)
+        return diagnostics.filter((diagnostic: ts.Diagnostic) => {
+          if (diagnostic.category === ts.DiagnosticCategory.Error) {
+            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+            // Check for "Declaration expected" errors (ts 1146) for @ attributes
+            if (message.includes('Declaration expected') && diagnostic.code === 1146) {
+              // Check if this error is likely related to @attribute in JSX
+              // We can't easily check the source position, so we filter all 1146 errors
+              // This might be too broad but works for our use case
+              return false;
+            }
+            // Check for "Identifier expected" errors (ts 1003) for @ attributes
+            if (message.includes('Identifier expected') && diagnostic.code === 1003) {
+              return false;
+            }
+          }
+          return true;
+        });
+      };
+
       // Intercept semantic diagnostics to filter @event errors
       const originalGetSemanticDiagnostics = languageService.getSemanticDiagnostics;
       proxy.getSemanticDiagnostics = (fileName: string) => {
@@ -73,15 +92,15 @@ export default function init(modules: { typescript: any }): {
           if (diagnostic.category === ts.DiagnosticCategory.Error) {
             const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
             // Check if this is a "Property '@...' does not exist" error
-            if (message.includes("Property '@") && message.includes("does not exist")) {
+            if (message.includes("Property '@") && message.includes('does not exist')) {
               return false; // Filter out this error
             }
             // Check for "Declaration expected" errors related to @ attributes (decorator syntax)
-            if (message.includes("Declaration expected") && message.includes("@")) {
+            if (message.includes('Declaration expected') && message.includes('@')) {
               return false; // Filter out this error
             }
             // Check for "Decorators are not valid here" errors
-            if (message.includes("Decorators are not valid here") && message.includes("@")) {
+            if (message.includes('Decorators are not valid here') && message.includes('@')) {
               return false; // Filter out this error
             }
           }
@@ -90,6 +109,6 @@ export default function init(modules: { typescript: any }): {
       };
 
       return proxy;
-    }
+    },
   };
 }

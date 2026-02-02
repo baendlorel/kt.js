@@ -1,4 +1,4 @@
-import type { HTMLTag } from '@ktjs/shared';
+import { $throw, type HTMLTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
@@ -62,7 +62,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
  * Note: kt.js doesn't have a real Fragment concept,
  */
 export function Fragment(_props: { children?: KTRawContent }): HTMLElement {
-  throw new Error("kt.js doesn't have a Fragment concept");
+  $throw("doesn't have a Fragment concept");
 
   // const { children } = props ?? {};
 

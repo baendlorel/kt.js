@@ -36,12 +36,20 @@ const __PKG_INFO__ = `## About
  */
 export const replaceOpts = {
   preventAssignment: true,
+  delimiters: ['', ''],
   values: {
     __IS_DEV__: 'false',
     __NAME__,
     __KEBAB_NAME__,
     __PKG_INFO__,
     __VERSION__,
+    __FRAMEWORK_NAME__: 'kt.js',
+    "$warn('": `console.warn('[kt.js warn] `,
+    '$warn(`': `console.warn(\`[kt.js warn] `,
+    '$warn("': `console.warn("[kt.js warn] `,
+    "$throw('": `throw new Error('[kt.js error] `,
+    '$throw(`': `throw new Error(\`[kt.js error] `,
+    '$throw("': `throw new Error("[kt.js error] `,
   },
 };
 

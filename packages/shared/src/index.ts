@@ -9,4 +9,4 @@ export * from './utils/url.js';
 export * from './consts/index.js';
 export type * from './types/global.js';
 
-Object.defineProperty(window, '__NAME__', { value: '__VERSION__' });
+Object.defineProperty(window, '__ktjs__', { value: '__VERSION__' });

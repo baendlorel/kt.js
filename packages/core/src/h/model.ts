@@ -1,23 +1,23 @@
-import { InputElementTag } from '@ktjs/shared';
-import { KTRef } from '../jsx/ref.js';
+import { $warn, applyModel, InputElementTag } from '@ktjs/shared';
+import { isKTRef, KTRef } from '../jsx/ref.js';
 
-function register(element: any, valueRef: KTRef<any>, propName: 'value' | 'checked', eventName: 'change' | 'input') {
-  element[propName] = valueRef.value; // initialize
-  valueRef.addOnChange((newValue) => (element[propName] = newValue));
-  element.addEventListener(eventName, () => (valueRef.value = element[propName]));
-}
+export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
+  if (!isKTRef(valueRef)) {
+    $warn('k-model value must be a KTRef.');
+    return;
+  }
 
-export function applyModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
   if (element instanceof HTMLInputElement) {
     if (element.type === 'radio' || element.type === 'checkbox') {
-      register(element, valueRef, 'checked', 'change');
+      applyModel(element, valueRef, 'checked', 'change');
     } else {
-      register(element, valueRef, 'value', 'input');
+      applyModel(element, valueRef, 'value', 'input');
     }
   } else if (element instanceof HTMLSelectElement) {
-    register(element, valueRef, 'value', 'change');
+    applyModel(element, valueRef, 'value', 'change');
   } else if (element instanceof HTMLTextAreaElement) {
-    register(element, valueRef, 'value', 'input');
+    applyModel(element, valueRef, 'value', 'input');
+  } else {
+    $warn('not supported element for k-model:');
   }
-  console.warn('[kt.js warn] not supported element for k-model:', element.tagName);
 }

@@ -5,7 +5,7 @@ import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 import { isKTRef } from '../jsx/ref.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
-import { applyModel } from './model.js';
+import { applyKModel } from './model.js';
 
 const htmlCreator = (tag: string) => document.createElement(tag);
 const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -56,7 +56,7 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
     const kmodel = attr['k-model'];
     if (isKTRef(kmodel)) {
-      applyModel(element as any, kmodel);
+      applyKModel(element as any, kmodel);
     } else {
       $throw('k-model value must be a KTRef.');
     }

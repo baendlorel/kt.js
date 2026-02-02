@@ -1,3 +1,4 @@
+import { $throw } from '@ktjs/shared';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { handlers } from './attr-helpers.js';
 
@@ -54,6 +55,6 @@ export function applyAttr(element: HTMLElement | SVGElement | MathMLElement, att
   if (typeof attr === 'object' && attr !== null) {
     attrIsObject(element, attr as KTAttribute);
   } else {
-    throw new Error('kt.js: attr must be an object.');
+    $throw('attr must be an object.');
   }
 }

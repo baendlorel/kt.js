@@ -34,7 +34,6 @@
     { "path": "./packages/router" },
     { "path": "./packages/shortcuts" },
     { "path": "./packages/shared" },
-    { "path": "./packages/tsplugin" },
     { "path": "./packages/kt.js" }
   ]
 }

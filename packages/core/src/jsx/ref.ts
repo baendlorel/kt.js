@@ -1,4 +1,4 @@
-import { $entries } from '@ktjs/shared';
+import { $entries, $throw } from '@ktjs/shared';
 
 type RefChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
@@ -49,7 +49,14 @@ export class KTRef<T> {
     }
   }
 
+  /**
+   * Register a callback when the value changes
+   * @param callback (newValue, oldValue) => xxx
+   */
   addOnChange(callback: RefChangeHandler<T>) {
+    if (typeof callback !== 'function') {
+      $throw('KTRef.addOnChange: callback must be a function');
+    }
     this._onChanges.push(callback);
   }
 
@@ -66,17 +73,20 @@ export class KTRef<T> {
 
 export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => obj?.isKT === true;
 
-export const assureRef = <T>(obj: T | KTRef<T>): KTRef<T> => {
-  return isKTRef<T>(obj) ? obj : ref<T>(obj);
-};
-
 /**
  * Reference to the created HTML element.
  * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.
  * - can alse be used to store normal values, but it is not reactive.
+ * - if the value is already a `KTRef`, it will be returned **directly**.
  * @param value mostly an HTMLElement
  */
-export function ref<T = JSX.Element>(value?: T, onChange?: RefChangeHandler<T>): KTRef<T> {
+export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: RefChangeHandler<T>): KTRef<T> {
+  if (isKTRef(value)) {
+    if (onChange) {
+      value.addOnChange(onChange);
+    }
+    return value;
+  }
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 

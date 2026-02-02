@@ -1,4 +1,4 @@
-import { createRedrawable, isKTRef, KTRef, ref } from '@ktjs/core';
+import { createRedrawable, KTRef, ref } from '@ktjs/core';
 import './Input.css';
 import { $defines, generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -13,21 +13,21 @@ import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js
  * - Two-way binding via `k-model` prop for input value
  * - Properties can also be get/set directly on the component instance (e.g., component.value = 'new')
  */
-export function TextField<T extends InputTypes>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
+export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // Create refs for all reactive properties
-  const labelRef = isKTRef(props.label) ? props.label : ref<string>((props.label as string) ?? '');
-  const placeholderRef = isKTRef(props.placeholder) ? props.placeholder : ref<string>((props.placeholder as string) ?? '');
-  const valueRef = isKTRef(props.value) ? props.value : ref<string>(props.value ?? '');
-  const typeRef = isKTRef(props.type) ? props.type : ref<InputTypes>((props.type as T) ?? 'text');
-  const disabledRef = isKTRef(props.disabled) ? props.disabled : ref<boolean>((props.disabled as boolean) ?? false);
-  const readonlyRef = isKTRef(props.readonly) ? props.readonly : ref<boolean>((props.readonly as boolean) ?? false);
-  const requiredRef = isKTRef(props.required) ? props.required : ref<boolean>((props.required as boolean) ?? false);
-  const errorRef = isKTRef(props.error) ? props.error : ref<boolean>((props.error as boolean) ?? false);
-  const helperTextRef = isKTRef(props.helperText) ? props.helperText : ref<string>((props.helperText as string) ?? '');
-  const fullWidthRef = isKTRef(props.fullWidth) ? props.fullWidth : ref<boolean>((props.fullWidth as boolean) ?? false);
-  const multilineRef = isKTRef(props.multiline) ? props.multiline : ref<boolean>((props.multiline as boolean) ?? false);
-  const rowsRef = isKTRef(props.rows) ? props.rows : ref<number>((props.rows as number) ?? 3);
-  const sizeRef = isKTRef(props.size) ? props.size : ref<'small' | 'medium'>((props.size as 'small' | 'medium') ?? 'medium');
+  const labelRef = ref(props.label ?? '');
+  const placeholderRef = ref(props.placeholder ?? '');
+  const valueRef = ref(props.value ?? '');
+  const typeRef = ref(props.type ?? ('text' as T));
+  const disabledRef = ref(!!props.disabled);
+  const readonlyRef = ref(!!props.readonly);
+  const requiredRef = ref(!!props.required);
+  const errorRef = ref(!!props.error);
+  const helperTextRef = ref(props.helperText ?? '');
+  const fullWidthRef = ref(!!props.fullWidth);
+  const multilineRef = ref(!!props.multiline);
+  const rowsRef = ref(props.rows ?? 3);
+  const sizeRef = ref(props.size ?? 'medium');
 
   // k-model takes precedence over value prop for two-way binding
   const modelRef = props['k-model'] as KTRef<string | number> | undefined;

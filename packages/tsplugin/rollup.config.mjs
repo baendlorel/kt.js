@@ -1,10 +1,10 @@
 // @ts-check
 import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
 
-// Main config for tsplugin-events package
+// Main config for tsplugin package
 const mainConfig = createPackageConfig({
-  packageName: '@ktjs/tsplugin-events',
-  packageDir: 'packages/tsplugin-events',
+  packageName: '@ktjs/tsplugin',
+  packageDir: 'packages/tsplugin',
   iifeName: '',
   withLegacy: false,
   withCjs: false,

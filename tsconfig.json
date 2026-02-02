@@ -13,6 +13,7 @@
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
       "@ktjs/mui": ["packages/mui/src/index.ts"],
       "@ktjs/shared": ["packages/shared/src/index.ts"],
+      "@ktjs/tsplugin": ["packages/tsplugin/src/index.ts"],
 
       // & core
       "@ktjs/core": ["packages/core/src/index.ts"],
@@ -25,12 +26,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "kt.js"
   },
-  "include": [
-    "./packages/**/**/*.ts",
-    "./packages/**/**/*.tsx",
-    "packages/**/**/*.js",
-    "packages/babel-plugin-ktjsx/src/index.ts"
-  ],
+  "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx", "packages/**/**/*.js"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/example" },
@@ -38,6 +34,7 @@
     { "path": "./packages/router" },
     { "path": "./packages/shortcuts" },
     { "path": "./packages/shared" },
+    { "path": "./packages/tsplugin" },
     { "path": "./packages/kt.js" }
   ]
 }

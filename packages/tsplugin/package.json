@@ -1,5 +1,5 @@
 {
-  "name": "@ktjs/tsplugin-events",
+  "name": "@ktjs/tsplugin",
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.mjs",

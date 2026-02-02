@@ -8,9 +8,11 @@
     "strict": true,
     "plugins": [
       {
-        "name": "@ktjs/tsplugin-events"
+        "name": "@ktjs/tsplugin"
       }
     ]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

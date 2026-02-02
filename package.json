@@ -31,7 +31,7 @@
     "build:router": "pnpm --filter @ktjs/router run build",
     "build:shortcuts": "pnpm --filter @ktjs/shortcuts run build",
     "build:shared": "pnpm --filter @ktjs/shared run build",
-    "build:tsplugin-events": "pnpm --filter @ktjs/tsplugin-events run build",
+    "build:tsplugin": "pnpm --filter @ktjs/tsplugin run build",
     "build:kt.js": "pnpm --filter kt.js run build",
     "check": "tsc --noEmit",
     "test": "vitest --config configs/vitest.config.ts",
@@ -45,7 +45,7 @@
     "pub:shared": "pnpm --filter @ktjs/shared run build && pnpm --filter @ktjs/shared publish --access public",
     "pub:mui": "pnpm --filter @ktjs/mui run build && pnpm --filter @ktjs/mui publish --access public",
     "pub:plugin": "pnpm --filter @ktjs/babel-plugin-ktjsx run build && pnpm --filter @ktjs/babel-plugin-ktjsx publish --access public",
-    "pub:tsplugin-events": "pnpm --filter @ktjs/tsplugin-events run build && pnpm --filter @ktjs/tsplugin-events publish --access public",
+    "pub:tsplugin": "pnpm --filter @ktjs/tsplugin run build && pnpm --filter @ktjs/tsplugin publish --access public",
     "sync": "tsx .scripts/sync-version.ts"
   },
   "license": "MIT",

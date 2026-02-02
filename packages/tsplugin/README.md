@@ -1,4 +1,4 @@
-# @ktjs/tsplugin-events
+# @ktjs/tsplugin
 
 TypeScript plugin for KT.js to support Vue-style `@event` shorthand in JSX/TSX.
 
@@ -11,11 +11,11 @@ TypeScript plugin for KT.js to support Vue-style `@event` shorthand in JSX/TSX.
 ## Installation
 
 ```bash
-pnpm add -D @ktjs/tsplugin-events
+pnpm add -D @ktjs/tsplugin
 # or
-npm install --save-dev @ktjs/tsplugin-events
+npm install --save-dev @ktjs/tsplugin
 # or
-yarn add -D @ktjs/tsplugin-events
+yarn add -D @ktjs/tsplugin
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ Add the plugin to your `tsconfig.json` to get error suppression and better edito
     "jsxImportSource": "kt.js",
     "plugins": [
       {
-        "name": "@ktjs/tsplugin-events"
+        "name": "@ktjs/tsplugin"
       }
     ]
   }
@@ -39,6 +39,7 @@ Add the plugin to your `tsconfig.json` to get error suppression and better edito
 ```
 
 This configuration will:
+
 - Suppress TypeScript errors for `@event` attributes in JSX
 - Allow you to write Vue-style event handlers in KT.js
 
@@ -47,7 +48,7 @@ This configuration will:
 If you want to transform `@event` to `on:event` during compilation, you can use the transformer:
 
 ```typescript
-import { createTransformer } from '@ktjs/tsplugin-events';
+import { createTransformer } from '@ktjs/tsplugin';
 
 // Use with tsc or other TypeScript compilation tools
 const transformer = createTransformer();
@@ -76,6 +77,7 @@ const Component = () => (
 ```
 
 Without the plugin, TypeScript would report errors like:
+
 - `Property '@click' does not exist on type '...'`
 - `Property '@input' does not exist on type '...'`
 
@@ -84,10 +86,13 @@ With the plugin, these errors are suppressed, allowing you to use the Vue-style 
 ## How It Works
 
 ### Language Service Plugin
+
 The plugin intercepts TypeScript's semantic diagnostics and filters out errors related to `@event` attributes. When TypeScript checks JSX and encounters an attribute starting with `@`, it normally reports an error because such attributes aren't defined in the JSX type definitions. This plugin removes those specific errors.
 
 ### Compiler Transformer
+
 The transformer actually rewrites the AST during compilation, converting:
+
 - `@click` → `on:click`
 - `@input` → `on:input`
 - `@change` → `on:change`

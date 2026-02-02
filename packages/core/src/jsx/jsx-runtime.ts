@@ -3,7 +3,6 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
 import { isKTRef, type KTRef, ref } from './ref.js';
-import { $replaceWith } from '@ktjs/shared';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
@@ -39,7 +38,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
         }
         const oldEl = el;
         el = newValue ? create(tag, props) : placeholder();
-        $replaceWith.call(oldEl, el);
+        (oldEl as ChildNode).replaceWith(el);
         maybeDummyRef.value = el;
       });
       condition = kif.value;

@@ -1,5 +1,7 @@
 // Shared utilities and cached native methods for kt.js framework
 
+// import './misc/symbol-polyfill.js';
+
 // Re-export all utilities
 export * from './utils/native.js';
 export * from './utils/error.js';

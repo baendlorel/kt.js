@@ -64,8 +64,10 @@ export class KTRef<T> {
   }
 }
 
-export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => {
-  return typeof obj === 'object' && obj !== null && obj.isKT === true;
+export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => obj?.isKT === true;
+
+export const assureRef = <T>(obj: T | KTRef<T>): KTRef<T> => {
+  return isKTRef<T>(obj) ? obj : ref<T>(obj);
 };
 
 /**

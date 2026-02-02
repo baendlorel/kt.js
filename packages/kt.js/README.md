@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js) [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
 
-[CHANGLOG✨](../CHANGELOG.md)
+[CHANGLOG✨](../../CHANGELOG.md)
 
 > Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
 
@@ -35,6 +35,19 @@ As a web framework, repeatedly creating a large number of variables and objects 
 
 KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
 
+## Configuration
+
+for TSX/JSX support, add this to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "kt.js"
+  }
+}
+```
+
 ## Core Features (@ktjs/core)
 
 ### JSX/TSX Support
@@ -42,8 +55,6 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 KT.js provides first-class JSX/TSX support with zero virtual DOM overhead. JSX compiles directly to `h()` function calls.
 
 ```tsx
-import { h } from '@ktjs/core';
-
 // Function components
 const Button = ({ onClick, children }) => (
   <button on:click={onClick} class="btn">
@@ -72,6 +83,20 @@ const AsyncContent = async () => {
 };
 ```
 
+### CreateRedrawable
+
+Create redrawable components with `createRedrawable()`.
+
+```tsx
+import { createRedrawable } from '@ktjs/core';
+let text = 'aa';
+const el = createRedrawable(() => <div>{text}</div>);
+// el is now `<div>aa</div>`
+text = 'bb';
+el.redraw();
+// el is now `<div>bb</div>`
+```
+
 ### Reactive References
 
 Create reactive values with `ref()` and listen to changes.
@@ -90,11 +115,11 @@ count.value = 1;
 
 ### Redraw Mechanism
 
-Update elements in-place with `redraw()` for minimal DOM updates.
+`<KTFor... />` elements in-place with `redraw()` for minimal DOM updates.
 
-```typescript
-const element = <div class="counter">{count}</div>;
-element.redraw({ class: 'counter updated' }, [count.value + 1]);
+```tsx
+const element = <KTFor list={someArray} map={(v) => 2 * v} />;
+element.redraw({ list: [1, 2, 3] });
 ```
 
 ## Router (@ktjs/router)

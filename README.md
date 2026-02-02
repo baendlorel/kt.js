@@ -35,6 +35,19 @@ As a web framework, repeatedly creating a large number of variables and objects 
 
 KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
 
+## Configuration
+
+for TSX/JSX support, add this to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "kt.js"
+  }
+}
+```
+
 ## Core Features (@ktjs/core)
 
 ### JSX/TSX Support
@@ -42,8 +55,6 @@ KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**
 KT.js provides first-class JSX/TSX support with zero virtual DOM overhead. JSX compiles directly to `h()` function calls.
 
 ```tsx
-import { h } from '@ktjs/core';
-
 // Function components
 const Button = ({ onClick, children }) => (
   <button on:click={onClick} class="btn">
@@ -72,6 +83,30 @@ const AsyncContent = async () => {
 };
 ```
 
+### Directives
+
+**`k-if`**: Conditional rendering.
+
+```tsx
+<div k-if={condition}>This will render only if condition is true.</div>
+```
+
+If a `ref` instance is bound, the element will automatically redraw on changes.
+
+### CreateRedrawable
+
+Create redrawable components with `createRedrawable()`.
+
+```tsx
+import { createRedrawable } from '@ktjs/core';
+let text = 'aa';
+const el = createRedrawable(() => <div>{text}</div>);
+// el is now `<div>aa</div>`
+text = 'bb';
+el.redraw();
+// el is now `<div>bb</div>`
+```
+
 ### Reactive References
 
 Create reactive values with `ref()` and listen to changes.
@@ -90,11 +125,11 @@ count.value = 1;
 
 ### Redraw Mechanism
 
-Update elements in-place with `redraw()` for minimal DOM updates.
+`<KTFor... />` elements in-place with `redraw()` for minimal DOM updates.
 
-```typescript
-const element = <div class="counter">{count}</div>;
-element.redraw({ class: 'counter updated' }, [count.value + 1]);
+```tsx
+const element = <KTFor list={someArray} map={(v) => 2 * v} />;
+element.redraw({ list: [1, 2, 3] });
 ```
 
 ## Router (@ktjs/router)

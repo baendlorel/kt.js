@@ -29,7 +29,6 @@ interface KTBaseAttribute {
   // # kt-specific attributes
   ref?: KTRef<JSX.Element>;
 
-  // todo 是否要让k-if是KTRef的时候具备响应能力?
   /**
    * If a `KTRef` is bound, it will be reactive; otherwise, it will be static.
    */

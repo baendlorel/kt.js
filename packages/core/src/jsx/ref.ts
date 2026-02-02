@@ -101,7 +101,7 @@ function kcollect<T extends Object>(this: KTSurfaceRef<T>): T {
 }
 
 /**
- * A ref that respond to `obj.depth1prop`
+ * Make all first-level properties of the object a `KTRef`.
  * - `obj.a.b` is not reactive
  */
 export const surfaceRef = <T extends Object>(obj: T): KTSurfaceRef<T> => {

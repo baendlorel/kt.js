@@ -1,5 +1,28 @@
 # Change Log 🕒
 
+## 0.21.0 2026-02-02
+
+### Core Features (@ktjs/core)
+
+- **Reactive k-if**: Added reactive support for `k-if` attribute with `ref` integration
+  - `k-if` now accepts `ref` values and automatically updates DOM when ref changes
+  - Example: `<div k-if={showRef}>Content</div>` where `showRef` is a `ref<boolean>`
+- **surfaceRef Utilities**: Added convenient `surfaceRef` series for common reactive patterns
+  - `surfaceRef` creates refs with automatic DOM updates for simple use cases
+- **replaceWith Export**: Added `$replaceWith` utility to shared package for DOM replacement
+- **Type Improvements**: Enhanced HTML type definitions and moved type locations for better organization
+- **Shared Package Enhancements**: Added new utility exports and separate publishing commands
+
+### Router (@ktjs/router)
+
+- **Version Bump**: Updated to 0.20.0 with dependency alignment
+- **Build Configuration**: Improved exports configuration for better module resolution
+
+### Build System
+
+- **Plugin Configuration**: Updated babel-plugin-ktjsx exports configuration
+- **Version Synchronization**: Prepared for two-way binding feature development
+
 ## 0.19.0 2026-01-31
 
 ### Highlights

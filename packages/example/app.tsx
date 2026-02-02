@@ -7,6 +7,7 @@ import { FeatCounter } from './feats/feat-counter.js';
 import { FeatEvents } from './feats/feat-events.js';
 import { FeatKTFor } from './feats/feat-ktfor.js';
 import { FeatMui } from './feats/feat-mui.js';
+import { FeatDirectives } from './feats/feat-directives.js';
 
 // Navigation structure
 interface NavItem {
@@ -23,6 +24,12 @@ const navItems: { [section: string]: NavItem[] } = {
       label: 'Getting Started',
       title: 'Getting Started',
       description: 'Introduction to KT.js framework and core concepts',
+    },
+    {
+      id: 'directives',
+      label: 'Directives Demo',
+      title: 'Directives Demo',
+      description: 'k-if k-model and other directives in action',
     },
     {
       id: 'counter',
@@ -56,6 +63,7 @@ const navItems: { [section: string]: NavItem[] } = {
 // Page components mapping
 const pageComponents: { [key: string]: () => JSX.Element } = {
   home: FeatHome,
+  directives: FeatDirectives,
   counter: FeatCounter,
   events: FeatEvents,
   ktfor: FeatKTFor,

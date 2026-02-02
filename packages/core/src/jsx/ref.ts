@@ -64,6 +64,10 @@ export class KTRef<T> {
   }
 }
 
+export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => {
+  return typeof obj === 'object' && obj !== null && obj.isKT === true;
+};
+
 /**
  * Reference to the created HTML element.
  * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.

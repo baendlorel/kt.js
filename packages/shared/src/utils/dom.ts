@@ -4,6 +4,8 @@ import { $emptyFn } from './misc.js';
 
 // # dom natives
 
+export const $replaceWith = Element.prototype.replaceWith;
+
 /**
  * & Remove `bind` because it is shockingly slower than wrapper
  * & `window.document` is safe because it is not configurable and its setter is undefined

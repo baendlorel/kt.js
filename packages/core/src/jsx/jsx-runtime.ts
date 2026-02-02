@@ -2,11 +2,21 @@ import type { HTMLTag } from '../types/global.js';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
-import { type KTRef, ref } from './ref.js';
+import { isKTRef, type KTRef, ref } from './ref.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
 const dummyRef = { value: null } as unknown as KTRef<HTMLElement>;
+
+const create = (tag: JSXTag, props: KTAttribute): HTMLElement => {
+  if (typeof tag === 'function') {
+    return tag(props) as HTMLElement;
+  } else {
+    return h(tag, props, props.children) as HTMLElement;
+  }
+};
+
+const placeholder = () => document.createComment('k-if') as unknown as JSX.Element;
 
 /**
  * @param tag html tag or function component
@@ -16,9 +26,24 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
   const ref = props.ref?.isKT ? (props.ref as KTRef<JSX.Element>) : dummyRef;
 
   let el: JSX.Element;
-  if ('k-if' in props && !props['k-if']) {
+  if ('k-if' in props) {
+    const kif = props['k-if'];
+    if (isKTRef(kif)) {
+      kif.addOnChange((newKif) => {
+        if (newKif) {
+          const newEl = create(tag, props);
+          (ref.value as unknown as ChildNode).replaceWith(newEl);
+          ref.value = newEl;
+        } else {
+          el = placeholder();
+          (ref.value as unknown as ChildNode).replaceWith(el);
+          ref.value = el;
+        }
+      });
+    }
+
     // & make comment placeholder in case that ref might be redrawn later
-    el = document.createComment('k-if') as unknown as JSX.Element;
+    el = placeholder();
     ref.value = el;
     return el;
   }

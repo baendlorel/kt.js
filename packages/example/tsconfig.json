@@ -10,5 +10,5 @@
     ]
   },
   "include": ["*.tsx", "*.ts", "feats/**/*.tsx"],
-  "references": [{ "path": "../core" }, { "path": "../mui" }]
+  "references": [{ "path": "../core" }, { "path": "../mui" }, { "path": "../tsplugin" }]
 }

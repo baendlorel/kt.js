@@ -76,6 +76,14 @@ export default function init(modules: { typescript: any }): {
             if (message.includes("Property '@") && message.includes("does not exist")) {
               return false; // Filter out this error
             }
+            // Check for "Declaration expected" errors related to @ attributes (decorator syntax)
+            if (message.includes("Declaration expected") && message.includes("@")) {
+              return false; // Filter out this error
+            }
+            // Check for "Decorators are not valid here" errors
+            if (message.includes("Decorators are not valid here") && message.includes("@")) {
+              return false; // Filter out this error
+            }
           }
           return true;
         });

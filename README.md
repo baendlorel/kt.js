@@ -85,13 +85,32 @@ const AsyncContent = async () => {
 
 ### Directives
 
-**`k-if`**: Conditional rendering.
+#### `k-if`: Conditional rendering.
 
 ```tsx
 <div k-if={condition}>This will render only if condition is true.</div>
 ```
 
 If a `ref` instance is bound, the element will automatically redraw on changes.
+
+#### `k-model`: Two-way data binding for form elements.
+
+Must bind to a `ref` instance.
+
+```tsx
+import { ref } from 'kt.js';
+const name = ref('');
+
+function NameInput() {
+  return (
+    <div>
+      <input type="text" k-model={name} />
+    </div>
+  );
+}
+
+name.value = 'New Name'; // Updates input value
+```
 
 ### CreateRedrawable
 
@@ -121,6 +140,18 @@ count.addOnChange((newVal, oldVal) => {
 
 // Update triggers change listeners
 count.value = 1;
+```
+
+#### Surface Reactive Objects
+
+Create depth-1 reactive objects with `surfaceRef()`.
+Basically a helper of wrapping each property with `ref()`.
+
+```tsx
+const obj = surfaceRef({ a: 1, b: 2 });
+obj.a.value = 3; // Triggers change listeners for obj.a
+
+const data = obj.kcollect(); // Deref to the original object { a: 3, b: 2 }
 ```
 
 ### Redraw Mechanism

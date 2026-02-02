@@ -7,7 +7,7 @@ export { KTAsync } from './jsx/async.js';
 export { KTFor } from './jsx/for.js';
 export type { KTForProps, KTForElement } from './jsx/for.js';
 
-export type { HTMLTag } from './types/global.js';
+export type { HTMLTag, SVGTag, MathMLTag, InputElementTag } from './types/global.js';
 export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';
 export type * from './types/jsx.js';
 

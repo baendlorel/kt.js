@@ -4,6 +4,8 @@ import type { ChangeHandler } from '../../common/handler.ts';
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
+  'k-model'?: KTRef<T extends 'number' ? number : string>;
+
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   label?: string;

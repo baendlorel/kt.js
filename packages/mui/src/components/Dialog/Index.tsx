@@ -1,8 +1,9 @@
+import { isKTRef, KTRef, ref } from '@ktjs/core';
 import { $defines, $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
 interface KTMuiDialogProps {
-  open?: boolean;
+  open?: boolean | KTRef<boolean>;
   'kt:close'?: () => void;
   title?: string;
   children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[] | string;
@@ -14,6 +15,7 @@ interface KTMuiDialogProps {
 export type KTMuiDialog = JSX.Element & {
   /**
    * Controls whether the dialog is open or closed
+   * - Provide a `KTRef` to make it reactive
    */
   open: boolean;
 };
@@ -23,20 +25,29 @@ export type KTMuiDialog = JSX.Element & {
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let {
-    open = false,
-    'kt:close': onClose = $emptyFn,
-    title,
-    children,
-    actions,
-    maxWidth = 'sm',
-    fullWidth = false,
-  } = props;
+  let { 'kt:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+
+  const open = isKTRef(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);
+
+  open.addOnChange((isOpen) => {
+    if (isOpen) {
+      // Opening: set display first, then add class with double RAF for animation
+      container.style.display = 'flex';
+      setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
+    } else {
+      container.classList.remove('kt-dialog-backdrop-open');
+      setTimeout(() => {
+        if (!open) {
+          container.style.display = 'none';
+        }
+      }, 225);
+    }
+  });
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      open = false;
+      open.value = false;
       onClose();
     }
   };
@@ -50,9 +61,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // Backdrop element
   const container = (
     <div
-      class={`kt-dialog-backdrop ${open ? 'kt-dialog-backdrop-open' : ''}`}
+      class={`kt-dialog-backdrop ${open.value ? 'kt-dialog-backdrop-open' : ''}`}
       on:click={handleBackdropClick}
-      style={{ display: open ? 'flex' : 'none' }}
+      style={{ display: open.value ? 'flex' : 'none' }}
     >
       <div
         class={`kt-dialog-paper ${maxWidth ? `kt-dialog-maxWidth-${maxWidth}` : ''} ${
@@ -88,27 +99,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
 
   $defines(container, {
     open: {
-      get: () => open,
-      set: (isOpen: boolean) => {
-        if (isOpen === open) {
-          return;
-        }
-
-        open = isOpen;
-
-        if (isOpen) {
-          // Opening: set display first, then add class with double RAF for animation
-          container.style.display = 'flex';
-          setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
-        } else {
-          container.classList.remove('kt-dialog-backdrop-open');
-          setTimeout(() => {
-            if (!open) {
-              container.style.display = 'none';
-            }
-          }, 225);
-        }
-      },
+      get: () => open.value,
+      set: (isOpen: boolean) => (open.value = isOpen),
     },
   });
 

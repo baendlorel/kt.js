@@ -8,6 +8,7 @@ import { FeatEvents } from './feats/feat-events.js';
 import { FeatKTFor } from './feats/feat-ktfor.js';
 import { FeatMui } from './feats/feat-mui.js';
 import { FeatDirectives } from './feats/feat-directives.js';
+import { createDialogOpenRefDemo } from './feats/feat-dialog.js';
 
 // Navigation structure
 interface NavItem {
@@ -57,6 +58,12 @@ const navItems: { [section: string]: NavItem[] } = {
       title: 'MUI Component Library',
       description: 'Material-UI inspired components for KT.js',
     },
+    {
+      id: 'dialog',
+      label: 'Dialog',
+      title: 'MUI Dialog',
+      description: 'Material-UI Dialog',
+    },
   ],
 };
 
@@ -68,6 +75,7 @@ const pageComponents: { [key: string]: () => JSX.Element } = {
   events: FeatEvents,
   ktfor: FeatKTFor,
   mui: FeatMui,
+  dialog: createDialogOpenRefDemo,
 };
 
 // Create the main app

@@ -9,6 +9,6 @@
       }
     ]
   },
-  "include": ["*.tsx", "*.ts", "feats/**/*.tsx"],
+  "include": ["*.tsx", "*.ts", "src/**/*.tsx", "src/**/*.ts"],
   "references": [{ "path": "../core" }, { "path": "../mui" }]
 }

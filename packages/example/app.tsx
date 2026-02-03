@@ -2,20 +2,20 @@ import { ref } from '@ktjs/core';
 import icon from './assets/icon.svg';
 
 // Import all feat components
-import { FeatHome } from './feats/main/feat-home.js';
-import { FeatCounter } from './feats/main/feat-counter.js';
-import { FeatMainUsage } from './feats/main/BasicUsage.js';
+import { FeatHome } from './src/main/feat-home.js';
+import { FeatCounter } from './src/main/feat-counter.js';
+import { FeatMainUsage } from './src/main/BasicUsage.js';
 // Import MUI component demos
-import { MuiButtonDemo } from './feats/ui/mui-button.js';
-import { MuiAlertDemo } from './feats/ui/mui-alert.js';
-import { MuiTextFieldDemo } from './feats/ui/mui-textfield.js';
-import { MuiTextFieldRefDemo } from './feats/ui/mui-textfield-ref-demo.js';
-import { MuiDialogDemo } from './feats/ui/mui-dialog.js';
-import { MuiProgressDemo } from './feats/ui/mui-progress.js';
-import { MuiRadioDemo } from './feats/ui/mui-radio.js';
-import { MuiCheckboxDemo } from './feats/ui/mui-checkbox.js';
-import { MuiSelectDemo } from './feats/ui/mui-select.js';
-import { MuiIconsDemo } from './feats/ui/mui-icons.js';
+import { MuiButtonDemo } from './src/ui/mui-button.js';
+import { MuiAlertDemo } from './src/ui/mui-alert.js';
+import { MuiTextFieldDemo } from './src/ui/mui-textfield.js';
+import { MuiTextFieldRefDemo } from './src/ui/mui-textfield-ref-demo.js';
+import { MuiDialogDemo } from './src/ui/mui-dialog.js';
+import { MuiProgressDemo } from './src/ui/mui-progress.js';
+import { MuiRadioDemo } from './src/ui/mui-radio.js';
+import { MuiCheckboxDemo } from './src/ui/mui-checkbox.js';
+import { MuiSelectDemo } from './src/ui/mui-select.js';
+import { MuiIconsDemo } from './src/ui/mui-icons.js';
 
 // Navigation structure
 interface NavItem {

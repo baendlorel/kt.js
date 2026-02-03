@@ -1,35 +1,16 @@
 import { ref } from 'kt.js';
 import { codeToHtml } from 'shiki';
 
-const awaitedRef = (prom: Promise<string>) => {
-  const o = ref('');
-  prom.then((v) => (o.value = v));
-  return o;
-};
+import tsconfigCode from './tsconfig.example.json?raw';
+import viteConfigCode from './vite.config.example.ts?raw';
+import { highlight } from '../common/highlight.js';
 
 /**
  * Home page - Introduction to KT.js framework
  */
 export function Home() {
-  const tsconfig = awaitedRef(
-    codeToHtml(
-      `{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core",
-    "plugins": [
-      {
-        "name": "@ktjs/tsplugin"
-      }
-    ]
-  }
-}`,
-      {
-        lang: 'tsx',
-        theme: 'github-light',
-      },
-    ),
-  );
+  const tsconfig = highlight(tsconfigCode, 'json');
+  const viteConfig = highlight(viteConfigCode);
 
   return (
     <div>
@@ -81,22 +62,13 @@ export function Home() {
         <p>
           Add these settings to your <code>tsconfig.json</code>:
         </p>
-        <div k-html={tsconfig}></div>
+        {tsconfig}
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">3. Vite Configuration (Optional)</h4>
         <p>
-          If using Vite, add this to your <code>vite.config.ts</code>:
+          If using Vite, you may add this to your <code>vite.config.ts</code>:
         </p>
-        <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace;">
-          <pre style="margin: 0; overflow-x: auto;">{`import { defineConfig } from 'vite';
-
-export default defineConfig({
-  esbuild: {
-    jsx: 'automatic',
-    jsxImportSource: '@ktjs/core',
-  },
-});`}</pre>
-        </div>
+        {viteConfig}
       </div>
     </div>
   );

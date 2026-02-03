@@ -1,9 +1,10 @@
+import './styles.css';
 import { ref } from '@ktjs/core';
 import icon from './assets/icon.svg';
-import { NavItem } from './src/types/router.js';
+import { NavItem } from './types/router.js';
 
-import { basicNavItems } from './src/main/index.js';
-import { muiNavItems } from './src/ui/index.js';
+import { basicNavItems } from './main/index.js';
+import { muiNavItems } from './ui/index.js';
 
 const navItems: { [section: string]: NavItem[] } = {
   'Core Features': basicNavItems,

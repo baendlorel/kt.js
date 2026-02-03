@@ -8,12 +8,12 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@ktjs/babel-plugin-ktjsx": ["packages/babel-plugin-ktjsx/src/index.ts"],
       "@ktjs/runtime": ["packages/core/src/runtime.ts"],
       "@ktjs/router": ["packages/router/src/main.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
       "@ktjs/mui": ["packages/mui/src/index.ts"],
       "@ktjs/shared": ["packages/shared/src/index.ts"],
-      "@ktjs/tsplugin": ["packages/tsplugin/src/index.ts"],
 
       // & core
       "@ktjs/core": ["packages/core/src/index.ts"],
@@ -28,6 +28,7 @@
   },
   "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx", "packages/**/**/*.js"],
   "references": [
+    { "path": "./packages/}babel-plugin-ktjsx" },
     { "path": "./packages/core" },
     { "path": "./packages/example" },
     { "path": "./packages/mui" },

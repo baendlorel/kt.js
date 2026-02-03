@@ -1,4 +1,4 @@
-import { $throw } from '@ktjs/shared';
+import { $throw, MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
@@ -11,10 +11,6 @@ const htmlCreator = (tag: string) => document.createElement(tag);
 const svgCreator = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag);
 const mathMLCreator = (tag: string) => document.createElementNS('http://www.w3.org/1998/Math/MathML', tag);
 let creator: (tag: string) => any = htmlCreator;
-
-// # consts
-const SVG_ATTR_FLAG = '__kt_svg__';
-const MATHML_ATTR_FLAG = '__kt_mathml__';
 
 /**
  * Create an enhanced HTMLElement.

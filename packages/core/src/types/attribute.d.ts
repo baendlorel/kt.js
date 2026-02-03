@@ -1,151 +1,17 @@
 import type { otherstring } from '@ktjs/shared';
+import { KTPrefixedEventAttribute } from './h.js';
 
 type a = HTMLElementEventMap;
 
 // Base events available to all HTML elements
-interface BaseAttr {
+type BaseAttr = KTPrefixedEventAttribute & {
   [k: string]: any;
 
   // # base attributes
   class?: string;
   className?: string;
   style?: string | Partial<CSSStyleDeclaration>;
-
-  // # Events
-  // Mouse events
-  'on:click'?: (ev: PointerEvent) => void;
-  'on:dblclick'?: (ev: PointerEvent) => void;
-  'on:mousedown'?: (ev: PointerEvent) => void;
-  'on:mouseup'?: (ev: MouseEvent) => void;
-  'on:mousemove'?: (ev: MouseEvent) => void;
-  'on:mouseenter'?: (ev: MouseEvent) => void;
-  'on:mouseleave'?: (ev: MouseEvent) => void;
-  'on:mouseover'?: (ev: MouseEvent) => void;
-  'on:mouseout'?: (ev: MouseEvent) => void;
-  'on:contextmenu'?: (ev: PointerEvent) => void;
-
-  // Keyboard events
-  'on:keydown'?: (ev: KeyboardEvent) => void;
-  'on:keyup'?: (ev: KeyboardEvent) => void;
-  'on:keypress'?: (ev: KeyboardEvent) => void;
-
-  // Focus events
-  'on:focus'?: (ev: FocusEvent) => void;
-  'on:blur'?: (ev: FocusEvent) => void;
-  'on:focusin'?: (ev: FocusEvent) => void;
-  'on:focusout'?: (ev: FocusEvent) => void;
-
-  // Input events
-  'on:input'?: (ev: Event) => void;
-  'on:change'?: (ev: Event) => void;
-  'on:beforeinput'?: (ev: InputEvent) => void;
-
-  // Drag events
-  'on:drag'?: (ev: DragEvent) => void;
-  'on:dragstart'?: (ev: DragEvent) => void;
-  'on:dragend'?: (ev: DragEvent) => void;
-  'on:dragenter'?: (ev: DragEvent) => void;
-  'on:dragleave'?: (ev: DragEvent) => void;
-  'on:dragover'?: (ev: DragEvent) => void;
-  'on:drop'?: (ev: DragEvent) => void;
-
-  // Clipboard events
-  'on:copy'?: (ev: ClipboardEvent) => void;
-  'on:cut'?: (ev: ClipboardEvent) => void;
-  'on:paste'?: (ev: ClipboardEvent) => void;
-
-  // Touch events
-  'on:touchstart'?: (ev: TouchEvent) => void;
-  'on:touchmove'?: (ev: TouchEvent) => void;
-  'on:touchend'?: (ev: TouchEvent) => void;
-  'on:touchcancel'?: (ev: TouchEvent) => void;
-
-  // Wheel event
-  'on:wheel'?: (ev: WheelEvent) => void;
-
-  // Animation events
-  'on:animationstart'?: (ev: AnimationEvent) => void;
-  'on:animationend'?: (ev: AnimationEvent) => void;
-  'on:animationiteration'?: (ev: AnimationEvent) => void;
-
-  // Transition events
-  'on:transitionstart'?: (ev: TransitionEvent) => void;
-  'on:transitionend'?: (ev: TransitionEvent) => void;
-  'on:transitionrun'?: (ev: TransitionEvent) => void;
-  'on:transitioncancel'?: (ev: TransitionEvent) => void;
-
-  // Pointer events
-  'on:pointerdown'?: (ev: PointerEvent) => void;
-  'on:pointerup'?: (ev: PointerEvent) => void;
-  'on:pointermove'?: (ev: PointerEvent) => void;
-  'on:pointerenter'?: (ev: PointerEvent) => void;
-  'on:pointerleave'?: (ev: PointerEvent) => void;
-  'on:pointerover'?: (ev: PointerEvent) => void;
-  'on:pointerout'?: (ev: PointerEvent) => void;
-  'on:pointercancel'?: (ev: PointerEvent) => void;
-  'on:gotpointercapture'?: (ev: PointerEvent) => void;
-  'on:lostpointercapture'?: (ev: PointerEvent) => void;
-
-  // Selection events
-  'on:select'?: (ev: Event) => void;
-  'on:selectstart'?: (ev: Event) => void;
-
-  // Scroll event
-  'on:scroll'?: (ev: Event) => void;
-
-  // Resize event
-  'on:resize'?: (ev: UIEvent) => void;
-}
-
-// Form-specific events
-interface FormElementEvents {
-  'on:submit'?: (ev: SubmitEvent) => void;
-  'on:reset'?: (ev: Event) => void;
-  'on:invalid'?: (ev: Event) => void;
-}
-
-// Media-specific events
-interface MediaElementEvents {
-  'on:play'?: (ev: Event) => void;
-  'on:pause'?: (ev: Event) => void;
-  'on:playing'?: (ev: Event) => void;
-  'on:ended'?: (ev: Event) => void;
-  'on:canplay'?: (ev: Event) => void;
-  'on:canplaythrough'?: (ev: Event) => void;
-  'on:durationchange'?: (ev: Event) => void;
-  'on:emptied'?: (ev: Event) => void;
-  'on:loadeddata'?: (ev: Event) => void;
-  'on:loadedmetadata'?: (ev: Event) => void;
-  'on:loadstart'?: (ev: Event) => void;
-  'on:progress'?: (ev: ProgressEvent) => void;
-  'on:ratechange'?: (ev: Event) => void;
-  'on:seeked'?: (ev: Event) => void;
-  'on:seeking'?: (ev: Event) => void;
-  'on:stalled'?: (ev: Event) => void;
-  'on:suspend'?: (ev: Event) => void;
-  'on:timeupdate'?: (ev: Event) => void;
-  'on:volumechange'?: (ev: Event) => void;
-  'on:waiting'?: (ev: Event) => void;
-  'on:abort'?: (ev: UIEvent) => void;
-  'on:error'?: (ev: ErrorEvent) => void;
-}
-
-// Details-specific events
-interface DetailsElementEvents {
-  'on:toggle'?: (ev: Event) => void;
-}
-
-// Dialog-specific events
-interface DialogElementEvents {
-  'on:cancel'?: (ev: Event) => void;
-  'on:close'?: (ev: Event) => void;
-}
-
-// Image-specific events
-interface ImageElementEvents {
-  'on:load'?: (ev: Event) => void;
-  'on:error'?: (ev: ErrorEvent) => void;
-}
+};
 
 export interface AttributesMap {
   // Anchor element
@@ -190,16 +56,15 @@ export interface AttributesMap {
   };
 
   // Audio element
-  audio: BaseAttr &
-    MediaElementEvents & {
-      autoplay?: boolean;
-      controls?: boolean;
-      crossorigin?: 'anonymous' | 'use-credentials' | '';
-      loop?: boolean;
-      muted?: boolean;
-      preload?: 'none' | 'metadata' | 'auto' | '';
-      src?: string;
-    };
+  audio: BaseAttr & {
+    autoplay?: boolean;
+    controls?: boolean;
+    crossorigin?: 'anonymous' | 'use-credentials' | '';
+    loop?: boolean;
+    muted?: boolean;
+    preload?: 'none' | 'metadata' | 'auto' | '';
+    src?: string;
+  };
 
   // Base element
   base: BaseAttr & {
@@ -261,16 +126,14 @@ export interface AttributesMap {
   };
 
   // Details element
-  details: BaseAttr &
-    DetailsElementEvents & {
-      open?: boolean;
-    };
+  details: BaseAttr & {
+    open?: boolean;
+  };
 
   // Dialog element
-  dialog: BaseAttr &
-    DialogElementEvents & {
-      open?: boolean;
-    };
+  dialog: BaseAttr & {
+    open?: boolean;
+  };
 
   // Embed element
   embed: BaseAttr & {
@@ -288,18 +151,17 @@ export interface AttributesMap {
   };
 
   // Form element
-  form: BaseAttr &
-    FormElementEvents & {
-      'accept-charset'?: string;
-      action?: string;
-      autocomplete?: 'on' | 'off';
-      enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-      method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
+  form: BaseAttr & {
+    'accept-charset'?: string;
+    action?: string;
+    autocomplete?: 'on' | 'off';
+    enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+    method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 
-      name?: string;
-      novalidate?: boolean;
-      target?: '_self' | '_blank' | '_parent' | '_top' | string;
-    };
+    name?: string;
+    novalidate?: boolean;
+    target?: '_self' | '_blank' | '_parent' | '_top' | string;
+  };
 
   // Head element
   head: BaseAttr & {};
@@ -311,53 +173,51 @@ export interface AttributesMap {
   html: BaseAttr & {};
 
   // IFrame element
-  iframe: BaseAttr &
-    ImageElementEvents & {
-      allow?: string;
-      allowfullscreen?: boolean;
-      allowpaymentrequest?: boolean;
-      height?: number | string;
-      loading?: 'eager' | 'lazy';
-      name?: string;
-      referrerpolicy?:
-        | 'no-referrer'
-        | 'no-referrer-when-downgrade'
-        | 'origin'
-        | 'origin-when-cross-origin'
-        | 'same-origin'
-        | 'strict-origin'
-        | 'strict-origin-when-cross-origin'
-        | 'unsafe-url';
-      sandbox?: string;
-      src?: string;
-      srcdoc?: string;
-      width?: number | string;
-    };
+  iframe: BaseAttr & {
+    allow?: string;
+    allowfullscreen?: boolean;
+    allowpaymentrequest?: boolean;
+    height?: number | string;
+    loading?: 'eager' | 'lazy';
+    name?: string;
+    referrerpolicy?:
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url';
+    sandbox?: string;
+    src?: string;
+    srcdoc?: string;
+    width?: number | string;
+  };
 
   // Image element
-  img: BaseAttr &
-    ImageElementEvents & {
-      alt?: string;
-      crossorigin?: 'anonymous' | 'use-credentials' | '';
-      decoding?: 'sync' | 'async' | 'auto';
-      height?: number | string;
-      ismap?: boolean;
-      loading?: 'eager' | 'lazy';
-      referrerpolicy?:
-        | 'no-referrer'
-        | 'no-referrer-when-downgrade'
-        | 'origin'
-        | 'origin-when-cross-origin'
-        | 'same-origin'
-        | 'strict-origin'
-        | 'strict-origin-when-cross-origin'
-        | 'unsafe-url';
-      sizes?: string;
-      src?: string;
-      srcset?: string;
-      usemap?: string;
-      width?: number | string;
-    };
+  img: BaseAttr & {
+    alt?: string;
+    crossorigin?: 'anonymous' | 'use-credentials' | '';
+    decoding?: 'sync' | 'async' | 'auto';
+    height?: number | string;
+    ismap?: boolean;
+    loading?: 'eager' | 'lazy';
+    referrerpolicy?:
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url';
+    sizes?: string;
+    src?: string;
+    srcset?: string;
+    usemap?: string;
+    width?: number | string;
+  };
 
   // Input element
   input: BaseAttr & {
@@ -435,30 +295,29 @@ export interface AttributesMap {
   };
 
   // Link element
-  link: BaseAttr &
-    ImageElementEvents & {
-      as?: string;
-      crossorigin?: 'anonymous' | 'use-credentials' | '';
-      disabled?: boolean;
-      href?: string;
-      hreflang?: string;
-      imagesizes?: string;
-      imagesrcset?: string;
-      integrity?: string;
-      media?: string;
-      referrerpolicy?:
-        | 'no-referrer'
-        | 'no-referrer-when-downgrade'
-        | 'origin'
-        | 'origin-when-cross-origin'
-        | 'same-origin'
-        | 'strict-origin'
-        | 'strict-origin-when-cross-origin'
-        | 'unsafe-url';
-      rel?: string;
-      sizes?: string;
-      type?: string;
-    };
+  link: BaseAttr & {
+    as?: string;
+    crossorigin?: 'anonymous' | 'use-credentials' | '';
+    disabled?: boolean;
+    href?: string;
+    hreflang?: string;
+    imagesizes?: string;
+    imagesrcset?: string;
+    integrity?: string;
+    media?: string;
+    referrerpolicy?:
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url';
+    rel?: string;
+    sizes?: string;
+    type?: string;
+  };
 
   // Map element
   map: BaseAttr & {
@@ -488,16 +347,15 @@ export interface AttributesMap {
   };
 
   // Object element
-  object: BaseAttr &
-    ImageElementEvents & {
-      data?: string;
-      form?: string;
-      height?: number | string;
-      name?: string;
-      type?: string;
-      usemap?: string;
-      width?: number | string;
-    };
+  object: BaseAttr & {
+    data?: string;
+    form?: string;
+    height?: number | string;
+    name?: string;
+    type?: string;
+    usemap?: string;
+    width?: number | string;
+  };
 
   // OL element
   ol: BaseAttr & {
@@ -549,25 +407,24 @@ export interface AttributesMap {
   };
 
   // Script element
-  script: BaseAttr &
-    ImageElementEvents & {
-      async?: boolean;
-      crossorigin?: 'anonymous' | 'use-credentials' | '';
-      defer?: boolean;
-      integrity?: string;
-      nomodule?: boolean;
-      referrerpolicy?:
-        | 'no-referrer'
-        | 'no-referrer-when-downgrade'
-        | 'origin'
-        | 'origin-when-cross-origin'
-        | 'same-origin'
-        | 'strict-origin'
-        | 'strict-origin-when-cross-origin'
-        | 'unsafe-url';
-      src?: string;
-      type?: string;
-    };
+  script: BaseAttr & {
+    async?: boolean;
+    crossorigin?: 'anonymous' | 'use-credentials' | '';
+    defer?: boolean;
+    integrity?: string;
+    nomodule?: boolean;
+    referrerpolicy?:
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url';
+    src?: string;
+    type?: string;
+  };
 
   // Select element
   select: BaseAttr & {
@@ -597,10 +454,9 @@ export interface AttributesMap {
   };
 
   // Style element
-  style: BaseAttr &
-    ImageElementEvents & {
-      media?: string;
-    };
+  style: BaseAttr & {
+    media?: string;
+  };
 
   // Table element
   table: BaseAttr & {};
@@ -671,20 +527,19 @@ export interface AttributesMap {
   ul: BaseAttr & {};
 
   // Video element
-  video: BaseAttr &
-    MediaElementEvents & {
-      autoplay?: boolean;
-      controls?: boolean;
-      crossorigin?: 'anonymous' | 'use-credentials' | '';
-      height?: number | string;
-      loop?: boolean;
-      muted?: boolean;
-      playsinline?: boolean;
-      poster?: string;
-      preload?: 'none' | 'metadata' | 'auto' | '';
-      src?: string;
-      width?: number | string;
-    };
+  video: BaseAttr & {
+    autoplay?: boolean;
+    controls?: boolean;
+    crossorigin?: 'anonymous' | 'use-credentials' | '';
+    height?: number | string;
+    loop?: boolean;
+    muted?: boolean;
+    playsinline?: boolean;
+    poster?: string;
+    preload?: 'none' | 'metadata' | 'auto' | '';
+    src?: string;
+    width?: number | string;
+  };
 
   // Generic HTMLElement (no specific attributes beyond BaseEvent)
   abbr: BaseAttr & {};

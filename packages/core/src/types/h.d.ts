@@ -99,11 +99,11 @@ interface KTBaseAttribute {
   method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 }
 
-export type KTPrefixedEventHandlers = {
+export type KTPrefixedEventAttribute = {
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 
-export type KTAttribute = KTBaseAttribute & KTPrefixedEventHandlers;
+export type KTAttribute = KTBaseAttribute & KTPrefixedEventAttribute;
 
 export type KTComponent = (
   props: {

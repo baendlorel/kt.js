@@ -1,6 +1,6 @@
 import type { KTRef } from '../jsx/ref.ts';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
-import type { KTRawContent } from './h.js';
+import type { KTPrefixedEventAttribute, KTRawContent } from './h.js';
 
 declare global {
   namespace JSX {
@@ -240,13 +240,13 @@ declare global {
       // 'svg:view': SVGAttributesMap['view'];
     }
 
-    interface IntrinsicAttributes {
+    type IntrinsicAttributes = KTPrefixedEventAttribute & {
       ref?: KTRef<any>;
       'k-if'?: any;
       'k-model'?: KTRef<any>;
       'k-html'?: any;
       children?: KTRawContent;
-    }
+    };
 
     interface ElementChildrenAttribute {
       children: {};

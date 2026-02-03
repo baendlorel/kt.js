@@ -14,3 +14,19 @@ export const parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefi
   }
   return '';
 };
+
+export const registerPrefixedEvents = (element: HTMLElement, props: { [key: string]: any }) => {
+  for (const key in props) {
+    if (key.startsWith('on:')) {
+      element.addEventListener(key.slice(3), props[key]);
+    }
+  }
+};
+
+export const registerPrefixedEventsForButton = (element: HTMLElement, props: { [key: string]: any }) => {
+  for (const key in props) {
+    if (key.startsWith('on:') && key !== 'on:click' && key !== 'on:dblclick') {
+      element.addEventListener(key.slice(3), props[key]);
+    }
+  }
+};

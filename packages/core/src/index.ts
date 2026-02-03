@@ -8,7 +8,14 @@ export { KTFor } from './jsx/for.js';
 export type { KTForProps, KTForElement } from './jsx/for.js';
 
 export type { HTMLTag, SVGTag, MathMLTag, InputElementTag } from '@ktjs/shared';
-export type { KTRawContent, KTRawContents, KTRawAttr, EventHandler, KTAttribute } from './types/h.js';
+export type {
+  KTRawContent,
+  KTRawContents,
+  KTRawAttr,
+  EventHandler,
+  KTAttribute,
+  KTPrefixedEventAttribute,
+} from './types/h.js';
 export type * from './types/jsx.js';
 
 // todo 可以考虑加入SSR服务端渲染

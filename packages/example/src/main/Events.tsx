@@ -1,10 +1,11 @@
-import '@ktjs/core/jsx';
+import { ref } from 'kt.js';
+import { Button } from '@ktjs/mui';
 
 /**
  * Event Handling Demo - Shows how to use event handlers in KT.js
  */
 export function FeatEvents() {
-  const output = (<div class="output-text">Click a button to see event handling in action</div>) as HTMLDivElement;
+  const outputRef = ref('Click a button to see event handling in action');
 
   return (
     <div class="demo-section">
@@ -14,25 +15,24 @@ export function FeatEvents() {
       </p>
 
       <div style="margin: 20px 0;">
-        <button on:click={() => (output.textContent = `✓ Clicked at ${new Date().toLocaleTimeString()}`)}>
+        <Button on:click={() => (outputRef.value = `✓ Clicked at ${new Date().toLocaleTimeString()}`)}>
           Click Event
-        </button>
-        <button on:dblclick={() => (output.textContent = '✓ Double clicked!')}>Double Click</button>
-        <button
-          on:mouseenter={() => (output.textContent = '✓ Mouse entered!')}
-          on:mouseleave={() => (output.textContent = '✓ Mouse left!')}
+        </Button>
+        <Button on:dblclick={() => (outputRef.value = '✓ Double clicked!')}>Double Click</Button>
+        <Button
+          on:mouseenter={() => (outputRef.value = '✓ Mouse entered!')}
+          on:mouseleave={() => (outputRef.value = '✓ Mouse left!')}
         >
           Hover Me
-        </button>
-        <button
-          on:focus={() => (output.textContent = '✓ Button focused!')}
-          on:blur={() => (output.textContent = '✓ Button blurred!')}
+        </Button>
+        <Button
+          on:focus={() => (outputRef.value = '✓ Button focused!')}
+          on:blur={() => (outputRef.value = '✓ Button blurred!')}
         >
           Focus Me
-        </button>
+        </Button>
       </div>
-
-      {output}
+      <div class="output-text"> {outputRef}</div>
     </div>
   );
 }

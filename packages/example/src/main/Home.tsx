@@ -15,22 +15,20 @@ export function Home() {
   return (
     <div>
       <div class="demo-section">
+        <h3>Introduction</h3>
         <p>
-          KT.js is a lightweight, direct DOM manipulation framework that <strong>never re-renders</strong>. Unlike React
-          or Vue which use virtual DOM and automatic re-rendering, KT.js gives you fine-grained control over when and
-          how DOM updates happen.
+          kt.js is a lightweight, direct DOM manipulation framework with <code>jsx</code>. Unlike React or Vue which use
+          virtual DOM and automatic re-rendering, kt.js gives you fine-grained control over when and how DOM updates
+          happen.
         </p>
-        <ul style="margin-left: 24px; color: #666; line-height: 2;">
+        {/* <ul style="margin-left: 24px; color: #666; line-height: 2;">
           <li>📦 Direct DOM manipulation without virtual DOM overhead</li>
           <li>⚡ JSX support with TypeScript</li>
           <li>🎯 Manual redraw mechanism and precise `ref` objects</li>
           <li>📋 Efficient list rendering with KTFor component</li>
           <li>🎨 Material-UI inspired component library</li>
           <li>🔀 Client-side routing with @ktjs/router</li>
-        </ul>
-      </div>
-
-      <div class="demo-section">
+        </ul> */}
         <h3>Getting Started</h3>
         <p style="color: #666; margin-bottom: 16px;">Follow these steps to start using KT.js in your project:</p>
 

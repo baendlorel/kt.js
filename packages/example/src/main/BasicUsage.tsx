@@ -9,14 +9,6 @@ export function BasicUsage() {
   return (
     <div>
       <div class="demo-section">
-        <h2>Basic</h2>
-        <p>
-          This section combines three fundamental features of KT.js: Directives, Event Handling, and KTFor list
-          rendering. These are the core building blocks for creating interactive applications.
-        </p>
-      </div>
-
-      <div class="demo-section">
         <h3>Directives</h3>
         <p>KT.js provides several directives for declarative DOM manipulation:</p>
         <ul style="margin-left: 24px; color: #666; line-height: 1.8;">

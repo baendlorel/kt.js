@@ -15,7 +15,7 @@ export const basicNavItems: NavItem[] = [
     id: 'basic-usage',
     label: 'Basic Usage',
     title: 'Basic Usage',
-    description: 'Directives, Event Handling, and KTFor list rendering',
+    description: `This section combines three fundamental features of KT.js: Directives, Event Handling, and KTFor list rendering. These are the core building blocks for creating interactive applications.`,
     component: BasicUsage,
   },
   {

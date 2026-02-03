@@ -1,5 +1,6 @@
-import { $append, $isArray, $isThenable } from '@ktjs/shared';
+import { $append, $appendChild, $isArray, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
+import { isKTRef } from '../jsx/ref.js';
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & JSX should ignore false, undefined, and null
@@ -7,10 +8,11 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     return;
   }
 
-  if (typeof c === 'object' && c !== null && 'isKT' in c) {
-    $append.call(element, c.value as Node);
+  if (isKTRef(c)) {
+    const node = $appendChild.call(element, c.value as Node);
+    c.addOnChange((newValue) => (node as ChildNode).replaceWith(newValue));
   } else {
-    $append.call(element, c as Node);
+    $appendChild.call(element, c as Node);
 
     // Handle KTFor anchor
     const list = (c as any).__kt_for_list__ as any[];

@@ -1,4 +1,4 @@
-import { $modelOrRef, createRedrawable, KTRef, ref } from '@ktjs/core';
+import { $modelOrRef, createRedrawable, deref, KTRef, ref } from '@ktjs/core';
 import './Input.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -95,7 +95,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // Create refs for all reactive properties
   const labelRef = ref(props.label ?? '');
   const placeholderRef = ref(props.placeholder ?? '');
-  const inputType = props.type ?? ('text' as T);
+  const inputType = deref(props.type) ?? ('text' as T);
   const disabledRef = ref(!!props.disabled);
   const readonlyRef = ref(!!props.readonly);
   const requiredRef = ref(!!props.required);

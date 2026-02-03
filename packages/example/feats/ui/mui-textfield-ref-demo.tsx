@@ -110,6 +110,7 @@ export function MuiTextFieldRefDemo() {
         <div class="textfield-demo-area">
           <h3>Live TextField</h3>
           <TextField
+            type={typeRef}
             label={labelRef}
             placeholder={placeholderRef}
             k-model={valueRef}
@@ -122,7 +123,6 @@ export function MuiTextFieldRefDemo() {
             multiline={multilineRef}
             rows={rowsRef}
             size={sizeRef}
-            type={typeRef}
             kt:input={(val) => console.log('Input:', val)}
           />
 
@@ -153,79 +153,79 @@ export function MuiTextFieldRefDemo() {
           <div class="control-grid">
             <div class="control-group">
               <button on:click={toggleLabel}>
-                <span k-if={labelRef}> Toggle Label: {labelRef}</span>
+                Toggle Label: <span k-if={labelRef}>{labelRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={togglePlaceholder}>
-                <span k-if={placeholderRef}>Toggle Placeholder: {placeholderRef}</span>
+                Toggle Placeholder: <span k-if={placeholderRef}>{placeholderRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleValue}>
-                <span k-if={valueRef}>Toggle Value: {valueRef}</span>
+                Toggle Value: <span k-if={valueRef}>{valueRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleDisabled}>
-                <span k-if={disabledRef}>Toggle Disabled: {disabledRef}</span>
+                Toggle Disabled:<span k-if={disabledRef}>{disabledRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleReadonly}>
-                <span k-if={readonlyRef}>Toggle Readonly: {readonlyRef}</span>
+                Toggle Readonly: <span k-if={readonlyRef}>{readonlyRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleRequired}>
-                <span k-if={requiredRef}>Toggle Required: {requiredRef}</span>
+                Toggle Required: <span k-if={requiredRef}>{requiredRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleError}>
-                <span k-if={errorRef}>Toggle Error: {errorRef}</span>
+                Toggle Error: <span k-if={errorRef}> {errorRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleHelperText}>
-                <span k-if={helperTextRef}>Toggle Helper Text: {helperTextRef}</span>
+                Toggle Helper Text: <span k-if={helperTextRef}>{helperTextRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleFullWidth}>
-                <span k-if={fullWidthRef}>Toggle Full Width: {fullWidthRef}</span>
+                Toggle Full Width: <span k-if={fullWidthRef}>{fullWidthRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleMultiline}>
-                <span k-if={multilineRef}>Toggle Multiline: {multilineRef}</span>
+                Toggle Multiline: <span k-if={multilineRef}>{multilineRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleRows}>
-                <span k-if={rowsRef}>Toggle Rows: {rowsRef}</span>
+                Toggle Rows: <span k-if={rowsRef}>{rowsRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleSize}>
-                <span k-if={sizeRef}>Toggle Size: {sizeRef}</span>
+                Toggle Size: <span k-if={sizeRef}> {sizeRef}</span>
               </button>
             </div>
 
             <div class="control-group">
               <button on:click={toggleType}>
-                <span k-if={typeRef}>Toggle Type: {typeRef}</span>
+                Toggle Type: <span k-if={typeRef}> {typeRef}</span>
               </button>
             </div>
           </div>

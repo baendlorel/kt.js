@@ -243,6 +243,8 @@ declare global {
     interface IntrinsicAttributes {
       ref?: KTRef<any>;
       'k-if'?: any;
+      'k-model'?: KTRef<any>;
+      'k-html'?: any;
       children?: KTRawContent;
     }
 

@@ -1,31 +1,36 @@
 import { ref } from 'kt.js';
 import { codeToHtml } from 'shiki';
 
+const awaitedRef = (prom: Promise<string>) => {
+  const o = ref('');
+  prom.then((v) => (o.value = v));
+  return o;
+};
+
 /**
  * Home page - Introduction to KT.js framework
  */
 export function Home() {
-  let counterCode = ref('');
-  codeToHtml(
-    `const div = (<div>Initial</div>) as JSX.Element;
-div.redraw(undefined, 'Updated content');
-
-function Counter({ count = 0 }) {
-  return (
-    <div>
-      <span>Count: {count}</span>
-      <button on:click={() => el.redraw({ count: count + 1 })}>
-        +
-      </button>
-    </div>
+  const tsconfig = awaitedRef(
+    codeToHtml(
+      `{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/core",
+    "plugins": [
+      {
+        "name": "@ktjs/tsplugin"
+      }
+    ]
+  }
+}`,
+      {
+        lang: 'tsx',
+        theme: 'github-light',
+      },
+    ),
   );
-}
-const el = (<Counter />) as JSX.Element;`,
-    {
-      lang: 'tsx',
-      theme: 'github-light',
-    },
-  ).then((v) => (counterCode.value = v));
+
   return (
     <div>
       <div class="demo-section">
@@ -54,12 +59,6 @@ const el = (<Counter />) as JSX.Element;`,
       </div>
 
       <div class="demo-section">
-        <h3>Quick Example</h3>
-        <p style="color: #666;">Here's how you create and update elements in KT.js:</p>
-        <div k-html={counterCode}></div>
-      </div>
-
-      <div class="demo-section">
         <h3>Getting Started</h3>
         <p style="color: #666; margin-bottom: 16px;">Follow these steps to start using KT.js in your project:</p>
 
@@ -82,22 +81,7 @@ const el = (<Counter />) as JSX.Element;`,
         <p>
           Add these settings to your <code>tsconfig.json</code>:
         </p>
-        <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'Courier New', monospace;">
-          <pre style="margin: 0; overflow-x: auto;">{`{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core",
-    "plugins": [
-      {
-        "name": "@ktjs/tsplugin"
-      }
-    ]
-  }
-}`}</pre>
-        </div>
-        <p style="color: #666; margin-top: 12px;">
-          The TypeScript plugin provides better IDE support and type checking for KT.js directives.
-        </p>
+        <div k-html={tsconfig}></div>
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">3. Vite Configuration (Optional)</h4>
         <p>

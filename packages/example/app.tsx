@@ -1,5 +1,5 @@
 import { ref } from '@ktjs/core';
-import '@ktjs/core/jsx';
+import icon from './assets/icon.svg';
 
 // Import all feat components
 import { FeatHome } from './feats/feat-home.js';
@@ -244,6 +244,11 @@ function createApp() {
   );
 }
 
+function setIcon() {
+  const link = <link rel="shortcut icon" href={icon} type="image/x-icon" />;
+  document.head.appendChild(link);
+}
+
 // Mount the application
-const appContainer = document.getElementById('app')!;
-appContainer.appendChild(createApp());
+document.getElementById('app')!.appendChild(createApp());
+setIcon();

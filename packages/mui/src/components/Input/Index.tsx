@@ -1,4 +1,4 @@
-import { $modelOrRef, createRedrawable, deref, KTRef, ref } from '@ktjs/core';
+import { $modelOrRef, deref, ref } from '@ktjs/core';
 import './Input.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';

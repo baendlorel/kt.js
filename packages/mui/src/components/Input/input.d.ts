@@ -8,7 +8,7 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
    * Two-way binding for the input value
    * - Provide a `KTRef` to make it reactive
    */
-  'k-model'?: KTRef<T extends 'number' ? number : string>;
+  'k-model'?: T extends 'number' ? KTRef<number> : KTRef<string>;
 
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
@@ -78,10 +78,10 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
    * - Provide a `KTRef` to make it reactive
    */
   size?: 'small' | 'medium' | KTRef<'small' | 'medium'>;
-  'kt:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt-trim:input'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
-  'kt-trim:change'?: T extends 'number' ? ChangeHandler<number> | KTRef<number> : ChangeHandler | KTRef<string>;
+  'kt:input'?: ChangeHandler<T extends 'number' ? number : string>;
+  'kt-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
+  'kt:change'?: ChangeHandler<T extends 'number' ? number : string>;
+  'kt-trim:change'?: ChangeHandler<T extends 'number' ? number : string>;
   'kt:blur'?: () => void;
   'kt:focus'?: () => void;
 }

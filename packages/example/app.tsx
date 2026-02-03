@@ -11,6 +11,7 @@ import { FeatDirectives } from './feats/feat-directives.js';
 import { MuiButtonDemo } from './feats/ui/mui-button.js';
 import { MuiAlertDemo } from './feats/ui/mui-alert.js';
 import { MuiTextFieldDemo } from './feats/ui/mui-textfield.js';
+import { MuiTextFieldRefDemo } from './feats/ui/mui-textfield-ref-demo.js';
 import { MuiDialogDemo } from './feats/ui/mui-dialog.js';
 import { MuiProgressDemo } from './feats/ui/mui-progress.js';
 import { MuiRadioDemo } from './feats/ui/mui-radio.js';
@@ -79,6 +80,12 @@ const navItems: { [section: string]: NavItem[] } = {
       description: 'Material-UI TextField component',
     },
     {
+      id: 'mui-textfield-ref',
+      label: 'TextField (Reactive Refs)',
+      title: 'MUI TextField with Reactive Refs',
+      description: 'Demonstrates all TextField properties controlled via KTRefs',
+    },
+    {
       id: 'mui-dialog',
       label: 'Dialog',
       title: 'MUI Dialog',
@@ -127,6 +134,7 @@ const pageComponents: { [key: string]: () => JSX.Element } = {
   'mui-button': MuiButtonDemo,
   'mui-alert': MuiAlertDemo,
   'mui-textfield': MuiTextFieldDemo,
+  'mui-textfield-ref': MuiTextFieldRefDemo,
   'mui-dialog': MuiDialogDemo,
   'mui-progress': MuiProgressDemo,
   'mui-radio': MuiRadioDemo,

@@ -1,6 +1,8 @@
-import { $append, $appendChild, $isArray, $isThenable } from '@ktjs/shared';
+import { $append, $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKTRef } from '../jsx/ref.js';
+
+const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & JSX should ignore false, undefined, and null
@@ -9,9 +11,19 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   }
 
   if (isKTRef(c)) {
-    const node = c.value instanceof Node ? c.value : 
-    const node = $appendChild.call(element, c.value as Node);
-    c.addOnChange((newValue) => (node as ChildNode).replaceWith(newValue));
+    let node = assureNode(c.value);
+    $append.call(element, node);
+    c.addOnChange((newValue, oldValue) => {
+      if ($isNode(newValue) && $isNode(oldValue)) {
+        // & this case is handled automically in `class KTRef`
+        // todo 2 cases might be able to merge into 1
+        return;
+      }
+
+      const oldNode = node;
+      node = assureNode(newValue);
+      oldNode.replaceWith(node);
+    });
   } else {
     $append.call(element, c as Node);
 

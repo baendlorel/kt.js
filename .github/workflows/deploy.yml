@@ -26,12 +26,14 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm install
-      - name: Build project
-        run: npm run build
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Build example
+        run: pnpm run build:example
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: packages/example/dist
 
   deploy:
     environment:

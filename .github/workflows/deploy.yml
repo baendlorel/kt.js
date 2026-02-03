@@ -2,7 +2,7 @@ name: Deploy kt.js example to GitHub Pages
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'document']
   workflow_dispatch:
 
 permissions:

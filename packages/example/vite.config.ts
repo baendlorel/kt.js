@@ -3,6 +3,7 @@ import { resolve } from 'path';
 
 // Vite config for KT.js development
 export default defineConfig({
+  base: '/kt.js',
   esbuild: {
     jsx: 'automatic',
     jsxImportSource: '@ktjs/core',

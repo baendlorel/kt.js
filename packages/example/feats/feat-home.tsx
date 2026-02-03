@@ -1,9 +1,29 @@
-import '@ktjs/core/jsx';
+import { codeToHtml } from 'shiki';
 
 /**
  * Home page - Introduction to KT.js framework
  */
 export function FeatHome() {
+  const counterCode = codeToHtml(
+    `const div = (<div>Initial</div>) as JSX.Element;
+div.redraw(undefined, 'Updated content');
+
+function Counter({ count = 0 }) {
+  return (
+    <div>
+      <span>Count: {count}</span>
+      <button on:click={() => el.redraw({ count: count + 1 })}>
+        +
+      </button>
+    </div>
+  );
+}
+const el = (<Counter />) as JSX.Element;`,
+    {
+      lang: 'tsx',
+      theme: 'vitesse-dark',
+    },
+  );
   return (
     <div>
       <div class="demo-section">
@@ -24,7 +44,7 @@ export function FeatHome() {
         <ul style="margin-left: 24px; color: #666; line-height: 2;">
           <li>📦 Direct DOM manipulation without virtual DOM overhead</li>
           <li>⚡ JSX support with TypeScript</li>
-          <li>🎯 Manual redraw mechanism for precise control</li>
+          <li>🎯 Manual redraw mechanism and precise `ref` objects</li>
           <li>📋 Efficient list rendering with KTFor component</li>
           <li>🎨 Material-UI inspired component library</li>
           <li>🔀 Client-side routing with @ktjs/router</li>
@@ -34,22 +54,7 @@ export function FeatHome() {
       <div class="demo-section">
         <h3>Quick Example</h3>
         <p style="color: #666;">Here's how you create and update elements in KT.js:</p>
-        <pre style="background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 0.875rem;">
-          {`const div = (<div>Initial</div>) as JSX.Element;
-div.redraw(undefined, 'Updated content');
-
-function Counter({ count = 0 }) {
-  return (
-    <div>
-      <span>Count: {count}</span>
-      <button on:click={() => el.redraw({ count: count + 1 })}>
-        +
-      </button>
-    </div>
-  );
-}
-const el = (<Counter />) as JSX.Element;`}
-        </pre>
+        {counterCode}
       </div>
     </div>
   );

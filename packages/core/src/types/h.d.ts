@@ -40,6 +40,12 @@ interface KTBaseAttribute {
    */
   'k-model'?: KTRef<any>;
 
+  /**
+   * Directly apply html string to `innerHTML`.
+   * - Would be reactive if `KTRef` instance is provided
+   */
+  'k-html'?: any;
+
   // # normal HTML attributes
   id?: string;
   class?: string;

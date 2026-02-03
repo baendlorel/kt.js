@@ -1,5 +1,6 @@
 import { $throw } from '@ktjs/shared';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
+import { isKTRef } from '../jsx/ref.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
@@ -22,6 +23,16 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     }
   }
 
+  if ('k-html' in attr) {
+    const html = attr['k-html'];
+    if (isKTRef(html)) {
+      element.innerHTML = html.value;
+      html.addOnChange((v) => (element.innerHTML = v));
+    } else {
+      element.innerHTML = html;
+    }
+  }
+
   for (const key in attr) {
     if (
       key === 'class' ||
@@ -29,7 +40,8 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       key === 'style' ||
       key === 'children' ||
       key === 'k-if' ||
-      key.startsWith('k-model') ||
+      key === 'k-model' ||
+      key === 'k-html' ||
       key === 'ref'
     ) {
       continue;

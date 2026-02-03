@@ -3,7 +3,7 @@ import '@ktjs/core/jsx';
 /**
  * Counter Demo - Demonstrates manual state updates
  */
-export function FeatCounter() {
+export function Counter() {
   let count = 0;
   const counterDisplay = (<span>{count}</span>) as HTMLSpanElement;
 

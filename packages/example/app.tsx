@@ -1,130 +1,13 @@
 import { ref } from '@ktjs/core';
 import icon from './assets/icon.svg';
+import { NavItem } from './src/types/router.js';
 
-// Import all feat components
-import { FeatHome } from './src/main/feat-home.js';
-import { FeatCounter } from './src/main/feat-counter.js';
-import { FeatMainUsage } from './src/main/BasicUsage.js';
-// Import MUI component demos
-import { MuiButtonDemo } from './src/ui/mui-button.js';
-import { MuiAlertDemo } from './src/ui/mui-alert.js';
-import { MuiTextFieldDemo } from './src/ui/mui-textfield.js';
-import { MuiTextFieldRefDemo } from './src/ui/mui-textfield-ref-demo.js';
-import { MuiDialogDemo } from './src/ui/mui-dialog.js';
-import { MuiProgressDemo } from './src/ui/mui-progress.js';
-import { MuiRadioDemo } from './src/ui/mui-radio.js';
-import { MuiCheckboxDemo } from './src/ui/mui-checkbox.js';
-import { MuiSelectDemo } from './src/ui/mui-select.js';
-import { MuiIconsDemo } from './src/ui/mui-icons.js';
-
-// Navigation structure
-interface NavItem {
-  id: string;
-  label: string;
-  title: string;
-  description: string;
-}
+import { basicNavItems } from './src/main/index.js';
+import { muiNavItems } from './src/ui/index.js';
 
 const navItems: { [section: string]: NavItem[] } = {
-  'Core Features': [
-    {
-      id: 'home',
-      label: 'Getting Started',
-      title: 'Getting Started',
-      description: 'Introduction to KT.js framework and core concepts',
-    },
-    {
-      id: 'basic-usage',
-      label: 'Basic Usage',
-      title: 'Basic Usage',
-      description: 'Directives, Event Handling, and KTFor list rendering',
-    },
-    {
-      id: 'counter',
-      label: 'Counter Demo',
-      title: 'Counter Demo',
-      description: 'Basic state management with manual DOM updates',
-    },
-  ],
-  'MUI Components': [
-    {
-      id: 'mui-button',
-      label: 'Button',
-      title: 'MUI Button',
-      description: 'Material-UI Button component',
-    },
-    {
-      id: 'mui-alert',
-      label: 'Alert',
-      title: 'MUI Alert',
-      description: 'Material-UI Alert component',
-    },
-    {
-      id: 'mui-textfield',
-      label: 'TextField',
-      title: 'MUI TextField',
-      description: 'Material-UI TextField component',
-    },
-    {
-      id: 'mui-textfield-ref',
-      label: 'TextField (Reactive Refs)',
-      title: 'MUI TextField with Reactive Refs',
-      description: 'Demonstrates all TextField properties controlled via KTRefs',
-    },
-    {
-      id: 'mui-dialog',
-      label: 'Dialog',
-      title: 'MUI Dialog',
-      description: 'Material-UI Dialog component',
-    },
-    {
-      id: 'mui-progress',
-      label: 'Progress',
-      title: 'MUI LinearProgress',
-      description: 'Material-UI Progress indicator',
-    },
-    {
-      id: 'mui-radio',
-      label: 'Radio',
-      title: 'MUI Radio',
-      description: 'Material-UI Radio component',
-    },
-    {
-      id: 'mui-checkbox',
-      label: 'Checkbox',
-      title: 'MUI Checkbox',
-      description: 'Material-UI Checkbox component',
-    },
-    {
-      id: 'mui-select',
-      label: 'Select',
-      title: 'MUI Select',
-      description: 'Material-UI Select component',
-    },
-    {
-      id: 'mui-icons',
-      label: 'Icons',
-      title: 'MUI Icons',
-      description: 'Material-UI Icons',
-    },
-  ],
-};
-
-// Page components mapping
-const pageComponents: { [key: string]: () => JSX.Element } = {
-  home: FeatHome,
-  'basic-usage': FeatMainUsage,
-  counter: FeatCounter,
-  'mui-button': MuiButtonDemo,
-  'mui-alert': MuiAlertDemo,
-  'mui-textfield': MuiTextFieldDemo,
-  'mui-textfield-ref': MuiTextFieldRefDemo,
-  'mui-dialog': MuiDialogDemo,
-  'mui-progress': MuiProgressDemo,
-  'mui-radio': MuiRadioDemo,
-  'mui-checkbox': MuiCheckboxDemo,
-  'mui-select': MuiSelectDemo,
-  'mui-icons': MuiIconsDemo,
+  'Core Features': basicNavItems,
+  'MUI Components': muiNavItems,
 };
 
 // Create the main app
@@ -133,7 +16,7 @@ function createApp() {
   const contentHeaderRef = ref<HTMLDivElement>();
 
   // Initialize with home page content
-  let currentContent = FeatHome();
+  let currentContent = basicNavItems[0].component();
 
   // Find nav item by id
   const findNavItem = (id: string): NavItem | undefined => {

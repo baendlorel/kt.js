@@ -5,7 +5,7 @@ import { FeatKTFor } from './feat-ktfor.js';
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos
  */
-export function FeatMainUsage() {
+export function BasicUsage() {
   return (
     <div>
       <div class="demo-section">

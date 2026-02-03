@@ -4,7 +4,7 @@ import { codeToHtml } from 'shiki';
 /**
  * Home page - Introduction to KT.js framework
  */
-export function FeatHome() {
+export function Home() {
   let counterCode = ref('');
   codeToHtml(
     `const div = (<div>Initial</div>) as JSX.Element;
@@ -66,16 +66,22 @@ const el = (<Counter />) as JSX.Element;`,
         <h4 style="margin-top: 24px; margin-bottom: 12px;">1. Installation</h4>
         <p>Choose your package manager:</p>
         <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'Courier New', monospace;">
-          <p style="margin: 0 0 8px 0;"><strong>npm:</strong></p>
+          <p style="margin: 0 0 8px 0;">
+            <strong>npm:</strong>
+          </p>
           <code>npm install @ktjs/core @ktjs/mui</code>
         </div>
         <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin-bottom: 24px; font-family: 'Courier New', monospace;">
-          <p style="margin: 0 0 8px 0;"><strong>pnpm:</strong></p>
+          <p style="margin: 0 0 8px 0;">
+            <strong>pnpm:</strong>
+          </p>
           <code>pnpm add @ktjs/core @ktjs/mui</code>
         </div>
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">2. TypeScript Configuration</h4>
-        <p>Add these settings to your <code>tsconfig.json</code>:</p>
+        <p>
+          Add these settings to your <code>tsconfig.json</code>:
+        </p>
         <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; margin-bottom: 16px; font-family: 'Courier New', monospace;">
           <pre style="margin: 0; overflow-x: auto;">{`{
   "compilerOptions": {
@@ -94,7 +100,9 @@ const el = (<Counter />) as JSX.Element;`,
         </p>
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">3. Vite Configuration (Optional)</h4>
-        <p>If using Vite, add this to your <code>vite.config.ts</code>:</p>
+        <p>
+          If using Vite, add this to your <code>vite.config.ts</code>:
+        </p>
         <div style="background: #f5f5f5; padding: 16px; border-radius: 8px; font-family: 'Courier New', monospace;">
           <pre style="margin: 0; overflow-x: auto;">{`import { defineConfig } from 'vite';
 

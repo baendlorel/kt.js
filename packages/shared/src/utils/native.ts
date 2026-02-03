@@ -15,5 +15,4 @@ export const $entries = Object.entries as <T>(o: T) => Array<[keyof T, T[keyof T
 
 export const $random = Math.random;
 
-export const $isThenable = (o: any): o is Promise<any> =>
-  typeof o === 'object' && o !== null && typeof o.then === 'function';
+export const $isThenable = (o: any): o is Promise<any> => typeof o?.then === 'function';

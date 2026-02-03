@@ -43,6 +43,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     }
     // normal attributes
     else {
+      // todo 这里也可以绑定ref的
       (handlers[key] || defaultHandler)(element as any, key, o);
     }
   }

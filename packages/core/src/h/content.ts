@@ -9,10 +9,11 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   }
 
   if (isKTRef(c)) {
+    const node = c.value instanceof Node ? c.value : 
     const node = $appendChild.call(element, c.value as Node);
     c.addOnChange((newValue) => (node as ChildNode).replaceWith(newValue));
   } else {
-    $appendChild.call(element, c as Node);
+    $append.call(element, c as Node);
 
     // Handle KTFor anchor
     const list = (c as any).__kt_for_list__ as any[];

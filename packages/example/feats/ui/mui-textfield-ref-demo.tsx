@@ -13,7 +13,6 @@ export function MuiTextFieldRefDemo() {
   const errorRef = ref(false);
   const helperTextRef = ref('Helper text');
   const fullWidthRef = ref(false);
-  const multilineRef = ref(false);
   const rowsRef = ref(3);
   const sizeRef = ref<'small' | 'medium'>('medium');
   const typeRef = ref<'text' | 'password' | 'email' | 'number'>('text');
@@ -55,10 +54,6 @@ export function MuiTextFieldRefDemo() {
     fullWidthRef.value = !fullWidthRef.value;
   };
 
-  const toggleMultiline = () => {
-    multilineRef.value = !multilineRef.value;
-  };
-
   const toggleRows = () => {
     rowsRef.value = rowsRef.value === 3 ? 5 : 3;
   };
@@ -85,7 +80,6 @@ export function MuiTextFieldRefDemo() {
     errorRef.value = false;
     helperTextRef.value = 'Helper text';
     fullWidthRef.value = false;
-    multilineRef.value = false;
     rowsRef.value = 3;
     sizeRef.value = 'medium';
     typeRef.value = 'text';
@@ -120,7 +114,7 @@ export function MuiTextFieldRefDemo() {
             error={errorRef}
             helperText={helperTextRef}
             fullWidth={fullWidthRef}
-            multiline={multilineRef}
+            multiline={false}
             rows={rowsRef}
             size={sizeRef}
             kt:input={(val) => console.log('Input:', val)}
@@ -138,7 +132,6 @@ export function MuiTextFieldRefDemo() {
               <div>error: {errorRef}</div>
               <div>helperText: "{helperTextRef}"</div>
               <div>fullWidth: {fullWidthRef}</div>
-              <div>multiline: {multilineRef}</div>
               <div>rows: {rowsRef}</div>
               <div>size: {sizeRef}</div>
               <div>type: {typeRef}</div>
@@ -202,12 +195,6 @@ export function MuiTextFieldRefDemo() {
             <div class="control-group">
               <button on:click={toggleFullWidth}>
                 Toggle Full Width: <span>{fullWidthRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleMultiline}>
-                Toggle Multiline: <span>{multilineRef}</span>
               </button>
             </div>
 

@@ -93,18 +93,18 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
 
   // # non-refs
   const inputType = deref(props.type ?? ('text' as T));
-  const multiline = !!props.multiline;
+  const multiline = props.multiline;
 
   // # refs
   // Create refs for all reactive properties
   const labelRef = ref(props.label ?? '');
   const placeholderRef = ref(props.placeholder ?? '');
-  const disabledRef = ref(!!props.disabled);
-  const readonlyRef = ref(!!props.readonly);
-  const requiredRef = ref(!!props.required);
-  const errorRef = ref(!!props.error);
+  const disabledRef = ref(props.disabled);
+  const readOnlyRef = ref(props.readonly);
+  const requiredRef = ref(props.required);
+  const errorRef = ref(props.error);
   const helperTextRef = ref(props.helperText ?? '');
-  const fullWidthRef = ref(!!props.fullWidth);
+  const fullWidthRef = ref(props.fullWidth);
   const rowsRef = ref(props.rows ?? 3);
   const sizeRef = ref(props.size ?? 'medium');
 
@@ -132,7 +132,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     updateContainerClass();
   });
 
-  readonlyRef.addOnChange((newReadonly) => {
+  readOnlyRef.addOnChange((newReadonly) => {
     inputEl.readOnly = newReadonly;
   });
 
@@ -156,7 +156,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           placeholder={getPlaceholder()}
           value={String(modelRef.value)}
           disabled={disabledRef.value}
-          readOnly={readonlyRef.value}
+          readOnly={readOnlyRef.value}
           required={requiredRef.value}
           rows={rowsRef.value}
           on:input={handleInput}
@@ -172,7 +172,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           placeholder={getPlaceholder()}
           value={String(modelRef.value)}
           disabled={disabledRef.value}
-          readOnly={readonlyRef.value}
+          readOnly={readOnlyRef.value}
           required={requiredRef.value}
           on:input={handleInput}
           on:change={handleChange}
@@ -184,7 +184,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const container = (
     <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={parseStyle(props.style)}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
-        <label k-if={labelRef} class="mui-textfield-label">
+        <label class="mui-textfield-label">
           {labelRef}
           <span k-if={requiredRef} class="mui-textfield-required">
             *
@@ -192,7 +192,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
         </label>
         <div class="mui-textfield-input-wrapper">{inputEl}</div>
         <fieldset class="mui-textfield-fieldset">
-          <legend k-if={labelRef} class="mui-textfield-legend">
+          <legend class="mui-textfield-legend">
             <span>
               {labelRef}
               <span k-if={requiredRef}>*</span>
@@ -200,9 +200,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           </legend>
         </fieldset>
       </div>
-      <p k-if={helperTextRef} class="mui-textfield-helper-text">
-        {helperTextRef}
-      </p>
+      <p class="mui-textfield-helper-text">{helperTextRef}</p>
     </div>
   ) as KTMuiTextField;
 

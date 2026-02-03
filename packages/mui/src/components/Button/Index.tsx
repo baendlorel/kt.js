@@ -51,53 +51,45 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
 
   const rippleContainer = <span class="mui-button-ripple"></span>;
 
-  const handleClick = (e: Event) => {
+  const createRippleEffect = (mouseX: number, mouseY: number) => {
+    const rect = container.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = mouseX - rect.left - size / 2;
+    const y = mouseY - rect.top - size / 2;
+
+    const ripple = (
+      <span
+        class="mui-button-ripple-effect"
+        style={`width:${size}px; height:${size}px; left:${x}px; top:${y}px;`}
+      ></span>
+    );
+
+    rippleContainer.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 600); // Remove ripple after animation
+  };
+
+  const handleClick = (e: MouseEvent) => {
     if (disabled) {
       e.preventDefault();
       return;
     }
-
-    // Create ripple effect
-    const button = e.currentTarget as HTMLButtonElement;
-    if (rippleContainer) {
-      const rect = button.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const x = (e as MouseEvent).clientX - rect.left - size / 2;
-      const y = (e as MouseEvent).clientY - rect.top - size / 2;
-
-      const ripple = document.createElement('span');
-      ripple.style.width = ripple.style.height = `${size}px`;
-      ripple.style.left = `${x}px`;
-      ripple.style.top = `${y}px`;
-      ripple.classList.add('mui-button-ripple-effect');
-
-      rippleContainer.appendChild(ripple);
-
-      // Remove ripple after animation
-      setTimeout(() => ripple.remove(), 600);
-    }
-
+    createRippleEffect(e.clientX, e.clientY);
     onClick(e);
   };
 
   const container = (
     <button class={classes} style={parseStyle(props.style)} type={type} disabled={disabled} on:click={handleClick}>
-      {startIcon && <span class="mui-button-start-icon">{startIcon}</span>}
+      <span k-if={startIcon} class="mui-button-start-icon">
+        {startIcon}
+      </span>
       <span class="mui-button-label">{children}</span>
-      {endIcon && <span class="mui-button-end-icon">{endIcon}</span>}
+      <span k-if={endIcon} class="mui-button-end-icon">
+        {endIcon}
+      </span>
       {rippleContainer}
     </button>
   );
-
-  $defines(container, {
-    disabled: {
-      get: $buttonDisabledGetter,
-      set: function (this: HTMLButtonElement, value: boolean) {
-        $buttonDisabledSetter.call(this, value);
-        this.classList.toggle('mui-button-disabled', value);
-      },
-    },
-  });
 
   return container;
 }

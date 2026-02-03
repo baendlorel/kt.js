@@ -7,7 +7,7 @@ export const basicNavItems: NavItem[] = [
   {
     id: 'home',
     label: 'Getting Started',
-    title: 'Getting Started',
+    title: 'Welcome to KT.js Framework',
     description: 'Introduction to KT.js framework and core concepts',
     component: Home,
   },

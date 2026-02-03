@@ -1,6 +1,6 @@
 import './styles.css';
 import { ref } from '@ktjs/core';
-import icon from './assets/icon.svg';
+import icon from '../assets/icon.svg';
 import { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';

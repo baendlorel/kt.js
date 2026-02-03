@@ -2,11 +2,9 @@ import { ref } from '@ktjs/core';
 import icon from './assets/icon.svg';
 
 // Import all feat components
-import { FeatHome } from './feats/feat-home.js';
-import { FeatCounter } from './feats/feat-counter.js';
-import { FeatEvents } from './feats/feat-events.js';
-import { FeatKTFor } from './feats/feat-ktfor.js';
-import { FeatDirectives } from './feats/feat-directives.js';
+import { FeatHome } from './feats/main/feat-home.js';
+import { FeatCounter } from './feats/main/feat-counter.js';
+import { FeatMainUsage } from './feats/main/BasicUsage.js';
 // Import MUI component demos
 import { MuiButtonDemo } from './feats/ui/mui-button.js';
 import { MuiAlertDemo } from './feats/ui/mui-alert.js';
@@ -36,28 +34,16 @@ const navItems: { [section: string]: NavItem[] } = {
       description: 'Introduction to KT.js framework and core concepts',
     },
     {
-      id: 'directives',
-      label: 'Directives Demo',
-      title: 'Directives Demo',
-      description: 'k-if k-model and other directives in action',
+      id: 'basic-usage',
+      label: 'Basic Usage',
+      title: 'Basic Usage',
+      description: 'Directives, Event Handling, and KTFor list rendering',
     },
     {
       id: 'counter',
       label: 'Counter Demo',
       title: 'Counter Demo',
       description: 'Basic state management with manual DOM updates',
-    },
-    {
-      id: 'events',
-      label: 'Event Handling',
-      title: 'Event Handling',
-      description: 'Working with DOM events using on: syntax',
-    },
-    {
-      id: 'ktfor',
-      label: 'KTFor Lists',
-      title: 'KTFor Component',
-      description: 'Efficient list rendering with key-based DOM reuse',
     },
   ],
   'MUI Components': [
@@ -127,10 +113,8 @@ const navItems: { [section: string]: NavItem[] } = {
 // Page components mapping
 const pageComponents: { [key: string]: () => JSX.Element } = {
   home: FeatHome,
-  directives: FeatDirectives,
+  'basic-usage': FeatMainUsage,
   counter: FeatCounter,
-  events: FeatEvents,
-  ktfor: FeatKTFor,
   'mui-button': MuiButtonDemo,
   'mui-alert': MuiAlertDemo,
   'mui-textfield': MuiTextFieldDemo,

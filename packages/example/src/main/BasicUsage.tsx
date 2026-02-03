@@ -1,6 +1,6 @@
-import { FeatDirectives } from './feat-directives.js';
-import { FeatEvents } from './feat-events.js';
-import { FeatKTFor } from './feat-ktfor.js';
+import { FeatDirectives } from './Directive.js';
+import { FeatEvents } from './Events.js';
+import { FeatKTFor } from './KTFor.js';
 
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos

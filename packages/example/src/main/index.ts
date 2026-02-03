@@ -1,7 +1,7 @@
 import { NavItem } from '../types/router.js';
 import { BasicUsage } from './BasicUsage.js';
-import { Counter } from './feat-counter.js';
-import { Home } from './feat-home.js';
+import { Counter } from './Counter.js';
+import { Home } from './Home.js';
 
 export const basicNavItems: NavItem[] = [
   {

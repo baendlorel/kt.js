@@ -12,24 +12,31 @@ const navItems: { [section: string]: NavItem[] } = {
 
 // Create the main app
 function createApp() {
+  const home = basicNavItems[0];
+
   const currentPageRef = ref<string>('home');
-  const contentHeaderRef = ref<HTMLDivElement>();
+  const headerTitleRef = ref(home.title);
+  const headerDescRef = ref(home.description);
 
   // Initialize with home page content
-  let currentContent = basicNavItems[0].component();
+  const view = ref(basicNavItems[0].component());
 
   // Find nav item by id
   const findNavItem = (id: string): NavItem | undefined => {
     for (const items of Object.values(navItems)) {
       const found = items.find((item) => item.id === id);
-      if (found) return found;
+      if (found) {
+        return found;
+      }
     }
     return undefined;
   };
 
   // Navigation handler
   const navigateTo = (pageId: string) => {
-    if (currentPageRef.value === pageId) return;
+    if (currentPageRef.value === pageId) {
+      return;
+    }
     currentPageRef.value = pageId;
 
     // Update active state in nav items
@@ -43,70 +50,55 @@ function createApp() {
 
     // Get page info
     const navItem = findNavItem(pageId);
-    if (!navItem) return;
-
-    // Update header
-    if (contentHeaderRef.value) {
-      const headerTitle = contentHeaderRef.value.querySelector('h2');
-      const headerDesc = contentHeaderRef.value.querySelector('p');
-      if (headerTitle) headerTitle.textContent = navItem.title;
-      if (headerDesc) headerDesc.textContent = navItem.description;
+    if (!navItem) {
+      return;
     }
 
-    // Create new content and replace current
-    const componentFn = pageComponents[pageId];
-    if (componentFn) {
-      const newContent = componentFn();
-      currentContent.replaceWith(newContent);
-      currentContent = newContent;
+    // Update header
+    headerTitleRef.value = navItem.title;
+    headerDescRef.value = navItem.description;
 
-      // Scroll to top
-      const contentBody = currentContent.parentElement;
-      if (contentBody) contentBody.scrollTop = 0;
+    // Create new content and replace current
+    view.value = navItem.component();
+
+    // Scroll to top
+    const contentBody = view.value.parentElement;
+    if (contentBody) {
+      contentBody.scrollTop = 0;
     }
   };
 
-  // Create sidebar navigation
-  const sidebar = (
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h1>KT.js (Constructing)</h1>
-        <p>Framework Showcase</p>
-      </div>
-      <div class="nav-menu">
-        {Object.entries(navItems).map(([section, items]) => (
-          <div>
-            <div class="nav-section-title">{section}</div>
-            {items.map((item) => (
-              <div
-                class={`nav-item ${item.id === 'home' ? 'active' : ''}`}
-                data-page={item.id}
-                on:click={() => navigateTo(item.id)}
-              >
-                {item.label}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Create main content area
-  const mainContent = (
-    <div class="main-content">
-      <div class="content-header" ref={contentHeaderRef}>
-        <h2>Getting Started</h2>
-        <p>Introduction to KT.js framework and core concepts</p>
-      </div>
-      <div class="content-body">{currentContent}</div>
-    </div>
-  );
-
   return (
     <div class="app-layout">
-      {sidebar}
-      {mainContent}
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h1>KT.js (Constructing)</h1>
+          <p>Framework Showcase</p>
+        </div>
+        <div class="nav-menu">
+          {Object.entries(navItems).map(([section, items]) => (
+            <div>
+              <div class="nav-section-title">{section}</div>
+              {items.map((item) => (
+                <div
+                  class={`nav-item ${item.id === 'home' ? 'active' : ''}`}
+                  data-page={item.id}
+                  on:click={() => navigateTo(item.id)}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="content-header">
+          <h2>{headerTitleRef}</h2>
+          <p>Introduction to KT.js framework and core concepts</p>
+        </div>
+        <div class="content-body">{view}</div>
+      </div>
     </div>
   );
 }

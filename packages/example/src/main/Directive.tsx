@@ -85,7 +85,7 @@ function KModelDemo() {
           <label>多行文本框:</label>
           <br />
           <textarea k-model={textareaValue} rows={3} cols={30} style="margin-top: 5px; padding: 5px;" />
-          <p>当前值: {textareaValue.value}</p>
+          <p>当前值: {textareaValue}</p>
         </div>
       </div>
     </div>

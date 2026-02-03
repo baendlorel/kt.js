@@ -35,14 +35,14 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
 
   for (const key in attr) {
     if (
+      key === 'k-if' ||
+      key === 'k-model' ||
+      key === 'ref' ||
       key === 'class' ||
       key === 'className' ||
       key === 'style' ||
       key === 'children' ||
-      key === 'k-if' ||
-      key === 'k-model' ||
-      key === 'k-html' ||
-      key === 'ref'
+      key === 'k-html'
     ) {
       continue;
     }

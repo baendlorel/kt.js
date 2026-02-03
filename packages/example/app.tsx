@@ -203,7 +203,7 @@ function createApp() {
   const sidebar = (
     <div class="sidebar">
       <div class="sidebar-header">
-        <h1>KT.js</h1>
+        <h1>KT.js (Constructing)</h1>
         <p>Framework Showcase</p>
       </div>
       <div class="nav-menu">

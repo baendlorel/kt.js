@@ -124,3 +124,20 @@ export const surfaceRef = <T extends Object>(obj: T): KTSurfaceRef<T> => {
   }
   return newObj;
 };
+
+// # asserts
+
+/**
+ * Assert k-model to be a ref object
+ */
+export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => {
+  // & props is an object. Won't use it in any other place
+  if ('k-model' in props) {
+    const kmodel = props['k-model'];
+    if (!kmodel?.isKT) {
+      $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
+    }
+    return kmodel;
+  }
+  return ref(defaultValue);
+};

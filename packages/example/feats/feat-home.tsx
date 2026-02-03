@@ -1,10 +1,12 @@
+import { ref } from 'kt.js';
 import { codeToHtml } from 'shiki';
 
 /**
  * Home page - Introduction to KT.js framework
  */
 export function FeatHome() {
-  const counterCode = codeToHtml(
+  let counterCode = ref('');
+  codeToHtml(
     `const div = (<div>Initial</div>) as JSX.Element;
 div.redraw(undefined, 'Updated content');
 
@@ -21,9 +23,9 @@ function Counter({ count = 0 }) {
 const el = (<Counter />) as JSX.Element;`,
     {
       lang: 'tsx',
-      theme: 'vitesse-dark',
+      theme: 'github-light',
     },
-  );
+  ).then((v) => (counterCode.value = v));
   return (
     <div>
       <div class="demo-section">
@@ -54,7 +56,7 @@ const el = (<Counter />) as JSX.Element;`,
       <div class="demo-section">
         <h3>Quick Example</h3>
         <p style="color: #666;">Here's how you create and update elements in KT.js:</p>
-        {counterCode}
+        <div k-html={counterCode}></div>
       </div>
     </div>
   );

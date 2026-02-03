@@ -1,4 +1,4 @@
-import { createRedrawable, KTRef, ref } from '@ktjs/core';
+import { $modelOrRef, createRedrawable, KTRef, ref } from '@ktjs/core';
 import './Input.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -39,13 +39,13 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const handleInput = () => {
     updateContainerClass();
 
-    if (typeRef.value === 'number') {
+    if (inputType === 'number') {
       const v = Number(inputEl.value);
-      effectiveValueRef.value = v;
+      modelRef.value = v;
       onInput(v);
       onInputTrim(v);
     } else {
-      effectiveValueRef.value = inputEl.value;
+      modelRef.value = inputEl.value;
       onInput(inputEl.value);
       onInputTrim(inputEl.value.trim());
     }
@@ -54,13 +54,13 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const handleChange = () => {
     updateContainerClass();
 
-    if (typeRef.value === 'number') {
+    if (inputType === 'number') {
       const v = Number(inputEl.value);
-      effectiveValueRef.value = v;
+      modelRef.value = v;
       onChange(v);
       onChangeTrim(v);
     } else {
-      effectiveValueRef.value = inputEl.value;
+      modelRef.value = inputEl.value;
       onChange(inputEl.value);
       onChangeTrim(inputEl.value.trim());
     }
@@ -89,14 +89,13 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     setTimeout(() => inputEl.focus(), 0);
   };
 
-  const getPlaceholder = () => (labelRef.value && !isFocused && !effectiveValueRef.value ? '' : placeholderRef.value);
+  const getPlaceholder = () => (labelRef.value && !isFocused && !modelRef.value ? '' : placeholderRef.value);
 
   // # refs
   // Create refs for all reactive properties
   const labelRef = ref(props.label ?? '');
   const placeholderRef = ref(props.placeholder ?? '');
-  const valueRef = ref(props.value ?? '');
-  const typeRef = ref(props.type ?? ('text' as T));
+  const inputType = props.type ?? ('text' as T);
   const disabledRef = ref(!!props.disabled);
   const readonlyRef = ref(!!props.readonly);
   const requiredRef = ref(!!props.required);
@@ -108,8 +107,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const sizeRef = ref(props.size ?? 'medium');
 
   // k-model takes precedence over value prop for two-way binding
-  const modelRef = props['k-model'] as KTRef<string | number> | undefined;
-  const effectiveValueRef = modelRef || valueRef;
+  const modelRef = $modelOrRef(props['k-model'], props.value);
 
   // Add change listeners for reactive properties
   labelRef.addOnChange(() => {
@@ -121,13 +119,9 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     inputEl.placeholder = getPlaceholder();
   });
 
-  effectiveValueRef.addOnChange((newValue) => {
+  modelRef.addOnChange((newValue) => {
     inputEl.value = String(newValue);
     updateContainerClass();
-  });
-
-  typeRef.addOnChange((newType) => {
-    (inputEl as any).type = newType;
   });
 
   disabledRef.addOnChange((newDisabled) => {
@@ -166,7 +160,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
         <textarea
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
-          value={String(effectiveValueRef.value)}
+          value={String(modelRef.value)}
           disabled={disabledRef.value}
           readOnly={readonlyRef.value}
           required={requiredRef.value}
@@ -179,10 +173,10 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       ) as HTMLTextAreaElement)
     : ((
         <input
-          type={typeRef.value as any}
+          type={inputType}
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
-          value={String(effectiveValueRef.value)}
+          value={String(modelRef.value)}
           disabled={disabledRef.value}
           readOnly={readonlyRef.value}
           required={requiredRef.value}

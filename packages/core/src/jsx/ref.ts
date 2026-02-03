@@ -90,6 +90,10 @@ export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: RefChangeH
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 
+export function deref<T = JSX.Element>(value?: T | KTRef<T>) {
+  return isKTRef(value) ? value.value : value;
+}
+
 export type KTSurfaceRef<T extends Object> = {
   [K in keyof T]: KTRef<T[K]>;
 } & {

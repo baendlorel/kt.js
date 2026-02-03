@@ -109,7 +109,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const sizeRef = ref(props.size ?? 'medium');
 
   // k-model takes precedence over value prop for two-way binding
-  const modelRef = $modelOrRef(props['k-model'], props.value);
+  const modelRef = $modelOrRef(props, props.value ?? '');
 
   // Add change listeners for reactive properties
   // `k-if` changing triggers redrawing, no need to do this again

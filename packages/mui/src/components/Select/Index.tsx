@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, createRedrawable, ref } from '@ktjs/core';
+import { $modelOrRef, computed, createRedrawable, KTRef, ref } from '@ktjs/core';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import './Select.css';
 
@@ -12,12 +12,12 @@ export interface KTMuiSelectProps {
   style?: string | Partial<CSSStyleDeclaration>;
   size?: 'small' | 'medium';
   value?: string;
-  options: KTMuiSelectOption[];
-  label?: string;
+  options: KTMuiSelectOption[] | KTRef<KTMuiSelectOption[]>;
+  label?: string | KTRef<string>;
   placeholder?: string;
   'kt:change'?: (value: string) => void;
   fullWidth?: boolean;
-  disabled?: boolean;
+  disabled?: boolean | KTRef<boolean>;
 }
 
 export type KTMuiSelect = JSX.Element & {};
@@ -50,7 +50,13 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // # ref props
   const labelRef = ref(props.label);
-  const optionsRef = ref(props.options);
+  const optionsRef = ref(props.options, (newOptions) => {
+    const exist = newOptions.find((o) => o.value === modelRef.value);
+    if (!exist) {
+      modelRef.value = '';
+      onChange('');
+    }
+  });
   const disabledRef = ref(props.disabled ?? false, (v) => {
     container.classList.toggle('mui-select-disabled', v);
   });

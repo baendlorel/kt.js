@@ -18,9 +18,7 @@ export default defineConfig({
     sourcemap: true,
     minify: false,
   },
-  plugins: [babel({babelConfig:{
-    
-  }})],
+  plugins: [babel({ babelConfig: {} })],
   resolve: {
     alias: {
       '@ktjs/core/jsx-dev-runtime': resolve(import.meta.dirname, '../core/src/jsx/jsx-runtime.ts'),

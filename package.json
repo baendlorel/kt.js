@@ -45,11 +45,11 @@
     "pub:shared": "pnpm --filter @ktjs/shared run build && pnpm --filter @ktjs/shared publish --access public",
     "pub:mui": "pnpm --filter @ktjs/mui run build && pnpm --filter @ktjs/mui publish --access public",
     "pub:plugin": "pnpm --filter @ktjs/babel-plugin-ktjsx run build && pnpm --filter @ktjs/babel-plugin-ktjsx publish --access public",
-    "pub:tsplugin": "pnpm --filter @ktjs/tsplugin run build && pnpm --filter @ktjs/tsplugin publish --access public",
     "sync": "tsx .scripts/sync-version.ts"
   },
   "license": "MIT",
   "devDependencies": {
+    "@ktjs/babel-plugin-ktjsx": "^0.0.4",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",

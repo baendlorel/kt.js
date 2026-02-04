@@ -12,6 +12,9 @@ importers:
         specifier: ^3.22.0
         version: 3.22.0
     devDependencies:
+      '@ktjs/babel-plugin-ktjsx':
+        specifier: ^0.0.4
+        version: 0.0.4(@babel/core@7.29.0)
       '@rollup/plugin-alias':
         specifier: ^6.0.0
         version: 6.0.0(rollup@4.53.2)
@@ -462,6 +465,11 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@ktjs/babel-plugin-ktjsx@0.0.4':
+    resolution: {integrity: sha512-sPyectvWV0v89hDqr6dJKraYhyA6YzWC1jWoJJnKvOtZApjTTsBjaKH6R1fozOxcQGHwoc2aK6ZPoiUuBsvq5Q==}
+    peerDependencies:
+      '@babel/core': ^7.0.0
 
   '@oxlint/darwin-arm64@1.28.0':
     resolution: {integrity: sha512-H7J41/iKbgm7tTpdSnA/AtjEAhxyzNzCMKWtKU5wDuP2v39jrc3fasQEJruk6hj1YXPbJY4N+1nK/jE27GMGDQ==}
@@ -2242,6 +2250,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@ktjs/babel-plugin-ktjsx@0.0.4(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/core': 7.29.0
 
   '@oxlint/darwin-arm64@1.28.0':
     optional: true

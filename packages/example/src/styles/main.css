@@ -221,14 +221,6 @@ button:not([class*='mui-']):hover {
   }
 }
 
-/* TextField Ref Demo Styles */
-.demo-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin: 24px 0;
-}
-
 .textfield-demo-area {
   flex: 1;
   min-width: 300px;
@@ -315,21 +307,6 @@ button:not([class*='mui-']):hover {
 
 .explanation li {
   margin-bottom: 8px;
-}
-
-@media (max-width: 768px) {
-  .demo-container {
-    flex-direction: column;
-  }
-
-  .textfield-demo-area,
-  .controls-panel {
-    min-width: 100%;
-  }
-
-  .control-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
 }
 
 .highlight > * {

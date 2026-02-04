@@ -28,8 +28,8 @@ export const basicNavItems: NavItem[] = [
   // },
   {
     id: 'reactive',
-    label: 'Reactive Demo',
-    title: 'Reactive Demo',
+    label: 'Reactive',
+    title: 'Reactive',
     description: 'Demonstration of reactive features using kt.js refs',
     component: Reactivity,
   },

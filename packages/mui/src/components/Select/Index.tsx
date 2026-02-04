@@ -26,7 +26,7 @@ export type KTMuiSelect = JSX.Element & {};
  * Select component - mimics MUI Select appearance and behavior
  */
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
-  let { options = [], label = '', placeholder = '', size = 'medium', fullWidth = false, disabled = false } = props;
+  let { label = '', placeholder = '', size = 'medium', fullWidth = false, disabled = false } = props;
 
   const onChange = generateHandler<string>(props, 'kt:change');
   let isOpen = false;
@@ -34,6 +34,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // # refs
   const selectLabelRef = ref<HTMLLabelElement>();
+  const optionsRef = ref(props.options);
   const modelRef = $modelOrRef(props, props.value ?? '');
 
   // Toggle dropdown
@@ -48,17 +49,17 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   // Update menu visibility
   const updateMenu = () => {
     if (isOpen) {
-      menu.value.style.display = 'block';
-      void menu.value.offsetHeight; // & Trigger reflow to enable animation
+      menu.style.display = 'block';
+      void menu.offsetHeight; // & Trigger reflow to enable animation
     } else {
       // Hide after animation completes
       setTimeout(() => {
         if (!isOpen) {
-          menu.value.style.display = 'none';
+          menu.style.display = 'none';
         }
       }, 200);
     }
-    menu.value.classList.toggle('mui-select-menu-open', isOpen);
+    menu.classList.toggle('mui-select-menu-open', isOpen);
     container.classList.toggle('mui-select-open', isOpen);
   };
 
@@ -71,7 +72,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     updateMenu();
     updateLabelState();
 
-    valueDisplay.redraw();
+    redrawDisplayedValue();
     setTimeout(() => menu.redraw(), 200);
   };
 
@@ -99,32 +100,35 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     selectLabelRef.value.classList?.toggle('focused', isFocused || !!modelRef.value);
   };
 
-  const valueDisplay = createRedrawable(() => {
-    const o = options.find((opt) => opt.value === modelRef.value);
-    let inner: JSX.Element | string;
-    if (o === undefined) {
-      inner = <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>;
-    } else {
-      inner = o.label;
-    }
-    return <div class="mui-select-display">{inner}</div>;
-  });
-
-  const menu = createRedrawable(() => {
-    return (
-      <div class="mui-select-menu" style="display: none;">
-        {options.map((option) => (
-          <div
-            class={`mui-select-option ${option.value === modelRef.value ? 'selected' : ''}`}
-            data-value={option.value}
-            on:click={handleOptionClick}
-          >
-            {option.label}
-          </div>
-        ))}
+  const displayedValue = ref(<span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>);
+  const redrawDisplayedValue = () => {
+    const o = optionsRef.value.find((item) => item.value === modelRef.value);
+    displayedValue.value = (
+      <div class="mui-select-display">
+        {o?.label ?? <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>}
       </div>
     );
-  });
+  };
+
+  // todo 感觉这个不如原来的redraw简单
+  const createOptions = () =>
+    optionsRef.value.map((o) => (
+      <div
+        class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
+        data-value={o.value}
+        on:click={handleOptionClick}
+      >
+        {o.label}
+      </div>
+    ));
+  optionsRef.addOnChange(createOptions);
+  const menuOptions = ref(createOptions());
+
+  const menu = (
+    <div class="mui-select-menu" style="display: none;">
+      {menuOptions}
+    </div>
+  );
 
   // Create container
   const container = (
@@ -147,7 +151,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
         on:blur={handleBlur}
         tabIndex={disabled ? -1 : 0}
       >
-        {valueDisplay}
+        {displayedValue}
         <input type="hidden" value={modelRef.value} />
         <fieldset class="mui-select-fieldset">
           <legend>

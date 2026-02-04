@@ -1,5 +1,5 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
-import { $entries, $replaceNode, $throw } from '@ktjs/shared';
+import { $entries, $is, $replaceNode, $throw } from '@ktjs/shared';
 import { isKT } from './core.js';
 
 export class KTRef<T> implements KTReactive<T> {
@@ -31,7 +31,7 @@ export class KTRef<T> implements KTReactive<T> {
   }
 
   set value(newValue: T) {
-    if (newValue === this._value) {
+    if ($is(newValue, this._value)) {
       return;
     }
 

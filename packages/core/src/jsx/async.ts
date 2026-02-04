@@ -1,6 +1,6 @@
 import { $isThenable } from '@ktjs/shared';
 import type { KTComponent, KTRawContent } from '../types/h.js';
-import type { KTRef } from './ref.js';
+import type { KTRef } from '../reactive/ref.js';
 
 /**
  * Extract component props type (excluding ref and children)

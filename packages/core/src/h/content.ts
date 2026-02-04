@@ -1,6 +1,6 @@
 import { $append, $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
-import { isKTRef } from '../jsx/ref.js';
+import { isKTRef } from '../reactive/ref.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 

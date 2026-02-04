@@ -1,5 +1,5 @@
 import { $warn, applyModel, InputElementTag } from '@ktjs/shared';
-import { isKTRef, KTRef } from '../jsx/ref.js';
+import { isKTRef, KTRef } from '../reactive/ref.js';
 
 export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
   if (!isKTRef(valueRef)) {

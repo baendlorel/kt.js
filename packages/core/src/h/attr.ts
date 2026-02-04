@@ -1,6 +1,6 @@
 import { $throw } from '@ktjs/shared';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
-import { isKTRef } from '../jsx/ref.js';
+import { isKTRef } from '../reactive/ref.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>

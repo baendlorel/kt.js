@@ -1,5 +1,5 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
-import type { KTRef } from '../jsx/ref.js';
+import type { KTRef } from '../reactive/ref.ts';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
   ? SVGElementTagNameMap[T]

@@ -1,5 +1,5 @@
 import type { KTAttribute } from '../types/h.js';
-import type { KTRef } from './ref.js';
+import type { KTRef } from '../reactive/ref.js';
 
 export type KTForElement = JSX.Element & {
   redraw: (newProps?: KTAttribute) => void;

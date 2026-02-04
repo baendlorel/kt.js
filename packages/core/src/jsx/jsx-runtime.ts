@@ -2,7 +2,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { $replaceNode, $throw, type HTMLTag } from '@ktjs/shared';
 
 import { h } from '../h/index.js';
-import { isKTRef, type KTRef, ref } from './ref.js';
+import { isKTRef, type KTRef, ref } from '../reactive/ref.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 

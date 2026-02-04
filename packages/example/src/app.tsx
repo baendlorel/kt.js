@@ -73,8 +73,7 @@ function createApp() {
     <div class="app-layout">
       <div class="sidebar">
         <div class="sidebar-header">
-          <h1>KT.js (Constructing)</h1>
-          <p>Framework Showcase</p>
+          <h1>KT.js</h1>
         </div>
         <div class="nav-menu">
           {Object.entries(navItems).map(([section, items]) => (
@@ -104,11 +103,15 @@ function createApp() {
   );
 }
 
-function setIcon() {
+function init() {
+  const app = createApp();
+  document.getElementById('app')!.appendChild(app);
+
   const link = <link rel="shortcut icon" href={icon} type="image/x-icon" />;
   document.head.appendChild(link);
+
+  const banner = document.getElementById('under-construction')!;
+  app.style.height = `calc(100vh - ${banner.getBoundingClientRect().height}px)`;
 }
 
-// Mount the application
-document.getElementById('app')!.appendChild(createApp());
-setIcon();
+init();

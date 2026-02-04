@@ -19,9 +19,7 @@ export function Reactivity() {
   const code = highlight(exampleCode);
 
   // Timer for demonstrating automatic updates
-  setInterval(() => {
-    kifFlag.value = !kifFlag.value;
-  }, 1500);
+  setInterval(() => (kifFlag.value = !kifFlag.value), 1500);
 
   const notKifFLag = computed(() => !kifFlag.value, [kifFlag]);
 

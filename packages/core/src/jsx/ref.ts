@@ -1,12 +1,11 @@
 import { $entries, $throw } from '@ktjs/shared';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 
-type RefChangeHandler<T> = (newValue: T, oldValue: T) => void;
-
-export class KTRef<T> {
+export class KTRef<T> implements KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */
-  isKT = true;
+  isKT = true as const;
 
   /**
    * @internal
@@ -16,9 +15,9 @@ export class KTRef<T> {
   /**
    * @internal
    */
-  private _onChanges: Array<RefChangeHandler<T>>;
+  private _onChanges: Array<ReactiveChangeHandler<T>>;
 
-  constructor(_value: T, _onChanges: Array<RefChangeHandler<T>>) {
+  constructor(_value: T, _onChanges: Array<ReactiveChangeHandler<T>>) {
     this._value = _value;
     this._onChanges = _onChanges;
   }
@@ -53,14 +52,14 @@ export class KTRef<T> {
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
    */
-  addOnChange(callback: RefChangeHandler<T>) {
+  addOnChange(callback: ReactiveChangeHandler<T>) {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');
     }
     this._onChanges.push(callback);
   }
 
-  removeOnChange(callback: RefChangeHandler<T>) {
+  removeOnChange(callback: ReactiveChangeHandler<T>) {
     for (let i = this._onChanges.length - 1; i >= 0; i--) {
       if (this._onChanges[i] === callback) {
         this._onChanges.splice(i, 1);
@@ -80,7 +79,7 @@ export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => obj?.isKT === tru
  * - if the value is already a `KTRef`, it will be returned **directly**.
  * @param value mostly an HTMLElement
  */
-export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: RefChangeHandler<T>): KTRef<T> {
+export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
   if (isKTRef(value)) {
     if (onChange) {
       value.addOnChange(onChange);

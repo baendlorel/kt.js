@@ -5,7 +5,19 @@ import { $emptyFn } from './misc.js';
 
 // # dom natives
 
-export const $isNode = (x: any) => x?.nodeType > 0;
+export const $isNode = (x: any): x is ChildNode => x?.nodeType > 0;
+
+/**
+ * Safe replace `oldNode` With `newNode`
+ */
+export const $replaceNode = (oldNode: unknown, newNode: unknown) => {
+  if ($isNode(oldNode) && $isNode(newNode)) {
+    if (newNode.contains(oldNode)) {
+      newNode.remove();
+    }
+    oldNode.replaceWith(newNode);
+  }
+};
 
 /**
  * & Remove `bind` because it is shockingly slower than wrapper

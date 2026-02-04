@@ -6,11 +6,6 @@ import babelKTjsx from '@ktjs/babel-plugin-ktjsx';
 // Vite config for KT.js development
 export default defineConfig({
   base: '/kt.js',
-  // Configure esbuild to preserve JSX syntax so Babel can process it
-  esbuild: {
-    jsx: 'preserve', // Keep JSX unchanged, let Babel handle transformation
-    jsxImportSource: '@ktjs/core', // JSX import source for TypeScript
-  },
   server: {
     port: 3000,
     open: true,
@@ -25,7 +20,7 @@ export default defineConfig({
       filter: /\.[jt]sx?$/,
       babelConfig: {
         presets: ['@babel/preset-typescript'],
-        plugins: [babelKTjsx], // Plugin path will be loaded by Babel
+        plugins: [babelKTjsx()], // Plugin path will be loaded by Babel
       },
     }),
   ],

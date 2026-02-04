@@ -12,3 +12,8 @@ declare module '*.json?raw' {
   const src: string;
   export default src;
 }
+
+declare module '*.sh?raw' {
+  const src: string;
+  export default src;
+}

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import babel from 'vite-plugin-babel';
 
 // Vite config for KT.js development
 export default defineConfig({
@@ -17,6 +18,9 @@ export default defineConfig({
     sourcemap: true,
     minify: false,
   },
+  plugins: [babel({babelConfig:{
+    
+  }})],
   resolve: {
     alias: {
       '@ktjs/core/jsx-dev-runtime': resolve(import.meta.dirname, '../core/src/jsx/jsx-runtime.ts'),

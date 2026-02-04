@@ -28,7 +28,7 @@
   },
   "include": ["./packages/**/**/*.ts", "./packages/**/**/*.tsx", "packages/**/**/*.js"],
   "references": [
-    { "path": "./packages/}babel-plugin-ktjsx" },
+    { "path": "./packages/babel-plugin-ktjsx" },
     { "path": "./packages/core" },
     { "path": "./packages/example" },
     { "path": "./packages/mui" },

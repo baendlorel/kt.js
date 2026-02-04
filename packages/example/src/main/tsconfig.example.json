@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core",
-    "plugins": [
-      {
-        "name": "@ktjs/tsplugin"
-      }
-    ]
+    "jsxImportSource": "kt.js"
   }
 }

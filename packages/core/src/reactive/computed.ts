@@ -1,6 +1,5 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { $replaceNode, $throw } from '@ktjs/shared';
-import { KTRef } from './ref.js';
 import { isKT } from './core.js';
 
 export class KTComputed<T> implements KTReactive<T> {
@@ -52,6 +51,10 @@ export class KTComputed<T> implements KTReactive<T> {
    */
   get value() {
     return this._value;
+  }
+
+  set value(_newValue: T) {
+    $throw('KTComputed: cannot set value of a computed value');
   }
 
   /**

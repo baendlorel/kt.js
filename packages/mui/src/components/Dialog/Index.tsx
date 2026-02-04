@@ -1,13 +1,13 @@
-import { isKT, KTRef, ref } from '@ktjs/core';
+import { isKT, KTReactive, ref } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
 interface KTMuiDialogProps {
   /**
    * Controls whether the dialog is open or closed
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  open?: boolean | KTRef<boolean>;
+  open?: boolean | KTReactive<boolean>;
   'kt:close'?: () => void;
   title?: string;
   children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[] | string;

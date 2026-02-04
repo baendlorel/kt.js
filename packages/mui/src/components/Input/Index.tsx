@@ -3,16 +3,6 @@ import './Input.css';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 
-/**
- * TextField component - mimics MUI TextField appearance and behavior
- *
- * Supports reactive properties through KTRef:
- * - All properties (label, placeholder, value, type, disabled, readonly, required, error, helperText,
- *   fullWidth, multiline, rows, size) can be provided as either primitive values or KTRef
- * - When a KTRef is provided, changes to the ref will automatically update the component
- * - Two-way binding via `k-model` prop for input value
- * - Properties can also be get/set directly on the component instance (e.g., component.value = 'new')
- */
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
   const onInput = generateHandler<string | number>(props, 'kt:input');

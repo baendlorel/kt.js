@@ -1,4 +1,4 @@
-import { ref, KTRef, KTPrefixedEventAttribute } from 'kt.js';
+import { ref, KTReactive, KTPrefixedEventAttribute } from 'kt.js';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';
@@ -11,7 +11,7 @@ interface KTMuiButtonProps {
   variant?: 'contained' | 'outlined' | 'text';
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
   size?: 'small' | 'medium' | 'large';
-  disabled?: boolean | KTRef<boolean>;
+  disabled?: boolean | KTReactive<boolean>;
   fullWidth?: boolean;
   iconOnly?: boolean;
   startIcon?: HTMLElement | JSX.Element;

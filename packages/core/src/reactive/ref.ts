@@ -72,7 +72,7 @@ export class KTRef<T> implements KTReactive<T> {
  * - if the value is already a `KTRef`, it will be returned **directly**.
  * @param value mostly an HTMLElement
  */
-export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
+export function ref<T = JSX.Element>(value?: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> {
   if (isKT(value)) {
     if (onChange) {
       value.addOnChange(onChange);
@@ -82,7 +82,7 @@ export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: ReactiveCh
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 
-export function deref<T = JSX.Element>(value: T | KTRef<T>): T {
+export function deref<T = JSX.Element>(value: T | KTReactive<T>): T {
   return isKT<T>(value) ? value.value : value;
 }
 
@@ -116,7 +116,7 @@ export const surfaceRef = <T extends Object>(obj: T): KTSurfaceRef<T> => {
   const entries = $entries(obj);
   const newObj = { kcollect } as KTSurfaceRef<T>;
   for (let i = 0; i < entries.length; i++) {
-    (newObj[entries[i][0]] as KTRef<any>) = ref(entries[i][1]);
+    (newObj[entries[i][0]] as KTReactive<any>) = ref(entries[i][1]);
   }
   return newObj;
 };
@@ -135,5 +135,5 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
     }
     return kmodel;
   }
-  return ref(defaultValue);
+  return ref(defaultValue) as KTRef<T>;
 };

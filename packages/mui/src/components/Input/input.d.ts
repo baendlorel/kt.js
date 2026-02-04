@@ -1,4 +1,4 @@
-import type { KTRef } from '@ktjs/core';
+import type { KTReactive } from '@ktjs/core';
 import type { ChangeHandler } from '../../common/handler.ts';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
@@ -6,78 +6,78 @@ export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url
 export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
   /**
    * Two-way binding for the input value
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  'k-model'?: T extends 'number' ? KTRef<number> : KTRef<string>;
+  'k-model'?: T extends 'number' ? KTReactive<number> : KTReactive<string>;
 
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   /**
    * Label text for the input field
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  label?: string | KTRef<string>;
+  label?: string | KTReactive<string>;
   /**
    * Placeholder text for the input field
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  placeholder?: string | KTRef<string>;
+  placeholder?: string | KTReactive<string>;
   /**
    * Current value of the input field
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    * - If both `value` and `k-model` are provided, `k-model` takes precedence
    */
   value?: any;
   /**
    * Type of the input field
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  type?: T | KTRef<T>;
+  type?: T | KTReactive<T>;
   /**
    * Whether the input is disabled
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  disabled?: boolean | KTRef<boolean>;
+  disabled?: boolean | KTReactive<boolean>;
   /**
    * Whether the input is readonly
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  readonly?: boolean | KTRef<boolean>;
+  readonly?: boolean | KTReactive<boolean>;
   /**
    * Whether the input is required
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  required?: boolean | KTRef<boolean>;
+  required?: boolean | KTReactive<boolean>;
   /**
    * Whether the input is in error state
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  error?: boolean | KTRef<boolean>;
+  error?: boolean | KTReactive<boolean>;
   /**
    * Helper text displayed below the input
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  helperText?: string | KTRef<string>;
+  helperText?: string | KTReactive<string>;
   /**
    * Whether the input should take full width
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  fullWidth?: boolean | KTRef<boolean>;
+  fullWidth?: boolean | KTReactive<boolean>;
   /**
    * Whether the input is multiline (textarea)
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  multiline?: boolean | KTRef<boolean>;
+  multiline?: boolean | KTReactive<boolean>;
   /**
    * Number of rows for multiline input
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  rows?: number | KTRef<number>;
+  rows?: number | KTReactive<number>;
   /**
    * Size of the input field
-   * - Provide a `KTRef` to make it reactive
+   * - Provide a `KTReactive` to make it reactive
    */
-  size?: 'small' | 'medium' | KTRef<'small' | 'medium'>;
+  size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
   'kt:input'?: ChangeHandler<T extends 'number' ? number : string>;
   'kt-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
   'kt:change'?: ChangeHandler<T extends 'number' ? number : string>;

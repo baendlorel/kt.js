@@ -1,10 +1,10 @@
-import type { KTRef } from '@ktjs/core';
+import { KTReactive } from '@ktjs/core';
 
 export interface KTMuiRadioProps {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
   value: string;
-  label: string | JSX.Element | HTMLElement;
+  label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
   size?: 'small' | 'medium';
   'kt:change'?: (checked: boolean, value: string) => void;
@@ -19,7 +19,7 @@ export interface KTMuiRadioGroupProps {
   name?: string;
   size?: 'small' | 'medium';
   options: KTMuiRadioProps[];
-  'kt:change'?: ((value: string) => void) | KTRef<string>;
+  'kt:change'?: ((value: string) => void) | KTReactive<string>;
   'kt:click'?: (checked: boolean) => void;
   row?: boolean;
 }

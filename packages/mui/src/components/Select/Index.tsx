@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, createRedrawable, KTRef, ref } from '@ktjs/core';
+import { $modelOrRef, computed, KTReactive, ref } from '@ktjs/core';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import './Select.css';
 
@@ -12,12 +12,12 @@ export interface KTMuiSelectProps {
   style?: string | Partial<CSSStyleDeclaration>;
   size?: 'small' | 'medium';
   value?: string;
-  options: KTMuiSelectOption[] | KTRef<KTMuiSelectOption[]>;
-  label?: string | KTRef<string>;
+  options: KTMuiSelectOption[] | KTReactive<KTMuiSelectOption[]>;
+  label?: string | KTReactive<string>;
   placeholder?: string;
   'kt:change'?: (value: string) => void;
   fullWidth?: boolean;
-  disabled?: boolean | KTRef<boolean>;
+  disabled?: boolean | KTReactive<boolean>;
 }
 
 export type KTMuiSelect = JSX.Element & {};

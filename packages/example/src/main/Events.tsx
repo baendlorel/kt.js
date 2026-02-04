@@ -1,8 +1,8 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
-import clickEventCode from '../code/click-event.tsx?raw';
 import { highlight } from '../common/highlight.js';
-import { Counter } from './Counter.js';
+import clickEventCode from '../code/click-event.tsx?raw';
+import counterDemoCode from '../code/counter-demo.tsx?raw';
 
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos
@@ -10,6 +10,10 @@ import { Counter } from './Counter.js';
 export function Events() {
   const outputRef = ref('No events yet.');
   const clickEventHighlighted = highlight(clickEventCode);
+
+  const counterRef = ref(0);
+  const counterHighlighted = highlight(counterDemoCode);
+
   return (
     <div>
       <div class="demo-section">
@@ -47,10 +51,29 @@ export function Events() {
           </div>
           <div class="demo-result">{outputRef}</div>
         </div>
-        <div class="demo-result">{clickEventHighlighted}</div>
+        <div class="demo-code">{clickEventHighlighted}</div>
       </div>
 
-      <Counter></Counter>
+      <div class="demo-section">
+        <h3>Counter</h3>
+        <p>A simple counter demonstrating manual state updates in KT.js.</p>
+        <div class="demo-flex-gap">
+          <div style="width:200px; font-size: 2rem; font-weight: bold; color: #667eea;">Count: {counterRef}</div>
+          <Button variant="contained" color="primary" on:click={() => counterRef.value--}>
+            -1
+          </Button>
+          <Button variant="contained" color="primary" on:click={() => counterRef.value++}>
+            +1
+          </Button>
+          <Button variant="contained" color="primary" on:click={() => (counterRef.value += 10)}>
+            +10
+          </Button>
+          <Button variant="contained" color="primary" on:click={() => (counterRef.value = 0)}>
+            Reset
+          </Button>
+        </div>
+        <div class="demo-code">{counterHighlighted}</div>
+      </div>
     </div>
   );
 }

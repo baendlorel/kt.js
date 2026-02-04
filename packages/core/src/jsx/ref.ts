@@ -1,5 +1,5 @@
-import { $entries, $throw } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import { $entries, $replaceNode, $throw } from '@ktjs/shared';
 
 export class KTRef<T> implements KTReactive<T> {
   /**
@@ -34,14 +34,8 @@ export class KTRef<T> implements KTReactive<T> {
       return;
     }
 
-    // replace the old node with the new one in the DOM if both are nodes
-    if (this._value instanceof Node && newValue instanceof Node) {
-      if (newValue.contains(this._value)) {
-        (this._value as unknown as ChildNode).remove();
-      }
-      (this._value as unknown as ChildNode).replaceWith(newValue);
-    }
     const oldValue = this._value;
+    $replaceNode(oldValue, newValue);
     this._value = newValue;
     for (let i = 0; i < this._onChanges.length; i++) {
       this._onChanges[i](newValue, oldValue);

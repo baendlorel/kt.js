@@ -1,5 +1,5 @@
-import { $throw, type HTMLTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
+import { $replaceNode, $throw, type HTMLTag } from '@ktjs/shared';
 
 import { h } from '../h/index.js';
 import { isKTRef, type KTRef, ref } from './ref.js';
@@ -38,7 +38,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
         }
         const oldEl = el;
         el = newValue ? create(tag, props) : placeholder();
-        (oldEl as ChildNode).replaceWith(el);
+        $replaceNode(oldEl, el);
         maybeDummyRef.value = el;
       });
       condition = kif.value;

@@ -1,5 +1,5 @@
-import { $throw } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.d.ts';
+import { $replaceNode, $throw } from '@ktjs/shared';
 
 export class KTComputed<T> implements KTReactive<T> {
   /**
@@ -31,6 +31,7 @@ export class KTComputed<T> implements KTReactive<T> {
         if (oldValue === this._value) {
           return;
         }
+        $replaceNode(oldValue, this._value);
         for (let i = 0; i < this._onChanges.length; i++) {
           this._onChanges[i](this._value, oldValue);
         }
@@ -49,25 +50,6 @@ export class KTComputed<T> implements KTReactive<T> {
    */
   get value() {
     return this._value;
-  }
-
-  set value(newValue: T) {
-    if (newValue === this._value) {
-      return;
-    }
-
-    // replace the old node with the new one in the DOM if both are nodes
-    if (this._value instanceof Node && newValue instanceof Node) {
-      if (newValue.contains(this._value)) {
-        (this._value as unknown as ChildNode).remove();
-      }
-      (this._value as unknown as ChildNode).replaceWith(newValue);
-    }
-    const oldValue = this._value;
-    this._value = newValue;
-    for (let i = 0; i < this._onChanges.length; i++) {
-      this._onChanges[i](newValue, oldValue);
-    }
   }
 
   /**

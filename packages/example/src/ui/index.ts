@@ -9,6 +9,7 @@ import { MuiIconsDemo } from './mui-icons.js';
 import { MuiProgressDemo } from './mui-progress.js';
 import { MuiRadioDemo } from './mui-radio.js';
 import { MuiSelectDemo } from './mui-select.js';
+import { MuiTextFieldRefDemo } from './mui-textfield-ref-demo.js';
 import { MuiTextFieldDemo } from './mui-textfield.js';
 
 export const muiNavItems: NavItem[] = [
@@ -38,7 +39,7 @@ export const muiNavItems: NavItem[] = [
     label: 'TextField (Reactive Refs)',
     title: 'MUI TextField with Reactive Refs',
     description: 'Demonstrates all TextField properties controlled via KTRefs',
-    component: MuiTextFieldDemo,
+    component: MuiTextFieldRefDemo,
   },
   {
     id: 'mui-dialog',

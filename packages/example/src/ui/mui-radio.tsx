@@ -4,14 +4,12 @@ import { RadioGroup, FormLabel } from '@ktjs/mui';
 
 export function MuiRadioDemo() {
   const selectedValue = ref<string>('option1');
-  const outputText = <div class="output-text">Selected: option1</div>;
 
   const radioGroup = RadioGroup({
     name: 'demo-radio',
     value: 'option1',
     'kt:change': (value) => {
       selectedValue.value = value;
-      outputText.textContent = `Selected: ${value}`;
     },
     options: [
       { value: 'option1', label: 'Option 1' },
@@ -28,7 +26,7 @@ export function MuiRadioDemo() {
 
       <FormLabel>Choose an option:</FormLabel>
       {radioGroup}
-      {outputText}
+      <div class="demo-result">Selected: {selectedValue}</div>
     </div>
   );
 }

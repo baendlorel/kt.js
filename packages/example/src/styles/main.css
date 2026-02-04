@@ -178,15 +178,6 @@ button:not([class*='mui-']):hover {
   gap: 20px;
 }
 
-.output-text {
-  margin-top: 20px;
-  padding: 16px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  font-family: 'Courier New', monospace;
-  border-left: 4px solid #dec18f;
-}
-
 .icons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));

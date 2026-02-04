@@ -4,7 +4,6 @@ import { Select } from '@ktjs/mui';
 
 export function MuiSelectDemo() {
   const selectedValue = ref<string>('apple');
-  const outputText = <div class="output-text">Selected: apple</div>;
 
   const options = [
     { value: 'apple', label: 'Apple' },
@@ -20,17 +19,16 @@ export function MuiSelectDemo() {
     options,
     'kt:change': (value) => {
       selectedValue.value = value;
-      outputText.textContent = `Selected: ${value}`;
     },
   });
 
   return (
     <div class="demo-section">
       <h2>Select Component</h2>
-      <p class="description">Select components let users pick a value from a list.</p>
+      <p class="demo-desc">Select components let users pick a value from a list.</p>
 
       {select}
-      {outputText}
+      <div class="demo-result">Selected: {selectedValue}</div>
 
       <div style="margin-top: 20px;">
         <Select label="Disabled Select" disabled value="banana" options={options} kt:change={(value) => {}} />

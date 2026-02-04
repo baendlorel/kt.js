@@ -17,7 +17,6 @@
   font-weight: 500;
   line-height: 1.75;
   letter-spacing: 0.02857em;
-  text-transform: uppercase;
   min-width: 64px;
   transition:
     background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,

@@ -3,11 +3,7 @@ import '@ktjs/core/jsx';
 import { TextField } from '@ktjs/mui';
 
 export function MuiTextFieldDemo() {
-  const outputText = (<div class="output-text">Type something...</div>) as HTMLDivElement;
-
-  const handleInput = (value: string) => {
-    outputText.textContent = value ? `You typed: ${value}` : 'Type something...';
-  };
+  const inputValueRef = ref('Type something...');
 
   return (
     <div class="demo-section">
@@ -16,9 +12,13 @@ export function MuiTextFieldDemo() {
 
       <div class="textfield-grid">
         <TextField label="多行" size="small" multiline rows={4} />
-
-        <TextField label="Standard" placeholder="Enter text..." kt:input={handleInput} />
+        <TextField k-model={inputValueRef} label="Standard" placeholder="Enter text..." />
         <TextField label="Required Field" required />
+      </div>
+      <div class="demo-result" style="margin-bottom: 32px">
+        Input Value: {inputValueRef}
+      </div>
+      <div class="textfield-grid">
         <TextField label="Disabled" disabled value="Cannot edit this" />
         <TextField label="Error State" error helperText="This field has an error" />
         <TextField label="With Helper" helperText="Some helpful text" />
@@ -29,15 +29,13 @@ export function MuiTextFieldDemo() {
         <TextField size="small" placeholder="ssdf" />
       </div>
 
-      <div style="margin-top: 20px;">
+      <div class="demo-mt">
         <TextField label="Full Width" fullWidth placeholder="This takes full width" />
       </div>
 
-      <div style="margin-top: 20px;">
+      <div class="demo-mt">
         <TextField label="Multiline" multiline rows={4} placeholder="Enter multiple lines..." />
       </div>
-
-      {outputText}
     </div>
   );
 }

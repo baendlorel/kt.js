@@ -7,7 +7,7 @@ interface KTMuiButtonProps {
   class?: string;
   style?: string | Partial<CSSStyleDeclaration>;
 
-  children?: string | HTMLElement | JSX.Element;
+  children?: string | HTMLElement | JSX.Element | Array<string | HTMLElement | JSX.Element>;
   variant?: 'contained' | 'outlined' | 'text';
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
   size?: 'small' | 'medium' | 'large';

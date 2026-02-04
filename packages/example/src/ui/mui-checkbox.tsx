@@ -1,25 +1,8 @@
 import { ref } from '@ktjs/core';
-import '@ktjs/core/jsx';
 import { CheckboxGroup, FormLabel } from '@ktjs/mui';
 
 export function MuiCheckboxDemo() {
   const selectedValues = ref<string[]>(['html', 'css']);
-  const outputText = <div class="output-text">Selected: html, css</div>;
-
-  const checkboxGroup = CheckboxGroup({
-    value: ['html', 'css'],
-    'kt:change': (values) => {
-      selectedValues.value = values;
-      outputText.textContent = values.length > 0 ? `Selected: ${values.join(', ')}` : 'None selected';
-    },
-    options: [
-      { value: 'html', label: 'HTML' },
-      { value: 'css', label: 'CSS' },
-      { value: 'javascript', label: 'JavaScript' },
-      { value: 'typescript', label: 'TypeScript' },
-      { value: 'react', label: 'React (Disabled)', disabled: true },
-    ],
-  });
 
   return (
     <div class="demo-section">
@@ -27,10 +10,24 @@ export function MuiCheckboxDemo() {
       <p class="description">Checkboxes allow users to select multiple options from a set.</p>
 
       <FormLabel>Select technologies:</FormLabel>
-      {checkboxGroup}
-      {outputText}
 
-      <div style="margin-top: 20px;">
+      <CheckboxGroup
+        value={selectedValues.value}
+        kt:change={(values) => {
+          selectedValues.value = values;
+        }}
+        options={[
+          { value: 'html', label: 'HTML' },
+          { value: 'css', label: 'CSS' },
+          { value: 'javascript', label: 'JavaScript' },
+          { value: 'typescript', label: 'TypeScript' },
+          { value: 'react', label: 'React (Disabled)', disabled: true },
+        ]}
+      />
+
+      <div class="demo-result">Selected: {selectedValues}</div>
+
+      <div class="demo-mt">
         <h3>Different Colors</h3>
         <CheckboxGroup
           row

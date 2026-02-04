@@ -1,6 +1,6 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { TextField } from '@ktjs/mui';
+import { Button, TextField } from '@ktjs/mui';
 
 export function MuiTextFieldRefDemo() {
   // 创建所有属性的ref
@@ -15,7 +15,6 @@ export function MuiTextFieldRefDemo() {
   const fullWidthRef = ref(false);
   const rowsRef = ref(3);
   const sizeRef = ref<'small' | 'medium'>('medium');
-  const typeRef = ref<'text' | 'password' | 'email' | 'number'>('text');
 
   // 按钮点击处理函数 - 用于改变各个ref的值
   const toggleLabel = () => {
@@ -62,13 +61,6 @@ export function MuiTextFieldRefDemo() {
     sizeRef.value = sizeRef.value === 'medium' ? 'small' : 'medium';
   };
 
-  const toggleType = () => {
-    const types: Array<'text' | 'password' | 'email' | 'number'> = ['text', 'password', 'email', 'number'];
-    const currentIndex = types.indexOf(typeRef.value);
-    const nextIndex = (currentIndex + 1) % types.length;
-    typeRef.value = types[nextIndex];
-  };
-
   // 重置所有ref到初始值
   const resetAll = () => {
     labelRef.value = 'TextField Label';
@@ -82,7 +74,6 @@ export function MuiTextFieldRefDemo() {
     fullWidthRef.value = false;
     rowsRef.value = 3;
     sizeRef.value = 'medium';
-    typeRef.value = 'text';
   };
 
   return (
@@ -104,7 +95,7 @@ export function MuiTextFieldRefDemo() {
         <div class="textfield-demo-area">
           <h3>Live TextField</h3>
           <TextField
-            type={typeRef}
+            type="text"
             label={labelRef}
             placeholder={placeholderRef}
             k-model={valueRef}
@@ -134,7 +125,6 @@ export function MuiTextFieldRefDemo() {
               <div>fullWidth: {fullWidthRef}</div>
               <div>rows: {rowsRef}</div>
               <div>size: {sizeRef}</div>
-              <div>type: {typeRef}</div>
             </div>
           </div>
         </div>
@@ -143,78 +133,40 @@ export function MuiTextFieldRefDemo() {
           <h3>Control Panel</h3>
           <p>Click buttons to change ref values and see the TextField update:</p>
 
-          <div class="control-grid">
-            <div class="control-group">
-              <button on:click={toggleLabel}>
-                Toggle Label: <span>{labelRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={togglePlaceholder}>
-                Toggle Placeholder: <span>{placeholderRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleValue}>
-                Toggle Value: <span>{valueRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleDisabled}>
-                Toggle Disabled:<span>{disabledRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleReadonly}>
-                Toggle Readonly: <span>{readonlyRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleRequired}>
-                Toggle Required: <span>{requiredRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleError}>
-                Toggle Error: <span> {errorRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleHelperText}>
-                Toggle Helper Text: <span>{helperTextRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleFullWidth}>
-                Toggle Full Width: <span>{fullWidthRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleRows}>
-                Toggle Rows: <span>{rowsRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleSize}>
-                Toggle Size: <span> {sizeRef}</span>
-              </button>
-            </div>
-
-            <div class="control-group">
-              <button on:click={toggleType}>
-                Toggle Type: <span> {typeRef}</span>
-              </button>
-            </div>
+          <div class="demo-flex-gap-column">
+            <Button variant="contained" color="primary" on:click={toggleLabel}>
+              Toggle Label: <span>{labelRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={togglePlaceholder}>
+              Toggle Placeholder: <span>{placeholderRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleValue}>
+              Toggle Value: <span>{valueRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleDisabled}>
+              Toggle Disabled:<span>{disabledRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleReadonly}>
+              Toggle Readonly: <span>{readonlyRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleRequired}>
+              Toggle Required: <span>{requiredRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleError}>
+              Toggle Error: <span> {errorRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleHelperText}>
+              Toggle Helper Text: <span>{helperTextRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleFullWidth}>
+              Toggle Full Width: <span>{fullWidthRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleRows}>
+              Toggle Rows: <span>{rowsRef}</span>
+            </Button>
+            <Button variant="contained" color="primary" on:click={toggleSize}>
+              Toggle Size: <span> {sizeRef}</span>
+            </Button>
           </div>
         </div>
       </div>

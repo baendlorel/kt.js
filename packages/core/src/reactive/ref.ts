@@ -72,13 +72,7 @@ export class KTRef<T> implements KTReactive<T> {
  * - if the value is already a `KTRef`, it will be returned **directly**.
  * @param value mostly an HTMLElement
  */
-export function ref<T = JSX.Element>(value?: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> {
-  if (isKT(value)) {
-    if (onChange) {
-      value.addOnChange(onChange);
-    }
-    return value;
-  }
+export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 

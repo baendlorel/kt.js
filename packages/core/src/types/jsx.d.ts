@@ -241,9 +241,27 @@ declare global {
     }
 
     type IntrinsicAttributes = KTPrefixedEventAttribute & {
+      /**
+       * Make a reference to the created element
+       */
       ref?: KTRef<any>;
+
+      /**
+       * Conditional rendering
+       * - Provide a `KTRef` to make it reactive
+       */
       'k-if'?: any;
+
+      /**
+       * 2-way binding
+       * - Provide a `KTRef` to make it reactive
+       */
       'k-model'?: KTRef<any>;
+
+      /**
+       * Raw html binding
+       * - Provide a `KTRef` to make it reactive
+       */
       'k-html'?: any;
       children?: KTRawContent;
     };

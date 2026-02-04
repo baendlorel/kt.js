@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, KTReactive, ref } from '@ktjs/core';
+import { type KTReactive, $modelOrRef, computed, ref } from '@ktjs/core';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import './Select.css';
 

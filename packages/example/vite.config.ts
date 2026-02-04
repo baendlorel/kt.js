@@ -1,13 +1,15 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import babel from 'vite-plugin-babel';
+import babelKTjsx from '@ktjs/babel-plugin-ktjsx';
 
 // Vite config for KT.js development
 export default defineConfig({
   base: '/kt.js',
+  // Configure esbuild to preserve JSX syntax so Babel can process it
   esbuild: {
-    jsx: 'automatic',
-    jsxImportSource: '@ktjs/core',
+    jsx: 'preserve', // Keep JSX unchanged, let Babel handle transformation
+    jsxImportSource: '@ktjs/core', // JSX import source for TypeScript
   },
   server: {
     port: 3000,
@@ -18,9 +20,18 @@ export default defineConfig({
     sourcemap: true,
     minify: false,
   },
-  plugins: [babel({ babelConfig: {} })],
+  plugins: [
+    babel({
+      filter: /\.[jt]sx?$/,
+      babelConfig: {
+        presets: ['@babel/preset-typescript'],
+        plugins: [babelKTjsx], // Plugin path will be loaded by Babel
+      },
+    }),
+  ],
   resolve: {
     alias: {
+      // Alias mappings for monorepo package development
       '@ktjs/core/jsx-dev-runtime': resolve(import.meta.dirname, '../core/src/jsx/jsx-runtime.ts'),
       '@ktjs/core/jsx-runtime': resolve(import.meta.dirname, '../core/src/jsx/jsx-runtime.ts'),
       '@ktjs/core/jsx': resolve(import.meta.dirname, '../core/src/jsx/index.ts'),

@@ -1,11 +1,14 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
+import { highlight } from '../common/highlight.js';
+import counterDemoCode from '../code/counter-demo.tsx?raw';
 
 /**
  * Counter Demo - Demonstrates manual state updates
  */
 export function Counter() {
   const counterRef = ref(0);
+  const counterHighlighted = highlight(counterDemoCode);
 
   return (
     <div class="demo-section">
@@ -26,6 +29,7 @@ export function Counter() {
           Reset
         </Button>
       </div>
+      <div class="demo-code">{counterHighlighted}</div>
     </div>
   );
 }

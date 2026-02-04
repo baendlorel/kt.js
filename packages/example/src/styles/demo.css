@@ -28,6 +28,11 @@
 }
 
 .demo-flex-gap {
+  margin-top: 15px;
   display: flex;
   gap: 10px;
+}
+
+.demo-code {
+  margin-top: 15px;
 }

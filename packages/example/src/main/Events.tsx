@@ -47,7 +47,7 @@ export function Events() {
           </div>
           <div class="demo-result">{outputRef}</div>
         </div>
-        <div style="margin-top: 20px">{clickEventHighlighted}</div>
+        <div class="demo-result">{clickEventHighlighted}</div>
       </div>
 
       <Counter></Counter>

@@ -243,6 +243,14 @@
   background-color: rgba(25, 118, 210, 0.12);
 }
 
+.mui-select-legend > span {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .mui-select-label {

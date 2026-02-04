@@ -27,7 +27,14 @@ export function MuiSelectDemo() {
       <div class="demo-result">Selected: {selectedValue}</div>
 
       <div style="margin-top: 20px;">
-        <Select label="Disabled Select" disabled value="banana" options={options} kt:change={(value) => {}} />
+        <Select
+          style="width:400px"
+          label="Disabled Select"
+          disabled
+          value="banana"
+          options={options}
+          kt:change={(value) => {}}
+        />
       </div>
     </div>
   );

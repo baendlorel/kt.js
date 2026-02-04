@@ -63,7 +63,11 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const modelRef = $modelOrRef(props, props.value ?? '');
   const label = computed(() => {
     if (labelRef.value) {
-      return <label class={`mui-select-label ${modelRef.value || isFocused.value ? 'focused' : ''}`}>{labelRef}</label>;
+      return (
+        <label class={`mui-select-label ${modelRef.value || isFocused.value || placeholder ? 'focused' : ''}`}>
+          {labelRef}
+        </label>
+      );
     }
     return '';
   }, [labelRef, modelRef, isFocused]);
@@ -124,7 +128,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
       style={parseStyle(props.style)}
     >
       {label}
-
       <div
         class="mui-select-control mui-select-outlined"
         on:click={toggleMenu}
@@ -135,8 +138,8 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
         {displayedValue}
         <input type="hidden" value={modelRef.value} />
         <fieldset class="mui-select-fieldset">
-          <legend>
-            <span>{label}</span>
+          <legend class="mui-select-legend">
+            <span>{labelRef}</span>
           </legend>
         </fieldset>
 

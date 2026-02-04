@@ -14,28 +14,31 @@ export function Events() {
     <div>
       <div class="demo-section">
         <p>
-          KT.js uses the <code>on:</code> syntax for event handling, similar to React but with direct DOM events.
+          KT.js uses the <code>on:</code> syntax for event handling, similar to Svelte and with direct DOM events.
         </p>
         <div>
-          <div>
+          <div class="demo-flex-gap">
             <Button
-              style="margin:0px 15px"
+              variant="contained"
+              color="primary"
               on:click={() => (outputRef.value = `✓ Clicked at ${new Date().toLocaleTimeString()}`)}
             >
               Click Event
             </Button>
-            <Button style="margin:0px 15px" on:dblclick={() => (outputRef.value = '✓ Double clicked!')}>
+            <Button variant="contained" color="primary" on:dblclick={() => (outputRef.value = '✓ Double clicked!')}>
               Double Click
             </Button>
             <Button
-              style="margin:0px 15px"
+              variant="contained"
+              color="primary"
               on:mouseenter={() => (outputRef.value = '✓ Mouse entered!')}
               on:mouseleave={() => (outputRef.value = '✓ Mouse left!')}
             >
               Hover Me
             </Button>
             <Button
-              style="margin:0px 15px"
+              variant="contained"
+              color="primary"
               on:focus={() => (outputRef.value = '✓ Button focused!')}
               on:blur={() => (outputRef.value = '✓ Button blurred!')}
             >

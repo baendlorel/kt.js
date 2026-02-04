@@ -1,52 +1,23 @@
 import '@ktjs/core/jsx';
-import { DemoSection } from '../components/index.js';
+import { ref } from 'kt.js';
 
 /**
  * Counter Demo - Demonstrates manual state updates
  */
 export function Counter() {
-  let count = 0;
-  const counterDisplay = (<span>{count}</span>) as HTMLSpanElement;
+  const counterRef = ref(0);
 
   return (
-    <DemoSection>
+    <div class="demo-section">
       <h3>Counter Demo</h3>
       <p>A simple counter demonstrating manual state updates in KT.js.</p>
-      <div style="margin: 24px 0; font-size: 2rem; font-weight: bold; color: #667eea;">Count: {counterDisplay}</div>
+      <div style="margin: 24px 0; font-size: 2rem; font-weight: bold; color: #667eea;">Count: {counterRef}</div>
       <div>
-        <button
-          on:click={() => {
-            count--;
-            counterDisplay.textContent = String(count);
-          }}
-        >
-          -1
-        </button>
-        <button
-          on:click={() => {
-            count++;
-            counterDisplay.textContent = String(count);
-          }}
-        >
-          +1
-        </button>
-        <button
-          on:click={() => {
-            count += 10;
-            counterDisplay.textContent = String(count);
-          }}
-        >
-          +10
-        </button>
-        <button
-          on:click={() => {
-            count = 0;
-            counterDisplay.textContent = String(count);
-          }}
-        >
-          Reset
-        </button>
+        <button on:click={() => counterRef.value--}>-1</button>
+        <button on:click={() => counterRef.value++}>+1</button>
+        <button on:click={() => (counterRef.value += 10)}>+10</button>
+        <button on:click={() => (counterRef.value = 0)}>Reset</button>
       </div>
-    </DemoSection>
+    </div>
   );
 }

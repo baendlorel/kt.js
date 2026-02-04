@@ -1,4 +1,4 @@
-import { $modelOrRef, createRedrawable, ref } from '@ktjs/core';
+import { $modelOrRef, computed, createRedrawable, ref } from '@ktjs/core';
 import { generateHandler, parseStyle } from '@ktjs/shared';
 import './Select.css';
 
@@ -72,8 +72,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     updateMenu();
     updateLabelState();
 
-    redrawDisplayedValue();
-    setTimeout(() => menu.redraw(), 200);
+    setTimeout(() => console.log('本该redraw？'), 200);
   };
 
   // Close menu when clicking outside
@@ -100,19 +99,14 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     selectLabelRef.value.classList?.toggle('focused', isFocused || !!modelRef.value);
   };
 
-  const displayedValue = ref(<span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>);
-  const redrawDisplayedValue = () => {
+  const defaultEmpty = <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>;
+  const displayedValue = computed(() => {
     const o = optionsRef.value.find((item) => item.value === modelRef.value);
-    displayedValue.value = (
-      <div class="mui-select-display">
-        {o?.label ?? <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>}
-      </div>
-    );
-  };
+    return <div class="mui-select-display">{o?.label ?? defaultEmpty}</div>;
+  }, [modelRef]);
 
-  // todo 感觉这个不如原来的redraw简单
-  const createOptions = () =>
-    optionsRef.value.map((o) => (
+  const menuOptions = computed(() => {
+    return optionsRef.value.map((o) => (
       <div
         class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
         data-value={o.value}
@@ -121,8 +115,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
         {o.label}
       </div>
     ));
-  optionsRef.addOnChange(createOptions);
-  const menuOptions = ref(createOptions());
+  }, [optionsRef]);
 
   const menu = (
     <div class="mui-select-menu" style="display: none;">

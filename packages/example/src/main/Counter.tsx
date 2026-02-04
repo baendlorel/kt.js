@@ -1,4 +1,5 @@
 import '@ktjs/core/jsx';
+import { DemoSection } from '../components/index.js';
 
 /**
  * Counter Demo - Demonstrates manual state updates
@@ -8,7 +9,7 @@ export function Counter() {
   const counterDisplay = (<span>{count}</span>) as HTMLSpanElement;
 
   return (
-    <div class="demo-section">
+    <DemoSection>
       <h3>Counter Demo</h3>
       <p>A simple counter demonstrating manual state updates in KT.js.</p>
       <div style="margin: 24px 0; font-size: 2rem; font-weight: bold; color: #667eea;">Count: {counterDisplay}</div>
@@ -46,6 +47,6 @@ export function Counter() {
           Reset
         </button>
       </div>
-    </div>
+    </DemoSection>
   );
 }

@@ -1,15 +1,19 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 import { FeatKTFor } from './KTFor.js';
+import { DemoSection, ResultBox } from '../components/index.js';
+import clickEventCode from '../code/click-event.tsx?raw';
+import { highlight } from '../common/highlight.js';
 
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos
  */
 export function BasicUsage() {
   const outputRef = ref('No events yet.');
+  const clickEventHighlighted = highlight(clickEventCode);
   return (
     <div>
-      <div class="demo-section">
+      <DemoSection>
         <h3>Event Handling</h3>
         <p>
           KT.js uses the <code>on:</code> syntax for event handling, similar to React but with direct DOM events.
@@ -40,18 +44,19 @@ export function BasicUsage() {
               Focus Me
             </Button>
           </div>
-          <div class="output-text">{outputRef}</div>
+          <ResultBox>{outputRef}</ResultBox>
         </div>
-      </div>
+        <div style="margin-top: 20px">{clickEventHighlighted}</div>
+      </DemoSection>
 
-      <div class="demo-section">
+      <DemoSection>
         <h3>KTFor List Rendering</h3>
         <p>
           The <code>KTFor</code> component provides efficient list rendering with key-based DOM reuse, similar to
           React's <code>key</code> prop but with manual control.
         </p>
         <FeatKTFor />
-      </div>
+      </DemoSection>
     </div>
   );
 }

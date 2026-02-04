@@ -1,17 +1,14 @@
-import { ref } from 'kt.js';
+import { css } from '@emotion/css';
+import { computed, ref } from 'kt.js';
 
-/**
- * 响应式特性展示组件
- *
- * 本组件演示 kt.js 中 ref 的响应式特性，包括指令和直接嵌入两种方式。
- */
-
-/**
- * 第一个 Demo Section: 指令的响应式特性
- *
- * 展示 k-if、k-model、k-html 三大指令在传入 ref 时的响应式行为
- */
-function DirectiveReactivityDemo() {
+const styles = {
+  description: css`
+    margin-top: 10px;
+    font-size: 12px;
+    color: #666;
+  `,
+};
+export function Reactivity() {
   const kifFlag = ref(false);
   const kmodelText = ref('响应式文本');
   const khtmlContent = ref('<span style="color: #52c41a;">初始HTML</span>');
@@ -21,16 +18,17 @@ function DirectiveReactivityDemo() {
     kifFlag.value = !kifFlag.value;
   }, 1500);
 
+  const notKifFLag = computed(() => !kifFlag.value, [kifFlag]);
+
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
     kmodelText.value = `更新于: ${time}`;
   }, 2000);
 
   setInterval(() => {
-    const random = Math.random().toFixed(3);
     khtmlContent.value = `<div style="padding: 8px; background: #f0f0f0; margin: 5px 0;">
       <strong>动态HTML</strong><br/>
-      随机值: ${random}<br/>
+      随机值: ${Math.random().toFixed(3)}<br/>
       时间: ${new Date().toLocaleTimeString()}
     </div>`;
   }, 2500);
@@ -41,19 +39,16 @@ function DirectiveReactivityDemo() {
       <p>展示 k-if、k-model、k-html 三大指令在传入 ref 时的响应式行为：</p>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
-        {/* k-if 示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>k-if 指令</h4>
-          <p>当前状态: {kifFlag.value ? 'true' : 'false'}</p>
-          <div k-if={kifFlag} style="background: #e6f7ff; padding: 10px; text-align: center;">
-            当 kifFlag 为 true 时显示
-          </div>
-          <p style="margin-top: 10px; font-size: 12px; color: #666;">
-            k-if 传入 ref，ref 内容变化时重绘（即使布尔值相同）
+          <p>
+            当前状态:
+            <span k-if={kifFlag}>true</span>
+            <span k-if={notKifFLag}>false</span>
           </p>
+          <p class={styles.description}>k-if 传入 ref，ref 内容变化时重绘（即使布尔值相同）</p>
         </div>
 
-        {/* k-model 示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>k-model 指令</h4>
           <input
@@ -61,19 +56,14 @@ function DirectiveReactivityDemo() {
             k-model={kmodelText}
             style="width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box;"
           />
-          <p>当前值: {kmodelText.value}</p>
-          <p style="margin-top: 10px; font-size: 12px; color: #666;">
-            k-model 必须传入 ref，实现双向绑定
-          </p>
+          <p>当前值: {kmodelText}</p>
+          <p class={styles.description}>k-model 必须传入 ref，实现双向绑定</p>
         </div>
 
-        {/* k-html 示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>k-html 指令</h4>
           <div k-html={khtmlContent} style="min-height: 100px; border: 1px dashed #ccc; padding: 10px;" />
-          <p style="margin-top: 10px; font-size: 12px; color: #666;">
-            k-html 传入 ref，ref 变化时自动重绘
-          </p>
+          <p class={styles.description}>k-html 传入 ref，ref 变化时自动重绘</p>
         </div>
       </div>
 
@@ -81,9 +71,15 @@ function DirectiveReactivityDemo() {
         <h4>特性总结</h4>
         <p>以上三个指令都接受 ref 作为参数，当 ref 的值发生变化时：</p>
         <ul>
-          <li><strong>k-if</strong>: 重新评估条件并渲染/移除元素</li>
-          <li><strong>k-model</strong>: 更新表单元素的值，同时监听用户输入更新 ref</li>
-          <li><strong>k-html</strong>: 重新解析 HTML 字符串并更新 DOM</li>
+          <li>
+            <strong>k-if</strong>: 重新评估条件并渲染/移除元素
+          </li>
+          <li>
+            <strong>k-model</strong>: 更新表单元素的值，同时监听用户输入更新 ref
+          </li>
+          <li>
+            <strong>k-html</strong>: 重新解析 HTML 字符串并更新 DOM
+          </li>
         </ul>
         <p>这种响应式机制使得 UI 能够自动与数据状态保持同步。</p>
       </div>
@@ -109,12 +105,7 @@ function DirectRefEmbeddingDemo() {
   }, 1000);
 
   setInterval(() => {
-    const messages = [
-      'Hello, kt.js!',
-      '响应式编程真简单',
-      '数据变化，UI自动更新',
-      '无需手动操作DOM'
-    ];
+    const messages = ['Hello, kt.js!', '响应式编程真简单', '数据变化，UI自动更新', '无需手动操作DOM'];
     const randomIndex = Math.floor(Math.random() * messages.length);
     message.value = messages[randomIndex];
   }, 2000);
@@ -146,45 +137,37 @@ function DirectRefEmbeddingDemo() {
         {/* 计数器示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>计数器</h4>
-          <p style="font-size: 24px; font-weight: bold; text-align: center; margin: 15px 0;">
-            {counter}
-          </p>
-          <p style="font-size: 12px; color: #666;">
-            每秒自动加1，UI自动更新
-          </p>
+          <p style="font-size: 24px; font-weight: bold; text-align: center; margin: 15px 0;">{counter}</p>
+          <p style="font-size: 12px; color: #666;">每秒自动加1，UI自动更新</p>
         </div>
 
         {/* 动态消息示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>动态消息</h4>
-          <div style="padding: 15px; background: #fafafa; border-radius: 4px; margin: 10px 0;">
-            {message}
-          </div>
-          <p style="font-size: 12px; color: #666;">
-            每2秒随机更换消息内容
-          </p>
+          <div style="padding: 15px; background: #fafafa; border-radius: 4px; margin: 10px 0;">{message}</div>
+          <p style="font-size: 12px; color: #666;">每2秒随机更换消息内容</p>
         </div>
 
         {/* 动态颜色示例 */}
         <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
           <h4>动态颜色</h4>
-          <div style={{
-            width: '100%',
-            height: '60px',
-            backgroundColor: color.value,
-            borderRadius: '4px',
-            margin: '10px 0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 'bold'
-          }}>
+          <div
+            style={{
+              width: '100%',
+              height: '60px',
+              backgroundColor: color.value,
+              borderRadius: '4px',
+              margin: '10px 0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 'bold',
+            }}
+          >
             {color}
           </div>
-          <p style="font-size: 12px; color: #666;">
-            每1.5秒更换背景颜色
-          </p>
+          <p style="font-size: 12px; color: #666;">每1.5秒更换背景颜色</p>
         </div>
 
         {/* 列表示例 */}
@@ -195,18 +178,22 @@ function DirectRefEmbeddingDemo() {
               <li key={index}>{item}</li>
             ))}
           </ul>
-          <p style="font-size: 12px; color: #666;">
-            每3秒添加新项目，列表自动更新
-          </p>
+          <p style="font-size: 12px; color: #666;">每3秒添加新项目，列表自动更新</p>
         </div>
       </div>
 
       <div style="margin-top: 20px; padding: 15px; background: #fff7e6; border: 1px solid #ffd591; border-radius: 4px;">
         <h4>技术原理</h4>
-        <p>在 kt.js 中，当在 JSX 中直接使用 <code>{'{ref}'}</code> 语法时：</p>
+        <p>
+          在 kt.js 中，当在 JSX 中直接使用 <code>{'{ref}'}</code> 语法时：
+        </p>
         <ol>
-          <li>ref 对象会被自动解包，显示其 <code>.value</code> 属性的值</li>
-          <li>当 ref 的 <code>.value</code> 发生变化时，包含该 ref 的组件部分会自动重绘</li>
+          <li>
+            ref 对象会被自动解包，显示其 <code>.value</code> 属性的值
+          </li>
+          <li>
+            当 ref 的 <code>.value</code> 发生变化时，包含该 ref 的组件部分会自动重绘
+          </li>
           <li>这种响应式更新是细粒度的，只有使用该 ref 的 DOM 部分会更新</li>
         </ol>
         <p>这种方式使得状态管理变得极其简单，开发者只需关注数据变化，UI 会自动同步。</p>
@@ -226,17 +213,25 @@ export const ReactiveDemo = () => {
         本页面演示 kt.js 中响应式系统的两种主要使用方式：通过指令和直接嵌入 ref。
       </p>
 
-      <DirectiveReactivityDemo />
+      <Reactivity />
       <DirectRefEmbeddingDemo />
 
       <div style="margin-top: 30px; padding: 20px; background: #f0f5ff; border: 1px solid #adc6ff; border-radius: 8px;">
         <h3>响应式系统核心概念</h3>
         <p>kt.js 的响应式系统基于 ref 对象构建：</p>
         <ul>
-          <li><strong>ref</strong>: 响应式引用，包装一个值使其变成响应式</li>
-          <li><strong>自动追踪</strong>: 在模板中使用 ref 时，系统会自动建立依赖关系</li>
-          <li><strong>自动更新</strong>: 当 ref 的值变化时，所有依赖它的 UI 部分自动更新</li>
-          <li><strong>细粒度更新</strong>: 只更新必要的 DOM 部分，性能高效</li>
+          <li>
+            <strong>ref</strong>: 响应式引用，包装一个值使其变成响应式
+          </li>
+          <li>
+            <strong>自动追踪</strong>: 在模板中使用 ref 时，系统会自动建立依赖关系
+          </li>
+          <li>
+            <strong>自动更新</strong>: 当 ref 的值变化时，所有依赖它的 UI 部分自动更新
+          </li>
+          <li>
+            <strong>细粒度更新</strong>: 只更新必要的 DOM 部分，性能高效
+          </li>
         </ul>
         <p>这种设计模式使得开发者可以专注于业务逻辑，而无需手动管理 UI 更新。</p>
       </div>

@@ -1,6 +1,9 @@
 import { css } from '@emotion/css';
 import { computed, ref } from 'kt.js';
 
+import exampleCode from '../code/directives.tsx?raw';
+import { highlight } from '../common/highlight.js';
+
 const styles = {
   description: css`
     margin-top: 10px;
@@ -12,6 +15,8 @@ export function Reactivity() {
   const kifFlag = ref(false);
   const kmodelText = ref('响应式文本');
   const khtmlContent = ref('<span style="color: #52c41a;">初始HTML</span>');
+
+  const code = highlight(exampleCode);
 
   // 定时器用于演示自动更新
   setInterval(() => {
@@ -34,54 +39,43 @@ export function Reactivity() {
   }, 2500);
 
   return (
-    <div style="border: 2px solid #1890ff; padding: 20px; margin: 20px 0; border-radius: 8px;">
-      <h3>Section 1: 指令的响应式特性</h3>
-      <p>展示 k-if、k-model、k-html 三大指令在传入 ref 时的响应式行为：</p>
+    <div>
+      <div class="demo-section">
+        <h3>Directives</h3>
+        <p>展示 k-if、k-model、k-html 三大指令在传入 ref 时的响应式行为：</p>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
-        <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
-          <h4>k-if 指令</h4>
-          <p>
-            当前状态:
-            <span k-if={kifFlag}>true</span>
-            <span k-if={notKifFLag}>false</span>
-          </p>
-          <p class={styles.description}>k-if 传入 ref，ref 内容变化时重绘（即使布尔值相同）</p>
-        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
+          <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
+            <h4>k-if 指令</h4>
+            <p>
+              当前状态:
+              <span k-if={kifFlag}>true</span>
+              <span k-if={notKifFLag}>false</span>
+            </p>
+            <p class={styles.description}>k-if 传入 ref，ref 内容变化时重绘（即使布尔值相同）</p>
+          </div>
 
-        <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
-          <h4>k-model 指令</h4>
-          <input
-            type="text"
-            k-model={kmodelText}
-            style="width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box;"
-          />
-          <p>当前值: {kmodelText}</p>
-          <p class={styles.description}>k-model 必须传入 ref，实现双向绑定</p>
-        </div>
+          <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
+            <h4>k-model 指令</h4>
+            <input
+              type="text"
+              k-model={kmodelText}
+              style="width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box;"
+            />
+            <p>当前值: {kmodelText}</p>
+            <p class={styles.description}>k-model 必须传入 ref，实现双向绑定</p>
+          </div>
 
-        <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
-          <h4>k-html 指令</h4>
-          <div k-html={khtmlContent} style="min-height: 100px; border: 1px dashed #ccc; padding: 10px;" />
-          <p class={styles.description}>k-html 传入 ref，ref 变化时自动重绘</p>
+          <div style="border: 1px solid #d9d9d9; padding: 15px; border-radius: 4px;">
+            <h4>k-html 指令</h4>
+            <div k-html={khtmlContent} style="min-height: 100px; border: 1px dashed #ccc; padding: 10px;" />
+            <p class={styles.description}>k-html 传入 ref，ref 变化时自动重绘</p>
+          </div>
         </div>
       </div>
-
-      <div style="margin-top: 20px; padding: 15px; background: #f6ffed; border: 1px solid #b7eb8f; border-radius: 4px;">
-        <h4>特性总结</h4>
-        <p>以上三个指令都接受 ref 作为参数，当 ref 的值发生变化时：</p>
-        <ul>
-          <li>
-            <strong>k-if</strong>: 重新评估条件并渲染/移除元素
-          </li>
-          <li>
-            <strong>k-model</strong>: 更新表单元素的值，同时监听用户输入更新 ref
-          </li>
-          <li>
-            <strong>k-html</strong>: 重新解析 HTML 字符串并更新 DOM
-          </li>
-        </ul>
-        <p>这种响应式机制使得 UI 能够自动与数据状态保持同步。</p>
+      <div class="demo-section">
+        <h4>Example Codes</h4>
+        {code}
       </div>
     </div>
   );

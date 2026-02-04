@@ -8,6 +8,11 @@ declare module '*.ts?raw' {
   export default src;
 }
 
+declare module '*.tsx?raw' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.json?raw' {
   const src: string;
   export default src;

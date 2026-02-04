@@ -2,7 +2,7 @@ import { $throw, MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
-import { isKTRef } from '../reactive/ref.js';
+import { isKT } from '../reactive/core.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 import { applyKModel } from './model.js';
@@ -51,7 +51,7 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
 
   if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
     const kmodel = attr['k-model'];
-    if (isKTRef(kmodel)) {
+    if (isKT(kmodel)) {
       applyKModel(element as any, kmodel);
     } else {
       $throw('k-model value must be a KTRef.');

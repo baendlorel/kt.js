@@ -1,6 +1,6 @@
 import { $throw } from '@ktjs/shared';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
-import { isKTRef } from '../reactive/ref.js';
+import { isKT } from '../reactive/core.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
@@ -25,7 +25,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
 
   if ('k-html' in attr) {
     const html = attr['k-html'];
-    if (isKTRef(html)) {
+    if (isKT(html)) {
       element.innerHTML = html.value;
       html.addOnChange((v) => (element.innerHTML = v));
     } else {

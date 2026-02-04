@@ -1,6 +1,7 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { $replaceNode, $throw } from '@ktjs/shared';
-import { KTRef, isKTRef } from './ref.js';
+import { KTRef } from './ref.js';
+import { isKT } from './core.js';
 
 export class KTComputed<T> implements KTReactive<T> {
   /**
@@ -75,12 +76,14 @@ export class KTComputed<T> implements KTReactive<T> {
   }
 }
 
-export function computed<T = JSX.Element>(value?: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
-  if (isKTRef(value)) {
-    if (onChange) {
-      value.addOnChange(onChange);
-    }
-    return value;
+/**
+ * Create a reactive computed value
+ * @param computeFn
+ * @param reactives refs and computeds that this computed depends on
+ */
+export function computed<T = JSX.Element>(computeFn: () => T, reactives: Array<KTReactive<unknown>>): KTComputed<T> {
+  if (reactives.some((v) => !isKT(v))) {
+    $throw('computed: all reactives must be KTRef or KTComputed instances');
   }
-  return new KTRef<T>(value as any, onChange ? [onChange] : []);
+  return new KTComputed<T>(computeFn, reactives);
 }

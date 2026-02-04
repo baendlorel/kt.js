@@ -2,7 +2,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { $replaceNode, $throw, type HTMLTag } from '@ktjs/shared';
 
 import { h } from '../h/index.js';
-import { isKTRef, type KTRef, ref } from '../reactive/ref.js';
+import { isKT, type KTRef, ref } from '../reactive/index.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
@@ -23,7 +23,7 @@ const placeholder = () => document.createComment('k-if') as unknown as JSX.Eleme
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  const maybeDummyRef = isKTRef<JSX.Element>(props.ref) ? props.ref : dummyRef;
+  const maybeDummyRef = isKT<JSX.Element>(props.ref) ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {
@@ -31,7 +31,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
     let condition = kif; // assume boolean by default
 
     // Handle reactive k-if
-    if (isKTRef(kif)) {
+    if (isKT(kif)) {
       kif.addOnChange((newValue, oldValue) => {
         if (newValue === oldValue) {
           return;

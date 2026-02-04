@@ -1,4 +1,4 @@
-import { isKTRef, KTRef, ref } from '@ktjs/core';
+import { isKT, KTRef, ref } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
@@ -25,7 +25,7 @@ export type KTMuiDialog = JSX.Element;
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let { 'kt:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
 
-  const open = isKTRef(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);
+  const open = isKT(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);
 
   open.addOnChange((isOpen) => {
     if (isOpen) {

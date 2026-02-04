@@ -1,5 +1,6 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { $entries, $replaceNode, $throw } from '@ktjs/shared';
+import { isKT } from './core.js';
 
 export class KTRef<T> implements KTReactive<T> {
   /**
@@ -64,8 +65,6 @@ export class KTRef<T> implements KTReactive<T> {
   }
 }
 
-export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => obj?.isKT === true;
-
 /**
  * Reference to the created HTML element.
  * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.
@@ -74,7 +73,7 @@ export const isKTRef = <T = any>(obj: any): obj is KTRef<T> => obj?.isKT === tru
  * @param value mostly an HTMLElement
  */
 export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
-  if (isKTRef(value)) {
+  if (isKT(value)) {
     if (onChange) {
       value.addOnChange(onChange);
     }
@@ -84,7 +83,7 @@ export function ref<T = JSX.Element>(value?: T | KTRef<T>, onChange?: ReactiveCh
 }
 
 export function deref<T = JSX.Element>(value: T | KTRef<T>): T {
-  return isKTRef<T>(value) ? value.value : value;
+  return isKT<T>(value) ? value.value : value;
 }
 
 export type KTSurfaceRef<T extends Object> = {

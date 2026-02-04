@@ -1,6 +1,6 @@
 import { $append, $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
-import { isKTRef } from '../reactive/ref.js';
+import { isKT } from '../reactive/core.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -10,7 +10,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     return;
   }
 
-  if (isKTRef(c)) {
+  if (isKT(c)) {
     let node = assureNode(c.value);
     $append.call(element, node);
     c.addOnChange((newValue, oldValue) => {

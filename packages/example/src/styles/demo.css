@@ -13,7 +13,16 @@
 }
 
 .demo-desc {
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 12px;
   color: #666;
+}
+
+.demo-result {
+  margin-top: 15px;
+  padding: 15px 20px;
+  font-size: 14px;
+  border-left: #1e92ff 4px solid;
+  background-color: #f2f3f5;
+  border-radius: 4px;
 }

@@ -1,6 +1,6 @@
 import { NavItem } from '../types/router.js';
-import { BasicUsage } from './BasicUsage.js';
 import { Counter } from './Counter.js';
+import { Events } from './Events.js';
 import { Home } from './Home.js';
 import { Reactivity } from './Reactive.js';
 
@@ -13,24 +13,17 @@ export const basicNavItems: NavItem[] = [
     component: Home,
   },
   {
-    id: 'basic-usage',
-    label: 'Basic Usage',
-    title: 'Basic Usage',
-    description: `This section combines three fundamental features of KT.js: Directives, Event Handling, and KTFor list rendering. These are the core building blocks for creating interactive applications.`,
-    component: BasicUsage,
-  },
-  // {
-  //   id: 'counter',
-  //   label: 'Counter Demo',
-  //   title: 'Counter Demo',
-  //   description: 'Basic state management with manual DOM updates',
-  //   component: Counter,
-  // },
-  {
     id: 'reactive',
     label: 'Reactive',
     title: 'Reactive',
     description: 'Demonstration of reactive features using kt.js refs',
     component: Reactivity,
+  },
+  {
+    id: 'events',
+    label: 'Events',
+    title: 'Events Handling',
+    description: ` KT.js uses the on: syntax for event handling, similar to React but with direct DOM events.`,
+    component: Events,
   },
 ];

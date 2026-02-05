@@ -1,4 +1,4 @@
-import { $emptyFn } from '@ktjs/shared';
+import { $debug, $emptyFn } from '@ktjs/shared';
 import type { KTReactive } from './index.js';
 
 interface KTEffectOptions {
@@ -43,7 +43,7 @@ export function effect(
     try {
       effectFn();
     } catch (err) {
-      console.error('[ktjs effect error]', opts.debugName, err);
+      $debug('[ktjs effect error]', opts.debugName, err);
     }
   };
 

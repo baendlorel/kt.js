@@ -8,14 +8,14 @@ export const $throw: (message: string) => never = (message) => {
   throw new Error('[__FRAMEWORK_NAME__ error]' + message);
 };
 
-export const $warn: (message: string) => void = (message) => {
-  console.warn('[__FRAMEWORK_NAME__ warn] ' + message);
+export const $warn: typeof console.warn = (...args: any[]) => {
+  console.warn('[__FRAMEWORK_NAME__ warn]', ...args);
 };
 
-export const $error: (message: string) => void = (message) => {
-  console.error('[__FRAMEWORK_NAME__ error] ' + message);
+export const $error: typeof console.error = (...args: any[]) => {
+  console.error('[__FRAMEWORK_NAME__ error]', ...args);
 };
 
-export const $debug: (message: string) => void = (message) => {
-  console.debug('[__FRAMEWORK_NAME__ debug] ' + message);
+export const $debug: typeof console.debug = (...args: any[]) => {
+  console.debug('[__FRAMEWORK_NAME__ debug]', ...args);
 };

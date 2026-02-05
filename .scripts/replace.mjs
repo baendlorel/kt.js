@@ -47,15 +47,9 @@ export const replaceOpts = {
     "$throw('": `throw new Error('[kt.js error] `,
     '$throw(`': `throw new Error(\`[kt.js error] `,
     '$throw("': `throw new Error("[kt.js error] `,
-    "$warn('": `console.warn('[kt.js warn] `,
-    '$warn(`': `console.warn(\`[kt.js warn] `,
-    '$warn("': `console.warn("[kt.js warn] `,
-    "$error('": `console.error('[kt.js error] `,
-    '$error(`': `console.error(\`[kt.js error] `,
-    '$error("': `console.error("[kt.js error] `,
-    "$debug('": `console.debug('[kt.js debug] `,
-    '$debug(`': `console.debug(\`[kt.js debug] `,
-    '$debug("': `console.debug("[kt.js debug] `,
+    '$warn(': `console.warn('[kt.js warn]',`,
+    '$error(': `console.error('[kt.js error]',`,
+    '$debug(': `console.debug('[kt.js debug]',`,
   },
 };
 

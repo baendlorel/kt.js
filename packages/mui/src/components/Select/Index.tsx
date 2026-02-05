@@ -51,15 +51,13 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   // # ref props
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
+    // update model value when options change
     const exist = newOptions.find((o) => o.value === modelRef.value);
     if (!exist) {
-      modelRef.value = '';
-      onChange('');
+      onChange((modelRef.value = ''));
     }
   });
-  const disabledRef = toReactive(props.disabled ?? false, (v) => {
-    container.classList.toggle('mui-select-disabled', v);
-  });
+  const disabledRef = toReactive(props.disabled ?? false, (v) => container.classList.toggle('mui-select-disabled', v));
   const modelRef = $modelOrRef(props, props.value ?? '');
   const label = computed(() => {
     if (labelRef.value) {
@@ -74,10 +72,9 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // Toggle dropdown
   const toggleMenu = () => {
-    if (disabledRef.value) {
-      return;
+    if (!disabledRef.value) {
+      isOpen.value = !isOpen.value;
     }
-    isOpen.value = !isOpen.value;
   };
 
   // Handle option click

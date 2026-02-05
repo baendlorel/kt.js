@@ -1,4 +1,44 @@
-# Change Log 🕒
+# Changelog
+
+## 0.24.0 - 2026-02-04
+
+### Features
+
+- **Enhanced Reactive System**: Unified `KTReactive` type for both `ref` and `computed`
+- **Improved Type Safety**: Added `KTType` enum for more precise reactive type checking
+- **Simplified Model Registration**: Streamlined `k-model` directive implementation
+- **Better Component Integration**: Enhanced MUI components with reactive system
+
+### Changes
+
+- **Refined Type Definitions**: Moved reactive type declarations to core package to avoid circular references
+- **Element Reference Restrictions**: Element `ref` property no longer accepts computed values
+- **Event Binding**: Simplified event handling in MUI components
+
+### Fixes
+
+- **Select Component**: Resolved issues with `legend` and `fieldset` elements in select components
+- **Type Consistency**: Ensured `ref()` always returns `KTRef` instances
+
+## 0.23.x - 2026-02-04
+
+### Features
+
+- **Download Statistics**: Added npm download badges to README
+- **Type System Improvements**: Enhanced reactive type system architecture
+
+## 0.22.x - 2026-01-31
+
+### Features
+
+- **Select Component**: Completed MUI Select component implementation
+- **Reactive Optimization**: Leveraged computed values for more efficient select component logic
+- **Component Simplification**: Reduced complexity in KTMuiSelect object structure
+
+### Fixes
+
+- **Styling**: Removed output-text styles and improved component styling
+- **CheckboxGroup**: Enhanced JSX usage for CheckboxGroup components
 
 ## 0.21.0 2026-02-02
 

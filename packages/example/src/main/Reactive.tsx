@@ -9,8 +9,6 @@ export function Reactivity() {
   const kmodelText = ref('Reactive text');
   const khtmlContent = ref('<span style="color: #52c41a;">初始HTML</span>');
 
-  const code = highlight(exampleCode);
-
   // Timer for demonstrating automatic updates
   setInterval(() => (kifFlag.value = !kifFlag.value), 1500);
 
@@ -22,18 +20,18 @@ export function Reactivity() {
   }, 2000);
 
   setInterval(() => {
-    khtmlContent.value = `<div style="padding: 8px; background: #f0f0f0; margin: 5px 0;">
-      <strong>Dynamic HTML</strong><br/>
-      Random Number: ${Math.random().toFixed(3)}<br/>
-      Time: ${new Date().toLocaleTimeString()}
-    </div>`;
+    const color = Math.floor(Math.random() * 0xffffff)
+      .toString(16)
+      .padStart(6, '0');
+    khtmlContent.value = `<span style="color: #${color};">初始HTML</span>`;
   }, 2500);
 
   // # attr refs
   const styleRef = ref('width: 10%;height:20px;background-color:#1890ff;transition: width 1s;');
+  const styleWidthRef = ref(10);
   setInterval(() => {
-    const width = Math.floor(Math.random() * 100);
-    styleRef.value = `width: ${width}%;height:20px;background-color:#1890ff;transition: width 1s;`;
+    styleWidthRef.value = Math.floor(Math.random() * 100);
+    styleRef.value = `width: ${styleWidthRef.value}%;height:20px;background-color:#1890ff;transition: width 1s;`;
   }, 1000);
 
   return (
@@ -44,6 +42,7 @@ export function Reactivity() {
           Use <code>ref</code> to make attributes reactive
         </p>
         <div style={styleRef}></div>
+        <div class="demo-result">Current Width: {styleWidthRef}</div>
       </div>
       <div class="demo-section">
         <h3>Directives</h3>
@@ -55,8 +54,7 @@ export function Reactivity() {
           <div class="demo-block">
             <h4>k-if</h4>
             <p>
-              Current Value:
-              <span k-if={kifFlag}>true</span>
+              Current Value: <span k-if={kifFlag}>true</span>
               <span k-if={notKifFLag}>false</span>
             </p>
             <p class="demo-desc">
@@ -67,8 +65,8 @@ export function Reactivity() {
           <div class="demo-block">
             <h4>k-model</h4>
             <TextField k-model={kmodelText}></TextField>
-            <p>Current Value: {kmodelText}</p>
             <p class="demo-desc">k-model must pass a ref, implements two-way binding</p>
+            <div class="demo-result">{kmodelText}</div>
           </div>
 
           <div class="demo-block">
@@ -77,7 +75,7 @@ export function Reactivity() {
             <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
           </div>
         </div>
-        <div class="demo-code">{code}</div>
+        <div class="demo-code">{highlight(exampleCode)}</div>
       </div>
     </div>
   );

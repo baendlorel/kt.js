@@ -23,5 +23,51 @@ export function effect(
     debugName: '',
   },
 ) {
-  const run = () => {};
+  const opts: KTEffectOptions = {
+    lazy: false,
+    onCleanup: $emptyFn,
+    debugName: '',
+    ...options,
+  };
+
+  let active = true;
+
+  const run = () => {
+    if (!active) {
+      return;
+    }
+
+    // cleanup before rerun
+    opts.onCleanup();
+
+    try {
+      effectFn();
+    } catch (err) {
+      console.error('[ktjs effect error]', opts.debugName, err);
+    }
+  };
+
+  // subscribe to dependencies
+  const unsubscribers = reactives.map((r) => r.subscribe(run));
+
+  // auto run unless lazy
+  if (!opts.lazy) {
+    run();
+  }
+
+  // stop function
+  return () => {
+    if (!active) {
+      return;
+    }
+    active = false;
+
+    // unsubscribe all
+    for (const unsub of unsubscribers) {
+      unsub();
+    }
+
+    // final cleanup
+    opts.onCleanup();
+  };
 }

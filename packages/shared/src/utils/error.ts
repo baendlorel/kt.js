@@ -11,3 +11,11 @@ export const $throw: (message: string) => never = (message) => {
 export const $warn: (message: string) => void = (message) => {
   console.warn('[__FRAMEWORK_NAME__ warn] ' + message);
 };
+
+export const $error: (message: string) => void = (message) => {
+  console.error('[__FRAMEWORK_NAME__ error] ' + message);
+};
+
+export const $debug: (message: string) => void = (message) => {
+  console.debug('[__FRAMEWORK_NAME__ debug] ' + message);
+};

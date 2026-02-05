@@ -8,7 +8,7 @@ export function MuiTextFieldRefDemo() {
   const placeholderRef = ref('Enter text here...');
   const valueRef = ref('Initial value');
   const disabledRef = ref(false);
-  const readonlyRef = ref(false);
+  const readOnlyRef = ref(false);
   const requiredRef = ref(false);
   const errorRef = ref(false);
   const helperTextRef = ref('Helper text');
@@ -34,7 +34,7 @@ export function MuiTextFieldRefDemo() {
   };
 
   const toggleReadonly = () => {
-    readonlyRef.value = !readonlyRef.value;
+    readOnlyRef.value = !readOnlyRef.value;
   };
 
   const toggleRequired = () => {
@@ -67,7 +67,7 @@ export function MuiTextFieldRefDemo() {
     placeholderRef.value = 'Enter text here...';
     valueRef.value = 'Initial value';
     disabledRef.value = false;
-    readonlyRef.value = false;
+    readOnlyRef.value = false;
     requiredRef.value = false;
     errorRef.value = false;
     helperTextRef.value = 'Helper text';
@@ -100,7 +100,7 @@ export function MuiTextFieldRefDemo() {
             placeholder={placeholderRef}
             k-model={valueRef}
             disabled={disabledRef}
-            readonly={readonlyRef}
+            readOnly={readOnlyRef}
             required={requiredRef}
             error={errorRef}
             helperText={helperTextRef}
@@ -118,7 +118,7 @@ export function MuiTextFieldRefDemo() {
               <div>placeholder: "{placeholderRef}"</div>
               <div>value: "{valueRef}"</div>
               <div>disabled: {disabledRef}</div>
-              <div>readonly: {readonlyRef}</div>
+              <div>readonly: {readOnlyRef}</div>
               <div>required: {requiredRef}</div>
               <div>error: {errorRef}</div>
               <div>helperText: "{helperTextRef}"</div>
@@ -147,7 +147,7 @@ export function MuiTextFieldRefDemo() {
               Toggle Disabled:<span>{disabledRef}</span>
             </Button>
             <Button variant="contained" color="primary" on:click={toggleReadonly}>
-              Toggle Readonly: <span>{readonlyRef}</span>
+              Toggle Readonly: <span>{readOnlyRef}</span>
             </Button>
             <Button variant="contained" color="primary" on:click={toggleRequired}>
               Toggle Required: <span>{requiredRef}</span>

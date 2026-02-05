@@ -25,7 +25,7 @@ export function MuiTextFieldDemo() {
         <TextField label="Password" type="password" value="secret123" />
         <TextField label="Email" type="email" placeholder="your@email.com" />
         <TextField label="Small Size" size="small" />
-        <TextField label="readonly" readonly value="cannot modify" />
+        <TextField label="readonly" readOnly value="cannot modify" />
         <TextField size="small" placeholder="ssdf" />
       </div>
 

@@ -41,8 +41,10 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
   /**
    * Whether the input is readonly
    * - Provide a `KTReactive` to make it reactive
+   *
+   * __Note:__ The correct prop name is `readOnly` with a capital "O". Same as it is in DOM.
    */
-  readonly?: boolean | KTReactive<boolean>;
+  readOnly?: boolean | KTReactive<boolean>;
   /**
    * Whether the input is required
    * - Provide a `KTReactive` to make it reactive
@@ -79,9 +81,9 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
    */
   size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
   'on:input'?: ChangeHandler<T extends 'number' ? number : string>;
-  'kt-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
+  'on-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
   'on:change'?: ChangeHandler<T extends 'number' ? number : string>;
-  'kt-trim:change'?: ChangeHandler<T extends 'number' ? number : string>;
+  'on-trim:change'?: ChangeHandler<T extends 'number' ? number : string>;
   'on:blur'?: () => void;
   'on:focus'?: () => void;
 }

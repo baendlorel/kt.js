@@ -1,4 +1,4 @@
-import { $modelOrRef, deref, ref } from '@ktjs/core';
+import { $modelOrRef, deref, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -7,9 +7,9 @@ import './Input.css';
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
   const onInput = props['on:input'] ?? $emptyFn;
-  const onInputTrim = props['kt-trim:input'] ?? $emptyFn;
+  const onInputTrim = props['on-trim:input'] ?? $emptyFn;
   const onChange = props['on:change'] ?? $emptyFn;
-  const onChangeTrim = props['kt-trim:change'] ?? $emptyFn;
+  const onChangeTrim = props['on-trim:change'] ?? $emptyFn;
   const onBlur = props['on:blur'] ?? $emptyFn;
   const onFocus = props['on:focus'] ?? $emptyFn;
 
@@ -88,16 +88,19 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
 
   // # refs
   // Create refs for all reactive properties
-  const labelRef = ref(props.label ?? '');
-  const placeholderRef = ref(props.placeholder ?? '');
-  const disabledRef = ref(props.disabled);
-  const readOnlyRef = ref(props.readonly);
-  const requiredRef = ref(props.required);
-  const errorRef = ref(props.error);
-  const helperTextRef = ref(props.helperText ?? '');
-  const fullWidthRef = ref(props.fullWidth);
-  const rowsRef = ref(props.rows ?? 3);
-  const sizeRef = ref(props.size ?? 'medium');
+  const labelRef = toReactive(props.label ?? '');
+  const placeholderRef = toReactive(props.placeholder ?? '', () => (inputEl.placeholder = getPlaceholder()));
+  const disabledRef = toReactive(props.disabled ?? false, (v) => {
+    inputEl.disabled = v;
+    updateContainerClass();
+  });
+  const readOnlyRef = toReactive(props.readOnly ?? false, (v) => (inputEl.readOnly = v));
+  const requiredRef = toReactive(props.required ?? false);
+  const errorRef = toReactive(props.error ?? false, updateContainerClass);
+  const helperTextRef = toReactive(props.helperText ?? '');
+  const fullWidthRef = toReactive(props.fullWidth ?? false, updateContainerClass);
+  const rowsRef = toReactive(props.rows ?? 3);
+  const sizeRef = toReactive(props.size ?? 'medium', updateContainerClass);
 
   // k-model takes precedence over value prop for two-way binding
   const modelRef = $modelOrRef(props, props.value ?? '');
@@ -109,43 +112,13 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // //   updateContainerClass();
   // // });
 
-  placeholderRef.addOnChange(() => {
-    inputEl.placeholder = getPlaceholder();
-  });
-
-  modelRef.addOnChange((newValue) => {
-    inputEl.value = newValue;
-    updateContainerClass();
-  });
-
-  disabledRef.addOnChange((newDisabled) => {
-    inputEl.disabled = newDisabled;
-    updateContainerClass();
-  });
-
-  readOnlyRef.addOnChange((newReadonly) => {
-    inputEl.readOnly = newReadonly;
-  });
-
-  errorRef.addOnChange(updateContainerClass);
-
-  fullWidthRef.addOnChange(updateContainerClass);
-
-  rowsRef.addOnChange((newRows) => {
-    if (multiline && inputEl instanceof HTMLTextAreaElement) {
-      inputEl.rows = newRows;
-    }
-  });
-
-  sizeRef.addOnChange(updateContainerClass);
-
   let isFocused = false;
   const inputEl = multiline
     ? ((
         <textarea
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
-          value={String(modelRef.value)}
+          value={modelRef.value}
           disabled={disabledRef.value}
           readOnly={readOnlyRef.value}
           required={requiredRef.value}
@@ -161,7 +134,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           type={inputType}
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
-          value={String(modelRef.value)}
+          value={modelRef.value}
           disabled={disabledRef.value}
           readOnly={readOnlyRef.value}
           required={requiredRef.value}
@@ -171,6 +144,15 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           on:blur={handleBlur}
         />
       ) as HTMLInputElement);
+
+  modelRef.addOnChange((newValue) => {
+    inputEl.value = newValue;
+    updateContainerClass();
+  });
+
+  if (multiline) {
+    rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
+  }
 
   const container = (
     <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={parseStyle(props.style)}>

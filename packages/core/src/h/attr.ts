@@ -7,10 +7,29 @@ import { handlers } from './attr-helpers.js';
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
   element.setAttribute(key, value);
 
+const setElementStyle = (
+  element: HTMLElement | SVGElement | MathMLElement,
+  style: Partial<CSSStyleDeclaration> | string,
+) => {
+  if (typeof style === 'string') {
+    (element as HTMLElement).style.cssText = style;
+    return;
+  }
+
+  for (const key in style) {
+    (element as any).style[key as any] = style[key];
+  }
+};
+
 function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactify<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
-    element.setAttribute('class', classValue);
+    if (isKT<string>(classValue)) {
+      element.setAttribute('class', classValue.value);
+      classValue.addOnChange((v) => element.setAttribute('class', v));
+    } else {
+      element.setAttribute('class', classValue);
+    }
   }
   // todo 这里加入reactive支持
   // todo 类型定义也要支持reactive响应式
@@ -20,8 +39,11 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     if (typeof style === 'string') {
       element.setAttribute('style', style);
     } else if (typeof style === 'object') {
-      for (const key in style) {
-        element.style[key as any] = (style as any)[key];
+      if (isKT(style)) {
+        setElementStyle(element, style.value);
+        style.addOnChange((v) => setElementStyle(element, v));
+      } else {
+        setElementStyle(element, style as string | Partial<CSSStyleDeclaration>);
       }
     }
   }

@@ -8,10 +8,8 @@ export class KTRef<T> implements KTReactive<T> {
    */
   isKT = true as const;
 
-  /**
-   * Identify the type of this reactive
-   */
-  ktType = KTReactiveType.Ref;
+  isRef = true;
+  isComputed = false;
 
   /**
    * @internal

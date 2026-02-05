@@ -1,4 +1,4 @@
-import { $defines, generateHandler } from '@ktjs/shared';
+import { $defines, $emptyFn, $throw } from '@ktjs/shared';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 import './Checkbox.css';
@@ -39,7 +39,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     color = 'primary',
     indeterminate = false,
   } = props;
-  const onChange = generateHandler<boolean>(props, 'kt:change');
+  const onChange = props['kt:change'] ?? $emptyFn;
 
   const inputEl = (
     <input
@@ -138,8 +138,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
-  let { value = [], size = 'medium', row = false } = props;
-  const onChange = generateHandler<string[]>(props, 'kt:change');
+  let { value = [], size = 'medium', row = false, 'kt:change': onChange = $emptyFn } = props;
 
   let selectedValues = new Set(value);
 
@@ -156,8 +155,11 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     o.size = size;
     o.checked = selectedValues.has(o.value);
 
-    const originalChange = generateHandler<boolean>(o, 'kt:change');
+    const originalChange = o['kt:change'];
     if (originalChange) {
+      if (typeof originalChange !== 'function') {
+        $throw('CheckboxGroup: handler must be a function');
+      }
       o['kt:change'] = (checked: boolean, value: string) => {
         originalChange(checked, value);
         changeHandler(checked, value);

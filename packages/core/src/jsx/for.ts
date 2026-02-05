@@ -192,7 +192,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   };
 
   // Set ref if provided
-  if (props.ref?.isKT) {
+  if (props.ref?.isRef) {
     props.ref.value = anchor;
   }
 

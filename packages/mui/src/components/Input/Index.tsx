@@ -1,16 +1,17 @@
 import { $modelOrRef, deref, ref } from '@ktjs/core';
-import './Input.css';
-import { generateHandler, parseStyle } from '@ktjs/shared';
+import { $emptyFn, parseStyle } from '@ktjs/shared';
+
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
+import './Input.css';
 
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
-  const onInput = generateHandler<string | number>(props, 'kt:input');
-  const onInputTrim = generateHandler<string | number>(props, 'kt-trim:input');
-  const onChange = generateHandler<string | number>(props, 'kt:change');
-  const onChangeTrim = generateHandler<string | number>(props, 'kt-trim:change');
-  const onBlur = generateHandler<string | number>(props, 'kt:blur');
-  const onFocus = generateHandler<string | number>(props, 'kt:focus');
+  const onInput = props['kt:input'] ?? $emptyFn;
+  const onInputTrim = props['kt-trim:input'] ?? $emptyFn;
+  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChangeTrim = props['kt-trim:change'] ?? $emptyFn;
+  const onBlur = props['kt:blur'] ?? $emptyFn;
+  const onFocus = props['kt:focus'] ?? $emptyFn;
 
   // # methods
   const updateContainerClass = () => {

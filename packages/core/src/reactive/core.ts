@@ -14,10 +14,8 @@ export interface KTReactive<T> {
    */
   isKT: true;
 
-  /**
-   * A flag that identifies the type of this reactive
-   */
-  ktType: KTReactiveType;
+  isRef: boolean;
+  isComputed: boolean;
 
   value: T;
 

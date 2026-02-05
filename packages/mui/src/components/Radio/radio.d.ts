@@ -19,7 +19,7 @@ export interface KTMuiRadioGroupProps {
   name?: string;
   size?: 'small' | 'medium';
   options: KTMuiRadioProps[];
-  'kt:change'?: ((value: string) => void) | KTReactive<string>;
+  'kt:change'?: (value: string) => void;
   'kt:click'?: (checked: boolean) => void;
   row?: boolean;
 }

@@ -1,4 +1,4 @@
-import { $defines, generateHandler, parseStyle } from '@ktjs/shared';
+import { $defines, $emptyFn, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 import './Radio.css';
@@ -7,7 +7,7 @@ import './Radio.css';
  * Radio component - mimics MUI Radio appearance and behavior
  */
 export function Radio(props: KTMuiRadioProps): KTMuiRadio {
-  const onChange = generateHandler<boolean>(props, 'kt:change');
+  const onChange = props['kt:change'] ?? $emptyFn;
 
   const toggleIcon = (checked: boolean) => {
     uncheckedIcon.style.display = checked ? 'none' : '';
@@ -96,7 +96,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   let { value = '', size = 'small', row = false } = props;
 
-  const onChange = generateHandler<string>(props, 'kt:change');
+  const onChange = props['kt:change'] ?? $emptyFn;
 
   const changeHandler = (checked: boolean, value: string) => {
     if (checked) {

@@ -76,15 +76,6 @@ export const parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefi
 };
 
 export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
-export const generateHandler = <T = string>(props: any, key: string): ChangeHandler<T> => {
-  const handler = props[key];
-  if (typeof handler === 'function') {
-    return handler;
-  } else if (handler && typeof handler === 'object' && handler.isKT) {
-    return (value) => (handler.value = value);
-  }
-  return $emptyFn;
-};
 
 /**
  * Used for `k-model`

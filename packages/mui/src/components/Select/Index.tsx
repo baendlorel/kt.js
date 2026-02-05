@@ -1,5 +1,5 @@
 import { type KTReactive, $modelOrRef, computed, ref } from '@ktjs/core';
-import { generateHandler, parseStyle } from '@ktjs/shared';
+import { $emptyFn, parseStyle } from '@ktjs/shared';
 import './Select.css';
 
 interface KTMuiSelectOption {
@@ -28,7 +28,7 @@ export type KTMuiSelect = JSX.Element & {};
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
   let { placeholder = '', size = 'medium', fullWidth = false } = props;
 
-  const onChange = generateHandler<string>(props, 'kt:change');
+  const onChange = props['kt:change'] ?? $emptyFn;
 
   // # refs
   const isFocused = ref(false);

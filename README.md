@@ -1,21 +1,21 @@
 # KT.js
 
-A lightweight, manual-control web framework that creates real DOM elements with reactive state management.
+A lightweight, manual‑control web framework that creates real DOM elements with built‑in reactive state management.
 
 [![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
 [![npm downloads](https://img.shields.io/npm/dm/kt.js.svg)](https://www.npmjs.com/package/kt.js)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[changelog](./CHANGELOG.md)
+[Changelog](./CHANGELOG.md)
 
 ## Features
 
-- **Real DOM**: JSX creates actual HTMLElements, no virtual DOM overhead
-- **Manual Updates**: You control when DOM updates happen
-- **Reactive State**: Built-in `ref()` and `computed()` for reactive values
-- **Zero Re-renders**: Update only what changes, avoid full component re-renders
-- **Type Safety**: Full TypeScript support with accurate type inference
-- **Lightweight**: Small bundle size, no unnecessary dependencies
+- **Real DOM** – JSX compiles directly to `HTMLElement` creation, with zero virtual‑DOM overhead.
+- **Manual Updates** – You decide when the DOM updates; no automatic re‑renders.
+- **Reactive State** – Built‑in `ref()` and `computed()` for reactive values with change listeners.
+- **Zero Forced Re‑renders** – Update only what changes; avoid full‑component repaints.
+- **Full TypeScript Support** – Accurate type inference and JSX/TSX integration.
+- **Lightweight** – Small bundle size, no unnecessary dependencies.
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ document.body.appendChild(Counter());
 
 ### TypeScript Configuration
 
-For JSX/TSX support, configure your `tsconfig.json`:
+For JSX/TSX support, set your `tsconfig.json`:
 
 ```json
 {
@@ -87,7 +87,7 @@ const show = ref(true);
 const element = <div k-if={show}>This content is conditionally rendered</div>;
 
 // Toggle visibility
-show.value = false; // Element becomes comment placeholder
+show.value = false; // Element becomes a comment placeholder
 ```
 
 ### List Rendering
@@ -106,7 +106,7 @@ const list = <KTFor list={items.value} key={(item) => item.id} map={(item) => <d
 items.value = [...items.value, { id: 3, name: 'Item 3' }];
 ```
 
-### Two-way Data Binding
+### Two‑way Data Binding
 
 ```tsx
 function InputComponent() {
@@ -140,15 +140,15 @@ function DynamicCounter() {
 
 ## Package Structure
 
-- **[@ktjs/core](./packages/core)**: Core framework with JSX, reactivity, and DOM utilities
-- **[@ktjs/router](./packages/router)**: Client-side router with navigation guards
-- **[@ktjs/mui](./packages/mui)**: Material UI components built on top of KT.js
+- **[@ktjs/core](./packages/core)** – Core framework with JSX, reactivity, and DOM utilities.
+- **[@ktjs/router](./packages/router)** – Client‑side router with navigation guards.
+- **[@ktjs/mui](./packages/mui)** – Material UI components built on top of KT.js.
 
 ## Philosophy
 
-KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
+KT.js follows one rule: **full control of the DOM and avoid unnecessary repainting**.
 
-As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.
+As a web framework, repeatedly creating a large number of variables and objects is unacceptable. That’s why KT.js was built.
 
 ## Advanced Usage
 
@@ -165,7 +165,7 @@ const user = surfaceRef({
 // Access reactive properties
 user.name.value = 'Jane';
 
-// Get original object
+// Get the original object
 const original = user.kcollect();
 ```
 
@@ -181,10 +181,10 @@ const button = <button on:click={handleClick}>Click me</button>;
 
 ## Performance Benefits
 
-- **No Virtual DOM**: Direct DOM manipulation eliminates reconciliation overhead
-- **Manual Updates**: Only update what you need, when you need it
-- **Minimal Abstraction**: Close to native DOM APIs for maximum performance
-- **Small Bundle**: Minimal runtime overhead
+- **No Virtual DOM** – Direct DOM manipulation eliminates reconciliation overhead.
+- **Manual Updates** – Only update what you need, when you need it.
+- **Minimal Abstraction** – Close to native DOM APIs for maximum performance.
+- **Small Bundle** – Minimal runtime overhead.
 
 ## Browser Support
 

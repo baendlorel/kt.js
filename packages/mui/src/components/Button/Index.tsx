@@ -1,4 +1,4 @@
-import { ref, KTReactive, KTPrefixedEventAttribute } from 'kt.js';
+import { KTReactive, KTPrefixedEventAttribute, toReactive } from 'kt.js';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';
@@ -14,8 +14,8 @@ interface KTMuiButtonProps {
   disabled?: boolean | KTReactive<boolean>;
   fullWidth?: boolean;
   iconOnly?: boolean;
-  startIcon?: HTMLElement | JSX.Element;
-  endIcon?: HTMLElement | JSX.Element;
+  startIcon?: SVGElement | HTMLElement | JSX.Element;
+  endIcon?: SVGElement | HTMLElement | JSX.Element;
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -36,7 +36,7 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
     startIcon,
     endIcon,
     type = 'button',
-    'on:click': onClick = $emptyFn,
+    'on:click': onClick = $emptyFn, // & must be bound because of the ripple effect
   } = props;
 
   const updateClass = () => {
@@ -52,7 +52,7 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
     ].join(' ');
   };
 
-  const disabledRef = ref(disabled, (v) => {
+  const disabledRef = toReactive(disabled, (v) => {
     container.disabled = v;
     updateClass();
   });

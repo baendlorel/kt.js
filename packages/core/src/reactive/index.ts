@@ -14,6 +14,7 @@ export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChang
   }
 };
 
+export * from './core.js';
 export * from './ref.js';
 export * from './computed.js';
-export * from './core.js';
+export * from './effect.js';

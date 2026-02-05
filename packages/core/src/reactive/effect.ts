@@ -14,21 +14,8 @@ interface KTEffectOptions {
  * @param options Effect options: lazy, onCleanup, debugName
  * @returns stop function to remove all listeners
  */
-export function effect(
-  effectFn: () => void,
-  reactives: Array<KTReactive<any>>,
-  options: Partial<KTEffectOptions> = {
-    lazy: false,
-    onCleanup: $emptyFn,
-    debugName: '',
-  },
-) {
-  const opts: KTEffectOptions = {
-    lazy: false,
-    onCleanup: $emptyFn,
-    debugName: '',
-    ...options,
-  };
+export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, options?: Partial<KTEffectOptions>) {
+  const { lazy = false, onCleanup = $emptyFn, debugName = '' } = Object(options);
 
   let active = true;
 
@@ -38,20 +25,22 @@ export function effect(
     }
 
     // cleanup before rerun
-    opts.onCleanup();
+    onCleanup();
 
     try {
       effectFn();
     } catch (err) {
-      $debug('[ktjs effect error]', opts.debugName, err);
+      $debug('effect error:', debugName, err);
     }
   };
 
   // subscribe to dependencies
-  const unsubscribers = reactives.map((r) => r.subscribe(run));
+  for (let i = 0; i < reactives.length; i++) {
+    reactives[i].addOnChange(run);
+  }
 
   // auto run unless lazy
-  if (!opts.lazy) {
+  if (!lazy) {
     run();
   }
 
@@ -62,12 +51,11 @@ export function effect(
     }
     active = false;
 
-    // unsubscribe all
-    for (const unsub of unsubscribers) {
-      unsub();
+    for (let i = 0; i < reactives.length; i++) {
+      reactives[i].removeOnChange(run);
     }
 
     // final cleanup
-    opts.onCleanup();
+    onCleanup();
   };
 }

@@ -91,7 +91,7 @@ export class KTComputed<T> {
  * @param computeFn
  * @param reactives refs and computeds that this computed depends on
  */
-export function computed<T = JSX.Element>(computeFn: () => T, reactives: Array<KTReactive<unknown>>): KTComputed<T> {
+export function computed<T = JSX.Element>(computeFn: () => T, reactives: Array<KTReactive<any>>): KTComputed<T> {
   if (reactives.some((v) => !isKT(v))) {
     $throw('computed: all reactives must be KTRef or KTComputed instances');
   }

@@ -1,4 +1,4 @@
-import { type KTReactive, $modelOrRef, computed, ref } from '@ktjs/core';
+import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 import './Select.css';
 
@@ -49,15 +49,15 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   });
 
   // # ref props
-  const labelRef = ref(props.label);
-  const optionsRef = ref(props.options, (newOptions) => {
+  const labelRef = toReactive(props.label ?? '');
+  const optionsRef = toReactive(props.options, (newOptions) => {
     const exist = newOptions.find((o) => o.value === modelRef.value);
     if (!exist) {
       modelRef.value = '';
       onChange('');
     }
   });
-  const disabledRef = ref(props.disabled ?? false, (v) => {
+  const disabledRef = toReactive(props.disabled ?? false, (v) => {
     container.classList.toggle('mui-select-disabled', v);
   });
   const modelRef = $modelOrRef(props, props.value ?? '');

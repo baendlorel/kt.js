@@ -25,9 +25,4 @@ export type KTMuiCheckbox = JSX.Element & {
   disabled: boolean;
 };
 
-export type KTMuiCheckboxGroup = JSX.Element & {
-  value: string[];
-  disabled: boolean[];
-  disableAll: () => void;
-  enableAll: () => void;
-};
+export type KTMuiCheckboxGroup = JSX.Element & {};

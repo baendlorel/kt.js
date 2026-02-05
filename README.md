@@ -6,6 +6,8 @@ A lightweight, manual-control web framework that creates real DOM elements with 
 [![npm downloads](https://img.shields.io/npm/dm/kt.js.svg)](https://www.npmjs.com/package/kt.js)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+[changelog](./CHANGELOG.md)
+
 ## Features
 
 - **Real DOM**: JSX creates actual HTMLElements, no virtual DOM overhead

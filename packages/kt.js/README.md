@@ -1,43 +1,54 @@
-<img src="https://raw.githubusercontent.com/baendlorel/kt.js/dev/.assets/ktjs-0.0.1.svg" alt="KT.js Logo" width="150"/>
+# KT.js
 
-[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js) [![license](https://img.shields.io/github/license/baendlorel/kt.js.svg)](https://github.com/baendlorel/kt.js/blob/main/LICENSE)
+A lightweight, manual-control web framework that creates real DOM elements with reactive state management.
 
-[CHANGLOG✨](../../CHANGELOG.md)
+[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
+[![npm downloads](https://img.shields.io/npm/dm/kt.js.svg)](https://www.npmjs.com/package/kt.js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> Note: This framework is still under development. APIs, type declarations, and other parts **may change frequently**. If you use it, please watch for updates in the near future. Feel free to mail me if you have any questions!
+[changelog](../../CHANGELOG.md)
 
-KT.js is a tiny DOM utility focused on direct DOM manipulation. It favors not forcing re-renders and aims to keep DOM updates to the absolute minimum for maximum performance.
+## Features
 
-For more awesome packages, check out [my homepage💛](https://baendlorel.github.io/?repoType=npm)
+- **Real DOM**: JSX creates actual HTMLElements, no virtual DOM overhead
+- **Manual Updates**: You control when DOM updates happen
+- **Reactive State**: Built-in `ref()` and `computed()` for reactive values
+- **Zero Re-renders**: Update only what changes, avoid full component re-renders
+- **Type Safety**: Full TypeScript support with accurate type inference
+- **Lightweight**: Small bundle size, no unnecessary dependencies
 
-## Architecture
+## Quick Start
 
-KT.js is now a **monorepo** containing multiple packages:
-
-- **[kt.js](./packages/kt.js)**: Main entry package that re-exports all functionality
-- **[@ktjs/core](./packages/core)**: Core DOM manipulation utilities and the `h` function. SX/TSX support with full TypeScript integration (included in kt.js package)
-- **[@ktjs/router](./packages/router)**: Client-side routing with navigation guards (not included in kt.js package)
-- **[@ktjs/mui](./packages/mui)**: Material UI components built on top of KT.js (not included in kt.js package)
-
-You can install the full package or individual packages as needed:
+### Installation
 
 ```bash
+# Full package (includes core)
 pnpm add kt.js
 
-# Or install individual packages
-pnpm add @ktjs/router     # Client-side router (requires @ktjs/core)
-pnpm add @ktjs/mui        # Material UI components (requires @ktjs/core)
+# Individual packages
+pnpm add @ktjs/core @ktjs/router
 ```
 
-## Philosophy
+### Basic Usage
 
-As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.
+```tsx
+import { ref } from 'kt.js';
 
-KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
+function Counter() {
+  const count = ref(0);
 
-## Configuration
+  const button = <button on:click={() => count.value++}>Count: {count.value}</button>;
 
-for TSX/JSX support, add this to your `tsconfig.json`:
+  return button;
+}
+
+// Mount to DOM
+document.body.appendChild(Counter());
+```
+
+### TypeScript Configuration
+
+For JSX/TSX support, configure your `tsconfig.json`:
 
 ```json
 {
@@ -48,192 +59,136 @@ for TSX/JSX support, add this to your `tsconfig.json`:
 }
 ```
 
-## Core Features (@ktjs/core)
+## Core Features
 
-### JSX/TSX Support
-
-KT.js provides first-class JSX/TSX support with zero virtual DOM overhead. JSX compiles directly to `h()` function calls.
+### Reactive System
 
 ```tsx
-// Function components
-const Button = ({ onClick, children }) => (
-  <button on:click={onClick} class="btn">
-    {children}
-  </button>
-);
+import { ref, computed } from 'kt.js';
 
-// Conditional rendering with k-if
-const UserCard = ({ user, showDetails }) => (
-  <div class="card">
-    <h3>{user.name}</h3>
-    <div k-if={showDetails}>
-      <p>Email: {user.email}</p>
-      <p>Role: {user.role}</p>
-    </div>
-  </div>
-);
-
-// List rendering with KTFor
-const UserList = ({ users }) => <KTFor list={users} key={(user) => user.id} map={(user) => <UserCard user={user} />} />;
-
-// Async components
-const AsyncContent = async () => {
-  const data = await fetchData();
-  return <div>{data}</div>;
-};
-```
-
-### Directives
-
-#### `k-if`: Conditional rendering.
-
-```tsx
-<div k-if={condition}>This will render only if condition is true.</div>
-```
-
-If a `ref` instance is bound, the element will automatically redraw on changes.
-
-#### `k-model`: Two-way data binding for form elements.
-
-Must bind to a `ref` instance.
-
-```tsx
-import { ref } from 'kt.js';
-const name = ref('');
-
-function NameInput() {
-  return (
-    <div>
-      <input type="text" k-model={name} />
-    </div>
-  );
-}
-
-name.value = 'New Name'; // Updates input value
-```
-
-### CreateRedrawable
-
-Create redrawable components with `createRedrawable()`.
-
-```tsx
-import { createRedrawable } from '@ktjs/core';
-let text = 'aa';
-const el = createRedrawable(() => <div>{text}</div>);
-// el is now `<div>aa</div>`
-text = 'bb';
-el.redraw();
-// el is now `<div>bb</div>`
-```
-
-### Reactive References
-
-Create reactive values with `ref()` and listen to changes.
-
-```typescript
-import { ref } from '@ktjs/core';
-
+// Reactive references
 const count = ref(0);
+const double = computed(() => count.value * 2, [count]);
+
+// Listen to changes
 count.addOnChange((newVal, oldVal) => {
   console.log(`Count changed from ${oldVal} to ${newVal}`);
 });
 
 // Update triggers change listeners
-count.value = 1;
+count.value = 10;
 ```
 
-#### Surface Reactive Objects
-
-Create depth-1 reactive objects with `surfaceRef()`.
-Basically a helper of wrapping each property with `ref()`.
+### Conditional Rendering
 
 ```tsx
-const obj = surfaceRef({ a: 1, b: 2 });
-obj.a.value = 3; // Triggers change listeners for obj.a
+const show = ref(true);
 
-const data = obj.kcollect(); // Deref to the original object { a: 3, b: 2 }
+const element = <div k-if={show}>This content is conditionally rendered</div>;
+
+// Toggle visibility
+show.value = false; // Element becomes comment placeholder
 ```
 
-### Redraw Mechanism
-
-`<KTFor... />` elements in-place with `redraw()` for minimal DOM updates.
+### List Rendering
 
 ```tsx
-const element = <KTFor list={someArray} map={(v) => 2 * v} />;
-element.redraw({ list: [1, 2, 3] });
+import { KTFor, ref } from 'kt.js';
+
+const items = ref([
+  { id: 1, name: 'Item 1' },
+  { id: 2, name: 'Item 2' },
+]);
+
+const list = <KTFor list={items.value} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
+
+// Update list
+items.value = [...items.value, { id: 3, name: 'Item 3' }];
 ```
 
-## Router (@ktjs/router)
+### Two-way Data Binding
 
-Client-side hash-based routing with async navigation guards.
+```tsx
+function InputComponent() {
+  const text = ref('');
 
-### Basic Routing
-
-```typescript
-import { createRouter } from '@ktjs/router';
-
-const router = createRouter({
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: () => <HomePage />
-    },
-    {
-      path: '/user/:id',
-      name: 'user',
-      component: (to) => <UserPage id={to.params.id} />
-    }
-  ],
-  beforeEach: async (to, from) => {
-    // Auth check
-    if (to.path === '/admin' && !isAdmin()) {
-      return '/login';
-    }
-  }
-});
-```
-
-### Navigation
-
-```typescript
-// Programmatic navigation
-router.push('/user/123');
-router.push({ name: 'user', params: { id: '456' } });
-
-// Access current route
-console.log(router.current?.path, router.current?.params);
-```
-
-## Installation
-
-```bash
-# Full package (includes core)
-pnpm add kt.js
-
-# Individual packages
-pnpm add @ktjs/core @ktjs/router
-```
-
-## TypeScript Configuration
-
-For JSX/TSX support, configure your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
-  }
+  return <input k-model={text} />;
 }
 ```
 
+### Redrawable Components
+
+```tsx
+import { createRedrawable, ref } from 'kt.js';
+
+function DynamicCounter() {
+  const count = ref(0);
+
+  const counter = createRedrawable(() => (
+    <div>
+      Count: {count.value}
+      <button on:click={() => count.value++}>+</button>
+    </div>
+  ));
+
+  // Redraw when count changes
+  count.addOnChange(() => counter.redraw());
+
+  return counter;
+}
+```
+
+## Package Structure
+
+- **[@ktjs/core](./packages/core)**: Core framework with JSX, reactivity, and DOM utilities
+- **[@ktjs/router](./packages/router)**: Client-side router with navigation guards
+- **[@ktjs/mui](./packages/mui)**: Material UI components built on top of KT.js
+
 ## Philosophy
 
-- **Direct DOM Manipulation**: No virtual DOM, minimal abstraction
-- **Zero Re-renders**: Update only what changes, avoid full component re-renders
-- **Type Safety**: Full TypeScript support with accurate type inference
-- **Lightweight**: Small bundle size, no unnecessary dependencies
+KT.js follows one rule: **full control of DOM and avoid unnecessary repainting**.
+
+As a web framework, repeatedly creating a large number of variables and objects is unacceptable. So I created KT.js.
+
+## Advanced Usage
+
+### Surface References
+
+```tsx
+import { surfaceRef } from 'kt.js';
+
+const user = surfaceRef({
+  name: 'John',
+  age: 30,
+});
+
+// Access reactive properties
+user.name.value = 'Jane';
+
+// Get original object
+const original = user.kcollect();
+```
+
+### Event Handling
+
+```tsx
+const handleClick = (event) => {
+  console.log('Clicked!', event);
+};
+
+const button = <button on:click={handleClick}>Click me</button>;
+```
+
+## Performance Benefits
+
+- **No Virtual DOM**: Direct DOM manipulation eliminates reconciliation overhead
+- **Manual Updates**: Only update what you need, when you need it
+- **Minimal Abstraction**: Close to native DOM APIs for maximum performance
+- **Small Bundle**: Minimal runtime overhead
+
+## Browser Support
+
+KT.js supports all modern browsers and IE11+ with appropriate polyfills.
 
 ## License
 

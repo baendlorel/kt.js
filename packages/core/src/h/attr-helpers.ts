@@ -1,4 +1,4 @@
-const booleanHandler = (element: HTMLElement, key: string, value: any) => {
+const booleanHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => {
   if (key in element) {
     (element as any)[key] = !!value;
   } else {
@@ -6,7 +6,7 @@ const booleanHandler = (element: HTMLElement, key: string, value: any) => {
   }
 };
 
-const valueHandler = (element: HTMLElement, key: string, value: any) => {
+const valueHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => {
   if (key in element) {
     (element as any)[key] = value;
   } else {
@@ -15,7 +15,10 @@ const valueHandler = (element: HTMLElement, key: string, value: any) => {
 };
 
 // Attribute handlers map for optimized lookup
-export const handlers: Record<string, (element: HTMLElement, key: string, value: any) => void> = {
+export const handlers: Record<
+  string,
+  (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => void
+> = {
   checked: booleanHandler,
   selected: booleanHandler,
   value: valueHandler,
@@ -36,7 +39,7 @@ export const handlers: Record<string, (element: HTMLElement, key: string, value:
   muted: booleanHandler,
   defer: booleanHandler,
   async: booleanHandler,
-  hidden: (element, _key, value) => (element.hidden = !!value),
+  hidden: (element, _key, value) => ((element as HTMLElement).hidden = !!value),
 };
 
 type InputElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;

@@ -39,11 +39,11 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     if (typeof style === 'string') {
       element.setAttribute('style', style);
     } else if (typeof style === 'object') {
-      if (isKT(style)) {
+      if (isKT<string | Partial<CSSStyleDeclaration>>(style)) {
         setElementStyle(element, style.value);
         style.addOnChange((v) => setElementStyle(element, v));
       } else {
-        setElementStyle(element, style as string | Partial<CSSStyleDeclaration>);
+        setElementStyle(element, style);
       }
     }
   }
@@ -82,10 +82,10 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     else {
       const handler = handlers[key] || defaultHandler;
       if (isKT(o)) {
-        handler(element as any, key, o.value);
-        o.addOnChange((v) => handler(element as any, key, v));
+        handler(element, key, o.value);
+        o.addOnChange((v) => handler(element, key, v));
       } else {
-        handler(element as any, key, o);
+        handler(element, key, o);
       }
     }
   }

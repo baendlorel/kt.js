@@ -2,7 +2,6 @@ import { MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
-import { isKT } from '../reactive/core.js';
 import { applyAttr } from './attr.js';
 import { applyContent } from './content.js';
 import { applyKModel } from './model.js';

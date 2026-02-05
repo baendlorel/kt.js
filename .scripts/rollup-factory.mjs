@@ -116,6 +116,7 @@ export function createPackageConfig({
     });
   }
 
+  // fixme @rollup/plugin-typescript问题，它会不认识$throw $warn等函数
   configs.push({
     input: path.resolve(src, entry),
     output: outputs,

@@ -2,6 +2,8 @@
   "extends": "../../configs/tsconfig.build.json",
   "compilerOptions": {
     "module": "NodeNext", // Required for rollup plugin to work correctly with moduleResolution: NodeNext
-    "stripInternal": true
-  }
+    "stripInternal": true,
+    "baseUrl": "."
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "../global.d.ts"]
 }

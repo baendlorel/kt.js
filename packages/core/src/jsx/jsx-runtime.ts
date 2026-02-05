@@ -1,5 +1,5 @@
 import type { KTAttribute, KTRawContent } from '../types/h.js';
-import { $replaceNode, $throw, type HTMLTag } from '@ktjs/shared';
+import { $replaceNode, type HTMLTag } from '@ktjs/shared';
 
 import { h } from '../h/index.js';
 import { isComputed, isKT, isRef, type KTRef, ref } from '../reactive/index.js';

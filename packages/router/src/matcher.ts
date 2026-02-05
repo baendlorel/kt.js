@@ -1,5 +1,5 @@
 import type { RouteConfig, RouteMatch } from './types/router.js';
-import { $throw, extractParams, normalizePath } from '@ktjs/shared';
+import { extractParams, normalizePath } from '@ktjs/shared';
 
 /**
  * Route matcher for finding matching routes and extracting params

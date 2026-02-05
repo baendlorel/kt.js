@@ -1,4 +1,4 @@
-import { $warn, applyModel, InputElementTag } from '@ktjs/shared';
+import { applyModel, InputElementTag } from '@ktjs/shared';
 import { isKT, KTRef } from '../reactive/index.js';
 
 export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {

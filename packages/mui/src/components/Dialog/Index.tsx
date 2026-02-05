@@ -25,6 +25,7 @@ export type KTMuiDialog = JSX.Element;
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let { 'kt:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
 
+  // todo 这里可以整合吗
   const open = isKT(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);
 
   open.addOnChange((isOpen) => {

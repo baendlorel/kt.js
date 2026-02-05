@@ -50,12 +50,7 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   applyContent(element, content);
 
   if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
-    const kmodel = attr['k-model'];
-    if (isKT(kmodel)) {
-      applyKModel(element as any, kmodel);
-    } else {
-      $throw('k-model value must be a KTRef.');
-    }
+    applyKModel(element as any, attr['k-model'] as any);
   }
 
   return element;

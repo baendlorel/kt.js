@@ -23,7 +23,10 @@ const placeholder = () => document.createComment('k-if') as unknown as JSX.Eleme
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  const maybeDummyRef = isKT<JSX.Element>(props.ref) ? props.ref : dummyRef;
+  if (props.ref?.isComputed) {
+    $throw('Cannot assign a computed value to an element.');
+  }
+  const maybeDummyRef = props.ref?.isRef ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {

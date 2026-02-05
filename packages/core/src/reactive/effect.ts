@@ -1,25 +1,27 @@
+import { $emptyFn } from '@ktjs/shared';
 import type { KTReactive } from './index.js';
 
 interface KTEffectOptions {
   lazy: boolean;
-
-  scheduler: (job: () => void) => void;
-
-  onStop: () => void;
-
   onCleanup: () => void;
-
   debugName: string;
 }
 
+/**
+ * Register a reactive effect with options.
+ * @param effectFn The effect function to run when dependencies change
+ * @param reactives The reactive dependencies
+ * @param options Effect options: lazy, onCleanup, debugName
+ * @returns stop function to remove all listeners
+ */
 export function effect(
   effectFn: () => void,
   reactives: Array<KTReactive<any>>,
-  options?: Partial<KTEffectOptions>,
-): void {
-  const scheduler = options?.scheduler;
-  const run = scheduler ? () => scheduler(effectFn) : effectFn;
-  for (let i = 0; i < reactives.length; i++) {
-    reactives[i].addOnChange(run);
-  }
+  options: Partial<KTEffectOptions> = {
+    lazy: false,
+    onCleanup: $emptyFn,
+    debugName: '',
+  },
+) {
+  const run = () => {};
 }

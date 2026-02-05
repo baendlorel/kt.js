@@ -1,5 +1,5 @@
 import type { KTReactive } from '@ktjs/core';
-import type { ChangeHandler } from '../../common/handler.ts';
+import type { ChangeHandler } from '../../common/handler.js';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 

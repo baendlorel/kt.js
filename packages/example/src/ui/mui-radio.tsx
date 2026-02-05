@@ -8,7 +8,7 @@ export function MuiRadioDemo() {
   const radioGroup = RadioGroup({
     name: 'demo-radio',
     value: 'option1',
-    'kt:change': (value) => {
+    'on:change': (value) => {
       selectedValue.value = value;
     },
     options: [

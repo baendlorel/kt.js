@@ -108,7 +108,7 @@ export function MuiTextFieldRefDemo() {
             multiline={false}
             rows={rowsRef}
             size={sizeRef}
-            kt:input={(val) => console.log('Input:', val)}
+            on:input={(val) => console.log('Input:', val)}
           />
 
           <div class="current-values" style="margin-top: 20px; padding: 16px; background: #f5f5f5; border-radius: 6px;">

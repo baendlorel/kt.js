@@ -6,12 +6,12 @@ import './Input.css';
 
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
-  const onInput = props['kt:input'] ?? $emptyFn;
+  const onInput = props['on:input'] ?? $emptyFn;
   const onInputTrim = props['kt-trim:input'] ?? $emptyFn;
-  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChange = props['on:change'] ?? $emptyFn;
   const onChangeTrim = props['kt-trim:change'] ?? $emptyFn;
-  const onBlur = props['kt:blur'] ?? $emptyFn;
-  const onFocus = props['kt:focus'] ?? $emptyFn;
+  const onBlur = props['on:blur'] ?? $emptyFn;
+  const onFocus = props['on:focus'] ?? $emptyFn;
 
   // # methods
   const updateContainerClass = () => {

@@ -9,11 +9,11 @@ interface KTMuiAlertProps {
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | false;
-  'kt:close'?: () => void;
+  'on:close'?: () => void;
 }
 
 export function Alert(props: KTMuiAlertProps): JSX.Element {
-  const { children, severity = 'info', variant = 'standard', icon, 'kt:close': onClose } = props;
+  const { children, severity = 'info', variant = 'standard', icon, 'on:close': onClose } = props;
 
   const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
 

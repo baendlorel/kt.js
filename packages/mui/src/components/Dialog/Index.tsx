@@ -8,7 +8,7 @@ interface KTMuiDialogProps {
    * - Provide a `KTReactive` to make it reactive
    */
   open?: boolean | KTReactive<boolean>;
-  'kt:close'?: () => void;
+  'on:close'?: () => void;
   title?: string;
   children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[] | string;
   actions?: HTMLElement | HTMLElement[];
@@ -23,7 +23,7 @@ export type KTMuiDialog = JSX.Element;
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let { 'kt:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+  let { 'on:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
 
   // todo 这里可以整合吗
   const open = isKT(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);

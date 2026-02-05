@@ -39,7 +39,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     color = 'primary',
     indeterminate = false,
   } = props;
-  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChange = props['on:change'] ?? $emptyFn;
 
   const inputEl = (
     <input
@@ -138,7 +138,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
-  let { value = [], size = 'medium', row = false, 'kt:change': onChange = $emptyFn } = props;
+  let { value = [], size = 'medium', row = false, 'on:change': onChange = $emptyFn } = props;
 
   let selectedValues = new Set(value);
 
@@ -155,17 +155,17 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     o.size = size;
     o.checked = selectedValues.has(o.value);
 
-    const originalChange = o['kt:change'];
+    const originalChange = o['on:change'];
     if (originalChange) {
       if (typeof originalChange !== 'function') {
         $throw('CheckboxGroup: handler must be a function');
       }
-      o['kt:change'] = (checked: boolean, value: string) => {
+      o['on:change'] = (checked: boolean, value: string) => {
         originalChange(checked, value);
         changeHandler(checked, value);
       };
     } else {
-      o['kt:change'] = changeHandler;
+      o['on:change'] = changeHandler;
     }
     return Checkbox(o);
   });

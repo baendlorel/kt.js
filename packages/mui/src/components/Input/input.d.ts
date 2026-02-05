@@ -78,12 +78,12 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
    * - Provide a `KTReactive` to make it reactive
    */
   size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
-  'kt:input'?: ChangeHandler<T extends 'number' ? number : string>;
+  'on:input'?: ChangeHandler<T extends 'number' ? number : string>;
   'kt-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
-  'kt:change'?: ChangeHandler<T extends 'number' ? number : string>;
+  'on:change'?: ChangeHandler<T extends 'number' ? number : string>;
   'kt-trim:change'?: ChangeHandler<T extends 'number' ? number : string>;
-  'kt:blur'?: () => void;
-  'kt:focus'?: () => void;
+  'on:blur'?: () => void;
+  'on:focus'?: () => void;
 }
 
 export type KTMuiTextField = JSX.Element;

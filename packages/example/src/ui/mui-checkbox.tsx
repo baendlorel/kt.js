@@ -13,7 +13,7 @@ export function MuiCheckboxDemo() {
 
       <CheckboxGroup
         value={selectedValues.value}
-        kt:change={(values) => {
+        on:change={(values) => {
           selectedValues.value = values;
         }}
         options={[

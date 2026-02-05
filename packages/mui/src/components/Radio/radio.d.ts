@@ -7,7 +7,7 @@ export interface KTMuiRadioProps {
   label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
   size?: 'small' | 'medium';
-  'kt:change'?: (checked: boolean, value: string) => void;
+  'on:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
   color?: 'primary' | 'secondary' | 'default';
 }
@@ -19,8 +19,8 @@ export interface KTMuiRadioGroupProps {
   name?: string;
   size?: 'small' | 'medium';
   options: KTMuiRadioProps[];
-  'kt:change'?: (value: string) => void;
-  'kt:click'?: (checked: boolean) => void;
+  'on:change'?: (value: string) => void;
+  'on:click'?: (checked: boolean) => void;
   row?: boolean;
 }
 

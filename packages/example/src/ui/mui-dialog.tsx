@@ -27,7 +27,7 @@ export function MuiDialogDemo() {
         Open Dialog
       </Button>
 
-      <Dialog open={open} title="Dialog Title" kt:close={handleClose}>
+      <Dialog open={open} title="Dialog Title" on:close={handleClose}>
         <div style="padding: 20px;">
           <p>This is a dialog with some content inside.</p>
           <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>

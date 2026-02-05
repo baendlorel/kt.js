@@ -7,7 +7,7 @@ import './Radio.css';
  * Radio component - mimics MUI Radio appearance and behavior
  */
 export function Radio(props: KTMuiRadioProps): KTMuiRadio {
-  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChange = props['on:change'] ?? $emptyFn;
 
   const toggleIcon = (checked: boolean) => {
     uncheckedIcon.style.display = checked ? 'none' : '';
@@ -96,7 +96,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   let { value = '', size = 'small', row = false } = props;
 
-  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChange = props['on:change'] ?? $emptyFn;
 
   const changeHandler = (checked: boolean, value: string) => {
     if (checked) {
@@ -109,14 +109,14 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     o.size = size;
     o.checked = value === o.value;
 
-    const originalChange = o['kt:change'];
+    const originalChange = o['on:change'];
     if (originalChange) {
-      o['kt:change'] = (checked: boolean, newValue: string) => {
+      o['on:change'] = (checked: boolean, newValue: string) => {
         originalChange(checked, newValue);
         changeHandler(checked, newValue);
       };
     } else {
-      o['kt:change'] = changeHandler;
+      o['on:change'] = changeHandler;
     }
     return Radio(o);
   });

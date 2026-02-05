@@ -15,7 +15,7 @@ export interface KTMuiSelectProps {
   options: KTMuiSelectOption[] | KTReactive<KTMuiSelectOption[]>;
   label?: string | KTReactive<string>;
   placeholder?: string;
-  'kt:change'?: (value: string) => void;
+  'on:change'?: (value: string) => void;
   fullWidth?: boolean;
   disabled?: boolean | KTReactive<boolean>;
 }
@@ -28,7 +28,7 @@ export type KTMuiSelect = JSX.Element & {};
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
   let { placeholder = '', size = 'medium', fullWidth = false } = props;
 
-  const onChange = props['kt:change'] ?? $emptyFn;
+  const onChange = props['on:change'] ?? $emptyFn;
 
   // # refs
   const isFocused = ref(false);

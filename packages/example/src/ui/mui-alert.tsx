@@ -11,7 +11,7 @@ export function MuiAlertDemo() {
     const alert = Alert({
       severity,
       children: `This is a ${severity} alert #${alertCount}!`,
-      'kt:close': () => alert.remove(),
+      'on:close': () => alert.remove(),
     });
     alertContainer.value?.appendChild(alert);
   };
@@ -44,7 +44,7 @@ export function MuiAlertDemo() {
         <Alert severity="warning" variant="outlined">
           This is an outlined warning alert!
         </Alert>
-        <Alert severity="error" kt:close={() => console.log('Alert closed')}>
+        <Alert severity="error" on:close={() => console.log('Alert closed')}>
           This alert can be closed!
         </Alert>
       </div>

@@ -1,5 +1,5 @@
 import { $throw } from '@ktjs/shared';
-import type { KTReactify } from '../reactive/index.js';
+import type { KTReactifyObject } from '../reactive/index.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactive/core.js';
 import { handlers } from './attr-helpers.js';
@@ -21,13 +21,14 @@ const setElementStyle = (
   }
 };
 
-function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactify<KTAttribute>) {
+function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyObject<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     if (isKT<string>(classValue)) {
       element.setAttribute('class', classValue.value);
       classValue.addOnChange((v) => element.setAttribute('class', v));
     } else {
+      // todo 这里要让undefined 排除出reactify类型工具之外
       element.setAttribute('class', classValue);
     }
   }

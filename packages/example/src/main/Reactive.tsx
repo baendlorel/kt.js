@@ -29,8 +29,22 @@ export function Reactivity() {
     </div>`;
   }, 2500);
 
+  // # attr refs
+  const styleRef = ref('width: 10%;height:20px;background-color:#1890ff;transition: width 1s;');
+  setInterval(() => {
+    const width = Math.floor(Math.random() * 100);
+    styleRef.value = `width: ${width}%;height:20px;background-color:#1890ff;transition: width 1s;`;
+  }, 1000);
+
   return (
     <div>
+      <div class="demo-section">
+        <h3>Attribute Ref</h3>
+        <p>
+          Use <code>ref</code> to make attributes reactive
+        </p>
+        <div style={styleRef}></div>
+      </div>
       <div class="demo-section">
         <h3>Directives</h3>
         <p>
@@ -63,13 +77,7 @@ export function Reactivity() {
             <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
           </div>
         </div>
-      </div>
-      <div class="demo-section">
-        <h4>Example Codes</h4>
-        <p>
-          Use <code>ref</code> to make them reactive
-        </p>
-        {code}
+        <div class="demo-code">{code}</div>
       </div>
     </div>
   );

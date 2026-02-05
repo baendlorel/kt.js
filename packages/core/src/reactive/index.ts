@@ -14,8 +14,9 @@ export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChang
   }
 };
 
-export type KTReactify<T extends object> = {
-  [K in keyof T]: T[K] | KTReactive<NonNullable<T[K]>>;
+export type KTReactify<T> = T extends any ? KTReactive<T> | T : never;
+export type KTReactifyObject<T extends object> = {
+  [K in keyof T]: KTReactify<T[K]>;
 };
 
 export * from './core.js';

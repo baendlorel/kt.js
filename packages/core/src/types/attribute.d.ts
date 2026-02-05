@@ -1,12 +1,12 @@
 import type { otherstring } from '@ktjs/shared';
 import { KTPrefixedEventAttribute } from './h.js';
-import { KTReactify } from '../reactive/index.ts';
+import { KTReactifyObject } from '../reactive/index.ts';
 
 type a = HTMLElementEventMap;
 
 // Base events available to all HTML elements
 type BaseAttr = KTPrefixedEventAttribute &
-  KTReactify<{
+  KTReactifyObject<{
     [k: string]: any;
 
     // # base attributes
@@ -18,7 +18,7 @@ type BaseAttr = KTPrefixedEventAttribute &
 export interface AttributesMap {
   // Anchor element
   a: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       download?: string;
       href?: string;
       hreflang?: string;
@@ -39,7 +39,7 @@ export interface AttributesMap {
 
   // Area element
   area: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       alt?: string;
       coords?: string;
       download?: string;
@@ -61,7 +61,7 @@ export interface AttributesMap {
 
   // Audio element
   audio: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       autoplay?: boolean;
       controls?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
@@ -73,20 +73,20 @@ export interface AttributesMap {
 
   // Base element
   base: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       href?: string;
       target?: '_self' | '_blank' | '_parent' | '_top' | string;
     }>;
 
   // Body element
-  body: BaseAttr & KTReactify<{}>;
+  body: BaseAttr & KTReactifyObject<{}>;
 
   // BR element
-  br: BaseAttr & KTReactify<{}>;
+  br: BaseAttr & KTReactifyObject<{}>;
 
   // Button element
   button: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       disabled?: boolean;
       form?: string;
       formaction?: string;
@@ -101,57 +101,57 @@ export interface AttributesMap {
 
   // Canvas element
   canvas: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       height?: number | string;
       width?: number | string;
     }>;
 
   // Table caption element
-  caption: BaseAttr & KTReactify<{}>;
+  caption: BaseAttr & KTReactifyObject<{}>;
 
   // Col element
   col: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       span?: number | string;
     }>;
 
   // Colgroup element
   colgroup: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       span?: number | string;
     }>;
 
   // Data element
   data: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       value?: string;
     }>;
 
   // Datalist element
-  datalist: BaseAttr & KTReactify<{}>;
+  datalist: BaseAttr & KTReactifyObject<{}>;
 
   // Del element
   del: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       cite?: string;
       datetime?: string;
     }>;
 
   // Details element
   details: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       open?: boolean;
     }>;
 
   // Dialog element
   dialog: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       open?: boolean;
     }>;
 
   // Embed element
   embed: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       height?: number | string;
       src?: string;
       type?: string;
@@ -160,7 +160,7 @@ export interface AttributesMap {
 
   // Fieldset element
   fieldset: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       disabled?: boolean;
       form?: string;
       name?: string;
@@ -168,7 +168,7 @@ export interface AttributesMap {
 
   // Form element
   form: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       'accept-charset'?: string;
       action?: string;
       autocomplete?: 'on' | 'off';
@@ -181,17 +181,17 @@ export interface AttributesMap {
     }>;
 
   // Head element
-  head: BaseAttr & KTReactify<{}>;
+  head: BaseAttr & KTReactifyObject<{}>;
 
   // HR element
-  hr: BaseAttr & KTReactify<{}>;
+  hr: BaseAttr & KTReactifyObject<{}>;
 
   // HTML element
-  html: BaseAttr & KTReactify<{}>;
+  html: BaseAttr & KTReactifyObject<{}>;
 
   // IFrame element
   iframe: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       allow?: string;
       allowfullscreen?: boolean;
       allowpaymentrequest?: boolean;
@@ -215,7 +215,7 @@ export interface AttributesMap {
 
   // Image element
   img: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       alt?: string;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       decoding?: 'sync' | 'async' | 'auto';
@@ -240,7 +240,7 @@ export interface AttributesMap {
 
   // Input element
   input: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       accept?: string;
       alt?: string;
       autocomplete?: string;
@@ -297,29 +297,29 @@ export interface AttributesMap {
 
   // Ins element
   ins: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       cite?: string;
       datetime?: string;
     }>;
 
   // Label element
   label: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       for?: string;
     }>;
 
   // Legend element
-  legend: BaseAttr & KTReactify<{}>;
+  legend: BaseAttr & KTReactifyObject<{}>;
 
   // LI element
   li: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       value?: number | string;
     }>;
 
   // Link element
   link: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       as?: string;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       disabled?: boolean;
@@ -345,16 +345,16 @@ export interface AttributesMap {
 
   // Map element
   map: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       name?: string;
     }>;
 
   // Menu element
-  menu: BaseAttr & KTReactify<{}>;
+  menu: BaseAttr & KTReactifyObject<{}>;
 
   // Meta element
   meta: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       charset?: string;
       content?: string;
       'http-equiv'?: 'content-security-policy' | 'content-type' | 'default-style' | 'refresh' | string;
@@ -363,7 +363,7 @@ export interface AttributesMap {
 
   // Meter element
   meter: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       form?: string;
       high?: number | string;
       low?: number | string;
@@ -375,7 +375,7 @@ export interface AttributesMap {
 
   // Object element
   object: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       data?: string;
       form?: string;
       height?: number | string;
@@ -387,7 +387,7 @@ export interface AttributesMap {
 
   // OL element
   ol: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       reversed?: boolean;
       start?: number | string;
       type?: '1' | 'a' | 'A' | 'i' | 'I';
@@ -395,14 +395,14 @@ export interface AttributesMap {
 
   // Optgroup element
   optgroup: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       disabled?: boolean;
       label?: string;
     }>;
 
   // Option element
   option: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       disabled?: boolean;
       label?: string;
       selected?: boolean;
@@ -411,39 +411,39 @@ export interface AttributesMap {
 
   // Output element
   output: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       for?: string;
       form?: string;
       name?: string;
     }>;
 
   // Picture element
-  picture: BaseAttr & KTReactify<{}>;
+  picture: BaseAttr & KTReactifyObject<{}>;
 
   // Pre element
-  pre: BaseAttr & KTReactify<{}>;
+  pre: BaseAttr & KTReactifyObject<{}>;
 
   // Progress element
   progress: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       max?: number | string;
       value?: number | string;
     }>;
 
   // Quote element (q and blockquote)
   q: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       cite?: string;
     }>;
 
   blockquote: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       cite?: string;
     }>;
 
   // Script element
   script: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       async?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       defer?: boolean;
@@ -464,7 +464,7 @@ export interface AttributesMap {
 
   // Select element
   select: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       autocomplete?: string;
       disabled?: boolean;
       form?: string;
@@ -476,13 +476,13 @@ export interface AttributesMap {
 
   // Slot element
   slot: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       name?: string;
     }>;
 
   // Source element
   source: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       height?: number | string;
       media?: string;
       sizes?: string;
@@ -494,30 +494,30 @@ export interface AttributesMap {
 
   // Style element
   style: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       media?: string;
     }>;
 
   // Table element
-  table: BaseAttr & KTReactify<{}>;
+  table: BaseAttr & KTReactifyObject<{}>;
 
   // Table body/footer/header elements
-  tbody: BaseAttr & KTReactify<{}>;
+  tbody: BaseAttr & KTReactifyObject<{}>;
 
-  tfoot: BaseAttr & KTReactify<{}>;
+  tfoot: BaseAttr & KTReactifyObject<{}>;
 
-  thead: BaseAttr & KTReactify<{}>;
+  thead: BaseAttr & KTReactifyObject<{}>;
 
   // Table cell elements
   td: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       colspan?: number | string;
       headers?: string;
       rowspan?: number | string;
     }>;
 
   th: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       abbr?: string;
       colspan?: number | string;
       headers?: string;
@@ -526,11 +526,11 @@ export interface AttributesMap {
     }>;
 
   // Template element
-  template: BaseAttr & KTReactify<{}>;
+  template: BaseAttr & KTReactifyObject<{}>;
 
   // Textarea element
   textarea: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       autocomplete?: string;
       cols?: number | string;
       dirname?: string;
@@ -548,19 +548,19 @@ export interface AttributesMap {
 
   // Time element
   time: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       datetime?: string;
     }>;
 
   // Title element
-  title: BaseAttr & KTReactify<{}>;
+  title: BaseAttr & KTReactifyObject<{}>;
 
   // TR element
-  tr: BaseAttr & KTReactify<{}>;
+  tr: BaseAttr & KTReactifyObject<{}>;
 
   // Track element
   track: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       default?: boolean;
       kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
       label?: string;
@@ -569,11 +569,11 @@ export interface AttributesMap {
     }>;
 
   // UL element
-  ul: BaseAttr & KTReactify<{}>;
+  ul: BaseAttr & KTReactifyObject<{}>;
 
   // Video element
   video: BaseAttr &
-    KTReactify<{
+    KTReactifyObject<{
       autoplay?: boolean;
       controls?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
@@ -588,55 +588,55 @@ export interface AttributesMap {
     }>;
 
   // Generic HTMLElement (no specific attributes beyond BaseEvent)
-  abbr: BaseAttr & KTReactify<{}>;
-  address: BaseAttr & KTReactify<{}>;
-  article: BaseAttr & KTReactify<{}>;
-  aside: BaseAttr & KTReactify<{}>;
-  b: BaseAttr & KTReactify<{}>;
-  bdi: BaseAttr & KTReactify<{}>;
-  bdo: BaseAttr & KTReactify<{}>;
-  cite: BaseAttr & KTReactify<{}>;
-  code: BaseAttr & KTReactify<{}>;
-  dd: BaseAttr & KTReactify<{}>;
-  dfn: BaseAttr & KTReactify<{}>;
-  div: BaseAttr & KTReactify<{}>;
-  dl: BaseAttr & KTReactify<{}>;
-  dt: BaseAttr & KTReactify<{}>;
-  em: BaseAttr & KTReactify<{}>;
-  figcaption: BaseAttr & KTReactify<{}>;
-  figure: BaseAttr & KTReactify<{}>;
-  footer: BaseAttr & KTReactify<{}>;
-  h1: BaseAttr & KTReactify<{}>;
-  h2: BaseAttr & KTReactify<{}>;
-  h3: BaseAttr & KTReactify<{}>;
-  h4: BaseAttr & KTReactify<{}>;
-  h5: BaseAttr & KTReactify<{}>;
-  h6: BaseAttr & KTReactify<{}>;
-  header: BaseAttr & KTReactify<{}>;
-  hgroup: BaseAttr & KTReactify<{}>;
-  i: BaseAttr & KTReactify<{}>;
-  kbd: BaseAttr & KTReactify<{}>;
-  main: BaseAttr & KTReactify<{}>;
-  mark: BaseAttr & KTReactify<{}>;
-  nav: BaseAttr & KTReactify<{}>;
-  noscript: BaseAttr & KTReactify<{}>;
-  p: BaseAttr & KTReactify<{}>;
-  rp: BaseAttr & KTReactify<{}>;
-  rt: BaseAttr & KTReactify<{}>;
-  ruby: BaseAttr & KTReactify<{}>;
-  s: BaseAttr & KTReactify<{}>;
-  samp: BaseAttr & KTReactify<{}>;
-  search: BaseAttr & KTReactify<{}>;
-  section: BaseAttr & KTReactify<{}>;
-  small: BaseAttr & KTReactify<{}>;
-  span: BaseAttr & KTReactify<{}>;
-  strong: BaseAttr & KTReactify<{}>;
-  sub: BaseAttr & KTReactify<{}>;
-  summary: BaseAttr & KTReactify<{}>;
-  sup: BaseAttr & KTReactify<{}>;
-  u: BaseAttr & KTReactify<{}>;
-  var: BaseAttr & KTReactify<{}>;
-  wbr: BaseAttr & KTReactify<{}>;
+  abbr: BaseAttr & KTReactifyObject<{}>;
+  address: BaseAttr & KTReactifyObject<{}>;
+  article: BaseAttr & KTReactifyObject<{}>;
+  aside: BaseAttr & KTReactifyObject<{}>;
+  b: BaseAttr & KTReactifyObject<{}>;
+  bdi: BaseAttr & KTReactifyObject<{}>;
+  bdo: BaseAttr & KTReactifyObject<{}>;
+  cite: BaseAttr & KTReactifyObject<{}>;
+  code: BaseAttr & KTReactifyObject<{}>;
+  dd: BaseAttr & KTReactifyObject<{}>;
+  dfn: BaseAttr & KTReactifyObject<{}>;
+  div: BaseAttr & KTReactifyObject<{}>;
+  dl: BaseAttr & KTReactifyObject<{}>;
+  dt: BaseAttr & KTReactifyObject<{}>;
+  em: BaseAttr & KTReactifyObject<{}>;
+  figcaption: BaseAttr & KTReactifyObject<{}>;
+  figure: BaseAttr & KTReactifyObject<{}>;
+  footer: BaseAttr & KTReactifyObject<{}>;
+  h1: BaseAttr & KTReactifyObject<{}>;
+  h2: BaseAttr & KTReactifyObject<{}>;
+  h3: BaseAttr & KTReactifyObject<{}>;
+  h4: BaseAttr & KTReactifyObject<{}>;
+  h5: BaseAttr & KTReactifyObject<{}>;
+  h6: BaseAttr & KTReactifyObject<{}>;
+  header: BaseAttr & KTReactifyObject<{}>;
+  hgroup: BaseAttr & KTReactifyObject<{}>;
+  i: BaseAttr & KTReactifyObject<{}>;
+  kbd: BaseAttr & KTReactifyObject<{}>;
+  main: BaseAttr & KTReactifyObject<{}>;
+  mark: BaseAttr & KTReactifyObject<{}>;
+  nav: BaseAttr & KTReactifyObject<{}>;
+  noscript: BaseAttr & KTReactifyObject<{}>;
+  p: BaseAttr & KTReactifyObject<{}>;
+  rp: BaseAttr & KTReactifyObject<{}>;
+  rt: BaseAttr & KTReactifyObject<{}>;
+  ruby: BaseAttr & KTReactifyObject<{}>;
+  s: BaseAttr & KTReactifyObject<{}>;
+  samp: BaseAttr & KTReactifyObject<{}>;
+  search: BaseAttr & KTReactifyObject<{}>;
+  section: BaseAttr & KTReactifyObject<{}>;
+  small: BaseAttr & KTReactifyObject<{}>;
+  span: BaseAttr & KTReactifyObject<{}>;
+  strong: BaseAttr & KTReactifyObject<{}>;
+  sub: BaseAttr & KTReactifyObject<{}>;
+  summary: BaseAttr & KTReactifyObject<{}>;
+  sup: BaseAttr & KTReactifyObject<{}>;
+  u: BaseAttr & KTReactifyObject<{}>;
+  var: BaseAttr & KTReactifyObject<{}>;
+  wbr: BaseAttr & KTReactifyObject<{}>;
 
   svg: BaseAttr & {
     class?: string;

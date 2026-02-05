@@ -1,12 +1,17 @@
-import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { $replaceNode, $throw } from '@ktjs/shared';
-import { isKT } from './core.js';
+import type { KTReactive, ReactiveChangeHandler } from './core.js';
+import { isKT, KTReactiveType } from './core.js';
 
 export class KTComputed<T> implements KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */
   isKT = true as const;
+
+  /**
+   * Identify the type of this reactive
+   */
+  ktType = KTReactiveType.Computed;
 
   /**
    * @internal
@@ -68,6 +73,10 @@ export class KTComputed<T> implements KTReactive<T> {
     this._onChanges.push(callback);
   }
 
+  /**
+   * Unregister a callback
+   * @param callback (newValue, oldValue) => xxx
+   */
   removeOnChange(callback: ReactiveChangeHandler<T>) {
     for (let i = this._onChanges.length - 1; i >= 0; i--) {
       if (this._onChanges[i] === callback) {

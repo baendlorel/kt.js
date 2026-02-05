@@ -1,12 +1,17 @@
-import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { $entries, $is, $replaceNode, $throw } from '@ktjs/shared';
-import { isKT } from './core.js';
+import type { KTReactive, ReactiveChangeHandler } from './core.js';
+import { isKT, KTReactiveType } from './core.js';
 
 export class KTRef<T> implements KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */
   isKT = true as const;
+
+  /**
+   * Identify the type of this reactive
+   */
+  ktType = KTReactiveType.Ref;
 
   /**
    * @internal

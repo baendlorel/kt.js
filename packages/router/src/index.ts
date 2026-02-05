@@ -1,4 +1,4 @@
-import { $emptyFn, $throw, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
+import { $emptyFn, buildQuery, normalizePath, parseQuery, emplaceParams } from '@ktjs/shared';
 
 import type { Router, RouterConfig, RouteContext, NavOptions, RawRouteConfig, RouteConfig } from './types/router.js';
 import { GuardLevel } from './consts.js';

@@ -1,4 +1,4 @@
-import { $entries, $is, $replaceNode, $throw } from '@ktjs/shared';
+import { $entries, $is, $replaceNode } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from './core.js';
 import type { KTReactive } from './index.js';
 import { isComputed, isKT, isRef, KTReactiveType } from './core.js';

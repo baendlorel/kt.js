@@ -1,4 +1,3 @@
-import { $throw } from '@ktjs/shared';
 import type { KTReactifyProps } from '../reactive/index.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactive/core.js';

@@ -1,4 +1,4 @@
-import { $replaceNode, $throw } from '@ktjs/shared';
+import { $replaceNode } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from './core.js';
 import type { KTReactive } from './index.js';
 import { isKT, KTReactiveType } from './core.js';
@@ -26,6 +26,9 @@ export class KTComputed<T> {
    */
   private _onChanges: Array<ReactiveChangeHandler<T>> = [];
 
+  /**
+   * @internal
+   */
   private _subscribe(reactives: Array<KTReactive<unknown>>) {
     for (let i = 0; i < reactives.length; i++) {
       const reactive = reactives[i];

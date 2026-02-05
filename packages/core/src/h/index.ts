@@ -1,4 +1,4 @@
-import { $throw, MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
+import { MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 

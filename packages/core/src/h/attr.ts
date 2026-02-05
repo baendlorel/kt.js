@@ -1,5 +1,5 @@
 import { $throw } from '@ktjs/shared';
-import type { KTReactifyObject } from '../reactive/index.js';
+import type { KTReactifyProps } from '../reactive/index.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactive/core.js';
 import { handlers } from './attr-helpers.js';
@@ -21,30 +21,28 @@ const setElementStyle = (
   }
 };
 
-function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyObject<KTAttribute>) {
+function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyProps<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     if (isKT<string>(classValue)) {
       element.setAttribute('class', classValue.value);
       classValue.addOnChange((v) => element.setAttribute('class', v));
     } else {
-      // todo 这里要让undefined 排除出reactify类型工具之外
       element.setAttribute('class', classValue);
     }
   }
   // todo 这里加入reactive支持
-  // todo 类型定义也要支持reactive响应式
 
   const style = attr.style;
   if (style) {
     if (typeof style === 'string') {
       element.setAttribute('style', style);
     } else if (typeof style === 'object') {
-      if (isKT<string | Partial<CSSStyleDeclaration>>(style)) {
+      if (isKT(style)) {
         setElementStyle(element, style.value);
         style.addOnChange((v) => setElementStyle(element, v));
       } else {
-        setElementStyle(element, style);
+        setElementStyle(element, style as Partial<CSSStyleDeclaration>);
       }
     }
   }

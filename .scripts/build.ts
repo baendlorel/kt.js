@@ -1,7 +1,6 @@
 #!/usr/bin/env tsx
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { join } from 'path';
-import { askYesNo } from './ask';
 import { execSync } from 'child_process';
 
 const workMap = new Map([

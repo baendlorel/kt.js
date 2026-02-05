@@ -1,7 +1,7 @@
 import { $replaceNode, $throw } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from './core.js';
 import type { KTReactive } from './index.js';
-import { isKT } from './core.js';
+import { isKT, KTReactiveType } from './core.js';
 
 export class KTComputed<T> {
   /**
@@ -9,8 +9,7 @@ export class KTComputed<T> {
    */
   isKT = true as const;
 
-  isRef = false;
-  isComputed = true;
+  ktType = KTReactiveType.COMPUTED;
 
   /**
    * @internal

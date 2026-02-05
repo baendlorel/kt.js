@@ -1,7 +1,7 @@
 import { $entries, $is, $replaceNode, $throw } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from './core.js';
 import type { KTReactive } from './index.js';
-import { isComputed, isKT, isRef } from './core.js';
+import { isComputed, isKT, isRef, KTReactiveType } from './core.js';
 
 export class KTRef<T> {
   /**
@@ -9,8 +9,7 @@ export class KTRef<T> {
    */
   isKT = true as const;
 
-  isRef = true;
-  isComputed = false;
+  ktType = KTReactiveType.REF;
 
   /**
    * @internal
@@ -80,6 +79,23 @@ export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler
   return new KTRef<T>(value as any, onChange ? [onChange] : []);
 }
 
+/**
+ * Convert a value to `KTRef`.
+ * - Returns the original value if it is already a `KTRef`.
+ * - Throws error if the value is a `KTComputed`.
+ * - Otherwise wraps the value with `ref()`.
+ * @param o value to convert
+ */
+export const toRef = <T = any>(o: any): KTRef<T> => {
+  if (isRef(o)) {
+    return o;
+  } else if (isComputed(o)) {
+    $throw('Computed values cannot be used as KTRef.');
+  } else {
+    return ref(o);
+  }
+};
+
 export function deref<T = JSX.Element>(value: T | KTReactive<T>): T {
   return isKT<T>(value) ? value.value : value;
 }
@@ -134,14 +150,4 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
     return kmodel;
   }
   return ref(defaultValue) as KTRef<T>;
-};
-
-export const $mustBeRef = <T = any>(o: any): KTRef<T> => {
-  if (isRef(o)) {
-    return o;
-  } else if (isComputed(o)) {
-    $throw('Computed values cannot be used as KTRef.');
-  } else {
-    return ref(o);
-  }
 };

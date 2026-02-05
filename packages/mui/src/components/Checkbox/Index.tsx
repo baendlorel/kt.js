@@ -1,5 +1,5 @@
 import { $defines, $emptyFn, $throw } from '@ktjs/shared';
-import { $modelOrRef, computed, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, effect, toReactive } from '@ktjs/core';
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
 import { $ArrayDelete, $ArrayPushUnique } from '../../common/misc.js';
@@ -33,10 +33,6 @@ const createIndeterminateIcon = () => (
  * Checkbox component - mimics MUI Checkbox appearance and behavior
  */
 export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
-  const updateClass = () => {
-    container.className = `mui-checkbox-wrapper mui-checkbox-size-${size} ${disabledRef.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.value}`;
-  };
-
   const toggleIcon = (checked: boolean, indeterminate: boolean) => {
     if (indeterminate) {
       uncheckedIcon.style.display = 'none';
@@ -55,18 +51,18 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
       return;
     }
     modelRef.value = inputEl.checked;
-    indeterminate = false;
-    toggleIcon(modelRef.value, indeterminate);
+    interminateRef.value = false;
+    toggleIcon(modelRef.value, interminateRef.value);
     onChange(modelRef.value, valueRef.value);
   };
 
   const onChange = props['on:change'] ?? $emptyFn;
 
-  let { size = 'medium', indeterminate = false } = props;
+  let { size = 'medium' } = props;
   const labelRef = toReactive(props.label ?? '');
   const valueRef = toReactive(props.value ?? '');
-  const interminateRef = toReactive(indeterminate);
-  const colorRef = toReactive(props.color ?? 'primary', updateClass);
+  const interminateRef = toReactive(props.indeterminate ?? false);
+  const colorRef = toReactive(props.color ?? 'primary');
   const disabledRef = toReactive(props.disabled ?? false, (v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-checkbox-disabled', v);
@@ -74,7 +70,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
   const modelRef = $modelOrRef(props, props.checked ?? false);
   modelRef.addOnChange((newValue) => {
     inputEl.checked = newValue;
-    toggleIcon(newValue, indeterminate);
+    toggleIcon(newValue, interminateRef.value);
   });
 
   const inputEl = (
@@ -93,7 +89,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
   const indeterminateIcon = createIndeterminateIcon();
 
   // Initialize icon state
-  toggleIcon(modelRef.value, indeterminate);
+  toggleIcon(modelRef.value, interminateRef.value);
 
   const container = (
     <label>
@@ -109,7 +105,9 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     </label>
   ) as KTMuiCheckbox;
 
-  updateClass();
+  effect(() => {
+    container.className = `mui-checkbox-wrapper mui-checkbox-size-${size} ${disabledRef.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.value}`;
+  }, [colorRef, disabledRef]);
   return container;
 }
 

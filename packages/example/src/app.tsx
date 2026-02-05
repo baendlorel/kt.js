@@ -17,6 +17,8 @@ const navItems: { [section: string]: NavItem[] } = {
 function createApp() {
   const home = basicNavItems[0];
 
+  const dd = <a href=""></a>;
+
   const currentPageRef = ref<string>('home');
   const headerTitleRef = ref(home.title);
   const headerDescRef = ref(home.description);

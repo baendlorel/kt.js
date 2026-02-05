@@ -1,596 +1,642 @@
 import type { otherstring } from '@ktjs/shared';
 import { KTPrefixedEventAttribute } from './h.js';
+import { KTReactify } from '../reactive/index.ts';
 
 type a = HTMLElementEventMap;
 
 // Base events available to all HTML elements
-type BaseAttr = KTPrefixedEventAttribute & {
-  [k: string]: any;
+type BaseAttr = KTPrefixedEventAttribute &
+  KTReactify<{
+    [k: string]: any;
 
-  // # base attributes
-  class?: string;
-  className?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
-};
+    // # base attributes
+    class?: string;
+    className?: string;
+    style?: string | Partial<CSSStyleDeclaration>;
+  }>;
 
 export interface AttributesMap {
   // Anchor element
-  a: BaseAttr & {
-    download?: string;
-    href?: string;
-    hreflang?: string;
-    ping?: string;
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    rel?: string;
-    target?: '_self' | '_blank' | '_parent' | '_top' | string;
-    type?: string;
-  };
+  a: BaseAttr &
+    KTReactify<{
+      download?: string;
+      href?: string;
+      hreflang?: string;
+      ping?: string;
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      rel?: string;
+      target?: '_self' | '_blank' | '_parent' | '_top' | string;
+      type?: string;
+    }>;
 
   // Area element
-  area: BaseAttr & {
-    alt?: string;
-    coords?: string;
-    download?: string;
-    href?: string;
-    ping?: string;
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    rel?: string;
-    shape?: 'rect' | 'circle' | 'poly' | 'default';
-    target?: '_self' | '_blank' | '_parent' | '_top' | string;
-  };
+  area: BaseAttr &
+    KTReactify<{
+      alt?: string;
+      coords?: string;
+      download?: string;
+      href?: string;
+      ping?: string;
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      rel?: string;
+      shape?: 'rect' | 'circle' | 'poly' | 'default';
+      target?: '_self' | '_blank' | '_parent' | '_top' | string;
+    }>;
 
   // Audio element
-  audio: BaseAttr & {
-    autoplay?: boolean;
-    controls?: boolean;
-    crossorigin?: 'anonymous' | 'use-credentials' | '';
-    loop?: boolean;
-    muted?: boolean;
-    preload?: 'none' | 'metadata' | 'auto' | '';
-    src?: string;
-  };
+  audio: BaseAttr &
+    KTReactify<{
+      autoplay?: boolean;
+      controls?: boolean;
+      crossorigin?: 'anonymous' | 'use-credentials' | '';
+      loop?: boolean;
+      muted?: boolean;
+      preload?: 'none' | 'metadata' | 'auto' | '';
+      src?: string;
+    }>;
 
   // Base element
-  base: BaseAttr & {
-    href?: string;
-    target?: '_self' | '_blank' | '_parent' | '_top' | string;
-  };
+  base: BaseAttr &
+    KTReactify<{
+      href?: string;
+      target?: '_self' | '_blank' | '_parent' | '_top' | string;
+    }>;
 
   // Body element
-  body: BaseAttr & {};
+  body: BaseAttr & KTReactify<{}>;
 
   // BR element
-  br: BaseAttr & {};
+  br: BaseAttr & KTReactify<{}>;
 
   // Button element
-  button: BaseAttr & {
-    disabled?: boolean;
-    form?: string;
-    formaction?: string;
-    formenctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-    formmethod?: 'get' | 'post' | 'dialog';
-    formnovalidate?: boolean;
-    formtarget?: '_self' | '_blank' | '_parent' | '_top' | string;
-    name?: string;
-    type?: 'submit' | 'reset' | 'button';
-    value?: string;
-  };
+  button: BaseAttr &
+    KTReactify<{
+      disabled?: boolean;
+      form?: string;
+      formaction?: string;
+      formenctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+      formmethod?: 'get' | 'post' | 'dialog';
+      formnovalidate?: boolean;
+      formtarget?: '_self' | '_blank' | '_parent' | '_top' | string;
+      name?: string;
+      type?: 'submit' | 'reset' | 'button';
+      value?: string;
+    }>;
 
   // Canvas element
-  canvas: BaseAttr & {
-    height?: number | string;
-    width?: number | string;
-  };
+  canvas: BaseAttr &
+    KTReactify<{
+      height?: number | string;
+      width?: number | string;
+    }>;
 
   // Table caption element
-  caption: BaseAttr & {};
+  caption: BaseAttr & KTReactify<{}>;
 
   // Col element
-  col: BaseAttr & {
-    span?: number | string;
-  };
+  col: BaseAttr &
+    KTReactify<{
+      span?: number | string;
+    }>;
 
   // Colgroup element
-  colgroup: BaseAttr & {
-    span?: number | string;
-  };
+  colgroup: BaseAttr &
+    KTReactify<{
+      span?: number | string;
+    }>;
 
   // Data element
-  data: BaseAttr & {
-    value?: string;
-  };
+  data: BaseAttr &
+    KTReactify<{
+      value?: string;
+    }>;
 
   // Datalist element
-  datalist: BaseAttr & {};
+  datalist: BaseAttr & KTReactify<{}>;
 
   // Del element
-  del: BaseAttr & {
-    cite?: string;
-    datetime?: string;
-  };
+  del: BaseAttr &
+    KTReactify<{
+      cite?: string;
+      datetime?: string;
+    }>;
 
   // Details element
-  details: BaseAttr & {
-    open?: boolean;
-  };
+  details: BaseAttr &
+    KTReactify<{
+      open?: boolean;
+    }>;
 
   // Dialog element
-  dialog: BaseAttr & {
-    open?: boolean;
-  };
+  dialog: BaseAttr &
+    KTReactify<{
+      open?: boolean;
+    }>;
 
   // Embed element
-  embed: BaseAttr & {
-    height?: number | string;
-    src?: string;
-    type?: string;
-    width?: number | string;
-  };
+  embed: BaseAttr &
+    KTReactify<{
+      height?: number | string;
+      src?: string;
+      type?: string;
+      width?: number | string;
+    }>;
 
   // Fieldset element
-  fieldset: BaseAttr & {
-    disabled?: boolean;
-    form?: string;
-    name?: string;
-  };
+  fieldset: BaseAttr &
+    KTReactify<{
+      disabled?: boolean;
+      form?: string;
+      name?: string;
+    }>;
 
   // Form element
-  form: BaseAttr & {
-    'accept-charset'?: string;
-    action?: string;
-    autocomplete?: 'on' | 'off';
-    enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-    method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
+  form: BaseAttr &
+    KTReactify<{
+      'accept-charset'?: string;
+      action?: string;
+      autocomplete?: 'on' | 'off';
+      enctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+      method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE' | otherstring;
 
-    name?: string;
-    novalidate?: boolean;
-    target?: '_self' | '_blank' | '_parent' | '_top' | string;
-  };
+      name?: string;
+      novalidate?: boolean;
+      target?: '_self' | '_blank' | '_parent' | '_top' | string;
+    }>;
 
   // Head element
-  head: BaseAttr & {};
+  head: BaseAttr & KTReactify<{}>;
 
   // HR element
-  hr: BaseAttr & {};
+  hr: BaseAttr & KTReactify<{}>;
 
   // HTML element
-  html: BaseAttr & {};
+  html: BaseAttr & KTReactify<{}>;
 
   // IFrame element
-  iframe: BaseAttr & {
-    allow?: string;
-    allowfullscreen?: boolean;
-    allowpaymentrequest?: boolean;
-    height?: number | string;
-    loading?: 'eager' | 'lazy';
-    name?: string;
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    sandbox?: string;
-    src?: string;
-    srcdoc?: string;
-    width?: number | string;
-  };
+  iframe: BaseAttr &
+    KTReactify<{
+      allow?: string;
+      allowfullscreen?: boolean;
+      allowpaymentrequest?: boolean;
+      height?: number | string;
+      loading?: 'eager' | 'lazy';
+      name?: string;
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      sandbox?: string;
+      src?: string;
+      srcdoc?: string;
+      width?: number | string;
+    }>;
 
   // Image element
-  img: BaseAttr & {
-    alt?: string;
-    crossorigin?: 'anonymous' | 'use-credentials' | '';
-    decoding?: 'sync' | 'async' | 'auto';
-    height?: number | string;
-    ismap?: boolean;
-    loading?: 'eager' | 'lazy';
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    sizes?: string;
-    src?: string;
-    srcset?: string;
-    usemap?: string;
-    width?: number | string;
-  };
+  img: BaseAttr &
+    KTReactify<{
+      alt?: string;
+      crossorigin?: 'anonymous' | 'use-credentials' | '';
+      decoding?: 'sync' | 'async' | 'auto';
+      height?: number | string;
+      ismap?: boolean;
+      loading?: 'eager' | 'lazy';
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      sizes?: string;
+      src?: string;
+      srcset?: string;
+      usemap?: string;
+      width?: number | string;
+    }>;
 
   // Input element
-  input: BaseAttr & {
-    accept?: string;
-    alt?: string;
-    autocomplete?: string;
-    checked?: boolean;
-    dirname?: string;
-    disabled?: boolean;
-    form?: string;
-    formaction?: string;
-    formenctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
-    formmethod?: 'get' | 'post';
-    formnovalidate?: boolean;
-    formtarget?: '_self' | '_blank' | '_parent' | '_top' | string;
-    height?: number | string;
-    list?: string;
-    max?: number | string;
-    maxlength?: number | string;
-    min?: number | string;
-    minlength?: number | string;
-    multiple?: boolean;
-    name?: string;
-    pattern?: string;
-    placeholder?: string;
-    readonly?: boolean;
-    required?: boolean;
-    size?: number | string;
-    src?: string;
-    step?: number | string;
-    type?:
-      | 'button'
-      | 'checkbox'
-      | 'color'
-      | 'date'
-      | 'datetime-local'
-      | 'email'
-      | 'file'
-      | 'hidden'
-      | 'image'
-      | 'month'
-      | 'number'
-      | 'password'
-      | 'radio'
-      | 'range'
-      | 'reset'
-      | 'search'
-      | 'submit'
-      | 'tel'
-      | 'text'
-      | 'time'
-      | 'url'
-      | 'week';
-    value?: string;
-    width?: number | string;
-  };
+  input: BaseAttr &
+    KTReactify<{
+      accept?: string;
+      alt?: string;
+      autocomplete?: string;
+      checked?: boolean;
+      dirname?: string;
+      disabled?: boolean;
+      form?: string;
+      formaction?: string;
+      formenctype?: 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
+      formmethod?: 'get' | 'post';
+      formnovalidate?: boolean;
+      formtarget?: '_self' | '_blank' | '_parent' | '_top' | string;
+      height?: number | string;
+      list?: string;
+      max?: number | string;
+      maxlength?: number | string;
+      min?: number | string;
+      minlength?: number | string;
+      multiple?: boolean;
+      name?: string;
+      pattern?: string;
+      placeholder?: string;
+      readonly?: boolean;
+      required?: boolean;
+      size?: number | string;
+      src?: string;
+      step?: number | string;
+      type?:
+        | 'button'
+        | 'checkbox'
+        | 'color'
+        | 'date'
+        | 'datetime-local'
+        | 'email'
+        | 'file'
+        | 'hidden'
+        | 'image'
+        | 'month'
+        | 'number'
+        | 'password'
+        | 'radio'
+        | 'range'
+        | 'reset'
+        | 'search'
+        | 'submit'
+        | 'tel'
+        | 'text'
+        | 'time'
+        | 'url'
+        | 'week';
+      value?: string;
+      width?: number | string;
+    }>;
 
   // Ins element
-  ins: BaseAttr & {
-    cite?: string;
-    datetime?: string;
-  };
+  ins: BaseAttr &
+    KTReactify<{
+      cite?: string;
+      datetime?: string;
+    }>;
 
   // Label element
-  label: BaseAttr & {
-    for?: string;
-  };
+  label: BaseAttr &
+    KTReactify<{
+      for?: string;
+    }>;
 
   // Legend element
-  legend: BaseAttr & {};
+  legend: BaseAttr & KTReactify<{}>;
 
   // LI element
-  li: BaseAttr & {
-    value?: number | string;
-  };
+  li: BaseAttr &
+    KTReactify<{
+      value?: number | string;
+    }>;
 
   // Link element
-  link: BaseAttr & {
-    as?: string;
-    crossorigin?: 'anonymous' | 'use-credentials' | '';
-    disabled?: boolean;
-    href?: string;
-    hreflang?: string;
-    imagesizes?: string;
-    imagesrcset?: string;
-    integrity?: string;
-    media?: string;
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    rel?: string;
-    sizes?: string;
-    type?: string;
-  };
+  link: BaseAttr &
+    KTReactify<{
+      as?: string;
+      crossorigin?: 'anonymous' | 'use-credentials' | '';
+      disabled?: boolean;
+      href?: string;
+      hreflang?: string;
+      imagesizes?: string;
+      imagesrcset?: string;
+      integrity?: string;
+      media?: string;
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      rel?: string;
+      sizes?: string;
+      type?: string;
+    }>;
 
   // Map element
-  map: BaseAttr & {
-    name?: string;
-  };
+  map: BaseAttr &
+    KTReactify<{
+      name?: string;
+    }>;
 
   // Menu element
-  menu: BaseAttr & {};
+  menu: BaseAttr & KTReactify<{}>;
 
   // Meta element
-  meta: BaseAttr & {
-    charset?: string;
-    content?: string;
-    'http-equiv'?: 'content-security-policy' | 'content-type' | 'default-style' | 'refresh' | string;
-    name?: string;
-  };
+  meta: BaseAttr &
+    KTReactify<{
+      charset?: string;
+      content?: string;
+      'http-equiv'?: 'content-security-policy' | 'content-type' | 'default-style' | 'refresh' | string;
+      name?: string;
+    }>;
 
   // Meter element
-  meter: BaseAttr & {
-    form?: string;
-    high?: number | string;
-    low?: number | string;
-    max?: number | string;
-    min?: number | string;
-    optimum?: number | string;
-    value?: number | string;
-  };
+  meter: BaseAttr &
+    KTReactify<{
+      form?: string;
+      high?: number | string;
+      low?: number | string;
+      max?: number | string;
+      min?: number | string;
+      optimum?: number | string;
+      value?: number | string;
+    }>;
 
   // Object element
-  object: BaseAttr & {
-    data?: string;
-    form?: string;
-    height?: number | string;
-    name?: string;
-    type?: string;
-    usemap?: string;
-    width?: number | string;
-  };
+  object: BaseAttr &
+    KTReactify<{
+      data?: string;
+      form?: string;
+      height?: number | string;
+      name?: string;
+      type?: string;
+      usemap?: string;
+      width?: number | string;
+    }>;
 
   // OL element
-  ol: BaseAttr & {
-    reversed?: boolean;
-    start?: number | string;
-    type?: '1' | 'a' | 'A' | 'i' | 'I';
-  };
+  ol: BaseAttr &
+    KTReactify<{
+      reversed?: boolean;
+      start?: number | string;
+      type?: '1' | 'a' | 'A' | 'i' | 'I';
+    }>;
 
   // Optgroup element
-  optgroup: BaseAttr & {
-    disabled?: boolean;
-    label?: string;
-  };
+  optgroup: BaseAttr &
+    KTReactify<{
+      disabled?: boolean;
+      label?: string;
+    }>;
 
   // Option element
-  option: BaseAttr & {
-    disabled?: boolean;
-    label?: string;
-    selected?: boolean;
-    value?: string;
-  };
+  option: BaseAttr &
+    KTReactify<{
+      disabled?: boolean;
+      label?: string;
+      selected?: boolean;
+      value?: string;
+    }>;
 
   // Output element
-  output: BaseAttr & {
-    for?: string;
-    form?: string;
-    name?: string;
-  };
+  output: BaseAttr &
+    KTReactify<{
+      for?: string;
+      form?: string;
+      name?: string;
+    }>;
 
   // Picture element
-  picture: BaseAttr & {};
+  picture: BaseAttr & KTReactify<{}>;
 
   // Pre element
-  pre: BaseAttr & {};
+  pre: BaseAttr & KTReactify<{}>;
 
   // Progress element
-  progress: BaseAttr & {
-    max?: number | string;
-    value?: number | string;
-  };
+  progress: BaseAttr &
+    KTReactify<{
+      max?: number | string;
+      value?: number | string;
+    }>;
 
   // Quote element (q and blockquote)
-  q: BaseAttr & {
-    cite?: string;
-  };
+  q: BaseAttr &
+    KTReactify<{
+      cite?: string;
+    }>;
 
-  blockquote: BaseAttr & {
-    cite?: string;
-  };
+  blockquote: BaseAttr &
+    KTReactify<{
+      cite?: string;
+    }>;
 
   // Script element
-  script: BaseAttr & {
-    async?: boolean;
-    crossorigin?: 'anonymous' | 'use-credentials' | '';
-    defer?: boolean;
-    integrity?: string;
-    nomodule?: boolean;
-    referrerpolicy?:
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url';
-    src?: string;
-    type?: string;
-  };
+  script: BaseAttr &
+    KTReactify<{
+      async?: boolean;
+      crossorigin?: 'anonymous' | 'use-credentials' | '';
+      defer?: boolean;
+      integrity?: string;
+      nomodule?: boolean;
+      referrerpolicy?:
+        | 'no-referrer'
+        | 'no-referrer-when-downgrade'
+        | 'origin'
+        | 'origin-when-cross-origin'
+        | 'same-origin'
+        | 'strict-origin'
+        | 'strict-origin-when-cross-origin'
+        | 'unsafe-url';
+      src?: string;
+      type?: string;
+    }>;
 
   // Select element
-  select: BaseAttr & {
-    autocomplete?: string;
-    disabled?: boolean;
-    form?: string;
-    multiple?: boolean;
-    name?: string;
-    required?: boolean;
-    size?: number | string;
-  };
+  select: BaseAttr &
+    KTReactify<{
+      autocomplete?: string;
+      disabled?: boolean;
+      form?: string;
+      multiple?: boolean;
+      name?: string;
+      required?: boolean;
+      size?: number | string;
+    }>;
 
   // Slot element
-  slot: BaseAttr & {
-    name?: string;
-  };
+  slot: BaseAttr &
+    KTReactify<{
+      name?: string;
+    }>;
 
   // Source element
-  source: BaseAttr & {
-    height?: number | string;
-    media?: string;
-    sizes?: string;
-    src?: string;
-    srcset?: string;
-    type?: string;
-    width?: number | string;
-  };
+  source: BaseAttr &
+    KTReactify<{
+      height?: number | string;
+      media?: string;
+      sizes?: string;
+      src?: string;
+      srcset?: string;
+      type?: string;
+      width?: number | string;
+    }>;
 
   // Style element
-  style: BaseAttr & {
-    media?: string;
-  };
+  style: BaseAttr &
+    KTReactify<{
+      media?: string;
+    }>;
 
   // Table element
-  table: BaseAttr & {};
+  table: BaseAttr & KTReactify<{}>;
 
   // Table body/footer/header elements
-  tbody: BaseAttr & {};
+  tbody: BaseAttr & KTReactify<{}>;
 
-  tfoot: BaseAttr & {};
+  tfoot: BaseAttr & KTReactify<{}>;
 
-  thead: BaseAttr & {};
+  thead: BaseAttr & KTReactify<{}>;
 
   // Table cell elements
-  td: BaseAttr & {
-    colspan?: number | string;
-    headers?: string;
-    rowspan?: number | string;
-  };
+  td: BaseAttr &
+    KTReactify<{
+      colspan?: number | string;
+      headers?: string;
+      rowspan?: number | string;
+    }>;
 
-  th: BaseAttr & {
-    abbr?: string;
-    colspan?: number | string;
-    headers?: string;
-    rowspan?: number | string;
-    scope?: 'row' | 'col' | 'rowgroup' | 'colgroup';
-  };
+  th: BaseAttr &
+    KTReactify<{
+      abbr?: string;
+      colspan?: number | string;
+      headers?: string;
+      rowspan?: number | string;
+      scope?: 'row' | 'col' | 'rowgroup' | 'colgroup';
+    }>;
 
   // Template element
-  template: BaseAttr & {};
+  template: BaseAttr & KTReactify<{}>;
 
   // Textarea element
-  textarea: BaseAttr & {
-    autocomplete?: string;
-    cols?: number | string;
-    dirname?: string;
-    disabled?: boolean;
-    form?: string;
-    maxlength?: number | string;
-    minlength?: number | string;
-    name?: string;
-    placeholder?: string;
-    readonly?: boolean;
-    required?: boolean;
-    rows?: number | string;
-    wrap?: 'hard' | 'soft' | 'off';
-  };
+  textarea: BaseAttr &
+    KTReactify<{
+      autocomplete?: string;
+      cols?: number | string;
+      dirname?: string;
+      disabled?: boolean;
+      form?: string;
+      maxlength?: number | string;
+      minlength?: number | string;
+      name?: string;
+      placeholder?: string;
+      readonly?: boolean;
+      required?: boolean;
+      rows?: number | string;
+      wrap?: 'hard' | 'soft' | 'off';
+    }>;
 
   // Time element
-  time: BaseAttr & {
-    datetime?: string;
-  };
+  time: BaseAttr &
+    KTReactify<{
+      datetime?: string;
+    }>;
 
   // Title element
-  title: BaseAttr & {};
+  title: BaseAttr & KTReactify<{}>;
 
   // TR element
-  tr: BaseAttr & {};
+  tr: BaseAttr & KTReactify<{}>;
 
   // Track element
-  track: BaseAttr & {
-    default?: boolean;
-    kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
-    label?: string;
-    src?: string;
-    srclang?: string;
-  };
+  track: BaseAttr &
+    KTReactify<{
+      default?: boolean;
+      kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
+      label?: string;
+      src?: string;
+      srclang?: string;
+    }>;
 
   // UL element
-  ul: BaseAttr & {};
+  ul: BaseAttr & KTReactify<{}>;
 
   // Video element
-  video: BaseAttr & {
-    autoplay?: boolean;
-    controls?: boolean;
-    crossorigin?: 'anonymous' | 'use-credentials' | '';
-    height?: number | string;
-    loop?: boolean;
-    muted?: boolean;
-    playsinline?: boolean;
-    poster?: string;
-    preload?: 'none' | 'metadata' | 'auto' | '';
-    src?: string;
-    width?: number | string;
-  };
+  video: BaseAttr &
+    KTReactify<{
+      autoplay?: boolean;
+      controls?: boolean;
+      crossorigin?: 'anonymous' | 'use-credentials' | '';
+      height?: number | string;
+      loop?: boolean;
+      muted?: boolean;
+      playsinline?: boolean;
+      poster?: string;
+      preload?: 'none' | 'metadata' | 'auto' | '';
+      src?: string;
+      width?: number | string;
+    }>;
 
   // Generic HTMLElement (no specific attributes beyond BaseEvent)
-  abbr: BaseAttr & {};
-  address: BaseAttr & {};
-  article: BaseAttr & {};
-  aside: BaseAttr & {};
-  b: BaseAttr & {};
-  bdi: BaseAttr & {};
-  bdo: BaseAttr & {};
-  cite: BaseAttr & {};
-  code: BaseAttr & {};
-  dd: BaseAttr & {};
-  dfn: BaseAttr & {};
-  div: BaseAttr & {};
-  dl: BaseAttr & {};
-  dt: BaseAttr & {};
-  em: BaseAttr & {};
-  figcaption: BaseAttr & {};
-  figure: BaseAttr & {};
-  footer: BaseAttr & {};
-  h1: BaseAttr & {};
-  h2: BaseAttr & {};
-  h3: BaseAttr & {};
-  h4: BaseAttr & {};
-  h5: BaseAttr & {};
-  h6: BaseAttr & {};
-  header: BaseAttr & {};
-  hgroup: BaseAttr & {};
-  i: BaseAttr & {};
-  kbd: BaseAttr & {};
-  main: BaseAttr & {};
-  mark: BaseAttr & {};
-  nav: BaseAttr & {};
-  noscript: BaseAttr & {};
-  p: BaseAttr & {};
-  rp: BaseAttr & {};
-  rt: BaseAttr & {};
-  ruby: BaseAttr & {};
-  s: BaseAttr & {};
-  samp: BaseAttr & {};
-  search: BaseAttr & {};
-  section: BaseAttr & {};
-  small: BaseAttr & {};
-  span: BaseAttr & {};
-  strong: BaseAttr & {};
-  sub: BaseAttr & {};
-  summary: BaseAttr & {};
-  sup: BaseAttr & {};
-  u: BaseAttr & {};
-  var: BaseAttr & {};
-  wbr: BaseAttr & {};
+  abbr: BaseAttr & KTReactify<{}>;
+  address: BaseAttr & KTReactify<{}>;
+  article: BaseAttr & KTReactify<{}>;
+  aside: BaseAttr & KTReactify<{}>;
+  b: BaseAttr & KTReactify<{}>;
+  bdi: BaseAttr & KTReactify<{}>;
+  bdo: BaseAttr & KTReactify<{}>;
+  cite: BaseAttr & KTReactify<{}>;
+  code: BaseAttr & KTReactify<{}>;
+  dd: BaseAttr & KTReactify<{}>;
+  dfn: BaseAttr & KTReactify<{}>;
+  div: BaseAttr & KTReactify<{}>;
+  dl: BaseAttr & KTReactify<{}>;
+  dt: BaseAttr & KTReactify<{}>;
+  em: BaseAttr & KTReactify<{}>;
+  figcaption: BaseAttr & KTReactify<{}>;
+  figure: BaseAttr & KTReactify<{}>;
+  footer: BaseAttr & KTReactify<{}>;
+  h1: BaseAttr & KTReactify<{}>;
+  h2: BaseAttr & KTReactify<{}>;
+  h3: BaseAttr & KTReactify<{}>;
+  h4: BaseAttr & KTReactify<{}>;
+  h5: BaseAttr & KTReactify<{}>;
+  h6: BaseAttr & KTReactify<{}>;
+  header: BaseAttr & KTReactify<{}>;
+  hgroup: BaseAttr & KTReactify<{}>;
+  i: BaseAttr & KTReactify<{}>;
+  kbd: BaseAttr & KTReactify<{}>;
+  main: BaseAttr & KTReactify<{}>;
+  mark: BaseAttr & KTReactify<{}>;
+  nav: BaseAttr & KTReactify<{}>;
+  noscript: BaseAttr & KTReactify<{}>;
+  p: BaseAttr & KTReactify<{}>;
+  rp: BaseAttr & KTReactify<{}>;
+  rt: BaseAttr & KTReactify<{}>;
+  ruby: BaseAttr & KTReactify<{}>;
+  s: BaseAttr & KTReactify<{}>;
+  samp: BaseAttr & KTReactify<{}>;
+  search: BaseAttr & KTReactify<{}>;
+  section: BaseAttr & KTReactify<{}>;
+  small: BaseAttr & KTReactify<{}>;
+  span: BaseAttr & KTReactify<{}>;
+  strong: BaseAttr & KTReactify<{}>;
+  sub: BaseAttr & KTReactify<{}>;
+  summary: BaseAttr & KTReactify<{}>;
+  sup: BaseAttr & KTReactify<{}>;
+  u: BaseAttr & KTReactify<{}>;
+  var: BaseAttr & KTReactify<{}>;
+  wbr: BaseAttr & KTReactify<{}>;
 
   svg: BaseAttr & {
     class?: string;

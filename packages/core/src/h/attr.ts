@@ -1,4 +1,5 @@
 import { $throw } from '@ktjs/shared';
+import type { KTReactify } from '../reactive/index.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactive/core.js';
 import { handlers } from './attr-helpers.js';
@@ -6,11 +7,13 @@ import { handlers } from './attr-helpers.js';
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
   element.setAttribute(key, value);
 
-function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTAttribute) {
+function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactify<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     element.setAttribute('class', classValue);
   }
+  // todo 这里加入reactive支持
+  // todo 类型定义也要支持reactive响应式
 
   const style = attr.style;
   if (style) {
@@ -55,8 +58,13 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     }
     // normal attributes
     else {
-      // todo 这里也可以绑定ref的
-      (handlers[key] || defaultHandler)(element as any, key, o);
+      const handler = handlers[key] || defaultHandler;
+      if (isKT(o)) {
+        handler(element as any, key, o.value);
+        o.addOnChange((v) => handler(element as any, key, v));
+      } else {
+        handler(element as any, key, o);
+      }
     }
   }
 }

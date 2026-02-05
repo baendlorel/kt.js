@@ -1,6 +1,7 @@
 import type { KTRef } from '../reactive/ref.ts';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
-import type { KTPrefixedEventAttribute, KTRawContent } from './h.js';
+import type { KTRawContent } from './h.js';
+import type { KTReactify } from '../reactive/index.js';
 
 declare global {
   namespace JSX {

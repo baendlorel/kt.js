@@ -1,7 +1,7 @@
 import { $entries, $is, $replaceNode, $throw } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from './core.js';
 import type { KTReactive } from './index.js';
-import { isKT } from './core.js';
+import { isComputed, isKT, isRef } from './core.js';
 
 export class KTRef<T> {
   /**
@@ -137,9 +137,9 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
 };
 
 export const $mustBeRef = <T = any>(o: any): KTRef<T> => {
-  if (o?.isRef) {
+  if (isRef(o)) {
     return o;
-  } else if (o?.isComputed) {
+  } else if (isComputed(o)) {
     $throw('Computed values cannot be used as KTRef.');
   } else {
     return ref(o);

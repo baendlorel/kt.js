@@ -2,7 +2,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { $replaceNode, $throw, type HTMLTag } from '@ktjs/shared';
 
 import { h } from '../h/index.js';
-import { isKT, type KTRef, ref } from '../reactive/index.js';
+import { isComputed, isKT, isRef, type KTRef, ref } from '../reactive/index.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
@@ -23,10 +23,10 @@ const placeholder = () => document.createComment('k-if') as unknown as JSX.Eleme
  * @param props properties/attributes
  */
 export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  if (props.ref?.isComputed) {
+  if (isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
   }
-  const maybeDummyRef = props.ref?.isRef ? props.ref : dummyRef;
+  const maybeDummyRef = isRef(props.ref) ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {

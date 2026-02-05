@@ -1,5 +1,6 @@
 import type { KTAttribute } from '../types/h.js';
 import type { KTRef } from '../reactive/ref.js';
+import { isRef } from '../reactive/index.js';
 
 export type KTForElement = JSX.Element & {
   redraw: (newProps?: KTAttribute) => void;
@@ -192,7 +193,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   };
 
   // Set ref if provided
-  if (props.ref?.isRef) {
+  if (isRef(props.ref)) {
     props.ref.value = anchor;
   }
 

@@ -40,7 +40,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     } else if (typeof style === 'object') {
       if (isKT(style)) {
         setElementStyle(element, style.value);
-        style.addOnChange((v) => setElementStyle(element, v));
+        style.addOnChange((v: Partial<CSSStyleDeclaration> | string) => setElementStyle(element, v));
       } else {
         setElementStyle(element, style as Partial<CSSStyleDeclaration>);
       }

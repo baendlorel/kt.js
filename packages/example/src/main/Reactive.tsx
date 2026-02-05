@@ -43,38 +43,32 @@ export function Reactivity() {
         </p>
         <div style={styleRef}></div>
         <div class="demo-result">Current Width: {styleWidthRef}</div>
+        <div class="demo-code">{highlight(`<div style={styleRef}></div>`)}</div>
       </div>
       <div class="demo-section">
         <h3>Directives</h3>
+        <h4>k-if</h4>
         <p>
-          Demonstrates the reactive behavior of the three major directives k-if, k-model, and k-html when passing refs:
+          Current Value: <span k-if={kifFlag}>true</span>
+          <span k-if={notKifFLag}>false</span>
         </p>
+        <p class="demo-desc">k-if passes a ref, redraws when ref content changes (even if boolean value is the same)</p>
+        <div class="demo-code">{highlight(`<span k-if={kifFlag}>true</span>`)}</div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
-          <div class="demo-block">
-            <h4>k-if</h4>
-            <p>
-              Current Value: <span k-if={kifFlag}>true</span>
-              <span k-if={notKifFLag}>false</span>
-            </p>
-            <p class="demo-desc">
-              k-if passes a ref, redraws when ref content changes (even if boolean value is the same)
-            </p>
-          </div>
-
-          <div class="demo-block">
-            <h4>k-model</h4>
-            <TextField k-model={kmodelText}></TextField>
-            <p class="demo-desc">k-model must pass a ref, implements two-way binding</p>
-            <div class="demo-result">{kmodelText}</div>
-          </div>
-
-          <div class="demo-block">
-            <h4>k-html</h4>
-            <div k-html={khtmlContent} style="min-height: 100px; border: 1px dashed #ccc; padding: 10px;" />
-            <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
-          </div>
+        <h4>k-model</h4>
+        <TextField k-model={kmodelText}></TextField>
+        <p class="demo-desc">k-model must pass a ref, implements two-way binding</p>
+        <div class="demo-result">{kmodelText}</div>
+        <div class="demo-code">
+          {highlight(`<TextField k-model={kmodelText}></TextField> // TextField is from @ktjs/mui`)}
         </div>
+
+        <h4>k-html</h4>
+        <div k-html={khtmlContent} class="demo-block" />
+        <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
+        <div class="demo-code">{highlight(` <div k-html={khtmlContent} class="demo-block"></div>`)}</div>
+
+        <h4>Full Demo</h4>
         <div class="demo-code">{highlight(exampleCode)}</div>
       </div>
     </div>

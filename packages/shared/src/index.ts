@@ -2,7 +2,6 @@
 
 export * from './consts/index.js';
 export * from './utils/native.js';
-export * from './utils/error.js';
 export * from './utils/dom.js';
 export * from './utils/misc.js';
 export * from './utils/url.js';

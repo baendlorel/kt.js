@@ -7,5 +7,5 @@
       "@ktjs/shared": ["src"]
     }
   },
-  "include": ["src/**/*.*", "tests/**/*"]
+  "include": ["src/**/*.*", "tests/**/*", "../global.d.ts"]
 }

@@ -1,4 +1,4 @@
-import { $debug, $emptyFn } from '@ktjs/shared';
+import { $emptyFn } from '@ktjs/shared';
 import type { KTReactive } from './index.js';
 
 interface KTEffectOptions {

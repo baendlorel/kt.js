@@ -1,8 +1,9 @@
 import { $replaceNode, $throw } from '@ktjs/shared';
-import type { KTReactive, ReactiveChangeHandler } from './core.js';
-import { isKT, KTReactiveType } from './core.js';
+import type { ReactiveChangeHandler } from './core.js';
+import type { KTReactive } from './index.js';
+import { isKT } from './core.js';
 
-export class KTComputed<T> implements KTReactive<T> {
+export class KTComputed<T> {
   /**
    * Indicates that this is a KTRef instance
    */

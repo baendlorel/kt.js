@@ -2,8 +2,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
+    "jsxImportSource": "@ktjs/core",
+    "plugins": [
+      {
+        "name": "@ktjs/ts-plugin-jsx-dom"
+      }
+    ]
   },
   "include": ["*.tsx", "*.ts", "src/**/*.tsx", "src/**/*.ts"],
-  "references": [{ "path": "../core" }, { "path": "../mui" }]
+  "references": [{ "path": "../core" }, { "path": "../mui" }, { "path": "../ts-plugin-jsx-dom" }]
 }

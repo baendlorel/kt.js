@@ -129,6 +129,10 @@ importers:
       '@ktjs/mui':
         specifier: workspace:*
         version: link:../mui
+    devDependencies:
+      '@ktjs/ts-plugin-jsx-dom':
+        specifier: ^0.1.1
+        version: 0.1.1(typescript@5.9.3)
 
   packages/kt.js:
     dependencies:
@@ -161,6 +165,12 @@ importers:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
+
+  packages/ts-plugin-jsx-dom:
+    dependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
 
 packages:
 
@@ -575,6 +585,11 @@ packages:
     resolution: {integrity: sha512-sPyectvWV0v89hDqr6dJKraYhyA6YzWC1jWoJJnKvOtZApjTTsBjaKH6R1fozOxcQGHwoc2aK6ZPoiUuBsvq5Q==}
     peerDependencies:
       '@babel/core': ^7.0.0
+
+  '@ktjs/ts-plugin-jsx-dom@0.1.1':
+    resolution: {integrity: sha512-JwL82V5fK7rcd7QGdd+ScILrJhH2f4uEs9GZNlOW2FFPelOqCFWmVu2wXMZgi2mVCYsW+FKrBLRnJuHMS+cg0Q==}
+    peerDependencies:
+      typescript: ^5.0.0
 
   '@oxlint/darwin-arm64@1.28.0':
     resolution: {integrity: sha512-H7J41/iKbgm7tTpdSnA/AtjEAhxyzNzCMKWtKU5wDuP2v39jrc3fasQEJruk6hj1YXPbJY4N+1nK/jE27GMGDQ==}
@@ -2568,6 +2583,10 @@ snapshots:
   '@ktjs/babel-plugin-ktjsx@0.0.4(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
+
+  '@ktjs/ts-plugin-jsx-dom@0.1.1(typescript@5.9.3)':
+    dependencies:
+      typescript: 5.9.3
 
   '@oxlint/darwin-arm64@1.28.0':
     optional: true

@@ -18,6 +18,17 @@ const init: ts.server.PluginModuleFactory = (mod) => {
 
   return {
     create(info) {
+      const logger = info.project?.projectService?.logger;
+
+      const log = (message: string, ...args: any[]) => {
+        if (logger?.info) {
+          const fullMessage = `[ts-plugin-jsx-dom] ${message}` + (args.length > 0 ? ` ${args.map(arg => String(arg)).join(' ')}` : '');
+          logger.info(fullMessage);
+        }
+      };
+
+      log('Plugin initialized');
+
       const languageService = info.languageService;
       const proxy = Object.create(null) as ts.LanguageService;
 
@@ -31,31 +42,37 @@ const init: ts.server.PluginModuleFactory = (mod) => {
       proxy.getQuickInfoAtPosition = (fileName, position) => {
         const prior = languageService.getQuickInfoAtPosition(fileName, position);
         if (!prior) {
+          log(`getQuickInfoAtPosition: no prior info at ${fileName}:${position}`);
           return prior;
         }
 
         const program = languageService.getProgram();
         if (!program) {
+          log(`getQuickInfoAtPosition: no program for ${fileName}`);
           return prior;
         }
 
         const sourceFile = program.getSourceFile(fileName);
         if (!sourceFile) {
+          log(`getQuickInfoAtPosition: no sourceFile for ${fileName}`);
           return prior;
         }
 
         const checker = program.getTypeChecker();
         const typeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
         if (!typeText) {
+          log(`getQuickInfoAtPosition: could not resolve type at ${fileName}:${position}`);
           return prior;
         }
 
         const displayText = tsModule.displayPartsToString(prior.displayParts || []);
         if (!displayText.includes('JSX.Element')) {
+          log(`getQuickInfoAtPosition: not JSX.Element at ${fileName}:${position} - "${displayText}"`);
           return prior;
         }
 
         const replacedText = displayText.replace(/JSX\.Element/g, typeText);
+        log(`getQuickInfoAtPosition: replaced JSX.Element -> ${typeText} at ${fileName}:${position}`);
         return {
           ...prior,
           displayParts: [{ text: replacedText, kind: 'text' }],
@@ -63,18 +80,22 @@ const init: ts.server.PluginModuleFactory = (mod) => {
       };
 
       proxy.getCompletionsAtPosition = (fileName, position, options, formattingSettings) => {
+        log(`getCompletionsAtPosition called at ${fileName}:${position}`);
         const prior = languageService.getCompletionsAtPosition(fileName, position, options, formattingSettings);
         if (!prior) {
+          log(`getCompletionsAtPosition: no prior completions at ${fileName}:${position}`);
           return prior;
         }
 
         const program = languageService.getProgram();
         if (!program) {
+          log(`getCompletionsAtPosition: no program for ${fileName}`);
           return prior;
         }
 
         const sourceFile = program.getSourceFile(fileName);
         if (!sourceFile) {
+          log(`getCompletionsAtPosition: no sourceFile for ${fileName}`);
           return prior;
         }
 
@@ -83,6 +104,7 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         // 检查当前位置是否在属性访问表达式中（如 a.）
         const node = findNodeAtPosition(tsModule, sourceFile, position);
         if (!node) {
+          log(`getCompletionsAtPosition: could not find node at ${fileName}:${position}`);
           return prior;
         }
 
@@ -91,30 +113,36 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         if (tsModule.isPropertyAccessExpression(node)) {
           const leftType = checker.getTypeAtLocation(node.expression);
           targetType = leftType;
+          log(`getCompletionsAtPosition: property access expression, left type: ${checker.typeToString(leftType, sourceFile)}`);
         } else if (tsModule.isIdentifier(node)) {
           // 可能是变量声明或标识符
           const symbol = checker.getSymbolAtLocation(node);
           if (symbol) {
             targetType = checker.getTypeOfSymbolAtLocation(symbol, node);
+            log(`getCompletionsAtPosition: identifier ${node.getText()}, type: ${checker.typeToString(targetType, sourceFile)}`);
           }
         }
 
         if (!targetType) {
+          log(`getCompletionsAtPosition: could not determine target type at ${fileName}:${position}`);
           return prior;
         }
 
         // 检查类型是否为JSX.Element
         const typeText = checker.typeToString(targetType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
         if (!typeText.includes('JSX.Element')) {
+          log(`getCompletionsAtPosition: not JSX.Element at ${fileName}:${position} - "${typeText}"`);
           return prior;
         }
 
         // 获取JSX元素的具体类型
         const jsxTypeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
         if (!jsxTypeText) {
+          log(`getCompletionsAtPosition: could not resolve JSX type at ${fileName}:${position}`);
           return prior;
         }
 
+        log(`getCompletionsAtPosition: JSX.Element -> ${jsxTypeText} at ${fileName}:${position}`);
         // 返回增强的补全信息（目前只是标记，实际增强逻辑需要更多工作）
         const enhancedPrior: EnhancedCompletionInfo = {
           ...prior,
@@ -124,20 +152,30 @@ const init: ts.server.PluginModuleFactory = (mod) => {
       };
 
       proxy.getCompletionEntryDetails = (fileName, position, entryName, formatOptions, source, preferences, data) => {
+        log(`getCompletionEntryDetails called at ${fileName}:${position} for "${entryName}"`);
         const prior = languageService.getCompletionEntryDetails(
-          fileName, position, entryName, formatOptions, source, preferences, data
+          fileName,
+          position,
+          entryName,
+          formatOptions,
+          source,
+          preferences,
+          data,
         );
         if (!prior) {
+          log(`getCompletionEntryDetails: no prior details at ${fileName}:${position}`);
           return prior;
         }
 
         const program = languageService.getProgram();
         if (!program) {
+          log(`getCompletionEntryDetails: no program for ${fileName}`);
           return prior;
         }
 
         const sourceFile = program.getSourceFile(fileName);
         if (!sourceFile) {
+          log(`getCompletionEntryDetails: no sourceFile for ${fileName}`);
           return prior;
         }
 
@@ -146,6 +184,7 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         // 获取当前位置的JSX元素具体类型
         const jsxTypeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
         if (!jsxTypeText) {
+          log(`getCompletionEntryDetails: could not resolve JSX type at ${fileName}:${position}`);
           return prior;
         }
 
@@ -154,11 +193,16 @@ const init: ts.server.PluginModuleFactory = (mod) => {
           const displayText = tsModule.displayPartsToString(prior.displayParts);
           if (displayText.includes('JSX.Element')) {
             const replacedText = displayText.replace(/JSX\.Element/g, jsxTypeText);
+            log(`getCompletionEntryDetails: replaced JSX.Element -> ${jsxTypeText} at ${fileName}:${position}`);
             return {
               ...prior,
               displayParts: [{ text: replacedText, kind: 'text' }],
             };
+          } else {
+            log(`getCompletionEntryDetails: display text does not contain JSX.Element at ${fileName}:${position} - "${displayText}"`);
           }
+        } else {
+          log(`getCompletionEntryDetails: no displayParts at ${fileName}:${position}`);
         }
 
         return prior;

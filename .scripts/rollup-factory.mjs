@@ -33,6 +33,7 @@ const getTSConfigDir = (/** @type {string} */ packageDir) => {
  * @param {string} [options.iifeName=''] - Generate IIFE bundle
  * @param {boolean} [options.withLegacy=false] - Generate legacy version (ES5 IIFE only)
  * @param {boolean} [options.withCjs=false] - Generate CommonJS bundle
+ * @param {boolean} [options.withJs=false] - Generate *.js
  * @returns {import('rollup').RollupOptions[]}
  */
 export function createPackageConfig({
@@ -42,6 +43,7 @@ export function createPackageConfig({
   iifeName = '',
   withLegacy = false,
   withCjs = false,
+  withJs = false,
 }) {
   const withIIFE = Boolean(iifeName);
   const src = underRoot(packageDir, 'src');
@@ -97,6 +99,14 @@ export function createPackageConfig({
     },
   ];
 
+  if (withJs) {
+    outputs.push({
+      file: path.resolve(dist, 'index.js'),
+      format: 'esm',
+      sourcemap: false,
+    });
+  }
+
   if (withCjs) {
     outputs.push({
       file: path.resolve(dist, 'index.cjs'),
@@ -115,7 +125,6 @@ export function createPackageConfig({
     });
   }
 
-  // fixme @rollup/plugin-typescript问题，它会不认识$throw $warn等函数
   configs.push({
     input: path.resolve(src, entry),
     output: outputs,

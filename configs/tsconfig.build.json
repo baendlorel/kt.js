@@ -21,7 +21,7 @@
       "@ktjs/shortcuts": ["../packages/shortcuts/src/index.ts"]
     }
   },
-  "include": ["../packages/**/src/**/*.ts", "../packages/**/src/**/*.tsx", "../packages/global.d.ts"],
+  "include": ["../packages/**/src/**/*.ts", "../packages/**/src/**/*.tsx"],
   "exclude": ["../packages/**/tests/**/*"],
   "references": [
     { "path": "../packages/core" },

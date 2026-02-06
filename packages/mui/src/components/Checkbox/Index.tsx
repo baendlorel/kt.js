@@ -117,6 +117,15 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   let { size = 'medium', row = false, 'on:change': onChange = $emptyFn } = props;
 
+  const changeHandler = (checked: boolean, checkboxValue: string) => {
+    if (checked) {
+      $ArrayPushUnique(modelRef.value, checkboxValue);
+    } else {
+      $ArrayDelete(modelRef.value, checkboxValue);
+    }
+    onChange(modelRef.value);
+  };
+
   const modelRef = $modelOrRef(props, props.value ?? []);
   modelRef.addOnChange((newValues) => {
     for (let i = 0; i < checkboxes.value.length; i++) {
@@ -146,15 +155,6 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
       return Checkbox(o);
     });
   }, [optionsRef]);
-
-  const changeHandler = (checked: boolean, checkboxValue: string) => {
-    if (checked) {
-      $ArrayPushUnique(modelRef.value, checkboxValue);
-    } else {
-      $ArrayDelete(modelRef.value, checkboxValue);
-    }
-    onChange(modelRef.value);
-  };
 
   const container = (
     <div

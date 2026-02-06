@@ -59,6 +59,8 @@ export const { get: $buttonDisabledGetter, set: $buttonDisabledSetter } = Object
 
 // # DOM utilities
 
+// Same as it is in @ktjs/core
+type Reactive = { isKT: true; value: unknown };
 export const parseStyle = (style: unknown): string => {
   if (!style) {
     return '';
@@ -67,8 +69,8 @@ export const parseStyle = (style: unknown): string => {
     return style;
   }
   if (style && typeof style === 'object') {
-    if (style.isKT) {
-      return parseStyle(style.value);
+    if ((style as Reactive).isKT) {
+      return parseStyle((style as Reactive).value);
     }
 
     return $entries(style)

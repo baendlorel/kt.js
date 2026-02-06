@@ -48,7 +48,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   });
 
   // # ref props
-  const styleRef = toReactive(parseStyle(props.style ?? ''));
+
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
     if (!newOptions.find((o) => o.value === modelRef.value)) {
@@ -67,6 +67,14 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     }
     return '';
   }, [labelRef, modelRef, isFocusedRef]);
+
+  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const classRef = toReactive(props.class ?? '');
+  const sizeRef = toReactive(props.size ?? 'medium');
+  const fullwidthRef = toReactive(props.fullWidth ?? false);
+  const className = computed(() => {
+    return `mui-select-wrapper mui-select-size-${sizeRef.value} ${fullwidthRef.value ? 'mui-select-fullWidth' : ''} ${classRef.value} ${disabledRef.value ? 'mui-select-disabled' : ''}`;
+  }, [sizeRef, fullwidthRef, classRef, disabledRef]);
 
   // Toggle dropdown
   const toggleMenu = () => {
@@ -118,10 +126,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // Create container
   const container = (
-    <div
-      class={`mui-select-wrapper mui-select-size-${size} ${props.class ?? ''} ${fullWidth ? 'mui-select-fullWidth' : ''} ${disabledRef.value ? 'mui-select-disabled' : ''}`}
-      style={parseStyle(props.style)}
-    >
+    <div class={className} style={styleRef}>
       {label}
       <div
         class="mui-select-control mui-select-outlined"

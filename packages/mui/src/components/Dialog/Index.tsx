@@ -1,7 +1,8 @@
-import { KTReactive, toReactive } from '@ktjs/core';
+import { computed, KTReactive, toReactive } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
+type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 interface KTMuiDialogProps {
   /**
    * Controls whether the dialog is open or closed
@@ -12,8 +13,8 @@ interface KTMuiDialogProps {
   title?: string;
   children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[] | string;
   actions?: HTMLElement | HTMLElement[];
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
-  fullWidth?: boolean;
+  size?: DialogSize | KTReactive<DialogSize>;
+  fullWidth?: boolean | KTReactive<boolean>;
 }
 
 export type KTMuiDialog = JSX.Element;
@@ -23,7 +24,7 @@ export type KTMuiDialog = JSX.Element;
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let { 'on:close': onClose = $emptyFn, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+  let { 'on:close': onClose = $emptyFn, children, actions } = props;
 
   const titleRef = toReactive(props.title ?? '');
   const openRef = toReactive(props.open ?? false, (isOpen) => {
@@ -40,6 +41,13 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       }, 225);
     }
   });
+  const sizeRef = toReactive(props.size ?? 'sm');
+  const fullWidthRef = toReactive(props.fullWidth ?? false);
+  const classNameRef = computed(
+    () =>
+      `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''}`,
+    [sizeRef, fullWidthRef],
+  );
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
@@ -62,12 +70,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       style={{ display: openRef.value ? 'flex' : 'none' }}
       on:click={handleBackdropClick}
     >
-      <div
-        class={`kt-dialog-paper ${maxWidth ? `kt-dialog-maxWidth-${maxWidth}` : ''} ${
-          fullWidth ? 'kt-dialog-fullWidth' : ''
-        }`}
-        on:click={(e: MouseEvent) => e.stopPropagation()}
-      >
+      <div class={classNameRef} on:click={(e: MouseEvent) => e.stopPropagation()}>
         <div k-if={titleRef} class="kt-dialog-title">
           <h2>{titleRef}</h2>
         </div>

@@ -1,4 +1,4 @@
-import type ts from 'typescript/lib/tsserverlibrary';
+import type ts from 'typescript/lib/tsserverlibrary.js';
 
 type JsxNode = ts.JsxElement | ts.JsxSelfClosingElement | ts.JsxFragment;
 
@@ -9,7 +9,7 @@ type Checker = ts.TypeChecker;
 type TypeText = string | null;
 
 const init: ts.server.PluginModuleFactory = (mod) => {
-  const tsModule = mod;
+  const tsModule = mod.typescript;
 
   return {
     create(info) {
@@ -194,4 +194,4 @@ function getComponentReturnTypeText(tsModule: typeof ts, checker: Checker, tagNa
   return checker.typeToString(returnType, tagName, tsModule.TypeFormatFlags.NoTruncation);
 }
 
-export = init;
+export default init;

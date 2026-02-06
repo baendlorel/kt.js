@@ -48,7 +48,6 @@ export function createPackageConfig({
   const dist = underRoot(packageDir, 'dist');
 
   const tsconfig = getTSConfigDir(packageDir);
-  console.log('load tsconfig :', tsconfig, ' ');
   /**
    * @type {import('@rollup/plugin-alias').RollupAliasOptions}
    */

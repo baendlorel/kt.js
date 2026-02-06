@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/shared",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "description": "Shared utilities and cached native methods for kt.js framework",
   "type": "module",
   "module": "./dist/index.mjs",

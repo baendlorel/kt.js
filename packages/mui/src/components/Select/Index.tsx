@@ -1,5 +1,6 @@
 import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
+import { KTMuiProps } from '../../types/component.js';
 import './Select.css';
 
 interface KTMuiSelectOption {
@@ -7,9 +8,7 @@ interface KTMuiSelectOption {
   label: string;
 }
 
-export interface KTMuiSelectProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
+export interface KTMuiSelectProps extends KTMuiProps {
   size?: 'small' | 'medium';
   value?: string;
   options: KTMuiSelectOption[] | KTReactive<KTMuiSelectOption[]>;
@@ -49,6 +48,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   });
 
   // # ref props
+  const styleRef = toReactive(parseStyle(props.style ?? ''));
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
     if (!newOptions.find((o) => o.value === modelRef.value)) {

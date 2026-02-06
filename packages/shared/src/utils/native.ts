@@ -11,7 +11,7 @@ export const $toString = Object.prototype.toString;
 export const $keys = Object.keys as <T>(o: T) => Array<keyof T>;
 export const $defines = Object.defineProperties;
 export const $define = Object.defineProperty;
-export const $entries = Object.entries as <T>(o: T) => Array<[keyof T, T[keyof T]]>;
+export const $entries = Object.entries; // as <T>(o: T) => Array<[keyof T, T[keyof T]]>;
 
 export const $random = Math.random;
 

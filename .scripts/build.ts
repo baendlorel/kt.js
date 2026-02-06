@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 const workMap = new Map([
   [undefined, ['core', 'kt.js']],
   ['shared', ['shared']],
-  ['tsplugin', ['tsplugin']],
+  ['tsplugin', ['ts-plugin-jsx-dom']],
   ['mui', ['mui']],
   ['doc', ['example']],
   ['exp', ['example']],

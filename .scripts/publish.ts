@@ -6,14 +6,17 @@ import { execSync } from 'child_process';
 
 const workMap = new Map([
   [undefined, ['core', 'kt.js']],
-  ['tsplugin', ['tsplugin']],
+  ['tsplugin', ['ts-plugin-jsx-dom']],
   ['shared', ['shared']],
   ['mui', ['mui']],
   ['doc', ['example']],
   ['exp', ['example']],
   ['router', ['example']],
   ['plugin', ['babel-plugin-ktjsx']],
-  ['all', ['core', 'kt.js', 'babel-plugin-ktjsx', 'example', 'mui', 'router', 'shared', 'shortcuts']],
+  [
+    'all',
+    ['core', 'kt.js', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
+  ],
 ]);
 
 class Version {

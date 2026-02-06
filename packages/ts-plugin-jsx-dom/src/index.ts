@@ -18,25 +18,37 @@ const init: ts.server.PluginModuleFactory = (mod) => {
 
       for (const key of Object.keys(languageService) as Array<keyof ts.LanguageService>) {
         const value = languageService[key];
-        proxy[key] = (...args: unknown[]) => (value as (...innerArgs: unknown[]) => unknown)(...args);
+        if (value !== undefined) {
+          proxy[key] = value as any;
+        }
       }
 
       proxy.getQuickInfoAtPosition = (fileName, position) => {
         const prior = languageService.getQuickInfoAtPosition(fileName, position);
-        if (!prior) return prior;
+        if (!prior) {
+          return prior;
+        }
 
         const program = languageService.getProgram();
-        if (!program) return prior;
+        if (!program) {
+          return prior;
+        }
 
         const sourceFile = program.getSourceFile(fileName);
-        if (!sourceFile) return prior;
+        if (!sourceFile) {
+          return prior;
+        }
 
         const checker = program.getTypeChecker();
         const typeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
-        if (!typeText) return prior;
+        if (!typeText) {
+          return prior;
+        }
 
         const displayText = tsModule.displayPartsToString(prior.displayParts || []);
-        if (!displayText.includes('JSX.Element')) return prior;
+        if (!displayText.includes('JSX.Element')) {
+          return prior;
+        }
 
         const replacedText = displayText.replace(/JSX\.Element/g, typeText);
         return {
@@ -61,11 +73,15 @@ function resolvePreferredTypeText(
     return getJsxNodeTypeText(tsModule, checker, sourceFile, jsxNode);
   }
 
-  const token = tsModule.getTokenAtPosition(sourceFile, position);
-  if (!token) return null;
+  const token = (tsModule as any).getTokenAtPosition(sourceFile, position);
+  if (!token) {
+    return null;
+  }
 
   const symbol = checker.getSymbolAtLocation(token);
-  if (!symbol) return null;
+  if (!symbol) {
+    return null;
+  }
 
   for (const decl of symbol.getDeclarations() || []) {
     const initializer = getInitializerFromDeclaration(tsModule, decl);
@@ -74,12 +90,16 @@ function resolvePreferredTypeText(
     }
   }
 
-  return null;
+  {
+    return null;
+  }
 }
 
 function findNearestJsxNode(tsModule: typeof ts, sourceFile: ts.SourceFile, position: number): JsxNode | null {
-  const token = tsModule.getTokenAtPosition(sourceFile, position);
-  if (!token) return null;
+  const token = (tsModule as any).getTokenAtPosition(sourceFile, position);
+  if (!token) {
+    return null;
+  }
 
   let current: ts.Node | undefined = token;
   while (current) {
@@ -135,7 +155,9 @@ function getTagNameFromJsx(
   tsModule: typeof ts,
   node: ts.JsxElement | ts.JsxSelfClosingElement,
 ): ts.JsxTagNameExpression {
-  if (tsModule.isJsxElement(node)) return node.openingElement.tagName;
+  if (tsModule.isJsxElement(node)) {
+    return node.openingElement.tagName;
+  }
   return node.tagName;
 }
 
@@ -150,10 +172,14 @@ function getIntrinsicElementTypeText(
   tagName: string,
 ): TypeText {
   const htmlType = getElementTypeFromMap(tsModule, checker, sourceFile, 'HTMLElementTagNameMap', tagName);
-  if (htmlType) return htmlType;
+  if (htmlType) {
+    return htmlType;
+  }
 
   const svgType = getElementTypeFromMap(tsModule, checker, sourceFile, 'SVGElementTagNameMap', tagName);
-  if (svgType) return svgType;
+  if (svgType) {
+    return svgType;
+  }
 
   return null;
 }
@@ -169,11 +195,15 @@ function getElementTypeFromMap(
     .getSymbolsInScope(sourceFile, tsModule.SymbolFlags.Interface)
     .find((symbol) => symbol.getName() === mapName);
 
-  if (!mapSymbol) return null;
+  if (!mapSymbol) {
+    return null;
+  }
 
   const mapType = checker.getTypeOfSymbolAtLocation(mapSymbol, sourceFile);
   const propSymbol = mapType.getProperty(tagName);
-  if (!propSymbol) return null;
+  if (!propSymbol) {
+    return null;
+  }
 
   const propType = checker.getTypeOfSymbolAtLocation(propSymbol, sourceFile);
   return checker.typeToString(propType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
@@ -181,14 +211,18 @@ function getElementTypeFromMap(
 
 function getComponentReturnTypeText(tsModule: typeof ts, checker: Checker, tagName: ts.JsxTagNameExpression): TypeText {
   const symbol = checker.getSymbolAtLocation(tagName);
-  if (!symbol) return null;
+  if (!symbol) {
+    return null;
+  }
 
   const targetSymbol = symbol.flags & tsModule.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
 
   const type = checker.getTypeOfSymbolAtLocation(targetSymbol, tagName);
   const signatures = type.getCallSignatures();
   const signature = signatures[0] || type.getConstructSignatures()[0];
-  if (!signature) return null;
+  if (!signature) {
+    return null;
+  }
 
   const returnType = checker.getReturnTypeOfSignature(signature);
   return checker.typeToString(returnType, tagName, tsModule.TypeFormatFlags.NoTruncation);

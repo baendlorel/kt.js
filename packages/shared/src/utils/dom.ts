@@ -74,7 +74,7 @@ export const parseStyle = (style: unknown): string => {
     }
 
     return $entries(style)
-      .map((entry) => {
+      .map((entry: [string, string]) => {
         const cssKey = entry[0].replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
         return `${cssKey}:${entry[1]}`;
       })

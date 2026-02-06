@@ -25,8 +25,6 @@ export type KTMuiSelect = JSX.Element & {};
  * Select component - mimics MUI Select appearance and behavior
  */
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
-  let { placeholder = '', size = 'medium', fullWidth = false } = props;
-
   const onChange = props['on:change'] ?? $emptyFn;
 
   // # refs
@@ -49,6 +47,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // # ref props
 
+  const placeholderRef = toReactive(props.placeholder ?? '');
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
     if (!newOptions.find((o) => o.value === modelRef.value)) {
@@ -60,13 +59,15 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const label = computed(() => {
     if (labelRef.value) {
       return (
-        <label class={`mui-select-label ${modelRef.value || isFocusedRef.value || placeholder ? 'focused' : ''}`}>
+        <label
+          class={`mui-select-label ${modelRef.value || isFocusedRef.value || placeholderRef.value ? 'focused' : ''}`}
+        >
           {labelRef}
         </label>
       );
     }
     return '';
-  }, [labelRef, modelRef, isFocusedRef]);
+  }, [labelRef, modelRef, isFocusedRef, placeholderRef]);
 
   const styleRef = toReactive(parseStyle(props.style ?? ''));
   const classRef = toReactive(props.class ?? '');
@@ -102,7 +103,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const handleFocus = () => (isFocusedRef.value = true);
   const handleBlur = () => (isFocusedRef.value = false);
 
-  const defaultEmpty = <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>;
+  const defaultEmpty = <span class="mui-select-placeholder">{placeholderRef.value || '\u00a0'}</span>;
   const displayedValue = computed(() => {
     const o = optionsRef.value.find((item) => item.value === modelRef.value);
     return <div class="mui-select-display">{o?.label ?? defaultEmpty}</div>;

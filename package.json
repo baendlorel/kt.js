@@ -24,8 +24,8 @@
   ],
   "scripts": {
     "exp": "pnpm --filter @ktjs/example dev",
-    "build": "tsx .scripts/build.ts",
-    "pub": "tsx .scripts/publish.ts",
+    "build": "tsx .scripts/publish.ts --build",
+    "pub": "tsx .scripts/publish.ts --publish",
     "check": "tsc --noEmit",
     "test": "vitest --config configs/vitest.config.ts",
     "lint": "oxlint .",

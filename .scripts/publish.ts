@@ -6,13 +6,13 @@ import { execSync } from 'child_process';
 
 const workMap = new Map([
   [undefined, ['core', 'kt.js']],
+  ['plugin', ['babel-plugin-ktjsx']],
   ['tsplugin', ['ts-plugin-jsx-dom']],
   ['shared', ['shared']],
-  ['mui', ['mui']],
-  ['doc', ['example']],
-  ['exp', ['example']],
   ['router', ['example']],
-  ['plugin', ['babel-plugin-ktjsx']],
+  ['mui', ['mui']],
+  ['exp', ['example']],
+  ['shortcuts', ['shortcuts']],
   [
     'all',
     ['core', 'kt.js', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
@@ -107,6 +107,26 @@ async function publish(who: string | undefined) {
   // pnpm --filter @ktjs/example dev  --no-git-checks
 }
 
-const [who] = process.argv.slice(2);
-console.log(process.argv);
-publish(who);
+async function build(who: string | undefined) {
+  if (!workMap.has(who)) {
+    console.error(`Unknown package group: ${who}`);
+    return;
+  }
+  const packages = workMap.get(who)!;
+
+  for (const dir of packages) {
+    const packageJsonPath = join(import.meta.dirname, '..', 'packages', dir, 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    execSync(`pnpm --filter ${packageJson.name} build`, { stdio: 'inherit' });
+  }
+}
+
+const task = process.argv[2];
+const [who] = process.argv.slice(3);
+if (task === '--publish') {
+  publish(who);
+} else if (task === '--build') {
+  build(who);
+} else {
+  console.error(`Unknown task: ${task}`);
+}

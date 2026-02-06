@@ -30,7 +30,6 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       element.setAttribute('class', classValue);
     }
   }
-  // todo 这里加入reactive支持
 
   const style = attr.style;
   if (style) {

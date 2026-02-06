@@ -16,7 +16,6 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     c.addOnChange((newValue, oldValue) => {
       if ($isNode(newValue) && $isNode(oldValue)) {
         // & this case is handled automically in `class KTRef`
-        // todo 2 cases might be able to merge into 1
         return;
       }
 

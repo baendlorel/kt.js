@@ -1,3 +1,5 @@
+import '@ktjs/shared';
+
 // Export router functionality
 export * from './index.js';
 export { GuardLevel } from './consts.js';

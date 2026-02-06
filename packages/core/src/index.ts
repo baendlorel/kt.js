@@ -1,3 +1,5 @@
+import '@ktjs/shared';
+
 export * from './h/index.js';
 
 // Export JSX functionality

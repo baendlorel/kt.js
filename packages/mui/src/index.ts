@@ -1,3 +1,4 @@
+import '@ktjs/shared';
 import './main.css';
 
 // UI Components

@@ -1,4 +1,4 @@
-import { isKT, KTReactive, ref } from '@ktjs/core';
+import { computed, KTReactive, toReactive } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
@@ -23,12 +23,10 @@ export type KTMuiDialog = JSX.Element;
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let { 'on:close': onClose = $emptyFn, title, children, actions, maxWidth = 'sm', fullWidth = false } = props;
+  let { 'on:close': onClose = $emptyFn, children, actions, maxWidth = 'sm', fullWidth = false } = props;
 
-  // todo 这里可以整合吗
-  const open = isKT(props.open) ? props.open : ref<boolean>((props.open as boolean) ?? false);
-
-  open.addOnChange((isOpen) => {
+  const titleRef = toReactive(props.title ?? '');
+  const openRef = toReactive(props.open ?? false, (isOpen) => {
     if (isOpen) {
       // Opening: set display first, then add class with double RAF for animation
       container.style.display = 'flex';
@@ -36,7 +34,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     } else {
       container.classList.remove('kt-dialog-backdrop-open');
       setTimeout(() => {
-        if (!open) {
+        if (!openRef.value) {
           container.style.display = 'none';
         }
       }, 225);
@@ -46,7 +44,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      open.value = false;
+      openRef.value = false;
       onClose();
     }
   };
@@ -60,9 +58,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // Backdrop element
   const container = (
     <div
-      class={`kt-dialog-backdrop ${open.value ? 'kt-dialog-backdrop-open' : ''}`}
+      class={`kt-dialog-backdrop ${openRef.value ? 'kt-dialog-backdrop-open' : ''}`}
+      style={{ display: openRef.value ? 'flex' : 'none' }}
       on:click={handleBackdropClick}
-      style={{ display: open.value ? 'flex' : 'none' }}
     >
       <div
         class={`kt-dialog-paper ${maxWidth ? `kt-dialog-maxWidth-${maxWidth}` : ''} ${
@@ -70,8 +68,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
         }`}
         on:click={(e: MouseEvent) => e.stopPropagation()}
       >
-        <div k-if={title} class="kt-dialog-title">
-          <h2>{title}</h2>
+        <div k-if={titleRef} class="kt-dialog-title">
+          <h2>{titleRef}</h2>
         </div>
 
         <div k-if={children} class="kt-dialog-content">

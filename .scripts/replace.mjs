@@ -52,20 +52,3 @@ export const replaceOpts = {
     '$debug(': `console.debug('[kt.js debug]',`,
   },
 };
-
-/**
- * @type {Record<string, any>}
- */
-export const replaceLiteralOpts = {
-  'declare const __IS_PROD__: boolean;\n': '',
-  'const __IS_PROD__: boolean;\n': '',
-  'logger.info(': "console.log(`%cinfo - __func__:`, 'color:#007ACC',",
-  'logger.warn(': "console.log(`%cwarn - __func__:`, 'color:#ff9900',",
-  'logger.error(': "console.log(`%cerror - __func__:`, 'color:#fb2c36',",
-  'logger.debug(': "console.log(`%cdebug - __func__:`, 'color:#8617a5',",
-  'logger.succ(': "console.log(`%cdebug - __func__:`, 'color:#00a00b',",
-  'logger.verbose(': "console.log(`%cdebug - __func__:`, 'color:#10aaaf',",
-  'logger.WorkspaceNotFound(': "console.log(`%cerror - __func__:`, 'color:#fb2c36','Workspace not found, id:',",
-  'logger.TabNotFoundInWorkspace(':
-    "console.log(`%cerror - __func__:`, 'color:#fb2c36','Tab not found in workspace. tabid,workspaceid:',",
-};

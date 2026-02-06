@@ -8,6 +8,11 @@ type Checker = ts.TypeChecker;
 
 type TypeText = string | null;
 
+// 补全相关类型
+interface EnhancedCompletionInfo extends ts.CompletionInfo {
+  _isEnhanced?: boolean;
+}
+
 const init: ts.server.PluginModuleFactory = (mod) => {
   const tsModule = mod.typescript;
 
@@ -55,6 +60,108 @@ const init: ts.server.PluginModuleFactory = (mod) => {
           ...prior,
           displayParts: [{ text: replacedText, kind: 'text' }],
         };
+      };
+
+      proxy.getCompletionsAtPosition = (fileName, position, options, formattingSettings) => {
+        const prior = languageService.getCompletionsAtPosition(fileName, position, options, formattingSettings);
+        if (!prior) {
+          return prior;
+        }
+
+        const program = languageService.getProgram();
+        if (!program) {
+          return prior;
+        }
+
+        const sourceFile = program.getSourceFile(fileName);
+        if (!sourceFile) {
+          return prior;
+        }
+
+        const checker = program.getTypeChecker();
+
+        // 检查当前位置是否在属性访问表达式中（如 a.）
+        const node = findNodeAtPosition(tsModule, sourceFile, position);
+        if (!node) {
+          return prior;
+        }
+
+        // 如果是属性访问表达式（a.xxx），获取左侧表达式的类型
+        let targetType: ts.Type | null = null;
+        if (tsModule.isPropertyAccessExpression(node)) {
+          const leftType = checker.getTypeAtLocation(node.expression);
+          targetType = leftType;
+        } else if (tsModule.isIdentifier(node)) {
+          // 可能是变量声明或标识符
+          const symbol = checker.getSymbolAtLocation(node);
+          if (symbol) {
+            targetType = checker.getTypeOfSymbolAtLocation(symbol, node);
+          }
+        }
+
+        if (!targetType) {
+          return prior;
+        }
+
+        // 检查类型是否为JSX.Element
+        const typeText = checker.typeToString(targetType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
+        if (!typeText.includes('JSX.Element')) {
+          return prior;
+        }
+
+        // 获取JSX元素的具体类型
+        const jsxTypeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
+        if (!jsxTypeText) {
+          return prior;
+        }
+
+        // 返回增强的补全信息（目前只是标记，实际增强逻辑需要更多工作）
+        const enhancedPrior: EnhancedCompletionInfo = {
+          ...prior,
+          _isEnhanced: true,
+        };
+        return enhancedPrior;
+      };
+
+      proxy.getCompletionEntryDetails = (fileName, position, entryName, formatOptions, source, preferences, data) => {
+        const prior = languageService.getCompletionEntryDetails(
+          fileName, position, entryName, formatOptions, source, preferences, data
+        );
+        if (!prior) {
+          return prior;
+        }
+
+        const program = languageService.getProgram();
+        if (!program) {
+          return prior;
+        }
+
+        const sourceFile = program.getSourceFile(fileName);
+        if (!sourceFile) {
+          return prior;
+        }
+
+        const checker = program.getTypeChecker();
+
+        // 获取当前位置的JSX元素具体类型
+        const jsxTypeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
+        if (!jsxTypeText) {
+          return prior;
+        }
+
+        // 修改显示文本，将JSX.Element替换为具体类型
+        if (prior.displayParts) {
+          const displayText = tsModule.displayPartsToString(prior.displayParts);
+          if (displayText.includes('JSX.Element')) {
+            const replacedText = displayText.replace(/JSX\.Element/g, jsxTypeText);
+            return {
+              ...prior,
+              displayParts: [{ text: replacedText, kind: 'text' }],
+            };
+          }
+        }
+
+        return prior;
       };
 
       return proxy;
@@ -226,6 +333,22 @@ function getComponentReturnTypeText(tsModule: typeof ts, checker: Checker, tagNa
 
   const returnType = checker.getReturnTypeOfSignature(signature);
   return checker.typeToString(returnType, tagName, tsModule.TypeFormatFlags.NoTruncation);
+}
+
+function findNodeAtPosition(tsModule: typeof ts, sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
+  // 使用getTokenAtPosition找到位置附近的token
+  const token = (tsModule as any).getTokenAtPosition(sourceFile, position);
+  if (!token) {
+    return undefined;
+  }
+
+  // 找到包含该位置的节点
+  let node: ts.Node | undefined = token;
+  while (node && (position < node.pos || position >= node.end)) {
+    node = node.parent;
+  }
+
+  return node || undefined;
 }
 
 export default init;

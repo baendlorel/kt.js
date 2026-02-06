@@ -6,6 +6,7 @@ import { execSync } from 'child_process';
 
 const workMap = new Map([
   [undefined, ['core', 'kt.js']],
+  ['tsplugin', ['tsplugin']],
   ['shared', ['shared']],
   ['mui', ['mui']],
   ['doc', ['example']],
@@ -104,4 +105,5 @@ async function publish(who: string | undefined) {
 }
 
 const [who] = process.argv.slice(2);
+console.log(process.argv);
 publish(who);

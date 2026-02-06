@@ -5,11 +5,11 @@ import { execSync } from 'child_process';
 
 const workMap = new Map([
   [undefined, ['core', 'kt.js']],
+  ['shared', ['shared']],
   ['mui', ['mui']],
   ['doc', ['example']],
   ['exp', ['example']],
   ['router', ['example']],
-  ['shared', ['shared']],
   ['shortcuts', ['shortcuts']],
   ['plugin', ['babel-plugin-ktjsx']],
   ['all', ['core', 'kt.js', 'babel-plugin-ktjsx', 'example', 'mui', 'router', 'shared', 'shortcuts']],

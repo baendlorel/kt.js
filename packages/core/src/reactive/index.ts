@@ -14,7 +14,8 @@ export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChang
   }
 };
 
-export type KTReactify<T> = T extends any ? KTReactive<T> : never;
+// & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.
+export type KTReactify<T> = T extends boolean ? KTReactive<boolean> : T extends any ? KTReactive<T> : never;
 
 export type KTReactifyObject<T extends object> = {
   [K in keyof T]: KTReactify<T[K]>;

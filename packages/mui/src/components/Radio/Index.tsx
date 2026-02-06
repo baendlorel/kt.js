@@ -1,3 +1,4 @@
+import { toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
@@ -26,13 +27,16 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 
   let { checked = false, value = '', label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
 
+  const valueRef = toReactive(props.value ?? '');
+  const disabledRef = toReactive(props.disabled ?? false);
+
   const input = (
     <input
       type="radio"
       class="mui-radio-input"
       checked={checked}
-      value={value}
-      disabled={disabled}
+      value={valueRef}
+      disabled={disabledRef}
       on:change={handleChange}
     />
   ) as HTMLInputElement;

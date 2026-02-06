@@ -1,4 +1,4 @@
-import { computed, KTReactive, toReactive } from '@ktjs/core';
+import { KTReactive, toReactive } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 

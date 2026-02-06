@@ -37,7 +37,8 @@ import { ref } from 'kt.js';
 function Counter() {
   const count = ref(0);
 
-  const button = <button on:click={() => count.value++}>Count: {count.value}</button>;
+  //                                             Reactive binding ↓
+  const button = <button on:click={() => count.value++}>Count: {count}</button>;
 
   return button;
 }
@@ -68,6 +69,7 @@ import { ref, computed } from 'kt.js';
 
 // Reactive references
 const count = ref(0);
+//                      manually set dependencies ↓
 const double = computed(() => count.value * 2, [count]);
 
 // Listen to changes

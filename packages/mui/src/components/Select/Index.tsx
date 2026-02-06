@@ -31,29 +31,27 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const onChange = props['on:change'] ?? $emptyFn;
 
   // # refs
-  const isFocused = ref(false);
-  const isOpen = ref(false, (opened) => {
-    if (opened) {
+  const isFocusedRef = ref(false);
+  const open = ref(false, (isOpen) => {
+    if (isOpen) {
       menu.value.style.display = 'block';
       void menu.value.offsetHeight; // & Trigger reflow to enable animation
     } else {
       // Hide after animation completes
       setTimeout(() => {
-        if (!opened) {
+        if (!isOpen) {
           menu.value.style.display = 'none';
         }
       }, 200);
     }
-    menu.value.classList.toggle('mui-select-menu-open', opened);
-    container.classList.toggle('mui-select-open', opened);
+    menu.value.classList.toggle('mui-select-menu-open', isOpen);
+    container.classList.toggle('mui-select-open', isOpen);
   });
 
   // # ref props
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
-    // update model value when options change
-    const exist = newOptions.find((o) => o.value === modelRef.value);
-    if (!exist) {
+    if (!newOptions.find((o) => o.value === modelRef.value)) {
       onChange((modelRef.value = ''));
     }
   });
@@ -62,18 +60,18 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const label = computed(() => {
     if (labelRef.value) {
       return (
-        <label class={`mui-select-label ${modelRef.value || isFocused.value || placeholder ? 'focused' : ''}`}>
+        <label class={`mui-select-label ${modelRef.value || isFocusedRef.value || placeholder ? 'focused' : ''}`}>
           {labelRef}
         </label>
       );
     }
     return '';
-  }, [labelRef, modelRef, isFocused]);
+  }, [labelRef, modelRef, isFocusedRef]);
 
   // Toggle dropdown
   const toggleMenu = () => {
     if (!disabledRef.value) {
-      isOpen.value = !isOpen.value;
+      open.value = !open.value;
     }
   };
 
@@ -82,19 +80,19 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     const newValue = (e.currentTarget as HTMLElement).dataset.value as string;
     modelRef.value = newValue;
     onChange(newValue);
-    isOpen.value = false;
+    open.value = false;
   };
 
   // Close menu when clicking outside
   const handleClickOutside = (e: MouseEvent) => {
     if (!container.contains(e.target as Node)) {
-      isOpen.value = false;
+      open.value = false;
     }
   };
 
   // Handle focus
-  const handleFocus = () => (isFocused.value = true);
-  const handleBlur = () => (isFocused.value = false);
+  const handleFocus = () => (isFocusedRef.value = true);
+  const handleBlur = () => (isFocusedRef.value = false);
 
   const defaultEmpty = <span class="mui-select-placeholder">{placeholder || '\u00a0'}</span>;
   const displayedValue = computed(() => {

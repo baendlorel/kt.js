@@ -213,3 +213,10 @@ const ssss = bindParams(sss, 'a');
 1、 要能支持在attribute里写`@click`这样的表达式，也就是`<div @click="func"></div>`
 2、 包的格式配置和core包类似
 3、包的名字、细节你可以自己决定
+
+---
+
+我的JSX.Element其实是直接返回的dom元素，也就是const a = <div></div>，a的类型就是HTMLDivElement;
+但是，实际上a的类型只能被推断为JSX.Element，每次都要写`as XXX`来断言类型，很麻烦
+那么能否通过编写tsconfig里配置的插件，做到让const a = <div></div>的类型直接为HTMLDivElement，const a= <input value="some value" />， const a = <MyComponent/>的类型直接为MyComponent返回的类型？
+如果可以做到，请你帮我写一个设计方案，写在.draft/tsconfig-plugin-design.md里

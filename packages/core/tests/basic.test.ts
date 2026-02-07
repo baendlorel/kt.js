@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { h } from '../src/h/index.js';
 
 describe('h basic usage', () => {
-  h('div', { 'on:click': (_e) => {}, abort: 'sdf', '@click': () => 1 });
+  h('div', { 'on:click': (_e) => {}, abort: 'sdf' });
   it('creates an element with string className', () => {
     const el = h('div', { class: 'my-class' }, 'hello');
     expect(el.tagName.toLowerCase()).toBe('div');

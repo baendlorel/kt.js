@@ -4,6 +4,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core"
   },
-  "include": ["*.tsx", "*.ts", "src/**/*.tsx", "src/**/*.ts", "vitest.config.ts", "../../.scripts/*.ts"],
+  "include": ["*.tsx", "*.ts", "src/**/*.tsx", "src/**/*.ts"],
   "references": [{ "path": "../core" }, { "path": "../mui" }]
 }

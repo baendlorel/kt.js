@@ -1,70 +1,10 @@
 #!/usr/bin/env tsx
-import { readFileSync, renameSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { askYesNo } from './ask';
-import { execSync } from 'child_process';
-
-const workMap = new Map([
-  [undefined, ['core', 'kt.js']],
-  ['plugin', ['babel-plugin-ktjsx']],
-  ['tsplugin', ['ts-plugin-jsx-dom']],
-  ['shared', ['shared']],
-  ['router', ['example']],
-  ['mui', ['mui']],
-  ['exp', ['example']],
-  ['shortcuts', ['shortcuts']],
-  [
-    'all',
-    ['core', 'kt.js', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
-  ],
-]);
-
-class Version {
-  static max(...versions: Version[]) {
-    return versions.reduce((max, v) => {
-      if (v.major > max.major) {
-        return v;
-      }
-      if (v.major < max.major) {
-        return max;
-      }
-      if (v.minor > max.minor) {
-        return v;
-      }
-      if (v.minor < max.minor) {
-        return max;
-      }
-      if (v.patch > max.patch) {
-        return v;
-      }
-      return max;
-    }, versions[0]);
-  }
-
-  major: number;
-  minor: number;
-  patch: number;
-
-  constructor(versionStr: string) {
-    const [major, minor, patch] = versionStr.split('.').map(Number);
-    this.major = major;
-    this.minor = minor;
-    this.patch = patch;
-  }
-
-  bumpPatch() {
-    this.patch += 1;
-    return this;
-  }
-
-  toString() {
-    return `${this.major}.${this.minor}.${this.patch}`;
-  }
-
-  duplicate() {
-    return new Version(this.toString());
-  }
-}
+import { readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { execSync } from 'node:child_process';
+import { askYesNo } from './common/ask.js';
+import { workMap } from './common/consts.js';
+import { Version } from './common/version.js';
 
 async function publish(who: string | undefined) {
   if (!workMap.has(who)) {

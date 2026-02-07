@@ -26,13 +26,12 @@
     "exp": "pnpm --filter @ktjs/example dev",
     "build": "tsx .scripts/publish.ts --build",
     "pub": "tsx .scripts/publish.ts --publish",
-    "check": "tsc --noEmit",
     "test": "vitest --config configs/vitest.config.ts",
+    "check": "tsc --noEmit",
     "lint": "oxlint .",
-    "cover": "vitest --coverage",
     "lines": "tsx .scripts/lines.ts",
-    "clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\"",
-    "sync": "tsx .scripts/sync-version.ts"
+    "cover": "vitest --coverage",
+    "clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\""
   },
   "license": "MIT",
   "devDependencies": {

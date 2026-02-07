@@ -20,8 +20,8 @@ const init: ts.server.PluginModuleFactory = (mod) => {
 
   return {
     create(info) {
-      const logInfo = info.project?.projectService?.logger?.info;
-      log = logInfo ? (message: string) => logInfo(`[ts-plugin-jsx-dom] ${message}`) : log;
+      const logger = info.project?.projectService?.logger;
+      log = logger?.info ? (message: string) => logger.info(`[ts-plugin-jsx-dom] ${message}`) : log;
 
       log('Plugin initialized');
 

@@ -3,19 +3,16 @@
   "version": "0.1.4",
   "description": "TypeScript language service plugin to show DOM element types for JSX.",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "module": "index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
+      "import": "./index.js",
+      "require": "./index.js",
+      "default": "./index.js"
     }
   },
   "files": [
-    "dist"
+    "index.js"
   ],
   "keywords": [
     "typescript",

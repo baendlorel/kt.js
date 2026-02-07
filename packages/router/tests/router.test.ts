@@ -2,6 +2,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createRouter } from '../src/index.js';
 import { GuardLevel } from '../src/consts.js';
 
+const component = (textContent: string = '') => {
+  const d = document.createElement('div');
+  d.textContent = textContent;
+  return d;
+};
+
 describe('Router', () => {
   beforeEach(() => {
     window.history.replaceState(null, '', '/');
@@ -10,7 +16,7 @@ describe('Router', () => {
   describe('basic routing', () => {
     it('should navigate to routes', async () => {
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
       });
 
       const result = await router.push('/');
@@ -20,27 +26,27 @@ describe('Router', () => {
       expect(router.current?.path).toBe('/');
     });
 
-    it('should navigate between routes', () => {
+    it('should navigate between routes', async () => {
       const router = createRouter({
         routes: [
-          { path: '/', name: 'home' },
-          { path: '/about', name: 'about' },
+          { path: '/', name: 'home', component: () => component('Home') },
+          { path: '/about', name: 'about', component: () => component('About') },
         ],
       });
 
-      router.push('/');
+      await router.push('/');
       expect(router.current?.name).toBe('home');
 
-      router.push('/about');
+      await router.push('/about');
       expect(router.current?.name).toBe('about');
     });
 
-    it('should navigate by route name', () => {
+    it('should navigate by route name', async () => {
       const router = createRouter({
-        routes: [{ path: '/user/:id', name: 'user' }],
+        routes: [{ path: '/user/:id', name: 'user', component }],
       });
 
-      const result = router.push({ name: 'user', params: { id: '123' } });
+      const result = await router.push({ name: 'user', params: { id: '123' } });
 
       expect(result).toBe(true);
       expect(router.current?.name).toBe('user');
@@ -49,86 +55,86 @@ describe('Router', () => {
   });
 
   describe('route parameters', () => {
-    it('should extract route parameters', () => {
+    it('should extract route parameters', async () => {
       const router = createRouter({
-        routes: [{ path: '/user/:id', name: 'user' }],
+        routes: [{ path: '/user/:id', name: 'user', component }],
       });
 
-      router.push('/user/123');
+      await router.push('/user/123');
 
       expect(router.current?.params).toEqual({ id: '123' });
     });
 
-    it('should support multiple route parameters', () => {
+    it('should support multiple route parameters', async () => {
       const router = createRouter({
-        routes: [{ path: '/post/:category/:id', name: 'post' }],
+        routes: [{ path: '/post/:category/:id', name: 'post', component }],
       });
 
-      router.push('/post/tech/456');
+      await router.push('/post/tech/456');
 
       expect(router.current?.params).toEqual({ category: 'tech', id: '456' });
     });
   });
 
   describe('query parameters', () => {
-    it('should parse query parameters', () => {
+    it('should parse query parameters', async () => {
       const router = createRouter({
-        routes: [{ path: '/search', name: 'search' }],
+        routes: [{ path: '/search', name: 'search', component }],
       });
 
-      router.push('/search?q=test&page=2');
+      await router.push('/search?q=test&page=2');
 
       expect(router.current?.query).toEqual({ q: 'test', page: '2' });
     });
 
-    it('should build query string from object', () => {
+    it('should build query string from object', async () => {
       const router = createRouter({
-        routes: [{ path: '/search', name: 'search' }],
+        routes: [{ path: '/search', name: 'search', component }],
       });
 
-      router.push({ path: '/search', query: { q: 'hello', page: '3' } });
+      await router.push({ path: '/search', query: { q: 'hello', page: '3' } });
 
       expect(router.current?.query).toEqual({ q: 'hello', page: '3' });
     });
   });
 
   describe('navigation guards', () => {
-    it('should call beforeEach guard', () => {
+    it('should call beforeEach guard', async () => {
       const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         beforeEach,
       });
 
-      router.push('/');
+      await router.push('/');
 
       expect(beforeEach).toHaveBeenCalled();
     });
 
-    it('should block navigation when guard returns false', () => {
+    it('should block navigation when guard returns false', async () => {
       const beforeEach = vi.fn(() => false);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         beforeEach,
       });
 
-      const result = router.push('/');
+      const result = await router.push('/');
 
       expect(result).toBe(false);
       expect(router.current).toBeNull();
     });
 
-    it('should call afterEach after navigation', () => {
+    it('should call afterEach after navigation', async () => {
       const afterEach = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         afterEach,
       });
 
-      router.push('/');
+      await router.push('/');
 
       expect(afterEach).toHaveBeenCalled();
     });
@@ -139,7 +145,7 @@ describe('Router', () => {
       const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         beforeEach,
       });
 
@@ -151,77 +157,77 @@ describe('Router', () => {
   });
 
   describe('error handling', () => {
-    it('should call onNotFound when route not found', () => {
+    it('should call onNotFound when route not found', async () => {
       const onNotFound = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         onNotFound,
       });
 
-      const result = router.push('/nonexistent');
+      const result = await router.push('/nonexistent');
 
       expect(result).toBe(false);
       expect(onNotFound).toHaveBeenCalledWith('/nonexistent');
     });
 
-    it('should call onError when navigation fails', () => {
+    it('should call onError when navigation fails', async () => {
       const onError = vi.fn();
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home' }],
+        routes: [{ path: '/', name: 'home', component }],
         onError,
       });
 
-      router.push({});
+      await router.push({});
 
       expect(onError).toHaveBeenCalled();
     });
   });
 
   describe('NavigateOptions with flags', () => {
-    it('should support GuardLevel flag in push', () => {
+    it('should support GuardLevel flag in push', async () => {
       const beforeEach = vi.fn(() => true);
       const beforeEnter = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home', beforeEnter }],
+        routes: [{ path: '/', name: 'home', beforeEnter, component }],
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: GuardLevel.Route });
+      await router.push({ path: '/', guardLevel: GuardLevel.Route });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(beforeEnter).toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
     });
 
-    it('should support GuardLevel.None to skip all guards', () => {
+    it('should support GuardLevel.None to skip all guards', async () => {
       const beforeEach = vi.fn(() => true);
       const beforeEnter = vi.fn(() => true);
 
       const router = createRouter({
-        routes: [{ path: '/', name: 'home', beforeEnter }],
+        routes: [{ path: '/', name: 'home', beforeEnter, component }],
         beforeEach,
       });
 
-      router.push({ path: '/', guardLevel: GuardLevel.None });
+      await router.push({ path: '/', guardLevel: GuardLevel.None });
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(beforeEnter).not.toHaveBeenCalled();
       expect(router.current?.path).toBe('/');
     });
 
-    it('should support replace flag in push', () => {
+    it('should support replace flag in push', async () => {
       const router = createRouter({
         routes: [
-          { path: '/', name: 'home' },
-          { path: '/about', name: 'about' },
+          { path: '/', name: 'home', component: () => component('Home') },
+          { path: '/about', name: 'about', component: () => component('About') },
         ],
       });
 
-      router.push('/');
-      router.push({ path: '/about', replace: true });
+      await router.push('/');
+      await router.push({ path: '/about', replace: true });
       expect(router.current?.name).toBe('about');
     });
   });

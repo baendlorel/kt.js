@@ -396,19 +396,16 @@ const init: ts.server.PluginModuleFactory = (mod) => {
       ): TypeText {
         log(`getElementTypeFromMap: looking for "${tagName}" in ${mapName}`);
 
-        const allSymbols = checker.getSymbolsInScope(sourceFile, tsModule.SymbolFlags.Interface);
-        log(`getElementTypeFromMap: found ${allSymbols.length} interface symbols in scope`);
-
-        const mapSymbol = allSymbols.find((symbol) => symbol.getName() === mapName);
-
+        const mapSymbol = resolveGlobalSymbol(tsModule, checker, sourceFile, mapName, tsModule.SymbolFlags.Interface);
         if (!mapSymbol) {
           log(`getElementTypeFromMap: ${mapName} not found`);
           return null;
         }
 
         log(`getElementTypeFromMap: ${mapName} found`);
-        const mapType = checker.getTypeOfSymbolAtLocation(mapSymbol, sourceFile);
-        const propSymbol = mapType.getProperty(tagName);
+        const mapType =
+          checker.getDeclaredTypeOfSymbol(mapSymbol) || checker.getTypeOfSymbolAtLocation(mapSymbol, sourceFile);
+        const propSymbol = checker.getPropertyOfType(mapType, tagName) ?? mapType.getProperty(tagName);
         if (!propSymbol) {
           log(`getElementTypeFromMap: property "${tagName}" not found in ${mapName}`);
           return null;
@@ -418,6 +415,36 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         const typeText = checker.typeToString(propType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
         log(`getElementTypeFromMap: "${tagName}" resolved to ${typeText}`);
         return typeText;
+      }
+
+      function resolveGlobalSymbol(
+        tsModule: typeof ts,
+        checker: Checker,
+        sourceFile: ts.SourceFile,
+        name: string,
+        meaning: ts.SymbolFlags,
+      ): ts.Symbol | undefined {
+        const resolveName = (checker as any).resolveName as
+          | ((
+              name: string,
+              location: ts.Node,
+              meaning: ts.SymbolFlags,
+              excludeGlobals?: boolean,
+            ) => ts.Symbol | undefined)
+          | undefined;
+
+        if (resolveName) {
+          const resolved = resolveName(name, sourceFile, meaning, false);
+          if (resolved) {
+            return resolved;
+          }
+        }
+
+        const allSymbols = checker.getSymbolsInScope(sourceFile, meaning);
+        log(
+          `resolveGlobalSymbol: found ${allSymbols.length} symbol(s) for ${tsModule.SymbolFlags[meaning] || meaning}`,
+        );
+        return allSymbols.find((symbol) => symbol.getName() === name);
       }
 
       function getComponentReturnTypeText(

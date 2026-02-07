@@ -604,14 +604,7 @@ function getComponentReturnType(
 }
 
 function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Type): ts.CompletionEntry[] {
-  const apparentType = checker.getApparentType(type);
-  const properties = checker.getPropertiesOfType(apparentType) ?? [];
-  const apparentProperties =
-    typeof (apparentType as any).getApparentProperties === 'function'
-      ? (apparentType as any).getApparentProperties()
-      : [];
-
-  const symbols: ts.Symbol[] = [...properties, ...apparentProperties];
+  const symbols = collectPropertySymbols(tsModule, checker, type);
   if (symbols.length === 0) {
     return [];
   }
@@ -637,6 +630,66 @@ function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Ty
   }
 
   return entries;
+}
+
+function collectPropertySymbols(tsModule: typeof ts, checker: Checker, type: ts.Type): ts.Symbol[] {
+  const seenTypes = new Set<ts.Type>();
+  const seenSymbols = new Map<string, ts.Symbol>();
+
+  const addSymbols = (symbols: ts.Symbol[]) => {
+    for (const symbol of symbols) {
+      if (!seenSymbols.has(symbol.getName())) {
+        seenSymbols.set(symbol.getName(), symbol);
+      }
+    }
+  };
+
+  const collect = (current: ts.Type) => {
+    if (seenTypes.has(current)) {
+      return;
+    }
+    seenTypes.add(current);
+
+    const nonNullable = checker.getNonNullableType(current);
+    if (nonNullable.isUnion()) {
+      for (const subType of nonNullable.types) {
+        collect(subType);
+      }
+      return;
+    }
+
+    if (nonNullable.isIntersection()) {
+      for (const subType of nonNullable.types) {
+        collect(subType);
+      }
+      return;
+    }
+
+    const apparentType = checker.getApparentType(nonNullable);
+    const properties = checker.getPropertiesOfType(apparentType) ?? [];
+    addSymbols(properties);
+
+    const apparentProperties =
+      typeof (apparentType as any).getApparentProperties === 'function'
+        ? (apparentType as any).getApparentProperties()
+        : [];
+    addSymbols(apparentProperties);
+
+    if (
+      apparentType.flags & tsModule.TypeFlags.Object &&
+      (apparentType as ts.ObjectType).objectFlags & tsModule.ObjectFlags.ClassOrInterface
+    ) {
+      const bases = checker.getBaseTypes(apparentType as ts.InterfaceType);
+      if (bases) {
+        for (const base of bases) {
+          collect(base);
+        }
+      }
+    }
+  };
+
+  collect(type);
+  return [...seenSymbols.values()];
 }
 
 function mergeCompletionEntries(

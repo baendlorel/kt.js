@@ -3,26 +3,11 @@ import { readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 import { askYesNo } from './common/ask.js';
-import { workMap } from './common/consts.js';
+import { getPackageGroup, workMap } from './common/consts.js';
 import { Version } from './common/version.js';
 
 async function publish(who: string | undefined) {
-  if (!workMap.has(who)) {
-    console.error(`Unknown package group: ${who}`);
-    return;
-  }
-  const packages = workMap.get(who)!;
-
-  const info = packages.map((dir) => {
-    const packageJsonPath = join(import.meta.dirname, '..', 'packages', dir, 'package.json');
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    return {
-      path: packageJsonPath,
-      version: new Version(packageJson.version),
-      json: packageJson,
-      name: packageJson.name as string,
-    };
-  });
+  const info = getPackageGroup(who);
 
   const newVersionStr = Version.max(...info.map((i) => i.version))
     .duplicate()
@@ -67,16 +52,24 @@ async function publish(who: string | undefined) {
 }
 
 async function build(who: string | undefined) {
-  if (!workMap.has(who)) {
-    console.error(`Unknown package group: ${who}`);
-    return;
+  const info = getPackageGroup(who);
+  for (const p of info) {
+    if (p.json.scripts?.build) {
+      execSync(`pnpm --filter ${p.name} build`, { stdio: 'inherit' });
+    } else {
+      console.warn(`Package ${p.name} has no test script, skipping...`);
+    }
   }
-  const packages = workMap.get(who)!;
+}
 
-  for (const dir of packages) {
-    const packageJsonPath = join(import.meta.dirname, '..', 'packages', dir, 'package.json');
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    execSync(`pnpm --filter ${packageJson.name} build`, { stdio: 'inherit' });
+async function test(who: string | undefined) {
+  const info = getPackageGroup(who);
+  for (const p of info) {
+    if (p.json.scripts?.test) {
+      execSync(`pnpm --filter ${p.name} test`, { stdio: 'inherit' });
+    } else {
+      console.warn(`Package ${p.name} has no test script, skipping...`);
+    }
   }
 }
 
@@ -86,6 +79,8 @@ if (task === '--publish') {
   publish(who);
 } else if (task === '--build') {
   build(who);
+} else if (task === '--test') {
+  test(who);
 } else {
   console.error(`Unknown task: ${task}`);
 }

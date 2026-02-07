@@ -141,7 +141,7 @@ describe('Router', () => {
   });
 
   describe('silentPush', () => {
-    it('should skip global beforeEach guard', () => {
+    it('should skip global beforeEach guard', async () => {
       const beforeEach = vi.fn(() => true);
 
       const router = createRouter({
@@ -149,7 +149,7 @@ describe('Router', () => {
         beforeEach,
       });
 
-      router.silentPush('/');
+      await router.silentPush('/');
 
       expect(beforeEach).not.toHaveBeenCalled();
       expect(router.current?.path).toBe('/');

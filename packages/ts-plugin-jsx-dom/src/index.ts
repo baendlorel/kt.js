@@ -103,38 +103,16 @@ const init: ts.server.PluginModuleFactory = (mod) => {
           return prior;
         }
 
-        let targetType: ts.Type | null = null;
-        if (tsModule.isPropertyAccessExpression(node)) {
-          const leftType = checker.getTypeAtLocation(node.expression);
-          targetType = leftType;
-          log(
-            `getCompletionsAtPosition: property access expression, left type: ${checker.typeToString(leftType, sourceFile)}`,
-          );
-        } else if (tsModule.isIdentifier(node)) {
-          const symbol = checker.getSymbolAtLocation(node);
-          if (symbol) {
-            targetType = checker.getTypeOfSymbolAtLocation(symbol, node);
-            log(
-              `getCompletionsAtPosition: identifier ${node.getText()}, type: ${checker.typeToString(targetType, sourceFile)}`,
-            );
-          }
-        }
-
-        if (!targetType) {
-          log(`getCompletionsAtPosition: could not determine target type at ${fileName}:${position}`);
+        const propertyAccess = getPropertyAccessNode(tsModule, node);
+        if (!propertyAccess) {
+          log(`getCompletionsAtPosition: not a property access at ${fileName}:${position}`);
           return prior;
         }
 
-        const typeText = checker.typeToString(targetType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
-        if (!typeText.includes('JSX.Element')) {
-          log(`getCompletionsAtPosition: not JSX.Element at ${fileName}:${position} - "${typeText}"`);
-          return prior;
-        }
-
-        const preferredType = tsModule.isPropertyAccessExpression(node)
-          ? (resolvePreferredTypeFromExpression(tsModule, checker, sourceFile, node.expression) ??
-            resolvePreferredType(tsModule, checker, sourceFile, position))
-          : resolvePreferredType(tsModule, checker, sourceFile, position);
+        const targetExpression = unwrapExpression(tsModule, propertyAccess.expression);
+        const preferredType =
+          resolvePreferredTypeFromExpression(tsModule, checker, sourceFile, targetExpression) ??
+          resolvePreferredType(tsModule, checker, sourceFile, position);
         if (!preferredType) {
           log(`getCompletionsAtPosition: could not resolve preferred JSX type at ${fileName}:${position}`);
           return prior;
@@ -638,19 +616,27 @@ function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Ty
     return [];
   }
 
-  return symbols.map((symbol) => {
+  const entries: ts.CompletionEntry[] = [];
+  const seen = new Set<string>();
+  for (const symbol of symbols) {
     const name = symbol.getName();
+    if (seen.has(name)) {
+      continue;
+    }
+    seen.add(name);
     const kind =
       symbol.flags & tsModule.SymbolFlags.Method
         ? tsModule.ScriptElementKind.memberFunctionElement
         : tsModule.ScriptElementKind.memberVariableElement;
-    return {
+    entries.push({
       name,
       kind,
       kindModifiers: '',
       sortText: '0',
-    } as ts.CompletionEntry;
-  });
+    } as ts.CompletionEntry);
+  }
+
+  return entries;
 }
 
 function mergeCompletionEntries(
@@ -688,6 +674,59 @@ function findNodeAtPosition(tsModule: typeof ts, sourceFile: ts.SourceFile, posi
   }
 
   return node || undefined;
+}
+
+function getPropertyAccessNode(
+  tsModule: typeof ts,
+  node: ts.Node,
+): ts.PropertyAccessExpression | ts.PropertyAccessChain | null {
+  if (tsModule.isPropertyAccessExpression(node)) {
+    return node;
+  }
+
+  const isPropertyAccessChain = (tsModule as any).isPropertyAccessChain as
+    | ((n: ts.Node) => n is ts.PropertyAccessChain)
+    | undefined;
+  if (isPropertyAccessChain && isPropertyAccessChain(node)) {
+    return node;
+  }
+
+  const parent = node.parent;
+  if (parent) {
+    if (tsModule.isPropertyAccessExpression(parent)) {
+      return parent;
+    }
+    if (isPropertyAccessChain && isPropertyAccessChain(parent)) {
+      return parent;
+    }
+  }
+
+  return null;
+}
+
+function unwrapExpression(tsModule: typeof ts, expression: ts.Expression): ts.Expression {
+  let current = expression;
+  while (true) {
+    if (tsModule.isParenthesizedExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (tsModule.isAsExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if ((tsModule as any)?.isTypeAssertion(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (tsModule.isNonNullExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    break;
+  }
+
+  return current;
 }
 
 export = init;

@@ -6,5 +6,5 @@ export default createPackageConfig({
   packageDir: 'packages/ts-plugin-jsx-dom',
   // withLegacy: false,
   // withCjs: true,
-  withJs: true,
+  withCjsButSuffixIsJs: true,
 });

@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, renameSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { askYesNo } from './ask';
 import { execSync } from 'child_process';
@@ -22,11 +22,21 @@ const workMap = new Map([
 class Version {
   static max(...versions: Version[]) {
     return versions.reduce((max, v) => {
-      if (v.major > max.major) return v;
-      if (v.major < max.major) return max;
-      if (v.minor > max.minor) return v;
-      if (v.minor < max.minor) return max;
-      if (v.patch > max.patch) return v;
+      if (v.major > max.major) {
+        return v;
+      }
+      if (v.major < max.major) {
+        return max;
+      }
+      if (v.minor > max.minor) {
+        return v;
+      }
+      if (v.minor < max.minor) {
+        return max;
+      }
+      if (v.patch > max.patch) {
+        return v;
+      }
       return max;
     }, versions[0]);
   }
@@ -99,6 +109,15 @@ async function publish(who: string | undefined) {
 
   for (const p of info) {
     execSync(`pnpm --filter ${p.name} build`, { stdio: 'inherit' });
+
+    // & special deal with tsplugin place
+    if (p.name === '@ktjs/ts-plugin-jsx-dom') {
+      console.log('Moving dist/index.js to index.js for ts-plugin-jsx-dom');
+      const distIndexJSPath = join(import.meta.dirname, '..', 'packages', 'ts-plugin-jsx-dom', 'dist', 'index.js');
+      const distIndexJSPath2 = join(import.meta.dirname, '..', 'packages', 'ts-plugin-jsx-dom', 'index.js');
+      renameSync(distIndexJSPath, distIndexJSPath2);
+    }
+
     execSync(`pnpm --filter ${p.name} publish --no-git-checks --access public`, { stdio: 'inherit' });
     console.log(`Published ${p.name}@${newVersionStr}`);
   }

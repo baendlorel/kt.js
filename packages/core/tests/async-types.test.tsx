@@ -4,13 +4,13 @@ import { KTAsync } from '../src/jsx/async.js';
 describe('KTAsync type inference', () => {
   it('should infer props from component function', () => {
     // Component with specific props
-    const MyComponent = (props: {
+    const MyComponent = async (props: {
       ref?: any;
       children?: any;
       name: string;
       age: number;
       'on:click'?: (e: MouseEvent) => void;
-    }): HTMLElement => {
+    }) => {
       const div = document.createElement('div');
       div.textContent = `${props.name} - ${props.age}`;
       return div;
@@ -27,7 +27,7 @@ describe('KTAsync type inference', () => {
     };
 
     const result2 = <KTAsync component={SimpleComponent} />;
-    expect(result2).toBeInstanceOf(Comment);
+    expect(result2).toBeInstanceOf(HTMLElement);
   });
 
   it('should work with async components', async () => {

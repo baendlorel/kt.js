@@ -25,10 +25,16 @@ export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname)
 
   return {
     alias: {
+      // core
+      '@ktjs/core/jsx-dev-runtime': path.join(projectRoot, 'packages/core/src/jsx/jsx-runtime.ts'),
+      '@ktjs/core/jsx-runtime': path.join(projectRoot, 'packages/core/src/jsx/jsx-runtime.ts'),
+      '@ktjs/core/jsx': path.join(projectRoot, 'packages/core/src/jsx/index.ts'),
+      '@ktjs/core': path.join(projectRoot, 'packages/core/src/index.ts'),
+
       '@': path.join(projectRoot, 'packages/core/src/'), // @ is fixed to core/src
       '@tests': path.join(projectRoot, `packages/${currentDirname}/tests`),
       '@ktjs/runtime': path.join(projectRoot, 'packages/core/src/runtime.ts'),
-      '@ktjs/core': path.join(projectRoot, 'packages/core/src/index.ts'),
+
       '@ktjs/router': path.join(projectRoot, 'packages/router/src/main.ts'),
       '@ktjs/shortcuts': path.join(projectRoot, 'packages/shortcuts/src/index.ts'),
       '@ktjs/mui': path.join(projectRoot, 'packages/mui/src/index.ts'),

@@ -23,7 +23,7 @@ export const getPackageGroup = (who: string | undefined) => {
   }
   const packages = workMap.get(who)!;
   return packages.map((dir) => {
-    const packageJsonPath = join(import.meta.dirname, '..', 'packages', dir, 'package.json');
+    const packageJsonPath = join(import.meta.dirname, '..', '..', 'packages', dir, 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     return {
       path: packageJsonPath,

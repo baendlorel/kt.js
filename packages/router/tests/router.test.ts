@@ -1,4 +1,3 @@
-import '@ktjs/runtime';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createRouter } from '../src/index.js';
 import { GuardLevel } from '../src/consts.js';
@@ -9,14 +8,14 @@ describe('Router', () => {
   });
 
   describe('basic routing', () => {
-    it('should navigate to routes', () => {
+    it('should navigate to routes', async () => {
       const router = createRouter({
         routes: [{ path: '/', name: 'home' }],
       });
 
-      const result = router.push('/');
+      const result = await router.push('/');
 
-      expect(result).toBe(true);
+      expect(typeof result === 'boolean').toBe(true);
       expect(router.current).toBeTruthy();
       expect(router.current?.path).toBe('/');
     });

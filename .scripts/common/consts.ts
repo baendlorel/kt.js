@@ -6,7 +6,7 @@ export const workMap = new Map([
   [undefined, ['core', 'kt.js']],
   ['plugin', ['babel-plugin-ktjsx']],
   ['shared', ['shared']],
-  ['router', ['example']],
+  ['router', ['router']],
   ['mui', ['mui']],
   ['exp', ['example']],
   ['shortcuts', ['shortcuts']],

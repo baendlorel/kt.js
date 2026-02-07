@@ -26,7 +26,7 @@
     "exp": "pnpm --filter @ktjs/example dev",
     "build": "tsx .scripts/index.ts --build",
     "pub": "tsx .scripts/index.ts --publish",
-    "test": "tsx .scripts/index.ts --test",
+    "test": "clear && tsx .scripts/index.ts --test",
     "test2": "vitest --config configs/vitest.config.ts",
     "check": "tsc --noEmit",
     "lint": "oxlint .",

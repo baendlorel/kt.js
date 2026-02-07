@@ -22,7 +22,8 @@ const init: ts.server.PluginModuleFactory = (mod) => {
 
       const log = (message: string, ...args: any[]) => {
         if (logger?.info) {
-          const fullMessage = `[ts-plugin-jsx-dom] ${message}` + (args.length > 0 ? ` ${args.map(arg => String(arg)).join(' ')}` : '');
+          const fullMessage =
+            `[ts-plugin-jsx-dom] ${message}` + (args.length > 0 ? ` ${args.map((arg) => String(arg)).join(' ')}` : '');
           logger.info(fullMessage);
         }
       };
@@ -113,13 +114,17 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         if (tsModule.isPropertyAccessExpression(node)) {
           const leftType = checker.getTypeAtLocation(node.expression);
           targetType = leftType;
-          log(`getCompletionsAtPosition: property access expression, left type: ${checker.typeToString(leftType, sourceFile)}`);
+          log(
+            `getCompletionsAtPosition: property access expression, left type: ${checker.typeToString(leftType, sourceFile)}`,
+          );
         } else if (tsModule.isIdentifier(node)) {
           // 可能是变量声明或标识符
           const symbol = checker.getSymbolAtLocation(node);
           if (symbol) {
             targetType = checker.getTypeOfSymbolAtLocation(symbol, node);
-            log(`getCompletionsAtPosition: identifier ${node.getText()}, type: ${checker.typeToString(targetType, sourceFile)}`);
+            log(
+              `getCompletionsAtPosition: identifier ${node.getText()}, type: ${checker.typeToString(targetType, sourceFile)}`,
+            );
           }
         }
 
@@ -199,7 +204,9 @@ const init: ts.server.PluginModuleFactory = (mod) => {
               displayParts: [{ text: replacedText, kind: 'text' }],
             };
           } else {
-            log(`getCompletionEntryDetails: display text does not contain JSX.Element at ${fileName}:${position} - "${displayText}"`);
+            log(
+              `getCompletionEntryDetails: display text does not contain JSX.Element at ${fileName}:${position} - "${displayText}"`,
+            );
           }
         } else {
           log(`getCompletionEntryDetails: no displayParts at ${fileName}:${position}`);
@@ -395,4 +402,4 @@ function findNodeAtPosition(tsModule: typeof ts, sourceFile: ts.SourceFile, posi
   return node || undefined;
 }
 
-export default init;
+export = init;

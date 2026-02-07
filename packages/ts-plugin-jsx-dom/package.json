@@ -2,7 +2,7 @@
   "name": "@ktjs/ts-plugin-jsx-dom",
   "version": "0.1.5",
   "description": "TypeScript language service plugin to show DOM element types for JSX.",
-  "type": "module",
+  "type": "commonjs",
   "module": "index.js",
   "exports": {
     ".": {

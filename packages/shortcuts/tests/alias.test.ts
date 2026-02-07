@@ -4,7 +4,7 @@ import { div, btn } from '../src/common.js';
 
 describe('shortcuts alias', () => {
   it('div alias creates a div element with string class and text', () => {
-    const el = div('my-class', 'hello');
+    const el = div({ class: 'my-class' }, 'hello');
     expect(el.tagName.toLowerCase()).toBe('div');
     expect(el.className).toBe('my-class');
     expect(el.textContent).toBe('hello');

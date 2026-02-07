@@ -31,6 +31,10 @@ export const resolve: (dirname: string) => ViteUserConfig['resolve'] = (dirname)
       '@ktjs/core': path.join(projectRoot, 'packages/core/src/index.ts'),
       '@ktjs/router': path.join(projectRoot, 'packages/router/src/main.ts'),
       '@ktjs/shortcuts': path.join(projectRoot, 'packages/shortcuts/src/index.ts'),
+      '@ktjs/mui': path.join(projectRoot, 'packages/mui/src/index.ts'),
+      '@ktjs/shared': path.join(projectRoot, 'packages/shared/src/index.ts'),
+      '@ktjs/babel-plugin-ktjsx': path.join(projectRoot, 'packages/babel-plugin-ktjsx/src/index.ts'),
+      '@ktjs/kt.js': path.join(projectRoot, 'packages/kt.js/src/index.ts'),
     },
   };
 };

@@ -131,17 +131,35 @@ const init: ts.server.PluginModuleFactory = (mod) => {
           return prior;
         }
 
-        const jsxTypeText = resolvePreferredTypeText(tsModule, checker, sourceFile, position);
+        const preferredType = tsModule.isPropertyAccessExpression(node)
+          ? (resolvePreferredTypeFromExpression(tsModule, checker, sourceFile, node.expression) ??
+            resolvePreferredType(tsModule, checker, sourceFile, position))
+          : resolvePreferredType(tsModule, checker, sourceFile, position);
+        if (!preferredType) {
+          log(`getCompletionsAtPosition: could not resolve preferred JSX type at ${fileName}:${position}`);
+          return prior;
+        }
+
+        const jsxTypeText = checker.typeToString(preferredType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
         if (!jsxTypeText) {
           log(`getCompletionsAtPosition: could not resolve JSX type at ${fileName}:${position}`);
           return prior;
         }
 
         log(`getCompletionsAtPosition: JSX.Element -> ${jsxTypeText} at ${fileName}:${position}`);
+
+        const entries = buildEntriesFromType(tsModule, checker, preferredType);
+        if (entries.length === 0) {
+          log(`getCompletionsAtPosition: no properties found for ${jsxTypeText}`);
+          return prior;
+        }
+
         const enhancedPrior: EnhancedCompletionInfo = {
           ...prior,
+          entries,
           _isEnhanced: true,
         };
+
         return enhancedPrior;
       };
 
@@ -208,57 +226,122 @@ const init: ts.server.PluginModuleFactory = (mod) => {
         sourceFile: ts.SourceFile,
         position: number,
       ): TypeText {
+        const preferredType = resolvePreferredType(tsModule, checker, sourceFile, position);
+        if (!preferredType) {
+          return null;
+        }
+
+        return checker.typeToString(preferredType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
+      }
+
+      function resolvePreferredType(
+        tsModule: typeof ts,
+        checker: Checker,
+        sourceFile: ts.SourceFile,
+        position: number,
+      ): ts.Type | null {
         const jsxNode = findNearestJsxNode(tsModule, sourceFile, position);
         if (jsxNode) {
-          log(`resolvePreferredTypeText: found nearest JSX node at ${sourceFile.fileName}:${position}`);
-          const typeText = getJsxNodeTypeText(tsModule, checker, sourceFile, jsxNode);
-          if (typeText) {
-            log(`resolvePreferredTypeText: JSX node type resolved to ${typeText}`);
-            return typeText;
+          log(`resolvePreferredType: found nearest JSX node at ${sourceFile.fileName}:${position}`);
+          const type = getJsxNodeType(tsModule, checker, sourceFile, jsxNode);
+          if (type) {
+            log(`resolvePreferredType: JSX node type resolved to ${checker.typeToString(type, sourceFile)}`);
+            return type;
           }
-          log(`resolvePreferredTypeText: JSX node type could not be resolved`);
+          log(`resolvePreferredType: JSX node type could not be resolved`);
         }
 
         const token = (tsModule as any).getTokenAtPosition(sourceFile, position);
         if (!token) {
-          log(`resolvePreferredTypeText: no token at ${sourceFile.fileName}:${position}`);
+          log(`resolvePreferredType: no token at ${sourceFile.fileName}:${position}`);
           return null;
         }
 
-        log(`resolvePreferredTypeText: token kind=${token.kind}, text="${token.getText?.(sourceFile) || ''}"`);
+        log(`resolvePreferredType: token kind=${token.kind}, text="${token.getText?.(sourceFile) || ''}"`);
 
         const symbol = checker.getSymbolAtLocation(token);
         if (!symbol) {
-          log(`resolvePreferredTypeText: no symbol at ${sourceFile.fileName}:${position}`);
+          log(`resolvePreferredType: no symbol at ${sourceFile.fileName}:${position}`);
           return null;
         }
 
-        log(`resolvePreferredTypeText: symbol name="${symbol.getName()}"`);
+        log(`resolvePreferredType: symbol name="${symbol.getName()}"`);
 
         const declarations = symbol.getDeclarations();
         if (!declarations || declarations.length === 0) {
-          log(`resolvePreferredTypeText: no declarations for symbol "${symbol.getName()}"`);
+          log(`resolvePreferredType: no declarations for symbol "${symbol.getName()}"`);
           return null;
         }
 
-        log(`resolvePreferredTypeText: found ${declarations.length} declaration(s)`);
+        log(`resolvePreferredType: found ${declarations.length} declaration(s)`);
 
         for (const decl of declarations) {
           const initializer = getInitializerFromDeclaration(tsModule, decl);
           if (initializer) {
-            log(`resolvePreferredTypeText: found initializer, isJsxNode=${isJsxNode(tsModule, initializer)}`);
+            log(`resolvePreferredType: found initializer, isJsxNode=${isJsxNode(tsModule, initializer)}`);
             if (isJsxNode(tsModule, initializer)) {
-              const typeText = getJsxNodeTypeText(tsModule, checker, sourceFile, initializer);
-              if (typeText) {
-                log(`resolvePreferredTypeText: initializer type resolved to ${typeText}`);
-                return typeText;
+              const type = getJsxNodeType(tsModule, checker, sourceFile, initializer);
+              if (type) {
+                log(`resolvePreferredType: initializer type resolved to ${checker.typeToString(type, sourceFile)}`);
+                return type;
               }
-              log(`resolvePreferredTypeText: initializer type could not be resolved`);
+              log(`resolvePreferredType: initializer type could not be resolved`);
+            }
+
+            const type = checker.getTypeAtLocation(initializer);
+            if (type) {
+              log(`resolvePreferredType: initializer type resolved to ${checker.typeToString(type, sourceFile)}`);
+              return type;
             }
           }
         }
 
-        log(`resolvePreferredTypeText: no JSX initializer found`);
+        log(`resolvePreferredType: no JSX initializer found`);
+        return null;
+      }
+
+      function resolvePreferredTypeFromExpression(
+        tsModule: typeof ts,
+        checker: Checker,
+        sourceFile: ts.SourceFile,
+        expression: ts.Expression,
+      ): ts.Type | null {
+        const symbol = checker.getSymbolAtLocation(expression);
+        if (!symbol) {
+          log(`resolvePreferredTypeFromExpression: no symbol for expression "${expression.getText(sourceFile)}"`);
+          return null;
+        }
+
+        const declarations = symbol.getDeclarations();
+        if (!declarations || declarations.length === 0) {
+          log(`resolvePreferredTypeFromExpression: no declarations for symbol "${symbol.getName()}"`);
+          return null;
+        }
+
+        for (const decl of declarations) {
+          const initializer = getInitializerFromDeclaration(tsModule, decl);
+          if (initializer) {
+            log(`resolvePreferredTypeFromExpression: found initializer, isJsxNode=${isJsxNode(tsModule, initializer)}`);
+            if (isJsxNode(tsModule, initializer)) {
+              const type = getJsxNodeType(tsModule, checker, sourceFile, initializer);
+              if (type) {
+                log(
+                  `resolvePreferredTypeFromExpression: initializer type resolved to ${checker.typeToString(type, sourceFile)}`,
+                );
+                return type;
+              }
+            }
+
+            const type = checker.getTypeAtLocation(initializer);
+            if (type) {
+              log(
+                `resolvePreferredTypeFromExpression: initializer type resolved to ${checker.typeToString(type, sourceFile)}`,
+              );
+              return type;
+            }
+          }
+        }
+
         return null;
       }
 
@@ -338,6 +421,49 @@ function getJsxNodeTypeText(tsModule: typeof ts, checker: Checker, sourceFile: t
   return null;
 }
 
+function getJsxNodeType(
+  tsModule: typeof ts,
+  checker: Checker,
+  sourceFile: ts.SourceFile,
+  node: JsxNode,
+): ts.Type | null {
+  if (tsModule.isJsxFragment(node)) {
+    log(`getJsxNodeType: node is JSX fragment, skipping`);
+    return null;
+  }
+
+  const tagName = getTagNameFromJsx(tsModule, node);
+  if (!tagName) {
+    log(`getJsxNodeType: no tag name found`);
+    return null;
+  }
+
+  if (tsModule.isIdentifier(tagName)) {
+    const tagText = tagName.text;
+    log(`getJsxNodeType: identifier tag="${tagText}"`);
+    if (isIntrinsicTag(tagText)) {
+      log(`getJsxNodeType: intrinsic tag "${tagText}"`);
+      return getIntrinsicElementType(tsModule, checker, sourceFile, tagText);
+    }
+    log(`getJsxNodeType: component tag "${tagText}"`);
+    return getComponentReturnType(tsModule, checker, tagName);
+  }
+
+  if (tsModule.isPropertyAccessExpression(tagName)) {
+    log(`getJsxNodeType: property access expression`);
+    return getComponentReturnType(tsModule, checker, tagName);
+  }
+
+  if (tsModule.isJsxNamespacedName(tagName)) {
+    const localName = tagName.name.text;
+    log(`getJsxNodeType: namespaced tag="${localName}"`);
+    return getIntrinsicElementType(tsModule, checker, sourceFile, localName);
+  }
+
+  log(`getJsxNodeType: unknown tag type`);
+  return null;
+}
+
 function getTagNameFromJsx(
   tsModule: typeof ts,
   node: ts.JsxElement | ts.JsxSelfClosingElement,
@@ -371,6 +497,25 @@ function getIntrinsicElementTypeText(
   return null;
 }
 
+function getIntrinsicElementType(
+  tsModule: typeof ts,
+  checker: Checker,
+  sourceFile: ts.SourceFile,
+  tagName: string,
+): ts.Type | null {
+  const htmlType = getElementTypeFromMapType(tsModule, checker, sourceFile, 'HTMLElementTagNameMap', tagName);
+  if (htmlType) {
+    return htmlType;
+  }
+
+  const svgType = getElementTypeFromMapType(tsModule, checker, sourceFile, 'SVGElementTagNameMap', tagName);
+  if (svgType) {
+    return svgType;
+  }
+
+  return null;
+}
+
 function getElementTypeFromMap(
   tsModule: typeof ts,
   checker: Checker,
@@ -378,27 +523,43 @@ function getElementTypeFromMap(
   mapName: string,
   tagName: string,
 ): TypeText {
-  log(`getElementTypeFromMap: looking for "${tagName}" in ${mapName}`);
-
-  const mapSymbol = resolveGlobalSymbol(tsModule, checker, sourceFile, mapName, tsModule.SymbolFlags.Interface);
-  if (!mapSymbol) {
-    log(`getElementTypeFromMap: ${mapName} not found`);
+  const propType = getElementTypeFromMapType(tsModule, checker, sourceFile, mapName, tagName);
+  if (!propType) {
     return null;
   }
 
-  log(`getElementTypeFromMap: ${mapName} found`);
+  const typeText = checker.typeToString(propType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
+  log(`getElementTypeFromMap: "${tagName}" resolved to ${typeText}`);
+  return typeText;
+}
+
+function getElementTypeFromMapType(
+  tsModule: typeof ts,
+  checker: Checker,
+  sourceFile: ts.SourceFile,
+  mapName: string,
+  tagName: string,
+): ts.Type | null {
+  log(`getElementTypeFromMapType: looking for "${tagName}" in ${mapName}`);
+
+  const mapSymbol = resolveGlobalSymbol(tsModule, checker, sourceFile, mapName, tsModule.SymbolFlags.Interface);
+  if (!mapSymbol) {
+    log(`getElementTypeFromMapType: ${mapName} not found`);
+    return null;
+  }
+
+  log(`getElementTypeFromMapType: ${mapName} found`);
   const mapType =
     checker.getDeclaredTypeOfSymbol(mapSymbol) || checker.getTypeOfSymbolAtLocation(mapSymbol, sourceFile);
   const propSymbol = checker.getPropertyOfType(mapType, tagName) ?? mapType.getProperty(tagName);
   if (!propSymbol) {
-    log(`getElementTypeFromMap: property "${tagName}" not found in ${mapName}`);
+    log(`getElementTypeFromMapType: property "${tagName}" not found in ${mapName}`);
     return null;
   }
 
   const propType = checker.getTypeOfSymbolAtLocation(propSymbol, sourceFile);
-  const typeText = checker.typeToString(propType, sourceFile, tsModule.TypeFormatFlags.NoTruncation);
-  log(`getElementTypeFromMap: "${tagName}" resolved to ${typeText}`);
-  return typeText;
+  log(`getElementTypeFromMapType: "${tagName}" resolved to ${checker.typeToString(propType, sourceFile)}`);
+  return propType;
 }
 
 function resolveGlobalSymbol(
@@ -441,6 +602,48 @@ function getComponentReturnTypeText(tsModule: typeof ts, checker: Checker, tagNa
 
   const returnType = checker.getReturnTypeOfSignature(signature);
   return checker.typeToString(returnType, tagName, tsModule.TypeFormatFlags.NoTruncation);
+}
+
+function getComponentReturnType(
+  tsModule: typeof ts,
+  checker: Checker,
+  tagName: ts.JsxTagNameExpression,
+): ts.Type | null {
+  const symbol = checker.getSymbolAtLocation(tagName);
+  if (!symbol) {
+    return null;
+  }
+
+  const targetSymbol = symbol.flags & tsModule.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+  const type = checker.getTypeOfSymbolAtLocation(targetSymbol, tagName);
+  const signatures = type.getCallSignatures();
+  const signature = signatures[0] || type.getConstructSignatures()[0];
+  if (!signature) {
+    return null;
+  }
+
+  return checker.getReturnTypeOfSignature(signature);
+}
+
+function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Type): ts.CompletionEntry[] {
+  const properties = checker.getPropertiesOfType(type);
+  if (!properties || properties.length === 0) {
+    return [];
+  }
+
+  return properties.map((symbol) => {
+    const name = symbol.getName();
+    const kind =
+      symbol.flags & tsModule.SymbolFlags.Method
+        ? tsModule.ScriptElementKind.memberFunctionElement
+        : tsModule.ScriptElementKind.memberVariableElement;
+    return {
+      name,
+      kind,
+      kindModifiers: '',
+      sortText: '0',
+    } as ts.CompletionEntry;
+  });
 }
 
 function findNodeAtPosition(tsModule: typeof ts, sourceFile: ts.SourceFile, position: number): ts.Node | undefined {

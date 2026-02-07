@@ -156,7 +156,7 @@ const init: ts.server.PluginModuleFactory = (mod) => {
 
         const enhancedPrior: EnhancedCompletionInfo = {
           ...prior,
-          entries,
+          entries: mergeCompletionEntries(prior.entries, entries),
           _isEnhanced: true,
         };
 
@@ -626,12 +626,19 @@ function getComponentReturnType(
 }
 
 function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Type): ts.CompletionEntry[] {
-  const properties = checker.getPropertiesOfType(type);
-  if (!properties || properties.length === 0) {
+  const apparentType = checker.getApparentType(type);
+  const properties = checker.getPropertiesOfType(apparentType) ?? [];
+  const apparentProperties =
+    typeof (apparentType as any).getApparentProperties === 'function'
+      ? (apparentType as any).getApparentProperties()
+      : [];
+
+  const symbols: ts.Symbol[] = [...properties, ...apparentProperties];
+  if (symbols.length === 0) {
     return [];
   }
 
-  return properties.map((symbol) => {
+  return symbols.map((symbol) => {
     const name = symbol.getName();
     const kind =
       symbol.flags & tsModule.SymbolFlags.Method
@@ -644,6 +651,29 @@ function buildEntriesFromType(tsModule: typeof ts, checker: Checker, type: ts.Ty
       sortText: '0',
     } as ts.CompletionEntry;
   });
+}
+
+function mergeCompletionEntries(
+  baseEntries: ts.CompletionEntry[],
+  extraEntries: ts.CompletionEntry[],
+): ts.CompletionEntry[] {
+  const seen = new Set<string>();
+  const merged: ts.CompletionEntry[] = [];
+
+  for (const entry of baseEntries) {
+    merged.push(entry);
+    seen.add(entry.name);
+  }
+
+  for (const entry of extraEntries) {
+    if (seen.has(entry.name)) {
+      continue;
+    }
+    merged.push(entry);
+    seen.add(entry.name);
+  }
+
+  return merged;
 }
 
 function findNodeAtPosition(tsModule: typeof ts, sourceFile: ts.SourceFile, position: number): ts.Node | undefined {

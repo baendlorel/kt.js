@@ -4,16 +4,15 @@ import { h } from '../src/h/index.js';
 describe('h basic usage', () => {
   h('div', { 'on:click': (_e) => {}, abort: 'sdf', '@click': () => 1 });
   it('creates an element with string className', () => {
-    const el = h('div', 'my-class', 'hello');
+    const el = h('div', { class: 'my-class' }, 'hello');
     expect(el.tagName.toLowerCase()).toBe('div');
     expect(el.className).toBe('my-class');
     expect(el.textContent).toBe('hello');
   });
 
   it('creates element with attribute object and children array', () => {
-    const child = h('span', 'child', 'c');
+    const child = h('span', { class: 'child' }, 'c');
     const el = h('section', { id: 's1', class: 'a b', style: { color: 'red' } }, [child, 't']);
-    // const el = h('section', { id: 's1', class: 'a b', style: 'color: red' }, [child, 't']);
     expect(el.getAttribute('id')).toBe('s1');
     expect(el.classList.contains('a')).toBe(true);
     expect(el.classList.contains('b')).toBe(true);

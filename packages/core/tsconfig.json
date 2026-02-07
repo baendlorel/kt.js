@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "jsxImportSource": "./src/jsx/index.ts",
     "paths": {
       "@ktjs/shared": ["../shared/src/index.ts"]
     }

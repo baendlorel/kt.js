@@ -1,4 +1,3 @@
-import '@ktjs/runtime';
 import { describe, it, expect } from 'vitest';
 import { div, btn } from '../src/common.js';
 

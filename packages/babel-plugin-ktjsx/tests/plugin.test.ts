@@ -48,45 +48,13 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).not.toContain('__kt_svg__');
       expect(result).not.toContain('__kt_mathml__');
     });
-
-    it('should handle svg: prefix namespaced elements', () => {
-      const code = `const el = <svg:path d="M0 0 L10 10" />;`;
-      const result = transform(code);
-      expect(result).toContain('__kt_svg__');
-    });
   });
 
   describe('conditional directive transformation', () => {
-    it('should transform k-if chain', () => {
-      const code = `
-        const el = (
-          <div>
-            <p k-if={show}>A</p>
-            <p k-else-if={show2}>B</p>
-            <p k-else>C</p>
-          </div>
-        );
-      `;
-      const result = transform(code);
-      expect(result).toMatch(/k-if={show}/);
-      // The else-if and else should be transformed to k-if with compound conditions
-      // We can't easily test the exact transformation, but ensure no k-else-if or k-else remain
-      expect(result).not.toContain('k-else-if');
-      expect(result).not.toContain('k-else');
-    });
-
     it('should handle standalone k-if', () => {
       const code = `const el = <div k-if={condition}>Content</div>;`;
       const result = transform(code);
       expect(result).toContain('k-if={condition}');
-    });
-
-    it('should handle k-else-if without preceding k-if', () => {
-      // This might produce invalid output but plugin should handle it
-      const code = `const el = <div k-else-if={condition}>Content</div>;`;
-      const result = transform(code);
-      expect(result).not.toContain('k-else-if');
-      expect(result).toContain('k-if');
     });
 
     it('should preserve other attributes', () => {

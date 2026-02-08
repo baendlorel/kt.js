@@ -1,5 +1,5 @@
 export interface KTMuiCheckboxProps {
-  value: string;
+  value?: string;
   label?: string | JSX.Element | HTMLElement;
   checked?: boolean;
   size?: 'small' | 'medium';

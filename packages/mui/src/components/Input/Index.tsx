@@ -1,4 +1,4 @@
-import { $modelOrRef, deref, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, deref, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -13,23 +13,11 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const onBlur = props['on:blur'] ?? $emptyFn;
   const onFocus = props['on:focus'] ?? $emptyFn;
 
+  const isFocusedRef = ref(false);
+
   // # methods
-  const updateContainerClass = () => {
-    container.className = [
-      'mui-textfield-root',
-      `mui-textfield-size-${sizeRef.value}`,
-      isFocused ? 'mui-textfield-focused' : '',
-      errorRef.value ? 'mui-textfield-error' : '',
-      disabledRef.value ? 'mui-textfield-disabled' : '',
-      fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
-      labelRef.value && inputEl.value ? 'mui-textfield-has-value' : '',
-      labelRef.value ? '' : 'mui-textfield-no-label',
-    ].join(' ');
-  };
 
   const handleInput = () => {
-    updateContainerClass();
-
     if (inputType === 'number') {
       const v = Number(inputEl.value);
       modelRef.value = v;
@@ -43,8 +31,6 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   };
 
   const handleChange = () => {
-    updateContainerClass();
-
     if (inputType === 'number') {
       const v = Number(inputEl.value);
       modelRef.value = v;
@@ -58,14 +44,12 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   };
 
   const handleFocus = () => {
-    isFocused = true;
-    updateContainerClass();
+    isFocused.value = true;
     onFocus(inputEl.value);
   };
 
   const handleBlur = () => {
-    isFocused = false;
-    updateContainerClass();
+    isFocused.value = false;
     onBlur(inputEl.value);
   };
 
@@ -90,17 +74,27 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // Create refs for all reactive properties
   const labelRef = toReactive(props.label ?? '');
   const placeholderRef = toReactive(props.placeholder ?? '', () => (inputEl.placeholder = getPlaceholder()));
-  const disabledRef = toReactive(props.disabled ?? false, (v) => {
-    inputEl.disabled = v;
-    updateContainerClass();
-  });
+  const disabledRef = toReactive(props.disabled ?? false, (v) => (inputEl.disabled = v));
   const readOnlyRef = toReactive(props.readOnly ?? false, (v) => (inputEl.readOnly = v));
   const requiredRef = toReactive(props.required ?? false);
-  const errorRef = toReactive(props.error ?? false, updateContainerClass);
+  const errorRef = toReactive(props.error ?? false);
   const helperTextRef = toReactive(props.helperText ?? '');
-  const fullWidthRef = toReactive(props.fullWidth ?? false, updateContainerClass);
+  const fullWidthRef = toReactive(props.fullWidth ?? false);
   const rowsRef = toReactive(props.rows ?? 3);
-  const sizeRef = toReactive(props.size ?? 'medium', updateContainerClass);
+  const sizeRef = toReactive(props.size ?? 'medium');
+
+  const classRef = computed(() => {
+    return [
+      'mui-textfield-root',
+      `mui-textfield-size-${sizeRef.value}`,
+      isFocusedRef.value ? 'mui-textfield-focused' : '',
+      errorRef.value ? 'mui-textfield-error' : '',
+      disabledRef.value ? 'mui-textfield-disabled' : '',
+      fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
+      labelRef.value && inputEl.value ? 'mui-textfield-has-value' : '',
+      labelRef.value ? '' : 'mui-textfield-no-label',
+    ].join(' ');
+  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef]);
 
   // k-model takes precedence over value prop for two-way binding
   const modelRef = $modelOrRef(props, props.value ?? '');
@@ -112,7 +106,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // //   updateContainerClass();
   // // });
 
-  let isFocused = false;
+  const isFocused = ref(false);
   const inputEl = multiline
     ? ((
         <textarea
@@ -145,17 +139,14 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
         />
       ) as HTMLInputElement);
 
-  modelRef.addOnChange((newValue) => {
-    inputEl.value = newValue;
-    updateContainerClass();
-  });
+  modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
   if (multiline) {
     rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
   }
 
   const container = (
-    <div class={'mui-textfield-root ' + (props.class ? props.class : '')} style={parseStyle(props.style)}>
+    <div class={classRef} style={parseStyle(props.style)}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
         <label class="mui-textfield-label">
           {labelRef}
@@ -176,9 +167,6 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       <p class="mui-textfield-helper-text">{helperTextRef}</p>
     </div>
   ) as KTMuiTextField;
-
-  // Initialize classes
-  setTimeout(() => updateContainerClass(), 0);
 
   return container;
 }

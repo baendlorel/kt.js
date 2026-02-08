@@ -34,7 +34,7 @@ describe('MUI TextField component', () => {
     const textfield = TextField({ disabled: true }) as HTMLElement;
     const input = textfield.querySelector('input');
     expect(input?.disabled).toBe(true);
-    expect(textfield.className).toContain('mui-textfield-disabled');
+    expect(textfield.innerHTML).toContain('mui-textfield-disabled');
   });
 
   it('should handle readOnly state', () => {

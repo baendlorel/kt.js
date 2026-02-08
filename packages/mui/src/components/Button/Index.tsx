@@ -1,4 +1,4 @@
-import { KTReactive, KTPrefixedEventAttribute, toReactive } from 'kt.js';
+import { KTReactive, KTPrefixedEventAttribute, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';

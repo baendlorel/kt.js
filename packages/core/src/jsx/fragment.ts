@@ -4,52 +4,52 @@ import { isRef, toReactive } from '../reactive/index.js';
 import type { KTRawContent } from '../types/h.js';
 
 export interface FragmentProps {
-  /** 子元素数组，支持响应式 */
+  /** Array of child elements, supports reactive arrays */
   children: HTMLElement[] | KTReactive<HTMLElement[]>;
 
-  /** 可选：元素key函数，用于优化更新（未来扩展） */
+  /** Optional: element key function for optimization (future enhancement) */
   key?: (element: HTMLElement, index: number, array: HTMLElement[]) => any;
 
-  /** 可选：ref引用，获取锚点节点 */
+  /** Optional: ref to get the anchor node */
   ref?: KTRef<JSX.Element>;
 }
 
 /**
- * Fragment - 管理子元素数组的容器组件
+ * Fragment - Container component for managing arrays of child elements
  *
- * 特性：
- * 1. 返回注释锚点节点，子元素插入在锚点之后
- * 2. 支持响应式数组，数组变化时自动更新DOM
- * 3. 基础版本使用简单替换算法（移除所有旧元素，插入所有新元素）
- * 4. 未来可扩展key优化
+ * Features:
+ * 1. Returns a comment anchor node, child elements are inserted after the anchor
+ * 2. Supports reactive arrays, automatically updates DOM when array changes
+ * 3. Basic version uses simple replacement algorithm (remove all old elements, insert all new elements)
+ * 4. Future enhancement: key-based optimization
  *
- * 使用示例：
+ * Usage example:
  * ```tsx
  * const children = ref([<div>A</div>, <div>B</div>]);
  * const fragment = <Fragment children={children} />;
  * document.body.appendChild(fragment);
  *
- * // 自动更新
+ * // Automatic update
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
 export function Fragment(props: FragmentProps): JSX.Element {
-  // key参数为未来扩展预留，当前未使用
+  // key parameter reserved for future enhancement, currently unused
   const { key: _key, ref } = props;
 
-  // 将children转换为响应式引用
+  // Convert children to reactive reference
   const childrenRef = toReactive(props.children, redraw);
 
-  // 创建锚点注释节点
+  // Create anchor comment node
   const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
 
-  // 存储当前元素数组的引用
+  // Store reference to current element array
   const currentElements: HTMLElement[] = [];
 
-  // 初始化渲染
+  // Initial rendering
   renderInitial();
 
-  // 设置ref引用
+  // Set ref reference
   if (ref) {
     if (isRef(ref)) {
       ref.value = anchor;
@@ -60,12 +60,12 @@ export function Fragment(props: FragmentProps): JSX.Element {
 
   return anchor;
 
-  /** 初始渲染 */
+  /** Initial rendering */
   function renderInitial() {
     const elements = childrenRef.value;
     currentElements.length = 0;
 
-    // 创建文档片段
+    // Create document fragment
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < elements.length; i++) {
@@ -74,17 +74,17 @@ export function Fragment(props: FragmentProps): JSX.Element {
       fragment.appendChild(element);
     }
 
-    // 插入到锚点之后（锚点当前不在DOM中，先保存到属性中）
+    // Insert after anchor (anchor not in DOM yet, store in property)
     (anchor as any).__kt_fragment_list__ = currentElements;
   }
 
-  /** 重绘函数，当children变化时调用 */
+  /** Redraw function, called when children change */
   function redraw() {
     const newElements = childrenRef.value;
     const parent = anchor.parentNode;
 
     if (!parent) {
-      // 如果锚点不在DOM中，只更新内部状态
+      // If anchor is not in DOM, only update internal state
       currentElements.length = 0;
       for (let i = 0; i < newElements.length; i++) {
         currentElements.push(newElements[i]);
@@ -95,16 +95,16 @@ export function Fragment(props: FragmentProps): JSX.Element {
 
     const oldElements = currentElements;
 
-    // 简单替换算法：移除所有旧元素，插入所有新元素
-    // 未来可以基于key进行优化
+    // Simple replacement algorithm: remove all old elements, insert all new elements
+    // Future enhancement: key-based optimization
 
-    // 1. 移除所有旧元素
+    // 1. Remove all old elements
     for (let i = 0; i < oldElements.length; i++) {
       const element = oldElements[i];
       element.remove();
     }
 
-    // 2. 插入所有新元素
+    // 2. Insert all new elements
     const fragment = document.createDocumentFragment();
     currentElements.length = 0;
 
@@ -114,10 +114,10 @@ export function Fragment(props: FragmentProps): JSX.Element {
       fragment.appendChild(element);
     }
 
-    // 插入到锚点之后
+    // Insert after anchor
     parent.insertBefore(fragment, anchor.nextSibling);
 
-    // 更新存储的引用
+    // Update stored reference
     (anchor as any).__kt_fragment_list__ = currentElements;
   }
 }
@@ -130,18 +130,18 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
 
   const processChild = (child: any): void => {
     if (child == null || child === false || child === true) {
-      // 忽略null、undefined、false、true
+      // Ignore null, undefined, false, true
       return;
     }
 
     if (Array.isArray(child)) {
-      // 递归处理数组
+      // Recursively process array
       child.forEach(processChild);
       return;
     }
 
     if (typeof child === 'string' || typeof child === 'number') {
-      // 将文本包装在span中
+      // Wrap text in span element
       const span = document.createElement('span');
       span.textContent = String(child);
       elements.push(span);
@@ -154,13 +154,13 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
     }
 
     if (child && typeof child === 'object' && 'isKT' in child) {
-      // 处理KTRef或KTComputed - 需要解包
+      // Handle KTRef or KTComputed - need to unwrap
       const value = child.value;
       processChild(value);
       return;
     }
 
-    // 其他类型忽略或转换为字符串
+    // Other types ignored or converted to string
     console.warn('Fragment: unsupported child type', child);
   };
 

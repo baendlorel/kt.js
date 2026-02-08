@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
-import { readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 import { askYesNo } from './common/ask.js';
-import { getPackageGroup, workMap } from './common/consts.js';
+import { getPackageGroup, getTagName } from './common/consts.js';
 import { Version } from './common/version.js';
 
 async function publish(who: string | undefined) {
@@ -30,7 +30,7 @@ async function publish(who: string | undefined) {
   }
 
   execSync(`git commit -am "release: ${newVersionStr}"`, { stdio: 'inherit' });
-  execSync(`git tag v${newVersionStr}`, { stdio: 'inherit' });
+  execSync(`git tag v${getTagName(who)}-${newVersionStr}`, { stdio: 'inherit' });
 
   for (const p of info) {
     execSync(`pnpm --filter ${p.name} build`, { stdio: 'inherit' });

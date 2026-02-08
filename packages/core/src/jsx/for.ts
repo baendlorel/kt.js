@@ -1,14 +1,12 @@
 import type { KTAttribute } from '../types/h.js';
 import type { KTRef } from '../reactive/ref.js';
-import { isRef } from '../reactive/index.js';
+import { isRef, KTReactive, toReactive } from '../reactive/index.js';
 
-export type KTForElement = JSX.Element & {
-  redraw: (newProps?: KTAttribute) => void;
-};
+export type KTForElement = JSX.Element;
 
 export interface KTForProps<T> {
   ref?: KTRef<KTForElement>;
-  list: T[];
+  list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
   map: (item: T, index: number, array: T[]) => HTMLElement;
 }
@@ -18,53 +16,18 @@ export interface KTForProps<T> {
  * Returns a Comment anchor node with rendered elements in __kt_for_list__
  */
 export function KTFor<T>(props: KTForProps<T>): KTForElement {
-  const { list, map } = props;
-  const key = props.key ?? ((item: T) => item);
-
-  // Create anchor comment node
-  const anchor = document.createComment('kt-for') as unknown as KTForElement;
-
-  // Store current state
-  let currentList = list;
-  let currentKey = key;
-  let currentMap = map;
-
-  // Map to track rendered nodes by key
-  const nodeMap = new Map<any, HTMLElement>();
-
-  // Render initial list
-  const elements: HTMLElement[] = [];
-  for (let index = 0; index < currentList.length; index++) {
-    const item = currentList[index];
-    const itemKey = currentKey(item, index, currentList);
-    const node = currentMap(item, index, currentList);
-    nodeMap.set(itemKey, node);
-    elements.push(node);
-  }
-
-  // Attach elements array to anchor
-  (anchor as any).__kt_for_list__ = elements;
-
-  // Redraw function for updates
-  anchor.redraw = (newProps) => {
-    const newList = (newProps?.list ?? currentList) as unknown as T[];
-    const newKey = (newProps?.key ?? currentKey) as typeof key;
-    const newMap = (newProps?.map ?? currentMap) as typeof map;
-
-    // Update stored values
-    currentList = newList;
-    currentKey = newKey;
-    currentMap = newMap;
+  const redraw = () => {
+    const newList = listRef.value;
 
     const parent = anchor.parentNode;
     if (!parent) {
       // If not in DOM yet, just rebuild the list
       const newElements: HTMLElement[] = [];
       nodeMap.clear();
-      for (let index = 0; index < currentList.length; index++) {
-        const item = currentList[index];
-        const itemKey = currentKey(item, index, currentList);
-        const node = currentMap(item, index, currentList);
+      for (let index = 0; index < newList.length; index++) {
+        const item = newList[index];
+        const itemKey = currentKey(item, index, newList);
+        const node = currentMap(item, index, newList);
         nodeMap.set(itemKey, node);
         newElements.push(node);
       }
@@ -89,8 +52,8 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
         const item = newList[i];
-        const itemKey = newKey(item, i, newList);
-        const node = newMap(item, i, newList);
+        const itemKey = currentKey(item, i, newList);
+        const node = currentMap(item, i, newList);
         nodeMap.set(itemKey, node);
         newElements.push(node);
         fragment.appendChild(node);
@@ -108,7 +71,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     for (let i = 0; i < newLength; i++) {
       const item = newList[i];
-      const itemKey = newKey(item, i, newList);
+      const itemKey = currentKey(item, i, newList);
       newKeyToNewIndex.set(itemKey, i);
 
       if (nodeMap.has(itemKey)) {
@@ -124,7 +87,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         }
       } else {
         // Create new node
-        newElements[i] = newMap(item, i, newList);
+        newElements[i] = currentMap(item, i, newList);
       }
     }
 
@@ -142,7 +105,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     // Update DOM with minimal operations
     if (moved) {
       // Use longest increasing subsequence to minimize moves
-      const seq = getSequence(newElements.map((el, i) => (nodeMap.has(newKey(newList[i], i, newList)) ? i : -1)));
+      const seq = getSequence(newElements.map((el, i) => (nodeMap.has(currentKey(newList[i], i, newList)) ? i : -1)));
 
       let j = seq.length - 1;
       let anchor: Node | null = null;
@@ -185,16 +148,39 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     // Update maps
     nodeMap.clear();
     for (let i = 0; i < newLength; i++) {
-      const itemKey = newKey(newList[i], i, newList);
+      const itemKey = currentKey(newList[i], i, newList);
       nodeMap.set(itemKey, newElements[i]);
     }
     (anchor as any).__kt_for_list__ = newElements;
     return anchor;
   };
 
+  const { key: currentKey = (item: T) => item, map: currentMap } = props;
+  const listRef = toReactive(props.list, redraw);
+  const anchor = document.createComment('kt-for') as unknown as KTForElement;
+
+  // Map to track rendered nodes by key
+  const nodeMap = new Map<any, HTMLElement>();
+
+  // Render initial list
+  const elements: HTMLElement[] = [];
+  for (let index = 0; index < listRef.value.length; index++) {
+    const item = listRef.value[index];
+    const itemKey = currentKey(item, index, listRef.value);
+    const node = currentMap(item, index, listRef.value);
+    nodeMap.set(itemKey, node);
+    elements.push(node);
+  }
+
+  (anchor as any).__kt_for_list__ = elements;
+
   // Set ref if provided
-  if (isRef(props.ref)) {
-    props.ref.value = anchor;
+  if ('ref' in props) {
+    if (isRef(props.ref)) {
+      props.ref.value = anchor;
+    } else {
+      $throw('KTFor: ref must be a KTRef');
+    }
   }
 
   return anchor;

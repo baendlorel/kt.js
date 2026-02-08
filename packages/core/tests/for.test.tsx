@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { KTFor } from '../src/jsx/for.js';
 import { h } from '../src/h/index.js';
+import { ref } from '@ktjs/core';
 
 describe('KTFor Component', () => {
   let container: HTMLDivElement;
@@ -40,7 +41,13 @@ describe('KTFor Component', () => {
       map: (item) => h('div', { class: 'item' }, item),
     });
 
-    container.appendChild(anchor);
+    const forEl = (
+      <div>
+        <KTFor list={list} map={(item) => h('div', { class: 'item' }, item)} />
+      </div>
+    );
+
+    container.appendChild(forEl);
 
     // Check that elements are in DOM
     const items = container.querySelectorAll('.item');
@@ -71,15 +78,15 @@ describe('KTFor Component', () => {
       { id: 2, name: 'b' },
     ];
 
-    const anchor = KTFor({
-      list,
-      key: (item) => item.id,
-      map: (item) => h('div', {}, item.name),
-    });
+    const forEl = (
+      <div>
+        <KTFor list={list} map={(item) => h('div', { class: 'item' }, item.name)} />
+      </div>
+    );
 
-    container.appendChild(anchor);
+    container.appendChild(forEl);
 
-    const items = container.querySelectorAll('div');
+    const items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);
     expect(items[0].textContent).toBe('a');
     expect(items[1].textContent).toBe('b');
@@ -90,41 +97,46 @@ describe('KTFor Component', () => {
     let capturedIndex = -1;
     let capturedArray: string[] = [];
 
-    const anchor = KTFor({
-      list,
-      map: (item, index, array) => {
-        capturedIndex = index;
-        capturedArray = array;
-        return h('div', {}, `${item}-${index}`);
-      },
-    });
+    const forEl = (
+      <div>
+        <KTFor
+          list={list}
+          map={(item, index, array) => {
+            capturedIndex = index;
+            capturedArray = array;
+            return h('div', { class: 'item' }, `${item}-${index}`);
+          }}
+        />
+      </div>
+    );
 
-    container.appendChild(anchor);
+    container.appendChild(forEl);
 
     expect(capturedIndex).toBeGreaterThanOrEqual(0);
     expect(capturedArray).toBe(list);
 
-    const items = container.querySelectorAll('div');
+    const items = container.querySelectorAll('.item');
     expect(items[0].textContent).toBe('x-0');
     expect(items[1].textContent).toBe('y-1');
     expect(items[2].textContent).toBe('z-2');
   });
 
   it('should redraw with new list', () => {
-    let list = [1, 2, 3];
-    const anchor = KTFor({
-      list,
-      map: (item) => h('div', { class: 'item' }, String(item)),
-    });
+    const list = ref([1, 2, 3]);
 
-    container.appendChild(anchor);
+    const forEl = (
+      <div>
+        <KTFor list={list} map={(item) => h('div', { class: 'item' }, item)} />
+      </div>
+    );
+
+    container.appendChild(forEl);
 
     let items = container.querySelectorAll('.item');
     expect(items.length).toBe(3);
 
     // Redraw with new list
-    list = [4, 5, 6, 7];
-    anchor.redraw({ list });
+    list.value = [4, 5, 6, 7];
 
     items = container.querySelectorAll('.item');
     expect(items.length).toBe(4);

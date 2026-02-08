@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { KTFor } from '../src/jsx/for.js';
+import { KTFor, KTForElement } from '../src/jsx/for.js';
 import { h } from '../src/h/index.js';
 import { ref } from '@ktjs/core';
 
@@ -146,59 +146,66 @@ describe('KTFor Component', () => {
 
   it('should reuse DOM nodes with same key', () => {
     interface Item {
-      id: number;
+      id: string;
       value: string;
     }
 
-    const list: Item[] = [
-      { id: 1, value: 'a' },
-      { id: 2, value: 'b' },
-      { id: 3, value: 'c' },
-    ];
+    const list = ref([
+      { id: '1', value: 'a' },
+      { id: '2', value: 'b' },
+      { id: '3', value: 'c' },
+    ]);
 
-    const anchor = KTFor({
-      list,
-      key: (item) => item.id,
-      map: (item) => {
-        const div = h('div', { class: 'item' }, item.value);
-        (div as any).__test_id__ = item.id;
-        return div;
-      },
-    });
+    const forEl = (
+      <div>
+        <KTFor
+          list={list}
+          key={(item) => item.id}
+          map={(item) => {
+            const div = h('div', { class: 'item' }, item.value);
+            div.dataset.__test_id__ = item.id;
+            return div;
+          }}
+        />
+      </div>
+    );
 
-    container.appendChild(anchor);
+    container.appendChild(forEl);
 
     const firstDiv = container.querySelector('.item') as any;
-    const firstTestId = firstDiv.__test_id__;
+    const firstTestId = firstDiv.dataset.__test_id__;
 
     // Reorder list - first item stays first
-    anchor.redraw({
-      list: [
-        { id: 1, value: 'a-updated' },
-        { id: 3, value: 'c' },
-        { id: 2, value: 'b' },
-      ],
-    });
-
+    list.value = [
+      { id: '1', value: 'a-updated' },
+      { id: '3', value: 'c' },
+      { id: '2', value: 'b' },
+    ];
     const newFirstDiv = container.querySelector('.item') as any;
-    expect(newFirstDiv.__test_id__).toBe(firstTestId); // Same DOM node
+    expect(newFirstDiv.dataset.__test_id__).toBe(firstTestId); // Same DOM node
     expect(newFirstDiv.textContent).toBe('a-updated');
   });
 
   it('should remove elements not in new list', () => {
-    let list = [1, 2, 3, 4, 5];
+    const list = ref([1, 2, 3, 4, 5]);
     const anchor = KTFor({
       list,
       map: (item) => h('div', { class: 'item' }, String(item)),
     });
 
-    container.appendChild(anchor);
+    const forEl = (
+      <div>
+        <KTFor list={list} map={(item) => h('div', { class: 'item' }, String(item))} />
+      </div>
+    );
+
+    container.appendChild(forEl);
 
     let items = container.querySelectorAll('.item');
     expect(items.length).toBe(5);
 
     // Remove some items
-    anchor.redraw({ list: [1, 3, 5] });
+    list.value = [1, 3, 5];
 
     items = container.querySelectorAll('.item');
     expect(items.length).toBe(3);
@@ -221,23 +228,26 @@ describe('KTFor Component', () => {
   });
 
   it('should work before being added to DOM', () => {
-    const list = [1, 2, 3];
-    const anchor = KTFor({
-      list,
-      map: (item) => h('div', {}, String(item)),
-    });
+    const list = ref([1, 2, 3]);
+    const anchor = ref<KTForElement>();
 
-    expect((anchor as any).__kt_for_list__.length).toBe(3);
+    const forEl = (
+      <div>
+        <KTFor ref={anchor} list={list} map={(item) => h('div', { class: 'item' }, String(item))} />
+      </div>
+    );
+
+    expect((anchor.value as any).__kt_for_list__.length).toBe(3);
 
     // Redraw before adding to DOM
-    anchor.redraw({ list: [4, 5] });
+    list.value = [4, 5];
 
-    expect((anchor as any).__kt_for_list__.length).toBe(2);
+    expect((anchor.value as any).__kt_for_list__.length).toBe(2);
 
     // Now add to DOM
-    container.appendChild(anchor);
+    container.appendChild(forEl);
 
-    const items = container.querySelectorAll('div');
+    const items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);
     expect(items[0].textContent).toBe('4');
     expect(items[1].textContent).toBe('5');

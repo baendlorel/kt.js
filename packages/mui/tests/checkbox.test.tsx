@@ -67,6 +67,7 @@ describe('MUI CheckboxGroup component', () => {
       ],
     }) as HTMLElement;
     expect(group.getAttribute('role')).toBe('group');
+    console.log('group.innerHTML', group.innerHTML);
     expect(group.querySelectorAll('input[type="checkbox"]').length).toBe(2);
   });
 

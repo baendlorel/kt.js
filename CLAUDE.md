@@ -28,17 +28,22 @@ Key packages:
 All commands are run from the root directory using PNPM workspace filters.
 
 ### Building
+
+The `build` script accepts a package group parameter (e.g., `pnpm build core`). Available groups: `core`, `router`, `mui`, `shortcuts`, `shared`, `plugin`, `exp` (example), `all`.
+
 ```bash
-pnpm build                    # Build all packages
-pnpm build:core              # Build only @ktjs/core
-pnpm build:router            # Build only @ktjs/router
-pnpm build:mui               # Build only @ktjs/mui
-pnpm build:shortcuts         # Build only @ktjs/shortcuts
-pnpm build:shared            # Build only @ktjs/shared
-pnpm build:plugin            # Build only @ktjs/babel-plugin-ktjsx
-pnpm build:kt.js             # Build only main kt.js package
-pnpm build:example           # Build example application
+pnpm build                    # Build core and kt.js (main packages)
+pnpm build all               # Build all packages
+pnpm build core              # Build only @ktjs/core
+pnpm build router            # Build only @ktjs/router
+pnpm build mui               # Build only @ktjs/mui
+pnpm build shortcuts         # Build only @ktjs/shortcuts
+pnpm build shared            # Build only @ktjs/shared
+pnpm build plugin            # Build only @ktjs/babel-plugin-ktjsx
+pnpm build exp               # Build example application
 ```
+
+Alternatively, use `pnpm --filter <package> build` for finer control.
 
 ### Development
 ```bash
@@ -47,10 +52,20 @@ pnpm dev                     # Not defined at root; each package has its own `de
 ```
 
 ### Testing
+
+The `test` script works similarly to `build`, accepting a package group parameter. Use `pnpm test` to run tests for core and kt.js, or `pnpm test all` for all packages.
+
 ```bash
-pnpm test                    # Run all tests with Vitest
+pnpm test                    # Run tests for core and kt.js
+pnpm test all               # Run all tests across all packages
+pnpm test core              # Run tests for @ktjs/core only
+pnpm test router            # Run tests for @ktjs/router only
+# ... similarly for other package groups
 pnpm cover                   # Run tests with coverage report
+pnpm test2                  # Run vitest directly (alternative)
 ```
+
+Alternatively, use `pnpm --filter <package> test` for finer control.
 
 ### Code Quality
 ```bash
@@ -66,14 +81,22 @@ pnpm sync                    # Sync versions across packages (tsx .scripts/sync-
 ```
 
 ### Publishing
+
+The `pub` script accepts a package group parameter (same groups as `build`). It updates versions, creates git tag, builds, and publishes.
+
 ```bash
-pnpm pub                    # Publish all packages (pnpm -r publish --access public)
-pnpm pubjsx                 # Build and publish core + kt.js packages
-pnpm pub:router             # Build and publish router package
-pnpm pub:mui                # Build and publish MUI package
-pnpm pub:plugin             # Build and publish babel plugin
-pnpm pub:shared             # Build and publish shared package
+pnpm pub                    # Publish core and kt.js (main packages)
+pnpm pub all               # Publish all packages
+pnpm pub core              # Publish @ktjs/core only
+pnpm pub router            # Publish @ktjs/router only
+pnpm pub mui               # Publish @ktjs/mui only
+pnpm pub shortcuts         # Publish @ktjs/shortcuts only
+pnpm pub shared            # Publish @ktjs/shared only
+pnpm pub plugin            # Publish @ktjs/babel-plugin-ktjsx only
+pnpm pub exp               # Publish example application (rare)
 ```
+
+Note: Publishing requires proper npm authentication and git tag permissions.
 
 ## Architecture
 
@@ -143,6 +166,12 @@ pnpm pub:shared             # Build and publish shared package
 - `@ktjs/router`, `@ktjs/mui`, `@ktjs/shortcuts` depend on `@ktjs/core`
 - `kt.js` re-exports `@ktjs/core` functionality
 
+### Scripts and Automation
+- Root scripts (`build`, `test`, `pub`) delegate to package-specific scripts via `pnpm --filter`
+- Package groups are defined in `.scripts/common/consts.ts` (core, router, mui, shortcuts, shared, plugin, exp, all)
+- The `.scripts/index.ts` handles version synchronization, building, testing, and publishing
+- Individual package build configurations are in each package's `rollup.config.mjs`
+
 ### JSX Configuration
 For projects using KT.js with JSX/TSX:
 ```json
@@ -158,6 +187,7 @@ For projects using KT.js with JSX/TSX:
 - `configs/tsconfig.build.json` - Build-specific TypeScript config
 - `configs/tsconfig.build.legacy.json` - Legacy build config
 - `.scripts/vitest.base.config.ts` - Base Vitest resolver configuration
+- `.scripts/index.ts` - Main build/test/publish automation script
 - Each package's `rollup.config.mjs` - Individual Rollup configuration
 
 ## Framework Philosophy

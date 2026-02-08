@@ -80,9 +80,7 @@ describe('MUI Select component', () => {
     const select = Select({
       size: 'small',
       fullWidth: true,
-      options: [
-        { label: 'Open', value: 'open' },
-      ],
+      options: [{ label: 'Open', value: 'open' }],
     }) as HTMLElement;
     expect(select.className).toContain('mui-select-size-small');
     expect(select.className).toContain('mui-select-fullWidth');

@@ -45,9 +45,23 @@ export function Fragment(props: FragmentProps): JSX.Element {
 
   // Store reference to current element array
   const currentElements: HTMLElement[] = [];
+  let initialInserted = false;
 
   // Initial rendering
   renderInitial();
+
+  // Observe DOM insertion
+  const observer = new MutationObserver(() => {
+    if (anchor.parentNode && !initialInserted) {
+      redraw();
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Clean up observer when anchor is removed (optional)
+  // For now, observer will disconnect after first insertion
 
   // Set ref reference
   if (ref) {
@@ -74,8 +88,15 @@ export function Fragment(props: FragmentProps): JSX.Element {
       fragment.appendChild(element);
     }
 
-    // Insert after anchor (anchor not in DOM yet, store in property)
+    // Store reference
     (anchor as any).__kt_fragment_list__ = currentElements;
+
+    // Insert if anchor already has parent
+    const parent = anchor.parentNode;
+    if (parent && !initialInserted) {
+      parent.insertBefore(fragment, anchor.nextSibling);
+      initialInserted = true;
+    }
   }
 
   /** Redraw function, called when children change */
@@ -116,6 +137,7 @@ export function Fragment(props: FragmentProps): JSX.Element {
 
     // Insert after anchor
     parent.insertBefore(fragment, anchor.nextSibling);
+    initialInserted = true;
 
     // Update stored reference
     (anchor as any).__kt_fragment_list__ = currentElements;

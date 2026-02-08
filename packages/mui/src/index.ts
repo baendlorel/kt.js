@@ -11,12 +11,16 @@ export { LinearProgress } from './components/LinearProgress/Index.js';
 export { TextField } from './components/Input/Index.js';
 export { Radio, RadioGroup } from './components/Radio/Index.js';
 export { Select } from './components/Select/Index.js';
+export { Card } from './components/Card/Index.js';
+export { Switch } from './components/Switch/Index.js';
 
 export type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup } from './components/Radio/radio.js';
 export type { KTMuiTextField, KTMuiTextFieldProps } from './components/Input/input.js';
 export type { KTMuiSelectProps } from './components/Select/Index.js';
 export type { KTMuiDialog } from './components/Dialog/Index.js';
 export type { KTMuiLinearProgress } from './components/LinearProgress/Index.js';
+export type { KTMuiCardProps, KTMuiCard } from './components/Card/Index.js';
+export type { KTMuiSwitchProps, KTMuiSwitch } from './components/Switch/Index.js';
 
 // Icons
 export * from './Icons/index.js';

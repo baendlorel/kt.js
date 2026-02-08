@@ -74,27 +74,14 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // Create refs for all reactive properties
   const labelRef = toReactive(props.label ?? '');
   const placeholderRef = toReactive(props.placeholder ?? '', () => (inputEl.placeholder = getPlaceholder()));
-  const disabledRef = toReactive(props.disabled ?? false, (v) => (inputEl.disabled = v));
-  const readOnlyRef = toReactive(props.readOnly ?? false, (v) => (inputEl.readOnly = v));
+  const disabledRef = toReactive(props.disabled ?? false);
+  const readOnlyRef = toReactive(props.readOnly ?? false);
   const requiredRef = toReactive(props.required ?? false);
   const errorRef = toReactive(props.error ?? false);
   const helperTextRef = toReactive(props.helperText ?? '');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
   const rowsRef = toReactive(props.rows ?? 3);
   const sizeRef = toReactive(props.size ?? 'medium');
-
-  const classRef = computed(() => {
-    return [
-      'mui-textfield-root',
-      `mui-textfield-size-${sizeRef.value}`,
-      isFocusedRef.value ? 'mui-textfield-focused' : '',
-      errorRef.value ? 'mui-textfield-error' : '',
-      disabledRef.value ? 'mui-textfield-disabled' : '',
-      fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
-      labelRef.value && inputEl.value ? 'mui-textfield-has-value' : '',
-      labelRef.value ? '' : 'mui-textfield-no-label',
-    ].join(' ');
-  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef]);
 
   // k-model takes precedence over value prop for two-way binding
   const modelRef = $modelOrRef(props, props.value ?? '');
@@ -113,10 +100,10 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
           value={modelRef.value}
-          disabled={disabledRef.value}
-          readOnly={readOnlyRef.value}
-          required={requiredRef.value}
-          rows={rowsRef.value}
+          disabled={disabledRef}
+          readOnly={readOnlyRef}
+          required={requiredRef}
+          rows={rowsRef}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
@@ -129,24 +116,40 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           class="mui-textfield-input"
           placeholder={getPlaceholder()}
           value={modelRef.value}
-          disabled={disabledRef.value}
-          readOnly={readOnlyRef.value}
-          required={requiredRef.value}
+          disabled={disabledRef}
+          readOnly={readOnlyRef}
+          required={requiredRef}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
           on:blur={handleBlur}
         />
       ) as HTMLInputElement);
-
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  if (multiline) {
-    rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
-  }
+  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const customClassRef = toReactive(props.class ?? '');
+  const classRef = computed(() => {
+    const className = [
+      'mui-textfield-root',
+      `mui-textfield-size-${sizeRef.value}`,
+      isFocusedRef.value ? 'mui-textfield-focused' : '',
+      errorRef.value ? 'mui-textfield-error' : '',
+      disabledRef.value ? 'mui-textfield-disabled' : '',
+      fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
+      labelRef.value && inputEl.value ? 'mui-textfield-has-value' : '',
+      labelRef.value ? '' : 'mui-textfield-no-label',
+      customClassRef.value ? customClassRef.value : '',
+    ].join(' ');
+    return className;
+  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, customClassRef]);
+
+  // if (multiline) {
+  //   rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
+  // }
 
   const container = (
-    <div class={classRef} style={parseStyle(props.style)}>
+    <div class={classRef} style={styleRef}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
         <label class="mui-textfield-label">
           {labelRef}

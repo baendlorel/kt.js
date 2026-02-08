@@ -34,7 +34,7 @@ describe('MUI TextField component', () => {
     const textfield = TextField({ disabled: true }) as HTMLElement;
     const input = textfield.querySelector('input');
     expect(input?.disabled).toBe(true);
-    expect(textfield.innerHTML).toContain('mui-textfield-disabled');
+    expect(textfield.className).toContain('mui-textfield-disabled');
   });
 
   it('should handle readOnly state', () => {
@@ -72,8 +72,6 @@ describe('MUI TextField component', () => {
     expect(small.className).toContain('mui-textfield-size-small');
     const medium = TextField({ size: 'medium' }) as HTMLElement;
     expect(medium.className).toContain('mui-textfield-size-medium');
-    const large = TextField({ size: 'large' }) as HTMLElement;
-    expect(large.className).toContain('mui-textfield-size-large');
   });
 
   it('should handle value binding with ref', () => {

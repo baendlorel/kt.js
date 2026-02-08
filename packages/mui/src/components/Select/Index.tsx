@@ -137,7 +137,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
         tabIndex={disabledRef.value ? -1 : 0}
       >
         {displayedValue}
-        <input type="hidden" value={modelRef.value} />
+        <input type="hidden" value={modelRef} />
         <fieldset class="mui-select-fieldset">
           <legend class="mui-select-legend">
             <span>{labelRef}</span>

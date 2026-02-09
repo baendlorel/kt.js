@@ -1,6 +1,6 @@
 import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../reactive/index.js';
-import { isRef, toReactive } from '../reactive/index.js';
+import { $setRef, isRef, toReactive } from '../reactive/index.js';
 import type { KTRawContent } from '../types/h.js';
 
 export interface FragmentProps<T extends HTMLElement = HTMLElement> {
@@ -34,48 +34,8 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
  * ```
  */
 export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
-  // key parameter reserved for future enhancement, currently unused
-  const { key: _key, ref } = props;
-
-  // Convert children to reactive reference
-  const childrenRef = toReactive(props.children, redraw);
-
-  // Create anchor comment node
-  const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
-
-  // Store reference to current element array
-  const currentElements: T[] = [];
-  let initialInserted = false;
-
-  // Initial rendering
-  renderInitial();
-
-  // Observe DOM insertion
-  const observer = new MutationObserver(() => {
-    if (anchor.parentNode && !initialInserted) {
-      redraw();
-      observer.disconnect();
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Clean up observer when anchor is removed (optional)
-  // For now, observer will disconnect after first insertion
-
-  // Set ref reference
-  if (ref) {
-    if (isRef(ref)) {
-      ref.value = anchor;
-    } else {
-      $throw('Fragment: ref must be a KTRef');
-    }
-  }
-
-  return anchor;
-
   /** Initial rendering */
-  function renderInitial() {
+  const renderInitial = () => {
     const elements = childrenRef.value;
     currentElements.length = 0;
 
@@ -97,10 +57,10 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
       parent.insertBefore(fragment, anchor.nextSibling);
       initialInserted = true;
     }
-  }
+  };
 
-  /** Redraw function, called when children change */
-  function redraw() {
+  // Called when children change
+  const redraw = () => {
     const newElements = childrenRef.value;
     const parent = anchor.parentNode;
 
@@ -141,7 +101,38 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
 
     // Update stored reference
     (anchor as any).__kt_fragment_list__ = currentElements;
-  }
+  };
+
+  // key parameter reserved for future enhancement, currently unused
+  const { key: _key } = props;
+
+  const childrenRef = toReactive(props.children, redraw);
+  const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
+
+  // Store reference to current element array
+  const currentElements: T[] = [];
+  let initialInserted = false;
+
+  // Initial rendering
+  renderInitial();
+
+  // Observe DOM insertion
+  const observer = new MutationObserver(() => {
+    if (anchor.parentNode && !initialInserted) {
+      redraw();
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Clean up observer when anchor is removed (optional)
+  // For now, observer will disconnect after first insertion
+
+  // Set ref reference
+  $setRef(props, anchor);
+
+  return anchor;
 }
 
 /**

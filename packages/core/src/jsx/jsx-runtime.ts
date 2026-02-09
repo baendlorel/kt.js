@@ -2,7 +2,7 @@ import { $replaceNode, type HTMLTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
-import { isComputed, isKT, isRef, type KTRef, ref } from '../reactive/index.js';
+import { $setRef, isComputed, isKT, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
@@ -27,7 +27,6 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
   if (isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
   }
-  const maybeDummyRef = isRef(props.ref) ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {
@@ -43,7 +42,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
         const oldEl = el;
         el = newValue ? create(tag, props) : placeholder();
         $replaceNode(oldEl, el);
-        maybeDummyRef.value = el;
+        $setRef(props, el);
       });
       condition = kif.value;
     }
@@ -51,13 +50,13 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
     if (!condition) {
       // & make comment placeholder in case that ref might be redrawn later
       el = placeholder();
-      maybeDummyRef.value = el;
+      $setRef(props, el);
       return el;
     }
   }
 
   el = create(tag, props);
-  maybeDummyRef.value = el;
+  $setRef(props, el);
   return el;
 }
 

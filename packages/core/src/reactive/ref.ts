@@ -151,3 +151,14 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   }
   return ref(defaultValue) as KTRef<T>;
 };
+
+export const $setRef = (props: { ref?: KTRef<any> }, node: Node) => {
+  if ('ref' in props) {
+    const r = props.ref;
+    if (isRef(r)) {
+      r.value = node;
+    } else {
+      $throw('Fragment: ref must be a KTRef');
+    }
+  }
+};

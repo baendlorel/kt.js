@@ -1,5 +1,5 @@
 import { KTReactive, KTPrefixedEventAttribute, toReactive } from '@ktjs/core';
-import { $emptyFn, parseStyle } from '@ktjs/shared';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';
 
@@ -87,7 +87,7 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
   };
 
   const container = (
-    <button style={parseStyle(props.style)} type={type} disabled={disabledRef.value} on:click={handleClick}>
+    <button style={$parseStyle(props.style)} type={type} disabled={disabledRef.value} on:click={handleClick}>
       <span k-if={startIcon} class="mui-button-start-icon">
         {startIcon}
       </span>

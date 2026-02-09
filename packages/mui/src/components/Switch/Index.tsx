@@ -1,4 +1,4 @@
-import { $emptyFn, parseStyle } from '@ktjs/shared';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, toReactive } from '@ktjs/core';
 import { KTMuiProps } from '../../types/component.js';
 import './Switch.css';
@@ -37,7 +37,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     thumb.classList.toggle('mui-switch-thumb-checked', newValue);
   });
 
-  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style ?? ''));
   const classRef = toReactive(props.class ?? '');
 
   const className = computed(() => {

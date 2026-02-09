@@ -2,6 +2,7 @@ import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../reactive/index.js';
 import { $setRef, isRef, toReactive } from '../reactive/index.js';
 import type { KTRawContent } from '../types/h.js';
+import { $isArray } from '@ktjs/shared';
 
 export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   /** Array of child elements, supports reactive arrays */
@@ -147,7 +148,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
       return;
     }
 
-    if (Array.isArray(child)) {
+    if ($isArray(child)) {
       // Recursively process array
       child.forEach(processChild);
       return;

@@ -6,8 +6,8 @@ import {
   $append,
   $buttonDisabledGetter,
   $buttonDisabledSetter,
-  parseStyle,
-  applyModel,
+  $parseStyle,
+  $applyModel,
 } from '../src/utils/dom.js';
 
 describe('DOM utilities', () => {
@@ -112,32 +112,32 @@ describe('DOM utilities', () => {
     });
   });
 
-  describe('parseStyle', () => {
+  describe('$parseStyle', () => {
     it('should return empty string for falsy input', () => {
-      expect(parseStyle('')).toBe('');
-      expect(parseStyle(null)).toBe('');
-      expect(parseStyle(undefined)).toBe('');
-      expect(parseStyle(false)).toBe('');
+      expect($parseStyle('')).toBe('');
+      expect($parseStyle(null)).toBe('');
+      expect($parseStyle(undefined)).toBe('');
+      expect($parseStyle(false)).toBe('');
     });
 
     it('should return string as-is', () => {
-      expect(parseStyle('color: red; font-size: 12px')).toBe('color: red; font-size: 12px');
+      expect($parseStyle('color: red; font-size: 12px')).toBe('color: red; font-size: 12px');
     });
 
     it('should convert object to CSS string', () => {
-      expect(parseStyle({ color: 'red', fontSize: '12px' })).toBe('color:red;font-size:12px');
-      expect(parseStyle({ backgroundColor: '#fff' })).toBe('background-color:#fff');
+      expect($parseStyle({ color: 'red', fontSize: '12px' })).toBe('color:red;font-size:12px');
+      expect($parseStyle({ backgroundColor: '#fff' })).toBe('background-color:#fff');
     });
 
     it('should handle Reactive objects (isKT flag)', () => {
       const reactive = { isKT: true, value: { color: 'blue' } };
-      expect(parseStyle(reactive)).toBe('color:blue');
+      expect($parseStyle(reactive)).toBe('color:blue');
       const reactiveString = { isKT: true, value: 'color: green' };
-      expect(parseStyle(reactiveString)).toBe('color: green');
+      expect($parseStyle(reactiveString)).toBe('color: green');
     });
   });
 
-  describe('applyModel', () => {
+  describe('$applyModel', () => {
     it('should bind input value and change events', () => {
       const input = document.createElement('input');
       const valueRef = { value: 'initial', addOnChange: vi.fn() };
@@ -147,7 +147,7 @@ describe('DOM utilities', () => {
         onChangeMock.mockImplementation(fn);
       });
 
-      applyModel(input, valueRef, 'value', 'input');
+      $applyModel(input, valueRef, 'value', 'input');
 
       expect(input.value).toBe('initial');
       expect(valueRef.addOnChange).toHaveBeenCalledTimes(1);
@@ -171,7 +171,7 @@ describe('DOM utilities', () => {
         onChangeMock.mockImplementation(fn);
       });
 
-      applyModel(checkbox, valueRef, 'checked', 'change');
+      $applyModel(checkbox, valueRef, 'checked', 'change');
 
       expect(checkbox.checked).toBe(false);
       expect(valueRef.addOnChange).toHaveBeenCalledTimes(1);

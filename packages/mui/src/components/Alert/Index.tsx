@@ -1,4 +1,4 @@
-import { parseStyle } from '@ktjs/shared';
+import { $parseStyle } from '@ktjs/shared';
 import './Alert.css';
 
 interface KTMuiAlertProps {
@@ -70,7 +70,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
   const alertIcon = getIcon();
 
   const alert = (
-    <div class={classes} style={parseStyle(props.style)} role="alert">
+    <div class={classes} style={$parseStyle(props.style)} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{children}</div>
       <button k-if={onClose} class="mui-alert-close" on:click={onClose} aria-label="Close">

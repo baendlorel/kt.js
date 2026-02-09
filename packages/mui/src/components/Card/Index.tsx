@@ -1,5 +1,5 @@
 import { type KTReactive, toReactive, computed } from '@ktjs/core';
-import { parseStyle } from '@ktjs/shared';
+import { $parseStyle } from '@ktjs/shared';
 import { KTMuiProps } from '../../types/component.js';
 import './Card.css';
 
@@ -22,16 +22,19 @@ export function Card(props: KTMuiCardProps): KTMuiCard {
   const elevationRef = toReactive(props.elevation ?? 1);
   const squareRef = toReactive(props.square ?? false);
   const raisedRef = toReactive(props.raised ?? false);
-  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style ?? ''));
   const classRef = toReactive(props.class ?? '');
 
   const className = computed(() => {
     const base = 'mui-card';
     const variantClass = `mui-card-${variantRef.value}`;
-    const elevationClass = variantRef.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.value))}` : '';
+    const elevationClass =
+      variantRef.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.value))}` : '';
     const squareClass = squareRef.value ? 'mui-card-square' : '';
     const raisedClass = raisedRef.value ? 'mui-card-raised' : '';
-    return `${base} ${variantClass} ${elevationClass} ${squareClass} ${raisedClass} ${classRef.value}`.trim().replace(/\s+/g, ' ');
+    return `${base} ${variantClass} ${elevationClass} ${squareClass} ${raisedClass} ${classRef.value}`
+      .trim()
+      .replace(/\s+/g, ' ');
   }, [variantRef, elevationRef, squareRef, raisedRef, classRef]);
 
   // Handle click

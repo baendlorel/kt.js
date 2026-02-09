@@ -1,4 +1,4 @@
-import { $emptyFn, parseStyle } from '@ktjs/shared';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, effect, toReactive } from '@ktjs/core';
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
@@ -141,7 +141,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const classRef = computed(() => {
     return `mui-checkbox-group ${rowRef.value ? 'mui-checkbox-group-row' : ''} ${customClassRef.value}`;
   }, [rowRef, customClassRef]);
-  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style ?? ''));
 
   const optionsRef = toReactive(props.options);
   const checkboxes = computed(() => {

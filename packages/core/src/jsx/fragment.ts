@@ -15,42 +15,6 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   ref?: KTRef<JSX.Element>;
 }
 
-// todo 这里也许还是做成普通的函数好
-const kredraw = function (this: Comment) {
-  const newElements = this.kchildrenRef.value;
-  const parent = this.parentNode;
-
-  if (!parent) {
-    // If anchor is not in DOM, only update internal state
-    this.kFragmentList.length = 0;
-    for (let i = 0; i < newElements.length; i++) {
-      this.kFragmentList.push(newElements[i]);
-    }
-    return;
-  }
-
-  // Simple replacement algorithm: remove all old elements, insert all new elements
-  // todo Future enhancement: key-based optimization
-
-  // 1. Remove all old elements
-  for (let i = 0; i < this.kFragmentList.length; i++) {
-    (this.kFragmentList[i] as ChildNode).remove();
-  }
-
-  // 2. Insert all new elements
-  const fragment = document.createDocumentFragment();
-  this.kFragmentList.length = 0;
-
-  for (let i = 0; i < newElements.length; i++) {
-    const element = newElements[i];
-    this.kFragmentList.push(element);
-    fragment.appendChild(element);
-  }
-
-  // Insert after anchor
-  parent.insertBefore(fragment, this.nextSibling);
-};
-
 /**
  * Fragment - Container component for managing arrays of child elements
  *
@@ -72,21 +36,52 @@ const kredraw = function (this: Comment) {
  */
 export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
   // key parameter reserved for future enhancement, currently unused
-  const { key: _key } = props;
+  // const { key: _key } = props;
+  const redraw = () => {
+    const newElements = childrenRef.value;
+    const parent = anchor.parentNode;
+
+    if (!parent) {
+      // If anchor is not in DOM, only update internal state
+      elements.length = 0;
+      for (let i = 0; i < newElements.length; i++) {
+        elements.push(newElements[i]);
+      }
+      return;
+    }
+
+    // Simple replacement algorithm: remove all old elements, insert all new elements
+    // todo Future enhancement: key-based optimization
+
+    // 1. Remove all old elements
+    for (let i = 0; i < elements.length; i++) {
+      (elements[i] as ChildNode).remove();
+    }
+
+    // 2. Insert all new elements
+    const fragment = document.createDocumentFragment();
+    elements.length = 0;
+
+    for (let i = 0; i < newElements.length; i++) {
+      const element = newElements[i];
+      elements.push(element);
+      fragment.appendChild(element);
+    }
+
+    // Insert after anchor
+    parent.insertBefore(fragment, anchor.nextSibling);
+  };
 
   let initialized = false;
-  const childrenRef = toReactive(props.children, () => anchor.kredraw());
+  const childrenRef = toReactive(props.children, redraw);
+  const elements: JSX.Element[] = [];
   const anchor = document.createComment('kt-fragment');
-  anchor.kredraw = kredraw;
-  anchor.kchildrenRef = childrenRef;
-  anchor.kFragmentList = [];
-  anchor.kisFragmentAnchor = true;
 
   // Observe DOM insertion
   const observer = new MutationObserver(() => {
     if (anchor.isConnected && !initialized) {
       initialized = true;
-      anchor.kredraw();
+      redraw();
       observer.disconnect();
     }
   });

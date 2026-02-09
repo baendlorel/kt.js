@@ -50,7 +50,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
     }
 
     // Store reference
-    (anchor as any).__kt_fragment_list__ = currentElements;
+    anchor. = currentElements;
 
     // Insert if anchor already has parent
     const parent = anchor.parentNode;

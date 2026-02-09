@@ -50,7 +50,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
     }
 
     // Store reference
-    anchor. = currentElements;
+    anchor.kFragmentList = currentElements;
 
     // Insert if anchor already has parent
     const parent = anchor.parentNode;
@@ -71,7 +71,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
       for (let i = 0; i < newElements.length; i++) {
         currentElements.push(newElements[i]);
       }
-      (anchor as any).__kt_fragment_list__ = currentElements;
+      anchor.kFragmentList = currentElements;
       return;
     }
 
@@ -101,14 +101,14 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
     initialInserted = true;
 
     // Update stored reference
-    (anchor as any).__kt_fragment_list__ = currentElements;
+    anchor.kFragmentList = currentElements;
   };
 
   // key parameter reserved for future enhancement, currently unused
   const { key: _key } = props;
 
   const childrenRef = toReactive(props.children, redraw);
-  const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
+  const anchor = document.createComment('kt-fragment');
 
   // Store reference to current element array
   const currentElements: T[] = [];
@@ -127,13 +127,10 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Clean up observer when anchor is removed (optional)
-  // For now, observer will disconnect after first insertion
-
   // Set ref reference
   $setRef(props, anchor);
 
-  return anchor;
+  return anchor as unknown as JSX.Element;
 }
 
 /**

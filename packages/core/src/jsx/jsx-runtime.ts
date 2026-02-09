@@ -7,8 +7,6 @@ import { convertChildrenToElements, Fragment as FragmentArray } from './fragment
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
 
-const dummyRef = { value: null } as unknown as KTRef<JSX.Element>;
-
 const create = (tag: JSXTag, props: KTAttribute): HTMLElement => {
   if (typeof tag === 'function') {
     return tag(props) as HTMLElement;
@@ -40,23 +38,20 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
           return;
         }
         const oldEl = el;
-        el = newValue ? create(tag, props) : placeholder();
+        $setRef(props, (el = newValue ? create(tag, props) : placeholder()));
         $replaceNode(oldEl, el);
-        $setRef(props, el);
       });
       condition = kif.value;
     }
 
     if (!condition) {
       // & make comment placeholder in case that ref might be redrawn later
-      el = placeholder();
-      $setRef(props, el);
+      $setRef(props, (el = placeholder()));
       return el;
     }
   }
 
-  el = create(tag, props);
-  $setRef(props, el);
+  $setRef(props, (el = create(tag, props)));
   return el;
 }
 

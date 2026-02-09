@@ -144,10 +144,11 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   // & props is an object. Won't use it in any other place
   if ('k-model' in props) {
     const kmodel = props['k-model'];
-    if (!kmodel?.isKT) {
+    if (isRef(kmodel)) {
+      return kmodel;
+    } else {
       $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
     }
-    return kmodel;
   }
   return ref(defaultValue) as KTRef<T>;
 };

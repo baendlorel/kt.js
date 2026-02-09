@@ -3,14 +3,14 @@ import type { KTReactive } from '../reactive/index.js';
 import { isRef, toReactive } from '../reactive/index.js';
 import type { KTRawContent } from '../types/h.js';
 
-export interface FragmentProps {
+export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   /** Array of child elements, supports reactive arrays */
-  children: HTMLElement[] | KTReactive<HTMLElement[]>;
+  children: T[] | KTReactive<T[]>;
 
-  /** Optional: element key function for optimization (future enhancement) */
-  key?: (element: HTMLElement, index: number, array: HTMLElement[]) => any;
+  /** element key function for optimization (future enhancement) */
+  key?: (element: T, index: number, array: T[]) => any;
 
-  /** Optional: ref to get the anchor node */
+  /** ref to get the anchor node */
   ref?: KTRef<JSX.Element>;
 }
 
@@ -33,7 +33,7 @@ export interface FragmentProps {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment(props: FragmentProps): JSX.Element {
+export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
   // key parameter reserved for future enhancement, currently unused
   const { key: _key, ref } = props;
 
@@ -44,7 +44,7 @@ export function Fragment(props: FragmentProps): JSX.Element {
   const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
 
   // Store reference to current element array
-  const currentElements: HTMLElement[] = [];
+  const currentElements: T[] = [];
   let initialInserted = false;
 
   // Initial rendering

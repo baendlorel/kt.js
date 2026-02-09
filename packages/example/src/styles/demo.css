@@ -44,3 +44,34 @@
 .demo-mt {
   margin-top: 15px;
 }
+
+.fragment-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: #fffaf1;
+}
+
+.fragment-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #dec18f;
+  color: #8f6c3e;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.fragment-pill__index {
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+  color: #7a5a30;
+}
+
+.fragment-pill--preview {
+  background: #fdf2de;
+}

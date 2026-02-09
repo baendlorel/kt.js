@@ -13,6 +13,7 @@ A lightweight, manual‑control web framework that creates real DOM elements wit
 - **Real DOM** – JSX compiles directly to `HTMLElement` creation, with zero virtual‑DOM overhead.
 - **Manual Updates** – You decide when the DOM updates; no automatic re‑renders.
 - **Reactive State** – Built‑in `ref()` and `computed()` for reactive values with change listeners.
+- **Fragment Support** – JSX `Fragment` now works with comment anchors and reactive child arrays.
 - **Zero Forced Re‑renders** – Update only what changes; avoid full‑component repaints.
 - **Full TypeScript Support** – Accurate type inference and JSX/TSX integration.
 - **Lightweight** – Small bundle size, no unnecessary dependencies.
@@ -102,10 +103,23 @@ const items = ref([
   { id: 2, name: 'Item 2' },
 ]);
 
-const list = <KTFor list={items.value} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
+// list can be a ref directly
+const list = <KTFor list={items} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
 
 // Update list
 items.value = [...items.value, { id: 3, name: 'Item 3' }];
+```
+
+### Fragment
+
+```tsx
+import { ref } from 'kt.js';
+
+const children = ref([<span>A</span>, <span>B</span>]);
+const fragment = <>{children}</>;
+
+document.body.appendChild(fragment);
+children.value = [<span>C</span>, <span>D</span>];
 ```
 
 ### Two‑way Data Binding

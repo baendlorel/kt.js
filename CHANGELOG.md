@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.27.1 - 2026-02-10
+
+### Core (@ktjs/core 0.27.1)
+
+- **Fragment is available in JSX runtime**:
+  - `Fragment` no longer throws and now returns a comment anchor with managed children.
+  - Supports reactive child arrays and redraws when children refs change.
+- **KTFor list reactivity**:
+  - `KTFor` now accepts `list: T[] | KTReactive<T[]>`.
+  - Reactive list changes trigger redraw without manually re-passing props.
+- **k-model wiring update**:
+  - Core now uses `$applyModel` from shared in `applyKModel`.
+
+### Shared (@ktjs/shared 0.23.10)
+
+- **Utility additions**:
+  - Added `$forEach` and `$forEachAsync`.
+  - Added shared constants `$emptyArray` and `$emptyObject`.
+- **Comment prototype support for Fragment**:
+  - Added `misc/comment.ts` and exported it from shared.
+  - `Comment` now carries fragment-related metadata used by core runtime.
+- **Renamed DOM helpers**:
+  - `parseStyle` -> `$parseStyle`
+  - `applyModel` -> `$applyModel`
+
+### Breaking/Compatibility Notes
+
+- If you consume `@ktjs/shared` directly, migrate to `$parseStyle` and `$applyModel`.
+- Fragment behavior changed from "unsupported" to active runtime support.
+
 ## 0.24.0 - 2026-02-04
 
 ### Features

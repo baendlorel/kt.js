@@ -15,6 +15,41 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   ref?: KTRef<JSX.Element>;
 }
 
+const kredraw = function (this: Comment) {
+  const newElements = this.kchildrenRef.value;
+  const parent = this.parentNode;
+
+  if (!parent) {
+    // If anchor is not in DOM, only update internal state
+    this.kFragmentList.length = 0;
+    for (let i = 0; i < newElements.length; i++) {
+      this.kFragmentList.push(newElements[i]);
+    }
+    return;
+  }
+
+  // Simple replacement algorithm: remove all old elements, insert all new elements
+  // todo Future enhancement: key-based optimization
+
+  // 1. Remove all old elements
+  for (let i = 0; i < this.kFragmentList.length; i++) {
+    (this.kFragmentList[i] as ChildNode).remove();
+  }
+
+  // 2. Insert all new elements
+  const fragment = document.createDocumentFragment();
+  this.kFragmentList.length = 0;
+
+  for (let i = 0; i < newElements.length; i++) {
+    const element = newElements[i];
+    this.kFragmentList.push(element);
+    fragment.appendChild(element);
+  }
+
+  // Insert after anchor
+  parent.insertBefore(fragment, this.nextSibling);
+};
+
 /**
  * Fragment - Container component for managing arrays of child elements
  *
@@ -35,92 +70,20 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
  * ```
  */
 export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
-  /** Initial rendering */
-  const renderInitial = () => {
-    const elements = childrenRef.value;
-    currentElements.length = 0;
-
-    // Create document fragment
-    const fragment = document.createDocumentFragment();
-
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-      currentElements.push(element);
-      fragment.appendChild(element);
-    }
-
-    // Store reference
-    anchor.kFragmentList = currentElements;
-
-    // Insert if anchor already has parent
-    const parent = anchor.parentNode;
-    if (parent && !initialInserted) {
-      parent.insertBefore(fragment, anchor.nextSibling);
-      initialInserted = true;
-    }
-  };
-
-  // Called when children change
-  const redraw = () => {
-    const newElements = childrenRef.value;
-    const parent = anchor.parentNode;
-
-    if (!parent) {
-      // If anchor is not in DOM, only update internal state
-      currentElements.length = 0;
-      for (let i = 0; i < newElements.length; i++) {
-        currentElements.push(newElements[i]);
-      }
-      anchor.kFragmentList = currentElements;
-      return;
-    }
-
-    const oldElements = currentElements;
-
-    // Simple replacement algorithm: remove all old elements, insert all new elements
-    // Future enhancement: key-based optimization
-
-    // 1. Remove all old elements
-    for (let i = 0; i < oldElements.length; i++) {
-      const element = oldElements[i];
-      element.remove();
-    }
-
-    // 2. Insert all new elements
-    const fragment = document.createDocumentFragment();
-    currentElements.length = 0;
-
-    for (let i = 0; i < newElements.length; i++) {
-      const element = newElements[i];
-      currentElements.push(element);
-      fragment.appendChild(element);
-    }
-
-    // Insert after anchor
-    parent.insertBefore(fragment, anchor.nextSibling);
-    initialInserted = true;
-
-    // Update stored reference
-    anchor.kFragmentList = currentElements;
-  };
-
   // key parameter reserved for future enhancement, currently unused
   const { key: _key } = props;
 
-  const childrenRef = toReactive(props.children, redraw);
+  const childrenRef = toReactive(props.children, () => anchor.kredraw());
   const anchor = document.createComment('kt-fragment');
-
-  // Store reference to current element array
-  const currentElements: T[] = [];
-  let initialInserted = false;
-
-  // Initial rendering
-  renderInitial();
+  anchor.kredraw = kredraw;
+  anchor.kchildrenRef = childrenRef;
+  anchor.kFragmentList = [];
+  anchor.kisFragmentAnchor = true;
 
   // Observe DOM insertion
   const observer = new MutationObserver(() => {
-    if (anchor.parentNode && !initialInserted) {
-      redraw();
+    if (anchor.isConnected) {
+      anchor.kredraw();
       observer.disconnect();
     }
   });

@@ -1,8 +1,8 @@
 import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../reactive/index.js';
-import { $setRef, isRef, toReactive } from '../reactive/index.js';
+import { $setRef, isKT, toReactive } from '../reactive/index.js';
 import type { KTRawContent } from '../types/h.js';
-import { $isArray } from '@ktjs/shared';
+import { $forEach, $isArray } from '@ktjs/shared';
 
 export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   /** Array of child elements, supports reactive arrays */
@@ -150,15 +150,14 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
 
     if ($isArray(child)) {
       // Recursively process array
-      child.forEach(processChild);
+      $forEach(child, processChild);
       return;
     }
 
     if (typeof child === 'string' || typeof child === 'number') {
-      // Wrap text in span element
-      const span = document.createElement('span');
-      span.textContent = String(child);
-      elements.push(span);
+      // & Wrap text in span element? No! use text node instead
+      const textNode = document.createTextNode(String(child));
+      elements.push(textNode as unknown as HTMLElement);
       return;
     }
 
@@ -167,15 +166,13 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
       return;
     }
 
-    if (child && typeof child === 'object' && 'isKT' in child) {
-      // Handle KTRef or KTComputed - need to unwrap
-      const value = child.value;
-      processChild(value);
+    if (isKT(child)) {
+      processChild(child.value);
       return;
     }
 
     // Other types ignored or converted to string
-    console.warn('Fragment: unsupported child type', child);
+    $warn('Fragment: unsupported child type', child);
   };
 
   processChild(children);

@@ -1,19 +1,14 @@
 import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './Pill.css';
 
 type PillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 type PillVariant = 'filled' | 'outlined';
 type PillSize = 'small' | 'medium';
 
-type PillContent = string | HTMLElement | JSX.Element;
-
-// todo 测试这个
-export interface KTMuiPillProps {
-  class?: string | KTReactive<string>;
-  style?: string | Partial<CSSStyleDeclaration> | KTReactive<string> | KTReactive<Partial<CSSStyleDeclaration>>;
+export interface KTMuiPillProps extends KTMuiProps {
   label?: string | KTReactive<string>;
-  children?: PillContent | PillContent[];
   icon?: HTMLElement | JSX.Element;
   deleteIcon?: HTMLElement | JSX.Element;
   color?: PillColor | KTReactive<PillColor>;

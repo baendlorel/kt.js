@@ -1,3 +1,6 @@
+import type { KTMuiProps } from '../../types/component.js';
+
+// todo 此处不一样
 export interface KTMuiCheckboxProps {
   value?: string;
   label?: string | JSX.Element | HTMLElement;
@@ -9,9 +12,7 @@ export interface KTMuiCheckboxProps {
   indeterminate?: boolean;
 }
 
-export interface KTMuiCheckboxGroupProps {
-  class?: string;
-  style?: string;
+export interface KTMuiCheckboxGroupProps extends KTMuiProps {
   value?: string[];
   size?: 'small' | 'medium';
   options: (Omit<KTMuiCheckboxProps, 'value'> & { value: string })[];

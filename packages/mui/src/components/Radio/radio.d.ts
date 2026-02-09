@@ -1,8 +1,7 @@
 import { KTReactive } from '@ktjs/core';
+import type { KTMuiProps } from '../../types/component.js';
 
-export interface KTMuiRadioProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
+export interface KTMuiRadioProps extends KTMuiProps {
   value: string;
   label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
@@ -12,9 +11,7 @@ export interface KTMuiRadioProps {
   color?: 'primary' | 'secondary' | 'default';
 }
 
-export interface KTMuiRadioGroupProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
+export interface KTMuiRadioGroupProps extends KTMuiProps {
   value?: string;
   name?: string;
   size?: 'small' | 'medium';

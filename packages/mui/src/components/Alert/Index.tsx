@@ -1,11 +1,9 @@
 import { $parseStyle } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css';
 
-interface KTMuiAlertProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
-  children: string | HTMLElement | JSX.Element | Array<string | HTMLElement | JSX.Element>;
-
+interface KTMuiAlertProps extends KTMuiProps {
+  children: NonNullable<KTMuiProps['children']>;
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | false;

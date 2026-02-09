@@ -1,6 +1,6 @@
 import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { KTMuiProps } from '../../types/component.js';
+import type { KTMuiProps } from '../../types/component.js';
 import './Select.css';
 
 interface KTMuiSelectOption {

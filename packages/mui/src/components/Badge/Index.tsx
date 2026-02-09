@@ -1,5 +1,6 @@
 import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './Badge.css';
 
 type BadgeColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
@@ -12,13 +13,8 @@ export interface KTMuiBadgeAnchorOrigin {
 }
 
 type BadgeContent = string | number;
-type BadgeChild = string | HTMLElement | JSX.Element;
 
-// todo 测试这个
-export interface KTMuiBadgeProps {
-  class?: string | KTReactive<string>;
-  style?: string | Partial<CSSStyleDeclaration> | KTReactive<string> | KTReactive<Partial<CSSStyleDeclaration>>;
-  children?: BadgeChild | BadgeChild[];
+export interface KTMuiBadgeProps extends KTMuiProps {
   badgeContent?: BadgeContent | KTReactive<number> | KTReactive<string>;
   max?: number | KTReactive<number>;
   showZero?: boolean | KTReactive<boolean>;

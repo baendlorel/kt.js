@@ -1,13 +1,10 @@
 import { KTReactive, KTPrefixedEventAttribute, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
+import type { KTMuiProps } from '../../types/component.js';
 import './Button.css';
 
-interface KTMuiButtonProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
-
-  children?: string | HTMLElement | JSX.Element | Array<string | HTMLElement | JSX.Element>;
+interface KTMuiButtonProps extends KTMuiProps {
   variant?: 'contained' | 'outlined' | 'text';
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
   size?: 'small' | 'medium' | 'large';

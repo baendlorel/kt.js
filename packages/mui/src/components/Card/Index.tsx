@@ -1,6 +1,6 @@
 import { type KTReactive, toReactive, computed } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
-import { KTMuiProps } from '../../types/component.js';
+import type { KTMuiProps } from '../../types/component.js';
 import './Card.css';
 
 export interface KTMuiCardProps extends KTMuiProps {

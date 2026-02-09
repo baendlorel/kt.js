@@ -1,5 +1,6 @@
 import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './Popover.css';
 
 type PopoverVerticalOrigin = 'top' | 'center' | 'bottom';
@@ -10,21 +11,15 @@ export interface KTMuiPopoverOrigin {
   horizontal: PopoverHorizontalOrigin;
 }
 
-// todo 测试这个
 export type KTMuiPopoverCloseReason = 'backdropClick' | 'escapeKeyDown';
 
-type PopoverChild = string | HTMLElement | JSX.Element;
-
-export interface KTMuiPopoverProps {
-  class?: string | KTReactive<string>;
-  style?: string | Partial<CSSStyleDeclaration> | KTReactive<string> | KTReactive<Partial<CSSStyleDeclaration>>;
+export interface KTMuiPopoverProps extends KTMuiProps {
   open?: boolean | KTReactive<boolean>;
   anchorEl?: HTMLElement | null | KTReactive<HTMLElement | null>;
   anchorOrigin?: KTMuiPopoverOrigin | KTReactive<KTMuiPopoverOrigin>;
   transformOrigin?: KTMuiPopoverOrigin | KTReactive<KTMuiPopoverOrigin>;
   marginThreshold?: number | KTReactive<number>;
   elevation?: number | KTReactive<number>;
-  children?: PopoverChild | PopoverChild[];
   'on:close'?: (reason: KTMuiPopoverCloseReason) => void;
 }
 

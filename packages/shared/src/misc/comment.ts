@@ -1,4 +1,4 @@
-import { $emptyArray, $emptyFn } from '@/utils/misc.js';
+import { $emptyArray, $emptyFn } from '../utils/misc.js';
 
 declare global {
   /**

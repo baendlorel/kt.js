@@ -15,6 +15,7 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   ref?: KTRef<JSX.Element>;
 }
 
+// todo 这里也许还是做成普通的函数好
 const kredraw = function (this: Comment) {
   const newElements = this.kchildrenRef.value;
   const parent = this.parentNode;
@@ -73,6 +74,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
   // key parameter reserved for future enhancement, currently unused
   const { key: _key } = props;
 
+  let initialized = false;
   const childrenRef = toReactive(props.children, () => anchor.kredraw());
   const anchor = document.createComment('kt-fragment');
   anchor.kredraw = kredraw;
@@ -82,7 +84,8 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
 
   // Observe DOM insertion
   const observer = new MutationObserver(() => {
-    if (anchor.isConnected) {
+    if (anchor.isConnected && !initialized) {
+      initialized = true;
       anchor.kredraw();
       observer.disconnect();
     }

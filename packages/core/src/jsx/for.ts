@@ -1,6 +1,6 @@
 import type { KTAttribute } from '../types/h.js';
 import type { KTRef } from '../reactive/ref.js';
-import { isRef, KTReactive, toReactive } from '../reactive/index.js';
+import { $setRef, isRef, KTReactive, toReactive } from '../reactive/index.js';
 
 export type KTForElement = JSX.Element;
 
@@ -174,14 +174,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
   (anchor as any).__kt_for_list__ = elements;
 
-  // Set ref if provided
-  if ('ref' in props) {
-    if (isRef(props.ref)) {
-      props.ref.value = anchor;
-    } else {
-      $throw('KTFor: ref must be a KTRef');
-    }
-  }
+  $setRef(props, anchor);
 
   return anchor;
 }

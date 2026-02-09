@@ -1,0 +1,31 @@
+.mui-popover-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  pointer-events: none;
+}
+
+.mui-popover-paper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  min-width: 16px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.87);
+  pointer-events: auto;
+  outline: 0;
+  transform-origin: top left;
+  padding: 8px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mui-popover-paper {
+    background: #1f1f1f;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}

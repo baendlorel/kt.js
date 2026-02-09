@@ -11,7 +11,7 @@ pnpm add @ktjs/mui
 ## Usage
 
 ```tsx
-import { Button, Alert, Dialog } from '@ktjs/mui';
+import { Button, Alert, Dialog, Pill, Badge, Popover } from '@ktjs/mui';
 import '@ktjs/mui/styles.css';
 
 // Create a button
@@ -26,7 +26,10 @@ const myButton = (
 
 - **Alert** - Display alert messages with different severity levels
 - **Button** - Material-style buttons with variants and colors
+- **Pill** - Chip-like pill labels with variants and colors
+- **Badge** - Numeric and dot badges for status/count overlays
 - **Dialog** - Modal dialogs
+- **Popover** - Anchor-based floating layers
 - **FormLabel** - Form labels for inputs
 - **Input** - Text input fields
 - **LinearProgress** - Progress bars

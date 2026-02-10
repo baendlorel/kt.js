@@ -2,7 +2,7 @@ import { $replaceNode } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { isKT, KTReactiveType } from './core.js';
 
-export class KTComputed<T> {
+export class KTComputed<T> implements KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */
@@ -88,8 +88,9 @@ export class KTComputed<T> {
   /**
    * Computed values are derived from dependencies and should not be mutated manually.
    */
-  mutate<R = unknown>(_mutator?: (value: T) => R): void {
+  mutate<R = void>(): R {
     $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
+    return this._value as unknown as R;
   }
 
   /**

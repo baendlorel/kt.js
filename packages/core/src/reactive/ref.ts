@@ -1,7 +1,6 @@
 import { $entries, $is, $replaceNode } from '@ktjs/shared';
-import type { ReactiveChangeHandler } from './core.js';
-import type { KTReactive } from './index.js';
-import { isComputed, isKT, isRef, KTReactiveType } from './core.js';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import { isComputed, isRef, KTReactiveType } from './core.js';
 
 export class KTRef<T> {
   /**

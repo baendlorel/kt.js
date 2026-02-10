@@ -1,8 +1,9 @@
 import { $forEach, $isArray } from '@ktjs/shared';
 import type { KTRef } from '../reactive/ref.js';
-import type { KTReactive } from '../reactive/index.js';
-import { $setRef, isKT, toReactive } from '../reactive/index.js';
+import type { KTReactive } from '../types/reactive.js';
 import type { KTRawContent } from '../types/h.js';
+
+import { $setRef, isKT, toReactive } from '../reactive/index.js';
 
 export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   /** Array of child elements, supports reactive arrays */

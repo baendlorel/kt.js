@@ -1,9 +1,7 @@
-import { KTComputed } from './computed.js';
-import { isKT, ReactiveChangeHandler } from './core.js';
-import { KTRef, ref } from './ref.js';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import { isKT } from './core.js';
+import { ref } from './ref.js';
 
-// todo 看看能否把这个类型提升为抽象类或者interface
-export type KTReactive<T> = KTRef<T> | KTComputed<T>;
 export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> => {
   if (isKT(value)) {
     if (onChange) {

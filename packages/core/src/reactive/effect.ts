@@ -1,5 +1,5 @@
 import { $emptyFn } from '@ktjs/shared';
-import type { KTReactive } from './index.js';
+import type { KTReactive } from '../types/reactive.js';
 
 interface KTEffectOptions {
   lazy: boolean;

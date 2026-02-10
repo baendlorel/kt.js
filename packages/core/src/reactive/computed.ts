@@ -1,6 +1,5 @@
 import { $replaceNode } from '@ktjs/shared';
-import type { ReactiveChangeHandler } from './core.js';
-import type { KTReactive } from './index.js';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { isKT, KTReactiveType } from './core.js';
 
 export class KTComputed<T> {
@@ -29,20 +28,36 @@ export class KTComputed<T> {
   /**
    * @internal
    */
+  private _emit(newValue: T, oldValue: T) {
+    for (let i = 0; i < this._onChanges.length; i++) {
+      this._onChanges[i](newValue, oldValue);
+    }
+  }
+
+  /**
+   * @internal
+   */
+  private _recalculate(forceEmit: boolean = false) {
+    const oldValue = this._value;
+    const newValue = this._calculator();
+    if (oldValue === newValue) {
+      if (forceEmit) {
+        this._emit(newValue, oldValue);
+      }
+      return;
+    }
+    this._value = newValue;
+    $replaceNode(oldValue, newValue);
+    this._emit(newValue, oldValue);
+  }
+
+  /**
+   * @internal
+   */
   private _subscribe(reactives: Array<KTReactive<unknown>>) {
     for (let i = 0; i < reactives.length; i++) {
       const reactive = reactives[i];
-      reactive.addOnChange(() => {
-        const oldValue = this._value;
-        this._value = this._calculator();
-        if (oldValue === this._value) {
-          return;
-        }
-        $replaceNode(oldValue, this._value);
-        for (let i = 0; i < this._onChanges.length; i++) {
-          this._onChanges[i](this._value, oldValue);
-        }
-      });
+      reactive.addOnChange(() => this._recalculate());
     }
   }
 
@@ -61,6 +76,20 @@ export class KTComputed<T> {
 
   set value(_newValue: T) {
     $throw('KTComputed: cannot set value of a computed value');
+  }
+
+  /**
+   * Force listeners to run once with the latest computed result.
+   */
+  notify() {
+    this._recalculate(true);
+  }
+
+  /**
+   * Computed values are derived from dependencies and should not be mutated manually.
+   */
+  mutate<R = void>(_mutator?: (value: T) => R): void {
+    $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
   }
 
   /**

@@ -1,4 +1,4 @@
-import { KTReactive } from '../types/reactive.js';
+import type { KTReactive } from '../types/reactive.js';
 import type { KTComputed, KTRef } from './index.js';
 
 export const enum KTReactiveType {

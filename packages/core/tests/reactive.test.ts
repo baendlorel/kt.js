@@ -37,4 +37,33 @@ describe('reactive helpers', () => {
     list.notify();
     expect(total.value).toBe(6);
   });
+
+  it('computed notify should force callback even when value is unchanged', () => {
+    const base = ref(2);
+    const doubled = computed(() => base.value * 2, [base]);
+    const onChange = vi.fn();
+    doubled.addOnChange(onChange);
+
+    doubled.notify();
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(4, 4);
+  });
+
+  it('computed mutate should warn and keep value unchanged', () => {
+    const oldWarn = (globalThis as any).$warn;
+    const warn = vi.fn();
+    (globalThis as any).$warn = warn;
+
+    const base = ref(5);
+    const doubled = computed(() => base.value * 2, [base]);
+    const before = doubled.value;
+
+    doubled.mutate((v) => v);
+
+    expect(doubled.value).toBe(before);
+    expect(warn).toHaveBeenCalledTimes(1);
+
+    (globalThis as any).$warn = oldWarn;
+  });
 });

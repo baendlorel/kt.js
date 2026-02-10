@@ -1,5 +1,5 @@
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { $modelOrRef, computed, effect, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, toReactive } from '@ktjs/core';
 import type { KTMuiCheckboxProps, KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
 import { $ArrayDelete, $ArrayPushUnique } from '../../common/misc.js';
@@ -116,7 +116,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
-  let { row = false, 'on:change': onChange = $emptyFn } = props;
+  let { 'on:change': onChange = $emptyFn } = props;
 
   const changeHandler = (checked: boolean, checkboxValue: string) => {
     if (checked) {
@@ -164,8 +164,6 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
       return Checkbox(o);
     });
   }, [optionsRef, sizeRef]);
-
-  console.log('checkboxes', checkboxes.value);
 
   const container = (
     <div class={classRef} style={styleRef} role="group">

@@ -1,4 +1,4 @@
-import { NodePath } from '@babel/core';
+import type { NodePath } from '@babel/core';
 import { SVG_ATTR_FLAG, MATHML_ATTR_FLAG } from '@ktjs/shared';
 import * as t from '@babel/types';
 

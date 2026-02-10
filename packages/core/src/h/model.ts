@@ -1,5 +1,5 @@
-import { $applyModel, InputElementTag } from '@ktjs/shared';
-import { isKT, KTRef } from '../reactive/index.js';
+import { $applyModel, type InputElementTag } from '@ktjs/shared';
+import { isKT, type KTRef } from '../reactive/index.js';
 
 export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
   if (!isKT(valueRef)) {

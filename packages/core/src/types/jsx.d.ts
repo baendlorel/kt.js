@@ -179,7 +179,7 @@ declare global {
       view: SVGAttributesMap['view'];
     }
 
-    type IntrinsicAttributes = {
+    interface IntrinsicAttributes {
       /**
        * Make a reference to the created element
        */
@@ -203,7 +203,7 @@ declare global {
        */
       'k-html'?: any;
       children?: KTRawContent;
-    };
+    }
 
     interface ElementChildrenAttribute {
       children: {};

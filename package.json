@@ -27,9 +27,8 @@
     "build": "tsx .scripts/index.ts --build",
     "pub": "tsx .scripts/index.ts --publish",
     "test": "clear && tsx .scripts/index.ts --test",
-    "test2": "vitest --config configs/vitest.config.ts",
     "check": "tsc --noEmit",
-    "lint": "oxlint .",
+    "lint": "clear && oxlint .",
     "lines": "tsx .scripts/lines.ts",
     "cover": "vitest --coverage",
     "clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\""

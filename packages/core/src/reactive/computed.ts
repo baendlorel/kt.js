@@ -88,7 +88,7 @@ export class KTComputed<T> {
   /**
    * Computed values are derived from dependencies and should not be mutated manually.
    */
-  mutate<R = void>(_mutator?: (value: T) => R): void {
+  mutate<R = unknown>(_mutator?: (value: T) => R): void {
     $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
   }
 

@@ -1,6 +1,6 @@
 import type { otherstring } from '@ktjs/shared';
-import { KTPrefixedEventAttribute } from './h.js';
-import { KTReactifyProps } from '../reactive/index.ts';
+import type { KTPrefixedEventAttribute } from './h.js';
+import type { KTReactifyProps } from './reactive.js';
 
 type a = HTMLElementEventMap;
 

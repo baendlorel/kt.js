@@ -20,17 +20,6 @@ export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
   return isKT<T>(value) ? value.value : value;
 }
 
-// & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.
-export type KTReactify<T> = T extends boolean ? KTReactive<boolean> : T extends any ? KTReactive<T> : never;
-
-export type KTReactifyObject<T extends object> = {
-  [K in keyof T]: KTReactify<T[K]>;
-};
-
-export type KTReactifyProps<T extends object> = {
-  [K in keyof T]: KTReactify<Exclude<T[K], undefined>> | T[K];
-};
-
 export * from './core.js';
 export * from './ref.js';
 export * from './computed.js';

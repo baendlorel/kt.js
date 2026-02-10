@@ -8,7 +8,7 @@ import { types as t } from '@babel/core';
 function hasConditionalDirective(element: JSXElement): boolean {
   const openingElement = element.openingElement;
   const attributes = openingElement.attributes || [];
-  return attributes.some(attr => {
+  return attributes.some((attr) => {
     if (t.isJSXAttribute(attr)) {
       const name = attr.name;
       if (t.isJSXIdentifier(name)) {
@@ -43,7 +43,7 @@ function getConditionalDirective(element: JSXElement): { type: string; condition
           }
           return {
             type: name.name,
-            condition
+            condition,
           };
         } else if (name.name === 'k-else') {
           return { type: 'k-else', condition: null };
@@ -58,7 +58,7 @@ function getConditionalDirective(element: JSXElement): { type: string; condition
  * Remove conditional directives from JSX element attributes
  */
 function removeConditionalDirectives(attributes: any[]): any[] {
-  return attributes.filter(attr => {
+  return attributes.filter((attr) => {
     if (!t.isJSXAttribute(attr)) return true;
     const name = attr.name;
     if (!t.isJSXIdentifier(name)) return true;
@@ -119,12 +119,12 @@ export function transformConditionalChains(path: NodePath<JSXElement>): void {
   }
 
   // This is the start of a chain, collect all consecutive siblings with conditional directives
-  const chain: NodePath<JSXElement>[] = [path];
+  const chain: Array<NodePath<JSXElement>> = [path];
   let current: NodePath<JSXElement> = path;
 
   while (true) {
     const nextSibling = current.getNextSibling();
-    if (!nextSibling || !nextSibling.isJSXElement() || !hasConditionalDirective((nextSibling.node as JSXElement))) {
+    if (!nextSibling || !nextSibling.isJSXElement() || !hasConditionalDirective(nextSibling.node as JSXElement)) {
       break;
     }
     chain.push(nextSibling as NodePath<JSXElement>);
@@ -180,10 +180,7 @@ export function transformConditionalChains(path: NodePath<JSXElement>): void {
     }
 
     // Create new k-if attribute
-    const kIfAttribute = t.jsxAttribute(
-      t.jsxIdentifier('k-if'),
-      t.jsxExpressionContainer(newCondition)
-    );
+    const kIfAttribute = t.jsxAttribute(t.jsxIdentifier('k-if'), t.jsxExpressionContainer(newCondition));
 
     // Add k-if attribute to attributes
     newAttributes.push(kIfAttribute);

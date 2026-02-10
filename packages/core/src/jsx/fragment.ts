@@ -102,7 +102,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
   const elements: HTMLElement[] = [];
 
   const processChild = (child: any): void => {
-    if (child == null || child === false || child === true) {
+    if (child === undefined || child === null || child === false || child === true) {
       // Ignore null, undefined, false, true
       return;
     }

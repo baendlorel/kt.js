@@ -1,4 +1,4 @@
-import type { KTReactifyProps } from '../reactive/index.js';
+import type { KTReactifyProps } from '../types/reactive.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactive/core.js';
 import { handlers } from './attr-helpers.js';

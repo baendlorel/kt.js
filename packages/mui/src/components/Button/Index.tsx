@@ -1,7 +1,9 @@
-import { KTReactive, KTPrefixedEventAttribute, toReactive } from '@ktjs/core';
+import type { KTReactive, KTPrefixedEventAttribute } from '@ktjs/core';
+import { toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { registerPrefixedEventsForButton } from '../../common/attribute.js';
+
 import type { KTMuiProps } from '../../types/component.js';
+import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';
 
 interface KTMuiButtonProps extends KTMuiProps {

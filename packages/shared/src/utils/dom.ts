@@ -1,6 +1,7 @@
 // DOM manipulation utilities
 
-import { InputElementTag } from '../types/global.js';
+import type { KTReactiveLike } from '../types/misc.js';
+import type { InputElementTag } from '../types/global.js';
 import { $entries } from './native.js';
 
 // # dom natives
@@ -60,7 +61,6 @@ export const { get: $buttonDisabledGetter, set: $buttonDisabledSetter } = Object
 // # DOM utilities
 
 // Same as it is in @ktjs/core
-type Reactive = { isKT: true; value: unknown };
 export const $parseStyle = (style: unknown): string => {
   if (!style) {
     return '';
@@ -69,8 +69,8 @@ export const $parseStyle = (style: unknown): string => {
     return style;
   }
   if (style && typeof style === 'object') {
-    if ((style as Reactive).isKT) {
-      return $parseStyle((style as Reactive).value);
+    if ((style as KTReactiveLike).isKT) {
+      return $parseStyle((style as KTReactiveLike).value);
     }
 
     return $entries(style)

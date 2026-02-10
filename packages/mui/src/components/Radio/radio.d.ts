@@ -1,4 +1,4 @@
-import { KTReactive } from '@ktjs/core';
+import type { KTReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 export interface KTMuiRadioProps extends KTMuiProps {

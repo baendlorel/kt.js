@@ -127,7 +127,7 @@ export const toRef = <T = any>(o: any): KTRef<T> => {
   }
 };
 
-export type KTSurfaceRef<T extends Object> = {
+export type KTSurfaceRef<T extends object> = {
   [K in keyof T]: KTRef<T[K]>;
 } & {
   /**
@@ -136,7 +136,7 @@ export type KTSurfaceRef<T extends Object> = {
   kcollect: () => T;
 };
 
-function kcollect<T extends Object>(this: KTSurfaceRef<T>): T {
+function kcollect<T extends object>(this: KTSurfaceRef<T>): T {
   const newObj: any = {};
   const entries = $entries(this);
   for (let i = 0; i < entries.length; i++) {
@@ -153,7 +153,7 @@ function kcollect<T extends Object>(this: KTSurfaceRef<T>): T {
  * Make all first-level properties of the object a `KTRef`.
  * - `obj.a.b` is not reactive
  */
-export const surfaceRef = <T extends Object>(obj: T): KTSurfaceRef<T> => {
+export const surfaceRef = <T extends object>(obj: T): KTSurfaceRef<T> => {
   const entries = $entries(obj);
   const newObj = { kcollect } as KTSurfaceRef<T>;
   for (let i = 0; i < entries.length; i++) {

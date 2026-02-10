@@ -1,5 +1,4 @@
 import { computed, ref, toReactive } from '@ktjs/core';
-import { $defines } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css';
 

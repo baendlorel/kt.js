@@ -21,6 +21,15 @@ export class KTRef<T> {
    */
   private _onChanges: Array<ReactiveChangeHandler<T>>;
 
+  /**
+   * @internal
+   */
+  private _emit(newValue: T, oldValue: T) {
+    for (let i = 0; i < this._onChanges.length; i++) {
+      this._onChanges[i](newValue, oldValue);
+    }
+  }
+
   constructor(_value: T, _onChanges: Array<ReactiveChangeHandler<T>>) {
     this._value = _value;
     this._onChanges = _onChanges;
@@ -41,9 +50,32 @@ export class KTRef<T> {
     const oldValue = this._value;
     $replaceNode(oldValue, newValue);
     this._value = newValue;
-    for (let i = 0; i < this._onChanges.length; i++) {
-      this._onChanges[i](newValue, oldValue);
+    this._emit(newValue, oldValue);
+  }
+
+  /**
+   * Force all listeners to run even when reference identity has not changed.
+   * Useful for in-place array/object mutations.
+   */
+  notify() {
+    this._emit(this._value, this._value);
+  }
+
+  /**
+   * Mutate current value in-place and notify listeners once.
+   *
+   * @example
+   * const items = ref<number[]>([1, 2]);
+   * items.mutate((list) => list.push(3));
+   */
+  mutate<R = void>(mutator: (value: T) => R): R {
+    if (typeof mutator !== 'function') {
+      $throw('KTRef.mutate: mutator must be a function');
     }
+    const oldValue = this._value;
+    const result = mutator(this._value);
+    this._emit(this._value, oldValue);
+    return result;
   }
 
   /**

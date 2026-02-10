@@ -28,6 +28,7 @@
     "jsxImportSource": "kt.js"
   },
   "include": ["./packages/**/*.ts", "./packages/**/*.tsx", "packages/**/*.js", "./.scripts/**/*.ts"],
+  "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [
     { "path": "./packages/babel-plugin-ktjsx" },
     { "path": "./packages/core" },

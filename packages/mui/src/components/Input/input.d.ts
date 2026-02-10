@@ -1,17 +1,16 @@
 import type { KTReactive } from '@ktjs/core';
 import type { ChangeHandler } from '../../common/handler.js';
+import type { KTMuiProps } from '../../types/component.js';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
-export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> {
+export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMuiProps {
   /**
    * Two-way binding for the input value
    * - Provide a `KTReactive` to make it reactive
    */
   'k-model'?: T extends 'number' ? KTReactive<number> : KTReactive<string>;
 
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
   /**
    * Label text for the input field
    * - Provide a `KTReactive` to make it reactive

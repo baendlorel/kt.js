@@ -3,6 +3,7 @@ import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
 
 type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
+// todo 此处不一样
 interface KTMuiDialogProps {
   /**
    * Controls whether the dialog is open or closed

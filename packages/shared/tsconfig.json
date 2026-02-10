@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@ktjs/shared": ["src"]
-    }
+    "baseUrl": "."
   },
   "include": ["src/**/*.*", "tests/**/*", "../global.d.ts"]
 }

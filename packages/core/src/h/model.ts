@@ -1,4 +1,4 @@
-import { applyModel, InputElementTag } from '@ktjs/shared';
+import { $applyModel, InputElementTag } from '@ktjs/shared';
 import { isKT, KTRef } from '../reactive/index.js';
 
 export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
@@ -9,14 +9,14 @@ export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], val
 
   if (element instanceof HTMLInputElement) {
     if (element.type === 'radio' || element.type === 'checkbox') {
-      applyModel(element, valueRef, 'checked', 'change');
+      $applyModel(element, valueRef, 'checked', 'change');
     } else {
-      applyModel(element, valueRef, 'value', 'input');
+      $applyModel(element, valueRef, 'value', 'input');
     }
   } else if (element instanceof HTMLSelectElement) {
-    applyModel(element, valueRef, 'value', 'change');
+    $applyModel(element, valueRef, 'value', 'change');
   } else if (element instanceof HTMLTextAreaElement) {
-    applyModel(element, valueRef, 'value', 'input');
+    $applyModel(element, valueRef, 'value', 'input');
   } else {
     $warn('not supported element for k-model:');
   }

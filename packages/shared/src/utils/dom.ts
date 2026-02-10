@@ -61,7 +61,7 @@ export const { get: $buttonDisabledGetter, set: $buttonDisabledSetter } = Object
 
 // Same as it is in @ktjs/core
 type Reactive = { isKT: true; value: unknown };
-export const parseStyle = (style: unknown): string => {
+export const $parseStyle = (style: unknown): string => {
   if (!style) {
     return '';
   }
@@ -70,7 +70,7 @@ export const parseStyle = (style: unknown): string => {
   }
   if (style && typeof style === 'object') {
     if ((style as Reactive).isKT) {
-      return parseStyle((style as Reactive).value);
+      return $parseStyle((style as Reactive).value);
     }
 
     return $entries(style)
@@ -88,7 +88,7 @@ export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
 /**
  * Used for `k-model`
  */
-export const applyModel = (
+export const $applyModel = (
   element: HTMLElementTagNameMap[InputElementTag],
   valueRef: { value: unknown; addOnChange: (fn: (newValue: unknown) => void) => void },
   propName: 'value' | 'checked',

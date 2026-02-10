@@ -1,5 +1,5 @@
 import { $modelOrRef, computed, dereactive, ref, toReactive } from '@ktjs/core';
-import { $emptyFn, parseStyle } from '@ktjs/shared';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 import './Input.css';
@@ -127,7 +127,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       ) as HTMLInputElement);
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  const styleRef = toReactive(parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style ?? ''));
   const customClassRef = toReactive(props.class ?? '');
   const classRef = computed(() => {
     const className = [

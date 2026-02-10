@@ -1,12 +1,11 @@
-import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { $replaceNode, type HTMLTag } from '@ktjs/shared';
+import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
-import { isComputed, isKT, isRef, type KTRef, ref } from '../reactive/index.js';
+import { $setRef, isComputed, isKT, type KTRef, ref } from '../reactive/index.js';
+import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 
 type JSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
-
-const dummyRef = { value: null } as unknown as KTRef<JSX.Element>;
 
 const create = (tag: JSXTag, props: KTAttribute): HTMLElement => {
   if (typeof tag === 'function') {
@@ -26,7 +25,6 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
   if (isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
   }
-  const maybeDummyRef = isRef(props.ref) ? props.ref : dummyRef;
 
   let el: JSX.Element;
   if ('k-if' in props) {
@@ -40,58 +38,37 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
           return;
         }
         const oldEl = el;
-        el = newValue ? create(tag, props) : placeholder();
+        $setRef(props, (el = newValue ? create(tag, props) : placeholder()));
         $replaceNode(oldEl, el);
-        maybeDummyRef.value = el;
       });
       condition = kif.value;
     }
 
     if (!condition) {
       // & make comment placeholder in case that ref might be redrawn later
-      el = placeholder();
-      maybeDummyRef.value = el;
+      $setRef(props, (el = placeholder()));
       return el;
     }
   }
 
-  el = create(tag, props);
-  maybeDummyRef.value = el;
+  $setRef(props, (el = create(tag, props)));
   return el;
 }
 
 /**
  * Fragment support - returns an array of children
- * Note: kt.js doesn't have a real Fragment concept,
+ * Enhanced Fragment component that manages arrays of elements
  */
-export function Fragment(_props: { children?: KTRawContent }): HTMLElement {
-  $throw("doesn't have a Fragment concept");
+export function Fragment(props: { children?: KTRawContent }): JSX.Element {
+  const { children } = props ?? {};
 
-  // const { children } = props ?? {};
+  if (!children) {
+    return document.createComment('kt-fragment-empty') as unknown as JSX.Element;
+  }
 
-  // if (!children) {
-  //   return ;
-  // }
+  const elements = convertChildrenToElements(children);
 
-  // // If single child, return it directly
-  // if (!Array.isArray(children)) {
-  //   return children as HTMLElement;
-  // }
-
-  // // For multiple children, create a document fragment wrapper
-  // // This is a limitation - JSX fragments must be wrapped in kt.js
-  // const wrapper = document.createElement('div');
-  // wrapper.setAttribute('data-kt-fragment', 'true');
-
-  // children.forEach((child) => {
-  //     if (typeof child === 'string') {
-  //       wrapper.appendChild(document.createTextNode(child));
-  //     } else if (child instanceof HTMLElement) {
-  //       wrapper.appendChild(child);
-  //     }
-  // });
-
-  // return wrapper;
+  return FragmentArray({ children: elements });
 }
 
 /**

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Version } from './version.js';
 
-export const workMap = new Map([
+const workMap = new Map([
   [undefined, ['core', 'kt.js']],
   ['plugin', ['babel-plugin-ktjsx']],
   ['shared', ['shared']],
@@ -12,9 +12,30 @@ export const workMap = new Map([
   ['shortcuts', ['shortcuts']],
   [
     'all',
-    ['core', 'kt.js', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
+    ['kt.js', 'core', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
   ],
 ]);
+
+const tagMap = new Map([
+  [undefined, ['kt.js']],
+  ['plugin', ['babel-plugin-ktjsx']],
+  ['shared', ['shared']],
+  ['router', ['router']],
+  ['mui', ['mui']],
+  ['exp', ['example']],
+  ['shortcuts', ['shortcuts']],
+  [
+    'all',
+    ['kt.js', 'core', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
+  ],
+]);
+
+export const getTagName = (who: string | undefined) => {
+  const tagPackageDir = tagMap.get(who)![0];
+  const packageJsonPath = join(import.meta.dirname, '..', '..', 'packages', tagPackageDir, 'package.json');
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  return packageJson.name as string;
+};
 
 export const getPackageGroup = (who: string | undefined) => {
   if (!workMap.has(who)) {

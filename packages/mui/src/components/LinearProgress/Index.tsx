@@ -1,11 +1,11 @@
 import { computed, ref, toReactive } from '@ktjs/core';
 import { $defines } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css';
 
-interface LinearProgressProps {
-  class?: string;
+interface LinearProgressProps extends Pick<KTMuiProps, 'class'> {
+  // todo 此处不一样
   style?: string | Partial<CSSStyleDeclaration>;
-
   variant?: 'determinate' | 'indeterminate';
   progress?: number;
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';

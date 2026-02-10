@@ -1,8 +1,7 @@
-import { KTComputed } from './computed.js';
-import { isKT, ReactiveChangeHandler } from './core.js';
-import { KTRef, ref } from './ref.js';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import { isKT } from './core.js';
+import { ref } from './ref.js';
 
-export type KTReactive<T> = KTRef<T> | KTComputed<T>;
 export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> => {
   if (isKT(value)) {
     if (onChange) {
@@ -13,6 +12,13 @@ export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChang
     return ref(value as T, onChange) as KTReactive<T>;
   }
 };
+
+/**
+ * Extracts the value from a KTReactive, or returns the value directly if it's not reactive.
+ */
+export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
+  return isKT<T>(value) ? value.value : value;
+}
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.
 export type KTReactify<T> = T extends boolean ? KTReactive<boolean> : T extends any ? KTReactive<T> : never;

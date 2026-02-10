@@ -1,6 +1,6 @@
 import { NavItem } from '../types/router.js';
-import { Counter } from './Counter.js';
 import { Events } from './Events.js';
+import { FragmentDemo } from './Fragment.js';
 import { Home } from './Home.js';
 import { Reactivity } from './Reactive.js';
 
@@ -18,6 +18,13 @@ export const basicNavItems: NavItem[] = [
     title: 'Reactive',
     description: 'Demonstration of reactive features using kt.js refs',
     component: Reactivity,
+  },
+  {
+    id: 'fragment',
+    label: 'Fragment',
+    title: 'Fragment',
+    description: 'Demonstrates fragment shorthand and reactive fragment children arrays',
+    component: FragmentDemo,
   },
   {
     id: 'events',

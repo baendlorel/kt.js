@@ -1,5 +1,5 @@
 import { toReactive } from '@ktjs/core';
-import { $defines, $emptyFn, parseStyle } from '@ktjs/shared';
+import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 import './Radio.css';
@@ -62,7 +62,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   const container = (
     <label
       class={`mui-radio-wrapper ${props.class ?? ''} mui-radio-size-${size} ${disabled ? 'mui-radio-disabled' : ''} mui-radio-color-${color}`}
-      style={parseStyle(props.style)}
+      style={$parseStyle(props.style)}
     >
       {input}
       <span class="mui-radio-icon">
@@ -128,7 +128,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const container = (
     <div
       class={`mui-radio-group ${row ? 'mui-radio-group-row' : ''} ${props.class ?? ''}`}
-      style={parseStyle(props.style)}
+      style={$parseStyle(props.style)}
       role="radiogroup"
     >
       {radios}

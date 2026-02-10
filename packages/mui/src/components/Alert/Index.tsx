@@ -1,11 +1,9 @@
-import { parseStyle } from '@ktjs/shared';
+import { $parseStyle } from '@ktjs/shared';
+import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css';
 
-interface KTMuiAlertProps {
-  class?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
-  children: string | HTMLElement | JSX.Element | Array<string | HTMLElement | JSX.Element>;
-
+interface KTMuiAlertProps extends KTMuiProps {
+  children: NonNullable<KTMuiProps['children']>;
   severity?: 'error' | 'warning' | 'info' | 'success';
   variant?: 'standard' | 'filled' | 'outlined';
   icon?: HTMLElement | false;
@@ -70,7 +68,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
   const alertIcon = getIcon();
 
   const alert = (
-    <div class={classes} style={parseStyle(props.style)} role="alert">
+    <div class={classes} style={$parseStyle(props.style)} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{children}</div>
       <button k-if={onClose} class="mui-alert-close" on:click={onClose} aria-label="Close">

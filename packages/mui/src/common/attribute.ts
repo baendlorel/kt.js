@@ -1,6 +1,6 @@
 import { $entries } from '@ktjs/shared';
 
-export const parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefined) => {
+export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefined) => {
   if (typeof style === 'string') {
     return style;
   }

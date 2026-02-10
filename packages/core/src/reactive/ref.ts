@@ -1,7 +1,6 @@
 import { $entries, $is, $replaceNode } from '@ktjs/shared';
-import type { ReactiveChangeHandler } from './core.js';
-import type { KTReactive } from './index.js';
-import { isComputed, isKT, isRef, KTReactiveType } from './core.js';
+import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import { isComputed, isRef, KTReactiveType } from './core.js';
 
 export class KTRef<T> {
   /**
@@ -20,6 +19,15 @@ export class KTRef<T> {
    * @internal
    */
   private _onChanges: Array<ReactiveChangeHandler<T>>;
+
+  /**
+   * @internal
+   */
+  private _emit(newValue: T, oldValue: T) {
+    for (let i = 0; i < this._onChanges.length; i++) {
+      this._onChanges[i](newValue, oldValue);
+    }
+  }
 
   constructor(_value: T, _onChanges: Array<ReactiveChangeHandler<T>>) {
     this._value = _value;
@@ -41,9 +49,32 @@ export class KTRef<T> {
     const oldValue = this._value;
     $replaceNode(oldValue, newValue);
     this._value = newValue;
-    for (let i = 0; i < this._onChanges.length; i++) {
-      this._onChanges[i](newValue, oldValue);
+    this._emit(newValue, oldValue);
+  }
+
+  /**
+   * Force all listeners to run even when reference identity has not changed.
+   * Useful for in-place array/object mutations.
+   */
+  notify() {
+    this._emit(this._value, this._value);
+  }
+
+  /**
+   * Mutate current value in-place and notify listeners once.
+   *
+   * @example
+   * const items = ref<number[]>([1, 2]);
+   * items.mutate((list) => list.push(3));
+   */
+  mutate<R = void>(mutator: (currentValue: T) => R): R {
+    if (typeof mutator !== 'function') {
+      $throw('KTRef.mutate: mutator must be a function');
     }
+    const oldValue = this._value;
+    const result = mutator(this._value);
+    this._emit(this._value, oldValue);
+    return result;
   }
 
   /**
@@ -140,10 +171,22 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   // & props is an object. Won't use it in any other place
   if ('k-model' in props) {
     const kmodel = props['k-model'];
-    if (!kmodel?.isKT) {
+    if (isRef(kmodel)) {
+      return kmodel;
+    } else {
       $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
     }
-    return kmodel;
   }
   return ref(defaultValue) as KTRef<T>;
+};
+
+export const $setRef = (props: { ref?: KTRef<any> }, node: Node) => {
+  if ('ref' in props) {
+    const r = props.ref;
+    if (isRef(r)) {
+      r.value = node;
+    } else {
+      $throw('Fragment: ref must be a KTRef');
+    }
+  }
 };

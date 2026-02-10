@@ -27,6 +27,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     $append.call(element, c as Node);
 
     // Handle KTFor anchor
+    // todo Maybe not needed anymore
     const list = (c as any).__kt_for_list__ as any[];
     if ($isArray(list)) {
       apd(element, list);

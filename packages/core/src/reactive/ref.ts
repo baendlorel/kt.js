@@ -96,10 +96,6 @@ export const toRef = <T = any>(o: any): KTRef<T> => {
   }
 };
 
-export function deref<T = JSX.Element>(value: T | KTReactive<T>): T {
-  return isKT<T>(value) ? value.value : value;
-}
-
 export type KTSurfaceRef<T extends Object> = {
   [K in keyof T]: KTRef<T[K]>;
 } & {

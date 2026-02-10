@@ -6,8 +6,10 @@ export * from './utils/dom.js';
 export * from './utils/misc.js';
 export * from './utils/url.js';
 export * from './consts/index.js';
+
 export type * from './types/global.js';
 export type * from './types/macros.js';
+export type * from './types/misc.js';
 
 // incase that symbol is not supported
 import './misc/symbol-polyfill.js';

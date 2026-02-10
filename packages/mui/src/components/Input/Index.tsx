@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, deref, ref, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, dereactive, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, parseStyle } from '@ktjs/shared';
 
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
@@ -67,7 +67,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const getPlaceholder = () => (labelRef.value && !isFocused && !modelRef.value ? '' : placeholderRef.value);
 
   // # non-refs
-  const inputType = deref(props.type ?? ('text' as T));
+  const inputType = dereactive(props.type ?? ('text' as T));
   const multiline = props.multiline;
 
   // # refs

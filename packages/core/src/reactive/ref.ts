@@ -68,7 +68,7 @@ export class KTRef<T> {
    * const items = ref<number[]>([1, 2]);
    * items.mutate((list) => list.push(3));
    */
-  mutate<R = void>(mutator: (value: T) => R): R {
+  mutate<R = void>(mutator: (currentValue: T) => R): R {
     if (typeof mutator !== 'function') {
       $throw('KTRef.mutate: mutator must be a function');
     }
@@ -127,10 +127,6 @@ export const toRef = <T = any>(o: any): KTRef<T> => {
     return ref(o);
   }
 };
-
-export function deref<T = JSX.Element>(value: T | KTReactive<T>): T {
-  return isKT<T>(value) ? value.value : value;
-}
 
 export type KTSurfaceRef<T extends Object> = {
   [K in keyof T]: KTRef<T[K]>;

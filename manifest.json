@@ -1,0 +1,342 @@
+{
+  "packages": [
+    {
+      "name": "@ktjs/babel-plugin-ktjsx",
+      "version": "0.1.0",
+      "type": "module",
+      "main": "dist/index.js",
+      "module": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/index.js",
+          "default": "./dist/index.js"
+        }
+      },
+      "files": [
+        "dist"
+      ],
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/ktjs/kt.js"
+      },
+      "license": "MIT",
+      "description": "Babel plugin to make JSX-generated SVG use proper namespaces.",
+      "scripts": {
+        "build": "node build.js",
+        "test": "node tests/run.js"
+      },
+      "devDependencies": {
+        "@babel/core": "^7.0.0",
+        "@babel/types": "^7.0.0",
+        "@rollup/plugin-typescript": "^12.3.0",
+        "@types/babel__core": "^7.20.5",
+        "rollup": "^3.0.0",
+        "typescript": "^5.9.3"
+      },
+      "peerDependencies": {
+        "@babel/core": "^7.0.0"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/core",
+      "version": "0.28.2",
+      "description": "Core functionality for kt.js - DOM manipulation utilities with JSX/TSX support",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/index.mjs",
+          "default": "./dist/index.mjs"
+        },
+        "./jsx": {
+          "types": "./dist/jsx/index.d.ts",
+          "import": "./dist/jsx/index.mjs"
+        },
+        "./jsx-runtime": {
+          "types": "./dist/jsx/jsx-runtime.d.ts",
+          "import": "./dist/jsx/jsx-runtime.mjs"
+        },
+        "./jsx-dev-runtime": {
+          "types": "./dist/jsx/jsx-runtime.d.ts",
+          "import": "./dist/jsx/jsx-runtime.mjs"
+        }
+      },
+      "files": [
+        "dist"
+      ],
+      "keywords": [
+        "dom",
+        "dom-manipulation",
+        "framework",
+        "web"
+      ],
+      "license": "MIT",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/core"
+      },
+      "dependencies": {
+        "@ktjs/shared": "workspace:*"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/example",
+      "private": true,
+      "type": "module",
+      "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+      },
+      "dependencies": {
+        "@ktjs/core": "workspace:*",
+        "@ktjs/mui": "workspace:*"
+      },
+      "devDependencies": {
+        "@ktjs/ts-plugin-jsx-dom": "workspace:*"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "kt.js",
+      "version": "0.28.2",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "description": "A simple and easy-to-use web framework, never re-render. Abbreviation of Kasukabe Tsumugi.",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/index.mjs",
+          "default": "./dist/index.mjs"
+        },
+        "./jsx-runtime": {
+          "types": "./dist/jsx-runtime.d.ts",
+          "import": "./dist/jsx-runtime.mjs"
+        },
+        "./jsx-dev-runtime": {
+          "types": "./dist/jsx-runtime.d.ts",
+          "import": "./dist/jsx-runtime.mjs"
+        }
+      },
+      "files": [
+        "dist"
+      ],
+      "homepage": "https://github.com/baendlorel/kt.js#readme",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/kt.js"
+      },
+      "keywords": [
+        "framework",
+        "web",
+        "typescript",
+        "javascript"
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "@ktjs/core": "workspace:^*"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/mui",
+      "version": "0.23.2",
+      "description": "Material-UI inspired components for kt.js - pre-styled UI components",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/index.mjs",
+          "default": "./dist/index.mjs"
+        },
+        "./styles": "./dist/index.css"
+      },
+      "files": [
+        "dist"
+      ],
+      "keywords": [
+        "kt.js",
+        "ui",
+        "components",
+        "material-ui",
+        "mui",
+        "web"
+      ],
+      "license": "MIT",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/mui"
+      },
+      "dependencies": {
+        "@ktjs/core": "workspace:^*",
+        "@ktjs/shared": "workspace:*"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/router",
+      "version": "0.20.0",
+      "description": "Router for kt.js - client-side routing with navigation guards",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "default": "./dist/index.mjs"
+      },
+      "files": [
+        "dist"
+      ],
+      "keywords": [
+        "router",
+        "routing",
+        "navigation",
+        "spa",
+        "web"
+      ],
+      "license": "MIT",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/router"
+      },
+      "dependencies": {
+        "@ktjs/core": "workspace:^*",
+        "@ktjs/shared": "workspace:*"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w",
+        "test": "vitest run"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/shared",
+      "version": "0.23.11",
+      "description": "Shared utilities and cached native methods for kt.js framework",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/index.mjs",
+          "default": "./dist/index.mjs"
+        }
+      },
+      "files": [
+        "dist"
+      ],
+      "keywords": [
+        "utilities",
+        "shared",
+        "framework",
+        "web",
+        "tools"
+      ],
+      "license": "MIT",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/shared"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w",
+        "test": "vitest run"
+      },
+      "isMonorepo": true
+    },
+    {
+      "name": "@ktjs/shortcuts",
+      "version": "0.20.0",
+      "description": "Shortcut functions for kt.js - common DOM operations",
+      "type": "module",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "default": "./dist/index.mjs"
+      },
+      "files": [
+        "dist"
+      ],
+      "keywords": [
+        "dom",
+        "shortcuts",
+        "utilities",
+        "web"
+      ],
+      "license": "MIT",
+      "author": {
+        "name": "Kasukabe Tsumugi",
+        "email": "futami16237@gmail.com"
+      },
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/baendlorel/kt.js",
+        "directory": "packages/shortcuts"
+      },
+      "dependencies": {
+        "@ktjs/core": "workspace:^*"
+      },
+      "scripts": {
+        "build": "rollup -c rollup.config.mjs",
+        "dev": "rollup -c rollup.config.mjs -w",
+        "test": "vitest run"
+      },
+      "isMonorepo": true
+    }
+  ]
+}

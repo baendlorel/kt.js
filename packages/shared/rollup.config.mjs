@@ -1,5 +1,5 @@
 // @ts-check
-import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
+import { createPackageConfig } from '../../scripts/rollup-factory.mjs';
 
 // Main config for shared package
 const configs = createPackageConfig({

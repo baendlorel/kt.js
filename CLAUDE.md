@@ -14,6 +14,7 @@ KT.js is a minimalist web framework focused on direct DOM manipulation with zero
 - **Path mappings**: Root `tsconfig.json` defines path aliases for all packages (e.g., `@ktjs/core`, `@ktjs/router`)
 
 Key packages:
+
 - `@ktjs/core` - Core DOM utilities, JSX runtime, reactive system
 - `kt.js` - Main entry package that re-exports `@ktjs/core`
 - `@ktjs/router` - Client-side hash-based routing
@@ -46,6 +47,7 @@ pnpm build exp               # Build example application
 Alternatively, use `pnpm --filter <package> build` for finer control.
 
 ### Development
+
 ```bash
 pnpm exp                     # Run example development server (pnpm --filter @ktjs/example dev)
 pnpm dev                     # Not defined at root; each package has its own `dev` script
@@ -68,16 +70,18 @@ pnpm test2                  # Run vitest directly (alternative)
 Alternatively, use `pnpm --filter <package> test` for finer control.
 
 ### Code Quality
+
 ```bash
 pnpm check                   # Type check without emitting (tsc --noEmit)
 pnpm lint                    # Lint with Oxlint (config in .oxlintrc.json)
 ```
 
 ### Maintenance
+
 ```bash
 pnpm clean                   # Remove build artifacts and caches
 pnpm lines                   # Count lines of code across packages
-pnpm sync                    # Sync versions across packages (tsx .scripts/sync-version.ts)
+pnpm sync                    # Sync versions across packages (tsx scripts/sync-version.ts)
 ```
 
 ### Publishing
@@ -101,6 +105,7 @@ Note: Publishing requires proper npm authentication and git tag permissions.
 ## Architecture
 
 ### Core Principles
+
 - **Direct DOM manipulation**: No virtual DOM; JSX compiles directly to `h()` function calls
 - **Zero forced re-renders**: Updates only what changes, avoiding full component re-renders
 - **Reactive programming**: `ref()`, `computed()`, `surfaceRef()` for state management
@@ -135,11 +140,13 @@ Note: Publishing requires proper npm authentication and git tag permissions.
    - Programmatic navigation (`router.push()`)
 
 ### Build System
+
 - **Bundler**: Rollup with TypeScript plugin
 - **Output formats**: ESM (`.mjs`), IIFE (`.js`), TypeScript declarations (`.d.ts`)
 - **Package exports**: Each package defines explicit exports in `package.json`
 
 ### Testing
+
 - **Framework**: Vitest with configuration in `configs/vitest.config.ts`
 - **Coverage**: `@vitest/coverage-v8` for coverage reports
 - **Test locations**: Each package has its own `tests/` directory
@@ -147,47 +154,55 @@ Note: Publishing requires proper npm authentication and git tag permissions.
 ## Development Notes
 
 ### TypeScript Configuration
+
 - Root `tsconfig.json` configures path mappings for all packages
 - JSX mode: `"react-jsx"` with `jsxImportSource: "kt.js"` (or `"@ktjs/core"`)
 - Composite projects enabled for monorepo support
 
 ### Linting
+
 - Oxlint with TypeScript and Prettier plugins
 - Configuration in `.oxlintrc.json`
 - Test files are ignored from linting
 
 ### Workspace Management
+
 - PNPM workspace with `link-workspace-packages: true`
 - Shared lockfile (`pnpm-lock.yaml`)
 - Internal dependencies use `"workspace:*"` version specifier
 
 ### Package Interdependencies
+
 - `@ktjs/core` depends on `@ktjs/shared`
 - `@ktjs/router`, `@ktjs/mui`, `@ktjs/shortcuts` depend on `@ktjs/core`
 - `kt.js` re-exports `@ktjs/core` functionality
 
 ### Scripts and Automation
+
 - Root scripts (`build`, `test`, `pub`) delegate to package-specific scripts via `pnpm --filter`
-- Package groups are defined in `.scripts/common/consts.ts` (core, router, mui, shortcuts, shared, plugin, exp, all)
-- The `.scripts/index.ts` handles version synchronization, building, testing, and publishing
+- Package groups are defined in `scripts/common/consts.ts` (core, router, mui, shortcuts, shared, plugin, exp, all)
+- The `scripts/index.ts` handles version synchronization, building, testing, and publishing
 - Individual package build configurations are in each package's `rollup.config.mjs`
 
 ### JSX Configuration
+
 For projects using KT.js with JSX/TSX:
+
 ```json
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "kt.js"  // or "@ktjs/core" for direct usage
+    "jsxImportSource": "kt.js" // or "@ktjs/core" for direct usage
   }
 }
 ```
 
 ### Important Files
+
 - `configs/tsconfig.build.json` - Build-specific TypeScript config
 - `configs/tsconfig.build.legacy.json` - Legacy build config
-- `.scripts/vitest.base.config.ts` - Base Vitest resolver configuration
-- `.scripts/index.ts` - Main build/test/publish automation script
+- `scripts/vitest.base.config.ts` - Base Vitest resolver configuration
+- `scripts/index.ts` - Main build/test/publish automation script
 - Each package's `rollup.config.mjs` - Individual Rollup configuration
 
 ## Framework Philosophy

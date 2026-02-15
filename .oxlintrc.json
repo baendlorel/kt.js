@@ -14,7 +14,7 @@
     "**/tests/**/*.tsx",
     "build/",
     "example/",
-    ".scripts/"
+    "scripts/"
   ],
   "plugins": [
     "typescript"

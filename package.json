@@ -24,14 +24,14 @@
   ],
   "scripts": {
     "exp": "pnpm --filter @ktjs/example dev",
-    "build": "tsx .scripts/index.ts --build",
-    "pub": "tsx .scripts/index.ts --publish",
-    "test": "clear && tsx .scripts/index.ts --test",
-    "check": "tsc --noEmit",
-    "lint": "clear && oxlint .",
-    "lines": "tsx .scripts/lines.ts",
-    "cover": "vitest --coverage",
-    "clean": "rimraf --glob \"packages/**/*.tsbuildinfo\" \"packages/**/.rollup.cache\" \"packages/**/dist\""
+    "manifest": "tsx ./scripts/manifest.ts",
+    "lines": "tsx ./scripts/lines.ts",
+    "build": "tsx ./scripts/index.ts --build",
+    "pub": "tsx ./scripts/index.ts --publish",
+    "test": "tsx ./scripts/index.ts --test",
+    "cover": "pnpm -r --if-present run cover",
+    "test:root": "vitest",
+    "lint": "oxlint ."
   },
   "license": "MIT",
   "devDependencies": {

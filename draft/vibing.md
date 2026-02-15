@@ -227,4 +227,4 @@ const ssss = bindParams(sss, 'a');
 
 从0.几的版本开始我就没更新过测试了。我现在希望你完成：1、给每个包
 都加入tests文件夹和vitest.config.ts；2、完善vitest.base.config.ts
-，这个文件在根目录的.scripts下；3、要根据最新代码来编写适合的测试
+，这个文件在根目录的scripts下；3、要根据最新代码来编写适合的测试

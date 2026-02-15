@@ -1,5 +1,5 @@
 // @ts-check
-import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
+import { createPackageConfig } from '../../scripts/rollup-factory.mjs';
 
 // Main config for kt.js
 const mainConfig = createPackageConfig({
@@ -22,9 +22,9 @@ const jsxRuntimeConfig = createPackageConfig({
 });
 
 // Modify jsx-runtime outputs
-const modifiedJsxRuntimeConfig = jsxRuntimeConfig.map(config => {
+const modifiedJsxRuntimeConfig = jsxRuntimeConfig.map((config) => {
   if (Array.isArray(config.output)) {
-    config.output = config.output.map(output => {
+    config.output = config.output.map((output) => {
       if (output.file && output.file.includes('index.mjs')) {
         return {
           ...output,

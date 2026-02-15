@@ -1,5 +1,5 @@
 // @ts-check
-import { createPackageConfig } from '../../.scripts/rollup-factory.mjs';
+import { createPackageConfig } from '../../scripts/rollup-factory.mjs';
 import postcss from 'rollup-plugin-postcss';
 
 // Main config for mui package - need to handle CSS imports

@@ -5,6 +5,33 @@ import type { KTRawContent } from '../types/h.js';
 
 import { $setRef, isKT, toReactive } from '../reactive/index.js';
 
+const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
+const FRAGMENT_MOUNT = '__kt_fragment_mount__';
+
+if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED]) {
+  (globalThis as any)[FRAGMENT_MOUNT_PATCHED] = true;
+
+  const originAppendChild = Node.prototype.appendChild;
+  Node.prototype.appendChild = function (node: Node) {
+    const result = originAppendChild.call(this, node);
+    const mount = (node as any)[FRAGMENT_MOUNT];
+    if (typeof mount === 'function') {
+      mount();
+    }
+    return result;
+  };
+
+  const originInsertBefore = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function (node: Node, child: Node | null) {
+    const result = originInsertBefore.call(this, node, child);
+    const mount = (node as any)[FRAGMENT_MOUNT];
+    if (typeof mount === 'function') {
+      mount();
+    }
+    return result;
+  };
+}
+
 export interface FragmentProps<T extends HTMLElement = HTMLElement> {
   /** Array of child elements, supports reactive arrays */
   children: T[] | KTReactive<T[]>;
@@ -36,30 +63,28 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
  * ```
  */
 export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
-  // key parameter reserved for future enhancement, currently unused
-  // const { key: _key } = props;
+  const elements: T[] = [];
+  const anchor = document.createComment('kt-fragment');
+  let inserted = false;
+  let observer: MutationObserver | undefined;
+
   const redraw = () => {
     const newElements = childrenRef.value;
     const parent = anchor.parentNode;
 
     if (!parent) {
-      // If anchor is not in DOM, only update internal state
       elements.length = 0;
       for (let i = 0; i < newElements.length; i++) {
         elements.push(newElements[i]);
       }
+      (anchor as any).__kt_fragment_list__ = elements;
       return;
     }
 
-    // Simple replacement algorithm: remove all old elements, insert all new elements
-    // todo Future enhancement: key-based optimization
-
-    // 1. Remove all old elements
     for (let i = 0; i < elements.length; i++) {
-      (elements[i] as ChildNode).remove();
+      elements[i].remove();
     }
 
-    // 2. Insert all new elements
     const fragment = document.createDocumentFragment();
     elements.length = 0;
 
@@ -69,27 +94,54 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
       fragment.appendChild(element);
     }
 
-    // Insert after anchor
     parent.insertBefore(fragment, anchor.nextSibling);
+    inserted = true;
+    delete (anchor as any)[FRAGMENT_MOUNT];
+    observer?.disconnect();
+    observer = undefined;
+    (anchor as any).__kt_fragment_list__ = elements;
   };
 
-  let initialized = false;
   const childrenRef = toReactive(props.children, redraw);
-  const elements: JSX.Element[] = [];
-  const anchor = document.createComment('kt-fragment');
 
-  // Observe DOM insertion
-  const observer = new MutationObserver(() => {
-    if (anchor.isConnected && !initialized) {
-      initialized = true;
+  const renderInitial = () => {
+    const current = childrenRef.value;
+    elements.length = 0;
+
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < current.length; i++) {
+      const element = current[i];
+      elements.push(element);
+      fragment.appendChild(element);
+    }
+
+    (anchor as any).__kt_fragment_list__ = elements;
+
+    const parent = anchor.parentNode;
+    if (parent && !inserted) {
+      parent.insertBefore(fragment, anchor.nextSibling);
+      inserted = true;
+    }
+  };
+
+  renderInitial();
+
+  (anchor as any)[FRAGMENT_MOUNT] = () => {
+    if (!inserted && anchor.parentNode) {
       redraw();
-      observer.disconnect();
+    }
+  };
+
+  observer = new MutationObserver(() => {
+    if (anchor.parentNode && !inserted) {
+      redraw();
+      observer?.disconnect();
+      observer = undefined;
     }
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Set ref reference
   $setRef(props, anchor);
 
   return anchor as unknown as JSX.Element;
@@ -114,9 +166,9 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
     }
 
     if (typeof child === 'string' || typeof child === 'number') {
-      // & Wrap text in span element? No! use text node instead
-      const textNode = document.createTextNode(String(child));
-      elements.push(textNode as unknown as HTMLElement);
+      const span = document.createElement('span');
+      span.textContent = String(child);
+      elements.push(span);
       return;
     }
 
@@ -130,8 +182,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
       return;
     }
 
-    // Other types ignored or converted to string
-    $warn('Fragment: unsupported child type', child);
+    console.warn('Fragment: unsupported child type', child);
   };
 
   processChild(children);

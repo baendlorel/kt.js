@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "composite": true,
     "esModuleInterop": true,
     "strict": true,
@@ -27,7 +27,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "kt.js"
   },
-  "include": ["./packages/**/*.ts", "./packages/**/*.tsx", "packages/**/*.js", "./.scripts/**/*.ts"],
+  "include": ["./packages/**/*.ts", "./packages/**/*.tsx", "packages/**/*.js", "./scripts/**/*.ts", "*.config.ts"],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [
     { "path": "./packages/babel-plugin-ktjsx" },

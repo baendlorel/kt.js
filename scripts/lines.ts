@@ -5,6 +5,7 @@ const ROOT = path.resolve('./packages');
 
 const IGNORE_DIRS = new Set(['node_modules', 'dist']);
 
+// '.js', 'mjs', 'cjs', '.cpp', '.h', '.py', '.rs', '.rc', '.json'
 const EXTENSIONS = new Set(['.ts', '.tsx', '.css']);
 
 let totalLines = 0;

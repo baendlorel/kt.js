@@ -21,6 +21,6 @@ function generate() {
 
   const packages = { packages: list };
 
-  writeFileSync(path.join(import.meta.dirname, '..', 'repo-list.json'), JSON.stringify(packages, null, 2));
+  writeFileSync(path.join(import.meta.dirname, '..', 'manifest.json'), JSON.stringify(packages, null, 2));
 }
 generate();

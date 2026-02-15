@@ -1,33 +1,39 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-const packagesDir = path.join(import.meta.dirname, '..', 'packages');
+const workspaceRoot = path.join(import.meta.dirname, '..');
+
+const PATH_ALIASES: Record<string, string> = {
+  '@ktjs/babel-plugin-ktjsx': 'packages/babel-plugin-ktjsx/src/index.ts',
+  '@ktjs/ts-plugin-jsx-dom': 'packages/ts-plugin-jsx-dom/src/index.ts',
+  '@ktjs/runtime': 'packages/core/src/runtime.ts',
+  '@ktjs/router': 'packages/router/src/main.ts',
+  '@ktjs/shortcuts': 'packages/shortcuts/src/index.ts',
+  '@ktjs/mui': 'packages/mui/src/index.ts',
+  '@ktjs/shared': 'packages/shared/src/index.ts',
+
+  '@ktjs/core': 'packages/core/src/index.ts',
+  '@ktjs/core/jsx': 'packages/core/src/jsx/index.ts',
+  '@ktjs/core/jsx-runtime': 'packages/core/src/jsx/jsx-runtime.ts',
+
+  'kt.js': 'packages/kt.js/src/index.ts',
+  'kt.js/jsx-runtime': 'packages/kt.js/src/jsx/jsx-runtime.ts',
+};
+
 export function getVitestAliases() {
-  const packageDirs = readdirSync(packagesDir);
   const alias: Record<string, string> = {};
-  for (const dir of packageDirs) {
-    const jsonPath = path.join(packagesDir, dir, 'package.json');
-    if (!existsSync(jsonPath)) {
-      continue;
-    }
-    const json = JSON.parse(readFileSync(jsonPath, 'utf-8'));
-    alias[json.name] = path.join(packagesDir, dir, 'src', 'index.ts');
+  for (const [find, replacement] of Object.entries(PATH_ALIASES)) {
+    alias[find] = path.join(workspaceRoot, replacement);
   }
   return alias;
 }
 
 export function getRollupAliases() {
-  const packageDirs = readdirSync(packagesDir);
   const alias: { entries: Array<{ find: RegExp | string; replacement: string }> } = { entries: [] };
-  for (const dir of packageDirs) {
-    const jsonPath = path.join(packagesDir, dir, 'package.json');
-    if (!existsSync(jsonPath)) {
-      continue;
-    }
-    const json = JSON.parse(readFileSync(jsonPath, 'utf-8'));
+  const sortedEntries = Object.entries(PATH_ALIASES).sort(([a], [b]) => b.length - a.length);
+  for (const [find, replacement] of sortedEntries) {
     alias.entries.push({
-      find: new RegExp(`^${json.name}`),
-      replacement: path.join(packagesDir, dir, 'src'),
+      find,
+      replacement: path.join(workspaceRoot, replacement),
     });
   }
   return alias;

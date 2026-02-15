@@ -1,4 +1,4 @@
-import type { Router } from './types/router.js';
+import type { Router } from '../types/router.js';
 
 /**
  * Create a router view container that automatically renders route components

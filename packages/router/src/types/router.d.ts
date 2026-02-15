@@ -1,4 +1,4 @@
-import type { GuardLevel } from '../consts.js';
+import type { GuardLevel } from '../core/consts.js';
 
 /**
  * Route configuration for defining application routes

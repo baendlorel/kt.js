@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { createRouter } from '../src/index.js';
-import { GuardLevel } from '../src/consts.js';
+import { createRouter } from '../src/core/index.js';
+import { GuardLevel } from '../src/core/consts.js';
 
 const component = (textContent: string = '') => {
   const d = document.createElement('div');

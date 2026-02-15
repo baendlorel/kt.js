@@ -1,4 +1,4 @@
-import type { RouteConfig, RouteMatch } from './types/router.js';
+import type { RouteConfig, RouteMatch } from '../types/router.js';
 import { extractParams, normalizePath } from '@ktjs/shared';
 
 /**

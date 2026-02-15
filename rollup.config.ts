@@ -9,9 +9,9 @@ import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
-import { getAliases } from 'scripts/aliases.js';
-import { replaceOpts } from 'scripts/replace-options.js';
-import { externalFromPeerDependencies } from 'scripts/common/package-info';
+import { getAliases } from './scripts/aliases.js';
+import { replaceOpts } from './scripts/replace-options.js';
+import { externalFromPeerDependencies } from './scripts/common/package-info.js';
 
 const getTsConfigPath = (packagePath: string) => {
   const tsconfigPath1 = path.join(packagePath, 'tsconfig.build.json');
@@ -25,6 +25,11 @@ export default () => {
   const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
   const tsconfigPath = getTsConfigPath(currentPackagePath);
   const external = externalFromPeerDependencies(currentPackagePath);
+  console.log({
+    tsconfigPath,
+    entry: path.join(currentPackagePath, 'src', 'index.ts'),
+  });
+
   return [
     // * Main
     {

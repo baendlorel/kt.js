@@ -19,8 +19,6 @@ export const getAliases = () => {
     }
   }
 
-  console.log('Generated Aliases:', aliasMap);
-
   return Object.entries(aliasMap)
     .sort(([a], [b]) => b.length - a.length)
     .map(([find, replacement]) => ({ find, replacement }));

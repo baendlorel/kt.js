@@ -16,6 +16,7 @@ const getAliases = () => {
     if (json.name === '@ktjs/core' || json.name === 'kt.js') {
       alias[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'jsx', 'index.ts');
       alias[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx', 'jsx-runtime.ts');
+      alias[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx', 'jsx-runtime.ts');
     }
   }
   return alias;

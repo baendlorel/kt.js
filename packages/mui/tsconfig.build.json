@@ -1,8 +1,0 @@
-{
-  "extends": "../../configs/tsconfig.build.json",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
-  }
-}

@@ -219,7 +219,7 @@ describe('convertChildrenToElements', () => {
       value: 'unwrapped',
     };
 
-    const result = convertChildrenToElements(mockRef);
+    const result = convertChildrenToElements(mockRef as any);
 
     expect(result.length).toBe(1);
     expect(result[0].tagName).toBe('SPAN');

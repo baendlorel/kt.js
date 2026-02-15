@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import { getVitestAliases } from './scripts/aliases';
+import { getAliases } from './scripts/aliases';
 
 export default defineConfig(() => {
   return {
@@ -10,7 +10,7 @@ export default defineConfig(() => {
       silent: false,
     },
     resolve: {
-      alias: getVitestAliases(),
+      alias: getAliases(),
     },
   };
 });

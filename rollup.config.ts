@@ -9,7 +9,7 @@ import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
-import { getRollupAliases } from 'scripts/aliases.js';
+import { getAliases } from 'scripts/aliases.js';
 import { replaceOpts } from 'scripts/replace-options.js';
 import { externalFromPeerDependencies } from 'scripts/common/package-info';
 
@@ -38,7 +38,7 @@ export default () => {
       ],
 
       plugins: [
-        alias(getRollupAliases()),
+        alias({ entries: getAliases() }),
         replace(replaceOpts(currentPackagePath)),
         resolve(),
         commonjs(),
@@ -67,7 +67,11 @@ export default () => {
     {
       input: path.join(currentPackagePath, 'src', 'index.ts'),
       output: [{ file: path.join(currentPackagePath, 'dist', 'index.d.ts'), format: 'es' }],
-      plugins: [alias(getRollupAliases()), replace(replaceOpts(currentPackagePath)), dts({ tsconfig: tsconfigPath })],
+      plugins: [
+        alias({ entries: getAliases() }),
+        replace(replaceOpts(currentPackagePath)),
+        dts({ tsconfig: tsconfigPath }),
+      ],
       external,
     },
   ];

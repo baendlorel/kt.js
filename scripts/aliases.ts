@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const packagesDir = path.join(import.meta.dirname, '..', 'packages');
-const getAliases = () => {
+export const getAliases = () => {
   const packageDirs = readdirSync(packagesDir);
   const aliasMap: Record<string, string> = {};
   for (const dir of packageDirs) {
@@ -25,11 +25,3 @@ const getAliases = () => {
     .sort(([a], [b]) => b.length - a.length)
     .map(([find, replacement]) => ({ find, replacement }));
 };
-
-export function getVitestAliases() {
-  return getAliases();
-}
-
-export function getRollupAliases() {
-  return { entries: getAliases() };
-}

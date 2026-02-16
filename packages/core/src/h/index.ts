@@ -29,11 +29,11 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   }
 
   if (attr) {
-    if (SVG_FLAG in attr) {
-      delete attr[SVG_FLAG];
+    if (flags.svg in attr) {
+      delete attr[flags.svg];
       creator = svgCreator;
-    } else if (MATHML_FLAG in attr) {
-      delete attr[MATHML_FLAG];
+    } else if (flags.mathml in attr) {
+      delete attr[flags.mathml];
       creator = mathMLCreator;
     } else {
       creator = htmlCreator;

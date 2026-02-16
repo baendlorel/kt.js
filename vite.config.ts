@@ -35,6 +35,10 @@ export default defineConfig(() => {
     resolve: {
       alias: getAliases(),
     },
+    define: {
+      'flags.svg': JSON.stringify('__svg'),
+      'flags.mathml': JSON.stringify('__mathml'),
+    },
     plugins: [
       dts({
         tsconfigPath,

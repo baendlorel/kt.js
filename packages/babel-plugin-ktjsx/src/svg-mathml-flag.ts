@@ -84,7 +84,7 @@ export function addFlagToSvgMathMLElement(path: NodePath<t.JSXElement>) {
 
   // Add boolean attribute (SVG or MATHML) to opening element if not present
   const attrs = opening.attributes || [];
-  const flag = inSvgContext ? SVG_FLAG : MATHML_FLAG;
+  const flag = inSvgContext ? flags.svg : flags.mathml;
   const hasFlag = attrs.some((a) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === flag);
   if (!hasFlag) {
     attrs.push(t.jsxAttribute(t.jsxIdentifier(flag)));

@@ -26,32 +26,10 @@ export default defineConfig(() => {
   const tsconfigPath = getTsConfigPath(currentPackagePath);
   const enableRollupTypes = path.basename(currentPackagePath) !== 'kt.js';
   const entry = path.join(currentPackagePath, 'src', 'index.ts');
-  const isNodePluginPackage = currentPackageName === 'vite-plugin-ktjsx';
+
+  const isPlugin = currentPackageName === 'vite-plugin-ktjsx';
   const external = externalFromPeerDependencies(currentPackagePath);
-  const rollupPlugins = [
-    replace(replaceOpts(currentPackagePath)),
-    ...(!isNodePluginPackage
-      ? [
-          terser({
-            format: {
-              beautify: true,
-              indent_level: 2,
-              comments: false,
-            },
-            compress: {
-              drop_console: true,
-              dead_code: true,
-              evaluate: true,
-            },
-            mangle: {
-              properties: {
-                regex: /^_/,
-              },
-            },
-          }),
-        ]
-      : []),
-  ];
+  const rollupPlugins = [replace(replaceOpts(currentPackagePath))];
 
   return {
     resolve: {
@@ -91,18 +69,14 @@ export default defineConfig(() => {
         logLevel: 'silent',
       }),
     ],
-    ssr: isNodePluginPackage
-      ? {
-          noExternal: true,
-        }
-      : undefined,
+    ssr: isPlugin ? { noExternal: true as const } : undefined,
     build: {
       target: 'esnext',
       sourcemap: false,
       minify: false,
-      emptyOutDir: false,
+      emptyOutDir: true,
       outDir: path.join(currentPackagePath, 'dist'),
-      ...(isNodePluginPackage ? { ssr: entry } : {}),
+      ssr: isPlugin ? entry : undefined,
       lib: {
         entry,
         formats: ['es' as const],
@@ -110,12 +84,6 @@ export default defineConfig(() => {
       },
       rollupOptions: {
         external,
-        output: isNodePluginPackage
-          ? {
-              entryFileNames: 'index.mjs',
-              format: 'es',
-            }
-          : undefined,
         plugins: rollupPlugins,
       },
     },

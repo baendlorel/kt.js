@@ -8,7 +8,6 @@ export * from './utils/misc.js';
 export * from './utils/url.js';
 
 export type * from './types/global.js';
-export type * from './types/macros.js';
 export type * from './types/misc.js';
 
 Object.defineProperty(window, '__ktjs__', { value: '__VERSION__' });

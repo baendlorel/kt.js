@@ -7,7 +7,8 @@
     "declarationMap": true,
     "baseUrl": ".",
     "paths": {
-      "@ktjs/babel-plugin-ktjsx": ["../babel-plugin-ktjsx/src/index.ts"]
+      "@ktjs/babel-plugin-ktjsx": ["../babel-plugin-ktjsx/src/index.ts"],
+      "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],

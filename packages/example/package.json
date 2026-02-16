@@ -10,8 +10,5 @@
   "dependencies": {
     "@ktjs/core": "workspace:*",
     "@ktjs/mui": "workspace:*"
-  },
-  "devDependencies": {
-    "@ktjs/ts-plugin-jsx-dom": "workspace:*"
   }
 }

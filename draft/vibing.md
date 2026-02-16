@@ -221,8 +221,6 @@ const ssss = bindParams(sss, 'a');
 那么能否通过编写tsconfig里配置的插件，做到让const a = <div></div>的类型直接为HTMLDivElement，const a= <input value="some value" />， const a = <MyComponent/>的类型直接为MyComponent返回的类型？
 如果可以做到，请你帮我写一个设计方案，写在.draft/tsconfig-plugin-design.md里
 
-请检查ts-plugin-jsx-dom子包的实现思路是否正确。我发现它有类型错误，我怀疑是typescript 5 的api有变化。主要的类型提示错误是 tsModule.getTokenAtPosition。如果你觉得有问题，可以重新编写。
-
 ---
 
 从0.几的版本开始我就没更新过测试了。我现在希望你完成：1、给每个包

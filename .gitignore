@@ -2,7 +2,6 @@
 
 .draft/.**
 .rollup.cache
-packages/ts-plugin-jsx-dom/index.js
 
 # Logs
 logs

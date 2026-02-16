@@ -18,7 +18,6 @@
 5. **Lint 未收口**：`pnpm lint` 目前有 error，无法作为质量闸门。
 6. **CI 目标单一**：`.github/workflows/deploy.yml` 主要做部署，缺少 PR 级别的 lint/typecheck/test 质量门。
 7. **脚本一致性有缺口**：工作流里使用 `pnpm run build:example`，但根 `package.json` 里没有该脚本。
-8. **配置有历史包袱迹象**：例如 `ts-plugin-jsx-dom` 出现在部分配置和脚本中，但当前 `packages/` 下不存在该目录。
 
 ---
 

@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "exp": "pnpm --filter @ktjs/example dev",
-    "manifest": "tsx ./scripts/manifest.ts",
+    "repolist": "tsx ./scripts/repo-list.ts",
     "lines": "tsx ./scripts/lines.ts",
     "build": "tsx ./scripts/index.ts --build",
     "pub": "tsx ./scripts/index.ts --publish",
@@ -50,7 +50,7 @@
     "oxlint": "^1.28.0",
     "prettier": "^3.6.2",
     "rimraf": "^6.1.0",
-    "rollup": "^4.53.2",
+    "rollup": "^4.57.1",
     "rollup-plugin-conditional-compilation": "^1.0.6",
     "rollup-plugin-const-enum": "^1.1.4",
     "rollup-plugin-dts": "^6.2.3",

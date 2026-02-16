@@ -20,7 +20,10 @@ export async function publish(who: string | undefined) {
     return;
   }
 
-  execSync(`rollup -c rollup.config.ts --configPlugin typescript`, { stdio: 'inherit', env: info.env });
+  execSync(`pnpm exec tsx ./node_modules/rollup/dist/bin/rollup -c rollup.config.ts`, {
+    stdio: 'inherit',
+    env: info.env,
+  });
   execSync(`npm publish ${info.path} --access public`, { stdio: 'inherit', cwd: info.path });
 
   console.log(`Published ${info.name}@${currentVersionStr}`);

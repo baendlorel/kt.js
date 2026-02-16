@@ -10,10 +10,7 @@ const tagMap = new Map([
   ['mui', ['mui']],
   ['exp', ['example']],
   ['shortcuts', ['shortcuts']],
-  [
-    'all',
-    ['kt.js', 'core', 'babel-plugin-ktjsx', 'ts-plugin-jsx-dom', 'example', 'mui', 'router', 'shared', 'shortcuts'],
-  ],
+  ['all', ['kt.js', 'core', 'babel-plugin-ktjsx', 'example', 'mui', 'router', 'shared', 'shortcuts']],
 ]);
 
 export const getTagName = (who: string | undefined) => {

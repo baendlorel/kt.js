@@ -1,23 +1,18 @@
-import { transformAsync, type TransformOptions } from '@babel/core';
 import type { Plugin } from 'vite';
-
-import babelKTjsx from '@ktjs/babel-plugin-ktjsx';
+import { transformWithKTjsx, type KTjsxTransformOptions } from '../../babel-plugin-ktjsx/src/transform.js';
 
 type Filter = RegExp | ((id: string) => boolean);
 
 export interface ViteKTjsxOptions {
   include?: Filter;
   exclude?: Filter;
-  babelConfig?: Omit<
-    TransformOptions,
-    'ast' | 'babelrc' | 'configFile' | 'filename' | 'parserOpts' | 'plugins' | 'sourceFileName' | 'sourceMaps'
-  >;
+  babelConfig?: Record<string, unknown>;
 }
 
 const DEFAULT_INCLUDE_RE = /\.[cm]?[jt]sx$/;
 const NODE_MODULES_RE = /\/node_modules\//;
 const QUERY_RE = /\?.*$/;
-const DEFAULT_PARSER_PLUGINS: NonNullable<TransformOptions['parserOpts']>['plugins'] = ['jsx', 'typescript'];
+type InternalTransformOptions = Omit<KTjsxTransformOptions, 'filename' | 'sourceFileName'>;
 
 const stripQuery = (id: string) => id.replace(QUERY_RE, '');
 
@@ -60,19 +55,10 @@ export function viteKTjsx(options: ViteKTjsxOptions = {}): Plugin {
         return null;
       }
 
-      const result = await transformAsync(code, {
+      const result = await transformWithKTjsx(code, {
         filename: cleanId,
         sourceFileName: cleanId,
-        ast: false,
-        babelrc: false,
-        configFile: false,
-        sourceMaps: true,
-        parserOpts: {
-          sourceType: 'module',
-          plugins: DEFAULT_PARSER_PLUGINS,
-        },
-        plugins: [babelKTjsx()],
-        ...options.babelConfig,
+        ...(options.babelConfig as InternalTransformOptions),
       });
 
       if (!result?.code) {

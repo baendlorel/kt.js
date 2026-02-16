@@ -22,10 +22,36 @@ const D_MTS_SUFFIX = '.d.mts';
 
 export default defineConfig(() => {
   const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
+  const currentPackageName = path.basename(currentPackagePath);
   const tsconfigPath = getTsConfigPath(currentPackagePath);
   const enableRollupTypes = path.basename(currentPackagePath) !== 'kt.js';
   const entry = path.join(currentPackagePath, 'src', 'index.ts');
+  const isNodePluginPackage = currentPackageName === 'vite-plugin-ktjsx';
   const external = externalFromPeerDependencies(currentPackagePath);
+  const rollupPlugins = [
+    replace(replaceOpts(currentPackagePath)),
+    ...(!isNodePluginPackage
+      ? [
+          terser({
+            format: {
+              beautify: true,
+              indent_level: 2,
+              comments: false,
+            },
+            compress: {
+              drop_console: true,
+              dead_code: true,
+              evaluate: true,
+            },
+            mangle: {
+              properties: {
+                regex: /^_/,
+              },
+            },
+          }),
+        ]
+      : []),
+  ];
 
   return {
     resolve: {
@@ -65,12 +91,18 @@ export default defineConfig(() => {
         logLevel: 'silent',
       }),
     ],
+    ssr: isNodePluginPackage
+      ? {
+          noExternal: true,
+        }
+      : undefined,
     build: {
       target: 'esnext',
       sourcemap: false,
       minify: false,
       emptyOutDir: false,
       outDir: path.join(currentPackagePath, 'dist'),
+      ...(isNodePluginPackage ? { ssr: entry } : {}),
       lib: {
         entry,
         formats: ['es' as const],
@@ -78,26 +110,13 @@ export default defineConfig(() => {
       },
       rollupOptions: {
         external,
-        plugins: [
-          replace(replaceOpts(currentPackagePath)),
-          terser({
-            format: {
-              beautify: true,
-              indent_level: 2,
-              comments: false,
-            },
-            compress: {
-              drop_console: true,
-              dead_code: true,
-              evaluate: true,
-            },
-            mangle: {
-              properties: {
-                regex: /^_/,
-              },
-            },
-          }),
-        ],
+        output: isNodePluginPackage
+          ? {
+              entryFileNames: 'index.mjs',
+              format: 'es',
+            }
+          : undefined,
+        plugins: rollupPlugins,
       },
     },
   };

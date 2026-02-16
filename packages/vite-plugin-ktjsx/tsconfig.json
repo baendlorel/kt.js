@@ -2,15 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": "..",
     "declaration": true,
-    "declarationMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@ktjs/babel-plugin-ktjsx": ["../babel-plugin-ktjsx/src/index.ts"],
-      "@ktjs/shared": ["../shared/src/index.ts"]
-    }
+    "declarationMap": true
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../babel-plugin-ktjsx" }]
+  "include": ["src/**/*.ts", "../babel-plugin-ktjsx/src/**/*.ts"]
 }

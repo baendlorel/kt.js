@@ -29,12 +29,7 @@
     "build": "node build.js",
     "test": "vitest run"
   },
-  "dependencies": {
-    "@babel/core": "^7.0.0",
-    "@ktjs/babel-plugin-ktjsx": "workspace:^*"
-  },
   "devDependencies": {
-    "@types/babel__core": "^7.20.5",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   },

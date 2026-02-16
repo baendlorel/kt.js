@@ -58,13 +58,23 @@ export const externalFromPeerDependencies = (packagePath: string) => {
   }
 
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
+    dependencies?: Record<string, string>;
+    optionalDependencies?: Record<string, string>;
     peerDependencies?: Record<string, string>;
   };
 
-  const packages = Object.keys(packageJson.peerDependencies ?? {});
+  const packages = [
+    ...Object.keys(packageJson.dependencies ?? {}),
+    ...Object.keys(packageJson.optionalDependencies ?? {}),
+    ...Object.keys(packageJson.peerDependencies ?? {}),
+  ];
+
   if (packages.length === 0) {
     return [];
   }
 
-  return (id: string) => packages.some((name) => id === name || id.startsWith(`${name}/`));
+  return (id: string) => {
+    const normalized = id.startsWith('node:') ? id.slice(5) : id;
+    return packages.some((name) => normalized === name || normalized.startsWith(`${name}/`));
+  };
 };

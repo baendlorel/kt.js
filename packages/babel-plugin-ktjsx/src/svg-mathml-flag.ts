@@ -1,6 +1,6 @@
 import type { NodePath } from '@babel/core';
-import { SVG_ATTR_FLAG, MATHML_ATTR_FLAG } from '@ktjs/shared';
 import * as t from '@babel/types';
+import { MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
 
 function isSvgTag(tag: string) {
   return tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));

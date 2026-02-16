@@ -1,11 +1,17 @@
 # vite-plugin-ktjsx
 
+light, manual‑control web framework that creates real DOM elements with built‑in reactive state management.
+
+[![npm version](https://img.shields.io/npm/v/vite-plugin-ktjsx.svg)](https://www.npmjs.com/package/vite-plugin-ktjsx)
+[![npm downloads](https://img.shields.io/npm/dm/vite-plugin-ktjsx.svg)](https://www.npmjs.com/package/vite-plugin-ktjsx)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 `@ktjs/vite-plugin-ktjsx` applies KT.js JSX transforms in Vite.
 
 It reuses `@ktjs/babel-plugin-ktjsx` internally, so behavior is the same:
 
-- transform `k-if` / `k-else-if` / `k-else` chains
 - mark SVG / MathML subtrees with KT.js namespace flags
+- (TODO) transform `k-if` / `k-else-if` / `k-else` chains
 
 Basic usage:
 

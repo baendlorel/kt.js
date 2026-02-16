@@ -4,8 +4,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "declaration": true,
-    "declarationMap": true,
-    "typeRoots": ["../types/macros.d.ts"]
+    "declarationMap": true
   },
   "include": ["src/**/*.ts"]
 }

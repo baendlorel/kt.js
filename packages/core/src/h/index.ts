@@ -1,4 +1,3 @@
-import { MATHML_FLAG, SVG_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 

@@ -20,7 +20,7 @@ export async function publish(who: string | undefined) {
     return;
   }
 
-  execSync(`pnpm exec tsx ./node_modules/rollup/dist/bin/rollup -c rollup.config.ts`, {
+  execSync('vite build --config vite.config.ts', {
     stdio: 'inherit',
     env: info.env,
   });

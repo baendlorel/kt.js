@@ -24,8 +24,6 @@ export default defineConfig(() => {
   const entry = path.join(currentPackagePath, 'src', 'index.ts');
   const external = externalFromPeerDependencies(currentPackagePath);
 
-  console.log({ tsconfigPath, entry });
-
   return {
     resolve: {
       alias: getAliases(),
@@ -56,7 +54,7 @@ export default defineConfig(() => {
       outDir: path.join(currentPackagePath, 'dist'),
       lib: {
         entry,
-        formats: ['es'],
+        formats: ['es' as const],
         fileName: () => 'index.mjs',
       },
       rollupOptions: {

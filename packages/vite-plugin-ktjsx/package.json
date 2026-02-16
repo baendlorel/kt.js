@@ -1,0 +1,44 @@
+{
+  "name": "@ktjs/vite-plugin-ktjsx",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "author": {
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktjs/kt.js"
+  },
+  "license": "MIT",
+  "description": "Vite plugin that applies KT.js JSX transforms.",
+  "scripts": {
+    "build": "node build.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@ktjs/babel-plugin-ktjsx": "workspace:^*"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
+  }
+}

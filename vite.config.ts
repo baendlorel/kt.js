@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { existsSync } from 'node:fs';
+import { existsSync, renameSync } from 'node:fs';
 
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
@@ -18,9 +18,12 @@ const getTsConfigPath = (packagePath: string) => {
   return path.join(packagePath, 'tsconfig.json');
 };
 
+const D_MTS_SUFFIX = '.d.mts';
+
 export default defineConfig(() => {
   const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
   const tsconfigPath = getTsConfigPath(currentPackagePath);
+  const enableRollupTypes = path.basename(currentPackagePath) !== 'kt.js';
   const entry = path.join(currentPackagePath, 'src', 'index.ts');
   const external = externalFromPeerDependencies(currentPackagePath);
 
@@ -39,6 +42,22 @@ export default defineConfig(() => {
         entryRoot: path.join(currentPackagePath, 'src'),
         outDir: path.join(currentPackagePath, 'dist'),
         insertTypesEntry: true,
+        rollupTypes: enableRollupTypes,
+        copyDtsFiles: enableRollupTypes,
+        afterBuild(emittedFiles) {
+          if (!enableRollupTypes) {
+            return;
+          }
+
+          for (const filePath of emittedFiles.keys()) {
+            if (!filePath.endsWith(D_MTS_SUFFIX) || !existsSync(filePath)) {
+              continue;
+            }
+
+            const dtsPath = filePath.slice(0, -D_MTS_SUFFIX.length) + '.d.ts';
+            renameSync(filePath, dtsPath);
+          }
+        },
         compilerOptions: {
           composite: false,
           incremental: false,

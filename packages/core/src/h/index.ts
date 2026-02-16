@@ -1,4 +1,4 @@
-import { MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from '@ktjs/shared';
+import { MATHML_FLAG, SVG_FLAG } from '@ktjs/shared';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
@@ -30,11 +30,11 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   }
 
   if (attr) {
-    if (SVG_ATTR_FLAG in attr) {
-      delete attr[SVG_ATTR_FLAG];
+    if (SVG_FLAG in attr) {
+      delete attr[SVG_FLAG];
       creator = svgCreator;
-    } else if (MATHML_ATTR_FLAG in attr) {
-      delete attr[MATHML_ATTR_FLAG];
+    } else if (MATHML_FLAG in attr) {
+      delete attr[MATHML_FLAG];
       creator = mathMLCreator;
     } else {
       creator = htmlCreator;

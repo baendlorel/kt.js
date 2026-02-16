@@ -2,17 +2,17 @@
 
 // Empty for now - can be extended with framework-wide constants
 
-/**
- * Mark the attribute as SVG to handle special cases during rendering.
- */
-export const SVG_ATTR_FLAG = '__kt_svg__';
+// /**
+//  * Mark the attribute as SVG to handle special cases during rendering.
+//  */
+// export const SVG_FLAG = '__kt_svg__';
 
-/**
- * Mark the attribute as MathML to handle special cases during rendering.
- */
-export const MATHML_ATTR_FLAG = '__kt_mathml__';
+// /**
+//  * Mark the attribute as MathML to handle special cases during rendering.
+//  */
+// export const MATHML_FLAG = '__kt_mathml__';
 
-/**
- * Can be if, else, else-if.
- */
-export const DIRV_TYPE = Symbol('kt-directive-type');
+declare module '@ktjs/shared' {
+  export const SVG_FLAG: string;
+  export const MATHML_FLAG: string;
+}

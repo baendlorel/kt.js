@@ -1,6 +1,5 @@
 import type { NodePath } from '@babel/core';
 import * as t from '@babel/types';
-import { MATHML_ATTR_FLAG, SVG_ATTR_FLAG } from './flags.js';
 
 function isSvgTag(tag: string) {
   return tag === 'svg' || (typeof tag === 'string' && tag.startsWith('svg:'));
@@ -85,7 +84,7 @@ export function addFlagToSvgMathMLElement(path: NodePath<t.JSXElement>) {
 
   // Add boolean attribute (SVG or MATHML) to opening element if not present
   const attrs = opening.attributes || [];
-  const flag = inSvgContext ? SVG_ATTR_FLAG : MATHML_ATTR_FLAG;
+  const flag = inSvgContext ? SVG_FLAG : MATHML_FLAG;
   const hasFlag = attrs.some((a) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === flag);
   if (!hasFlag) {
     attrs.push(t.jsxAttribute(t.jsxIdentifier(flag)));

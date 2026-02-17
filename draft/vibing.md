@@ -226,3 +226,12 @@ const ssss = bindParams(sss, 'a');
 从0.几的版本开始我就没更新过测试了。我现在希望你完成：1、给每个包
 都加入tests文件夹和vitest.config.ts；2、完善vitest.base.config.ts
 ，这个文件在根目录的scripts下；3、要根据最新代码来编写适合的测试
+
+---
+
+我想到办法了！首先，使用kif和kelse的，一定是children的兄弟节点，而且必须是相连的，这样一来，kif、kelse、elseif都可以做了。思路：
+1、kif的元素的返回值上会有一个属性叫`flags.kif`，值为k-if绑定的值，如果恰好绑定了kreactive，那最好；
+2、kelse和kelseif也同样
+3、语法检测在处理children的时候进行，可以简化为：1、if无要求；2、else上一个元素必须是if或elseif；3、elseif上一个不能是else；
+
+我不知道上述办法是否可行，请你仔细看看，并帮我写一个设计方案，写在.draft/kif-kelse.md里

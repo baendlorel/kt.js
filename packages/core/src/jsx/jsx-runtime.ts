@@ -2,10 +2,10 @@ import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 
 import { h } from '../h/index.js';
-import { $initElementRef, isComputed, type KTRef, ref } from '../reactive/index.js';
+import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { kif } from './if.js';
-import { createJSXElement } from './common.js';
+import { jsxh } from './common.js';
 
 /**
  * @param tag html tag or function component
@@ -20,7 +20,9 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
     return kif(tag, props);
   }
 
-  return $initElementRef(props, createJSXElement(tag, props));
+  const el = jsxh(tag, props);
+  $initRef(props, el);
+  return el;
 }
 
 /**

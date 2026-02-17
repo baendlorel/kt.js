@@ -1,4 +1,4 @@
-import { $entries, $is, $replaceNode } from '@ktjs/shared';
+import { $emptyFn, $entries, $is, $replaceNode } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import { isComputed, isRef, KTReactiveType } from './core.js';
 
@@ -180,18 +180,22 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   return ref(defaultValue) as KTRef<T>;
 };
 
+const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.value = node);
+type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
+
 /**
- * Returns the node and assign it to `props.ref` if exists.
- * @returns the node for chaining, e.g. `const el = $initElementRef(props, document.createElement('div'))`
+ * Whether `props.ref` is a `KTRef` only needs to be checked in the initial render
  */
-export const $initElementRef = <T extends Node>(props: { ref?: KTRef<any> }, node: T): T => {
-  if ('ref' in props) {
-    const r = props.ref;
-    if (isRef(r)) {
-      r.value = node;
-    } else {
-      $throw('Fragment: ref must be a KTRef');
-    }
+export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): RefSetter<T> => {
+  if (!('ref' in props)) {
+    return $emptyFn;
   }
-  return node;
+
+  const r = props.ref;
+  if (isRef(r)) {
+    r.value = node;
+    return $refSetter;
+  } else {
+    $throw('Fragment: ref must be a KTRef');
+  }
 };

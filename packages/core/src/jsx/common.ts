@@ -1,8 +1,9 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
+import type { KIfElement } from 'src/types/directives.js';
 import { h } from '../h/index';
 
-export const createJSXElement = (tag: JSXTag, props: KTAttribute): HTMLElement => {
+export const jsxh = (tag: JSXTag, props: KTAttribute): HTMLElement => {
   if (typeof tag === 'function') {
     return tag(props) as HTMLElement;
   } else {
@@ -11,3 +12,4 @@ export const createJSXElement = (tag: JSXTag, props: KTAttribute): HTMLElement =
 };
 
 export const placeholder = (data: string): JSX.Element => document.createComment(data) as unknown as JSX.Element;
+export const kifPlaceholder = (): KIfElement => document.createComment('k-if') as unknown as KIfElement;

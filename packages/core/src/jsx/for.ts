@@ -1,6 +1,6 @@
 import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../types/reactive.js';
-import { $setRef, toReactive } from '../reactive/index.js';
+import { $initElementRef, toReactive } from '../reactive/index.js';
 
 export type KTForElement = JSX.Element;
 
@@ -174,7 +174,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
   (anchor as any).__kt_for_list__ = elements;
 
-  $setRef(props, anchor);
+  $initElementRef(props, anchor);
 
   return anchor;
 }

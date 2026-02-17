@@ -180,7 +180,11 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   return ref(defaultValue) as KTRef<T>;
 };
 
-export const $setRef = (props: { ref?: KTRef<any> }, node: Node) => {
+/**
+ * Returns the node and assign it to `props.ref` if exists.
+ * @returns the node for chaining, e.g. `const el = $initElementRef(props, document.createElement('div'))`
+ */
+export const $initElementRef = <T extends Node>(props: { ref?: KTRef<any> }, node: T): T => {
   if ('ref' in props) {
     const r = props.ref;
     if (isRef(r)) {
@@ -189,4 +193,5 @@ export const $setRef = (props: { ref?: KTRef<any> }, node: Node) => {
       $throw('Fragment: ref must be a KTRef');
     }
   }
+  return node;
 };

@@ -3,7 +3,7 @@ import type { KTAttribute } from '../types/h.js';
 import type { KElseElement, KIfElement } from '../types/directives.js';
 import type { KTReactive } from '../types/reactive.js';
 
-import { $initRef, toReactive } from '../reactive/index.js';
+import { $initRef, isKT, toReactive } from '../reactive/index.js';
 import { jsxh, placeholder } from './common.js';
 
 // # Only supports k-if/k-else, not k-else-if
@@ -46,4 +46,44 @@ export function kelse(tag: JSXTag, props: KTAttribute): KElseElement {
   };
 
   return el;
+}
+
+/**
+ * Deal with `k-if` and `k-else`, checking syntax and applying listeners
+ * @param el parent element
+ */
+export function kifelseApply(el: HTMLElement) {
+  const childNodes = el.childNodes;
+
+  // & We only need to check for k-else
+  if (childNodes.length === 0) {
+    return;
+  }
+  if ((childNodes[0] as KElseElement).__kelse__) {
+    $throw('k-else cannot be the first child of its parent element.');
+  }
+  for (let i = 1; i < childNodes.length; i++) {
+    const child = childNodes[i] as KElseElement;
+    if (!child.__kelse__) {
+      continue;
+    }
+    const last = childNodes[i - 1] as KIfElement;
+    if (!('__kif__' in last)) {
+      $throw('k-else must be immediately preceded by a k-if element.');
+    }
+
+    // falsy __kif__, not rendering
+    const kif = last.__kif__;
+    if (!kif) {
+      continue;
+    }
+
+    if (!isKT(kif)) {
+      continue;
+    }
+    kif.addOnChange(child.__kelse__);
+    if (!kif.value) {
+      child.__kelse__(true);
+    }
+  }
 }

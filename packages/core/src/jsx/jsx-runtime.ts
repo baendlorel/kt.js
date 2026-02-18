@@ -4,8 +4,8 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { h } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
-import { kelse, kif } from './if.js';
-import { jsxh } from './common.js';
+import { kelse, kif, kifelseApply } from './if.js';
+import { jsxh, placeholder } from './common.js';
 
 /**
  * @param tag html tag or function component
@@ -25,6 +25,7 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
 
   const el = jsxh(tag, props);
   $initRef(props, el);
+  kifelseApply(el);
   return el;
 }
 
@@ -36,7 +37,7 @@ export function Fragment(props: { children?: KTRawContent }): JSX.Element {
   const { children } = props ?? {};
 
   if (!children) {
-    return document.createComment('kt-fragment-empty') as unknown as JSX.Element;
+    return placeholder('kt-fragment-empty');
   }
 
   const elements = convertChildrenToElements(children);

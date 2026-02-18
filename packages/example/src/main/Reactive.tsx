@@ -1,8 +1,9 @@
 import { computed, ref } from 'kt.js';
+import { Button, TextField } from '@ktjs/mui';
 
 import exampleCode from '../code/directives.tsx?raw';
+import reactiveCode from '../code/reactive.tsx?raw';
 import { highlight } from '../common/highlight.js';
-import { Button, TextField } from '@ktjs/mui';
 
 export function Reactivity() {
   const kifFlag = ref(false);
@@ -14,14 +15,14 @@ export function Reactivity() {
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
     kmodelText.value = `Updated at: ${time}`;
-  }, 2000);
+  }, 1000);
 
   setInterval(() => {
     const color = Math.floor(Math.random() * 0xffffff)
       .toString(16)
       .padStart(6, '0');
     khtmlContent.value = `<span style="color: #${color};">初始HTML</span>`;
-  }, 2500);
+  }, 1000);
 
   // # attr refs
   const styleRef = ref('width: 10%;height:20px;background-color:#1890ff;transition: width 1s;');
@@ -33,6 +34,18 @@ export function Reactivity() {
 
   return (
     <div>
+      <div class="demo-section">
+        <h3>
+          <code>ref</code> and <code>computed</code>
+        </h3>
+        <p>
+          Note that you should manually specify the dependencies of a <code>computed</code> value.
+        </p>
+        <p>
+          It looks like <code>Vue</code>
+        </p>
+        <div class="demo-code">{highlight(reactiveCode)}</div>
+      </div>
       <div class="demo-section">
         <h3>Attribute Ref</h3>
         <p>

@@ -9,10 +9,7 @@ import counterDemoCode from '../code/counter-demo.tsx?raw';
  */
 export function Events() {
   const outputRef = ref('No events yet.');
-  const clickEventHighlighted = highlight(clickEventCode);
-
   const counterRef = ref(0);
-  const counterHighlighted = highlight(counterDemoCode);
 
   return (
     <div>
@@ -51,7 +48,7 @@ export function Events() {
           </div>
           <div class="demo-result">{outputRef}</div>
         </div>
-        <div class="demo-code">{clickEventHighlighted}</div>
+        <div class="demo-code">{highlight(clickEventCode)}</div>
       </div>
 
       <div class="demo-section">
@@ -72,7 +69,7 @@ export function Events() {
             Reset
           </Button>
         </div>
-        <div class="demo-code">{counterHighlighted}</div>
+        <div class="demo-code">{highlight(counterDemoCode)}</div>
       </div>
     </div>
   );

@@ -1,19 +1,14 @@
+import { highlight } from '../common/highlight.js';
+
 import installSh from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/vite.config.example.ts?raw';
 import viteBabelConfigCode from '../code/vite.config.babel-example.ts?raw';
-import { highlight } from '../common/highlight.js';
 
 /**
  * Home page - Introduction to KT.js framework
  */
 export function Home() {
-  const tsconfig = highlight(tsconfigCode, 'json');
-  const viteConfig = highlight(viteConfigCode);
-  const viteBabelConfig = highlight(viteBabelConfigCode);
-
-  const installScript = highlight(installSh, 'bash');
-
   return (
     <div>
       <div class="demo-section">
@@ -28,22 +23,22 @@ export function Home() {
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">1. Installation</h4>
 
-        <div>{installScript}</div>
+        <div>{highlight(installSh, 'bash')}</div>
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">2. TypeScript Configuration</h4>
         <p>
           Add these settings to your <code>tsconfig.json</code>:
         </p>
-        {tsconfig}
+        {highlight(tsconfigCode, 'json')}
 
         <h4 style="margin-top: 24px; margin-bottom: 12px;">3. Vite Configuration</h4>
         <p>
           Must add this to <code>vite.config.ts</code> to support <code>svg</code> and <code>mathml</code> elements:
         </p>
-        {viteConfig}
+        {highlight(viteConfigCode)}
 
         <p>Use babel</p>
-        {viteBabelConfig}
+        {highlight(viteBabelConfigCode)}
       </div>
     </div>
   );

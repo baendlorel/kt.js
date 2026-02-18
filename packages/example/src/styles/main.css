@@ -15,10 +15,6 @@ body {
   overflow: hidden;
 }
 
-h4 {
-  margin-bottom: 12px;
-}
-
 .app-layout {
   display: flex;
   height: 100vh;

@@ -48,6 +48,30 @@
   margin-bottom: 12px;
 }
 
+.demo-section p code,
+.demo-section li code,
+.demo-section h4 code,
+.demo-section .demo-desc code {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #d9bc8a;
+  background: #fff6e8;
+  color: #8f5f1f;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+.demo-section h4 {
+  margin-bottom: 12px;
+}
+
+.demo-section .highlight > * {
+  border: 1px solid #d9bc8a;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(136, 100, 48, 0.12);
+}
+
 .fragment-row {
   display: flex;
   flex-wrap: wrap;

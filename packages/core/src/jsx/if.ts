@@ -3,8 +3,8 @@ import type { KTAttribute } from '../types/h.js';
 import type { KElseElement, KIfElement } from '../types/directives.js';
 import type { KTReactive } from '../types/reactive.js';
 
-import { isKT, $initRef, toReactive } from '../reactive/index.js';
-import { jsxh, kifPlaceholder } from './common.js';
+import { $initRef, toReactive } from '../reactive/index.js';
+import { jsxh, placeholder } from './common.js';
 
 // # Only supports k-if/k-else, not k-else-if
 export function kif(tag: JSXTag, props: KTAttribute): KIfElement {
@@ -12,14 +12,14 @@ export function kif(tag: JSXTag, props: KTAttribute): KIfElement {
 
   // todo 这里的逻辑有点混乱，应该重构一下
   // 先创建元素出来；
-  let el = kif.value ? (jsxh(tag, props) as KIfElement) : kifPlaceholder();
-  // 给el加上一个__kIf属性，指向这个kif的reactive；
-  el.__kif = kif;
-
+  let el = (kif.value ? jsxh(tag, props) : placeholder('k-if')) as KIfElement;
+  el.__kif__ = kif;
   const setter = $initRef(props, el);
+
   kif.addOnChange((newValue) => {
     const old = el;
-    el = createIf(tag, props, newValue);
+    el = (newValue ? jsxh(tag, props) : placeholder('k-if')) as KIfElement;
+    el.__kif__ = kif;
     setter(props, el);
     $replaceNode(old, el);
   });
@@ -31,21 +31,19 @@ export function kif(tag: JSXTag, props: KTAttribute): KIfElement {
 }
 
 export function kelse(tag: JSXTag, props: KTAttribute): KElseElement {
-  let el = createIf(tag, props, false) as KElseElement;
+  // k-else is not rendered by default
+  // until its corresponding k-if is true, then it will be rendered
+  // this will be detected when dealing with `children`
+  let el = placeholder('k-else') as KElseElement;
   const setter = $initRef(props, el);
-  el.__kElse = (newValue: boolean) => {
+  el.__kelse__ = (newValue: boolean) => {
     const old = el;
-    el = createIf(tag, props, !newValue);
+    // reverse logic of `if`
+    el = (newValue ? placeholder('k-else') : jsxh(tag, props)) as KElseElement;
+    el.__kelse__ = old.__kelse__; // inherit
     setter(props, el);
     $replaceNode(old, el);
   };
-  $initRef(props, el);
-  return el;
-}
 
-function createIf(tag: JSXTag, props: KTAttribute, ifValue: boolean | KTReactive<boolean>): KIfElement {
-  const ifValueRef = toReactive(ifValue);
-  const el = ifValueRef.value ? (jsxh(tag, props) as KIfElement) : kifPlaceholder();
-  el.__kif = ifValueRef;
   return el;
 }

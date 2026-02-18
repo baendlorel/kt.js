@@ -3,7 +3,7 @@ import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../types/reactive.js';
 import type { KTRawContent } from '../types/h.js';
 
-import { $initElementRef, isKT, toReactive } from '../reactive/index.js';
+import { $initRef, isKT, toReactive } from '../reactive/index.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 const FRAGMENT_MOUNT = '__kt_fragment_mount__';
@@ -12,13 +12,13 @@ if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED])
   (globalThis as any)[FRAGMENT_MOUNT_PATCHED] = true;
 
   const originAppendChild = Node.prototype.appendChild;
-  Node.prototype.appendChild = function (node: Node) {
+  Node.prototype.appendChild = function (node) {
     const result = originAppendChild.call(this, node);
     const mount = (node as any)[FRAGMENT_MOUNT];
     if (typeof mount === 'function') {
       mount();
     }
-    return result;
+    return result as any;
   };
 
   const originInsertBefore = Node.prototype.insertBefore;
@@ -28,7 +28,7 @@ if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED])
     if (typeof mount === 'function') {
       mount();
     }
-    return result;
+    return result as any;
   };
 }
 
@@ -64,7 +64,7 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
  */
 export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
   const elements: T[] = [];
-  const anchor = document.createComment('kt-fragment');
+  const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
   let inserted = false;
   let observer: MutationObserver | undefined;
 
@@ -142,9 +142,9 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  $initElementRef(props, anchor);
+  $initRef(props, anchor);
 
-  return anchor as unknown as JSX.Element;
+  return anchor;
 }
 
 /**

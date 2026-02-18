@@ -3,7 +3,8 @@ import { join } from 'node:path';
 import { Version } from './version.js';
 
 const tagMap = new Map([
-  [undefined, ['kt.js']],
+  [undefined, ['core', 'kt.js']],
+  ['core', ['core']],
   ['plugin', ['babel-plugin-ktjsx']],
   ['shared', ['shared']],
   ['router', ['router']],

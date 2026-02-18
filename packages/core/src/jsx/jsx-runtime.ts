@@ -4,7 +4,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import { h } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
-import { kif } from './if.js';
+import { kelse, kif } from './if.js';
 import { jsxh } from './common.js';
 
 /**
@@ -18,6 +18,9 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
 
   if ('k-if' in props) {
     return kif(tag, props);
+  }
+  if ('k-else' in props) {
+    return kelse(tag, props);
   }
 
   const el = jsxh(tag, props);

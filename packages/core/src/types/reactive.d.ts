@@ -30,8 +30,10 @@ export class KTReactive<T> {
    * items.mutate((list) => list.push(3));
    */
   mutate<R = void>(mutator: (currentValue: T) => R): R;
+
   /**
    * Register a callback when the value changes
+   * - Value setter will check `Object.is(newValue, oldValue)`.
    * @param callback (newValue, oldValue) => xxx
    */
   addOnChange(callback: ReactiveChangeHandler<T>): void;

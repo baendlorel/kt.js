@@ -11,6 +11,8 @@ export interface KTForProps<T> {
   map: (item: T, index: number, array: T[]) => HTMLElement;
 }
 
+// todo kfor的编译方式：在插件帮助下，将k-for编译为 k-for接收一个list，如果可以定义一个item变量和index，那么将children编译为()=>children的函数，用以创建
+
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__

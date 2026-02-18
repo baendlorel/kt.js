@@ -10,8 +10,6 @@ import { jsxh, placeholder } from './common.js';
 export function kif(tag: JSXTag, props: KTAttribute): KIfElement {
   const kif = toReactive(props['k-if']);
 
-  // todo 这里的逻辑有点混乱，应该重构一下
-  // 先创建元素出来；
   let el = (kif.value ? jsxh(tag, props) : placeholder('k-if')) as KIfElement;
   el.__kif__ = kif;
   const setter = $initRef(props, el);
@@ -25,9 +23,6 @@ export function kif(tag: JSXTag, props: KTAttribute): KIfElement {
   });
 
   return el;
-
-  // todo 要在children里搜索k-else并处理它
-  // todo kfor的编译方式：在插件帮助下，将k-for编译为 k-for接收一个list，如果可以定义一个item变量和index，那么将children编译为()=>children的函数，用以创建
 }
 
 export function kelse(tag: JSXTag, props: KTAttribute): KElseElement {

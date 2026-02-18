@@ -19,9 +19,9 @@ const getTsConfigPath = (packagePath: string) => {
 };
 
 const D_MTS_SUFFIX = '.d.mts';
-
-export default defineConfig(() => {
-  const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
+const EXAMPLE_PACKAGE_PATH = path.join(import.meta.dirname, 'packages', 'example');
+export default defineConfig(({ mode }) => {
+  const currentPackagePath = mode === 'exp' ? EXAMPLE_PACKAGE_PATH : process.env.LIB_PACKAGE_PATH || '';
   const currentPackageName = path.basename(currentPackagePath);
   const tsconfigPath = getTsConfigPath(currentPackagePath);
   const enableRollupTypes = path.basename(currentPackagePath) !== 'kt.js';

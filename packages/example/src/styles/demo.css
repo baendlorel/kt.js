@@ -40,9 +40,12 @@
   gap: 10px;
 }
 
-.demo-code,
 .demo-mt {
   margin-top: 15px;
+}
+.demo-code {
+  margin-top: 15px;
+  margin-bottom: 12px;
 }
 
 .fragment-row {

@@ -2,7 +2,7 @@ import { computed, Fragment, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 
 import fragmentDemoCode from '../code/fragment-demo.tsx?raw';
-import { highlight } from '../common/highlight.js';
+import { Code } from '../components/Code.js';
 
 const defaultSections = ['Header', 'Content', 'Actions'];
 
@@ -83,7 +83,7 @@ export function FragmentDemo() {
         <div class="demo-block fragment-row">
           <Fragment children={childrenRef} />
         </div>
-        <div class="demo-code">{highlight(fragmentDemoCode)}</div>
+        <Code code={fragmentDemoCode} />
       </div>
     </div>
   );

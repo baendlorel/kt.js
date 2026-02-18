@@ -1,8 +1,8 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
-import { highlight } from '../common/highlight.js';
 import clickEventCode from '../code/click-event.tsx?raw';
 import counterDemoCode from '../code/counter-demo.tsx?raw';
+import { Code } from '../components/Code.js';
 
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos
@@ -48,7 +48,7 @@ export function Events() {
           </div>
           <div class="demo-result">{outputRef}</div>
         </div>
-        <div class="demo-code">{highlight(clickEventCode)}</div>
+        <Code code={clickEventCode} />
       </div>
 
       <div class="demo-section">
@@ -69,7 +69,7 @@ export function Events() {
             Reset
           </Button>
         </div>
-        <div class="demo-code">{highlight(counterDemoCode)}</div>
+        <Code code={counterDemoCode} />
       </div>
     </div>
   );

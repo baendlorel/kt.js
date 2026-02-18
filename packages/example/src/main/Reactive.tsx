@@ -3,7 +3,7 @@ import { Button, TextField } from '@ktjs/mui';
 
 import exampleCode from '../code/directives.tsx?raw';
 import reactiveCode from '../code/reactive.tsx?raw';
-import { highlight } from '../common/highlight.js';
+import { Code } from '../components/Code.js';
 
 export function Reactivity() {
   const kifFlag = ref(false);
@@ -44,7 +44,7 @@ export function Reactivity() {
         <p>
           It looks like <code>Vue</code>
         </p>
-        <div class="demo-code">{highlight(reactiveCode)}</div>
+        <Code code={reactiveCode} />
       </div>
       <div class="demo-section">
         <h3>Attribute Ref</h3>
@@ -53,7 +53,7 @@ export function Reactivity() {
         </p>
         <div style={styleRef}></div>
         <div class="demo-result">Current Width: {styleWidthRef}</div>
-        <div class="demo-code">{highlight(`<div style={styleRef}></div>`)}</div>
+        <Code code={`<div style={styleRef}></div>`} />
       </div>
       <div class="demo-section">
         <h3>Directives</h3>
@@ -80,25 +80,21 @@ export function Reactivity() {
           </div>
         </div>
         <p class="demo-desc">Syntax rule: k-else must be immediately after a sibling k-if.</p>
-        <div class="demo-code">
-          {highlight(`<span k-if={kifFlag}>primary content</span>\n<span k-else>fallback content</span>`)}
-        </div>
+        <Code code={`<span k-if={kifFlag}>primary content</span>\n<span k-else>fallback content</span>`} />
 
         <h4>k-model</h4>
         <TextField k-model={kmodelText}></TextField>
         <p class="demo-desc">k-model must pass a ref, implements two-way binding</p>
         <div class="demo-result">{kmodelText}</div>
-        <div class="demo-code">
-          {highlight(`<TextField k-model={kmodelText}></TextField> // TextField is from @ktjs/mui`)}
-        </div>
+        <Code code={`<TextField k-model={kmodelText}></TextField> // TextField is from @ktjs/mui`} />
 
         <h4>k-html</h4>
         <div k-html={khtmlContent} class="demo-block" />
         <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
-        <div class="demo-code">{highlight(` <div k-html={khtmlContent} class="demo-block"></div>`)}</div>
+        <Code code={`<div k-html={khtmlContent} class="demo-block"></div>`} />
 
         <h4>Full Demo</h4>
-        <div class="demo-code">{highlight(exampleCode)}</div>
+        <Code code={exampleCode} />
       </div>
     </div>
   );

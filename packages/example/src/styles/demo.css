@@ -44,6 +44,7 @@
   margin-top: 15px;
 }
 .demo-code {
+  position: relative;
   margin-top: 15px;
   margin-bottom: 12px;
 }
@@ -55,21 +56,55 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 6px;
-  border: 1px solid #d9bc8a;
-  background: #fff6e8;
-  color: #8f5f1f;
+  border: 1px solid #d6dbe3;
+  background: #f6f8fb;
+  color: #495463;
   font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   font-size: 0.9em;
-  font-weight: 600;
+  font-weight: 500;
 }
 .demo-section h4 {
   margin-bottom: 12px;
 }
 
 .demo-section .highlight > * {
-  border: 1px solid #d9bc8a;
+  border: 1px solid #d9dee6;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(136, 100, 48, 0.12);
+  box-shadow: 0 4px 10px rgba(31, 41, 55, 0.06);
+}
+
+.demo-code-copy {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  min-width: 72px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid #ccd2dc;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #596474;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.demo-code .demo-code-copy:hover {
+  background: #f8fafc;
+  color: #374151;
+  border-color: #b8c0cc;
+  transform: none;
+}
+
+.demo-code .highlight > * {
+  padding-top: 48px;
 }
 
 .fragment-row {

@@ -23,7 +23,7 @@
     "monorepo"
   ],
   "scripts": {
-    "exp": "pnpm --filter @ktjs/example exec vite --config ../../vite.config.ts --mode exp",
+    "exp": "pnpm --filter @ktjs/example dev",
     "repolist": "tsx ./scripts/repo-list.ts",
     "lines": "tsx ./scripts/lines.ts",
     "build": "tsx ./scripts/index.ts --build",

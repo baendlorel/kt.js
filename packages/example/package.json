@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite --config ../../vite.config.ts --mode exp"
   },
   "dependencies": {
     "@ktjs/core": "workspace:*",

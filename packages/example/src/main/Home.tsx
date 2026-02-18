@@ -1,6 +1,7 @@
 import installSh from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/vite.config.example.ts?raw';
+import viteBabelConfigCode from '../code/vite.config.babel-example.ts?raw';
 import { highlight } from '../common/highlight.js';
 
 /**
@@ -9,6 +10,7 @@ import { highlight } from '../common/highlight.js';
 export function Home() {
   const tsconfig = highlight(tsconfigCode, 'json');
   const viteConfig = highlight(viteConfigCode);
+  const viteBabelConfig = highlight(viteBabelConfigCode);
 
   const installScript = highlight(installSh, 'bash');
 
@@ -39,6 +41,9 @@ export function Home() {
           Must add this to <code>vite.config.ts</code> to support <code>svg</code> and <code>mathml</code> elements:
         </p>
         {viteConfig}
+
+        <p>Use babel</p>
+        {viteBabelConfig}
       </div>
     </div>
   );

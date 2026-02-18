@@ -1,5 +1,67 @@
 # Changelog
 
+## 0.29.x - 2026-02-18
+
+### New Features
+
+- **k-if / k-else chain in core runtime**:
+  - Added dedicated `kif` / `kelse` internals and `KIfElement` / `KElseElement` directive types.
+  - JSX runtime now applies sibling chain handling through `kifelseApply`.
+  - Added dedicated `if` tests for directive behavior and syntax validation.
+- **Vite transform support**:
+  - Added `@ktjs/vite-plugin-ktjsx` and aligned it with KT JSX transform behavior.
+- **Shared/core typing and helpers**:
+  - Expanded `JSXTag` typing in shared.
+  - Extracted reusable JSX node helpers used by conditional rendering internals.
+
+### Optimizations
+
+- **Conditional runtime cleanup**:
+  - Simplified `k-if` / `k-else` placeholder switching flow and removed extra placeholder variants.
+- **Flag handling cleanup**:
+  - Consolidated SVG/MathML flag constants and reduced duplicated handling paths.
+
+## 0.28.2 - 2026-02-10
+
+### New Features
+
+- **Unified reactive contract**:
+  - `ref` and `computed` now implement `KTReactive` directly for more consistent API usage.
+
+### Bug Fixes
+
+- **Type consistency**:
+  - Fixed several reactive typing mismatches that affected downstream usage.
+
+### Optimizations
+
+- **Code quality pass**:
+  - Reduced lint and type noise in core reactive paths.
+
+## 0.28.1 - 2026-02-10
+
+### New Features
+
+- **Reactive ergonomics**:
+  - Added in-place update workflow for refs (`mutate` / `notify` patterns).
+  - Improved `computed` compatibility with the unified reactive type model.
+
+### Bug Fixes
+
+- **Reactive edge handling**:
+  - Refined `ref` / `computed` interaction behavior around type boundaries.
+
+### Optimizations
+
+- **Fragment internals**:
+  - Switched fragment redraw tracking to closure-based flow and avoided `Comment` prototype extension.
+
+## 0.27.2 - 2026-02-10
+
+### Documentation
+
+- Refreshed README wording and examples.
+
 ## 0.27.1 - 2026-02-10
 
 ### Core (@ktjs/core 0.27.1)

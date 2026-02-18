@@ -1,6 +1,6 @@
 # KT.js
 
-A lightweight, manual‑control web framework that creates real DOM elements with built‑in reactive state management.
+A lightweight, manual-control web framework that creates real DOM elements with built-in reactive state management.
 
 [![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
 [![npm downloads](https://img.shields.io/npm/dm/kt.js.svg)](https://www.npmjs.com/package/kt.js)
@@ -8,49 +8,27 @@ A lightweight, manual‑control web framework that creates real DOM elements wit
 
 [Changelog](./CHANGELOG.md)
 
-## Features
+## Latest Highlights
 
-- **Real DOM** – JSX compiles directly to `HTMLElement` creation, with zero virtual‑DOM overhead.
-- **Manual Updates** – You decide when the DOM updates; no automatic re‑renders.
-- **Reactive State** – Built‑in `ref()` and `computed()` for reactive values with change listeners.
-- **Fragment Support** – JSX `Fragment` now works with comment anchors and reactive child arrays.
-- **Zero Forced Re‑renders** – Update only what changes; avoid full‑component repaints.
-- **Full TypeScript Support** – Accurate type inference and JSX/TSX integration.
-- **Lightweight** – Small bundle size, no unnecessary dependencies.
+- `k-if` and `k-else` now work as a sibling conditional chain in core JSX runtime.
+- Runtime syntax checks are now enforced for invalid `k-else` placement.
+- `k-if` / `k-else` now has dedicated tests for rendering, reactivity, and syntax errors.
+- Reactive ergonomics keep improving with `KTReactive`-aligned `ref` / `computed` behavior and in-place update helpers.
+- Optional Vite transform support is available via `@ktjs/vite-plugin-ktjsx`.
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-# Full package (includes core)
+# Full package
 pnpm add kt.js
 
-# Individual packages
+# Or install sub-packages
 pnpm add @ktjs/core @ktjs/router
 ```
 
-### Basic Usage
-
-```tsx
-import { ref } from 'kt.js';
-
-function Counter() {
-  const count = ref(0);
-
-  //                                             Reactive binding ↓
-  const button = <button on:click={() => count.value++}>Count: {count}</button>;
-
-  return button;
-}
-
-// Mount to DOM
-document.body.appendChild(Counter());
-```
-
-### TypeScript Configuration
-
-For JSX/TSX support, set your `tsconfig.json`:
+### TypeScript Setup
 
 ```json
 {
@@ -61,150 +39,108 @@ For JSX/TSX support, set your `tsconfig.json`:
 }
 ```
 
-## Core Features
+### Basic Example
 
-### Reactive System
+```tsx
+import { ref } from 'kt.js';
+
+function Counter() {
+  const count = ref(0);
+  return <button on:click={() => count.value++}>Count: {count}</button>;
+}
+
+document.body.appendChild(Counter());
+```
+
+## Conditional Rendering: k-if and k-else
+
+```tsx
+import { ref } from 'kt.js';
+
+const show = ref(true);
+
+const view = (
+  <div>
+    <p k-if={show}>Visible branch</p>
+    <p k-else>Fallback branch</p>
+  </div>
+);
+
+document.body.appendChild(view);
+show.value = false; // switch to k-else branch
+```
+
+### Syntax Rules
+
+- `k-else` cannot be the first child of a parent.
+- `k-else` must be immediately preceded by a `k-if` sibling.
+- `k-else-if` is not supported in runtime yet.
+
+```tsx
+// Invalid: k-else as the first child
+<div>
+  <p k-else>invalid</p>
+</div>
+
+// Invalid: non-k-if node between k-if and k-else
+<div>
+  <p k-if={ok}>A</p>
+  <span>gap</span>
+  <p k-else>B</p>
+</div>
+```
+
+## Reactive Helpers
 
 ```tsx
 import { ref, computed } from 'kt.js';
 
-// Reactive references
-const count = ref(0);
-//                      manually set dependencies ↓
-const double = computed(() => count.value * 2, [count]);
+const items = ref([1, 2]);
+const total = computed(() => items.value.reduce((sum, n) => sum + n, 0), [items]);
 
-// Listen to changes
-count.addOnChange((newVal, oldVal) => {
-  console.log(`Count changed from ${oldVal} to ${newVal}`);
+items.mutate((list) => {
+  list.push(3);
 });
 
-// Update triggers change listeners
-count.value = 10;
+items.value.push(4);
+items.notify();
+
+console.log(total.value);
 ```
 
-### Conditional Rendering
-
-```tsx
-const show = ref(true);
-
-const element = <div k-if={show}>This content is conditionally rendered</div>;
-
-// Toggle visibility
-show.value = false; // Element becomes a comment placeholder
-```
-
-### List Rendering
+## List Rendering
 
 ```tsx
 import { KTFor, ref } from 'kt.js';
 
 const items = ref([
-  { id: 1, name: 'Item 1' },
-  { id: 2, name: 'Item 2' },
+  { id: 1, name: 'A' },
+  { id: 2, name: 'B' },
 ]);
 
-// list can be a ref directly
 const list = <KTFor list={items} key={(item) => item.id} map={(item) => <div>{item.name}</div>} />;
-
-// Update list
-items.value = [...items.value, { id: 3, name: 'Item 3' }];
 ```
 
-### Fragment
+## Fragment
 
 ```tsx
 import { ref } from 'kt.js';
 
 const children = ref([<span>A</span>, <span>B</span>]);
 const fragment = <>{children}</>;
-
-document.body.appendChild(fragment);
-children.value = [<span>C</span>, <span>D</span>];
 ```
 
-### Two‑way Data Binding
+## Package Overview
 
-```tsx
-function InputComponent() {
-  const text = ref('');
-
-  return <input k-model={text} />;
-}
-```
-
-### Redrawable Components
-
-```tsx
-import { createRedrawable, ref } from 'kt.js';
-
-function DynamicCounter() {
-  const count = ref(0);
-
-  const counter = createRedrawable(() => (
-    <div>
-      Count: {count.value}
-      <button on:click={() => count.value++}>+</button>
-    </div>
-  ));
-
-  // Redraw when count changes
-  count.addOnChange(() => counter.redraw());
-
-  return counter;
-}
-```
-
-## Package Structure
-
-- **[@ktjs/core](./packages/core)** – Core framework with JSX, reactivity, and DOM utilities.
-- **[@ktjs/router](./packages/router)** – Client‑side router with navigation guards.
-- **[@ktjs/mui](./packages/mui)** – Material UI components built on top of KT.js.
+- [@ktjs/core](./packages/core): JSX runtime, reactivity, DOM helpers.
+- [@ktjs/router](./packages/router): client-side router.
+- [@ktjs/mui](./packages/mui): UI components built on KT.js.
+- [@ktjs/vite-plugin-ktjsx](./packages/vite-plugin-ktjsx): Vite JSX transform plugin.
+- [@ktjs/babel-plugin-ktjsx](./packages/babel-plugin-ktjsx): Babel JSX transform plugin.
 
 ## Philosophy
 
-KT.js follows one rule: **full control of the DOM and avoid unnecessary repainting**.
-
-As a web framework, repeatedly creating a large number of variables and objects is unacceptable. That’s why KT.js was built.
-
-## Advanced Usage
-
-### Surface References
-
-```tsx
-import { surfaceRef } from 'kt.js';
-
-const user = surfaceRef({
-  name: 'John',
-  age: 30,
-});
-
-// Access reactive properties
-user.name.value = 'Jane';
-
-// Get the original object
-const original = user.kcollect();
-```
-
-### Event Handling
-
-```tsx
-const handleClick = (event) => {
-  console.log('Clicked!', event);
-};
-
-const button = <button on:click={handleClick}>Click me</button>;
-```
-
-## Performance Benefits
-
-- **No Virtual DOM** – Direct DOM manipulation eliminates reconciliation overhead.
-- **Manual Updates** – Only update what you need, when you need it.
-- **Minimal Abstraction** – Close to native DOM APIs for maximum performance.
-- **Small Bundle** – Minimal runtime overhead.
-
-## Browser Support
-
-KT.js supports all modern browsers and IE11+ with appropriate polyfills.
+KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
 
 ## License
 

@@ -83,7 +83,7 @@ export function kifelseApply(el: HTMLElement) {
     }
     kif.addOnChange(child.__kelse__);
     if (!kif.value) {
-      child.__kelse__(true);
+      child.__kelse__(false);
     }
   }
 }

@@ -2,17 +2,14 @@ import { computed, ref } from 'kt.js';
 
 import exampleCode from '../code/directives.tsx?raw';
 import { highlight } from '../common/highlight.js';
-import { TextField } from '@ktjs/mui';
+import { Button, TextField } from '@ktjs/mui';
 
 export function Reactivity() {
   const kifFlag = ref(false);
   const kmodelText = ref('Reactive text');
   const khtmlContent = ref('<span style="color: #52c41a;">初始HTML</span>');
 
-  // Timer for demonstrating automatic updates
-  setInterval(() => (kifFlag.value = !kifFlag.value), 1500);
-
-  const notKifFLag = computed(() => !kifFlag.value, [kifFlag]);
+  const kifStateText = computed(() => (kifFlag.value ? 'true' : 'false'), [kifFlag]);
 
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
@@ -47,13 +44,32 @@ export function Reactivity() {
       </div>
       <div class="demo-section">
         <h3>Directives</h3>
-        <h4>k-if</h4>
+        <h4>k-if + k-else</h4>
         <p>
-          Current Value: <span k-if={kifFlag}>true</span>
-          <span k-if={notKifFLag}>false</span>
+          <code>k-if</code> and <code>k-else</code> can be used as adjacent sibling branches.
         </p>
-        <p class="demo-desc">k-if passes a ref, redraws when ref content changes (even if boolean value is the same)</p>
-        <div class="demo-code">{highlight(`<span k-if={kifFlag}>true</span>`)}</div>
+        <div class="demo-flex-gap">
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = true)}>
+            Show k-if
+          </Button>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = false)}>
+            Show k-else
+          </Button>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = !kifFlag.value)}>
+            Toggle
+          </Button>
+        </div>
+        <div class="demo-result">
+          Condition: {kifStateText}
+          <div class="demo-block" style="margin-top: 12px;">
+            <span k-if={kifFlag}>k-if branch: primary content is rendered.</span>
+            <span k-else>k-else branch: fallback content is rendered.</span>
+          </div>
+        </div>
+        <p class="demo-desc">Syntax rule: k-else must be immediately after a sibling k-if.</p>
+        <div class="demo-code">
+          {highlight(`<span k-if={kifFlag}>primary content</span>\n<span k-else>fallback content</span>`)}
+        </div>
 
         <h4>k-model</h4>
         <TextField k-model={kmodelText}></TextField>

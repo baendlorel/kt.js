@@ -12,5 +12,5 @@
     "noEmit": false,
     "types": ["node"]
   },
-  "include": ["src/index.cts"]
+  "include": ["src/index.ts"]
 }

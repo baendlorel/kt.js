@@ -1,5 +1,6 @@
-import { execSync } from 'node:child_process';
+import { exec, execSync } from 'node:child_process';
 import { getPackageInfo, type PackageInfo } from './common/package-info.js';
+import { rmSync } from 'node:fs';
 
 export async function build(who: string | PackageInfo | undefined) {
   if (!who) {
@@ -8,8 +9,10 @@ export async function build(who: string | PackageInfo | undefined) {
   }
 
   // special cases
-  if (who === 'ts-plugin') {
+  if (who === 'ts-plugin' || (typeof who === 'object' && who.name === '@ktjs/ts-plugin')) {
+    rmSync('packages/ts-plugin/dist', { recursive: true, force: true });
     execSync('pnpm --filter @ktjs/ts-plugin run build', { stdio: 'inherit' });
+    return;
   }
 
   // normal cases

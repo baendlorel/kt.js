@@ -19,9 +19,7 @@ interface EncodedSpan {
 }
 
 const TOKEN_TYPE_VARIABLE = 7;
-const TOKEN_TYPE_TYPE = 5;
 const TOKEN_MODIFIER_READONLY = 1 << 3;
-const TOKEN_MODIFIER_LOCAL = 1 << 5;
 const TOKEN_ENCODING_TYPE_OFFSET = 8;
 
 const IDENTIFIER_PATTERN = /[A-Za-z_$][A-Za-z0-9_$]*/g;
@@ -338,11 +336,9 @@ function buildSemanticSpans(
         start: token.start,
         length: token.length,
         classification:
-          token.kind === 'alias'
-            ? encodeSemantic2020(TOKEN_TYPE_VARIABLE, TOKEN_MODIFIER_READONLY | TOKEN_MODIFIER_LOCAL)
-            : token.kind === 'keyword'
-              ? encodeSemantic2020(TOKEN_TYPE_TYPE, 0)
-              : encodeSemantic2020(TOKEN_TYPE_VARIABLE, 0),
+          token.kind === 'keyword'
+            ? encodeSemantic2020(TOKEN_TYPE_VARIABLE, TOKEN_MODIFIER_READONLY)
+            : encodeSemantic2020(TOKEN_TYPE_VARIABLE, 0),
       });
     }
     return spans;

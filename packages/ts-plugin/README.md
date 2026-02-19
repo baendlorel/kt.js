@@ -2,21 +2,33 @@
 
 TypeScript language service plugin for KT.js `k-for` scope variables in TSX.
 
-This plugin is intentionally minimal:
+## What it does
 
-- It only affects editor diagnostics (tsserver).
-- It suppresses `Cannot find name 'item'/'index'` (TS2304) inside JSX elements that have `k-for`.
-- It does **not** transform runtime code.
+- Editor-only enhancement (tsserver), no runtime transform.
+- Suppresses TS2304 (`Cannot find name ...`) for aliases declared by `k-for`.
+- Supports Vue-like syntax:
+  - `k-for="item in list"`
+  - `k-for="(item, i) in list"`
+  - `k-for="(value, key, i) in mapLike"`
+- Keeps legacy fallback mode:
+  - `k-for={list}` with `k-for-item` / `k-for-index` (or configured defaults).
 
-## Install / workspace usage
-
-In this monorepo it is already a workspace package. Build once:
+## Install
 
 ```bash
-pnpm --filter @ktjs/ts-plugin build
+pnpm add -D @ktjs/ts-plugin typescript
 ```
 
-## tsconfig example
+## Where to install it
+
+Install it in the same project/workspace that owns the `tsconfig.json` where you enable the plugin.
+
+- Single-package app: install in that app.
+- Monorepo: install in each package that has its own TSX `tsconfig` and needs this behavior, or install at repo root if your package manager hoists and the editor can resolve it.
+
+If VS Code still does not load the plugin, make sure it uses your workspace TypeScript version.
+
+## tsconfig usage
 
 ```json
 {
@@ -30,7 +42,7 @@ pnpm --filter @ktjs/ts-plugin build
 }
 ```
 
-Optional plugin config:
+## Optional config
 
 ```json
 {
@@ -42,7 +54,8 @@ Optional plugin config:
         "itemAttr": "k-for-item",
         "indexAttr": "k-for-index",
         "itemName": "item",
-        "indexName": "index"
+        "indexName": "index",
+        "allowOfKeyword": true
       }
     ]
   }
@@ -52,13 +65,22 @@ Optional plugin config:
 ## Example
 
 ```tsx
-const list = [{ name: 'A' }];
+const users = [{ id: 1, name: 'A' }];
 
 const view = (
-  <div k-for={list} k-for-item="user" k-for-index="i">
-    {i} - {user.name}
-  </div>
+  <li k-for="(user, i) in users" k-key="user.id">
+    {i + 1}. {user.name}
+  </li>
 );
 ```
 
-Without this plugin, `user` / `i` are usually reported as undefined in TSX.
+Without this plugin, `user` / `i` are often reported as undefined by the TypeScript language service in TSX.
+
+## Official docs
+
+This package itself currently has no standalone official website doc page. The canonical usage guide is this README.
+
+For TypeScript plugin mechanics, see official docs:
+
+- TSConfig `plugins`: https://www.typescriptlang.org/tsconfig/#plugins
+- Writing a language service plugin: https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin

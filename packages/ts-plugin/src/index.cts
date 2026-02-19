@@ -7,6 +7,7 @@ interface KForPluginConfig {
   indexAttr?: string;
   itemName?: string;
   indexName?: string;
+  allowOfKeyword?: boolean;
 }
 
 interface ResolvedConfig {
@@ -15,17 +16,22 @@ interface ResolvedConfig {
   indexAttr: string;
   itemName: string;
   indexName: string;
+  allowOfKeyword: boolean;
 }
 
 interface KForScope {
   start: number;
   end: number;
-  itemName: string;
-  indexName: string;
+  names: string[];
 }
 
 const DIAGNOSTIC_CANNOT_FIND_NAME = 2304;
 const IDENTIFIER_RE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+const KFOR_SINGLE_PATTERN = /^([A-Za-z_$][A-Za-z0-9_$]*)\s+(in|of)\s+([\s\S]+)$/;
+const KFOR_TUPLE_PATTERN =
+  /^\(\s*([A-Za-z_$][A-Za-z0-9_$]*)(?:\s*,\s*([A-Za-z_$][A-Za-z0-9_$]*))?(?:\s*,\s*([A-Za-z_$][A-Za-z0-9_$]*))?\s*\)\s+(in|of)\s+([\s\S]+)$/;
+
+type JsxOpeningLikeElement = tsModule.JsxOpeningElement | tsModule.JsxSelfClosingElement;
 
 function init(modules: { typescript: typeof tsModule }) {
   const ts = modules.typescript;
@@ -83,6 +89,7 @@ function resolveConfig(config?: KForPluginConfig): ResolvedConfig {
     indexAttr: config?.indexAttr || 'k-for-index',
     itemName: config?.itemName || 'item',
     indexName: config?.indexName || 'index',
+    allowOfKeyword: config?.allowOfKeyword !== false,
   };
 }
 
@@ -102,13 +109,12 @@ function collectKForScopes(
     if (ts.isJsxElement(node)) {
       const forAttr = getJsxAttribute(node.openingElement, config.forAttr, ts);
       if (forAttr) {
-        const itemName = getScopeName(node.openingElement, config.itemAttr, config.itemName, ts);
-        const indexName = getScopeName(node.openingElement, config.indexAttr, config.indexName, ts);
+        const names = resolveScopeNames(node.openingElement, forAttr, config, ts);
         const start = node.openingElement.end;
         const end = node.closingElement.getStart(sourceFile);
 
-        if (start < end) {
-          scopes.push({ start, end, itemName, indexName });
+        if (start < end && names.length > 0) {
+          scopes.push({ start, end, names });
         }
       }
     }
@@ -120,14 +126,31 @@ function collectKForScopes(
   return scopes;
 }
 
+function resolveScopeNames(
+  opening: JsxOpeningLikeElement,
+  forAttr: tsModule.JsxAttribute,
+  config: ResolvedConfig,
+  ts: typeof tsModule,
+): string[] {
+  const forExpression = getAttributeText(forAttr, ts);
+  if (forExpression !== undefined) {
+    const parsedNames = parseKForAliases(forExpression, config.allowOfKeyword);
+    return parsedNames || [];
+  }
+
+  const itemName = getScopeName(opening, config.itemAttr, config.itemName, ts);
+  const indexName = getScopeName(opening, config.indexAttr, config.indexName, ts);
+  return uniqueIdentifiers([itemName, indexName]);
+}
+
 function getScopeName(
-  opening: tsModule.JsxOpeningElement,
+  opening: JsxOpeningLikeElement,
   attrName: string,
   fallback: string,
   ts: typeof tsModule,
 ): string {
   const attr = getJsxAttribute(opening, attrName, ts);
-  const raw = getStringLikeAttributeValue(attr, ts);
+  const raw = getAttributeText(attr, ts, true);
   if (raw && isValidIdentifier(raw)) {
     return raw;
   }
@@ -152,7 +175,11 @@ function getJsxAttribute(
   return undefined;
 }
 
-function getStringLikeAttributeValue(attr: tsModule.JsxAttribute | undefined, ts: typeof tsModule): string | undefined {
+function getAttributeText(
+  attr: tsModule.JsxAttribute | undefined,
+  ts: typeof tsModule,
+  allowIdentifier = false,
+): string | undefined {
   if (!attr || !attr.initializer) {
     return undefined;
   }
@@ -169,7 +196,7 @@ function getStringLikeAttributeValue(attr: tsModule.JsxAttribute | undefined, ts
   if (ts.isStringLiteralLike(expr)) {
     return expr.text;
   }
-  if (ts.isIdentifier(expr)) {
+  if (allowIdentifier && ts.isIdentifier(expr)) {
     return expr.text;
   }
   return undefined;
@@ -188,15 +215,58 @@ function isSuppressed(position: number, diagnosticName: string, scopes: KForScop
     if (position < scope.start || position >= scope.end) {
       continue;
     }
-    if (diagnosticName === scope.itemName || diagnosticName === scope.indexName) {
+    if (scope.names.includes(diagnosticName)) {
       return true;
     }
   }
   return false;
 }
 
+function parseKForAliases(raw: string, allowOfKeyword: boolean): string[] | null {
+  const value = raw.trim();
+  if (!value) {
+    return null;
+  }
+
+  const tupleMatch = KFOR_TUPLE_PATTERN.exec(value);
+  if (tupleMatch) {
+    const keyword = tupleMatch[4];
+    const source = tupleMatch[5]?.trim();
+    if ((!allowOfKeyword && keyword === 'of') || !source) {
+      return null;
+    }
+    return uniqueIdentifiers([tupleMatch[1], tupleMatch[2], tupleMatch[3]].filter(Boolean) as string[]);
+  }
+
+  const singleMatch = KFOR_SINGLE_PATTERN.exec(value);
+  if (singleMatch) {
+    const keyword = singleMatch[2];
+    const source = singleMatch[3]?.trim();
+    if ((!allowOfKeyword && keyword === 'of') || !source) {
+      return null;
+    }
+    return uniqueIdentifiers([singleMatch[1]]);
+  }
+
+  return null;
+}
+
 function isValidIdentifier(name: string): boolean {
   return IDENTIFIER_RE.test(name);
+}
+
+function uniqueIdentifiers(names: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
+    if (!isValidIdentifier(name) || seen.has(name)) {
+      continue;
+    }
+    seen.add(name);
+    result.push(name);
+  }
+  return result;
 }
 
 export = init;

@@ -1,5 +1,5 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
-import { findIdentifierAtPosition, findInnermostNode, normalizePosition } from './ast';
+import { findInnermostNode, normalizePosition } from './ast';
 import {
   createAliasCompletionEntries,
   createBindingTypeMap,
@@ -11,8 +11,9 @@ import { DIAGNOSTIC_CANNOT_FIND_NAME } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { isValidIdentifier } from './identifiers';
 import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
+import { getKForQuickInfoAtPosition } from './quickinfo';
 import { collectBindingsAtPosition, getFileAnalysis, isSuppressed } from './scope-analysis';
-import { formatTypeList, resolveExpressionTypesFromText } from './type-resolution';
+import { resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
 
 function init(modules: { typescript: typeof tsModule }) {
@@ -100,27 +101,8 @@ function init(modules: { typescript: typeof tsModule }) {
         return quickInfo;
       }
 
-      const identifier = findIdentifierAtPosition(analysis.sourceFile, position, ts);
-      if (!identifier) {
-        return quickInfo;
-      }
-
-      const bindings = collectBindingsAtPosition(position, analysis.scopes);
-      const binding = bindings.get(identifier.text);
-      if (!binding) {
-        return quickInfo;
-      }
-
-      const typeText = formatTypeList(binding.types, analysis.checker, identifier, ts);
-      return {
-        kind: ts.ScriptElementKind.localVariableElement,
-        kindModifiers: '',
-        textSpan: {
-          start: identifier.getStart(analysis.sourceFile),
-          length: identifier.getWidth(analysis.sourceFile),
-        },
-        displayParts: [{ text: `(k-for) ${binding.name}: ${typeText}`, kind: 'text' }],
-      };
+      const pluginQuickInfo = getKForQuickInfoAtPosition(analysis, position, ts, config);
+      return pluginQuickInfo || quickInfo;
     };
 
     proxy.getCompletionsAtPosition = (

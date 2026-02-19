@@ -73,6 +73,16 @@ export function collectBindingsAtPosition(position: number, scopes: KForScope[])
   return bindings;
 }
 
+export function resolveBindingsForForAttribute(
+  opening: JsxOpeningLikeElement,
+  forAttr: tsModule.JsxAttribute,
+  checker: tsModule.TypeChecker,
+  config: ResolvedConfig,
+  ts: typeof tsModule,
+): KForBinding[] {
+  return resolveScopeBindings(opening, forAttr, checker, config, ts);
+}
+
 function collectKForScopes(
   sourceFile: tsModule.SourceFile,
   checker: tsModule.TypeChecker,

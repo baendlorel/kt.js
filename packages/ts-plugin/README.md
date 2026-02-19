@@ -8,11 +8,11 @@ TypeScript language service plugin for KT.js `k-for` scope variables in TSX.
 - Suppresses TS2304 (`Cannot find name ...`) for aliases declared by `k-for`.
 - Infers alias types from iterable/indexed sources (for example `k-for="item in users"` makes `item` resolve to `users[number]`).
 - Provides hover type info and member completions for inferred aliases.
+- Supports hover type info inside `k-for` expression strings (`item in users`) for alias/source identifiers.
 - Adds `k-for` inline semantic highlighting in string expressions (for example alias/keyword/source in `k-for="item in list"`).
 - Supports Vue-like syntax:
   - `k-for="item in list"`
   - `k-for="(item, i) in list"`
-  - `k-for="(value, key, i) in mapLike"`
 
 ## Install
 

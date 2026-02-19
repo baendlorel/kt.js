@@ -6,18 +6,20 @@ TypeScript language service plugin for KT.js `k-for` scope variables in TSX.
 
 - Editor-only enhancement (tsserver), no runtime transform.
 - Suppresses TS2304 (`Cannot find name ...`) for aliases declared by `k-for`.
+- Infers alias types from iterable/indexed sources (for example `k-for="item in users"` makes `item` resolve to `users[number]`).
+- Provides hover type info and member completions for inferred aliases.
 - Supports Vue-like syntax:
   - `k-for="item in list"`
   - `k-for="(item, i) in list"`
   - `k-for="(value, key, i) in mapLike"`
-- Keeps legacy fallback mode:
-  - `k-for={list}` with `k-for-item` / `k-for-index` (or configured defaults).
 
 ## Install
 
 ```bash
 pnpm add -D @ktjs/ts-plugin typescript
 ```
+
+Then open a `.tsx` or `.ts` file in your editor, press `Ctrl+Shift+P` and select "TypeScript: Select TypeScript Version", then choose "Use workspace version" to make sure your editor uses the version of TypeScript where the plugin is installed.
 
 ## Where to install it
 

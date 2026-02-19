@@ -10,6 +10,7 @@ import {
 import { DIAGNOSTIC_CANNOT_FIND_NAME } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { isValidIdentifier } from './identifiers';
+import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
 import { collectBindingsAtPosition, getFileAnalysis, isSuppressed } from './scope-analysis';
 import { formatTypeList, resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
@@ -54,6 +55,38 @@ function init(modules: { typescript: typeof tsModule }) {
 
         return !isSuppressed(diagnostic.start, name, analysis.scopes);
       });
+    };
+
+    proxy.getEncodedSemanticClassifications = (
+      fileName: string,
+      span: tsModule.TextSpan,
+      format?: tsModule.SemanticClassificationFormat,
+    ) => {
+      const classifications = languageService.getEncodedSemanticClassifications(fileName, span, format);
+      if (!isJsxLikeFile(fileName)) {
+        return classifications;
+      }
+
+      const sourceFile = languageService.getProgram()?.getSourceFile(fileName);
+      if (!sourceFile) {
+        return classifications;
+      }
+
+      return addKForSemanticClassifications(classifications, sourceFile, span, format, ts, config);
+    };
+
+    proxy.getEncodedSyntacticClassifications = (fileName: string, span: tsModule.TextSpan) => {
+      const classifications = languageService.getEncodedSyntacticClassifications(fileName, span);
+      if (!isJsxLikeFile(fileName)) {
+        return classifications;
+      }
+
+      const sourceFile = languageService.getProgram()?.getSourceFile(fileName);
+      if (!sourceFile) {
+        return classifications;
+      }
+
+      return addKForSyntacticClassifications(classifications, sourceFile, span, ts, config);
     };
 
     proxy.getQuickInfoAtPosition = (fileName: string, position: number) => {

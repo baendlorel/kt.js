@@ -235,3 +235,7 @@ const ssss = bindParams(sss, 'a');
 3、语法检测在处理children的时候进行，可以简化为：1、if无要求；2、else上一个元素必须是if或elseif；3、elseif上一个不能是else；
 
 我不知道上述办法是否可行，请你仔细看看，并帮我写一个设计方案，写在.draft/kif-kelse.md里
+
+---
+
+帮我设计k-for指令。我不知道如何设计，因为vue 的写法需要的插件太多了。我预设的想法是让k-for={somearray}，但具体其他地方怎么写，我不知道。请你帮我设计怎么写法比较好。请你舍弃我已经写好的kfor组件，重新设计一个k-for指令，可以有多种方案，最终结果放在draft/k-for.md里

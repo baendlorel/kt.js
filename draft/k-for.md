@@ -1,112 +1,200 @@
-# k-for 编译可行性分析（基于 core 现状）
+# k-for 指令重设计（抛弃 KTFor 组件）
 
-## 结论
+## 先给结论
 
-可行，而且现有 `core` 已经具备主要运行时基础。
-
-但按当前代码，**最小可行路径**应是：在插件里把带 `k-for` 的 JSX 节点直接改写成 `<KTFor list=... map=... />`。  
-你提到的“把 children 编译为 `()=>children`”也能做，不过在当前 `KTFor` API 下通常不需要单独再包一层函数，直接生成 `map` 函数即可。
-
----
-
-## core 里已经具备的能力（为什么可行）
-
-1. `KTFor` 已存在并且接口完整：`list` + `key?` + `map(item,index,array)`（`packages/core/src/jsx/for.ts:7`）。
-2. `KTFor` 已处理响应式列表重绘与 DOM 锚点管理（`packages/core/src/jsx/for.ts:18`）。
-3. `h/content` 已对 `__kt_for_list__` 做了追加处理，说明 `KTFor` 锚点机制已打通（`packages/core/src/h/content.ts:29`）。
-
-所以编译器只要能产出 `KTFor` 兼容的 `map`，运行时就能接上。
-
----
-
-## 当前缺口（为什么不能直接“原样加 k-for 属性”）
-
-1. `jsx-runtime` 目前只拦截 `k-if` / `k-else`，没有 `k-for` 分支（`packages/core/src/jsx/jsx-runtime.ts:19`）。
-2. 属性处理里也没有忽略 `k-for`，不编译掉的话会落成真实 DOM attribute（`packages/core/src/h/attr.ts:60`）。
-3. JSX 类型声明里也没有 `k-for` 语义字段（`packages/core/src/types/jsx.d.ts:192`）。
-
-因此，`k-for` 必须依赖插件改写，或者你要补 runtime 分支。
-
----
-
-## 对“children 编译为 ()=>children”的判断
-
-### 在现有 `KTFor` API 下
-
-- `KTFor` 需要的是 `map`：每次渲染项时返回一个新节点。
-- 所以最直接产物是：
+如果你想尽量不依赖插件，最稳的写法是：
 
 ```tsx
-<KTFor
-  list={listExpr}
-  map={(item, index, array) => <li>{/* 原 children */}</li>}
+<ul>
+  <template
+    k-for={users}
+    k-for-render={(user, i) => <li>{i + 1}. {user.name}</li>}
+    k-for-key={(user) => user.id}
+  />
+</ul>
+```
+
+- `k-for` 只负责“数据源”
+- `k-for-render` 负责“每项怎么渲染”
+- `k-for-key` 负责“复用和移动 DOM”
+- 全部是正常 TS 函数参数，不需要 Vue 那种作用域语法插件
+
+---
+
+## 设计目标
+
+1. 舍弃现有 `KTFor` 组件，统一成 `k-for` 指令；
+2. 默认不依赖 Babel/Vite 的复杂语法改写；
+3. 保留 key diff 能力（复用已有 DOM）；
+4. TS 类型友好，编辑器能正确推断 `item/index`；
+5. 保持 KT.js 的“手动可控、真实 DOM”风格。
+
+---
+
+## 方案 A（推荐）：纯运行时，0 编译插件
+
+### A1. 属性回调式（MVP 首选）
+
+```tsx
+<template
+  k-for={listRef}
+  k-for-render={(item, index, array) => <Row item={item} index={index} total={array.length} />}
+  k-for-key={(item) => item.id}
 />
 ```
 
-这本质上已经是“按需创建 children”。额外再包 `() => children` 通常是冗余。
+#### 规则
 
-### 你说的 item/index 变量
+- `k-for`: `T[] | KTReactive<T[]>`
+- `k-for-render`: `(item: T, index: number, array: T[]) => KTRawContent`
+- `k-for-key`(可选): `(item: T, index: number) => unknown`
+- `k-for-empty`(可选): `() => KTRawContent`，空数组时渲染占位
+- 建议只挂在 `<template>`（语义明确：宿主不渲染，只做模板）
 
-插件当然可以生成 `map(item,index)` 参数名；问题在于**类型检查体验**：
+#### 优点
 
-- 若源码写成 `<li k-for={list}>{item.name}</li>`，`item` 在 TS 原语法里是未定义变量。
-- Babel/Vite 插件能在构建时改写，但 `tsc`/IDE 仍可能先报错。
+- 无需作用域注入插件；
+- TS 推断最好；
+- 运行时实现直接，容易测试；
+- 对用户心智很清楚：`for + render`。
 
-这不是 core 运行时问题，而是语法层与 TS 类型系统的配合问题。
+#### 缺点
+
+- 比 Vue 模板写法略长。
 
 ---
 
-## 推荐的最小可行编译形态（MVP）
-
-### 输入（建议）
+### A2. children 回调式（可作为语法糖）
 
 ```tsx
-<li k-for={users}>
-  {(item, index) => <span>{index}:{item.name}</span>}
+<template k-for={listRef} k-for-key={(item) => item.id}>
+  {(item, index) => <Row item={item} index={index} />}
+</template>
+```
+
+#### 说明
+
+- 与 A1 本质一样，只是把 `k-for-render` 放到 children；
+- 依然不需要编译插件；
+- 需要在 `jsx-runtime` 里识别“`k-for` + 函数 children”。
+
+---
+
+## 方案 B（可选增强）：轻量 sugar + 可选 TS 插件
+
+写法更像模板变量：
+
+```tsx
+<li k-for={users} k-for-item="user" k-for-index="i" k-for-key={(user) => user.id}>
+  {i}. {user.name}
 </li>
 ```
 
-### 输出
+#### 代价
+
+- 需要一个 transform 把模板体转换成 render 函数；
+- 或至少需要语言服务插件来压制 `user/i` 未定义诊断；
+- 运行时也要处理“宿主元素是模板还是真实元素”的语义。
+
+#### 结论
+
+- 可以做，但不适合作为第一版主路径。
+
+---
+
+## 方案 C（不建议）：Vue 字符串表达式
 
 ```tsx
-<KTFor
-  list={users}
-  map={(item, index, array) => (
-    <li>
-      <span>{index}:{item.name}</span>
-    </li>
-  )}
+<li k-for="(user, i) in users" k-key="user.id">{user.name}</li>
+```
+
+#### 问题
+
+- 需要表达式解析器和作用域注入；
+- 类型系统最差；
+- 调试和报错体验差。
+
+---
+
+## 三种方案对比
+
+| 方案 | 插件依赖 | TS 体验 | 实现复杂度 | 推荐度 |
+| --- | --- | --- | --- | --- |
+| A1 属性回调 | 无 | 最好 | 低 | 最高 |
+| A2 children 回调 | 无 | 好 | 中 | 高 |
+| B 模板变量 sugar | 可选 1 个 | 中 | 中高 | 中 |
+| C Vue 字符串 | 高 | 差 | 高 | 低 |
+
+---
+
+## 最终建议（落地顺序）
+
+### 第 1 阶段（立即可做）
+
+采用 **A1** 作为官方写法：
+
+```tsx
+<template
+  k-for={items}
+  k-for-render={(item, index) => <div>{index}: {item.name}</div>}
+  k-for-key={(item) => item.id}
 />
 ```
 
-这个形式能避免“未定义 item/index”的 TS 报错，同时完全复用现有 core。
+### 第 2 阶段（语法糖）
+
+增加 A2（children 函数）：
+
+```tsx
+<template k-for={items}>{(item) => <div>{item.name}</div>}</template>
+```
+
+### 第 3 阶段（可选插件生态）
+
+再考虑 B（`k-for-item/k-for-index`）这种模板变量写法，作为非默认增强。
 
 ---
 
-## 如果坚持“运行时 k-for 指令”而不是编译成 KTFor
+## 运行时规范（建议）
 
-那就需要改 core：
-
-1. `jsx-runtime` 增加 `if ('k-for' in props)` 分支（类似 `k-if`）。
-2. `attr.ts` 忽略 `k-for` 及相关内部字段，避免落到 DOM。
-3. `types/jsx.d.ts` / `types/h.d.ts` 补 `k-for` 类型。
-4. 设计 `k-for` 与 `k-if/k-else` 同节点时的优先级规则。
-
-这条路也可行，但改动面明显大于“编译到 KTFor 组件”。
-
----
-
-## 额外注意点
-
-1. 插件若产出 `<KTFor />`，要保证文件里有 `KTFor` 可用绑定（注入 import 或复用已有 import）。
-2. 当前插件源码 `src/index.ts` 引用了 `./if-else.js`，但 `src` 目录下缺对应源码文件（只在 `dist` 有），扩展插件前建议先整理这一块。
+1. `jsx-runtime` 入口优先处理 `k-for`（类似现在 `k-if`）；
+2. 返回 comment anchor（例如 `<!--kt-for-->`）；
+3. 每次渲染得到 blocks，做 keyed diff：
+   - 有 `k-for-key` 时按 key 复用与移动；
+   - 无 key 时按 index patch（并给出 warning）；
+4. key 重复时 warning（开发环境）；
+5. 支持数组项渲染为单节点或多节点（多节点建议内部包 fragment 边界）；
+6. `k-for` 不应透传到真实 DOM attribute。
 
 ---
 
-## 总评
+## 类型定义建议
 
-基于 `core` 当前实现：
+在 `packages/core/src/types/h.d.ts` 和 `packages/core/src/types/jsx.d.ts` 增加：
 
-- **“k-for 语法糖 + 插件改写”是可行的**；
-- **最稳妥实现是编译到 `KTFor(list,map,key)` 形态**；
-- **item/index 的“自由变量写法”在 TS 类型层面有风险**，建议先用“children render function”语法做 MVP。
+- `'k-for'?: T[] | KTReactive<T[]>`
+- `'k-for-render'?: (item: T, index: number, array: T[]) => KTRawContent`
+- `'k-for-key'?: (item: T, index: number, array: T[]) => unknown`
+- `'k-for-empty'?: () => KTRawContent`
+
+---
+
+## 迁移建议（从 KTFor 到 k-for）
+
+旧：
+
+```tsx
+<KTFor list={items} key={(item) => item.id} map={(item) => <Row item={item} />} />
+```
+
+新：
+
+```tsx
+<template
+  k-for={items}
+  k-for-key={(item) => item.id}
+  k-for-render={(item) => <Row item={item} />}
+/>
+```
+
+这两者语义基本等价，但新方案统一成“指令系统”，后续和 `k-if` 更一致。

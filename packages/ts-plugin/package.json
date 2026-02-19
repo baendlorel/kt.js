@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/ts-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript language service plugin for kt.js k-for scope names in TSX.",
   "type": "commonjs",
   "main": "./dist/index.cjs",

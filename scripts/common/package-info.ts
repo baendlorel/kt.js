@@ -21,12 +21,19 @@ export const getTagName = (who: string | undefined) => {
   return packageJson.name as string;
 };
 
-export const getPackageInfo = (who: string | undefined) => {
-  if (!who) {
-    console.error('getPackageInfo: No package specified.');
-    process.exit(1);
-  }
+export interface PackageInfo {
+  path: string;
+  jsonPath: string;
+  version: Version;
+  json: any;
+  name: string;
+  env: {
+    LIB_PACKAGE_PATH: string;
+    TZ?: string | undefined;
+  };
+}
 
+export const getPackageInfo = (who: string | undefined): PackageInfo => {
   const packagePath = getPackagePath(who);
   const packageJsonPath = join(packagePath, 'package.json');
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));

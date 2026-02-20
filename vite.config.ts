@@ -61,9 +61,9 @@ export default defineConfig(({ mode }) => {
           path.join(currentPackagePath, 'src/**/*.tsx'),
           path.join(currentPackagePath, 'src/**/*.d.ts'),
         ],
+        pathsToAliases:false,
         entryRoot: path.join(currentPackagePath, 'src'),
         outDir: path.join(currentPackagePath, 'dist'),
-        insertTypesEntry: true,
         rollupTypes: enableRollupTypes,
         copyDtsFiles: enableRollupTypes,
         afterBuild(emittedFiles) {

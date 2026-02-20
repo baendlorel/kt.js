@@ -1,93 +1,95 @@
-# k-for 指令设计 v2（Vue 风格优先，最少插件）
+# k-for 编译方案（Babel/Vite 对齐）
 
-## 先回应你的诉求
+> 日期：2026-02-20
 
-你说得对：如果没有 Vue 那种“模板内直接写 item/index”体验，`k-for` 就不够爽。
+## 0. 现状审查结论
 
-这版设计的目标是：
+1. `@ktjs/babel-plugin-ktjsx` 当前只做两件事：
+   - `k-if / k-else-if / k-else` 链改写
+   - SVG/MathML flag 注入
+2. `@ktjs/vite-plugin-ktjsx` 只是调用 `transformWithKTjsx`，没有自己的 `k-for` 逻辑。
+3. `@ktjs/core` 已有 `KTFor` 运行时（锚点注释节点 + `__kt_for_list__` + key 复用 + 响应式 list）。
+4. `babel-plugin-ktjsx/src/index.ts` 依赖 `./if-else.js`，但当前 `src/` 目录缺少对应源文件（`dist/if-else.js` 存在）。
 
-1. 保留 Vue 风格写法；
-2. 插件数量压到最低（运行时只依赖现有 ktjsx 插件）；
-3. 不再暴露 `KTFor` 组件，统一为 `k-for` 指令。
-
----
-
-## 最终推荐写法（Vue 风格）
-
-### 1) 基础写法
-
-```tsx
-<li k-for="user in users">{user.name}</li>
-```
-
-### 2) 带 index
-
-```tsx
-<li k-for="(user, i) in users">{i + 1}. {user.name}</li>
-```
-
-### 3) 带 key（强烈建议）
-
-```tsx
-<li k-for="(user, i) in users" k-key="user.id">
-  {i + 1}. {user.name}
-</li>
-```
-
-### 4) 一项渲染多个根节点（用 template）
-
-```tsx
-<template k-for="(user, i) in users" k-key="user.id">
-  <h4>{i + 1}. {user.name}</h4>
-  <p>{user.email}</p>
-</template>
-```
-
-### 5) 空列表兜底（可选增强）
-
-```tsx
-<li k-for="user in users">{user.name}</li>
-<li k-for-empty>暂无数据</li>
-```
-
-`k-for-empty` 规则：必须紧跟对应的 `k-for` 节点（类似 `k-else` 语义）。
+结论：**只要在 Babel 插件补上 `k-for` transform，Vite 会自动获得同样能力；但建议先补齐 `if-else` 源文件，保证源码为唯一事实来源。**
 
 ---
 
-## 语法定义
+## 1. 统一语法与行为基线
 
-`k-for` 支持以下 3 种形式：
+### 支持语法
 
-1. `item in source`
-2. `(item, index) in source`
-3. `(value, key, index) in source`（对象/Map 扩展，v2.1 可上）
+- `k-for="item in list"`
+- `k-for="(item, index) in list"`
+- 可选支持 `of`：`item of list`（建议与 ts-plugin 配置保持一致）
 
-说明：
+### 作用域
 
-- `source` 是任意 JS 表达式（如 `users`、`group.todos`、`computedList.value`）。
-- `k-key` 也是表达式字符串，作用域内可直接访问 `item/index/...`。
-- 变量名必须是合法标识符。
+- `item/index` 仅在该节点（及其 children）内可用。
+- `k-key` 表达式与子节点表达式共享同一作用域。
 
----
+### 指令清理
 
-## 为什么这次不会“插件太多”
+- 编译产物不应保留：`k-for`、`k-key`（以及遗留 `k-for-item`、`k-for-index`）。
 
-只分两层：
+### 错误规则（编译期）
 
-1. **必须**：`@ktjs/vite-plugin-ktjsx`（或 babel 插件）负责把 `k-for` 编译成普通函数调用；
-2. **可选**：`@ktjs/ts-plugin` 只负责 IDE 诊断优化（压掉 item/index 未定义提示）。
-
-也就是说，运行必须插件只有 1 个；TS 插件不是运行时依赖。
+- `k-for` 语法不合法 -> 抛错。
+- 只有 `k-key` 没有 `k-for` -> 抛错。
+- `k-for` 与 `k-else`/`k-else-if` 在同一链上混用 -> 抛错（避免作用域歧义）。
 
 ---
 
-## 编译策略（核心）
+## 2. 方案 A：编译成 `<KTFor />`（最快落地）
+
+### 编译示例
 
 输入：
 
 ```tsx
-<li k-for="(user, i) in users" k-key="user.id">
-  {i + 1}. {user.name}
+<li k-for="(item, index) in users" k-key="item.id">
+  {index + 1}. {item.name}
+</li>
+```
+
+输出（示意）：
+
+```tsx
+<__KTFor
+  list={users}
+  key={(item, index, array) => item.id}
+  map={(item, index, array) => <li>{index + 1}. {item.name}</li>}
+/>
+```
+
+并自动注入一次 import（示意）：
+
+```ts
+import { KTFor as __KTFor } from '@ktjs/core';
+```
+
+### 优点
+
+- 复用现有 `KTFor`，实现最快。
+- 天然支持响应式 list 和 key 复用。
+- 对 Vite 无额外工作（复用 Babel transform）。
+
+### 风险
+
+- 输出里暴露 `KTFor` 心智（虽然可用别名隐藏，但本质仍是组件）。
+- 需要处理 import 注入与去重。
+
+---
+
+## 3. 方案 B：编译成内部 helper `__kt_for(...)`（推荐）
+
+### 编译示例
+
+输入：
+
+```tsx
+<li k-for="(item, index) in users" k-key="item.id">
+  {index + 1}. {item.name}
 </li>
 ```
 
@@ -96,104 +98,106 @@
 ```tsx
 __kt_for({
   list: users,
-  key: (user, i) => user.id,
-  render: (user, i) => <li>{i + 1}. {user.name}</li>,
-});
+  key: (item, index, array) => item.id,
+  render: (item, index, array) => <li>{index + 1}. {item.name}</li>,
+})
 ```
 
-要点：
+由 Babel 插件自动注入 helper import（示意）：
 
-- 不需要做复杂“变量改写”，直接把原节点包进 `render(item, index)` 回调；
-- `k-for` / `k-key` / `k-for-empty` 不落到真实 DOM attribute；
-- `__kt_for` 是内部 helper，不对外暴露组件心智。
+```ts
+import { __kt_for } from '@ktjs/core/jsx-runtime';
+```
 
----
+### 运行时实现建议
 
-## 运行时行为（__kt_for）
+- 在 `@ktjs/core/jsx-runtime` 新增 `__kt_for` 导出。
+- 首版内部直接委托给 `KTFor`，后续可无缝替换实现，不影响编译产物协议。
 
-`__kt_for` 返回一个锚点节点（comment），并维护当前渲染块。
+### 优点
 
-建议结构：
+- 用户只感知 `k-for` 指令，不暴露 `KTFor` 组件心智。
+- 编译协议稳定，后续可独立优化 runtime。
+- Babel/Vite 共用同一个 transform，行为一致。
 
-- anchor: `<!--kt-for-->`
-- blocks: `{ key, nodes[] }[]`
-- listRef: reactive/list source
+### 风险
 
-更新策略：
-
-1. 计算新列表；
-2. 生成新 key 序列；
-3. 复用旧 block（同 key）；
-4. 新建缺失 block；
-5. 删除多余 block；
-6. 按新顺序最小化移动（可用 LIS）。
-
-无 `k-key` 时按 index patch，并在开发模式 warning。
+- 需要新增 runtime helper（比方案 A 多一步）。
 
 ---
 
-## 与现有代码的改造点
+## 4. 方案 C：编译成 `list.map(...)`（最轻，但语义最弱）
 
-1. `packages/babel-plugin-ktjsx`：新增 `k-for` transform；
-2. `packages/vite-plugin-ktjsx`：自动复用该 transform；
-3. `packages/core/src/jsx/jsx-runtime.ts`：增加 `k-for` 分支处理；
-4. `packages/core/src/h/attr.ts`：忽略 `k-for` / `k-key` / `k-for-empty`；
-5. `packages/core/src/types/h.d.ts` + `packages/core/src/types/jsx.d.ts`：补指令类型；
-6. `packages/ts-plugin`：新增对 `k-for="(item, i) in list"` 的别名提取。
+### 编译示例
 
----
+```tsx
+{users.map((item, index, array) => <li>{index + 1}. {item.name}</li>)}
+```
 
-## TS 插件最小增强设计
+### 优点
 
-现有 ts-plugin 已能处理 `k-for-item/k-for-index`。
+- 几乎不需要 runtime 改动。
+- 编译实现最简单。
 
-本版改为直接支持 `k-for` 字符串：
+### 明显缺点
 
-- 解析左侧别名（`item`、`index`）；
-- 在 JSX 元素作用域内 suppress TS2304；
-- 无需改运行时代码。
+- 丢失 `KTFor` 的响应式 list 重绘能力。
+- `k-key` 无法落实为真实 diff 优化（基本只能忽略或弱处理）。
+- 与当前 core 已有能力不一致。
 
-这样你就能写 Vue 风格，又不被编辑器红线轰炸。
+**结论：不建议。**
 
 ---
 
-## 错误提示规范（建议）
+## 5. 推荐结论
 
-- `k-for parse failed: expected "item in source" or "(item, index) in source"`
-- `k-for source expression is empty`
-- `k-key must be used with k-for`
-- `k-for-empty must be immediately after k-for`
-- `k-for duplicate key: ${key}`
+**推荐选方案 B（内部 `__kt_for` helper）。**
 
----
+理由：
 
-## 分阶段落地
-
-### Phase 1（先让它可用）
-
-- 支持 `item in list`、`(item, i) in list`
-- 支持 `k-key`
-- 支持 `<template k-for>`
-- 编译 + 运行时打通
-
-### Phase 2（体验补齐）
-
-- ts-plugin 支持 `k-for` 字符串别名
-- `k-for-empty`
-
-### Phase 3（进阶）
-
-- `(value, key, index) in object`
-- destructuring（如 `({ id, name }, i) in users`）
+1. 体验上最像真正的“指令编译”，不暴露组件心智；
+2. 保留现有 `KTFor` 能力（响应式 + key 复用）；
+3. 给后续 runtime 优化留出稳定协议层。
 
 ---
 
-## 结论
+## 6. 实施拆分（选 A/B 都适用）
 
-最终建议：
+### Babel 插件模块拆分建议
 
-- **语法上**：就用 Vue 风格 `k-for="(item, i) in list"` + `k-key="item.id"`；
-- **工程上**：运行时只保留一个 transform 插件（现有 ktjsx），TS 插件可选；
-- **架构上**：彻底放弃公开 `KTFor` 组件，统一到 `k-for` 指令路径。
+- `packages/babel-plugin-ktjsx/src/transforms/k-for/parse.ts`
+- `packages/babel-plugin-ktjsx/src/transforms/k-for/transform.ts`
+- `packages/babel-plugin-ktjsx/src/transforms/k-for/imports.ts`
+- `packages/babel-plugin-ktjsx/src/transforms/k-for/errors.ts`
 
-这版可以兼顾“写起来像 Vue”与“KT.js 依旧轻量可控”。
+入口顺序建议：
+
+1. 先处理 `k-for`
+2. 再处理 `k-if` 链
+3. 最后做 SVG/MathML flag
+
+### Vite 插件
+
+- 不新增逻辑，继续复用 `transformWithKTjsx`。
+- 仅补测试，确保与 Babel 产物一致。
+
+### 测试清单
+
+- Babel：基础/双参数/`k-key`/错误用例/无残留指令属性。
+- Vite：同样输入得到等价产物。
+- Core 集成：列表增删改、重排、空列表、key 冲突告警。
+
+---
+
+## 7. 兼容性决策
+
+- **`k-for-item` / `k-for-index`：不再解析，不再作为正式语法。**
+- 若检测到这两个属性：开发模式给出迁移提示（可选）。
+
+---
+
+请直接选：
+
+1. 方案 A（KTFor 组件编译）
+2. 方案 B（`__kt_for` helper，推荐）
+3. 方案 C（`map` 直出，不推荐）

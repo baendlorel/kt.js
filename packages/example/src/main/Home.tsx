@@ -1,4 +1,3 @@
-import installSh from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/vite.config.example.ts?raw';
 import viteBabelConfigCode from '../code/vite.config.babel-example.ts?raw';
@@ -20,7 +19,7 @@ export function Home() {
         <h3>Getting Started</h3>
         <p style="color: #666; margin-bottom: 16px;">Follow these steps to start using KT.js in your project:</p>
         <h4 style="margin-top: 24px; margin-bottom: 12px;">1. Installation</h4>
-        <Code code={installSh} lang="bash" />
+        <Code code="pnpm add kt.js @ktjs/mui @ktjs/ts-plugin" lang="bash" />
         <h4 style="margin-top: 24px; margin-bottom: 12px;">2. TypeScript Configuration</h4>
         <p>
           Add these settings to your <code>tsconfig.json</code>:
@@ -33,11 +32,12 @@ export function Home() {
         </p>
         <Code code="pnpm add -D @ktjs/ts-plugin" lang="bash"></Code>
         <p>
-          Press <code>Ctrl+Shift+P</code> in VSCode, select "TypeScript: Select TypeScript Version", then select "Use
-          Workspace Version".
+          Press <code>Ctrl+Shift+P</code> in VSCode, select <strong>TypeScript: Select TypeScript Version</strong>, then
+          select <strong>Use Workspace Version</strong>.
         </p>
         <p>
-          Finally, restart the TypeScript server by selecting "TypeScript: Restart TS Server" from the command palette.
+          Finally, restart the TypeScript server by selecting <strong>TypeScript: Restart TS Server</strong> from the
+          command palette.
         </p>
         <h4 style="margin-top: 24px; margin-bottom: 12px;">4. Vite Configuration</h4>
         <p>

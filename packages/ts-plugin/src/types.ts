@@ -2,6 +2,8 @@ import type tsModule from 'typescript/lib/tsserverlibrary';
 
 export interface KForPluginConfig {
   forAttr?: string;
+  ifAttr?: string;
+  elseAttr?: string;
   itemAttr?: string;
   indexAttr?: string;
   itemName?: string;
@@ -11,6 +13,8 @@ export interface KForPluginConfig {
 
 export interface ResolvedConfig {
   forAttr: string;
+  ifAttr: string;
+  elseAttr: string;
   itemAttr: string;
   indexAttr: string;
   itemName: string;

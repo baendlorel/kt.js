@@ -56,15 +56,18 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   }
 
   for (const key in attr) {
+    // & Arranged in order of usage frequency
     if (
       key === 'k-if' ||
       key === 'k-model' ||
+      key === 'k-for' ||
       key === 'ref' ||
       key === 'class' ||
       key === 'className' ||
       key === 'style' ||
       key === 'children' ||
-      key === 'k-html'
+      key === 'k-html' ||
+      key === 'k-else'
     ) {
       continue;
     }

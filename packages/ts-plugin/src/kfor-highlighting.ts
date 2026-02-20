@@ -4,7 +4,7 @@ import { parseKForExpression } from './kfor-parser';
 import { isValidIdentifier } from './identifiers';
 import type { ResolvedConfig } from './types';
 
-type HighlightTokenKind = 'alias' | 'source' | 'keyword';
+type HighlightTokenKind = 'alias' | 'source' | 'keyword' | 'directive';
 
 interface HighlightToken {
   start: number;
@@ -18,6 +18,7 @@ interface EncodedSpan {
   classification: number;
 }
 
+const TOKEN_TYPE_TYPE = 5;
 const TOKEN_TYPE_VARIABLE = 7;
 const TOKEN_MODIFIER_READONLY = 1 << 3;
 const TOKEN_ENCODING_TYPE_OFFSET = 8;
@@ -86,6 +87,26 @@ function collectHighlightTokens(
     }
 
     if (opening) {
+      const directiveTokens = collectDirectiveAttributeTokens(opening, sourceFile, ts, config);
+      for (let i = 0; i < directiveTokens.length; i++) {
+        const token = directiveTokens[i];
+        const tokenStart = token.start;
+        const tokenEnd = token.start + token.length;
+        if (tokenEnd <= spanStart || tokenStart >= spanEnd) {
+          continue;
+        }
+
+        const clippedStart = Math.max(tokenStart, spanStart);
+        const clippedEnd = Math.min(tokenEnd, spanEnd);
+        if (clippedEnd > clippedStart) {
+          tokens.push({
+            start: clippedStart,
+            length: clippedEnd - clippedStart,
+            kind: token.kind,
+          });
+        }
+      }
+
       const attr = getJsxAttribute(opening, config.forAttr, ts);
       if (attr) {
         const parsed = parseKForAttributeTokens(attr, sourceFile, ts, config.allowOfKeyword);
@@ -191,6 +212,37 @@ function parseKForAttributeTokens(
       start: rawOffset + sourceTokens[i].start,
       length: sourceTokens[i].length,
       kind: 'source',
+    });
+  }
+
+  return tokens;
+}
+
+function collectDirectiveAttributeTokens(
+  opening: tsModule.JsxOpeningElement | tsModule.JsxSelfClosingElement,
+  sourceFile: tsModule.SourceFile,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): HighlightToken[] {
+  const directiveNames = new Set([config.forAttr, config.ifAttr, config.elseAttr]);
+  const tokens: HighlightToken[] = [];
+
+  for (const directiveName of directiveNames) {
+    const attr = getJsxAttribute(opening, directiveName, ts);
+    if (!attr) {
+      continue;
+    }
+
+    const start = attr.name.getStart(sourceFile);
+    const length = attr.name.getWidth(sourceFile);
+    if (length <= 0) {
+      continue;
+    }
+
+    tokens.push({
+      start,
+      length,
+      kind: 'directive',
     });
   }
 
@@ -336,9 +388,11 @@ function buildSemanticSpans(
         start: token.start,
         length: token.length,
         classification:
-          token.kind === 'keyword'
-            ? encodeSemantic2020(TOKEN_TYPE_VARIABLE, TOKEN_MODIFIER_READONLY)
-            : encodeSemantic2020(TOKEN_TYPE_VARIABLE, 0),
+          token.kind === 'directive'
+            ? encodeSemantic2020(TOKEN_TYPE_TYPE, 0)
+            : token.kind === 'keyword'
+              ? encodeSemantic2020(TOKEN_TYPE_VARIABLE, TOKEN_MODIFIER_READONLY)
+              : encodeSemantic2020(TOKEN_TYPE_VARIABLE, 0),
       });
     }
     return spans;
@@ -350,7 +404,11 @@ function buildSemanticSpans(
       start: token.start,
       length: token.length,
       classification:
-        token.kind === 'keyword' ? ts.ClassificationType.keyword : ts.ClassificationType.identifier,
+        token.kind === 'directive'
+          ? ts.ClassificationType.className
+          : token.kind === 'keyword'
+            ? ts.ClassificationType.keyword
+            : ts.ClassificationType.identifier,
     });
   }
 

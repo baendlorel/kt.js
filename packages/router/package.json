@@ -31,8 +31,8 @@
     "directory": "packages/router"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:*",
-    "@ktjs/shared": "workspace:*"
+    "@ktjs/core": "workspace:^*",
+    "@ktjs/shared": "workspace:^*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

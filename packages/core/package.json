@@ -44,7 +44,7 @@
     "directory": "packages/core"
   },
   "dependencies": {
-    "@ktjs/shared": "workspace:*"
+    "@ktjs/shared": "workspace:^*"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

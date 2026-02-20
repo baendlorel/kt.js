@@ -6,10 +6,10 @@
     "dev": "vite --config ../../vite.config.ts --mode exp"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:*",
-    "@ktjs/mui": "workspace:*"
+    "@ktjs/core": "workspace:^*",
+    "@ktjs/mui": "workspace:^*"
   },
   "devDependencies": {
-    "@ktjs/ts-plugin": "workspace:*"
+    "@ktjs/ts-plugin": "workspace:^*"
   }
 }

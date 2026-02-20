@@ -156,7 +156,7 @@
       ],
       "license": "MIT",
       "dependencies": {
-        "@ktjs/core": "workspace:^*"
+        "@ktjs/core": "workspace:*"
       },
       "scripts": {
         "build": "rollup -c rollup.config.mjs",
@@ -201,7 +201,7 @@
         "directory": "packages/mui"
       },
       "dependencies": {
-        "@ktjs/core": "workspace:^*",
+        "@ktjs/core": "workspace:*",
         "@ktjs/shared": "workspace:*"
       },
       "scripts": {
@@ -243,7 +243,7 @@
         "directory": "packages/router"
       },
       "dependencies": {
-        "@ktjs/core": "workspace:^*",
+        "@ktjs/core": "workspace:*",
         "@ktjs/shared": "workspace:*"
       },
       "scripts": {
@@ -326,7 +326,7 @@
         "directory": "packages/shortcuts"
       },
       "dependencies": {
-        "@ktjs/core": "workspace:^*"
+        "@ktjs/core": "workspace:*"
       },
       "scripts": {
         "build": "rollup -c rollup.config.mjs",

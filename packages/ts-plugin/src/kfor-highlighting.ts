@@ -224,7 +224,14 @@ function collectDirectiveAttributeTokens(
   ts: typeof tsModule,
   config: ResolvedConfig,
 ): HighlightToken[] {
-  const directiveNames = new Set([config.forAttr, config.ifAttr, config.elseAttr]);
+  const directiveNames = new Set([
+    config.forAttr,
+    config.ifAttr,
+    config.elseAttr,
+    config.elseIfAttr,
+    config.modelAttr,
+    config.htmlAttr,
+  ]);
   const tokens: HighlightToken[] = [];
 
   for (const directiveName of directiveNames) {

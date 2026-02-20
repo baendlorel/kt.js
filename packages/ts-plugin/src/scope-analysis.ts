@@ -1,7 +1,6 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
-import { getAttributeExpression, getAttributeText, getJsxAttribute, getScopeName } from './jsx-attributes';
+import { getAttributeText, getJsxAttribute } from './jsx-attributes';
 import { parseKForExpression } from './kfor-parser';
-import { uniqueIdentifiers } from './identifiers';
 import { resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
 import type {
   FileAnalysis,
@@ -120,23 +119,21 @@ function resolveScopeBindings(
   ts: typeof tsModule,
 ): KForBinding[] {
   const forExpression = getAttributeText(forAttr, ts);
-  if (forExpression !== undefined) {
-    const parsed = parseKForExpression(forExpression, config.allowOfKeyword);
-    if (parsed) {
-      const sourceTypes = resolveExpressionTypesFromText(parsed.source, {
-        checker,
-        ts,
-        scopeNode: opening,
-      });
-      return createBindings(parsed.aliases, sourceTypes, checker, opening, ts);
-    }
+  if (forExpression === undefined) {
+    return [];
   }
 
-  const itemName = getScopeName(opening, config.itemAttr, config.itemName, ts);
-  const indexName = getScopeName(opening, config.indexAttr, config.indexName, ts);
-  const aliases = uniqueIdentifiers([itemName, indexName]);
-  const sourceTypes = getLegacyForSourceTypes(forAttr, checker, ts);
-  return createBindings(aliases, sourceTypes, checker, opening, ts);
+  const parsed = parseKForExpression(forExpression, config.allowOfKeyword);
+  if (!parsed) {
+    return [];
+  }
+
+  const sourceTypes = resolveExpressionTypesFromText(parsed.source, {
+    checker,
+    ts,
+    scopeNode: opening,
+  });
+  return createBindings(parsed.aliases, sourceTypes, checker, opening, ts);
 }
 
 function createBindings(
@@ -212,16 +209,4 @@ function expandUnionTypes(types: tsModule.Type[], ts: typeof tsModule): tsModule
   }
 
   return result;
-}
-
-function getLegacyForSourceTypes(
-  forAttr: tsModule.JsxAttribute,
-  checker: tsModule.TypeChecker,
-  ts: typeof tsModule,
-): tsModule.Type[] {
-  const expression = getAttributeExpression(forAttr, ts);
-  if (!expression || ts.isStringLiteralLike(expression)) {
-    return [];
-  }
-  return [checker.getTypeAtLocation(expression)];
 }

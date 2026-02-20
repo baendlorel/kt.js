@@ -6,10 +6,9 @@ export function resolveConfig(config?: KForPluginConfig): ResolvedConfig {
     forAttr: config?.forAttr || 'k-for',
     ifAttr: config?.ifAttr || 'k-if',
     elseAttr: config?.elseAttr || 'k-else',
-    itemAttr: config?.itemAttr || 'k-for-item',
-    indexAttr: config?.indexAttr || 'k-for-index',
-    itemName: config?.itemName || 'item',
-    indexName: config?.indexName || 'index',
+    elseIfAttr: config?.elseIfAttr || 'k-else-if',
+    modelAttr: config?.modelAttr || 'k-model',
+    htmlAttr: config?.htmlAttr || 'k-html',
     allowOfKeyword: config?.allowOfKeyword !== false,
   };
 }

@@ -10,7 +10,7 @@ TypeScript language service plugin for KT.js `k-for` scope variables in TSX.
 - Provides hover type info and member completions for inferred aliases.
 - Supports hover type info inside `k-for` expression strings (`item in users`) for alias/source identifiers.
 - Adds `k-for` inline semantic highlighting in string expressions (for example alias/keyword/source in `k-for="item in list"`).
-- Highlights directive attribute names (`k-for`, `k-if`, `k-else`) with semantic token colors.
+- Highlights directive attribute names (`k-for`, `k-if`, `k-else`, `k-else-if`, `k-model`, `k-html`) with semantic token colors.
 - Supports Vue-like syntax:
   - `k-for="item in list"`
   - `k-for="(item, i) in list"`
@@ -57,10 +57,9 @@ If VS Code still does not load the plugin, make sure it uses your workspace Type
         "forAttr": "k-for",
         "ifAttr": "k-if",
         "elseAttr": "k-else",
-        "itemAttr": "k-for-item",
-        "indexAttr": "k-for-index",
-        "itemName": "item",
-        "indexName": "index",
+        "elseIfAttr": "k-else-if",
+        "modelAttr": "k-model",
+        "htmlAttr": "k-html",
         "allowOfKeyword": true
       }
     ]

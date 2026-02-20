@@ -4,10 +4,9 @@ export interface KForPluginConfig {
   forAttr?: string;
   ifAttr?: string;
   elseAttr?: string;
-  itemAttr?: string;
-  indexAttr?: string;
-  itemName?: string;
-  indexName?: string;
+  elseIfAttr?: string;
+  modelAttr?: string;
+  htmlAttr?: string;
   allowOfKeyword?: boolean;
 }
 
@@ -15,10 +14,9 @@ export interface ResolvedConfig {
   forAttr: string;
   ifAttr: string;
   elseAttr: string;
-  itemAttr: string;
-  indexAttr: string;
-  itemName: string;
-  indexName: string;
+  elseIfAttr: string;
+  modelAttr: string;
+  htmlAttr: string;
   allowOfKeyword: boolean;
 }
 

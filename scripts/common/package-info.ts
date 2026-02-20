@@ -8,6 +8,7 @@ export interface PackageInfo {
   version: Version;
   json: any;
   name: string;
+  nameVer: string;
   env: {
     LIB_PACKAGE_PATH: string;
     TZ?: string | undefined;
@@ -49,6 +50,7 @@ export const getPackageInfo = (who: string | undefined): PackageInfo[] => {
       version: new Version(packageJson.version),
       json: packageJson,
       name: packageJson.name as string,
+      nameVer: `${packageJson.name}@${packageJson.version}`,
       env: { ...process.env, LIB_PACKAGE_PATH: packagePath },
     };
   });

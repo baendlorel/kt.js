@@ -12,23 +12,18 @@ export async function publish(who: string | undefined) {
     process.exit(1);
   }
 
-  let maxVersion: Version = new Version('0.0.0');
+  let maxVer: Version = new Version('0.0.0');
   let maxVerLen = 0;
-  const releasePlan = group.map((info) => {
-    const nameVersion = `${info.name}@${info.version.toString()}`;
-    maxVersion = Version.max(maxVersion, info.version);
-    maxVerLen = Math.max(maxVerLen, nameVersion.length);
-    return {
-      info,
-      oldVer: nameVersion,
-      ver: info.version.duplicate().bumpPatch().toString(),
-    };
+  group.forEach((info) => {
+    maxVer = Version.max(maxVer, info.version);
+    maxVerLen = Math.max(maxVerLen, info.nameVer.length);
   });
 
+  const newVer = maxVer.duplicate().bumpPatch().toString();
   console.log('Publish plan:');
-  releasePlan.forEach((item) => console.log(`- ${item.oldVer.padEnd(maxVerLen, ' ')} -> ${item.ver}`));
+  group.forEach((info) => console.log(`- ${info.nameVer.padEnd(maxVerLen, ' ')} -> ${newVer}`));
 
-  const goon = await ask(`Build + publish ${releasePlan.length} package(s), then bump all versions together?`);
+  const goon = await ask(`Build + publish ${group.length} package(s), then bump all versions together?`);
   if (!goon) {
     console.log('Aborted.');
     return;
@@ -36,12 +31,11 @@ export async function publish(who: string | undefined) {
 
   // * Here we modify group's json data, bump the versions
   group.forEach((info) => {
-    info.json.version = maxVersion.duplicate().bumpPatch().toString();
+    info.json.version = newVer;
     writeFileSync(info.jsonPath, JSON.stringify(info.json, null, 2), 'utf-8');
   });
 
-  // ! Must do this separately to ensure all versions are bumped before building.
-  // ! Otherwise inter-dependencies may cause build failures
+  // ! Ensure all versions are bumped. Otherwise inter-dependencies may cause build failures
   group.forEach(buildWithInfo);
   group.forEach(gitTag);
 

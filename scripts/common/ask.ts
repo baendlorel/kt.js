@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 
-export function askYesNo(question: string, defaultYes = true) {
+export function ask(question: string, defaultYes = true) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,

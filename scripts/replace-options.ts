@@ -62,6 +62,10 @@ export function replaceOpts(packagePath: string | undefined) {
       __PKG_INFO__,
       __VERSION__,
 
+      // global flags
+      'flags.svg': JSON.stringify('__svg'),
+      'flags.mathml': JSON.stringify('__mathml'),
+
       // global error/warn/debug
       "$throw('": `throw new Error('[${__NAME__} error] `,
       '$throw(`': `throw new Error(\`[${__NAME__} error] `,
@@ -74,3 +78,8 @@ export function replaceOpts(packagePath: string | undefined) {
 
   return replaceOpts;
 }
+
+export const defineGlobals = {
+  'flags.svg': JSON.stringify('__svg'),
+  'flags.mathml': JSON.stringify('__mathml'),
+};

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import { getAliases } from './scripts/aliases';
+import { defineGlobals } from './scripts/replace-options';
 
 export default defineConfig(() => {
   return {
@@ -9,10 +10,8 @@ export default defineConfig(() => {
       include: ['**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],
       silent: false,
     },
-    define: {
-      'flags.svg': JSON.stringify('__svg'),
-      'flags.mathml': JSON.stringify('__mathml'),
-    },
+    define: defineGlobals,
+
     resolve: {
       alias: getAliases(),
     },

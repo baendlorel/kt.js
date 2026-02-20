@@ -12,10 +12,14 @@ export const getAliases = () => {
     }
     const json = JSON.parse(readFileSync(jsonPath, 'utf-8'));
     aliasMap[json.name] = path.join(packagesDir, dir, 'src', 'index.ts');
-    if (json.name === '@ktjs/core' || json.name === 'kt.js') {
+    if (json.name === '@ktjs/core') {
       aliasMap[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'jsx', 'index.ts');
       aliasMap[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx', 'jsx-runtime.ts');
       aliasMap[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx', 'jsx-runtime.ts');
+    } else if (json.name === 'kt.js') {
+      aliasMap[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'jsx.ts');
+      aliasMap[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
+      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
     }
   }
 

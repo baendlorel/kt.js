@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { existsSync, renameSync } from 'node:fs';
+import { existsSync, readFileSync, renameSync } from 'node:fs';
 
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
@@ -16,6 +16,65 @@ const getTsConfigPath = (packagePath: string) => {
     return tsconfigPath1;
   }
   return path.join(packagePath, 'tsconfig.json');
+};
+
+const getEntryImportPath = (value: unknown): string | undefined => {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return undefined;
+  }
+
+  const record = value as Record<string, unknown>;
+  if (typeof record.import === 'string') {
+    return record.import;
+  }
+  if (typeof record.default === 'string') {
+    return record.default;
+  }
+
+  for (const nestedValue of Object.values(record)) {
+    const nestedImportPath = getEntryImportPath(nestedValue);
+    if (nestedImportPath) {
+      return nestedImportPath;
+    }
+  }
+
+  return undefined;
+};
+
+const getLibEntries = (packagePath: string) => {
+  const entries = new Map([['index', path.join(packagePath, 'src', 'index.ts')]]);
+  const packageJsonPath = path.join(packagePath, 'package.json');
+  if (!existsSync(packageJsonPath)) {
+    return Object.fromEntries(entries);
+  }
+
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
+    exports?: unknown;
+  };
+  if (!packageJson.exports || typeof packageJson.exports !== 'object' || Array.isArray(packageJson.exports)) {
+    return Object.fromEntries(entries);
+  }
+
+  for (const exportValue of Object.values(packageJson.exports as Record<string, unknown>)) {
+    const importPath = getEntryImportPath(exportValue);
+    if (!importPath || !importPath.startsWith('./dist/') || !/\.[mc]?js$/.test(importPath)) {
+      continue;
+    }
+
+    const entryName = importPath.slice('./dist/'.length).replace(/\.[mc]?js$/, '');
+    const tsPath = path.join(packagePath, 'src', `${entryName}.ts`);
+    const tsxPath = path.join(packagePath, 'src', `${entryName}.tsx`);
+    const sourcePath = existsSync(tsPath) ? tsPath : existsSync(tsxPath) ? tsxPath : '';
+    if (!sourcePath || entries.has(entryName)) {
+      continue;
+    }
+    entries.set(entryName, sourcePath);
+  }
+
+  return Object.fromEntries(entries);
 };
 
 const D_MTS_SUFFIX = '.d.mts';
@@ -38,8 +97,8 @@ export default defineConfig(({ mode }) => {
   const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
   const currentPackageName = path.basename(currentPackagePath);
   const tsconfigPath = getTsConfigPath(currentPackagePath);
-  const enableRollupTypes = path.basename(currentPackagePath) !== 'kt.js';
-  const entry = path.join(currentPackagePath, 'src', 'index.ts');
+  const libEntries = getLibEntries(currentPackagePath);
+  const enableRollupTypes = Object.keys(libEntries).length === 1 && currentPackageName !== 'kt.js';
 
   const isPlugin = currentPackageName === 'vite-plugin-ktjsx';
   const external = externalFromPeerDependencies(currentPackagePath);
@@ -94,11 +153,11 @@ export default defineConfig(({ mode }) => {
       minify: false,
       emptyOutDir: true,
       outDir: path.join(currentPackagePath, 'dist'),
-      ssr: isPlugin ? entry : undefined,
+      ssr: isPlugin ? libEntries.index : undefined,
       lib: {
-        entry,
+        entry: libEntries,
         formats: ['es' as const],
-        fileName: () => 'index.mjs',
+        fileName: (_format, entryName) => `${entryName}.mjs`,
       },
       rollupOptions: {
         external,

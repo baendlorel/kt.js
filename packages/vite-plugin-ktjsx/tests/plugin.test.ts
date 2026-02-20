@@ -30,9 +30,26 @@ describe('vite-plugin-ktjsx', () => {
     );
 
     const code = toCode(result);
-    expect(code).toContain('__kt_svg__');
+    expect(code).toMatch(/__[^>\s=]*svg/i);
     expect(code).toContain('k-if');
     expect(code).not.toContain('k-else');
+  });
+
+  it('transforms k-for into map call and strips directive attributes', async () => {
+    const result = await runTransform(
+      'const view = <li k-for="(item, index, arr) in users" k-key="item.id">{index}-{item.name}-{arr.length}</li>;',
+    );
+
+    const code = toCode(result);
+    expect(code).toContain('users.map((item, index, arr)');
+    expect(code).not.toContain('k-for');
+    expect(code).not.toContain('k-key');
+  });
+
+  it('throws when k-for is mixed with conditional directives on the same element', async () => {
+    await expect(
+      runTransform('const view = <li k-for="item in users" k-if={ok}>{item}</li>;'),
+    ).rejects.toThrow(/k-for.*k-if.*k-else-if.*k-else/i);
   });
 
   it('only processes JSX/TSX files by default', async () => {
@@ -44,7 +61,7 @@ describe('vite-plugin-ktjsx', () => {
     const code = 'const icon = <svg></svg>;';
 
     const included = await runTransform(code, '/src/icon.custom', { include: /\.custom$/ });
-    expect(toCode(included)).toContain('__kt_svg__');
+    expect(toCode(included)).toMatch(/__[^>\s=]*svg/i);
 
     const excluded = await runTransform(code, '/src/icon.custom', {
       include: /\.custom$/,

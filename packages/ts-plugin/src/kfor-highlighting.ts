@@ -226,6 +226,7 @@ function collectDirectiveAttributeTokens(
 ): HighlightToken[] {
   const directiveNames = new Set([
     config.forAttr,
+    config.keyAttr,
     config.ifAttr,
     config.elseAttr,
     config.elseIfAttr,

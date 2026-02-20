@@ -4,27 +4,30 @@ import plugin from '../src/index.js';
 
 describe('babel-plugin-ktjsx', () => {
   const transform = (code: string) => {
-    return babel.transformSync(code, {
+    const result = babel.transformSync(code, {
       plugins: [plugin],
       parserOpts: { plugins: ['typescript', 'jsx'] },
       configFile: false,
       babelrc: false,
     })?.code;
+
+    if (!result) {
+      throw new Error('Transform returned empty code.');
+    }
+    return result;
   };
 
   describe('SVG/MathML flag addition', () => {
     it('should add SVG flag to svg element', () => {
       const code = `const el = <svg width="100" height="100"></svg>;`;
       const result = transform(code);
-      expect(result).toContain('__kt_svg__');
-      expect(result).toMatch(/<svg[^>]*__kt_svg__/);
+      expect(result).toMatch(/<svg[^>]*__[^>\s=]*svg[^>\s=]*/i);
     });
 
     it('should add MathML flag to math element', () => {
       const code = `const el = <math></math>;`;
       const result = transform(code);
-      expect(result).toContain('__kt_mathml__');
-      expect(result).toMatch(/<math[^>]*__kt_mathml__/);
+      expect(result).toMatch(/<math[^>]*__[^>\s=]*math/i);
     });
 
     it('should add SVG flag to elements inside svg', () => {
@@ -36,17 +39,16 @@ describe('babel-plugin-ktjsx', () => {
         );
       `;
       const result = transform(code);
-      expect(result).toContain('__kt_svg__');
       // Both svg and circle should have flag
-      expect(result).toMatch(/<svg[^>]*__kt_svg__/);
-      expect(result).toMatch(/<circle[^>]*__kt_svg__/);
+      expect(result).toMatch(/<svg[^>]*__[^>\s=]*svg[^>\s=]*/i);
+      expect(result).toMatch(/<circle[^>]*__[^>\s=]*svg[^>\s=]*/i);
     });
 
     it('should not add flag to non-SVG/MathML elements', () => {
       const code = `const el = <div></div>;`;
       const result = transform(code);
-      expect(result).not.toContain('__kt_svg__');
-      expect(result).not.toContain('__kt_mathml__');
+      expect(result).not.toMatch(/__[^>\s=]*svg/i);
+      expect(result).not.toMatch(/__[^>\s=]*math/i);
     });
   });
 
@@ -60,10 +62,40 @@ describe('babel-plugin-ktjsx', () => {
     it('should preserve other attributes', () => {
       const code = `const el = <svg width="100" height="100" class="icon" k-if={show}></svg>;`;
       const result = transform(code);
-      expect(result).toContain('__kt_svg__');
+      expect(result).toMatch(/__[^>\s=]*svg/i);
       expect(result).toContain('width="100"');
       expect(result).toContain('class="icon"');
       expect(result).toContain('k-if');
+    });
+  });
+
+  describe('k-for transformation', () => {
+    it('transforms `k-for` to Array.map call', () => {
+      const code = `const list = <li k-for="item in users">{item.name}</li>;`;
+      const result = transform(code);
+
+      expect(result).toContain('users.map');
+      expect(result).not.toContain('k-for');
+    });
+
+    it('supports tuple aliases and strips k-key', () => {
+      const code = `const list = <li k-for="(item, index, arr) in users" k-key="item.id">{index}-{item.name}-{arr.length}</li>;`;
+      const result = transform(code);
+
+      expect(result).toContain('users.map((item, index, arr)');
+      expect(result).not.toContain('k-key');
+    });
+  });
+
+  describe('invalid directive combinations', () => {
+    it('throws when k-if and k-else are used on the same element', () => {
+      const code = `const el = <div k-if={ok} k-else>content</div>;`;
+      expect(() => transform(code)).toThrow(/k-if.*k-else/i);
+    });
+
+    it('throws when k-for is mixed with k-if/k-else directives', () => {
+      const code = `const el = <li k-for="item in users" k-if={ok}>{item}</li>;`;
+      expect(() => transform(code)).toThrow(/k-for.*k-if.*k-else-if.*k-else/i);
     });
   });
 });

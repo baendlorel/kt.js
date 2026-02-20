@@ -4,6 +4,7 @@ import type { KForPluginConfig, ResolvedConfig } from './types';
 export function resolveConfig(config?: KForPluginConfig): ResolvedConfig {
   return {
     forAttr: config?.forAttr || 'k-for',
+    keyAttr: config?.keyAttr || 'k-key',
     ifAttr: config?.ifAttr || 'k-if',
     elseAttr: config?.elseAttr || 'k-else',
     elseIfAttr: config?.elseIfAttr || 'k-else-if',

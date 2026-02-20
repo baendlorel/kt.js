@@ -98,7 +98,7 @@ export default defineConfig(({ mode }) => {
   const currentPackageName = path.basename(currentPackagePath);
   const tsconfigPath = getTsConfigPath(currentPackagePath);
   const libEntries = getLibEntries(currentPackagePath);
-  const enableRollupTypes = Object.keys(libEntries).length === 1 && currentPackageName !== 'kt.js';
+  const enableRollupTypes = currentPackageName !== 'kt.js';
 
   const isPlugin = currentPackageName === 'vite-plugin-ktjsx';
   const external = externalFromPeerDependencies(currentPackagePath);

@@ -12,16 +12,16 @@
       "default": "./dist/index.mjs"
     },
     "./jsx": {
-      "types": "./dist/jsx/index.d.ts",
-      "import": "./dist/jsx/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
     },
     "./jsx-runtime": {
-      "types": "./dist/jsx/jsx-runtime.d.ts",
-      "import": "./dist/jsx/jsx-runtime.mjs"
+      "types": "./dist/jsx-runtime.d.ts",
+      "import": "./dist/jsx-runtime.mjs"
     },
     "./jsx-dev-runtime": {
-      "types": "./dist/jsx/jsx-runtime.d.ts",
-      "import": "./dist/jsx/jsx-runtime.mjs"
+      "types": "./dist/jsx-runtime.d.ts",
+      "import": "./dist/jsx-runtime.mjs"
     }
   },
   "files": [

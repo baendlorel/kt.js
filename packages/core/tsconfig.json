@@ -5,8 +5,8 @@
     "jsxImportSource": "@ktjs/core",
     "paths": {
       "@ktjs/core": ["./src/index.ts"],
-      "@ktjs/core/jsx": ["./src/jsx/index.ts"],
-      "@ktjs/core/jsx-runtime": ["./src/jsx/jsx-runtime.ts"],
+      "@ktjs/core/jsx": ["./src/index.ts"],
+      "@ktjs/core/jsx-runtime": ["./src/jsx-runtime.ts"],
       "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },

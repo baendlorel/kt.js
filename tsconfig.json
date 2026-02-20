@@ -17,8 +17,8 @@
 
       // & core
       "@ktjs/core": ["packages/core/src/index.ts"],
-      "@ktjs/core/jsx": ["packages/core/src/jsx/index.ts"],
-      "@ktjs/core/jsx-runtime": ["packages/core/src/jsx/jsx-runtime.ts"],
+      "@ktjs/core/jsx": ["packages/core/src/index.ts"],
+      "@ktjs/core/jsx-runtime": ["packages/core/src/jsx-runtime.ts"],
 
       "kt.js": ["packages/kt.js/src/index.ts"],
       "kt.js/jsx": ["packages/kt.js/src/jsx.ts"],

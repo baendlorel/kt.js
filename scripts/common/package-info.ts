@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Version } from './version.js';
 
@@ -14,56 +14,42 @@ export interface PackageInfo {
   };
 }
 
-export const getPackageInfo = (who: string | undefined): PackageInfo => {
-  const packagePath = getPackagePath(who);
-  const packageJsonPath = join(packagePath, 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  return {
-    path: packagePath,
-    jsonPath: packageJsonPath,
-    version: new Version(packageJson.version),
-    json: packageJson,
-    name: packageJson.name as string,
-    env: { ...process.env, LIB_PACKAGE_PATH: packagePath },
-  };
-};
+const publishGroupMap = new Map<string | undefined, readonly string[]>([
+  [undefined, ['core', 'kt.js']],
+  ['core', ['core']],
+  ['kt', ['kt.js']],
+  ['shared', ['shared']],
+  ['router', ['router']],
+  ['mui', ['mui']],
+  ['shortcuts', ['shortcuts']],
+  ['plugin', ['babel-plugin-ktjsx']],
+  ['vite-plugin', ['vite-plugin-ktjsx']],
+  ['ts-plugin', ['ts-plugin']],
+  ['runtime', ['shared', 'core', 'kt.js']],
+  [
+    'all',
+    ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin'],
+  ],
+]);
 
-export const getPackagePath = (who: string | undefined) => {
-  if (!who) {
-    console.log('getPackagePath: No package specified.');
+export const getPackageInfo = (who: string | undefined): PackageInfo[] => {
+  const group = publishGroupMap.get(who);
+  if (!group) {
+    console.error(`Unknown package group: ${who}`);
     process.exit(1);
   }
-  return join(import.meta.dirname, '..', '..', 'packages', who);
-};
 
-export const externalFromPeerDependencies = (packagePath: string) => {
-  if (!packagePath) {
-    return [];
-  }
-
-  const packageJsonPath = join(packagePath, 'package.json');
-  if (!existsSync(packageJsonPath)) {
-    return [];
-  }
-
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
-    dependencies?: Record<string, string>;
-    optionalDependencies?: Record<string, string>;
-    peerDependencies?: Record<string, string>;
-  };
-
-  const packages = [
-    ...Object.keys(packageJson.dependencies ?? {}),
-    ...Object.keys(packageJson.optionalDependencies ?? {}),
-    ...Object.keys(packageJson.peerDependencies ?? {}),
-  ];
-
-  if (packages.length === 0) {
-    return [];
-  }
-
-  return (id: string) => {
-    const normalized = id.startsWith('node:') ? id.slice(5) : id;
-    return packages.some((name) => normalized === name || normalized.startsWith(`${name}/`));
-  };
+  return group.map((name) => {
+    const packagePath = join(import.meta.dirname, '..', '..', 'packages', name);
+    const packageJsonPath = join(packagePath, 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return {
+      path: packagePath,
+      jsonPath: packageJsonPath,
+      version: new Version(packageJson.version),
+      json: packageJson,
+      name: packageJson.name as string,
+      env: { ...process.env, LIB_PACKAGE_PATH: packagePath },
+    };
+  });
 };

@@ -5,24 +5,6 @@ import { askYesNo } from './common/ask.js';
 import { getPackageInfo, type PackageInfo } from './common/package-info.js';
 import { build } from './build.js';
 
-const publishGroupMap = new Map<string | undefined, readonly string[]>([
-  [undefined, ['core', 'kt.js']],
-  ['core', ['core']],
-  ['kt', ['kt.js']],
-  ['shared', ['shared']],
-  ['router', ['router']],
-  ['mui', ['mui']],
-  ['shortcuts', ['shortcuts']],
-  ['plugin', ['babel-plugin-ktjsx']],
-  ['vite-plugin', ['vite-plugin-ktjsx']],
-  ['ts-plugin', ['ts-plugin']],
-  ['runtime', ['shared', 'core', 'kt.js']],
-  [
-    'all',
-    ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin'],
-  ],
-]);
-
 function compareByReleaseOrder(a: string, b: string) {
   const aRank = orderRank.get(a);
   const bRank = orderRank.get(b);
@@ -47,14 +29,7 @@ function buildCommitMessage(packages: { name: string; nextVersion: string }[]) {
 }
 
 export async function publish(who: string | undefined) {
-  let packages: PackageInfo[];
-  try {
-    packages = toPackageInfoList(who);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(message);
-    process.exit(1);
-  }
+  const packages = publishGroupMap.get(who);
 
   if (packages.length === 0) {
     console.error('No package selected for publish.');

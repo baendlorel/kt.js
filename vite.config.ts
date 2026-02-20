@@ -4,11 +4,9 @@ import { existsSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import replace from '@rollup/plugin-replace';
-import terser from '@rollup/plugin-terser';
 
 import { getAliases } from './scripts/aliases.js';
 import { defineGlobals, replaceOpts } from './scripts/replace-options.js';
-import { externalFromPeerDependencies } from './scripts/common/package-info.js';
 
 const getTsConfigPath = (packagePath: string) => {
   const tsconfigPath1 = path.join(packagePath, 'tsconfig.build.json');
@@ -23,9 +21,7 @@ export default defineConfig(({ mode }) => {
   if (mode === 'exp') {
     return {
       root: path.join(import.meta.dirname, 'packages', 'example'),
-      resolve: {
-        alias: getAliases(),
-      },
+      resolve: { alias: getAliases() },
       define: defineGlobals,
     };
   }
@@ -35,12 +31,8 @@ export default defineConfig(({ mode }) => {
   const tsconfigPath = getTsConfigPath(currentPackagePath);
 
   const isVitePlugin = currentPackageName === 'vite-plugin-ktjsx';
-  const external = externalFromPeerDependencies(currentPackagePath);
 
   return {
-    resolve: {
-      alias: {}, // ! No need to resolve aliases in production mode
-    },
     define: defineGlobals,
     plugins: [
       dts({
@@ -63,7 +55,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       outDir: path.join(currentPackagePath, 'dist'),
       rollupOptions: {
-        external,
+        external: [/^@?ktjs\//],
         plugins: [replace(replaceOpts(currentPackagePath))],
       },
     },

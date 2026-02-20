@@ -29,7 +29,7 @@ export async function publish(who: string | PackageInfo | undefined) {
   }
 
   await build(who);
-  execSync(`npm publish ${who.path} --access public`, { stdio: 'inherit', cwd: who.path });
+  execSync('pnpm publish --access public --no-git-checks', { stdio: 'inherit', cwd: who.path });
 
   console.log(`Published ${who.name}@${currentVersionStr}`);
 

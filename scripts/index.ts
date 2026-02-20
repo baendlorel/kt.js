@@ -9,6 +9,7 @@ async function main() {
   const [who] = process.argv.slice(3);
   if (task === '--publish') {
     if (who === undefined) {
+      await publish('shared');
       await publish('core');
       await publish('kt.js');
     } else {

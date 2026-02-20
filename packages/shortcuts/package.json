@@ -30,7 +30,7 @@
     "directory": "packages/shortcuts"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:^*"
+    "@ktjs/core": "workspace:^"
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",

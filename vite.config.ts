@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 
-import replace from '@rollup/plugin-replace';
-import terser from '@rollup/plugin-terser';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import replace from '@rollup/plugin-replace';
+import terser from '@rollup/plugin-terser';
 
 import { getAliases } from './scripts/aliases.js';
 import { defineGlobals, replaceOpts } from './scripts/replace-options.js';
@@ -26,10 +26,7 @@ export default defineConfig(({ mode }) => {
       resolve: {
         alias: getAliases(),
       },
-      define: {
-        'flags.svg': JSON.stringify('__svg'),
-        'flags.mathml': JSON.stringify('__mathml'),
-      },
+      define: defineGlobals,
     };
   }
 
@@ -56,7 +53,6 @@ export default defineConfig(({ mode }) => {
         pathsToAliases: false,
         entryRoot: path.join(currentPackagePath, 'src'),
         outDir: path.join(currentPackagePath, 'dist'),
-        logLevel: 'silent',
       }),
     ],
     ssr: isVitePlugin ? { noExternal: true as const } : undefined,

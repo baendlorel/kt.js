@@ -11,7 +11,6 @@ export default defineConfig(() => {
       silent: false,
     },
     define: defineGlobals,
-
     resolve: {
       alias: getAliases(),
     },

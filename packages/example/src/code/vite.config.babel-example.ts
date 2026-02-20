@@ -4,7 +4,7 @@ import babelKTjsx from '@ktjs/babel-plugin-ktjsx';
 
 // Vite config for KT.js development
 export default defineConfig({
-  ...otherConfigs,
+  // ...otherConfigs,
   plugins: [
     babel({
       filter: /\.[jt]sx?$/,

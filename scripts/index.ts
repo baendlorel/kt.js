@@ -6,15 +6,10 @@ import { test } from './test.js';
 
 async function main() {
   const task = process.argv[2];
-  const [who] = process.argv.slice(3);
+  const args = process.argv.slice(3);
+  const [who] = args;
   if (task === '--publish') {
-    if (who === undefined) {
-      await publish('shared');
-      await publish('core');
-      await publish('kt.js');
-    } else {
-      publish(who);
-    }
+    await publish(args);
   } else if (task === '--build') {
     build(who);
   } else if (task === '--test') {

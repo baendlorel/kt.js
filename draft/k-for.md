@@ -9,9 +9,8 @@
    - SVG/MathML flag 注入
 2. `@ktjs/vite-plugin-ktjsx` 只是调用 `transformWithKTjsx`，没有自己的 `k-for` 逻辑。
 3. `@ktjs/core` 已有 `KTFor` 运行时（锚点注释节点 + `__kt_for_list__` + key 复用 + 响应式 list）。
-4. `babel-plugin-ktjsx/src/index.ts` 依赖 `./if-else.js`，但当前 `src/` 目录缺少对应源文件（`dist/if-else.js` 存在）。
 
-结论：**只要在 Babel 插件补上 `k-for` transform，Vite 会自动获得同样能力；但建议先补齐 `if-else` 源文件，保证源码为唯一事实来源。**
+结论：**只要在 Babel 插件补上 `k-for` transform，Vite 会自动获得同样能力**
 
 ---
 
@@ -21,16 +20,16 @@
 
 - `k-for="item in list"`
 - `k-for="(item, index) in list"`
-- 可选支持 `of`：`item of list`（建议与 ts-plugin 配置保持一致）
 
 ### 作用域
 
 - `item/index` 仅在该节点（及其 children）内可用。
 - `k-key` 表达式与子节点表达式共享同一作用域。
+  - tsplugin里k-key也要高亮，也要能访问item/index。
 
 ### 指令清理
 
-- 编译产物不应保留：`k-for`、`k-key`（以及遗留 `k-for-item`、`k-for-index`）。
+- 编译产物不应保留：`k-for`、`k-key`。
 
 ### 错误规则（编译期）
 
@@ -58,7 +57,11 @@
 <__KTFor
   list={users}
   key={(item, index, array) => item.id}
-  map={(item, index, array) => <li>{index + 1}. {item.name}</li>}
+  map={(item, index, array) => (
+    <li>
+      {index + 1}. {item.name}
+    </li>
+  )}
 />
 ```
 
@@ -99,8 +102,12 @@ import { KTFor as __KTFor } from '@ktjs/core';
 __kt_for({
   list: users,
   key: (item, index, array) => item.id,
-  render: (item, index, array) => <li>{index + 1}. {item.name}</li>,
-})
+  render: (item, index, array) => (
+    <li>
+      {index + 1}. {item.name}
+    </li>
+  ),
+});
 ```
 
 由 Babel 插件自动注入 helper import（示意）：
@@ -131,7 +138,13 @@ import { __kt_for } from '@ktjs/core/jsx-runtime';
 ### 编译示例
 
 ```tsx
-{users.map((item, index, array) => <li>{index + 1}. {item.name}</li>)}
+{
+  users.map((item, index, array) => (
+    <li>
+      {index + 1}. {item.name}
+    </li>
+  ));
+}
 ```
 
 ### 优点

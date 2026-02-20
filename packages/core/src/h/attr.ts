@@ -61,6 +61,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       key === 'k-if' ||
       key === 'k-model' ||
       key === 'k-for' ||
+      key === 'k-key' ||
       key === 'ref' ||
       key === 'class' ||
       key === 'className' ||

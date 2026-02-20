@@ -26,9 +26,9 @@ export default defineConfig(({ mode }) => {
     };
   }
 
-  const currentPackagePath = process.env.LIB_PACKAGE_PATH || '';
-  const currentPackageName = path.basename(currentPackagePath);
-  const tsconfigPath = getTsConfigPath(currentPackagePath);
+  const PKG_PATH = process.env.KT_PKG_PATH || '';
+  const currentPackageName = path.basename(PKG_PATH);
+  const tsconfigPath = getTsConfigPath(PKG_PATH);
 
   const isVitePlugin = currentPackageName === 'vite-plugin-ktjsx';
 
@@ -38,25 +38,30 @@ export default defineConfig(({ mode }) => {
       dts({
         tsconfigPath,
         include: [
-          path.join(currentPackagePath, 'src/**/*.ts'),
-          path.join(currentPackagePath, 'src/**/*.tsx'),
-          path.join(currentPackagePath, 'src/**/*.d.ts'),
+          path.join(PKG_PATH, 'src/**/*.ts'),
+          path.join(PKG_PATH, 'src/**/*.tsx'),
+          path.join(PKG_PATH, 'src/**/*.d.ts'),
         ],
         pathsToAliases: false,
-        entryRoot: path.join(currentPackagePath, 'src'),
-        outDir: path.join(currentPackagePath, 'dist'),
+        entryRoot: path.join(PKG_PATH, 'src'),
+        outDir: path.join(PKG_PATH, 'dist'),
       }),
     ],
-    ssr: isVitePlugin ? { noExternal: true as const } : undefined,
+
+    // ssr: isVitePlugin ? { noExternal: true as const } : undefined,
     build: {
       target: 'esnext',
       sourcemap: false,
       minify: false,
       emptyOutDir: true,
-      outDir: path.join(currentPackagePath, 'dist'),
+      outDir: path.join(PKG_PATH, 'dist'),
+      lib: {
+        entry: path.join(PKG_PATH, 'src/index.ts'),
+        formats: ['es'],
+      },
       rollupOptions: {
-        external: [/^@?ktjs\//],
-        plugins: [replace(replaceOpts(currentPackagePath))],
+        external: [/^@ktjs\//],
+        plugins: [replace(replaceOpts(PKG_PATH))],
       },
     },
   };

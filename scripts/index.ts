@@ -9,7 +9,7 @@ async function main() {
   const args = process.argv.slice(3);
   const [who] = args;
   if (task === '--publish') {
-    await publish(args);
+    publish(who);
   } else if (task === '--build') {
     build(who);
   } else if (task === '--test') {

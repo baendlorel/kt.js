@@ -2,25 +2,6 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Version } from './version.js';
 
-const tagMap = new Map([
-  [undefined, ['core', 'kt.js']],
-  ['core', ['core']],
-  ['plugin', ['babel-plugin-ktjsx']],
-  ['shared', ['shared']],
-  ['router', ['router']],
-  ['mui', ['mui']],
-  ['exp', ['example']],
-  ['shortcuts', ['shortcuts']],
-  ['all', ['kt.js', 'core', 'babel-plugin-ktjsx', 'example', 'mui', 'router', 'shared', 'shortcuts']],
-]);
-
-export const getTagName = (who: string | undefined) => {
-  const tagPackageDir = tagMap.get(who)![0];
-  const packageJsonPath = join(import.meta.dirname, '..', '..', 'packages', tagPackageDir, 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  return packageJson.name as string;
-};
-
 export interface PackageInfo {
   path: string;
   jsonPath: string;

@@ -1,17 +1,12 @@
 import { execSync } from 'node:child_process';
-import { existsSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { writeFileSync } from 'node:fs';
 
 import { askYesNo } from './common/ask.js';
 import { getPackageInfo, type PackageInfo } from './common/package-info.js';
 import { build } from './build.js';
 
-const packageRoot = join(import.meta.dirname, '..', 'packages');
-const releaseOrder = ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin'];
-
-const publishGroupMap = new Map<string, readonly string[]>([
-  ['default', ['core', 'kt.js']],
-  ['main', ['core', 'kt.js']],
+const publishGroupMap = new Map<string | undefined, readonly string[]>([
+  [undefined, ['core', 'kt.js']],
   ['core', ['core']],
   ['kt', ['kt.js']],
   ['shared', ['shared']],
@@ -22,19 +17,11 @@ const publishGroupMap = new Map<string, readonly string[]>([
   ['vite-plugin', ['vite-plugin-ktjsx']],
   ['ts-plugin', ['ts-plugin']],
   ['runtime', ['shared', 'core', 'kt.js']],
-  ['all', ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin']],
+  [
+    'all',
+    ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin'],
+  ],
 ]);
-
-const orderRank = new Map(releaseOrder.map((name, index) => [name, index]));
-
-const normalizeTarget = (target: string) => {
-  if (target.startsWith('@ktjs/')) {
-    return target.slice('@ktjs/'.length);
-  }
-  return target;
-};
-
-const isKnownPackageDir = (name: string) => existsSync(join(packageRoot, name, 'package.json'));
 
 function compareByReleaseOrder(a: string, b: string) {
   const aRank = orderRank.get(a);
@@ -51,55 +38,6 @@ function compareByReleaseOrder(a: string, b: string) {
   return aRank - bRank;
 }
 
-function resolvePackageDirs(targets: readonly string[]) {
-  const normalizedTargets = targets.length === 0 ? ['default'] : targets;
-  const resolved: string[] = [];
-  const seen = new Set<string>();
-
-  const pushUnique = (name: string) => {
-    if (!seen.has(name)) {
-      seen.add(name);
-      resolved.push(name);
-    }
-  };
-
-  for (const targetRaw of normalizedTargets) {
-    const target = targetRaw.trim();
-    if (!target) {
-      continue;
-    }
-
-    const group = publishGroupMap.get(target);
-    if (group) {
-      for (const packageDir of group) {
-        pushUnique(packageDir);
-      }
-      continue;
-    }
-
-    const packageDir = normalizeTarget(target);
-    if (isKnownPackageDir(packageDir)) {
-      pushUnique(packageDir);
-      continue;
-    }
-
-    const availableGroups = [...publishGroupMap.keys()].join(', ');
-    throw new Error(`Unknown publish target "${target}". Available groups: ${availableGroups}`);
-  }
-
-  return resolved.sort(compareByReleaseOrder);
-}
-
-function toPackageInfoList(who: string | readonly string[] | undefined): PackageInfo[] {
-  if (who === undefined) {
-    return resolvePackageDirs([]).map((name) => getPackageInfo(name));
-  }
-  if (typeof who === 'string') {
-    return resolvePackageDirs([who]).map((name) => getPackageInfo(name));
-  }
-  return resolvePackageDirs(who).map((name) => getPackageInfo(name));
-}
-
 function buildCommitMessage(packages: { name: string; nextVersion: string }[]) {
   if (packages.length === 1) {
     return `release: bump ${packages[0].name} to ${packages[0].nextVersion}`;
@@ -108,7 +46,7 @@ function buildCommitMessage(packages: { name: string; nextVersion: string }[]) {
   return `release: bump ${joined}`;
 }
 
-export async function publish(who: string | readonly string[] | undefined) {
+export async function publish(who: string | undefined) {
   let packages: PackageInfo[];
   try {
     packages = toPackageInfoList(who);
@@ -165,8 +103,11 @@ export async function publish(who: string | readonly string[] | undefined) {
 
   const quotedPaths = releasePlan.map((item) => `"${item.info.jsonPath}"`).join(' ');
   execSync(`git add ${quotedPaths}`, { stdio: 'inherit' });
-  execSync(`git commit -m "${buildCommitMessage(releasePlan.map((item) => ({ name: item.info.name, nextVersion: item.nextVersion })))}"`, {
-    stdio: 'inherit',
-  });
+  execSync(
+    `git commit -m "${buildCommitMessage(releasePlan.map((item) => ({ name: item.info.name, nextVersion: item.nextVersion })))}"`,
+    {
+      stdio: 'inherit',
+    },
+  );
   console.log('Committed version bumps and finished release flow.');
 }

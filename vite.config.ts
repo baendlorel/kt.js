@@ -21,6 +21,7 @@ const getTsConfigPath = (packagePath: string) => {
 const D_MTS_SUFFIX = '.d.mts';
 const EXAMPLE_PACKAGE_PATH = path.join(import.meta.dirname, 'packages', 'example');
 export default defineConfig(({ mode }) => {
+  console.log(`Current mode = ${mode}`);
   if (mode === 'exp') {
     return {
       root: EXAMPLE_PACKAGE_PATH,
@@ -43,10 +44,10 @@ export default defineConfig(({ mode }) => {
   const isPlugin = currentPackageName === 'vite-plugin-ktjsx';
   const external = externalFromPeerDependencies(currentPackagePath);
   const rollupPlugins = [replace(replaceOpts(currentPackagePath))];
-
+ 
   return {
     resolve: {
-      alias: getAliases(),
+      alias:{}, // ! No need to resolve aliases in production mode
     },
     define: {
       'flags.svg': JSON.stringify('__svg'),

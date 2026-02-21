@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config';
-import { getAliases } from './scripts/aliases';
-import { defineGlobals } from './scripts/replace-options';
+import { getAliases } from './configs/aliases';
+import { defineGlobals } from './configs/replace-options';
 
 export default defineConfig(() => {
   return {

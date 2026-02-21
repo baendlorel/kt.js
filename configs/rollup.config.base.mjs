@@ -6,7 +6,9 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
+import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
+import { defineGlobals } from './replace-options.js';
 
 const getTSConfig = (libPath) => {
   const tsconfigBuildPath = path.join(libPath, 'tsconfig.build.json');
@@ -38,8 +40,6 @@ export default async (commandLineArgs) => {
         },
       ],
       plugins: [
-        resolve(),
-        commonjs(),
         typescript({
           tsconfig,
           compilerOptions: {
@@ -47,6 +47,13 @@ export default async (commandLineArgs) => {
             incremental: false,
             stripInternal: true,
           },
+        }),
+        resolve(),
+        commonjs(),
+        replace({
+          delimiters: ['', ''],
+          preventAssignment: true,
+          values: defineGlobals,
         }),
         void terser(),
       ].filter(Boolean),

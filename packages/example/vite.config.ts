@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { getAliases } from '../../scripts/aliases.js';
+import { getAliases } from '../../configs/aliases.js';
 
 export default defineConfig({
   resolve: {

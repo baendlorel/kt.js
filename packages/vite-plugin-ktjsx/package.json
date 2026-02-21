@@ -1,5 +1,7 @@
 {
   "name": "@ktjs/vite-plugin-ktjsx",
+  "description": "Vite plugin that applies KT.js JSX transforms.",
+  "description_zh": "用于应用 KT.js JSX 转换的 Vite 插件。",
   "version": "0.1.4",
   "type": "module",
   "main": "dist/index.mjs",
@@ -24,13 +26,8 @@
     "url": "https://github.com/ktjs/kt.js"
   },
   "license": "MIT",
-  "description": "Vite plugin that applies KT.js JSX transforms.",
   "dependencies": {
     "@ktjs/transformer": "workspace:^*"
-  },
-  "scripts": {
-    "build": "node build.js",
-    "test": "vitest run"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

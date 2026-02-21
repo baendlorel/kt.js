@@ -6,6 +6,7 @@
     "email": "futami16237@gmail.com"
   },
   "description": "A simple and easy-to-use web framework, never re-render. Abbreviation of Kasukabe Tsumugi.",
+  "description_zh": "KT.js，简单易用的 Web 框架，重不重绘你说了算！名称取自 Kasukabe Tsumugi 首字母。",
   "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

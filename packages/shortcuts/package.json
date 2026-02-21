@@ -2,6 +2,7 @@
   "name": "@ktjs/shortcuts",
   "version": "0.20.0",
   "description": "Shortcut functions for kt.js - common DOM operations",
+  "description_zh": "kt.js 的快捷函数集合，封装常见 DOM 操作。",
   "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

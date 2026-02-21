@@ -25,6 +25,7 @@
   },
   "license": "MIT",
   "description": "Shared JSX transform core used by KT.js Babel and Vite plugins.",
+  "description_zh": "KT.js Babel 与 Vite 插件共用的 JSX 转换核心。",
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/types": "^7.0.0"

@@ -1,6 +1,8 @@
 {
   "name": "@ktjs/example",
   "private": true,
+  "description": "Example app for kt.js framework.",
+  "description_zh": "kt.js 框架的示例应用。",
   "type": "module",
   "scripts": {
     "dev": "vite --config ./vite.config.ts --mode exp"

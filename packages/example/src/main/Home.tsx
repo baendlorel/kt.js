@@ -1,5 +1,6 @@
 import { Code } from '../components/Code.js';
 
+import installCode from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/plugin.vite.example.ts?raw';
 import babelConfigCode from '../code/plugin.babel.example.ts?raw';
@@ -21,7 +22,7 @@ export function Home() {
         <h3>Getting Started</h3>
         <p style="color: #666; margin-bottom: 16px;">Follow these steps to start using KT.js in your project:</p>
         <h4 style="margin-top: 24px; margin-bottom: 12px;">1. Installation</h4>
-        <Code code="pnpm add kt.js @ktjs/mui @ktjs/ts-plugin" lang="bash" />
+        <Code code={installCode} lang="bash" />
         <h4 style="margin-top: 24px; margin-bottom: 12px;">2. TypeScript Configuration</h4>
         <p>
           Add these settings to your <code>tsconfig.json</code>:

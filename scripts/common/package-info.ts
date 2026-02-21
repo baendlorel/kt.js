@@ -17,34 +17,8 @@ export interface PackageInfo {
 
 const publishGroupMap = new Map<string | undefined, string[]>([
   [undefined, ['core', 'kt.js']],
-  ['core', ['core']],
-  ['kt.js', ['kt.js']],
-  ['shared', ['shared']],
-  ['router', ['router']],
-  ['mui', ['mui']],
-  ['shortcuts', ['shortcuts']],
-  ['transformer', ['transformer']],
-  ['babel-plugin-ktjsx', ['babel-plugin-ktjsx']],
-  ['vite-plugin-ktjsx', ['vite-plugin-ktjsx']],
-  ['rollup-plugin-ktjsx', ['rollup-plugin-ktjsx']],
-  ['ts-plugin', ['ts-plugin']],
+  ['plugin', ['rollup-plugin-ktjsx', 'vite-plugin-ktjsx', 'babel-plugin-ktjsx', 'transformer']],
   ['runtime', ['shared', 'core', 'kt.js']],
-  [
-    'all',
-    [
-      'shared',
-      'core',
-      'kt.js',
-      'router',
-      'shortcuts',
-      'mui',
-      'transformer',
-      'babel-plugin-ktjsx',
-      'vite-plugin-ktjsx',
-      'rollup-plugin-ktjsx',
-      'ts-plugin',
-    ],
-  ],
 ]);
 
 const getGroup = (who: string | undefined): string[] => {

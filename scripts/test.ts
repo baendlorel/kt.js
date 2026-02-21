@@ -1,12 +1,14 @@
 import { execSync } from 'node:child_process';
-import { resolve } from 'node:path';
+import path from 'node:path';
 import { getPackageInfo } from './common/package-info.js';
 
 export async function test(who: string | undefined) {
   const info = getPackageInfo(who);
 
-  const vitestConfigPath = resolve('vitest.config.ts');
-  const testPackageDir = resolve(info.jsonPath, '..', 'tests');
+  info.forEach((pkg) => {
+    const vitestConfigPath = path.join(import.meta.dirname, '..', 'vitest.config.ts');
+    const testPackageDir = path.join(pkg.path, '..', 'tests');
 
-  execSync(`vitest ${testPackageDir} --config ${vitestConfigPath}`, { stdio: 'inherit', env: info.env });
+    execSync(`vitest ${testPackageDir} --config ${vitestConfigPath}`, { stdio: 'inherit', env: pkg.env });
+  });
 }

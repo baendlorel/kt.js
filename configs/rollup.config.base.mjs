@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
-import { execSync } from 'node:child_process';
 
+import { rimraf } from 'rimraf';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
@@ -18,7 +18,7 @@ const getTSConfig = (libPath) => {
  * Basic Rollup config for KT.js packages
  * @type {(commandLineArgs:Record<string,string[]>) => import('rollup').RollupOptions[]}
  */
-export default (commandLineArgs) => {
+export default async (commandLineArgs) => {
   const libPath = process.env.CURRENT_PKG_PATH;
   if (!libPath) {
     console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
@@ -26,9 +26,7 @@ export default (commandLineArgs) => {
   }
 
   const tsconfig = getTSConfig(libPath);
-
-  execSync(`npx rimraf ${path.join(libPath, 'dist')}`);
-
+  await rimraf(path.join(libPath, 'dist'));
   return [
     {
       input: path.join(libPath, 'src', 'index.ts'),
@@ -39,13 +37,32 @@ export default (commandLineArgs) => {
           sourcemap: true,
         },
       ],
-      plugins: [resolve(), commonjs(), typescript({ tsconfig }), void terser()].filter(Boolean),
+      plugins: [
+        resolve(),
+        commonjs(),
+        typescript({
+          tsconfig,
+          compilerOptions: {
+            composite: false,
+            incremental: false,
+          },
+        }),
+        void terser(),
+      ].filter(Boolean),
       external: [], // Add external dependencies here
     },
     {
       input: path.join(libPath, 'src', 'index.ts'),
       output: [{ file: path.join(libPath, 'dist', 'index.d.ts'), format: 'es' }],
-      plugins: [dts({ tsconfig })],
+      plugins: [
+        dts({
+          tsconfig,
+          compilerOptions: {
+            composite: false,
+            incremental: false,
+          },
+        }),
+      ],
     },
   ];
 };

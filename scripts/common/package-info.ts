@@ -26,6 +26,7 @@ const publishGroupMap = new Map<string | undefined, string[]>([
   ['transformer', ['transformer']],
   ['babel-plugin-ktjsx', ['babel-plugin-ktjsx']],
   ['vite-plugin-ktjsx', ['vite-plugin-ktjsx']],
+  ['rollup-plugin-ktjsx', ['rollup-plugin-ktjsx']],
   ['ts-plugin', ['ts-plugin']],
   ['runtime', ['shared', 'core', 'kt.js']],
   [
@@ -40,6 +41,7 @@ const publishGroupMap = new Map<string | undefined, string[]>([
       'transformer',
       'babel-plugin-ktjsx',
       'vite-plugin-ktjsx',
+      'rollup-plugin-ktjsx',
       'ts-plugin',
     ],
   ],

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import viteKTjsx from '../src/index.js';
 
-const toCode = (result: Awaited<ReturnType<NonNullable<ReturnType<typeof viteKTjsx>['transform']>>>) => {
+const toCode = (result: any) => {
   if (!result) {
     return null;
   }
@@ -47,9 +47,9 @@ describe('vite-plugin-ktjsx', () => {
   });
 
   it('throws when k-for is mixed with conditional directives on the same element', async () => {
-    await expect(
-      runTransform('const view = <li k-for="item in users" k-if={ok}>{item}</li>;'),
-    ).rejects.toThrow(/k-for.*k-if.*k-else-if.*k-else/i);
+    await expect(runTransform('const view = <li k-for="item in users" k-if={ok}>{item}</li>;')).rejects.toThrow(
+      /k-for.*k-if.*k-else-if.*k-else/i,
+    );
   });
 
   it('only processes JSX/TSX files by default', async () => {

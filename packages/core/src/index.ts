@@ -21,6 +21,7 @@ export type {
   EventHandler,
   KTAttribute,
   KTPrefixedEventAttribute,
+  HTML,
 } from './types/h.js';
 export type * from './types/jsx.js';
 export type * from './types/reactive.js';

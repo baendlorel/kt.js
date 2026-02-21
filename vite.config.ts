@@ -45,6 +45,10 @@ export default defineConfig(({ mode }) => {
         pathsToAliases: false,
         entryRoot: path.join(PKG_PATH, 'src'),
         outDir: path.join(PKG_PATH, 'dist'),
+        compilerOptions: {
+          composite: true,
+          // incremental: false,
+        },
       }),
     ],
 
@@ -56,11 +60,12 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       outDir: path.join(PKG_PATH, 'dist'),
       lib: {
-        entry: path.join(PKG_PATH, 'src/index.ts'),
+        entry: { index: path.join(PKG_PATH, 'src/index.ts') },
         formats: ['es'],
       },
       rollupOptions: {
-        external: [/^@ktjs\//],
+        external: ['@ktjs/core', '@ktjs/shared'],
+        // external: [/^@ktjs\//],
         plugins: [replace(replaceOpts(PKG_PATH))],
       },
     },

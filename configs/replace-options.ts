@@ -1,30 +1,34 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-// import type { RollupReplaceOptions } from '@rollup/plugin-replace';
+import type { RollupReplaceOptions } from '@rollup/plugin-replace';
 
-// interface CommonPackageJson {
-//   name: string;
-//   version: string;
-//   description: string;
-//   description_zh: string;
-//   author: {
-//     name: string;
-//     email: string;
-//   };
-//   license: string;
-//   repository: {
-//     type: string;
-//     url: string;
-//   };
-// }
+interface CommonPackageJson {
+  name: string;
+  version: string;
+  description: string;
+  description_zh: string;
+  author: {
+    name: string;
+    email: string;
+  };
+  license: string;
+  repository: {
+    type: string;
+    url: string;
+  };
+}
 
-export function replaceOpts(packagePath) {
+export const globalDefines = {
+  'flags.svg': JSON.stringify('__svg'),
+  'flags.mathml': JSON.stringify('__mathml'),
+};
+
+export function replaceOpts(packagePath: string | undefined): RollupReplaceOptions {
   if (!packagePath) {
-    console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
-    process.exit(1);
+    return globalDefines;
   }
 
-  const pkg = JSON.parse(readFileSync(join(packagePath, 'package.json'), 'utf-8'));
+  const pkg = JSON.parse(readFileSync(join(packagePath, 'package.json'), 'utf-8')) as CommonPackageJson;
   function formatDateFull(dt = new Date()) {
     const y = dt.getFullYear();
     const m = String(dt.getMonth() + 1).padStart(2, '0');
@@ -50,7 +54,7 @@ export function replaceOpts(packagePath) {
  * @description ${pkg.description.replace(/\n/g, '\n * \n * ')}
  * @copyright Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}. All rights reserved.`;
 
-  const replaceOpts = {
+  const replaceOpts: RollupReplaceOptions = {
     preventAssignment: true,
     delimiters: ['', ''],
     values: {
@@ -61,8 +65,7 @@ export function replaceOpts(packagePath) {
       __VERSION__,
 
       // global flags
-      'flags.svg': JSON.stringify('__svg'),
-      'flags.mathml': JSON.stringify('__mathml'),
+      ...globalDefines,
 
       // global error/warn/debug
       "$throw('": `throw new Error('[${__NAME__} error] `,
@@ -76,8 +79,3 @@ export function replaceOpts(packagePath) {
 
   return replaceOpts;
 }
-
-export const defineGlobals = {
-  'flags.svg': JSON.stringify('__svg'),
-  'flags.mathml': JSON.stringify('__mathml'),
-};

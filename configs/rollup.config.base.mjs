@@ -9,7 +9,6 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
-import { defineGlobals } from './replace-options.js';
 
 const getTSConfig = (libPath) => {
   const tsconfigBuildPath = path.join(libPath, 'tsconfig.build.json');
@@ -47,7 +46,10 @@ export default async (commandLineArgs) => {
         replace({
           delimiters: ['', ''],
           preventAssignment: true,
-          values: defineGlobals,
+          values: {
+            'flags.svg': JSON.stringify('__svg'),
+            'flags.mathml': JSON.stringify('__mathml'),
+          },
         }),
         typescript({
           tsconfig,

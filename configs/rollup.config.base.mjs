@@ -32,7 +32,7 @@ export default async (commandLineArgs) => {
       input: path.join(libPath, 'src', 'index.ts'),
       output: [
         {
-          file: path.join(libPath, 'dist', 'index.js'),
+          file: path.join(libPath, 'dist', 'index.mjs'),
           format: 'esm', // ES module output
           sourcemap: true,
         },
@@ -49,7 +49,7 @@ export default async (commandLineArgs) => {
         }),
         void terser(),
       ].filter(Boolean),
-      external: [], // Add external dependencies here
+      external: [/^@ktjs/],
     },
     {
       input: path.join(libPath, 'src', 'index.ts'),
@@ -63,6 +63,7 @@ export default async (commandLineArgs) => {
           },
         }),
       ],
+      external: [/^@ktjs/],
     },
   ];
 };

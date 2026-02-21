@@ -38,7 +38,7 @@ export default async (commandLineArgs: Record<string, string[]>): Promise<Rollup
         resolve(),
         json(),
         commonjs(),
-        replace(replaceOpts()),
+        replace(replaceOpts(libPath)),
         typescript({
           tsconfig,
           compilerOptions: {
@@ -156,7 +156,7 @@ export function replaceOpts(packagePath?: string): RollupReplaceOptions {
  * @description ${pkg.description.replace(/\n/g, '\n * \n * ')}
  * @copyright Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}. All rights reserved.`;
 
-  const replaceOpts: RollupReplaceOptions = {
+  return {
     preventAssignment: true,
     delimiters: ['', ''],
     values: {
@@ -178,7 +178,5 @@ export function replaceOpts(packagePath?: string): RollupReplaceOptions {
       '$debug(': `console.debug('[${__NAME__} debug]',`,
     },
   };
-
-  return replaceOpts;
 }
 // #endregion

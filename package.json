@@ -26,7 +26,6 @@
     "exp": "pnpm --filter @ktjs/example dev",
     "repolist": "tsx ./scripts/repo-list.ts",
     "lines": "tsx ./scripts/lines.ts",
-    "prebuild": "tsc ./configs/rollup.config.base.ts --target ESNext --esModuleInterop --skipLibCheck  --outDir ./configs",
     "build": "tsx ./scripts/index.ts --build",
     "pub": "tsx ./scripts/index.ts --publish",
     "test": "tsx ./scripts/index.ts --test",

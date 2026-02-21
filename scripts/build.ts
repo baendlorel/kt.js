@@ -18,7 +18,10 @@ export function buildWithInfo(info: PackageInfo) {
   const baseConfigPath = path.join(import.meta.dirname, '..', 'configs', `rollup.config.base.js`);
   if (!existsSync(baseConfigPath)) {
     console.log('Base rollup config not found, running prebuild to generate it...');
-    execSync('pnpm run prebuild', { stdio: 'inherit' });
+    execSync(
+      'tsc ./configs/rollup.config.base.ts --target ESNext --module ESNext --moduleResolution Bundler --esModuleInterop --skipLibCheck --outDir ./configs',
+      { stdio: 'inherit' },
+    );
   }
 
   const localConfigPath = path.join(info.path, `rollup.config.mjs`);

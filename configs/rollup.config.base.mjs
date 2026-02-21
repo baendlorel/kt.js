@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
+import { execSync } from 'node:child_process';
 
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -26,6 +27,8 @@ export default (commandLineArgs) => {
 
   const tsconfig = getTSConfig(libPath);
 
+  execSync(`npx rimraf ${path.join(libPath, 'dist')}`);
+
   return [
     {
       input: path.join(libPath, 'src', 'index.ts'),
@@ -40,8 +43,8 @@ export default (commandLineArgs) => {
       external: [], // Add external dependencies here
     },
     {
-      input: 'src/index.ts',
-      output: [{ file: 'dist/index.d.ts', format: 'es' }],
+      input: path.join(libPath, 'src', 'index.ts'),
+      output: [{ file: path.join(libPath, 'dist', 'index.d.ts'), format: 'es' }],
       plugins: [dts({ tsconfig })],
     },
   ];

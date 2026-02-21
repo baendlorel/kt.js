@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite';
-import { transformWithKTjsx, type KTjsxTransformOptions } from '../../babel-plugin-ktjsx/src/transform.js';
+import { transformWithKTjsx, type KTjsxTransformOptions } from '@ktjs/transformer';
 
 type Filter = RegExp | ((id: string) => boolean);
 

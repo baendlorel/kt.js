@@ -3,12 +3,8 @@
     "target": "ESNext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "baseUrl": ".",
-    "paths": {
-      "@ktjs/transformer": ["../transformer/src/index.ts"]
-    },
     "outDir": "dist",
-    "rootDir": "..",
+    "rootDir": "src",
     "declaration": true,
     "declarationMap": true,
     "typeRoots": ["../../packages/types", "../../node_modules/@types"]

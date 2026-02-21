@@ -8,7 +8,7 @@ light, manualâ€‘control web framework that creates real DOM elements with builtâ
 
 `@ktjs/vite-plugin-ktjsx` applies KT.js JSX transforms in Vite.
 
-It reuses `@ktjs/babel-plugin-ktjsx` internally, so behavior is the same:
+It reuses the shared `@ktjs/transformer` core (also used by `@ktjs/babel-plugin-ktjsx`), so behavior is the same:
 
 - mark SVG / MathML subtrees with KT.js namespace flags
 - (TODO) transform `k-if` / `k-else-if` / `k-else` chains

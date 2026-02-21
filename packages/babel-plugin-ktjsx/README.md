@@ -1,6 +1,6 @@
 # babel-plugin-ktjsx
 
-`@ktjs/babel-plugin-ktjsx` is a Babel plugin that enhances compiled JSX output to better support SVG and namespace-aware element creation.
+`@ktjs/babel-plugin-ktjsx` is a Babel plugin wrapper around the shared `@ktjs/transformer` core, enhancing compiled JSX output to better support SVG and namespace-aware element creation.
 
 Basic usage (Babel):
 

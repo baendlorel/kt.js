@@ -23,13 +23,25 @@ const publishGroupMap = new Map<string | undefined, string[]>([
   ['router', ['router']],
   ['mui', ['mui']],
   ['shortcuts', ['shortcuts']],
+  ['transformer', ['transformer']],
   ['babel-plugin-ktjsx', ['babel-plugin-ktjsx']],
   ['vite-plugin-ktjsx', ['vite-plugin-ktjsx']],
   ['ts-plugin', ['ts-plugin']],
   ['runtime', ['shared', 'core', 'kt.js']],
   [
     'all',
-    ['shared', 'core', 'kt.js', 'router', 'shortcuts', 'mui', 'babel-plugin-ktjsx', 'vite-plugin-ktjsx', 'ts-plugin'],
+    [
+      'shared',
+      'core',
+      'kt.js',
+      'router',
+      'shortcuts',
+      'mui',
+      'transformer',
+      'babel-plugin-ktjsx',
+      'vite-plugin-ktjsx',
+      'ts-plugin',
+    ],
   ],
 ]);
 

@@ -1,9 +1,11 @@
+import path from 'node:path';
+import { existsSync } from 'node:fs';
+
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import path from 'node:path';
-import { existsSync } from 'node:fs';
+import dts from 'rollup-plugin-dts';
 
 const getTSConfig = (libPath) => {
   const tsconfigBuildPath = path.join(libPath, 'tsconfig.build.json');
@@ -22,6 +24,8 @@ export default (commandLineArgs) => {
     process.exit(1);
   }
 
+  const tsconfig = getTSConfig(libPath);
+
   return [
     {
       input: path.join(libPath, 'src', 'index.ts'),
@@ -32,8 +36,13 @@ export default (commandLineArgs) => {
           sourcemap: true,
         },
       ],
-      plugins: [resolve(), commonjs(), typescript({ tsconfig: getTSConfig(libPath) }), void terser()].filter(Boolean),
+      plugins: [resolve(), commonjs(), typescript({ tsconfig }), void terser()].filter(Boolean),
       external: [], // Add external dependencies here
+    },
+    {
+      input: 'src/index.ts',
+      output: [{ file: 'dist/index.d.ts', format: 'es' }],
+      plugins: [dts({ tsconfig })],
     },
   ];
 };

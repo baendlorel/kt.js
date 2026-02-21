@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process';
 import { getPackageInfo, PackageInfo } from './common/index.js';
+import path from 'node:path';
 
 export function build(who: string | undefined) {
   // special cases
@@ -16,5 +17,6 @@ export function build(who: string | undefined) {
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
-  execSync('vite build --config vite.config.ts', { stdio: 'inherit', env: info.env });
+  const configPath = path.join(import.meta.dirname, '..', 'configs', `rollup.config.base.mjs`);
+  execSync(`rollup --config ${configPath}`, { stdio: 'inherit', env: info.env });
 }

@@ -15,7 +15,12 @@ export function buildWithInfo(info: PackageInfo) {
     return;
   }
 
-  const baseConfigPath = path.join(import.meta.dirname, '..', 'configs', `rollup.config.base.mjs`);
+  const baseConfigPath = path.join(import.meta.dirname, '..', 'configs', `rollup.config.base.js`);
+  if (!existsSync(baseConfigPath)) {
+    console.log('Base rollup config not found, running prebuild to generate it...');
+    execSync('pnpm run prebuild', { stdio: 'inherit' });
+  }
+
   const localConfigPath = path.join(info.path, `rollup.config.mjs`);
   const configPath = existsSync(localConfigPath) ? localConfigPath : baseConfigPath;
   execSync(`rollup --config ${configPath}`, { stdio: 'inherit', env: info.env });

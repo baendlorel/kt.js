@@ -23,7 +23,7 @@ export const globalDefines = {
   'flags.mathml': JSON.stringify('__mathml'),
 };
 
-export function replaceOpts(packagePath: string | undefined): RollupReplaceOptions {
+export function replaceOpts(packagePath?: string): RollupReplaceOptions {
   if (!packagePath) {
     return globalDefines;
   }

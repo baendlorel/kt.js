@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
+import type { RollupOptions } from 'rollup';
 
 import { rimraf } from 'rimraf';
 import resolve from '@rollup/plugin-node-resolve';
@@ -9,8 +10,9 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
+import { replaceOpts } from './replace-options';
 
-const getTSConfig = (libPath) => {
+const getTSConfig = (libPath: string) => {
   const tsconfigBuildPath = path.join(libPath, 'tsconfig.build.json');
   const tsconfigPath = path.join(libPath, 'tsconfig.json');
   return existsSync(tsconfigBuildPath) ? tsconfigBuildPath : tsconfigPath;
@@ -20,7 +22,7 @@ const getTSConfig = (libPath) => {
  * Basic Rollup config for KT.js packages
  * @type {(commandLineArgs:Record<string,string[]>) => import('rollup').RollupOptions[]}
  */
-export default async (commandLineArgs) => {
+export default async (commandLineArgs: Record<string, string[]>): Promise<RollupOptions[]> => {
   const libPath = process.env.CURRENT_PKG_PATH;
   if (!libPath) {
     console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
@@ -43,14 +45,7 @@ export default async (commandLineArgs) => {
         resolve(),
         json(),
         commonjs(),
-        replace({
-          delimiters: ['', ''],
-          preventAssignment: true,
-          values: {
-            'flags.svg': JSON.stringify('__svg'),
-            'flags.mathml': JSON.stringify('__mathml'),
-          },
-        }),
+        replace(replaceOpts()),
         typescript({
           tsconfig,
           compilerOptions: {

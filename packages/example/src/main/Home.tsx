@@ -1,6 +1,6 @@
 import tsconfigCode from '../code/tsconfig.example.json?raw';
-import viteConfigCode from '../code/vite.config.example.ts?raw';
-import viteBabelConfigCode from '../code/vite.config.babel-example.ts?raw';
+import viteConfigCode from '../code/plugin.vite.example.ts?raw';
+import viteBabelConfigCode from '../code/plugin.babel.example.ts?raw';
 import { Code } from '../components/Code.js';
 
 /**

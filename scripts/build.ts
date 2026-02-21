@@ -10,6 +10,11 @@ export function build(who: string | undefined) {
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
+  if (info.name === '@ktjs/ts-plugin') {
+    execSync(`pnpm --filter @ktjs/ts-plugin run build`, { stdio: 'inherit', env: info.env });
+    return;
+  }
+
   const baseConfigPath = path.join(import.meta.dirname, '..', 'configs', `rollup.config.base.mjs`);
   const localConfigPath = path.join(info.path, `rollup.config.mjs`);
   const configPath = existsSync(localConfigPath) ? localConfigPath : baseConfigPath;

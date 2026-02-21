@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import { getAliases, globalDefines } from './configs/rollup.config.base.js';
+import { getAliases, globalDefines } from './rollup.config.base.js';
 
 export default defineConfig(() => {
   return {

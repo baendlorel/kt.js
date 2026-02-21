@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import { getAliases } from './configs/aliases';
-import { defineGlobals } from './configs/replace-options';
+import { getAliases, globalDefines } from './configs/rollup.config.base.js';
 
 export default defineConfig(() => {
   return {
@@ -10,7 +9,7 @@ export default defineConfig(() => {
       include: ['**/*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)'],
       silent: false,
     },
-    define: defineGlobals,
+    define: globalDefines,
     resolve: { alias: getAliases() },
   };
 });

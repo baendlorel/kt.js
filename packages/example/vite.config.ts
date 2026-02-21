@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
-import { getAliases } from '../../configs/aliases.js';
-import { globalDefines } from '../../configs/replace-options.js';
+import { getAliases, globalDefines } from '../../configs/rollup.config.base.js';
 
 export default defineConfig({
   resolve: {

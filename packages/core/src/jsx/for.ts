@@ -1,5 +1,6 @@
 import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../types/reactive.js';
+import type { JSX } from '../types/jsx.js';
 import { $initRef, toReactive } from '../reactive/index.js';
 
 export type KTForElement = JSX.Element;

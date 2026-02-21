@@ -1,4 +1,5 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import type { JSX } from '../types/jsx.js';
 import { isKT } from './core.js';
 import { ref } from './ref.js';
 

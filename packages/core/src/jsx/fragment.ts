@@ -2,6 +2,7 @@ import { $forEach, $isArray } from '@ktjs/shared';
 import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../types/reactive.js';
 import type { KTRawContent } from '../types/h.js';
+import type { JSX } from '../types/jsx.js';
 
 import { $initRef, isKT, toReactive } from '../reactive/index.js';
 

@@ -1,4 +1,5 @@
 import { KTReactive } from './reactive';
+import type { JSX } from './jsx.js';
 
 export type KIfElement = JSX.Element & {
   /**

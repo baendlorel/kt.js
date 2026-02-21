@@ -1,5 +1,6 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
+import type { JSX } from '../types/jsx.js';
 
 import { h } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';

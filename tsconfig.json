@@ -33,7 +33,8 @@
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
-    "./configs/*.ts"
+    "./configs/*.ts",
+    "./configs/*.js"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [

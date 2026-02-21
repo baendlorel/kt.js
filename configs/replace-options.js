@@ -1,32 +1,30 @@
-// @ts-check
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { RollupReplaceOptions } from '@rollup/plugin-replace';
+// import type { RollupReplaceOptions } from '@rollup/plugin-replace';
 
-interface CommonPackageJson {
-  name: string;
-  version: string;
-  description: string;
-  description_zh: string;
-  author: {
-    name: string;
-    email: string;
-  };
-  license: string;
-  repository: {
-    type: string;
-    url: string;
-  };
-}
+// interface CommonPackageJson {
+//   name: string;
+//   version: string;
+//   description: string;
+//   description_zh: string;
+//   author: {
+//     name: string;
+//     email: string;
+//   };
+//   license: string;
+//   repository: {
+//     type: string;
+//     url: string;
+//   };
+// }
 
-export function replaceOpts(packagePath: string | undefined) {
+export function replaceOpts(packagePath) {
   if (!packagePath) {
     console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
     process.exit(1);
   }
 
-  const pkg = JSON.parse(readFileSync(join(packagePath, 'package.json'), 'utf-8')) as CommonPackageJson;
-
+  const pkg = JSON.parse(readFileSync(join(packagePath, 'package.json'), 'utf-8'));
   function formatDateFull(dt = new Date()) {
     const y = dt.getFullYear();
     const m = String(dt.getMonth() + 1).padStart(2, '0');
@@ -52,7 +50,7 @@ export function replaceOpts(packagePath: string | undefined) {
  * @description ${pkg.description.replace(/\n/g, '\n * \n * ')}
  * @copyright Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}. All rights reserved.`;
 
-  const replaceOpts: RollupReplaceOptions = {
+  const replaceOpts = {
     preventAssignment: true,
     delimiters: ['', ''],
     values: {

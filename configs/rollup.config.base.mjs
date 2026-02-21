@@ -40,6 +40,13 @@ export default async (commandLineArgs) => {
         },
       ],
       plugins: [
+        resolve(),
+        commonjs(),
+        replace({
+          delimiters: ['', ''],
+          preventAssignment: true,
+          values: defineGlobals,
+        }),
         typescript({
           tsconfig,
           compilerOptions: {
@@ -47,13 +54,6 @@ export default async (commandLineArgs) => {
             incremental: false,
             stripInternal: true,
           },
-        }),
-        resolve(),
-        commonjs(),
-        replace({
-          delimiters: ['', ''],
-          preventAssignment: true,
-          values: defineGlobals,
         }),
         void terser(),
       ].filter(Boolean),

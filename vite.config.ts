@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
     };
   }
 
-  const PKG_PATH = process.env.KT_PKG_PATH || '';
+  const PKG_PATH = process.env.CURRENT_PKG_PATH || '';
   const currentPackageName = path.basename(PKG_PATH);
   const tsconfigPath = getTsConfigPath(PKG_PATH);
 

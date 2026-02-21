@@ -21,7 +21,7 @@ interface CommonPackageJson {
 
 export function replaceOpts(packagePath: string | undefined) {
   if (!packagePath) {
-    console.error('Error: KT_PKG_PATH environment variable is not set.');
+    console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
     process.exit(1);
   }
 

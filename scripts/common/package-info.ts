@@ -10,7 +10,7 @@ export interface PackageInfo {
   name: string;
   nameVer: string;
   env: {
-    KT_PKG_PATH: string;
+    CURRENT_PKG_PATH: string;
     TZ?: string | undefined;
   };
 }
@@ -51,7 +51,7 @@ export const getPackageInfo = (who: string | undefined): PackageInfo[] => {
       json: packageJson,
       name: packageJson.name as string,
       nameVer: `${packageJson.name}@${packageJson.version}`,
-      env: { ...process.env, KT_PKG_PATH: packagePath },
+      env: { ...process.env, CURRENT_PKG_PATH: packagePath },
     };
   });
 };

@@ -1,3 +1,4 @@
+import { JSX } from '@ktjs/core/jsx-runtime';
 import type { Router } from '../types/router.js';
 
 /**

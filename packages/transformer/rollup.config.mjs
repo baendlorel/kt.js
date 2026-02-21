@@ -1,4 +1,4 @@
-import baseConfig from '../../configs/rollup.config.base.mjs';
+import baseConfig from '../../configs/rollup.config.base.js';
 
 const EXTRA_EXTERNALS = [/^@babel\//];
 

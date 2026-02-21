@@ -1,9 +1,9 @@
-import type { Plugin } from 'vite';
+import type { Plugin } from 'rollup';
 import { transformWithKTjsx, type KTjsxTransformOptions } from '@ktjs/transformer';
 
 type Filter = RegExp | ((id: string) => boolean);
 
-export interface ViteKTjsxOptions {
+export interface RollupKTjsxOptions {
   include?: Filter;
   exclude?: Filter;
   babelConfig?: Record<string, unknown>;
@@ -45,10 +45,9 @@ const shouldTransform = (id: string, include?: Filter, exclude?: Filter): boolea
   return DEFAULT_INCLUDE_RE.test(id);
 };
 
-export function viteKTjsx(options: ViteKTjsxOptions = {}): Plugin {
+export function rollupKTjsx(options: RollupKTjsxOptions = {}): Plugin {
   return {
-    name: 'ktjs:vite-plugin-ktjsx',
-    enforce: 'pre',
+    name: 'ktjs:rollup-plugin-ktjsx',
     async transform(code, id) {
       const cleanId = stripQuery(id);
       if (!shouldTransform(cleanId, options.include, options.exclude)) {
@@ -73,4 +72,4 @@ export function viteKTjsx(options: ViteKTjsxOptions = {}): Plugin {
   };
 }
 
-export default viteKTjsx;
+export default rollupKTjsx;

@@ -2,6 +2,7 @@
 
 .draft/.**
 .rollup.cache
+configs/rollup.config.base.js
 
 # Logs
 logs

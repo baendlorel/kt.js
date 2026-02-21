@@ -1,6 +1,8 @@
 {
-  "name": "@ktjs/babel-plugin-ktjsx",
-  "version": "0.1.1",
+  "name": "@ktjs/rollup-plugin-ktjsx",
+  "version": "0.1.0",
+  "description": "Rollup plugin that applies KT.js JSX transforms.",
+  "description_zh": "用于应用 KT.js JSX 转换的 Rollup 插件。",
   "type": "module",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -24,20 +26,14 @@
     "url": "https://github.com/ktjs/kt.js"
   },
   "license": "MIT",
-  "description": "Babel plugin to make JSX-generated SVG use proper namespaces.",
-  "description_zh": "用于让 JSX 生成的 SVG 使用正确命名空间的 Babel 插件。",
   "dependencies": {
     "@ktjs/transformer": "workspace:^*"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/types": "^7.0.0",
-    "@rollup/plugin-typescript": "^12.3.0",
-    "@types/babel__core": "^7.20.5",
-    "rollup": "^3.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0"
+    "rollup": "^3.0.0 || ^4.0.0"
   }
 }

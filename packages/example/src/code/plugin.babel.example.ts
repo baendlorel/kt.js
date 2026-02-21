@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import babel from 'vite-plugin-babel';
 import babelKTjsx from '@ktjs/babel-plugin-ktjsx';
 
-// Vite config for KT.js development
+// Babel config for KT.js development
 export default defineConfig({
   // ...otherConfigs,
   plugins: [

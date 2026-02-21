@@ -10,6 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "@ktjs/babel-plugin-ktjsx": ["packages/babel-plugin-ktjsx/src/index.ts"],
+      "@ktjs/rollup-plugin-ktjsx": ["packages/rollup-plugin-ktjsx/src/index.ts"],
+      "@ktjs/transformer": ["packages/transformer/src/index.ts"],
       "@ktjs/router": ["packages/router/src/index.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
       "@ktjs/mui": ["packages/mui/src/index.ts"],
@@ -33,8 +35,7 @@
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
-    "./configs/*.ts",
-    "./configs/*.js"
+    "./configs/*.ts"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [

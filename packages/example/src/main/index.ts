@@ -1,4 +1,5 @@
 import { NavItem } from '../types/router.js';
+import { Directives } from './Directive.js';
 import { Events } from './Events.js';
 import { FragmentDemo } from './Fragment.js';
 import { Home } from './Home.js';
@@ -18,6 +19,13 @@ export const basicNavItems: NavItem[] = [
     title: 'Reactive',
     description: 'Demonstration of reactive features using kt.js refs',
     component: Reactivity,
+  },
+  {
+    id: 'directives',
+    label: 'Directives',
+    title: 'Directives',
+    description: 'Examples for k-if/k-else, k-model, and k-html directives',
+    component: Directives,
   },
   {
     id: 'fragment',

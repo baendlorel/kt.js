@@ -1,8 +1,8 @@
-import { computed, Fragment, ref } from 'kt.js';
+import { JSX, computed, Fragment, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
+import { Code } from '../components/Code.js';
 
 import fragmentDemoCode from '../code/fragment-demo.tsx?raw';
-import { Code } from '../components/Code.js';
 
 const defaultSections = ['Header', 'Content', 'Actions'];
 
@@ -62,8 +62,8 @@ export function FragmentDemo() {
       <div class="demo-section">
         <h3>Reactive Fragment</h3>
         <p>
-          Combine <code>Fragment</code> with a <code>ref</code> array to redraw sibling nodes in-place whenever the
-          list changes.
+          Combine <code>Fragment</code> with a <code>ref</code> array to redraw sibling nodes in-place whenever the list
+          changes.
         </p>
         <div class="demo-flex-gap">
           <Button variant="contained" color="primary" on:click={addItem}>

@@ -2,6 +2,7 @@
   "name": "@ktjs/router",
   "version": "0.20.0",
   "description": "Router for kt.js - client-side routing with navigation guards",
+  "description_zh": "kt.js 的路由库，支持前端路由与导航守卫。",
   "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

@@ -2,8 +2,7 @@ import type { KTRef } from '../reactive/ref.ts';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTRawContent } from './h.js';
 
-declare global {
-  namespace JSX {
+export namespace JSX {
     type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
 
     interface IntrinsicElements {
@@ -208,5 +207,4 @@ declare global {
     interface ElementChildrenAttribute {
       children: {};
     }
-  }
 }

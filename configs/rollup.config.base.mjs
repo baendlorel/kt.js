@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 
 import { rimraf } from 'rimraf';
 import resolve from '@rollup/plugin-node-resolve';
+import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
@@ -41,6 +42,7 @@ export default async (commandLineArgs) => {
       ],
       plugins: [
         resolve(),
+        json(),
         commonjs(),
         replace({
           delimiters: ['', ''],

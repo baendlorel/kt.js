@@ -6,7 +6,8 @@
     "outDir": "dist",
     "rootDir": "..",
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "typeRoots": ["../../packages/types", "../../node_modules/@types"]
   },
   "include": ["src/**/*.ts", "../babel-plugin-ktjsx/src/**/*.ts"]
 }

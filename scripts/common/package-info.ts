@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Version } from './version.js';
 
@@ -15,7 +15,7 @@ export interface PackageInfo {
   };
 }
 
-const publishGroupMap = new Map<string | undefined, readonly string[]>([
+const publishGroupMap = new Map<string | undefined, string[]>([
   [undefined, ['core', 'kt.js']],
   ['core', ['core']],
   ['kt.js', ['kt.js']],
@@ -23,8 +23,8 @@ const publishGroupMap = new Map<string | undefined, readonly string[]>([
   ['router', ['router']],
   ['mui', ['mui']],
   ['shortcuts', ['shortcuts']],
-  ['plugin', ['babel-plugin-ktjsx']],
-  ['vite-plugin', ['vite-plugin-ktjsx']],
+  ['babel-plugin-ktjsx', ['babel-plugin-ktjsx']],
+  ['vite-plugin-ktjsx', ['vite-plugin-ktjsx']],
   ['ts-plugin', ['ts-plugin']],
   ['runtime', ['shared', 'core', 'kt.js']],
   [
@@ -33,14 +33,21 @@ const publishGroupMap = new Map<string | undefined, readonly string[]>([
   ],
 ]);
 
-export const getPackageInfo = (who: string | undefined): PackageInfo[] => {
-  const group = publishGroupMap.get(who);
-  if (!group) {
+const getGroup = (who: string | undefined): string[] => {
+  const raw = publishGroupMap.get(who);
+  if (raw) {
+    return raw;
+  }
+  if (typeof who === 'string' && existsSync(join(import.meta.dirname, '..', '..', 'packages', who))) {
+    return [who];
+  } else {
     console.error(`Unknown package group: ${who}`);
     process.exit(1);
   }
+};
 
-  return group.map((name) => {
+export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
+  getGroup(who).map((name) => {
     const packagePath = join(import.meta.dirname, '..', '..', 'packages', name);
     const packageJsonPath = join(packagePath, 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
@@ -54,4 +61,3 @@ export const getPackageInfo = (who: string | undefined): PackageInfo[] => {
       env: { ...process.env, CURRENT_PKG_PATH: packagePath },
     };
   });
-};

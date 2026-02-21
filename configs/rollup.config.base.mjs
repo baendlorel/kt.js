@@ -45,6 +45,7 @@ export default async (commandLineArgs) => {
           compilerOptions: {
             composite: false,
             incremental: false,
+            stripInternal: true,
           },
         }),
         void terser(),
@@ -60,6 +61,7 @@ export default async (commandLineArgs) => {
           compilerOptions: {
             composite: false,
             incremental: false,
+            stripInternal: true,
           },
         }),
       ],

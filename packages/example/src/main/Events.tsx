@@ -1,8 +1,9 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
+import { Code } from '../components/Code.js';
+
 import clickEventCode from '../code/click-event.tsx?raw';
 import counterDemoCode from '../code/counter-demo.tsx?raw';
-import { Code } from '../components/Code.js';
 
 /**
  * Basic Usage page - Combines directives, events, and ktfor demos

@@ -1,8 +1,9 @@
+import { Code } from '../components/Code.js';
+
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/plugin.vite.example.ts?raw';
 import babelConfigCode from '../code/plugin.babel.example.ts?raw';
 import rollupConfigCode from '../code/plugin.rollup.example.ts?raw';
-import { Code } from '../components/Code.js';
 
 /**
  * Home page - Introduction to KT.js framework

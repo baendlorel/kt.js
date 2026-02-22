@@ -21,16 +21,17 @@ export function KTConditional(
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
-      $replaceNode(old, current);
+      old.replaceWith(current);
     });
     return current;
   } else {
     const dummy = placeholder('kt-conditional') as HTMLElement;
+    let current = condition.value ? jsxh(tagIf, propsIf) : dummy;
     condition.addOnChange((newValue) => {
-      const old = dummy;
-      const newEl = newValue ? jsxh(tagIf, propsIf) : dummy;
-      $replaceNode(old, newEl);
+      const old = current;
+      current = newValue ? jsxh(tagIf, propsIf) : dummy;
+      old.replaceWith(current);
     });
-    return condition.value ? jsxh(tagIf, propsIf) : dummy;
+    return current;
   }
 }

@@ -5,7 +5,6 @@ import type { JSX } from '../types/jsx.js';
 import { h } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
-import { kelse, kif, kifelseApply } from './if.js';
 import { jsxh, placeholder } from './common.js';
 
 /**
@@ -17,16 +16,8 @@ export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
     $throw('Cannot assign a computed value to an element.');
   }
 
-  if ('k-if' in props) {
-    return kif(tag, props);
-  }
-  if ('k-else' in props) {
-    return kelse(tag, props);
-  }
-
   const el = jsxh(tag, props);
   $initRef(props, el);
-  kifelseApply(el);
   return el;
 }
 

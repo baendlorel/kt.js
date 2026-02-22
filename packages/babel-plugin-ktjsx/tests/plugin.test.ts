@@ -68,6 +68,15 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).not.toContain('k-if');
     });
 
+    it('should compile k-if + k-else chain with whitespace between siblings', () => {
+      const code = `const el = (<>\n  <div k-if={condition}>A</div>\n  <div k-else>B</div>\n</>);`;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(condition, "div"');
+      expect(result).not.toContain('k-else');
+      expect(result).not.toContain('k-if');
+    });
+
     it('should warn and skip transform when k-else-if is used', () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       try {

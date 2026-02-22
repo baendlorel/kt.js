@@ -303,8 +303,8 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
     return;
   }
 
-  const prevSibling = path.getPrevSibling();
-  if (prevSibling && prevSibling.isJSXElement() && hasConditionalDirective(prevSibling.node)) {
+  const prevSibling = getPrevSignificantJSXSibling(path);
+  if (prevSibling && hasConditionalDirective(prevSibling.node)) {
     return;
   }
 
@@ -312,8 +312,8 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
   let current: NodePath<t.JSXElement> = path;
 
   while (true) {
-    const nextSibling = current.getNextSibling();
-    if (!nextSibling || !nextSibling.isJSXElement() || !hasConditionalDirective(nextSibling.node)) {
+    const nextSibling = getNextSignificantJSXSibling(current);
+    if (!nextSibling || !hasConditionalDirective(nextSibling.node)) {
       break;
     }
     chain.push(nextSibling);
@@ -355,6 +355,56 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
       return;
     }
   }
+}
+
+function getPrevSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.JSXElement> | null {
+  if (!path.inList || typeof path.key !== 'number') {
+    return null;
+  }
+
+  for (let index = path.key - 1; index >= 0; index--) {
+    const sibling = path.getSibling(index);
+    if (sibling.isJSXText()) {
+      if (sibling.node.value.trim() === '') {
+        continue;
+      }
+      return null;
+    }
+    if (sibling.isJSXExpressionContainer() && t.isJSXEmptyExpression(sibling.node.expression)) {
+      continue;
+    }
+    if (sibling.isJSXElement()) {
+      return sibling as NodePath<t.JSXElement>;
+    }
+    return null;
+  }
+
+  return null;
+}
+
+function getNextSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.JSXElement> | null {
+  if (!path.inList || typeof path.key !== 'number' || !path.container || !Array.isArray(path.container)) {
+    return null;
+  }
+
+  for (let index = path.key + 1; index < path.container.length; index++) {
+    const sibling = path.getSibling(index);
+    if (sibling.isJSXText()) {
+      if (sibling.node.value.trim() === '') {
+        continue;
+      }
+      return null;
+    }
+    if (sibling.isJSXExpressionContainer() && t.isJSXEmptyExpression(sibling.node.expression)) {
+      continue;
+    }
+    if (sibling.isJSXElement()) {
+      return sibling as NodePath<t.JSXElement>;
+    }
+    return null;
+  }
+
+  return null;
 }
 
 function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {

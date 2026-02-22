@@ -9,8 +9,8 @@
     },
     "outDir": "dist",
     "rootDir": "..",
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
     "typeRoots": ["../../packages/types", "../../node_modules/@types"]
   },
   "include": ["src/**/*.ts"]

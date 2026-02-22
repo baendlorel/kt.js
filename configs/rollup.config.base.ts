@@ -49,7 +49,7 @@ export default async (commandLineArgs: Record<string, string[]>): Promise<Rollup
         }),
         void terser(),
       ].filter(Boolean),
-      external: [/^@ktjs/],
+      external: [/^@ktjs\//, /^@babel\//],
     },
     {
       input: path.join(libPath, 'src', 'index.ts'),

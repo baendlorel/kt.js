@@ -22,7 +22,17 @@ export default defineConfig({
           if (inPackage(id, 'marked')) {
             return 'vendor-marked';
           }
-          if (inPackage(id, 'shiki') || inPackage(id, '@shikijs/core') || inPackage(id, '@shikijs/engine-oniguruma')) {
+          if (
+            inPackage(id, 'shiki') ||
+            inPackage(id, '@shikijs/core') ||
+            inPackage(id, '@shikijs/langs') ||
+            inPackage(id, '@shikijs/themes') ||
+            inPackage(id, '@shikijs/engine-oniguruma') ||
+            inPackage(id, '@shikijs/engine-javascript') ||
+            inPackage(id, '@shikijs/types') ||
+            inPackage(id, 'vscode-oniguruma') ||
+            inPackage(id, 'vscode-textmate')
+          ) {
             return 'vendor-shiki';
           }
           return undefined;

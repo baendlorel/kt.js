@@ -4,9 +4,19 @@
   "private": true,
   "description": "Example app for kt.js framework.",
   "description_zh": "kt.js 框架的示例应用。",
+  "author": {
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baendlorel/kt.js",
+    "directory": "packages/example"
+  },
   "type": "module",
   "scripts": {
-    "dev": "vite --config ./vite.config.ts --mode exp"
+    "dev": "vite --config ./vite.config.ts --mode exp",
+    "build": "vite build --config ./vite.config.ts --mode exp"
   },
   "dependencies": {
     "@ktjs/core": "workspace:^*",

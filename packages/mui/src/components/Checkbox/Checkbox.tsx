@@ -1,22 +1,10 @@
 import { $emptyFn } from '@ktjs/shared';
-import { toReactive, $modelOrRef, computed } from '@ktjs/core';
+import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 
 export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
-  const toggleIcon = (checked: boolean, indeterminate: boolean) => {
-    if (indeterminate) {
-      uncheckedIcon.style.display = 'none';
-      checkedIcon.style.display = 'none';
-      indeterminateIcon.style.display = '';
-    } else {
-      uncheckedIcon.style.display = checked ? 'none' : '';
-      checkedIcon.style.display = checked ? '' : 'none';
-      indeterminateIcon.style.display = 'none';
-    }
-  };
-
   // Handle change
   const handleChange = () => {
     if (disabledRef.value) {
@@ -24,7 +12,6 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     }
     modelRef.value = inputEl.checked;
     interminateRef.value = false;
-    toggleIcon(modelRef.value, interminateRef.value);
     onChange(modelRef.value, valueRef.value);
   };
 
@@ -40,16 +27,12 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     container.classList.toggle('mui-checkbox-disabled', v);
   });
   const modelRef = $modelOrRef(props, props.checked ?? false);
-  modelRef.addOnChange((newValue) => {
-    inputEl.checked = newValue;
-    toggleIcon(newValue, interminateRef.value);
-  });
 
   const inputEl = (
     <input
       type="checkbox"
       class="mui-checkbox-input"
-      checked={modelRef.value}
+      checked={modelRef}
       value={valueRef}
       disabled={disabledRef}
       on:change={handleChange}
@@ -59,9 +42,6 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
   const uncheckedIcon = createUnchecked();
   const checkedIcon = createChecked();
   const indeterminateIcon = createIndeterminate();
-
-  // Initialize icon state
-  toggleIcon(modelRef.value, interminateRef.value);
 
   const classRef = computed(() => {
     return `mui-checkbox-wrapper mui-checkbox-size-${sizeRef.value} ${disabledRef.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.value}`;
@@ -80,6 +60,18 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
       </span>
     </label>
   ) as KTMuiCheckbox;
+
+  effect(() => {
+    if (interminateRef.value) {
+      uncheckedIcon.style.display = 'none';
+      checkedIcon.style.display = 'none';
+      indeterminateIcon.style.display = '';
+    } else {
+      uncheckedIcon.style.display = modelRef.value ? 'none' : '';
+      checkedIcon.style.display = modelRef.value ? '' : 'none';
+      indeterminateIcon.style.display = 'none';
+    }
+  }, [modelRef, interminateRef]);
 
   return container;
 }

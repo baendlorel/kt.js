@@ -1,5 +1,6 @@
 {
   "name": "@ktjs/example",
+  "version": "0.29.0",
   "private": true,
   "description": "Example app for kt.js framework.",
   "description_zh": "kt.js 框架的示例应用。",

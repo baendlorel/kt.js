@@ -1,4 +1,5 @@
 import { NavItem } from '../types/router.js';
+import { ChangeLog } from './Changelog.js';
 import { Directives } from './Directive.js';
 import { Events } from './Events.js';
 import { FragmentDemo } from './Fragment.js';
@@ -12,6 +13,13 @@ export const basicNavItems: NavItem[] = [
     title: 'Welcome to KT.js Framework',
     description: 'Introduction to KT.js framework and core concepts',
     component: Home,
+  },
+  {
+    id: 'changelog',
+    label: 'ChangeLog',
+    title: 'View ChangeLog',
+    description: 'A comprehensive list of changes, updates, and improvements in the KT.js framework',
+    component: ChangeLog,
   },
   {
     id: 'reactive',

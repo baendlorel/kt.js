@@ -27,22 +27,17 @@ export function Card(props: KTMuiCardProps): KTMuiCard {
   const classRef = toReactive(props.class ?? '');
 
   const className = computed(() => {
-    const base = 'mui-card';
-    const variantClass = `mui-card-${variantRef.value}`;
-    const elevationClass =
+    const elevation =
       variantRef.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.value))}` : '';
-    const squareClass = squareRef.value ? 'mui-card-square' : '';
-    const raisedClass = raisedRef.value ? 'mui-card-raised' : '';
-    return `${base} ${variantClass} ${elevationClass} ${squareClass} ${raisedClass} ${classRef.value}`
+    const square = squareRef.value ? 'mui-card-square' : '';
+    const raised = raisedRef.value ? 'mui-card-raised' : '';
+    return `mui-card mui-card-${variantRef.value} ${elevation} ${square} ${raised} ${classRef.value}`
       .trim()
       .replace(/\s+/g, ' ');
   }, [variantRef, elevationRef, squareRef, raisedRef, classRef]);
 
-  // Handle click
-  const handleClick = props['on:click'] ?? (() => {});
-
   const container = (
-    <div class={className} style={styleRef} on:click={handleClick}>
+    <div class={className} style={styleRef} on:click={props['on:click']}>
       {props.children}
     </div>
   ) as KTMuiCard;

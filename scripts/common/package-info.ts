@@ -17,8 +17,7 @@ export interface PackageInfo {
 
 const publishGroupMap = new Map<string | undefined, string[]>([
   [undefined, ['core', 'kt.js']],
-  ['plugin', ['vite-plugin-ktjsx', 'babel-plugin-ktjsx', 'transformer']],
-  ['runtime', ['shared', 'core', 'kt.js']],
+  ['plugin', ['vite', 'babel', 'transformer']],
 ]);
 
 const getGroup = (who: string | undefined): string[] => {
@@ -27,7 +26,16 @@ const getGroup = (who: string | undefined): string[] => {
     return raw;
   }
   if (typeof who === 'string' && existsSync(join(import.meta.dirname, '..', '..', 'packages', who))) {
-    return [who];
+    const absolutePathInPackage = join(import.meta.dirname, '..', '..', 'packages', who);
+    const absolutePathInPlugins = join(import.meta.dirname, '..', '..', 'plugins', who);
+    if (existsSync(absolutePathInPackage)) {
+      return [absolutePathInPackage];
+    }
+    if (existsSync(absolutePathInPlugins)) {
+      return [absolutePathInPlugins];
+    }
+    console.error(`Package "${who}" does not exist in either "packages" or "plugins" directory.`);
+    process.exit(1);
   } else {
     console.error(`Unknown package group: ${who}`);
     process.exit(1);
@@ -35,17 +43,16 @@ const getGroup = (who: string | undefined): string[] => {
 };
 
 export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
-  getGroup(who).map((name) => {
-    const packagePath = join(import.meta.dirname, '..', '..', 'packages', name);
-    const packageJsonPath = join(packagePath, 'package.json');
+  getGroup(who).map((absolutePath) => {
+    const packageJsonPath = join(absolutePath, 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     return {
-      path: packagePath,
+      path: absolutePath,
       jsonPath: packageJsonPath,
       version: new Version(packageJson.version),
       json: packageJson,
       name: packageJson.name as string,
       nameVer: `${packageJson.name}@${packageJson.version}`,
-      env: { ...process.env, CURRENT_PKG_PATH: packagePath },
+      env: { ...process.env, CURRENT_PKG_PATH: absolutePath },
     };
   });

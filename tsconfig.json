@@ -9,8 +9,8 @@
     "typeRoots": ["./packages/types", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "@ktjs/babel-plugin-ktjsx": ["packages/babel-plugin-ktjsx/src/index.ts"],
-      "@ktjs/transformer": ["packages/transformer/src/index.ts"],
+      "@ktjs/babel-plugin-ktjsx": ["plugins/babel-plugin-ktjsx/src/index.ts"],
+      "@ktjs/transformer": ["plugins/transformer/src/index.ts"],
       "@ktjs/router": ["packages/router/src/index.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
       "@ktjs/mui": ["packages/mui/src/index.ts"],

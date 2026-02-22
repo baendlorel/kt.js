@@ -30,13 +30,11 @@ export function FormLabel(props: FormLabelProps): JSX.Element {
 
   const classes = [
     'mui-form-label',
-    error && 'mui-form-label-error',
-    disabled && 'mui-form-label-disabled',
-    focused && 'mui-form-label-focused',
-    filled && 'mui-form-label-filled',
-  ]
-    .filter(Boolean)
-    .join(' ');
+    error ? 'mui-form-label-error' : '',
+    disabled ? 'mui-form-label-disabled' : '',
+    focused ? 'mui-form-label-focused' : '',
+    filled ? 'mui-form-label-filled' : '',
+  ].join(' ');
 
   const labelProps: any = {
     class: classes,

@@ -26,20 +26,26 @@ describe('babel-plugin-ktjsx', () => {
     return match?.[1] ?? null;
   };
 
-  describe('SVG/MathML flag addition', () => {
-    it('should add SVG flag to svg element', () => {
+  describe('SVG/MathML JSX rewrite', () => {
+    it('rewrites svg JSX to svg runtime helper', () => {
       const code = `const el = <svg width="100" height="100"></svg>;`;
       const result = transform(code);
-      expect(result).toMatch(/<svg[^>]*__[^>\s=]*svg[^>\s=]*/i);
+      const svgAlias = readRuntimeFactoryAlias(result, 'svg');
+      expect(svgAlias).toBeTruthy();
+      expect(result).toContain(`${svgAlias}("svg"`);
+      expect(result).toContain('width: "100"');
+      expect(result).toContain('height: "100"');
     });
 
-    it('should add MathML flag to math element', () => {
+    it('rewrites math JSX to mathml runtime helper', () => {
       const code = `const el = <math></math>;`;
       const result = transform(code);
-      expect(result).toMatch(/<math[^>]*__[^>\s=]*math/i);
+      const mathAlias = readRuntimeFactoryAlias(result, 'mathml');
+      expect(mathAlias).toBeTruthy();
+      expect(result).toContain(`${mathAlias}("math"`);
     });
 
-    it('should add SVG flag to elements inside svg', () => {
+    it('rewrites nested SVG elements with svg runtime helper', () => {
       const code = `
         const el = (
           <svg>
@@ -48,16 +54,19 @@ describe('babel-plugin-ktjsx', () => {
         );
       `;
       const result = transform(code);
-      // Both svg and circle should have flag
-      expect(result).toMatch(/<svg[^>]*__[^>\s=]*svg[^>\s=]*/i);
-      expect(result).toMatch(/<circle[^>]*__[^>\s=]*svg[^>\s=]*/i);
+      const svgAlias = readRuntimeFactoryAlias(result, 'svg');
+      expect(svgAlias).toBeTruthy();
+      expect(result).toContain(`${svgAlias}("svg"`);
+      expect(result).toContain(`${svgAlias}("circle"`);
+      expect(result).not.toContain('__svg');
     });
 
-    it('should not add flag to non-SVG/MathML elements', () => {
+    it('does not rewrite non-SVG/MathML elements', () => {
       const code = `const el = <div></div>;`;
       const result = transform(code);
-      expect(result).not.toMatch(/__[^>\s=]*svg/i);
-      expect(result).not.toMatch(/__[^>\s=]*math/i);
+      expect(readRuntimeFactoryAlias(result, 'svg')).toBeNull();
+      expect(readRuntimeFactoryAlias(result, 'mathml')).toBeNull();
+      expect(result).toContain('<div></div>');
     });
   });
 
@@ -150,10 +159,12 @@ describe('babel-plugin-ktjsx', () => {
     it('should preserve other attributes', () => {
       const code = `const el = <svg width="100" height="100" class="icon" k-if={show}></svg>;`;
       const result = transform(code);
-      expect(result).toMatch(/__[^>\s=]*svg/i);
-      expect(result).toContain('width="100"');
-      expect(result).toContain('class="icon"');
-      expect(result).toContain('k-if');
+      const svgAlias = readRuntimeFactoryAlias(result, 'svg');
+      expect(svgAlias).toBeTruthy();
+      expect(result).toContain(`${svgAlias}("svg"`);
+      expect(result).toContain('width: "100"');
+      expect(result).toContain('"class": "icon"');
+      expect(result).toContain('"k-if": show');
     });
   });
 

@@ -39,7 +39,10 @@ describe('vite-plugin-ktjsx', () => {
     );
 
     const code = toCode(result);
-    expect(code).toMatch(/__[^>\s=]*svg/i);
+    const svgAlias = readRuntimeFactoryAlias(code, 'svg');
+    expect(svgAlias).toBeTruthy();
+    expect(code).toContain(`${svgAlias}("svg"`);
+    expect(code).toContain(`${svgAlias}("circle"`);
     expect(code).toContain('KTConditional as _KTConditional');
     expect(code).toContain('_KTConditional(ok, "div"');
     expect(code).not.toContain('k-if');
@@ -156,7 +159,10 @@ describe('vite-plugin-ktjsx', () => {
     const code = 'const icon = <svg></svg>;';
 
     const included = await runTransform(code, '/src/icon.custom', { include: /\.custom$/ });
-    expect(toCode(included)).toMatch(/__[^>\s=]*svg/i);
+    const includedCode = toCode(included);
+    const svgAlias = readRuntimeFactoryAlias(includedCode, 'svg');
+    expect(svgAlias).toBeTruthy();
+    expect(includedCode).toContain(`${svgAlias}("svg"`);
 
     const excluded = await runTransform(code, '/src/icon.custom', {
       include: /\.custom$/,

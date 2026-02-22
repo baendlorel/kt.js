@@ -45,6 +45,57 @@ function resolveNamespaceKindFromTag(tag: string): NamespaceKind | null {
   return null;
 }
 
+function resolveJSXTagName(
+  name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName,
+): string | null {
+  if (t.isJSXIdentifier(name)) {
+    return name.name;
+  }
+
+  if (t.isJSXNamespacedName(name) && t.isJSXIdentifier(name.namespace) && t.isJSXIdentifier(name.name)) {
+    return `${name.namespace.name}:${name.name.name}`;
+  }
+
+  return null;
+}
+
+function getJSXAttributeName(name: t.JSXIdentifier | t.JSXNamespacedName): string | null {
+  if (t.isJSXIdentifier(name)) {
+    return name.name;
+  }
+
+  if (t.isJSXNamespacedName(name) && t.isJSXIdentifier(name.namespace) && t.isJSXIdentifier(name.name)) {
+    return `${name.namespace.name}:${name.name.name}`;
+  }
+
+  return null;
+}
+
+function getNamespaceFlagFromAttributes(
+  attributes: Array<t.JSXAttribute | t.JSXSpreadAttribute> | undefined,
+): NamespaceKind | null {
+  if (!attributes || attributes.length === 0) {
+    return null;
+  }
+
+  for (let i = 0; i < attributes.length; i++) {
+    const attr = attributes[i];
+    if (!t.isJSXAttribute(attr)) {
+      continue;
+    }
+
+    const attrName = getJSXAttributeName(attr.name);
+    if (attrName === MATHML_FLAG_ATTR) {
+      return 'mathml';
+    }
+    if (attrName === SVG_FLAG_ATTR) {
+      return 'svg';
+    }
+  }
+
+  return null;
+}
+
 function getCallTagName(callExpression: t.CallExpression): string | null {
   const tagArgument = callExpression.arguments[0];
   if (!tagArgument || !t.isStringLiteral(tagArgument)) {
@@ -273,6 +324,21 @@ function resolveRuntimeImportSource(path: NodePath<t.CallExpression>, programPat
   return hasImportSource(programPath, '@ktjs/core') ? '@ktjs/core/jsx-runtime' : 'kt.js/jsx-runtime';
 }
 
+function resolveRuntimeImportSourceFromProgram(programPath: NodePath<t.Program>): string {
+  const body = programPath.node.body;
+  for (let i = 0; i < body.length; i++) {
+    const statement = body[i];
+    if (!t.isImportDeclaration(statement) || statement.importKind === 'type') {
+      continue;
+    }
+    if (isRuntimeImportSource(statement.source.value)) {
+      return statement.source.value;
+    }
+  }
+
+  return hasImportSource(programPath, '@ktjs/core') ? '@ktjs/core/jsx-runtime' : 'kt.js/jsx-runtime';
+}
+
 function findImportedFactoryIdentifier(
   programPath: NodePath<t.Program>,
   importSource: string,
@@ -325,7 +391,11 @@ function findMutableImportDeclaration(
   return null;
 }
 
-function ensureNamespaceFactoryIdentifier(path: NodePath<t.CallExpression>, namespace: NamespaceKind): t.Identifier {
+function ensureNamespaceFactoryIdentifier(
+  path: NodePath<t.Node>,
+  namespace: NamespaceKind,
+  importSource?: string,
+): t.Identifier {
   const cacheKey = namespace === 'svg' ? SVG_HELPER_CACHE_KEY : MATHML_HELPER_CACHE_KEY;
   const programPath = getProgramPath(path);
 
@@ -334,21 +404,22 @@ function ensureNamespaceFactoryIdentifier(path: NodePath<t.CallExpression>, name
     return t.identifier(cached.name);
   }
 
-  const importSource = resolveRuntimeImportSource(path, programPath);
-  const existingFactoryIdentifier = findImportedFactoryIdentifier(programPath, importSource, namespace);
+  const finalImportSource =
+    importSource ?? (path.isCallExpression() ? resolveRuntimeImportSource(path, programPath) : resolveRuntimeImportSourceFromProgram(programPath));
+  const existingFactoryIdentifier = findImportedFactoryIdentifier(programPath, finalImportSource, namespace);
   if (existingFactoryIdentifier) {
     programPath.setData(cacheKey, t.identifier(existingFactoryIdentifier.name));
     return t.identifier(existingFactoryIdentifier.name);
   }
 
   const localIdentifier = programPath.scope.generateUidIdentifier(namespace);
-  const importDeclaration = findMutableImportDeclaration(programPath, importSource);
+  const importDeclaration = findMutableImportDeclaration(programPath, finalImportSource);
   if (importDeclaration) {
     importDeclaration.node.specifiers.push(t.importSpecifier(localIdentifier, t.identifier(namespace)));
   } else {
     const newImportDeclaration = t.importDeclaration(
       [t.importSpecifier(localIdentifier, t.identifier(namespace))],
-      t.stringLiteral(importSource),
+      t.stringLiteral(finalImportSource),
     );
     const insertIndex = findImportInsertIndex(programPath.node.body);
     programPath.node.body.splice(insertIndex, 0, newImportDeclaration);
@@ -394,75 +465,251 @@ export function transformSvgMathMLCallExpression(path: NodePath<t.CallExpression
   return hasChanged;
 }
 
+function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {
+  if (!path.inList || path.listKey !== 'children') {
+    return false;
+  }
+
+  const parent = path.parentPath;
+  return !!parent && (parent.isJSXElement() || parent.isJSXFragment());
+}
+
+function createObjectKey(name: string): t.Identifier | t.StringLiteral {
+  if (t.isValidIdentifier(name)) {
+    return t.identifier(name);
+  }
+  return t.stringLiteral(name);
+}
+
+function normalizeJSXText(value: string): string {
+  const lines = value.replace(/\r\n?/g, '\n').split('\n');
+  let lastNonEmptyLine = -1;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (/[^\t ]/.test(lines[i])) {
+      lastNonEmptyLine = i;
+    }
+  }
+
+  if (lastNonEmptyLine < 0) {
+    return '';
+  }
+
+  let content = '';
+  for (let i = 0; i < lines.length; i++) {
+    const isFirstLine = i === 0;
+    const isLastLine = i === lines.length - 1;
+    let line = lines[i].replace(/\t/g, ' ');
+
+    if (!isFirstLine) {
+      line = line.replace(/^[ ]+/, '');
+    }
+    if (!isLastLine) {
+      line = line.replace(/[ ]+$/, '');
+    }
+
+    if (!line) {
+      continue;
+    }
+
+    content += line;
+    if (i !== lastNonEmptyLine) {
+      content += ' ';
+    }
+  }
+
+  return content;
+}
+
+function buildRuntimeChildrenExpression(children: t.JSXElement['children']): t.Expression | null {
+  const normalizedChildren: Array<t.Expression | t.SpreadElement> = [];
+
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+
+    if (t.isJSXText(child)) {
+      const text = normalizeJSXText(child.value);
+      if (text) {
+        normalizedChildren.push(t.stringLiteral(text));
+      }
+      continue;
+    }
+
+    if (t.isJSXExpressionContainer(child)) {
+      if (!t.isJSXEmptyExpression(child.expression)) {
+        normalizedChildren.push(t.cloneNode(child.expression, true));
+      }
+      continue;
+    }
+
+    if (t.isJSXSpreadChild(child)) {
+      normalizedChildren.push(t.spreadElement(t.cloneNode(child.expression, true)));
+      continue;
+    }
+
+    if (t.isJSXElement(child) || t.isJSXFragment(child)) {
+      normalizedChildren.push(t.cloneNode(child, true));
+    }
+  }
+
+  if (normalizedChildren.length === 0) {
+    return null;
+  }
+
+  if (normalizedChildren.length === 1 && t.isExpression(normalizedChildren[0])) {
+    return normalizedChildren[0];
+  }
+
+  const arrayItems: Array<t.Expression | t.SpreadElement | null> = [];
+  for (let i = 0; i < normalizedChildren.length; i++) {
+    arrayItems.push(t.cloneNode(normalizedChildren[i], true) as t.Expression | t.SpreadElement);
+  }
+  return t.arrayExpression(arrayItems);
+}
+
+function buildRuntimePropsObject(
+  attributes: Array<t.JSXAttribute | t.JSXSpreadAttribute>,
+  children: t.JSXElement['children'],
+): t.ObjectExpression {
+  const properties: Array<t.ObjectProperty | t.SpreadElement> = [];
+
+  for (let i = 0; i < attributes.length; i++) {
+    const attr = attributes[i];
+    if (t.isJSXSpreadAttribute(attr)) {
+      properties.push(t.spreadElement(t.cloneNode(attr.argument, true)));
+      continue;
+    }
+
+    const attrName = getJSXAttributeName(attr.name);
+    if (!attrName || attrName === SVG_FLAG_ATTR || attrName === MATHML_FLAG_ATTR) {
+      continue;
+    }
+
+    let value: t.Expression = t.booleanLiteral(true);
+    if (attr.value) {
+      if (t.isStringLiteral(attr.value)) {
+        value = t.cloneNode(attr.value, true);
+      } else if (t.isJSXExpressionContainer(attr.value)) {
+        value = t.isJSXEmptyExpression(attr.value.expression)
+          ? t.booleanLiteral(true)
+          : t.cloneNode(attr.value.expression, true);
+      }
+    }
+
+    properties.push(t.objectProperty(createObjectKey(attrName), value));
+  }
+
+  const childrenExpression = buildRuntimeChildrenExpression(children);
+  if (childrenExpression) {
+    properties.push(t.objectProperty(t.identifier('children'), childrenExpression));
+  }
+
+  return t.objectExpression(properties);
+}
+
+export function transformSvgMathMLJSXElement(path: NodePath<t.JSXElement>): boolean {
+  const opening = path.node.openingElement;
+  const namespace = getNamespaceFlagFromAttributes(opening.attributes || []);
+  if (!namespace) {
+    return false;
+  }
+
+  const rawTagName = resolveJSXTagName(opening.name);
+  if (!rawTagName) {
+    return false;
+  }
+
+  const normalizedTagName = normalizeTagName(rawTagName);
+  if (!isCompatTag(normalizedTagName)) {
+    return false;
+  }
+
+  const importSource = resolveRuntimeImportSourceFromProgram(getProgramPath(path));
+  const namespaceFactory = ensureNamespaceFactoryIdentifier(path, namespace, importSource);
+  const props = buildRuntimePropsObject(opening.attributes || [], path.node.children);
+  const runtimeCall = t.callExpression(t.identifier(namespaceFactory.name), [t.stringLiteral(normalizedTagName), props]);
+
+  if (isInsideJSXChildren(path)) {
+    path.replaceWith(t.jsxExpressionContainer(runtimeCall));
+  } else {
+    path.replaceWith(runtimeCall);
+  }
+
+  return true;
+}
+
+export function transformSvgMathMLJSX(programPath: NodePath<t.Program>) {
+  programPath.traverse({
+    JSXElement: {
+      exit(path) {
+        transformSvgMathMLJSXElement(path);
+      },
+    },
+  });
+}
+
 export function addFlagToSvgMathMLElement(path: NodePath<t.JSXElement>) {
   const opening = path.node.openingElement;
   if (!opening) {
     return;
   }
 
-  const oname = opening.name;
-  if (t.isJSXNamespacedName(oname)) {
-    return;
-  }
-  if (!t.isJSXIdentifier(oname)) {
+  const rawTagName = resolveJSXTagName(opening.name);
+  if (!rawTagName) {
     return;
   }
 
-  const tag = oname.name;
-  const isSvgRoot = isSvgTag(tag);
-  const isMathRoot = isMathTag(tag);
-
-  let insideSvg = false;
-  if (!isSvgRoot) {
-    const parentSvg = path.findParent((p) => {
-      if (!p.isJSXElement()) {
-        return false;
-      }
-      const popping = p.node.openingElement && p.node.openingElement.name;
-      if (!popping) {
-        return false;
-      }
-      if (t.isJSXIdentifier(popping)) {
-        return isSvgTag(popping.name);
-      }
-      if (t.isJSXNamespacedName(popping)) {
-        return t.isJSXIdentifier(popping.namespace) && popping.namespace.name === 'svg';
-      }
-      return false;
-    });
-    insideSvg = !!parentSvg;
+  const normalizedTagName = normalizeTagName(rawTagName);
+  if (!isCompatTag(normalizedTagName)) {
+    return;
   }
 
-  let insideMath = false;
-  if (!isMathRoot) {
-    const parentMath = path.findParent((p) => {
-      if (!p.isJSXElement()) {
+  let namespace = resolveNamespaceKindFromTag(rawTagName);
+  if (!namespace) {
+    const parentNamespacePath = path.findParent((parentPath) => {
+      if (!parentPath.isJSXElement()) {
         return false;
       }
-      const popping = p.node.openingElement && p.node.openingElement.name;
-      if (!popping) {
+
+      const parentOpening = parentPath.node.openingElement;
+      const parentTagName = resolveJSXTagName(parentOpening.name);
+      if (!parentTagName) {
         return false;
       }
-      if (t.isJSXIdentifier(popping)) {
-        return isMathTag(popping.name);
+
+      if (resolveNamespaceKindFromTag(parentTagName)) {
+        return true;
       }
-      if (t.isJSXNamespacedName(popping)) {
-        return t.isJSXIdentifier(popping.namespace) && popping.namespace.name === 'math';
+
+      return !!getNamespaceFlagFromAttributes(parentOpening.attributes || []);
+    }) as NodePath<t.JSXElement> | null;
+
+    if (parentNamespacePath) {
+      const parentOpening = parentNamespacePath.node.openingElement;
+      const parentTagName = resolveJSXTagName(parentOpening.name);
+      if (parentTagName) {
+        namespace = resolveNamespaceKindFromTag(parentTagName) || getNamespaceFlagFromAttributes(parentOpening.attributes || []);
+      } else {
+        namespace = getNamespaceFlagFromAttributes(parentOpening.attributes || []);
       }
-      return false;
-    });
-    insideMath = !!parentMath;
+    }
   }
 
-  const inSvgContext = isSvgRoot || insideSvg;
-  const inMathContext = isMathRoot || insideMath;
-  if (!inSvgContext && !inMathContext) {
+  if (!namespace) {
     return;
   }
 
   const attrs = opening.attributes || [];
-  const flag = inSvgContext ? flags.svg : flags.mathml;
-  const hasFlag = attrs.some((a) => t.isJSXAttribute(a) && t.isJSXIdentifier(a.name) && a.name.name === flag);
+  const flag = namespace === 'svg' ? flags.svg : flags.mathml;
+  const hasFlag = attrs.some((attr) => {
+    if (!t.isJSXAttribute(attr)) {
+      return false;
+    }
+
+    const attrName = getJSXAttributeName(attr.name);
+    return attrName === flag;
+  });
+
   if (!hasFlag) {
     attrs.push(t.jsxAttribute(t.jsxIdentifier(flag)));
     opening.attributes = attrs;

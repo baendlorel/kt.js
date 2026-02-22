@@ -1,25 +1,50 @@
-import type { JSXTag } from '@ktjs/shared';
+import type { JSXTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 
-import { h } from '../h/index.js';
+import { h, mathml as createMathMLElement, svg as createSVGElement } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 
-export { svg, mathml } from '../h/index.js';
+function normalizeProps(props: KTAttribute | null | undefined): KTAttribute {
+  return (props ?? {}) as KTAttribute;
+}
+
+function assertWritableRef(props: KTAttribute) {
+  if (isComputed(props.ref)) {
+    $throw('Cannot assign a computed value to an element.');
+  }
+}
 
 /**
  * @param tag html tag or function component
  * @param props properties/attributes
  */
-export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  if (isComputed(props.ref)) {
-    $throw('Cannot assign a computed value to an element.');
-  }
+export function jsx(tag: JSXTag, props: KTAttribute | null | undefined): JSX.Element {
+  const normalizedProps = normalizeProps(props);
+  assertWritableRef(normalizedProps);
 
-  const el = jsxh(tag, props);
-  $initRef(props, el);
+  const el = jsxh(tag, normalizedProps);
+  $initRef(normalizedProps, el);
+  return el;
+}
+
+export function svg(tag: SVGTag, props: KTAttribute | null | undefined): JSX.Element {
+  const normalizedProps = normalizeProps(props);
+  assertWritableRef(normalizedProps);
+
+  const el = createSVGElement(tag, normalizedProps, normalizedProps.children) as unknown as JSX.Element;
+  $initRef(normalizedProps as { ref?: KTRef<any> }, el as unknown as Node);
+  return el;
+}
+
+export function mathml(tag: MathMLTag, props: KTAttribute | null | undefined): JSX.Element {
+  const normalizedProps = normalizeProps(props);
+  assertWritableRef(normalizedProps);
+
+  const el = createMathMLElement(tag, normalizedProps, normalizedProps.children) as unknown as JSX.Element;
+  $initRef(normalizedProps as { ref?: KTRef<any> }, el as unknown as Node);
   return el;
 }
 

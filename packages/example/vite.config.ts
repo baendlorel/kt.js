@@ -7,7 +7,8 @@ const inPackage = (id: string, pkg: string) => {
   return re.test(id);
 };
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/kt.js/' : '/',
   resolve: {
     alias: getAliases(),
   },
@@ -40,4 +41,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

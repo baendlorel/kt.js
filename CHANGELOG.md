@@ -1,6 +1,37 @@
 # Changelog
 
-## 0.29.x - 2026-02-18
+## 0.30.x - 2026-02-22 ~ 2026-02-23
+
+### New Features
+
+- **Compile-time conditional rendering pipeline**:
+  - `k-if + k-else` chains are lowered to `KTConditional(...)` in transformer-based flows.
+  - `k-else-if` is currently warned and left untransformed by design.
+- **Compile-time SVG/MathML lowering**:
+  - Added namespace-aware lowering for already-lowered runtime calls.
+  - Added direct JSX traversal rewrite so SVG/MathML JSX can be emitted as `svg(...)` / `mathml(...)`.
+  - Added matching `svg(tag, props)` and `mathml(tag, props)` helpers in `@ktjs/core/jsx-runtime`.
+
+### Bug Fixes
+
+- **Conditional transform stability**:
+  - Fixed edge cases where `k-if + k-else` chains were not compiled.
+  - Corrected `KTConditional` handling behavior in compiled flows.
+- **Runtime behavior fixes**:
+  - Refined `applyKModel` element checks to use tag-based handling for correctness.
+
+### Optimizations
+
+- **Runtime cost reduction**:
+  - Reduced runtime `k-if` path in favor of compile-time lowering.
+- **DOM update performance**:
+  - Avoided unnecessary `replaceNode` usage in hot paths.
+
+### Breaking/Compatibility Notes
+
+- `@ktjs/rollup-plugin-ktjsx` support was removed in this line.
+
+## 0.29.x - 2026-02-18 ~ 2026-02-22
 
 ### New Features
 
@@ -13,6 +44,21 @@
 - **Shared/core typing and helpers**:
   - Expanded `JSXTag` typing in shared.
   - Extracted reusable JSX node helpers used by conditional rendering internals.
+
+### Follow-up Updates
+
+- **Transformer/plugin architecture**:
+  - Introduced standalone `@ktjs/transformer` and aligned Babel/Vite wrappers around the shared transform core.
+  - Added rollup plugin distribution in the transitional plugin line (`0.2.x` ~ `0.3.x`).
+- **Compiler and plugin pipeline updates**:
+  - Reused `KTFor` semantics in compiler transforms and improved directive-related transform consistency.
+  - Simplified plugin build outputs to stable package artifacts (`index`, `.d.ts`, sourcemap).
+- **Build and tooling refactor**:
+  - Consolidated Rollup/Vitest shared configs under `configs/`.
+  - Improved build/test script routing and package-group handling.
+- **Type/docs/example polish**:
+  - Expanded JSX directive annotations and fixed ts-plugin handling for `ref`-based list parsing.
+  - Improved example build behavior (base path handling, chunk strategy, lighter highlight bundle setup).
 
 ### Optimizations
 

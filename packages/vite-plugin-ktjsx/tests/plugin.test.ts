@@ -35,13 +35,16 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-else');
   });
 
-  it('transforms k-for into map call and strips directive attributes', async () => {
+  it('transforms k-for into KTFor call and strips directive attributes', async () => {
     const result = await runTransform(
       'const view = <li k-for="(item, index, arr) in users" k-key="item.id">{index}-{item.name}-{arr.length}</li>;',
     );
 
     const code = toCode(result);
-    expect(code).toContain('users.map((item, index, arr)');
+    expect(code).toContain('import { KTFor as _KTFor }');
+    expect(code).toContain('list: users');
+    expect(code).toContain('key: (item, index, arr) => item.id');
+    expect(code).toContain('map: (item, index, arr) =>');
     expect(code).not.toContain('k-for');
     expect(code).not.toContain('k-key');
   });

@@ -70,19 +70,22 @@ describe('babel-plugin-ktjsx', () => {
   });
 
   describe('k-for transformation', () => {
-    it('transforms `k-for` to Array.map call', () => {
+    it('transforms `k-for` to KTFor call', () => {
       const code = `const list = <li k-for="item in users">{item.name}</li>;`;
       const result = transform(code);
 
-      expect(result).toContain('users.map');
+      expect(result).toContain('import { KTFor as _KTFor }');
+      expect(result).toContain('list: users');
+      expect(result).toContain('map: item =>');
       expect(result).not.toContain('k-for');
     });
 
-    it('supports tuple aliases and strips k-key', () => {
+    it('supports tuple aliases and compiles k-key callback', () => {
       const code = `const list = <li k-for="(item, index, arr) in users" k-key="item.id">{index}-{item.name}-{arr.length}</li>;`;
       const result = transform(code);
 
-      expect(result).toContain('users.map((item, index, arr)');
+      expect(result).toContain('key: (item, index, arr) => item.id');
+      expect(result).toContain('map: (item, index, arr) =>');
       expect(result).not.toContain('k-key');
     });
   });

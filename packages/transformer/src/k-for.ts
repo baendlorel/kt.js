@@ -4,6 +4,8 @@ import * as t from '@babel/types';
 const KFOR_SINGLE_PATTERN = /^([A-Za-z_$][A-Za-z0-9_$]*)\s+(in|of)\s+([\s\S]+)$/;
 const KFOR_TUPLE_PATTERN =
   /^\(\s*([A-Za-z_$][A-Za-z0-9_$]*)(?:\s*,\s*([A-Za-z_$][A-Za-z0-9_$]*))?(?:\s*,\s*([A-Za-z_$][A-Za-z0-9_$]*))?\s*\)\s+(in|of)\s+([\s\S]+)$/;
+const KTFOR_HELPER_CACHE_KEY = '__kt_for_component_identifier__';
+const KTFOR_COMPONENT_IMPORT_NAME = 'KTFor';
 
 interface ParsedKForExpression {
   aliases: string[];
@@ -47,10 +49,7 @@ export function transformKFor(path: NodePath<t.JSXElement>): boolean {
 
   const sourceExpression = parseTextAsExpression(path, parsedFor.source, 'k-for source');
   const keyAttr = getAttribute(opening, 'k-key');
-  if (keyAttr && hasStringLikeValue(keyAttr)) {
-    const keyText = readAttributeStringValue(keyAttr, path, 'k-key');
-    parseTextAsExpression(path, keyText, 'k-key');
-  }
+  const keyCallback = createKeyCallback(path, keyAttr, parsedFor.aliases);
 
   const renderNode = t.cloneNode(path.node, true) as t.JSXElement;
   const renderOpening = renderNode.openingElement;
@@ -58,12 +57,22 @@ export function transformKFor(path: NodePath<t.JSXElement>): boolean {
 
   const callbackParams = parsedFor.aliases.map((alias) => t.identifier(alias));
   const callback = t.arrowFunctionExpression(callbackParams, renderNode);
-  const mapCall = t.callExpression(t.memberExpression(sourceExpression, t.identifier('map')), [callback]);
+  const ktForIdentifier = ensureKTForIdentifier(path);
+  const props: t.ObjectProperty[] = [
+    t.objectProperty(t.identifier('list'), sourceExpression),
+    t.objectProperty(t.identifier('map'), callback),
+  ];
+
+  if (keyCallback) {
+    props.splice(1, 0, t.objectProperty(t.identifier('key'), keyCallback));
+  }
+
+  const ktForCall = t.callExpression(ktForIdentifier, [t.objectExpression(props)]);
 
   if (isInsideJSXChildren(path)) {
-    path.replaceWith(t.jsxExpressionContainer(mapCall));
+    path.replaceWith(t.jsxExpressionContainer(ktForCall));
   } else {
-    path.replaceWith(mapCall);
+    path.replaceWith(ktForCall);
   }
 
   return true;
@@ -196,6 +205,21 @@ function hasStringLikeValue(attr: t.JSXAttribute): boolean {
   return t.isTemplateLiteral(attr.value.expression) && attr.value.expression.expressions.length === 0;
 }
 
+function createKeyCallback(
+  path: NodePath<t.JSXElement>,
+  keyAttr: t.JSXAttribute | undefined,
+  aliases: string[],
+): t.ArrowFunctionExpression | null {
+  if (!keyAttr || !hasStringLikeValue(keyAttr)) {
+    return null;
+  }
+
+  const keyText = readAttributeStringValue(keyAttr, path, 'k-key');
+  const keyExpression = parseTextAsExpression(path, keyText, 'k-key');
+  const params = aliases.map((alias) => t.identifier(alias));
+  return t.arrowFunctionExpression(params, keyExpression);
+}
+
 function removeAttributes(
   attributes: (t.JSXAttribute | t.JSXSpreadAttribute)[] | undefined,
   names: string[],
@@ -218,4 +242,64 @@ function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {
   }
   const parent = path.parentPath;
   return !!parent && (parent.isJSXElement() || parent.isJSXFragment());
+}
+
+function ensureKTForIdentifier(path: NodePath<t.JSXElement>): t.Identifier {
+  const programPath = getProgramPath(path);
+  const cached = programPath.getData(KTFOR_HELPER_CACHE_KEY);
+  if (t.isIdentifier(cached)) {
+    return t.identifier(cached.name);
+  }
+
+  const importSource = hasImportSource(programPath, '@ktjs/core') ? '@ktjs/core' : 'kt.js';
+  const localIdentifier = programPath.scope.generateUidIdentifier(KTFOR_COMPONENT_IMPORT_NAME);
+  const importDeclaration = t.importDeclaration(
+    [t.importSpecifier(localIdentifier, t.identifier(KTFOR_COMPONENT_IMPORT_NAME))],
+    t.stringLiteral(importSource),
+  );
+
+  const insertIndex = findImportInsertIndex(programPath.node.body);
+  programPath.node.body.splice(insertIndex, 0, importDeclaration);
+  programPath.scope.crawl();
+  programPath.setData(KTFOR_HELPER_CACHE_KEY, t.identifier(localIdentifier.name));
+  return t.identifier(localIdentifier.name);
+}
+
+function getProgramPath(path: NodePath<t.JSXElement>): NodePath<t.Program> {
+  const programPath = path.findParent((currentPath) => currentPath.isProgram()) as NodePath<t.Program> | null;
+  if (!programPath) {
+    throw path.buildCodeFrameError('Failed to resolve Program path while transforming `k-for`.');
+  }
+  return programPath;
+}
+
+function hasImportSource(programPath: NodePath<t.Program>, source: string): boolean {
+  const body = programPath.node.body;
+  for (let i = 0; i < body.length; i++) {
+    const statement = body[i];
+    if (!t.isImportDeclaration(statement)) {
+      continue;
+    }
+    if (statement.source.value === source && statement.importKind !== 'type') {
+      return true;
+    }
+  }
+  return false;
+}
+
+function findImportInsertIndex(body: t.Statement[]): number {
+  let index = 0;
+  while (index < body.length) {
+    const statement = body[index];
+    if (t.isImportDeclaration(statement)) {
+      index++;
+      continue;
+    }
+    if (t.isExpressionStatement(statement) && t.isStringLiteral(statement.expression)) {
+      index++;
+      continue;
+    }
+    break;
+  }
+  return index;
 }

@@ -7,8 +7,10 @@ export async function test(who: string | undefined) {
 
   info.forEach((pkg) => {
     const vitestConfigPath = path.join(import.meta.dirname, '..', 'configs', 'vitest.config.ts');
-    const testPackageDir = path.join(pkg.path, '..', 'tests');
 
-    execSync(`vitest ${testPackageDir} --config ${vitestConfigPath}`, { stdio: 'inherit', env: pkg.env });
+    execSync(`vitest ${JSON.stringify(pkg.path)} --config ${JSON.stringify(vitestConfigPath)}`, {
+      stdio: 'inherit',
+      env: pkg.env,
+    });
   });
 }

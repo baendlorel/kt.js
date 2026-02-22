@@ -4,7 +4,6 @@ import installCode from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/plugin.vite.example.ts?raw';
 import babelConfigCode from '../code/plugin.babel.example.ts?raw';
-import rollupConfigCode from '../code/plugin.rollup.example.ts?raw';
 
 /**
  * Home page - Introduction to KT.js framework
@@ -44,11 +43,10 @@ export function Home() {
         </p>
         <h4 style="margin-top: 24px; margin-bottom: 12px;">4. Vite Configuration</h4>
         <p>
-          Must add this to <code>vite.config.ts</code> to support <code>svg</code> and <code>mathml</code> elements:
+          Using <code>vite.config.ts</code> is recommended. It provides support for <code>svg</code> and{' '}
+          <code>mathml</code> elements:
         </p>
         <Code code={viteConfigCode} />
-        <p>Use Rollup</p>
-        <Code code={rollupConfigCode} />
         <p>Use babel</p>
         <Code code={babelConfigCode} />
       </div>

@@ -25,7 +25,7 @@ const getGroup = (who: string | undefined): string[] => {
   if (raw) {
     return raw;
   }
-  if (typeof who === 'string' && existsSync(join(import.meta.dirname, '..', '..', 'packages', who))) {
+  if (typeof who === 'string') {
     const absolutePathInPackage = join(import.meta.dirname, '..', '..', 'packages', who);
     const absolutePathInPlugins = join(import.meta.dirname, '..', '..', 'plugins', who);
     if (existsSync(absolutePathInPackage)) {

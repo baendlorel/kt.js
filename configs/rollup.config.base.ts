@@ -8,14 +8,10 @@ import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import replace, { RollupReplaceOptions } from '@rollup/plugin-replace';
+import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
-/**
- * Basic Rollup config for KT.js packages
- * @type {(commandLineArgs:Record<string,string[]>) => import('rollup').RollupOptions[]}
- */
-export default async (commandLineArgs: Record<string, string[]>): Promise<RollupOptions[]> => {
+export default async (_commandLineArgs: Record<string, string[]>): Promise<RollupOptions[]> => {
   const libPath = process.env.CURRENT_PKG_PATH;
   if (!libPath) {
     console.error('Error: CURRENT_PKG_PATH environment variable is not set.');

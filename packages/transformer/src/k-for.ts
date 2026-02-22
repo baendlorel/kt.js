@@ -22,9 +22,7 @@ export function validateDirectiveCombinations(path: NodePath<t.JSXElement>) {
   const hasElseIf = hasAttribute(opening, 'k-else-if');
 
   if (hasIf && hasElse) {
-    throw path.buildCodeFrameError(
-      'Invalid directive usage: `k-if` and `k-else` cannot be used on the same element.',
-    );
+    throw path.buildCodeFrameError('Invalid directive usage: `k-if` and `k-else` cannot be used on the same element.');
   }
 
   if (hasFor && (hasIf || hasElseIf || hasElse)) {
@@ -181,10 +179,7 @@ function parseTextAsExpression(path: KForTransformPath, text: string, label: str
   }
 }
 
-function getAttribute(
-  opening: t.JSXOpeningElement,
-  name: string,
-): t.JSXAttribute | undefined {
+function getAttribute(opening: t.JSXOpeningElement, name: string): t.JSXAttribute | undefined {
   const attributes = opening.attributes || [];
   for (let i = 0; i < attributes.length; i++) {
     const attr = attributes[i];
@@ -202,11 +197,7 @@ function hasAttribute(opening: t.JSXOpeningElement, name: string): boolean {
   return !!getAttribute(opening, name);
 }
 
-function readAttributeStringValue(
-  attr: t.JSXAttribute,
-  path: NodePath<t.JSXElement>,
-  attrName: string,
-): string {
+function readAttributeStringValue(attr: t.JSXAttribute, path: NodePath<t.JSXElement>, attrName: string): string {
   if (!attr.value) {
     throw path.buildCodeFrameError(`Directive \`${attrName}\` requires a string value.`);
   }
@@ -305,9 +296,9 @@ function createKeyCallbackFromExpression(
 }
 
 function removeAttributes(
-  attributes: (t.JSXAttribute | t.JSXSpreadAttribute)[] | undefined,
+  attributes: Array<t.JSXAttribute | t.JSXSpreadAttribute> | undefined,
   names: string[],
-): (t.JSXAttribute | t.JSXSpreadAttribute)[] {
+): Array<t.JSXAttribute | t.JSXSpreadAttribute> {
   const set = new Set(names);
   if (!attributes || attributes.length === 0) {
     return [];
@@ -321,9 +312,9 @@ function removeAttributes(
 }
 
 function removeObjectProperties(
-  properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadElement)[],
+  properties: Array<t.ObjectMethod | t.ObjectProperty | t.SpreadElement>,
   names: string[],
-): (t.ObjectMethod | t.ObjectProperty | t.SpreadElement)[] {
+): Array<t.ObjectMethod | t.ObjectProperty | t.SpreadElement> {
   const set = new Set(names);
   return properties.filter((property) => {
     if (!t.isObjectProperty(property)) {

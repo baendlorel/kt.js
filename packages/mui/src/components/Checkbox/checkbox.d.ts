@@ -1,3 +1,4 @@
+import type { JSX } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 // todo 此处不一样

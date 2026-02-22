@@ -8,9 +8,18 @@ export default defineConfig({
   plugins: [
     babel({
       filter: /\.[jt]sx?$/,
+      loader: (id: string) => {
+        if (id.endsWith('.ts')) {
+          return 'ts';
+        }
+        if (id.endsWith('.tsx')) {
+          return 'tsx';
+        }
+        return 'js';
+      },
       babelConfig: {
         presets: ['@babel/preset-typescript'],
-        plugins: [babelKTjsx()], // Plugin path will be loaded by Babel
+        plugins: [babelKTjsx()],
       },
     }),
   ],

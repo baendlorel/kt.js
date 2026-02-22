@@ -171,20 +171,23 @@ function inferBindingTypes(
   const candidates = expandUnionTypes(sourceTypes, ts);
 
   for (let i = 0; i < candidates.length; i++) {
-    const sourceType = checker.getApparentType(candidates[i]);
-    const elementType = checker.getIndexTypeOfType(sourceType, ts.IndexKind.Number);
-    const stringValueType = elementType ? undefined : checker.getIndexTypeOfType(sourceType, ts.IndexKind.String);
-    const valueTypes = elementType ? [elementType] : stringValueType ? [stringValueType] : [];
-    if (valueTypes.length === 0) {
-      continue;
-    }
+    const iterableCandidates = getIterableCandidates(candidates[i], checker, scopeNode, ts);
+    for (let j = 0; j < iterableCandidates.length; j++) {
+      const sourceType = checker.getApparentType(iterableCandidates[j]);
+      const elementType = checker.getIndexTypeOfType(sourceType, ts.IndexKind.Number);
+      const stringValueType = elementType ? undefined : checker.getIndexTypeOfType(sourceType, ts.IndexKind.String);
+      const valueTypes = elementType ? [elementType] : stringValueType ? [stringValueType] : [];
+      if (valueTypes.length === 0) {
+        continue;
+      }
 
-    slots[0].push(...valueTypes);
-    if (bindingCount > 1) {
-      slots[1].push(elementType ? checker.getNumberType() : checker.getStringType());
-    }
-    if (bindingCount > 2) {
-      slots[2].push(checker.getNumberType());
+      slots[0].push(...valueTypes);
+      if (bindingCount > 1) {
+        slots[1].push(elementType ? checker.getNumberType() : checker.getStringType());
+      }
+      if (bindingCount > 2) {
+        slots[2].push(checker.getNumberType());
+      }
     }
   }
 
@@ -209,4 +212,38 @@ function expandUnionTypes(types: tsModule.Type[], ts: typeof tsModule): tsModule
   }
 
   return result;
+}
+
+function getIterableCandidates(
+  sourceType: tsModule.Type,
+  checker: tsModule.TypeChecker,
+  scopeNode: tsModule.Node,
+  ts: typeof tsModule,
+): tsModule.Type[] {
+  const result: tsModule.Type[] = [sourceType];
+  const apparentType = checker.getApparentType(sourceType);
+  if (!isReactiveLikeType(apparentType, checker)) {
+    return result;
+  }
+
+  const valueProperty = checker.getPropertyOfType(apparentType, 'value');
+  if (!valueProperty) {
+    return result;
+  }
+
+  const valueType = checker.getTypeOfSymbolAtLocation(valueProperty, scopeNode);
+  const unwrapped = expandUnionTypes([valueType], ts);
+  for (let i = 0; i < unwrapped.length; i++) {
+    result.push(unwrapped[i]);
+  }
+
+  return result;
+}
+
+function isReactiveLikeType(sourceType: tsModule.Type, checker: tsModule.TypeChecker): boolean {
+  const hasValue = !!checker.getPropertyOfType(sourceType, 'value');
+  if (!hasValue) {
+    return false;
+  }
+  return !!checker.getPropertyOfType(sourceType, 'isKT');
 }

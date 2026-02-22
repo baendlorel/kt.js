@@ -80,16 +80,16 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       if (o) {
         element.addEventListener(key.slice(3), o); // chop off the `on:`
       }
+      continue;
     }
+
     // normal attributes
-    else {
-      const handler = handlers[key] || defaultHandler;
-      if (isKT(o)) {
-        handler(element, key, o.value);
-        o.addOnChange((v) => handler(element, key, v));
-      } else {
-        handler(element, key, o);
-      }
+    const handler = handlers[key] || defaultHandler;
+    if (isKT(o)) {
+      handler(element, key, o.value);
+      o.addOnChange((v) => handler(element, key, v));
+    } else {
+      handler(element, key, o);
     }
   }
 }

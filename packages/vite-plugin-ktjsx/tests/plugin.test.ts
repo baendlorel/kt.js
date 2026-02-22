@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import viteKTjsx from '../src/index.js';
 
@@ -31,8 +31,23 @@ describe('vite-plugin-ktjsx', () => {
 
     const code = toCode(result);
     expect(code).toMatch(/__[^>\s=]*svg/i);
-    expect(code).toContain('k-if');
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).not.toContain('k-if');
     expect(code).not.toContain('k-else');
+  });
+
+  it('warns and skips transform when k-else-if is used', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const result = await runTransform('const view = <><div k-if={ok}>A</div><div k-else-if={x}>B</div></>;');
+      const code = toCode(result);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
+      expect(code).toContain('k-else-if');
+      expect(code).not.toContain('KTConditional as _KTConditional');
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 
   it('transforms k-for into KTFor call and strips directive attributes', async () => {

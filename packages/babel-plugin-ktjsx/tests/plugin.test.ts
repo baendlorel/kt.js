@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import babel from '@babel/core';
 import plugin from '../src/index.js';
 
@@ -57,6 +57,29 @@ describe('babel-plugin-ktjsx', () => {
       const code = `const el = <div k-if={condition}>Content</div>;`;
       const result = transform(code);
       expect(result).toContain('k-if={condition}');
+    });
+
+    it('should compile adjacent k-if + k-else chain to KTConditional call', () => {
+      const code = `const el = <><div k-if={condition}>A</div><div k-else>B</div></>;`;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(condition, "div"');
+      expect(result).not.toContain('k-else');
+      expect(result).not.toContain('k-if');
+    });
+
+    it('should warn and skip transform when k-else-if is used', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      try {
+        const code = `const el = <><div k-if={a}>A</div><div k-else-if={b}>B</div><div k-else>C</div></>;`;
+        const result = transform(code);
+        expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
+        expect(result).toContain('k-else-if');
+        expect(result).toContain('k-else');
+        expect(result).not.toContain('KTConditional as _KTConditional');
+      } finally {
+        warnSpy.mockRestore();
+      }
     });
 
     it('should preserve other attributes', () => {

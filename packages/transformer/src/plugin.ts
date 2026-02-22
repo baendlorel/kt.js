@@ -10,8 +10,8 @@ export function transformerKTjsx(): PluginObj {
       JSXElement: {
         enter(path) {
           validateDirectiveCombinations(path);
-          transformConditionalChains(path);
           addFlagToSvgMathMLElement(path);
+          transformConditionalChains(path);
         },
         exit(path) {
           transformKFor(path);

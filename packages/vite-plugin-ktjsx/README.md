@@ -11,7 +11,8 @@ light, manualâ€‘control web framework that creates real DOM elements with builtâ
 It reuses the shared `@ktjs/transformer` core (also used by `@ktjs/babel-plugin-ktjsx`), so behavior is the same:
 
 - mark SVG / MathML subtrees with KT.js namespace flags
-- (TODO) transform `k-if` / `k-else-if` / `k-else` chains
+- compile adjacent `k-if` + `k-else` siblings into `KTConditional(...)`
+- warn and leave `k-else-if` unchanged (currently unsupported)
 
 Basic usage:
 

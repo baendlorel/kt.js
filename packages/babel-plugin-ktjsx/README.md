@@ -7,7 +7,8 @@ Current behavior:
 - add KT.js internal SVG / MathML flags on JSX elements in SVG / MathML context
 - validate directive combinations (`k-if` + `k-else`, and `k-for` mixed with conditional directives)
 - transform `k-for` into `source.map(...)` and remove `k-for` / `k-key` attributes
-- normalize sibling `k-if` / `k-else-if` / `k-else` chains into explicit `k-if` conditions
+- compile adjacent `k-if` + `k-else` siblings into `KTConditional(...)`
+- warn and leave `k-else-if` unchanged (currently unsupported)
 
 ## Install
 

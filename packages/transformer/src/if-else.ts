@@ -328,17 +328,9 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
     return;
   }
 
-  for (let i = 0; i < chain.length; i++) {
-    const directive = getConditionalDirective(chain[i].node);
-    if (directive?.type === 'k-else-if') {
-      warnUnsupportedElseIf(chain[i]);
-      return;
-    }
-  }
-
   const firstDirective = getConditionalDirective(chain[0].node);
   const secondDirective = getConditionalDirective(chain[1].node);
-  if (chain.length === 2 && firstDirective?.type === 'k-if' && secondDirective?.type === 'k-else') {
+  if (firstDirective?.type === 'k-if' && secondDirective?.type === 'k-else') {
     const conditionalCall = buildKTConditionalCall(path, firstDirective.condition, chain[0].node, chain[1].node);
     if (isInsideJSXChildren(path)) {
       path.replaceWith(t.jsxExpressionContainer(conditionalCall));
@@ -346,6 +338,22 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
       path.replaceWith(conditionalCall);
     }
     chain[1].remove();
+
+    for (let i = 2; i < chain.length; i++) {
+      const directive = getConditionalDirective(chain[i].node);
+      if (directive?.type === 'k-else-if') {
+        warnUnsupportedElseIf(chain[i]);
+      }
+    }
+    return;
+  }
+
+  for (let i = 0; i < chain.length; i++) {
+    const directive = getConditionalDirective(chain[i].node);
+    if (directive?.type === 'k-else-if') {
+      warnUnsupportedElseIf(chain[i]);
+      return;
+    }
   }
 }
 

@@ -50,6 +50,22 @@ describe('vite-plugin-ktjsx', () => {
     }
   });
 
+  it('still compiles leading k-if + k-else when trailing k-else-if exists', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const result = await runTransform(
+        'const view = <><div k-if={ok}>A</div><div k-else>B</div><div k-else-if={x}>C</div></>;',
+      );
+      const code = toCode(result);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
+      expect(code).toContain('KTConditional as _KTConditional');
+      expect(code).toContain('_KTConditional(ok, "div"');
+      expect(code).toContain('k-else-if');
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
   it('transforms k-for into KTFor call and strips directive attributes', async () => {
     const result = await runTransform(
       'const view = <li k-for="(item, index, arr) in users" k-key="item.id">{index}-{item.name}-{arr.length}</li>;',

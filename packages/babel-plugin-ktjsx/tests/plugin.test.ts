@@ -82,6 +82,20 @@ describe('babel-plugin-ktjsx', () => {
       }
     });
 
+    it('should still compile leading k-if + k-else when trailing k-else-if exists', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      try {
+        const code = `const el = <><div k-if={a}>A</div><div k-else>B</div><div k-else-if={b}>C</div></>;`;
+        const result = transform(code);
+        expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
+        expect(result).toContain('KTConditional as _KTConditional');
+        expect(result).toContain('_KTConditional(a, "div"');
+        expect(result).toContain('k-else-if');
+      } finally {
+        warnSpy.mockRestore();
+      }
+    });
+
     it('should preserve other attributes', () => {
       const code = `const el = <svg width="100" height="100" class="icon" k-if={show}></svg>;`;
       const result = transform(code);

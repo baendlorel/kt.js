@@ -17,6 +17,15 @@ describe('babel-plugin-ktjsx', () => {
     return result;
   };
 
+  const readRuntimeFactoryAlias = (code: string, factoryName: 'svg' | 'mathml') => {
+    const match = code.match(
+      new RegExp(
+        `import\\s*\\{[\\s\\S]*?\\b${factoryName}\\s+as\\s+([A-Za-z_$][\\w$]*)[\\s\\S]*?\\}\\s*from\\s*['\"][^'\"]*jsx(?:-dev)?-runtime['\"]`,
+      ),
+    );
+    return match?.[1] ?? null;
+  };
+
   describe('SVG/MathML flag addition', () => {
     it('should add SVG flag to svg element', () => {
       const code = `const el = <svg width="100" height="100"></svg>;`;
@@ -49,6 +58,39 @@ describe('babel-plugin-ktjsx', () => {
       const result = transform(code);
       expect(result).not.toMatch(/__[^>\s=]*svg/i);
       expect(result).not.toMatch(/__[^>\s=]*math/i);
+    });
+  });
+
+  describe('lowered jsx-runtime namespace rewrite', () => {
+    it('rewrites lowered svg jsx calls to svg runtime helper', () => {
+      const code = `
+        import { jsx as _jsx } from '@ktjs/core/jsx-runtime';
+        const icon = _jsx("svg", {
+          children: _jsx("circle", { cx: 10, cy: 10, r: 4 })
+        });
+      `;
+      const result = transform(code);
+
+      const svgAlias = readRuntimeFactoryAlias(result, 'svg');
+      expect(svgAlias).toBeTruthy();
+      expect(result).toContain(`${svgAlias}("svg"`);
+      expect(result).toContain(`${svgAlias}("circle"`);
+      expect(result).not.toContain('_jsx("svg"');
+      expect(result).not.toContain('_jsx("circle"');
+    });
+
+    it('rewrites lowered mathml jsx calls to mathml runtime helper and normalizes namespaced tags', () => {
+      const code = `
+        import { jsx as _jsx } from '@ktjs/core/jsx-runtime';
+        const formula = _jsx("math", { children: _jsx("math:mi", { children: "x" }) });
+      `;
+      const result = transform(code);
+
+      const mathAlias = readRuntimeFactoryAlias(result, 'mathml');
+      expect(mathAlias).toBeTruthy();
+      expect(result).toContain(`${mathAlias}("math"`);
+      expect(result).toContain(`${mathAlias}("mi"`);
+      expect(result).not.toContain('"math:mi"');
     });
   });
 

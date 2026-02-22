@@ -7,6 +7,8 @@ import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 
+export { svg, mathml } from '../h/index.js';
+
 /**
  * @param tag html tag or function component
  * @param props properties/attributes

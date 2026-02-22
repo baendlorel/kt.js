@@ -14,6 +14,15 @@ const toCode = (result: any) => {
   return result.code;
 };
 
+const readRuntimeFactoryAlias = (code: string, factoryName: 'svg' | 'mathml') => {
+  const match = code.match(
+    new RegExp(
+      `import\\s*\\{[\\s\\S]*?\\b${factoryName}\\s+as\\s+([A-Za-z_$][\\w$]*)[\\s\\S]*?\\}\\s*from\\s*['\"][^'\"]*jsx(?:-dev)?-runtime['\"]`,
+    ),
+  );
+  return match?.[1] ?? null;
+};
+
 describe('vite-plugin-ktjsx', () => {
   const runTransform = async (code: string, id = '/src/view.tsx', options = {}) => {
     const plugin = viteKTjsx(options);
@@ -108,6 +117,28 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).toContain('list: users');
     expect(code).toContain('map: (item, index) => jsx');
     expect(code).not.toContain('k-for');
+  });
+
+  it('rewrites lowered jsx-runtime svg/mathml calls to namespace helpers', async () => {
+    const result = await runTransform(
+      [
+        "import { jsx as _jsx } from '@ktjs/core/jsx-runtime';",
+        'const icon = _jsx("svg", { children: _jsx("circle", {}) });',
+        'const formula = _jsx("math", { children: _jsx("math:mi", { children: "x" }) });',
+      ].join(' '),
+    );
+
+    const code = toCode(result);
+    const svgAlias = readRuntimeFactoryAlias(code, 'svg');
+    const mathAlias = readRuntimeFactoryAlias(code, 'mathml');
+
+    expect(svgAlias).toBeTruthy();
+    expect(mathAlias).toBeTruthy();
+    expect(code).toContain(`${svgAlias}("svg"`);
+    expect(code).toContain(`${svgAlias}("circle"`);
+    expect(code).toContain(`${mathAlias}("math"`);
+    expect(code).toContain(`${mathAlias}("mi"`);
+    expect(code).not.toContain('"math:mi"');
   });
 
   it('throws when k-for is mixed with conditional directives on the same element', async () => {

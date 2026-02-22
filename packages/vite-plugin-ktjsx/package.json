@@ -2,7 +2,7 @@
   "name": "@ktjs/vite-plugin-ktjsx",
   "description": "Vite plugin that applies KT.js JSX transforms.",
   "description_zh": "用于应用 KT.js JSX 转换的 Vite 插件。",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",

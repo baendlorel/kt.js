@@ -14,34 +14,34 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
 
   const changeHandler = (checked: boolean, checkboxValue: string) => {
     if (checked) {
-      $ArrayPushUnique(modelRef.value, checkboxValue);
+      $ArrayPushUnique(model.value, checkboxValue);
     } else {
-      $ArrayDelete(modelRef.value, checkboxValue);
+      $ArrayDelete(model.value, checkboxValue);
     }
-    onChange(modelRef.value);
+    onChange(model.value);
   };
 
-  const rowRef = toReactive(props.row ?? true);
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const modelRef = $modelOrRef(props, props.value ?? []);
-  modelRef.addOnChange((newValues) => {
+  const row = toReactive(props.row ?? true);
+  const size = toReactive(props.size ?? 'medium');
+  const model = $modelOrRef(props, [] as string[]);
+  model.addOnChange((newValues) => {
     for (let i = 0; i < checkboxes.value.length; i++) {
       const c = checkboxes.value[i];
       c.checked = newValues.includes(c.value);
     }
   });
 
-  const customClassRef = toReactive(props.class ?? '');
-  const classRef = computed(() => {
-    return `mui-checkbox-group ${rowRef.value ? 'mui-checkbox-group-row' : ''} ${customClassRef.value}`;
-  }, [rowRef, customClassRef]);
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const customClass = toReactive(props.class ?? '');
+  const className = computed(() => {
+    return `mui-checkbox-group ${row.value ? 'mui-checkbox-group-row' : ''} ${customClass.value}`;
+  }, [row, customClass]);
+  const style = toReactive($parseStyle(props.style ?? ''));
 
-  const optionsRef = toReactive(props.options);
+  const options = toReactive(props.options);
   const checkboxes = computed(() => {
-    return optionsRef.value.map((o) => {
-      o.size = sizeRef.value;
-      o.checked = modelRef.value.includes(o.value);
+    return options.value.map((o) => {
+      o.size = size.value;
+      o.checked = model.value.includes(o.value);
 
       const originalChange = o['on:change'];
       if (originalChange) {
@@ -57,10 +57,10 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
       }
       return Checkbox(o);
     });
-  }, [optionsRef, sizeRef]);
+  }, [options, size]);
 
   const container = (
-    <div class={classRef} style={styleRef} role="group">
+    <div class={className} style={style} role="group">
       {checkboxes}
     </div>
   ) as KTMuiCheckboxGroup;

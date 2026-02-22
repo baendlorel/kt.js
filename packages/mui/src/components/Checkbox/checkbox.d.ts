@@ -13,8 +13,7 @@ export interface KTMuiCheckboxProps {
   indeterminate?: boolean;
 }
 
-export interface KTMuiCheckboxGroupProps extends KTMuiProps {
-  value?: string[];
+export interface KTMuiCheckboxGroupProps extends Omit<KTMuiProps, 'children'> {
   size?: 'small' | 'medium';
   options: Array<Omit<KTMuiCheckboxProps, 'value'> & { value: string }>;
   'on:change'?: (values: string[]) => void;

@@ -1,3 +1,4 @@
+import type { JSX } from '@ktjs/core';
 import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';

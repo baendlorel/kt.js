@@ -1,3 +1,4 @@
+import type { JSX } from '@ktjs/core';
 import './FormLabel.css';
 
 // todo 此处不一样

@@ -1,3 +1,4 @@
+import type { JSX } from '@ktjs/core';
 import { computed, ref, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css';

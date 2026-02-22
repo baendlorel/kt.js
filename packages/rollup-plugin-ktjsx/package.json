@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/rollup-plugin-ktjsx",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Rollup plugin that applies KT.js JSX transforms.",
   "description_zh": "用于应用 KT.js JSX 转换的 Rollup 插件。",
   "type": "module",

@@ -1,3 +1,4 @@
+import type { JSX } from '@ktjs/core';
 import type { KTReactive, KTPrefixedEventAttribute } from '@ktjs/core';
 import { toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';

@@ -12,6 +12,8 @@ interface ParsedKForExpression {
   source: string;
 }
 
+type KForTransformPath = NodePath<t.Node>;
+
 export function validateDirectiveCombinations(path: NodePath<t.JSXElement>) {
   const opening = path.node.openingElement;
   const hasFor = hasAttribute(opening, 'k-for');
@@ -78,6 +80,46 @@ export function transformKFor(path: NodePath<t.JSXElement>): boolean {
   return true;
 }
 
+export function transformKForCallExpression(path: NodePath<t.CallExpression>): boolean {
+  const targetProps = findDirectivePropsObject(path.node, 'k-for');
+  if (!targetProps) {
+    return false;
+  }
+
+  const parsedForText = readExpressionStringValue(targetProps.forProperty.value, path, 'k-for');
+  const parsedFor = parseKForExpression(parsedForText);
+  if (!parsedFor) {
+    throw path.buildCodeFrameError(
+      'Invalid `k-for` expression. Expected `item in list` or `(item, index[, array]) in list`.',
+    );
+  }
+
+  const sourceExpression = parseTextAsExpression(path, parsedFor.source, 'k-for source');
+  const keyCallback = createKeyCallbackFromExpression(path, targetProps.keyProperty?.value, parsedFor.aliases);
+
+  const renderCall = t.cloneNode(path.node, true) as t.CallExpression;
+  const renderProps = renderCall.arguments[targetProps.argIndex];
+  if (!renderProps || !t.isObjectExpression(renderProps)) {
+    return false;
+  }
+  renderProps.properties = removeObjectProperties(renderProps.properties, ['k-for', 'k-key']);
+
+  const callbackParams = parsedFor.aliases.map((alias) => t.identifier(alias));
+  const callback = t.arrowFunctionExpression(callbackParams, renderCall);
+  const ktForIdentifier = ensureKTForIdentifier(path);
+  const props: t.ObjectProperty[] = [
+    t.objectProperty(t.identifier('list'), sourceExpression),
+    t.objectProperty(t.identifier('map'), callback),
+  ];
+
+  if (keyCallback) {
+    props.splice(1, 0, t.objectProperty(t.identifier('key'), keyCallback));
+  }
+
+  path.replaceWith(t.callExpression(ktForIdentifier, [t.objectExpression(props)]));
+  return true;
+}
+
 function parseKForExpression(raw: string): ParsedKForExpression | null {
   const value = raw.trim();
   if (!value) {
@@ -106,7 +148,7 @@ function parseKForExpression(raw: string): ParsedKForExpression | null {
       return null;
     }
     return {
-      aliases: [singleMatch[1]],
+      aliases: [singleMatch[1], 'index'],
       source,
     };
   }
@@ -114,7 +156,7 @@ function parseKForExpression(raw: string): ParsedKForExpression | null {
   return null;
 }
 
-function parseTextAsExpression(path: NodePath<t.JSXElement>, text: string, label: string): t.Expression {
+function parseTextAsExpression(path: KForTransformPath, text: string, label: string): t.Expression {
   try {
     const ast = parseSync(`(${text});`, {
       configFile: false,
@@ -189,6 +231,21 @@ function readAttributeStringValue(
   throw path.buildCodeFrameError(`Directive \`${attrName}\` must be a string literal.`);
 }
 
+function readExpressionStringValue(
+  expression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder,
+  path: KForTransformPath,
+  directiveName: string,
+): string {
+  if (t.isStringLiteral(expression)) {
+    return expression.value;
+  }
+  if (t.isTemplateLiteral(expression) && expression.expressions.length === 0) {
+    return expression.quasis[0]?.value.cooked ?? '';
+  }
+
+  throw path.buildCodeFrameError(`Directive \`${directiveName}\` must be a string literal.`);
+}
+
 function hasStringLikeValue(attr: t.JSXAttribute): boolean {
   if (!attr.value) {
     return false;
@@ -205,6 +262,18 @@ function hasStringLikeValue(attr: t.JSXAttribute): boolean {
   return t.isTemplateLiteral(attr.value.expression) && attr.value.expression.expressions.length === 0;
 }
 
+function hasStringLikeExpression(
+  expression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder | undefined,
+): expression is t.StringLiteral | t.TemplateLiteral {
+  if (!expression) {
+    return false;
+  }
+  if (t.isStringLiteral(expression)) {
+    return true;
+  }
+  return t.isTemplateLiteral(expression) && expression.expressions.length === 0;
+}
+
 function createKeyCallback(
   path: NodePath<t.JSXElement>,
   keyAttr: t.JSXAttribute | undefined,
@@ -218,6 +287,21 @@ function createKeyCallback(
   const keyExpression = parseTextAsExpression(path, keyText, 'k-key');
   const params = aliases.map((alias) => t.identifier(alias));
   return t.arrowFunctionExpression(params, keyExpression);
+}
+
+function createKeyCallbackFromExpression(
+  path: KForTransformPath,
+  keyExpression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder | undefined,
+  aliases: string[],
+): t.ArrowFunctionExpression | null {
+  if (!hasStringLikeExpression(keyExpression)) {
+    return null;
+  }
+
+  const keyText = readExpressionStringValue(keyExpression, path, 'k-key');
+  const parsedKeyExpression = parseTextAsExpression(path, keyText, 'k-key');
+  const params = aliases.map((alias) => t.identifier(alias));
+  return t.arrowFunctionExpression(params, parsedKeyExpression);
 }
 
 function removeAttributes(
@@ -236,6 +320,80 @@ function removeAttributes(
   });
 }
 
+function removeObjectProperties(
+  properties: (t.ObjectMethod | t.ObjectProperty | t.SpreadElement)[],
+  names: string[],
+): (t.ObjectMethod | t.ObjectProperty | t.SpreadElement)[] {
+  const set = new Set(names);
+  return properties.filter((property) => {
+    if (!t.isObjectProperty(property)) {
+      return true;
+    }
+    const propertyName = getObjectPropertyName(property);
+    if (!propertyName) {
+      return true;
+    }
+    return !set.has(propertyName);
+  });
+}
+
+function findDirectivePropsObject(
+  callExpression: t.CallExpression,
+  directiveName: string,
+):
+  | {
+      argIndex: number;
+      forProperty: t.ObjectProperty;
+      keyProperty: t.ObjectProperty | undefined;
+    }
+  | undefined {
+  for (let i = 0; i < callExpression.arguments.length; i++) {
+    const argument = callExpression.arguments[i];
+    if (!t.isObjectExpression(argument)) {
+      continue;
+    }
+    const forProperty = getObjectProperty(argument, directiveName);
+    if (!forProperty) {
+      continue;
+    }
+    return {
+      argIndex: i,
+      forProperty,
+      keyProperty: getObjectProperty(argument, 'k-key'),
+    };
+  }
+  return undefined;
+}
+
+function getObjectProperty(objectExpression: t.ObjectExpression, name: string): t.ObjectProperty | undefined {
+  for (let i = 0; i < objectExpression.properties.length; i++) {
+    const property = objectExpression.properties[i];
+    if (!t.isObjectProperty(property)) {
+      continue;
+    }
+    if (getObjectPropertyName(property) === name) {
+      return property;
+    }
+  }
+  return undefined;
+}
+
+function getObjectPropertyName(property: t.ObjectProperty): string | null {
+  if (property.computed) {
+    if (t.isStringLiteral(property.key)) {
+      return property.key.value;
+    }
+    return null;
+  }
+  if (t.isIdentifier(property.key)) {
+    return property.key.name;
+  }
+  if (t.isStringLiteral(property.key)) {
+    return property.key.value;
+  }
+  return null;
+}
+
 function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {
   if (!path.inList || path.listKey !== 'children') {
     return false;
@@ -244,7 +402,7 @@ function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {
   return !!parent && (parent.isJSXElement() || parent.isJSXFragment());
 }
 
-function ensureKTForIdentifier(path: NodePath<t.JSXElement>): t.Identifier {
+function ensureKTForIdentifier(path: KForTransformPath): t.Identifier {
   const programPath = getProgramPath(path);
   const cached = programPath.getData(KTFOR_HELPER_CACHE_KEY);
   if (t.isIdentifier(cached)) {
@@ -265,7 +423,7 @@ function ensureKTForIdentifier(path: NodePath<t.JSXElement>): t.Identifier {
   return t.identifier(localIdentifier.name);
 }
 
-function getProgramPath(path: NodePath<t.JSXElement>): NodePath<t.Program> {
+function getProgramPath(path: KForTransformPath): NodePath<t.Program> {
   const programPath = path.findParent((currentPath) => currentPath.isProgram()) as NodePath<t.Program> | null;
   if (!programPath) {
     throw path.buildCodeFrameError('Failed to resolve Program path while transforming `k-for`.');

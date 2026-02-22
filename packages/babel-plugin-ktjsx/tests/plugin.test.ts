@@ -70,13 +70,13 @@ describe('babel-plugin-ktjsx', () => {
   });
 
   describe('k-for transformation', () => {
-    it('transforms `k-for` to KTFor call', () => {
+    it('transforms `k-for` to KTFor call with default index alias', () => {
       const code = `const list = <li k-for="item in users">{item.name}</li>;`;
       const result = transform(code);
 
       expect(result).toContain('import { KTFor as _KTFor }');
       expect(result).toContain('list: users');
-      expect(result).toContain('map: item =>');
+      expect(result).toContain('map: (item, index) =>');
       expect(result).not.toContain('k-for');
     });
 
@@ -87,6 +87,19 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).toContain('key: (item, index, arr) => item.id');
       expect(result).toContain('map: (item, index, arr) =>');
       expect(result).not.toContain('k-key');
+    });
+
+    it('transforms already lowered jsx-runtime call form', () => {
+      const code = `
+        import { jsx } from '@ktjs/core/jsx-runtime';
+        const list = jsx('li', { 'k-for': '(item, index) in users', children: item });
+      `;
+      const result = transform(code);
+
+      expect(result).toContain('import { KTFor as _KTFor }');
+      expect(result).toContain('list: users');
+      expect(result).toContain('map: (item, index) => jsx');
+      expect(result).not.toContain('k-for');
     });
   });
 

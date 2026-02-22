@@ -31,7 +31,7 @@ export function parseKForExpression(raw: string, allowOfKeyword: boolean): Parse
     }
 
     return {
-      aliases: uniqueIdentifiers([singleMatch[1]]),
+      aliases: uniqueIdentifiers([singleMatch[1], 'index']),
       source,
     };
   }

@@ -49,6 +49,25 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-key');
   });
 
+  it('provides default index alias for `item in list` syntax', async () => {
+    const result = await runTransform('const view = <li k-for="item in users">{item.name}-{index}</li>;');
+    const code = toCode(result);
+    expect(code).toContain('map: (item, index) =>');
+    expect(code).toContain('{item.name}-{index}');
+  });
+
+  it('supports already lowered jsx-runtime call form', async () => {
+    const result = await runTransform(
+      "import { jsx } from '@ktjs/core/jsx-runtime'; const view = jsx('li', { 'k-for': '(item,index) in users', children: item });",
+      '/src/view.tsx',
+    );
+    const code = toCode(result);
+    expect(code).toContain('import { KTFor as _KTFor }');
+    expect(code).toContain('list: users');
+    expect(code).toContain('map: (item, index) => jsx');
+    expect(code).not.toContain('k-for');
+  });
+
   it('throws when k-for is mixed with conditional directives on the same element', async () => {
     await expect(runTransform('const view = <li k-for="item in users" k-if={ok}>{item}</li>;')).rejects.toThrow(
       /k-for.*k-if.*k-else-if.*k-else/i,

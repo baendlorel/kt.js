@@ -77,7 +77,9 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
 
     // normal event handler
     if (key.startsWith('on:')) {
-      element.addEventListener(key.slice(3), o); // chop off the `on:`
+      if (o) {
+        element.addEventListener(key.slice(3), o); // chop off the `on:`
+      }
     }
     // normal attributes
     else {

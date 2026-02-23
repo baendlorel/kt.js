@@ -48,7 +48,6 @@ export class KTComputed<T> implements KTReactive<T> {
       return;
     }
     this._value = newValue;
-    $replaceNode(oldValue, newValue);
     this._emit(newValue, oldValue);
   }
 

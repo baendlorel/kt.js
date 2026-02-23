@@ -46,9 +46,7 @@ export class KTRef<T> implements KTReactive<T> {
     if ($is(newValue, this._value)) {
       return;
     }
-
     const oldValue = this._value;
-    $replaceNode(oldValue, newValue);
     this._value = newValue;
     this._emit(newValue, oldValue);
   }

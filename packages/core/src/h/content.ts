@@ -12,21 +12,15 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
 
   if (isKT(c)) {
     let node = assureNode(c.value);
-    element.append(node);
-    c.addOnChange((newValue, oldValue) => {
-      // todo 感觉这里的replace应该直接在这里处理，而不是在ktref里处理
-      if ($isNode(newValue) && $isNode(oldValue)) {
-        // & this case is handled automically in `class KTRef`
-        return;
-      }
-
+    element.appendChild(node);
+    c.addOnChange((newValue, _oldValue) => {
       const oldNode = node;
       node = assureNode(newValue);
       oldNode.replaceWith(node);
     });
   } else {
     const node = assureNode(c);
-    element.append(node);
+    element.appendChild(node);
     // Handle KTFor anchor
     const list = (node as any).__kt_for_list__ as any[];
     if ($isArray(list)) {
@@ -44,7 +38,7 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       const ci = c[i];
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
-        element.append(comment);
+        element.appendChild(comment);
         ci.then((awaited) => comment.replaceWith(awaited));
       } else {
         apdSingle(element, ci);

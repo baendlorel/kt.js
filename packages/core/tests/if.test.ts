@@ -1,148 +1,86 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { kelse, kif } from '../src/jsx/if.js';
-import { jsx } from '../src/jsx/jsx-runtime.js';
+import { h } from '../src/h/index.js';
+import { KTConditional } from '../src/jsx/if.js';
 import { ref } from '../src/reactive/index.js';
 
-describe('k-if / k-else', () => {
+describe('KTConditional', () => {
   let container: HTMLDivElement;
-  let originalThrow: any;
-  let originalFlags: any;
 
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);
-
-    originalThrow = (globalThis as any).$throw;
-    (globalThis as any).$throw = (message?: string): never => {
-      throw new Error(message ?? '');
-    };
-
-    originalFlags = (globalThis as any).flags;
-    (globalThis as any).flags = {
-      svg: '__kt_svg__',
-      mathml: '__kt_mathml__',
-    };
   });
 
   afterEach(() => {
     container.remove();
-    if (originalThrow) {
-      (globalThis as any).$throw = originalThrow;
-    } else {
-      delete (globalThis as any).$throw;
-    }
-
-    if (originalFlags) {
-      (globalThis as any).flags = originalFlags;
-    } else {
-      delete (globalThis as any).flags;
-    }
   });
 
-  it('renders element/comment correctly for static k-if values', () => {
-    const rendered = kif('div', { 'k-if': true, children: 'if-branch' }) as Node & { __kif__?: { value: boolean } };
-    const hidden = kif('div', { 'k-if': false, children: 'if-branch' }) as Node & { __kif__?: { value: boolean } };
+  it('renders element/comment correctly for static conditions without else branch', () => {
+    const rendered = KTConditional(true, 'div', { children: 'if-branch' }) as Node;
+    const hidden = KTConditional(false, 'div', { children: 'if-branch' }) as Node;
 
     expect(rendered.nodeType).toBe(Node.ELEMENT_NODE);
     expect(rendered.textContent).toBe('if-branch');
-    expect(rendered.__kif__?.value).toBe(true);
 
     expect(hidden.nodeType).toBe(Node.COMMENT_NODE);
-    expect(hidden.textContent).toBe('k-if');
-    expect(hidden.__kif__?.value).toBe(false);
+    expect((hidden as Comment).data).toBe('kt-conditional');
   });
 
-  it('updates k-if node and ref when condition changes', () => {
+  it('returns the else branch when static condition is false', () => {
+    const rendered = KTConditional(false, 'div', { children: 'if-branch' }, 'span', { children: 'else-branch' }) as HTMLElement;
+
+    expect(rendered.tagName).toBe('SPAN');
+    expect(rendered.textContent).toBe('else-branch');
+  });
+
+  it('updates between element and placeholder when reactive condition changes', () => {
     const visible = ref(true);
-    const nodeRef = ref();
-
-    const node = kif('div', { 'k-if': visible, ref: nodeRef, children: 'if-branch' });
-    container.appendChild(node as Node);
-    expect(container.textContent).toBe('if-branch');
-    expect(nodeRef.value.nodeType).toBe(Node.ELEMENT_NODE);
-
-    visible.value = false;
-    expect(container.textContent).toBe('');
-    expect(nodeRef.value.nodeType).toBe(Node.COMMENT_NODE);
-    expect(nodeRef.value.textContent).toBe('k-if');
-
-    visible.value = true;
-    expect(container.textContent).toBe('if-branch');
-    expect(nodeRef.value.nodeType).toBe(Node.ELEMENT_NODE);
-  });
-
-  it('keeps k-else hidden by default and toggles correctly', () => {
-    const nodeRef = ref();
-    const node = kelse('div', { 'k-else': true, ref: nodeRef, children: 'else-branch' }) as Node & {
-      __kelse__: (v: boolean) => void;
-    };
+    const node = KTConditional(visible, 'div', { id: 'if-node', children: 'if-branch' }) as Node;
 
     container.appendChild(node);
-    expect(container.textContent).toBe('');
-    expect(nodeRef.value.nodeType).toBe(Node.COMMENT_NODE);
-
-    node.__kelse__(false);
-    expect(container.textContent).toBe('else-branch');
-    expect(nodeRef.value.nodeType).toBe(Node.ELEMENT_NODE);
-
-    node.__kelse__(true);
-    expect(container.textContent).toBe('');
-    expect(nodeRef.value.nodeType).toBe(Node.COMMENT_NODE);
-  });
-
-  it('switches branches when k-if changes in a valid k-if+k-else chain', () => {
-    const visible = ref(true);
-    const parent = jsx('div', {
-      children: [
-        jsx('span', { 'k-if': visible, children: 'if-branch' }),
-        jsx('span', { 'k-else': true, children: 'else-branch' }),
-      ],
-    }) as HTMLDivElement;
-
-    container.appendChild(parent);
-    expect(parent.textContent).toBe('if-branch');
-    expect(parent.querySelectorAll('span').length).toBe(1);
+    expect(container.textContent).toBe('if-branch');
+    expect(container.querySelector('#if-node')).toBeTruthy();
 
     visible.value = false;
-    expect(parent.textContent).toBe('else-branch');
-    expect(parent.querySelectorAll('span').length).toBe(1);
+    expect(container.textContent).toBe('');
+    expect(container.firstChild?.nodeType).toBe(Node.COMMENT_NODE);
+    expect((container.firstChild as Comment).data).toBe('kt-conditional');
 
     visible.value = true;
-    expect(parent.textContent).toBe('if-branch');
-    expect(parent.querySelectorAll('span').length).toBe(1);
+    expect(container.textContent).toBe('if-branch');
+    expect(container.querySelector('#if-node')).toBeTruthy();
   });
 
-  it('renders k-else branch immediately when initial k-if is false', () => {
-    const visible = ref(false);
-    const parent = jsx('div', {
-      children: [
-        jsx('span', { 'k-if': visible, children: 'if-branch' }),
-        jsx('span', { 'k-else': true, children: 'else-branch' }),
-      ],
-    }) as HTMLDivElement;
+  it('switches between if/else branches when reactive condition changes', () => {
+    const visible = ref(true);
+    const node = KTConditional(
+      visible,
+      'div',
+      { class: 'if-branch', children: 'if-branch' },
+      'div',
+      { class: 'else-branch', children: 'else-branch' },
+    ) as Node;
 
-    container.appendChild(parent);
-    expect(parent.textContent).toBe('else-branch');
-    expect(parent.querySelectorAll('span').length).toBe(1);
+    container.appendChild(node);
+    expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
+    expect(container.querySelector('.else-branch')).toBeNull();
+
+    visible.value = false;
+    expect(container.querySelector('.if-branch')).toBeNull();
+    expect(container.querySelector('.else-branch')?.textContent).toBe('else-branch');
+
+    visible.value = true;
+    expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
+    expect(container.querySelector('.else-branch')).toBeNull();
   });
 
-  it('throws when k-else is the first child', () => {
-    expect(() => {
-      jsx('div', {
-        children: [jsx('span', { 'k-else': true, children: 'else-branch' })],
-      });
-    }).toThrow('k-else cannot be the first child of its parent element.');
-  });
+  it('supports component tags for both branches', () => {
+    const IfComp = (props: { children?: string }) => h('p', { class: 'if-component' }, props.children);
+    const ElseComp = (props: { children?: string }) => h('p', { class: 'else-component' }, props.children);
+    const node = KTConditional(false, IfComp, { children: 'if-text' }, ElseComp, { children: 'else-text' }) as Node;
 
-  it('throws when k-else is not immediately preceded by k-if', () => {
-    expect(() => {
-      jsx('div', {
-        children: [
-          jsx('span', { 'k-if': true, children: 'if-branch' }),
-          'gap',
-          jsx('span', { 'k-else': true, children: 'else-branch' }),
-        ],
-      });
-    }).toThrow('k-else must be immediately preceded by a k-if element.');
+    container.appendChild(node);
+    expect(container.querySelector('.if-component')).toBeNull();
+    expect(container.querySelector('.else-component')?.textContent).toBe('else-text');
   });
 });

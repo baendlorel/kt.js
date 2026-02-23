@@ -9,6 +9,12 @@ export default defineConfig(() => {
       environment: 'jsdom',
       // setupFiles: ['./src/macros.ts'],
       include: [path.join(packageDir, '**', '*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)')],
+      exclude: [
+        path.join(packageDir, '**', 'node_modules', '**'),
+        path.join(packageDir, '**', 'dist', '**'),
+        path.join(packageDir, '**', 'build', '**'),
+        path.join(packageDir, '**', 'coverage', '**'),
+      ],
       silent: false,
     },
     define: globalDefines,

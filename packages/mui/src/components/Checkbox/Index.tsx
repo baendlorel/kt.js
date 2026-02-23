@@ -6,6 +6,8 @@ import { $ArrayDelete, $ArrayPushUnique } from '../../common/misc.js';
 import './Checkbox.css';
 import { Checkbox } from './Checkbox.js';
 
+export { Checkbox } from './Checkbox.js';
+
 /**
  * CheckboxGroup component - groups multiple checkboxes together
  */

@@ -25,12 +25,12 @@ export const $replaceNode = (oldNode: unknown, newNode: unknown) => {
  * & Remove `bind` because it is shockingly slower than wrapper
  * & `window.document` is safe because it is not configurable and its setter is undefined
  */
-export const $appendChild = HTMLElement.prototype.appendChild;
-const originAppend = HTMLElement.prototype.append;
+export const $appendChild = Node.prototype.appendChild;
+const originAppend = Element.prototype.append;
 export const $append: typeof originAppend = // for ie 9/10/11
   typeof originAppend === 'function'
     ? originAppend
-    : function (this: HTMLElement, ...nodes: Array<Node | string>) {
+    : function (this: ParentNode, ...nodes: Array<Node | string>) {
         if (nodes.length < 50) {
           for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];

@@ -100,6 +100,24 @@ describe('DOM utilities', () => {
       $append.call(parent, ...nodes);
       expect(parent.childNodes.length).toBe(100);
     });
+
+    it('should append SVG and MathML children correctly', () => {
+      const svgRoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      $append.call(svgRoot, circle);
+
+      expect(svgRoot.firstChild).toBe(circle);
+      expect(circle.namespaceURI).toBe('http://www.w3.org/2000/svg');
+
+      const mathRoot = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'math');
+      const mi = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'mi');
+      mi.textContent = 'x';
+      $append.call(mathRoot, mi);
+
+      expect(mathRoot.firstChild).toBe(mi);
+      expect(mi.namespaceURI).toBe('http://www.w3.org/1998/Math/MathML');
+      expect(mathRoot.textContent).toBe('x');
+    });
   });
 
   describe('button disabled property descriptors', () => {

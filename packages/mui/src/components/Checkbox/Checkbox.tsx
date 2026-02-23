@@ -1,4 +1,4 @@
-import { $emptyFn } from '@ktjs/shared';
+import { $defines, $emptyFn } from '@ktjs/shared';
 import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';
@@ -69,6 +69,33 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
       indeterminateIcon.style.display = 'none';
     }
   }, [model, interminate]);
+
+  $defines(container, {
+    checked: {
+      get() {
+        return model.value;
+      },
+      set(v: boolean) {
+        model.value = v;
+      },
+    },
+    value: {
+      get() {
+        return value.value;
+      },
+      set(v: string) {
+        value.value = v;
+      },
+    },
+    disabled: {
+      get() {
+        return disabled.value;
+      },
+      set(v: boolean) {
+        disabled.value = v;
+      },
+    },
+  });
 
   return container;
 }

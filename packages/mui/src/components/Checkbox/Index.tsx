@@ -1,7 +1,6 @@
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, toReactive } from '@ktjs/core';
 import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
-import { $ArrayDelete, $ArrayPushUnique } from '../../common/misc.js';
 
 import './Checkbox.css';
 import { Checkbox } from './Checkbox.js';
@@ -14,22 +13,10 @@ export { Checkbox } from './Checkbox.js';
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   let { 'on:change': onChange = $emptyFn } = props;
 
-  const changeHandler = (checked: boolean, checkboxValue: string) => {
-    if (checked) {
-      $ArrayPushUnique(model.value, checkboxValue);
-    } else {
-      $ArrayDelete(model.value, checkboxValue);
-    }
-    onChange(model.value);
-  };
-
   const row = toReactive(props.row ?? true);
   const size = toReactive(props.size ?? 'medium');
   const model = $modelOrRef(props, [] as string[]);
   model.addOnChange((newValues) => {
-    if (newValues.length !== checkboxes.length) {
-      $throw('CheckboxGroup: model value length must match the number of checkboxes');
-    }
     for (let i = 0; i < checkboxes.length; i++) {
       const c = checkboxes[i];
       c.checked = newValues.includes(c.value);
@@ -57,37 +44,25 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
         checkboxes.push(checkbox);
         return checkbox;
       }
-      if (o instanceof Element) {
-        return o;
-      }
-      $throw('CheckboxGroup: options must be an array of objects with "value" and "label" properties or DOM elements');
+      return o;
     });
   }, [options, size]);
-  const checkbox = computed(() => {
-    // todo options里面可能存在不是option的东西，这些东西要正常渲染。
-    return options.value.map((o) => {
-      o.size = size.value;
-      o.checked = model.value.includes(o.value);
 
-      const originalChange = o['on:change'];
-      if (originalChange) {
-        if (typeof originalChange !== 'function') {
-          $throw('CheckboxGroup: handler must be a function');
-        }
-        o['on:change'] = (checked: boolean, value: string) => {
-          originalChange(checked, value);
-          changeHandler(checked, value);
-        };
-      } else {
-        o['on:change'] = changeHandler;
+  const onClick = () => {
+    const old = model.value.slice();
+    model.value.length = 0;
+    for (let i = 0; i < checkboxes.length; i++) {
+      const c = checkboxes[i];
+      if (c.checked) {
+        model.value.push(c.value);
       }
-      return Checkbox(o);
-    });
-  }, [options, size]);
+    }
+    onChange(old, model.value.slice());
+  };
 
   const container = (
-    <div class={className} style={style} role="group">
-      {checkboxes}
+    <div class={className} style={style} role="group" on:click={onClick}>
+      {members}
     </div>
   ) as KTMuiCheckboxGroup;
 

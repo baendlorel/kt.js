@@ -1,6 +1,6 @@
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, toReactive } from '@ktjs/core';
-import type { KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
+import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 import { $ArrayDelete, $ArrayPushUnique } from '../../common/misc.js';
 
 import './Checkbox.css';
@@ -25,8 +25,11 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const size = toReactive(props.size ?? 'medium');
   const model = $modelOrRef(props, [] as string[]);
   model.addOnChange((newValues) => {
-    for (let i = 0; i < checkboxes.value.length; i++) {
-      const c = checkboxes.value[i];
+    if (newValues.length !== checkboxes.length) {
+      $throw('CheckboxGroup: model value length must match the number of checkboxes');
+    }
+    for (let i = 0; i < checkboxes.length; i++) {
+      const c = checkboxes[i];
       c.checked = newValues.includes(c.value);
     }
   });
@@ -38,7 +41,28 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const style = toReactive($parseStyle(props.style ?? ''));
 
   const options = toReactive(props.options);
-  const checkboxes = computed(() => {
+
+  const checkboxes: KTMuiCheckbox[] = [];
+  /**
+   * Options and non-option elements, both will be put into the CheckboxGroup.
+   */
+  const members = computed(() => {
+    checkboxes.length = 0;
+    return options.value.map((o) => {
+      if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
+        const checkboxProps = { ...o, size: size.value };
+        const checkbox = Checkbox(checkboxProps);
+        checkboxes.push(checkbox);
+        return checkbox;
+      }
+      if (o instanceof Element) {
+        return o;
+      }
+      $throw('CheckboxGroup: options must be an array of objects with "value" and "label" properties or DOM elements');
+    });
+  }, [options, size]);
+  const checkbox = computed(() => {
+    // todo options里面可能存在不是option的东西，这些东西要正常渲染。
     return options.value.map((o) => {
       o.size = size.value;
       o.checked = model.value.includes(o.value);

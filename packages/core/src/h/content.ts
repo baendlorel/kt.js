@@ -1,4 +1,4 @@
-import { $append, $isArray, $isNode, $isThenable } from '@ktjs/shared';
+import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactive/core.js';
 
@@ -12,7 +12,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
 
   if (isKT(c)) {
     let node = assureNode(c.value);
-    $append.call(element, node);
+    element.appendChild(node);
     c.addOnChange((newValue, oldValue) => {
       if ($isNode(newValue) && $isNode(oldValue)) {
         // & this case is handled automically in `class KTRef`
@@ -24,8 +24,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
       oldNode.replaceWith(node);
     });
   } else {
-    $append.call(element, c as Node);
-
+    element.appendChild(c as Node);
     // Handle KTFor anchor
     const list = (c as any).__kt_for_list__ as any[];
     if ($isArray(list)) {
@@ -43,7 +42,7 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       const ci = c[i];
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
-        $append.call(element, comment);
+        element.appendChild(comment);
         ci.then((awaited) => comment.replaceWith(awaited));
       } else {
         apdSingle(element, ci);

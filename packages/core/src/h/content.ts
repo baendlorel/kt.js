@@ -14,6 +14,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     let node = assureNode(c.value);
     element.append(node);
     c.addOnChange((newValue, oldValue) => {
+      // todo 感觉这里的replace应该直接在这里处理，而不是在ktref里处理
       if ($isNode(newValue) && $isNode(oldValue)) {
         // & this case is handled automically in `class KTRef`
         return;

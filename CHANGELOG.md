@@ -19,6 +19,7 @@
   - Corrected `KTConditional` handling behavior in compiled flows.
 - **Runtime behavior fixes**:
   - Refined `applyKModel` element checks to use tag-based handling for correctness.
+  - Fix that `svg` and `mathml` JSX calls were not properly transformed in the runtime.
 
 ### Optimizations
 

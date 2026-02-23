@@ -9,12 +9,10 @@ export const $emptyFn = (() => true) as (...args: any[]) => any;
 export const $emptyArray: any[] = [];
 export const $emptyObject = Object.create(null);
 
-export const $isSame = (a: unknown, b: unknown): boolean => {
-  if ($isArray(a)) {
-    return true; // always trigger an array
-  }
-  return $is(a, b);
-};
+/**
+ * SameValueZero comparison, similar to `Object.is` but treats `+0 === -0`
+ */
+export const $SameValueZero = (x: unknown, y: unknown): boolean => (x !== x && y !== y) || x === y;
 
 /**
  * Safe and quick forEach implementation that works with array-like objects and handles sparse arrays.

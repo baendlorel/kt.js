@@ -26,6 +26,7 @@
     "exp": "pnpm --filter @ktjs/example dev",
     "repolist": "tsx ./scripts/repo-list.ts",
     "lines": "tsx ./scripts/lines.ts",
+    "check": "tsx ./scripts/index.ts --check",
     "build": "tsx ./scripts/index.ts --build",
     "pub": "tsx ./scripts/index.ts --publish",
     "test": "tsx ./scripts/index.ts --test",

@@ -30,7 +30,7 @@ describe('svg/mathml creation', () => {
   it('keeps children when using jsx-runtime svg/mathml helpers', () => {
     const icon = jsxSVG('svg', {
       children: jsxSVG('circle', { cx: '8', cy: '8', r: '3' }),
-    }) as SVGElement;
+    }) as unknown as SVGElement;
 
     const formula = jsxMathML('math', {
       children: jsxMathML('mi', { children: 'y' }),

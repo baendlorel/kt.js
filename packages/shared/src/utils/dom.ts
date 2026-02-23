@@ -31,7 +31,9 @@ export const $parseStyle = (style: unknown): string => {
   if (typeof style === 'string') {
     return style;
   }
-  if (style && typeof style === 'object') {
+
+  // already !style === false
+  if (typeof style === 'object') {
     if ((style as KTReactiveLike).isKT) {
       return $parseStyle((style as KTReactiveLike).value);
     }

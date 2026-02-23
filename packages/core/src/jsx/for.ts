@@ -2,6 +2,7 @@ import type { KTRef } from '../reactive/ref.js';
 import type { KTReactive } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { $initRef, toReactive } from '../reactive/index.js';
+import { $identity } from '@ktjs/shared';
 
 export type KTForElement = JSX.Element;
 
@@ -9,7 +10,7 @@ export interface KTForProps<T> {
   ref?: KTRef<KTForElement>;
   list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
-  map: (item: T, index: number, array: T[]) => HTMLElement;
+  map?: (item: T, index: number, array: T[]) => HTMLElement;
 }
 
 /**
@@ -156,7 +157,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     return anchor;
   };
 
-  const { key: currentKey = (item: T) => item, map: currentMap } = props;
+  const { key: currentKey = (item: T) => item, map: currentMap = $identity } = props;
   const listRef = toReactive(props.list, redraw);
   const anchor = document.createComment('kt-for') as unknown as KTForElement;
 

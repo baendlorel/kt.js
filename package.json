@@ -31,7 +31,6 @@
     "pub": "tsx ./scripts/index.ts --publish",
     "test": "tsx ./scripts/index.ts --test",
     "cover": "pnpm -r --if-present run cover",
-    "test:root": "vitest",
     "lint": "oxlint ."
   },
   "license": "MIT",

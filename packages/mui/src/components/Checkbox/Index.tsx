@@ -1,5 +1,6 @@
+import type { JSX } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { $modelOrRef, computed, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
 import './Checkbox.css';
@@ -35,7 +36,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   /**
    * Options and non-option elements, both will be put into the CheckboxGroup.
    */
-  const members = computed(() => {
+  const members = computed<Array<KTMuiCheckbox | JSX.Element>>(() => {
     checkboxes.length = 0;
     return options.value.map((o) => {
       if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
@@ -44,7 +45,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
         checkboxes.push(checkbox);
         return checkbox;
       }
-      return o;
+      return o as JSX.Element;
     });
   }, [options, size]);
 
@@ -62,7 +63,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
 
   const container = (
     <div class={className} style={style} role="group" on:click={onClick}>
-      {members}
+      {<KTFor list={members}></KTFor>}
     </div>
   ) as KTMuiCheckboxGroup;
 

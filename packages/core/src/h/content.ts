@@ -5,14 +5,9 @@ import { isKT } from '../reactive/core.js';
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
-  // & JSX should ignore false, undefined, and null
-  if (c === false || c === undefined || c === null) {
-    return;
-  }
-
   if (isKT(c)) {
     let node = assureNode(c.value);
-    element.appendChild(node);
+    element.append(node);
     c.addOnChange((newValue, oldValue) => {
       if ($isNode(newValue) && $isNode(oldValue)) {
         // & this case is handled automically in `class KTRef`
@@ -24,9 +19,10 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
       oldNode.replaceWith(node);
     });
   } else {
-    element.appendChild(c as Node);
+    const node = assureNode(c);
+    element.append(node);
     // Handle KTFor anchor
-    const list = (c as any).__kt_for_list__ as any[];
+    const list = (node as any).__kt_for_list__ as any[];
     if ($isArray(list)) {
       apd(element, list);
     }
@@ -42,7 +38,7 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       const ci = c[i];
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
-        element.appendChild(comment);
+        element.append(comment);
         ci.then((awaited) => comment.replaceWith(awaited));
       } else {
         apdSingle(element, ci);

@@ -1,14 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import {
-  $isNode,
-  $replaceNode,
-  $appendChild,
-  $append,
-  $buttonDisabledGetter,
-  $buttonDisabledSetter,
-  $parseStyle,
-  $applyModel,
-} from '../src/utils/dom.js';
+import { $isNode, $replaceNode, $parseStyle, $applyModel } from '../src/utils/dom.js';
 
 describe('DOM utilities', () => {
   let container: HTMLElement;
@@ -70,63 +61,6 @@ describe('DOM utilities', () => {
       expect(container.contains(oldNode)).toBe(true);
       $replaceNode('not a node' as any, document.createElement('div'));
       expect(container.contains(oldNode)).toBe(true);
-    });
-  });
-
-  describe('$appendChild', () => {
-    it('should append child element', () => {
-      const parent = document.createElement('div');
-      const child = document.createElement('span');
-      $appendChild.call(parent, child);
-      expect(parent.firstChild).toBe(child);
-    });
-  });
-
-  describe('$append', () => {
-    it('should append nodes and strings', () => {
-      const parent = document.createElement('div');
-      const child1 = document.createElement('span');
-      const child2 = document.createElement('div');
-      $append.call(parent, child1, 'text', child2);
-      expect(parent.childNodes.length).toBe(3);
-      expect(parent.childNodes[0]).toBe(child1);
-      expect(parent.childNodes[1].textContent).toBe('text');
-      expect(parent.childNodes[2]).toBe(child2);
-    });
-
-    it('should use DocumentFragment for many nodes', () => {
-      const parent = document.createElement('div');
-      const nodes = Array.from({ length: 100 }, (_, i) => document.createTextNode(`node${i}`));
-      $append.call(parent, ...nodes);
-      expect(parent.childNodes.length).toBe(100);
-    });
-
-    it('should append SVG and MathML children correctly', () => {
-      const svgRoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      $append.call(svgRoot, circle);
-
-      expect(svgRoot.firstChild).toBe(circle);
-      expect(circle.namespaceURI).toBe('http://www.w3.org/2000/svg');
-
-      const mathRoot = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'math');
-      const mi = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'mi');
-      mi.textContent = 'x';
-      $append.call(mathRoot, mi);
-
-      expect(mathRoot.firstChild).toBe(mi);
-      expect(mi.namespaceURI).toBe('http://www.w3.org/1998/Math/MathML');
-      expect(mathRoot.textContent).toBe('x');
-    });
-  });
-
-  describe('button disabled property descriptors', () => {
-    it('should get and set disabled property', () => {
-      const button = document.createElement('button');
-      expect($buttonDisabledGetter.call(button)).toBe(false);
-      $buttonDisabledSetter.call(button, true);
-      expect(button.disabled).toBe(true);
-      expect($buttonDisabledGetter.call(button)).toBe(true);
     });
   });
 

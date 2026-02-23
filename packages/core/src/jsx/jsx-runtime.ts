@@ -7,10 +7,6 @@ import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 
-function normalizeProps(props: KTAttribute | null | undefined): KTAttribute {
-  return (props ?? {}) as KTAttribute;
-}
-
 function assertWritableRef(props: KTAttribute) {
   if (isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
@@ -21,32 +17,28 @@ function assertWritableRef(props: KTAttribute) {
  * @param tag html tag or function component
  * @param props properties/attributes
  */
-export function jsx(tag: JSXTag, props: KTAttribute | null | undefined): JSX.Element {
-  const normalizedProps = normalizeProps(props);
-  assertWritableRef(normalizedProps);
-
-  const el = jsxh(tag, normalizedProps);
-  $initRef(normalizedProps, el);
+export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
+  assertWritableRef(props);
+  const el = jsxh(tag, props);
+  $initRef(props, el);
   return el;
 }
 
-export function svg(tag: SVGTag, props: KTAttribute | null | undefined): JSX.Element {
-  const normalizedProps = normalizeProps(props);
-  assertWritableRef(normalizedProps);
-
-  const el = createSVGElement(tag, normalizedProps, normalizedProps.children) as unknown as JSX.Element;
-  $initRef(normalizedProps as { ref?: KTRef<any> }, el as unknown as Node);
+export function svg(tag: SVGTag, props: KTAttribute): JSX.Element {
+  assertWritableRef(props);
+  const el = createSVGElement(tag, props, props.children) as unknown as JSX.Element;
+  $initRef(props, el);
   return el;
 }
 
-export function mathml(tag: MathMLTag, props: KTAttribute | null | undefined): JSX.Element {
-  const normalizedProps = normalizeProps(props);
-  assertWritableRef(normalizedProps);
-
-  const el = createMathMLElement(tag, normalizedProps, normalizedProps.children) as unknown as JSX.Element;
-  $initRef(normalizedProps as { ref?: KTRef<any> }, el as unknown as Node);
+export function mathml(tag: MathMLTag, props: KTAttribute): JSX.Element {
+  assertWritableRef(props);
+  const el = createMathMLElement(tag, props, props.children) as unknown as JSX.Element;
+  $initRef(props, el);
   return el;
 }
+
+export { svg as svgRuntime, mathml as mathmlRuntime };
 
 /**
  * Fragment support - returns an array of children

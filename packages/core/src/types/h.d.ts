@@ -28,7 +28,7 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   // # kt-specific attributes
-  ref?: KTRef<JSX.Element>;
+  ref?: KTRef<any>;
 
   /**
    * If a `KTRef` is bound, it will be reactive; otherwise, it will be static.

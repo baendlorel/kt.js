@@ -8,6 +8,7 @@ import { $is, $isArray } from './native.js';
 export const $emptyFn = (() => true) as (...args: any[]) => any;
 export const $emptyArray: any[] = [];
 export const $emptyObject = Object.create(null);
+export const $identity = (x: any) => x;
 
 /**
  * SameValueZero comparison, similar to `Object.is` but treats `+0 === -0`

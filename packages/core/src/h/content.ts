@@ -5,8 +5,8 @@ import { isKT } from '../reactive/core.js';
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
-  // & Ignores falsy values, consistent with React's behavior (except for 0)
-  if (!c && c !== 0) {
+  // & Ignores falsy values, consistent with React's behavior
+  if (c === undefined || c === null || c === false) {
     return;
   }
 

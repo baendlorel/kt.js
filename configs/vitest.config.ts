@@ -3,7 +3,7 @@ import { getAliases, globalDefines } from './rollup.config.base.js';
 import path from 'node:path';
 
 export default defineConfig(() => {
-  const packageDir = process.env.CURRENT_PKG_PATH as string;
+  const packageDir = process.env.CURRENT_PKG_PATH || path.join(import.meta.dirname, '..', '(packages|plugins)');
   return {
     test: {
       environment: 'jsdom',

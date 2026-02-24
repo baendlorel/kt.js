@@ -1,6 +1,7 @@
 import type { KTReactiveType } from '../reactive/core.ts';
 
 export type ReactiveChangeHandler<T> = (newValue: T, oldValue: T) => void;
+export type ReactiveChangeKey = string | number;
 
 export class KTReactive<T> {
   /**
@@ -36,8 +37,11 @@ export class KTReactive<T> {
    * - Value setter will check `Object.is(newValue, oldValue)`.
    * @param callback (newValue, oldValue) => xxx
    */
-  addOnChange(callback: ReactiveChangeHandler<T>): void;
-  removeOnChange(callback: ReactiveChangeHandler<T>): void;
+  addOnChange<K extends ReactiveChangeKey | undefined>(
+    callback: ReactiveChangeHandler<T>,
+    key?: K,
+  ): K extends undefined ? number : K;
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<T> | undefined;
 }
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.

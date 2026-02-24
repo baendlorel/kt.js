@@ -1,6 +1,7 @@
-import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT, KTReactiveType } from './core.js';
+import { IdGenerator } from '../common.js';
 
 export class KTComputed<T> implements KTReactive<T> {
   /**
@@ -23,15 +24,13 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _onChanges: Array<ReactiveChangeHandler<T>> = [];
+  private _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>> = new Map();
 
   /**
    * @internal
    */
   private _emit(newValue: T, oldValue: T) {
-    for (let i = 0; i < this._onChanges.length; i++) {
-      this._onChanges[i](newValue, oldValue);
-    }
+    this._onChanges.forEach((c) => c(newValue, oldValue));
   }
 
   /**
@@ -96,25 +95,26 @@ export class KTComputed<T> implements KTReactive<T> {
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
    */
-  addOnChange(callback: ReactiveChangeHandler<T>) {
+  addOnChange<K extends ReactiveChangeKey | undefined>(
+    callback: ReactiveChangeHandler<T>,
+    key?: K,
+  ): K extends undefined ? number : K {
     if (typeof callback !== 'function') {
-      $throw('KTRef.addOnChange: callback must be a function');
+      $throw('KTComputed.addOnChange: callback must be a function');
     }
-    this._onChanges.push(callback);
+    const k = key ?? IdGenerator.computedOnChangeId;
+    this._onChanges.set(k, callback);
+    return k as K extends undefined ? number : K;
   }
 
   /**
    * Unregister a callback
-   * @param callback (newValue, oldValue) => xxx
+   * @param key registered listener key
    */
-  removeOnChange(callback: ReactiveChangeHandler<T>) {
-    for (let i = this._onChanges.length - 1; i >= 0; i--) {
-      if (this._onChanges[i] === callback) {
-        this._onChanges.splice(i, 1);
-        return true;
-      }
-    }
-    return false;
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<T> | undefined {
+    const callback = this._onChanges.get(key);
+    this._onChanges.delete(key);
+    return callback;
   }
 }
 

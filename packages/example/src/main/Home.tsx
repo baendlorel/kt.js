@@ -19,15 +19,15 @@ export function Home() {
           happen.
         </p>
         <h3>Getting Started</h3>
-        <p style="color: #666; margin-bottom: 16px;">Follow these steps to start using KT.js in your project:</p>
-        <h4 style="margin-top: 24px; margin-bottom: 12px;">1. Installation</h4>
+        <p>Follow these steps to start using KT.js in your project:</p>
+        <h4>1. Installation</h4>
         <Code code={installCode} lang="bash" />
-        <h4 style="margin-top: 24px; margin-bottom: 12px;">2. TypeScript Configuration</h4>
+        <h4>2. TypeScript Configuration</h4>
         <p>
           Add these settings to your <code>tsconfig.json</code>:
         </p>
         <Code code={tsconfigCode} lang="json" />
-        <h4 style="margin-top: 24px; margin-bottom: 12px;">3. TypeScript Plugin</h4>
+        <h4>3. TypeScript Plugin</h4>
         <p>
           Add ts-plugin to your project to provide better support for kt.js in your editor(mainly for <code>k-for</code>{' '}
           directive)
@@ -41,7 +41,7 @@ export function Home() {
           Finally, restart the TypeScript server by selecting <strong>TypeScript: Restart TS Server</strong> from the
           command palette.
         </p>
-        <h4 style="margin-top: 24px; margin-bottom: 12px;">4. Vite Configuration</h4>
+        <h4>4. Vite Configuration</h4>
         <p>
           Using <code>vite.config.ts</code> is recommended. It provides support for <code>svg</code> and{' '}
           <code>mathml</code> elements:

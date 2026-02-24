@@ -29,24 +29,30 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _emit(newValue: T, oldValue: T) {
+  private _emit(newValue: T, oldValue: T, changeKeys?: ReactiveChangeKey[]) {
+    if (changeKeys) {
+      for (let i = 0; i < changeKeys.length; i++) {
+        this._onChanges.get(changeKeys[i])?.(newValue, oldValue);
+      }
+      return;
+    }
     this._onChanges.forEach((c) => c(newValue, oldValue));
   }
 
   /**
    * @internal
    */
-  private _recalculate(forceEmit: boolean = false) {
+  private _recalculate(forceEmit: boolean = false, changeKeys?: ReactiveChangeKey[]) {
     const oldValue = this._value;
     const newValue = this._calculator();
     if (oldValue === newValue) {
       if (forceEmit) {
-        this._emit(newValue, oldValue);
+        this._emit(newValue, oldValue, changeKeys);
       }
       return;
     }
     this._value = newValue;
-    this._emit(newValue, oldValue);
+    this._emit(newValue, oldValue, changeKeys);
   }
 
   /**
@@ -79,15 +85,18 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * Force listeners to run once with the latest computed result.
    */
-  notify() {
-    this._recalculate(true);
+  notify(changeKeys?: ReactiveChangeKey[]) {
+    this._recalculate(true, changeKeys);
   }
 
   /**
    * Computed values are derived from dependencies and should not be mutated manually.
    */
-  mutate<R = void>(): R {
+  mutate<R = void>(_mutator?: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R {
     $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
+    if (changeKeys) {
+      this._emit(this._value, this._value, changeKeys);
+    }
     return this._value as unknown as R;
   }
 

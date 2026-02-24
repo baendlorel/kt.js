@@ -25,7 +25,13 @@ export class KTRef<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _emit(newValue: T, oldValue: T) {
+  private _emit(newValue: T, oldValue: T, changeKeys?: ReactiveChangeKey[]) {
+    if (changeKeys) {
+      for (let i = 0; i < changeKeys.length; i++) {
+        this._onChanges.get(changeKeys[i])?.(newValue, oldValue);
+      }
+      return;
+    }
     this._onChanges.forEach((c) => c(newValue, oldValue));
   }
 
@@ -57,8 +63,8 @@ export class KTRef<T> implements KTReactive<T> {
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    */
-  notify() {
-    this._emit(this._value, this._value);
+  notify(changeKeys?: ReactiveChangeKey[]) {
+    this._emit(this._value, this._value, changeKeys);
   }
 
   /**
@@ -68,13 +74,13 @@ export class KTRef<T> implements KTReactive<T> {
    * const items = ref<number[]>([1, 2]);
    * items.mutate((list) => list.push(3));
    */
-  mutate<R = void>(mutator: (currentValue: T) => R): R {
+  mutate<R = void>(mutator: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R {
     if (typeof mutator !== 'function') {
       $throw('KTRef.mutate: mutator must be a function');
     }
     const oldValue = this._value;
     const result = mutator(this._value);
-    this._emit(this._value, oldValue);
+    this._emit(this._value, oldValue, changeKeys);
     return result;
   }
 

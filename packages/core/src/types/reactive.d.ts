@@ -21,7 +21,7 @@ export class KTReactive<T> {
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    */
-  notify(): void;
+  notify(changeKeys?: ReactiveChangeKey[]): void;
 
   /**
    * Mutate current value in-place and notify listeners once.
@@ -30,7 +30,7 @@ export class KTReactive<T> {
    * const items = ref<number[]>([1, 2]);
    * items.mutate((list) => list.push(3));
    */
-  mutate<R = void>(mutator: (currentValue: T) => R): R;
+  mutate<R = void>(mutator: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R;
 
   /**
    * Register a callback when the value changes

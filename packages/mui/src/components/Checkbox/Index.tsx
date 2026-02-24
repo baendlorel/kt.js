@@ -39,7 +39,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     } else {
       $arrayDelete(model.value, value);
     }
-    onChange(old, model.value.slice());
+    onChange(model.value.slice(), old);
   };
   /**
    * Options and non-option elements, both will be put into the CheckboxGroup.

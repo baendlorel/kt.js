@@ -19,6 +19,7 @@ export function Checkbox(
       return;
     }
     model.value = inputEl.checked;
+    console.log('checkbox change', model.value, value.value);
     interminate.value = false;
   };
 
@@ -44,10 +45,10 @@ export function Checkbox(
   // # events
   const onChange = props['on:change'];
   if (onChange) {
-    inputEl.addEventListener('change', () => onChange(model.value, value.value));
+    inputEl.addEventListener('change', () => onChange(inputEl.checked, value.value));
   }
   if (onChangeForGroup) {
-    onChangeForGroup(model.value, value.value);
+    inputEl.addEventListener('change', () => onChangeForGroup(inputEl.checked, value.value));
   }
 
   const uncheckedIcon = createUnchecked();

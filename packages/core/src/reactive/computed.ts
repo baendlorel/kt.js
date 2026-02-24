@@ -1,4 +1,3 @@
-import { $replaceNode } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT, KTReactiveType } from './core.js';

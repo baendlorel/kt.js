@@ -8,19 +8,6 @@ import { $entries } from './native.js';
 
 export const $isNode = (x: any): x is ChildNode => x?.nodeType > 0;
 
-/**
- * Safe replace `oldNode` With `newNode`
- * - This function is not used everywhere. Because there is no need to check every time.
- */
-export const $replaceNode = (oldNode: unknown, newNode: unknown) => {
-  if ($isNode(oldNode) && $isNode(newNode)) {
-    if (newNode.contains(oldNode)) {
-      newNode.remove();
-    }
-    oldNode.replaceWith(newNode);
-  }
-};
-
 // # DOM utilities
 
 // Same as it is in @ktjs/core

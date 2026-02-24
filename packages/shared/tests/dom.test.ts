@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { $isNode, $replaceNode, $parseStyle, $applyModel } from '../src/utils/dom.js';
+import { $isNode, $parseStyle, $applyModel } from '../src/utils/dom.js';
 
 describe('DOM utilities', () => {
   let container: HTMLElement;
@@ -25,42 +25,6 @@ describe('DOM utilities', () => {
       expect($isNode(null)).toBe(false);
       expect($isNode(undefined)).toBe(false);
       expect($isNode(123)).toBe(false);
-    });
-  });
-
-  describe('$replaceNode', () => {
-    it('should replace old node with new node', () => {
-      const oldNode = document.createElement('div');
-      oldNode.textContent = 'old';
-      const newNode = document.createElement('span');
-      newNode.textContent = 'new';
-      container.appendChild(oldNode);
-      $replaceNode(oldNode, newNode);
-      expect(container.contains(oldNode)).toBe(false);
-      expect(container.contains(newNode)).toBe(true);
-      expect(container.firstChild).toBe(newNode);
-    });
-
-    it('should handle when new node contains old node', () => {
-      const oldNode = document.createElement('div');
-      oldNode.textContent = 'old';
-      const newNode = document.createElement('span');
-      newNode.appendChild(oldNode); // newNode contains oldNode
-      container.appendChild(oldNode);
-      $replaceNode(oldNode, newNode);
-      // newNode should be removed first, then oldNode replaced with newNode
-      expect(container.contains(oldNode)).toBe(false);
-      expect(container.contains(newNode)).toBe(true);
-    });
-
-    it('should do nothing for non-nodes', () => {
-      const oldNode = document.createElement('div');
-      container.appendChild(oldNode);
-      // Testing invalid input - cast to any to bypass type checking
-      $replaceNode(oldNode as any, 'not a node');
-      expect(container.contains(oldNode)).toBe(true);
-      $replaceNode('not a node' as any, document.createElement('div'));
-      expect(container.contains(oldNode)).toBe(true);
     });
   });
 

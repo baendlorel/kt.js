@@ -1,4 +1,4 @@
-import { $replaceNode, JSXTag } from '@ktjs/shared';
+import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
 import type { KTReactive } from '../types/reactive.js';
 

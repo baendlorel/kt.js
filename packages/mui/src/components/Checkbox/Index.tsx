@@ -48,6 +48,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     internalChange = true;
     model.notify();
   };
+
   /**
    * Options and non-option elements, both will be put into the CheckboxGroup.
    */

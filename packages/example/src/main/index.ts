@@ -4,6 +4,7 @@ import { Directives } from './Directive.js';
 import { Events } from './Events.js';
 import { FragmentDemo } from './Fragment.js';
 import { Home } from './Home.js';
+import { IE11Compatibility } from './IE11Compatibility.js';
 import { OtherElements } from './OtherElements.js';
 import { Reactivity } from './Reactive.js';
 
@@ -14,6 +15,13 @@ export const basicNavItems: NavItem[] = [
     title: 'Welcome to KT.js Framework',
     description: 'Introduction to KT.js framework and core concepts',
     component: Home,
+  },
+  {
+    id: 'ie11-compatibility',
+    label: 'IE11 Compatibility',
+    title: 'IE11 Compatibility',
+    description: 'Learn about how to configure your project for IE11 support',
+    component: IE11Compatibility,
   },
   {
     id: 'changelog',

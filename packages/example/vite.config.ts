@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import { getAliases, globalDefines } from '../../configs/rollup.config.base.js';
+import ktjsx from '@ktjs/vite-plugin-ktjsx';
 
 const inPackage = (id: string, pkg: string) => {
   const escaped = pkg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const re = new RegExp(`[\\\\/]node_modules[\\\\/](?:\\.pnpm[\\\\/][^\\\\/]+[\\\\/]node_modules[\\\\/])?${escaped}[\\\\/]`);
+  const re = new RegExp(
+    `[\\\\/]node_modules[\\\\/](?:\\.pnpm[\\\\/][^\\\\/]+[\\\\/]node_modules[\\\\/])?${escaped}[\\\\/]`,
+  );
   return re.test(id);
 };
 
@@ -12,6 +15,7 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias: getAliases(),
   },
+  plugins: [ktjsx()],
   define: globalDefines,
   build: {
     rollupOptions: {

@@ -1,12 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import { getAliases, globalDefines } from './rollup.config.base.js';
 import path from 'node:path';
-import ktjsx from '@ktjs/vite-plugin-ktjsx';
 
 export default defineConfig(() => {
   const packageDir = process.env.CURRENT_PKG_PATH || path.join(import.meta.dirname, '..', '(packages|plugins)');
   return {
-    plugins: [ktjsx()],
     test: {
       environment: 'jsdom',
       // setupFiles: ['./src/macros.ts'],

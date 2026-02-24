@@ -11,11 +11,11 @@ export function MuiCheckboxDemo() {
 
       <FormLabel>Select technologies:</FormLabel>
 
+      {
+        // fixme checkboxgroup的model没效果？
+      }
       <CheckboxGroup
-        value={selectedValues.value}
-        on:change={(values) => {
-          selectedValues.value = values;
-        }}
+        k-model={selectedValues}
         options={[
           { value: 'html', label: 'HTML' },
           { value: 'css', label: 'CSS' },
@@ -31,7 +31,7 @@ export function MuiCheckboxDemo() {
         <h3>Different Colors</h3>
         <CheckboxGroup
           row
-          value={['primary']}
+          k-model={ref(['primary'])}
           options={[
             { value: 'primary', label: 'Primary', color: 'primary' },
             { value: 'secondary', label: 'Secondary', color: 'secondary' },

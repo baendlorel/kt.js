@@ -80,6 +80,7 @@ export class KTRef<T> implements KTReactive<T> {
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
    */
+  // todo 将这里改为map，并添加可选的key参数，允许同一ref上注册多个监听器并单独移除
   addOnChange(callback: ReactiveChangeHandler<T>) {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');

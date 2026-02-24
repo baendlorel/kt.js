@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/core",
-  "version": "0.30.9",
+  "version": "0.30.11",
   "description": "Core functionality for kt.js - DOM manipulation utilities with JSX/TSX support",
   "description_zh": "kt.js 的核心功能，提供支持 JSX/TSX 的 DOM 操作工具。",
   "type": "module",

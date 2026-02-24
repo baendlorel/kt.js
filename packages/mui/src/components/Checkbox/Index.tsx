@@ -17,7 +17,12 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const row = toReactive(props.row ?? true);
   const size = toReactive(props.size ?? 'medium');
   const model = $modelOrRef(props, [] as string[]);
+  let internalChange = false;
   model.addOnChange((newValues) => {
+    if (internalChange) {
+      internalChange = false;
+      return;
+    }
     for (let i = 0; i < checkboxes.length; i++) {
       const c = checkboxes[i];
       c.checked = newValues.includes(c.value);
@@ -39,8 +44,9 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     } else {
       $arrayDelete(model.value, value);
     }
-    console.log(model.value.join());
     onChange(model.value.slice(), old);
+    internalChange = true;
+    model.notify();
   };
   /**
    * Options and non-option elements, both will be put into the CheckboxGroup.

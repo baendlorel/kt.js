@@ -4,6 +4,7 @@ import { Directives } from './Directive.js';
 import { Events } from './Events.js';
 import { FragmentDemo } from './Fragment.js';
 import { Home } from './Home.js';
+import { OtherElements } from './OtherElements.js';
 import { Reactivity } from './Reactive.js';
 
 export const basicNavItems: NavItem[] = [
@@ -46,7 +47,14 @@ export const basicNavItems: NavItem[] = [
     id: 'events',
     label: 'Events',
     title: 'Events Handling',
-    description: ` KT.js uses the on: syntax for event handling, similar to React but with direct DOM events.`,
+    description: `KT.js uses the on: syntax for event handling, similar to React but with direct DOM events.`,
     component: Events,
+  },
+  {
+    id: 'other-elements',
+    label: 'Other Elements',
+    title: 'Non-HTMLElement Elements',
+    description: `KT.js supports creating non-HTMLElement elements like svg and mathml using jsx syntax. This demo shows how to use them.`,
+    component: OtherElements,
   },
 ];

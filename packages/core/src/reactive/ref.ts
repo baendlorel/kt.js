@@ -2,6 +2,7 @@ import { $emptyFn, $entries, $is } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isComputed, isRef, KTReactiveType } from './core.js';
+import { IdGenerator } from 'src/common.js';
 
 export class KTRef<T> implements KTReactive<T> {
   /**
@@ -19,20 +20,19 @@ export class KTRef<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _onChanges: Array<ReactiveChangeHandler<T>>;
+  private _onChanges: Map<string | number, ReactiveChangeHandler<T>>;
 
   /**
    * @internal
    */
   private _emit(newValue: T, oldValue: T) {
-    for (let i = 0; i < this._onChanges.length; i++) {
-      this._onChanges[i](newValue, oldValue);
-    }
+    this._onChanges.forEach((c) => c(newValue, oldValue));
   }
 
-  constructor(_value: T, _onChanges: Array<ReactiveChangeHandler<T>>) {
+  constructor(_value: T, _onChanges: ReactiveChangeHandler<T>) {
     this._value = _value;
-    this._onChanges = _onChanges;
+    this._onChanges = new Map();
+    this._onChanges.set(IdGenerator.refOnChangeId, _onChanges);
   }
 
   /**
@@ -79,23 +79,25 @@ export class KTRef<T> implements KTReactive<T> {
   /**
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
+   * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
   // todo 将这里改为map，并添加可选的key参数，允许同一ref上注册多个监听器并单独移除
-  addOnChange(callback: ReactiveChangeHandler<T>) {
+  addOnChange<K extends string | number | undefined>(
+    callback: ReactiveChangeHandler<T>,
+    key?: K,
+  ): K extends undefined ? number : K {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');
     }
-    this._onChanges.push(callback);
+    const k = key ?? IdGenerator.refOnChangeId;
+    this._onChanges.set(k, callback);
+    return k as K extends undefined ? number : K;
   }
 
-  removeOnChange(callback: ReactiveChangeHandler<T>) {
-    for (let i = this._onChanges.length - 1; i >= 0; i--) {
-      if (this._onChanges[i] === callback) {
-        this._onChanges.splice(i, 1);
-        return true;
-      }
-    }
-    return false;
+  removeOnChange(key: string | number): ReactiveChangeHandler<T> | undefined {
+    const callback = this._onChanges.get(key);
+    this._onChanges.delete(key);
+    return callback;
   }
 }
 

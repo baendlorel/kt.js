@@ -104,10 +104,12 @@ describe('babel-plugin-ktjsx', () => {
   });
 
   describe('conditional directive transformation', () => {
-    it('should handle standalone k-if', () => {
+    it('should compile standalone k-if to KTConditional call', () => {
       const code = `const el = <div k-if={condition}>Content</div>;`;
       const result = transform(code);
-      expect(result).toContain('k-if={condition}');
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(condition, "div"');
+      expect(result).not.toContain('k-if');
     });
 
     it('should compile adjacent k-if + k-else chain to KTConditional call', () => {
@@ -156,15 +158,15 @@ describe('babel-plugin-ktjsx', () => {
       }
     });
 
-    it('should preserve other attributes', () => {
-      const code = `const el = <svg width="100" height="100" class="icon" k-if={show}></svg>;`;
+    it('should preserve other attributes in standalone k-if transform', () => {
+      const code = `const el = <div id="box" class="icon" data-role="demo" k-if={show}>A</div>;`;
       const result = transform(code);
-      const svgAlias = readRuntimeFactoryAlias(result, 'svg');
-      expect(svgAlias).toBeTruthy();
-      expect(result).toContain(`${svgAlias}("svg"`);
-      expect(result).toContain('width: "100"');
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(show, "div"');
+      expect(result).toContain('id: "box"');
       expect(result).toContain('"class": "icon"');
-      expect(result).toContain('"k-if": show');
+      expect(result).toContain('"data-role": "demo"');
+      expect(result).not.toContain('k-if');
     });
   });
 

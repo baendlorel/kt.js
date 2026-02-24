@@ -260,19 +260,18 @@ function buildKTConditionalCall(
   path: NodePath<t.JSXElement>,
   condition: ConditionalValue,
   ifElement: t.JSXElement,
-  elseElement: t.JSXElement,
+  elseElement?: t.JSXElement,
 ): t.CallExpression {
   const helperIdentifier = ensureKTConditionalIdentifier(path);
   const ifArgs = buildConditionalCallArgs(ifElement);
-  const elseArgs = buildConditionalCallArgs(elseElement);
+  const callArgs: t.Expression[] = [getConditionExpression(condition), ifArgs.tag, ifArgs.props];
 
-  return t.callExpression(helperIdentifier, [
-    getConditionExpression(condition),
-    ifArgs.tag,
-    ifArgs.props,
-    elseArgs.tag,
-    elseArgs.props,
-  ]);
+  if (elseElement) {
+    const elseArgs = buildConditionalCallArgs(elseElement);
+    callArgs.push(elseArgs.tag, elseArgs.props);
+  }
+
+  return t.callExpression(helperIdentifier, callArgs);
 }
 
 function warnUnsupportedElseIf(path: NodePath<t.JSXElement>) {
@@ -322,6 +321,16 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
 
   if (chain.length === 1) {
     const onlyDirective = getConditionalDirective(chain[0].node);
+    if (onlyDirective?.type === 'k-if') {
+      const conditionalCall = buildKTConditionalCall(path, onlyDirective.condition, chain[0].node);
+      if (isInsideJSXChildren(path)) {
+        path.replaceWith(t.jsxExpressionContainer(conditionalCall));
+      } else {
+        path.replaceWith(conditionalCall);
+      }
+      return;
+    }
+
     if (onlyDirective?.type === 'k-else-if') {
       warnUnsupportedElseIf(chain[0]);
     }

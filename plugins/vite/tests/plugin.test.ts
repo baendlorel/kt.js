@@ -60,6 +60,15 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-else');
   });
 
+  it('compiles standalone k-if into KTConditional call', async () => {
+    const result = await runTransform('const view = <div id="box" k-if={ok}>A</div>;');
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('id: "box"');
+    expect(code).not.toContain('k-if');
+  });
+
   it('warns and skips transform when k-else-if is used', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     try {

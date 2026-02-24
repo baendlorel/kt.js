@@ -12,8 +12,8 @@ importers:
         specifier: ^11.13.5
         version: 11.13.5
       '@ktjs/vite-plugin-ktjsx':
-        specifier: ^0.4.1
-        version: 0.4.1(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))
+        specifier: ^0.4.2
+        version: 0.4.2(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))
       marked:
         specifier: ^17.0.3
         version: 17.0.3
@@ -622,8 +622,8 @@ packages:
   '@ktjs/transformer@0.4.1':
     resolution: {integrity: sha512-Mb8QKVokaWFKzC54rLGFopvBX410ajpc2M+FA083/9UyiwT8oxo3/J9JJ/MZmI23Ez4lzOIYSRvl6hDLnDLw+Q==}
 
-  '@ktjs/vite-plugin-ktjsx@0.4.1':
-    resolution: {integrity: sha512-S23U4JO6R5WC8ExrPClXCZIPJfuBRlvXOFgQ1sSOkGSCwpFgHxIN2thRokNyT2+kn6qZc3m4V1Sknz2qKm+K2Q==}
+  '@ktjs/vite-plugin-ktjsx@0.4.2':
+    resolution: {integrity: sha512-kpLsGBgpzknSkgQ8+RUayb2SakzFHvnrfykkcR9mh57sWhWxMggF2AznYlinX9uXJcyJGAAVJ6/Q2TMxW7pNeg==}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
 
@@ -2126,7 +2126,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ktjs/vite-plugin-ktjsx@0.4.1(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))':
+  '@ktjs/vite-plugin-ktjsx@0.4.2(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))':
     dependencies:
       '@ktjs/transformer': 0.4.1
       vite: 7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0)

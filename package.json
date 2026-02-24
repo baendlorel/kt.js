@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
-    "@ktjs/vite-plugin-ktjsx": "^0.4.1",
+    "@ktjs/vite-plugin-ktjsx": "^0.4.2",
     "marked": "^17.0.3",
     "shiki": "^3.22.0"
   }

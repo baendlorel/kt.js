@@ -19,7 +19,6 @@ export function Checkbox(
       return;
     }
     model.value = inputEl.checked;
-    console.log('checkbox change', model.value, value.value);
     interminate.value = false;
   };
 

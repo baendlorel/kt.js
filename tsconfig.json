@@ -26,7 +26,8 @@
       "kt.js/jsx-runtime": ["packages/kt.js/src/jsx-runtime.ts"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "kt.js"
+    "jsxImportSource": "kt.js",
+    "plugins": [{ "name": "@ktjs/ts-plugin" }]
   },
   "include": [
     "./scripts/**/*.ts",

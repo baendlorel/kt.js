@@ -39,6 +39,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     } else {
       $arrayDelete(model.value, value);
     }
+    console.log(model.value.join());
     onChange(model.value.slice(), old);
   };
   /**
@@ -59,9 +60,12 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
 
   const container = (
     <div class={className} style={style} role="group">
-      {<KTFor list={members}></KTFor>}
+      <KTFor list={members}></KTFor>
     </div>
   ) as KTMuiCheckboxGroup;
+
+  // # init selection
+  model.notify();
 
   return container;
 }

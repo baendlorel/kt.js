@@ -25,7 +25,10 @@ export function MuiCheckboxDemo() {
         ]}
       />
 
-      <div class="demo-result">Selected: {selectedValues}</div>
+      <div class="demo-result">
+        Selected:
+        <span k-for="item in selectedValues">{item}</span>
+      </div>
 
       <div class="demo-mt">
         <h3>Different Colors</h3>

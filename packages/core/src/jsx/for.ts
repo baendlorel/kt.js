@@ -58,7 +58,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         const node = currentMap(item, i, newList);
         nodeMap.set(itemKey, node);
         newElements.push(node);
-        fragment.append(node);
+        fragment.appendChild(node);
       }
       parent.insertBefore(fragment, anchor.nextSibling);
       (anchor as any).__kt_for_list__ = newElements;

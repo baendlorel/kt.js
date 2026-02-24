@@ -4,10 +4,14 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Select.css';
 
-interface KTMuiSelectOption {
-  value: string;
-  label: string;
-}
+export type KTMuiSelectOption =
+  | {
+      value: string;
+      label: string | JSX.Element | HTMLElement;
+    }
+  | JSX.Element
+  | HTMLElement
+  | string;
 
 export interface KTMuiSelectProps extends KTMuiProps {
   size?: 'small' | 'medium';
@@ -50,8 +54,10 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const placeholderRef = toReactive(props.placeholder ?? '');
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options, (newOptions) => {
-    if (!newOptions.find((o) => o.value === modelRef.value)) {
-      onChange((modelRef.value = ''));
+    if (!newOptions.find((o) => (o as any)?.value === modelRef.value)) {
+      const old = modelRef.value;
+      modelRef.value = '';
+      onChange(modelRef.value, old);
     }
   });
   const disabledRef = toReactive(props.disabled ?? false, (v) => container.classList.toggle('mui-select-disabled', v));
@@ -106,22 +112,30 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   const defaultEmpty = <span class="mui-select-placeholder">{placeholderRef.value || '\u00a0'}</span>;
   const displayedValue = computed(() => {
-    const o = optionsRef.value.find((item) => item.value === modelRef.value);
-    return <div class="mui-select-display">{o?.label ?? defaultEmpty}</div>;
+    const o = optionsRef.value.find((item) => (item as any)?.value === modelRef.value);
+    return <div class="mui-select-display">{(o as any)?.label ?? defaultEmpty}</div>;
   }, [modelRef]);
 
+  const selectOptions: JSX.Element[] = [];
   const menu = computed(() => {
     return (
       <div class="mui-select-menu" style="display: none;">
-        {optionsRef.value.map((o) => (
-          <div
-            class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
-            data-value={o.value}
-            on:click={handleOptionClick}
-          >
-            {o.label}
-          </div>
-        ))}{' '}
+        {optionsRef.value.map((o) => {
+          if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
+            const option = (
+              <div
+                class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
+                data-value={o.value}
+                on:click={handleOptionClick}
+              >
+                {o.label}
+              </div>
+            );
+            selectOptions.push(option);
+            return option;
+          }
+          return o as JSX.Element;
+        })}
       </div>
     );
   }, [optionsRef, modelRef]);
@@ -149,10 +163,11 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
           <path d="M7 10l5 5 5-5Z" fill="currentColor"></path>
         </svg>
       </div>
-
       {menu}
     </div>
   ) as KTMuiSelect;
+
+  menu.notify();
 
   // Add global click listener
   setTimeout(() => {

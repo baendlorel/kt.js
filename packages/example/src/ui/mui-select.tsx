@@ -1,16 +1,18 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { Button, Select } from '@ktjs/mui';
+import { Button, KTMuiSelectOption, Select } from '@ktjs/mui';
 
 export function MuiSelectDemo() {
   const selectedValue = ref<string>('apple');
 
-  const options = ref([
+  const options = ref<KTMuiSelectOption[]>([
+    <h4>Small Fruits</h4>,
+    { value: 'grape', label: 'Grape' },
+    <h4>Big Fruits</h4>,
+    { value: 'mango', label: 'Mango' },
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
     { value: 'orange', label: 'Orange' },
-    { value: 'grape', label: 'Grape' },
-    { value: 'mango', label: 'Mango' },
   ]);
 
   return (

@@ -1,45 +1,60 @@
 export {};
 
 if (typeof Node !== 'undefined') {
-  if (typeof Node.prototype.remove !== 'function') {
-    Object.defineProperty(Node.prototype, 'remove', {
-      configurable: true,
-      enumerable: false,
-      writable: true,
-      value: function remove(this: Node) {
-        const parent = this.parentNode;
-        if (parent) {
-          parent.removeChild(this);
-        }
-      },
-    });
+  const targets: Node[] = [];
+
+  if (typeof Element !== 'undefined') {
+    targets.push(Element.prototype);
+  }
+  if (typeof CharacterData !== 'undefined') {
+    targets.push(CharacterData.prototype);
+  }
+  if (typeof DocumentType !== 'undefined') {
+    targets.push(DocumentType.prototype);
+  }
+  if (targets.length === 0) {
+    targets.push(Node.prototype);
   }
 
-  if (typeof Node.prototype.replaceWith !== 'function') {
-    Object.defineProperty(Node.prototype, 'replaceWith', {
-      configurable: true,
-      enumerable: false,
-      writable: true,
-      value: function replaceWith(this: Node, ...newNodes: Array<Node | string>) {
-        const parent = this.parentNode;
-        if (!parent) {
-          return;
-        }
+  const installMethod = (name: 'remove' | 'replaceWith', method: (...args: any[]) => void) => {
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      if (typeof (target as any)[name] !== 'function') {
+        Object.defineProperty(target, name, {
+          configurable: true,
+          enumerable: false,
+          writable: true,
+          value: method,
+        });
+      }
+    }
+  };
 
-        if (newNodes.length === 0) {
-          parent.removeChild(this);
-          return;
-        }
+  installMethod('remove', function (this: Node) {
+    const parent = this.parentNode;
+    if (parent) {
+      parent.removeChild(this);
+    }
+  });
 
-        const fragment = document.createDocumentFragment();
-        for (let i = 0; i < newNodes.length; i++) {
-          const node = newNodes[i];
-          fragment.appendChild(typeof node === 'string' ? document.createTextNode(node) : node);
-        }
+  installMethod('replaceWith', function (this: Node, ...newNodes: Array<Node | string>) {
+    const parent = this.parentNode;
+    if (!parent) {
+      return;
+    }
 
-        parent.insertBefore(fragment, this);
-        parent.removeChild(this);
-      },
-    });
-  }
+    if (newNodes.length === 0) {
+      parent.removeChild(this);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < newNodes.length; i++) {
+      const node = newNodes[i];
+      fragment.appendChild(typeof node === 'string' ? document.createTextNode(node) : node);
+    }
+
+    parent.insertBefore(fragment, this);
+    parent.removeChild(this);
+  });
 }

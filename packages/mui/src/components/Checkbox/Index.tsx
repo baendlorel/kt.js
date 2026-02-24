@@ -1,12 +1,12 @@
 import type { JSX } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
 
 import './Checkbox.css';
 import { Checkbox } from './Checkbox.js';
 
-export { Checkbox } from './Checkbox.js';
+export { Checkbox };
 
 /**
  * CheckboxGroup component - groups multiple checkboxes together
@@ -31,8 +31,16 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const style = toReactive($parseStyle(props.style ?? ''));
 
   const options = toReactive(props.options);
-
   const checkboxes: KTMuiCheckbox[] = [];
+  const checkboxOnChangeForGroup = (checked: boolean, value: string) => {
+    const old = model.value.slice();
+    if (checked) {
+      $arrayPushUnique(model.value, value);
+    } else {
+      $arrayDelete(model.value, value);
+    }
+    onChange(old, model.value.slice());
+  };
   /**
    * Options and non-option elements, both will be put into the CheckboxGroup.
    */
@@ -41,7 +49,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     return options.value.map((o) => {
       if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
         const checkboxProps = { ...o, size: size.value };
-        const checkbox = Checkbox(checkboxProps);
+        const checkbox = Checkbox(checkboxProps, checkboxOnChangeForGroup);
         checkboxes.push(checkbox);
         return checkbox;
       }
@@ -49,20 +57,8 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     });
   }, [options, size]);
 
-  const onClick = () => {
-    const old = model.value.slice();
-    model.value.length = 0;
-    for (let i = 0; i < checkboxes.length; i++) {
-      const c = checkboxes[i];
-      if (c.checked) {
-        model.value.push(c.value);
-      }
-    }
-    onChange(old, model.value.slice());
-  };
-
   const container = (
-    <div class={className} style={style} role="group" on:click={onClick}>
+    <div class={className} style={style} role="group">
       {<KTFor list={members}></KTFor>}
     </div>
   ) as KTMuiCheckboxGroup;

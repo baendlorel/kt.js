@@ -40,3 +40,17 @@ export const $forEachAsync = async (
     await callback(array[i], i, array);
   }
 };
+
+export const $arrayPushUnique = (array: unknown[], item: unknown): void => {
+  if (array.indexOf(item) === -1) {
+    array.push(item);
+  }
+};
+
+export const $arrayDelete = (array: unknown[], item: unknown): void => {
+  const index = array.indexOf(item);
+  if (index !== -1) {
+    array[index] = array[array.length - 1];
+    array.pop();
+  }
+};

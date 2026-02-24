@@ -4,7 +4,15 @@ import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 
-export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
+/**
+ * Create a checkbox component.
+ * @param props normal props
+ * @param onChangeForGroup onchange event only for checkbox group
+ */
+export function Checkbox(
+  props: KTMuiCheckboxProps,
+  onChangeForGroup?: (checked: boolean, value: any) => void,
+): KTMuiCheckbox {
   // Handle change
   const handleChange = () => {
     if (disabled.value) {
@@ -12,10 +20,7 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
     }
     model.value = inputEl.checked;
     interminate.value = false;
-    onChange(model.value, value.value);
   };
-
-  const onChange = props['on:change'] ?? $emptyFn;
 
   const label = toReactive(props.label ?? '');
   const value = toReactive(props.value ?? '');
@@ -35,6 +40,15 @@ export function Checkbox(props: KTMuiCheckboxProps): KTMuiCheckbox {
       on:change={handleChange}
     />
   ) as HTMLInputElement;
+
+  // # events
+  const onChange = props['on:change'];
+  if (onChange) {
+    inputEl.addEventListener('change', () => onChange(model.value, value.value));
+  }
+  if (onChangeForGroup) {
+    onChangeForGroup(model.value, value.value);
+  }
 
   const uncheckedIcon = createUnchecked();
   const checkedIcon = createChecked();

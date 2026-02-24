@@ -6,9 +6,9 @@ export function MuiSelectDemo() {
   const selectedValue = ref<string>('apple');
 
   const options = ref<KTMuiSelectOption[]>([
-    <h4>Small Fruits</h4>,
+    <h4 style="color:gray; margin: 15px 5px 12px 5px">Small Fruits</h4>,
     { value: 'grape', label: 'Grape' },
-    <h4>Big Fruits</h4>,
+    <h4 style="color:gray; margin: 15px 5px 12px 5px">Big Fruits</h4>,
     { value: 'mango', label: 'Mango' },
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -29,7 +29,13 @@ export function MuiSelectDemo() {
       <div class="demo-result">Selected: {selectedValue}</div>
 
       <div style="margin-top: 20px;">
-        <Select style="width:400px" label="Disabled Select" disabled value="banana" options={options} />
+        <Select
+          style="width:400px"
+          label="Disabled Select"
+          disabled
+          value="banana"
+          options={[{ label: 'Watermelon', value: 'watermelon' }]}
+        />
       </div>
     </div>
   );

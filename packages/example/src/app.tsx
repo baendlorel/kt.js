@@ -23,7 +23,7 @@ interface NavLookup {
 }
 
 const pickBasicItems = (ids: string[]): NavItem[] => basicNavItems.filter((item) => ids.includes(item.id));
-const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog']);
+const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog', 'trivia']);
 const navGroups: NavGroup[] = [
   {
     id: 'features',

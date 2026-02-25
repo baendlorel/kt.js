@@ -9,15 +9,54 @@
 
 <style>
   .ktjs-banner {
-    width: 100%;
-    padding: 12px 14px;
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    z-index: 80;
+    width: min(720px, calc(100vw - 24px));
+    padding: 10px 14px;
     text-align: center;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.01em;
     color: var(--banner-text, #4b5563);
     background: var(--banner-bg, #ffffff);
-    border-bottom: 1px solid var(--banner-border, #e5e7eb);
+    border: 1px solid var(--banner-border, #e5e7eb);
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -140%);
+    animation: ktjs-banner-pop 4.8s ease-in-out forwards;
+  }
+
+  @keyframes ktjs-banner-pop {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -140%);
+    }
+
+    12% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    72% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -140%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ktjs-banner {
+      animation-duration: 0.01ms;
+      animation-delay: 1.6s;
+    }
   }
 </style>
 

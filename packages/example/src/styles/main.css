@@ -1,5 +1,4 @@
 :root {
-  --ktjs-banner-height: 0px;
   --app-bg: #ffffff;
   --surface-bg: #ffffff;
   --sidebar-bg: #ffffff;
@@ -75,7 +74,7 @@ body {
 
 #app {
   width: 100%;
-  height: calc(100vh - var(--ktjs-banner-height));
+  height: 100vh;
 }
 
 .app-layout {
@@ -248,7 +247,7 @@ body {
 
 .floating-controls {
   position: fixed;
-  top: calc(var(--ktjs-banner-height) + 12px);
+  top: 12px;
   right: 14px;
   z-index: 60;
   display: inline-flex;
@@ -476,7 +475,7 @@ body {
   }
 
   .floating-controls {
-    top: calc(var(--ktjs-banner-height) + 8px);
+    top: 8px;
     right: 8px;
     gap: 8px;
   }

@@ -262,15 +262,6 @@ function init() {
 
   const link = <link rel="shortcut icon" href={icon} type="image/x-icon" />;
   document.head.appendChild(link);
-
-  const syncBannerHeight = () => {
-    const banner = document.getElementById('under-construction');
-    const height = banner ? banner.getBoundingClientRect().height : 0;
-    document.documentElement.style.setProperty('--ktjs-banner-height', `${height}px`);
-  };
-
-  syncBannerHeight();
-  window.addEventListener('resize', syncBannerHeight);
 }
 
 init();

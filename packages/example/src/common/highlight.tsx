@@ -5,7 +5,7 @@ import langBash from 'shiki/dist/langs/bash.mjs';
 import langJson from 'shiki/dist/langs/json.mjs';
 import langTsx from 'shiki/dist/langs/tsx.mjs';
 import themeOneLight from 'shiki/dist/themes/one-light.mjs';
-import themeGithubDark from 'shiki/dist/themes/github-dark.mjs';
+import themeDarkPlus from 'shiki/dist/themes/dark-plus.mjs';
 
 const highlighterPromise = createHighlighterCore({
   themes: [themeOneLight],
@@ -14,7 +14,7 @@ const highlighterPromise = createHighlighterCore({
 });
 
 const highlighterDarkPromise = createHighlighterCore({
-  themes: [themeGithubDark],
+  themes: [themeDarkPlus],
   langs: [langTsx, langBash, langJson],
   engine: createJavaScriptRegexEngine(),
 });
@@ -53,7 +53,7 @@ export const highlightDark = (code: string, lang: string = 'tsx') => {
     .then((highlighter) => {
       const html = highlighter.codeToHtml(code, {
         lang: normalizeLang(lang) as any,
-        theme: 'github-dark',
+        theme: 'dark-plus',
       });
       o.value = <div class="highlight" k-html={html}></div>;
     })

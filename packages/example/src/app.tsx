@@ -8,7 +8,7 @@ import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
-import { applyTheme, resolveInitialTheme, state } from './common/state';
+import { applyTheme, resolveInitialTheme, state } from './common/state.js';
 
 type NavGroup = {
   id: string;
@@ -111,10 +111,36 @@ function createApp() {
 
   const themeLabel = state.theme.toComputed((v) => t(('app.theme.' + v) as any));
   const themeIcon = state.theme.toComputed((v) => (v === 'dark' ? '🌙' : '☀️'));
+  const themeAriaLabel = state.theme.toComputed((v) =>
+    v === 'dark' ? t('app.theme.switchToLight') : t('app.theme.switchToDark'),
+  );
   const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
+      <div class="floating-controls" aria-label={t('app.controls.ariaLabel')}>
+        <button
+          type="button"
+          class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)}
+          on:click={toggleTheme}
+          aria-label={themeAriaLabel}
+          title={themeAriaLabel}
+        >
+          <span class="theme-toggle-icon">{themeIcon}</span>
+          <span class="theme-toggle-text">{themeLabel}</span>
+        </button>
+        <div class="locale-switch">
+          {LocaleOptions.map((option) => (
+            <a
+              href={'/' + option.value}
+              class={`locale-switch-btn ${option.value === currentLocale ? 'active' : ''}`}
+              aria-current={option.value === currentLocale ? 'true' : undefined}
+            >
+              {option.label}
+            </a>
+          ))}
+        </div>
+      </div>
       <aside class="sidebar">
         <div class="sidebar-header">
           <div class="brand-icon-wrap">
@@ -185,30 +211,7 @@ function createApp() {
       <main class="main-content">
         <div ref={contentBodyRef} class="content-body">
           <div class="content-header">
-            <div class="content-header-top">
-              <p class="content-eyebrow">{currentSection}</p>
-              <div class="content-controls" aria-label={t('app.controls.ariaLabel')}>
-                <button
-                  type="button"
-                  class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)}
-                  on:click={toggleTheme}
-                >
-                  <span class="theme-toggle-icon">{themeIcon}</span>
-                  <span class="theme-toggle-text">{themeLabel}</span>
-                </button>
-                <div class="locale-switch">
-                  {LocaleOptions.map((option) => (
-                    <a
-                      href={'/' + option.value}
-                      class={`locale-switch-btn ${option.value === currentLocale ? 'active' : ''}`}
-                      aria-current={option.value === currentLocale ? 'true' : undefined}
-                    >
-                      {option.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <p class="content-eyebrow">{currentSection}</p>
             <h2>{headerTitleRef}</h2>
             <p class="content-description">{headerDescRef}</p>
           </div>

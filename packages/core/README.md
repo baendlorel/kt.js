@@ -10,12 +10,17 @@
   </a>
 </p>
 
-## Intro
+## Document
 
 <p align="center"><strong>Visit KT.js: <a href="https://baendlorel.github.io/kt.js/">https://baendlorel.github.io/kt.js/</a></strong></p>
 
-kt.js is a simple framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
+## Community
 
-## Philosophy
+- QQ Group: `1070434849`
+- Telegram: https://t.me/kt_js
+
+## Introduction
+
+kt.js is a simple framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.

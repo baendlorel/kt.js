@@ -35,7 +35,9 @@ export function Home() {
           <span>Discussion:</span>
           <code> QQ Group 1070434849</code>
           <code>
-            <a href="https://t.me/kt_js">Telegram Group</a>
+            <a href="https://t.me/kt_js" target="_blank" rel="noopener noreferrer">
+              Telegram Group
+            </a>
           </code>
         </p>
         <h3>Introduction</h3>

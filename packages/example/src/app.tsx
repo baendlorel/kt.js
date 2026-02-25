@@ -3,74 +3,114 @@ import './styles/demo.css';
 
 import { computed, ref } from '@ktjs/core';
 import icon from '../assets/icon.svg';
-import { NavItem } from './types/router.js';
+import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
 
-const navItems: { [section: string]: NavItem[] } = {
-  'Core Features': basicNavItems,
-  'MUI Components': muiNavItems,
+type NavGroup = {
+  id: string;
+  label: string;
+  items: NavItem[];
 };
 
 type NavLookup = {
   section: string;
   item: NavItem;
+  groupId?: string;
 };
 
-// Create the main app
+const basicItemMap = new Map<string, NavItem>(basicNavItems.map((item) => [item.id, item]));
+
+const pickBasicItems = (ids: string[]): NavItem[] => {
+  const items: NavItem[] = [];
+  for (let i = 0; i < ids.length; i++) {
+    const item = basicItemMap.get(ids[i]);
+    if (item) {
+      items.push(item);
+    }
+  }
+  return items;
+};
+
+const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog']);
+
+const navGroups: NavGroup[] = [
+  {
+    id: 'features',
+    label: 'Features',
+    items: pickBasicItems(['reactive', 'directives', 'fragment', 'events', 'other-elements']),
+  },
+  {
+    id: 'mui',
+    label: 'MUI Components',
+    items: muiNavItems,
+  },
+];
+
 function createApp() {
-  const home = basicNavItems[0];
+  const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
 
-  const currentPageRef = ref<string>(home.id);
-  const currentSectionRef = ref<string>('Core Features');
-  const headerTitleRef = ref(home.title);
-  const headerDescRef = ref(home.description);
+  const currentPageRef = ref<string>(firstItem.id);
+  const currentSectionRef = ref<string>(firstItem.label);
+  const openGroupRef = ref<string>(navGroups[0].id);
+  const headerTitleRef = ref(firstItem.title);
+  const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
+  const view = ref(firstItem.component());
 
-  const isHomeRef = computed(() => currentPageRef.value === home.id, [currentPageRef]);
-  const headerClassRef = computed(() => `content-header ${isHomeRef.value ? 'is-home' : ''}`, [isHomeRef]);
-  const headerEyebrowRef = computed(() => (isHomeRef.value ? 'Welcome' : currentSectionRef.value), [isHomeRef, currentSectionRef]);
-
-  // Initialize with home page content
-  const view = ref(home.component());
-
-  // Find nav item by id and section
   const findNavItem = (id: string): NavLookup | undefined => {
-    for (const [section, items] of Object.entries(navItems)) {
-      const found = items.find((item) => item.id === id);
+    const topLevelItem = topLevelItems.find((item) => item.id === id);
+    if (topLevelItem) {
+      return {
+        section: topLevelItem.label,
+        item: topLevelItem,
+      };
+    }
+
+    for (let gi = 0; gi < navGroups.length; gi++) {
+      const group = navGroups[gi];
+      const found = group.items.find((item) => item.id === id);
       if (found) {
-        return { section, item: found };
+        return {
+          section: group.label,
+          item: found,
+          groupId: group.id,
+        };
       }
     }
     return undefined;
   };
 
-  // Navigation handler
   const navigateTo = (pageId: string) => {
-    if (currentPageRef.value === pageId) {
-      return;
-    }
-
-    // Get page info
     const navItem = findNavItem(pageId);
     if (!navItem) {
       return;
     }
 
+    if (currentPageRef.value === navItem.item.id) {
+      return;
+    }
+
     currentPageRef.value = navItem.item.id;
     currentSectionRef.value = navItem.section;
-
-    // Update header
+    if (navItem.groupId) {
+      openGroupRef.value = navItem.groupId;
+    }
     headerTitleRef.value = navItem.item.title;
     headerDescRef.value = navItem.item.description;
-
-    // Create new content and replace current
     view.value = navItem.item.component();
-
-    // Scroll to top
     contentBodyRef.value.scrollTop = 0;
   };
+
+  const toggleGroup = (groupId: string) => {
+    if (openGroupRef.value === groupId) {
+      return;
+    }
+    openGroupRef.value = groupId;
+  };
+
+  const headerEyebrowRef = computed(() => currentSectionRef.value, [currentSectionRef]);
 
   return (
     <div class="app-layout">
@@ -84,40 +124,57 @@ function createApp() {
             <p>Fine-grained DOM framework playground</p>
           </div>
         </div>
-        <div class="sidebar-search">⌘K Quick Search · Coming Soon</div>
+
         <nav class="nav-menu">
-          {Object.entries(navItems).map(([section, items]) => (
+          <div class="nav-top-level">
+            {topLevelItems.map((item) => (
+              <button
+                type="button"
+                class={computed(() => `nav-item nav-item-top ${item.id === currentPageRef.value ? 'active' : ''}`, [currentPageRef])}
+                on:click={() => navigateTo(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+          <div class="nav-section-divider"></div>
+
+          {navGroups.map((group, groupIndex) => (
             <div class="nav-section">
-              <div class="nav-section-title">{section}</div>
-              {items.map((item) => (
-                <button
-                  type="button"
-                  class={computed(() => `nav-item ${item.id === currentPageRef.value ? 'active' : ''}`, [currentPageRef])}
-                  data-page={item.id}
-                  on:click={() => navigateTo(item.id)}
-                >
-                  <span>{item.label}</span>
-                  <span class="nav-item-arrow">›</span>
-                </button>
-              ))}
+              <button
+                type="button"
+                class={computed(() => `nav-group-toggle ${openGroupRef.value === group.id ? 'open' : ''}`, [openGroupRef])}
+                on:click={() => toggleGroup(group.id)}
+              >
+                <span>{group.label}</span>
+                <span class={computed(() => `nav-group-arrow ${openGroupRef.value === group.id ? 'open' : ''}`, [openGroupRef])}>
+                  ▾
+                </span>
+              </button>
+
+              <div class={computed(() => `nav-group-panel ${openGroupRef.value === group.id ? 'open' : 'collapsed'}`, [openGroupRef])}>
+                {group.items.map((item) => (
+                  <button
+                    type="button"
+                    class={computed(() => `nav-item ${item.id === currentPageRef.value ? 'active' : ''}`, [currentPageRef])}
+                    on:click={() => navigateTo(item.id)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+
+              <div k-if={groupIndex !== navGroups.length - 1} class="nav-section-divider nav-section-divider-group"></div>
             </div>
           ))}
         </nav>
-        <div class="sidebar-footer">
-          <span class="sidebar-badge">Inspired by react.dev</span>
-          <span class="sidebar-badge sidebar-badge-vue">Inspired by vuejs.org</span>
-        </div>
       </aside>
+
       <main class="main-content">
-        <div class={headerClassRef}>
+        <div class="content-header">
           <p class="content-eyebrow">{headerEyebrowRef}</p>
           <h2>{headerTitleRef}</h2>
           <p class="content-description">{headerDescRef}</p>
-          <div k-if={isHomeRef} class="content-chip-row">
-            <span class="content-chip">JSX-first</span>
-            <span class="content-chip">No Virtual DOM</span>
-            <span class="content-chip">Fine-grained updates</span>
-          </div>
         </div>
         <div ref={contentBodyRef} class="content-body">
           {view}

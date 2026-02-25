@@ -25,22 +25,22 @@ export function Code(props: CodeProps) {
   let copiedTimer: number | undefined;
 
   const copyCode = async () => {
-    let copied = false;
+    let isCopied = false;
 
     if (navigator.clipboard && window.isSecureContext) {
       try {
         await navigator.clipboard.writeText(props.code);
-        copied = true;
+        isCopied = true;
       } catch {
-        copied = false;
+        isCopied = false;
       }
     }
 
-    if (!copied) {
-      copied = fallbackCopy(props.code);
+    if (!isCopied) {
+      isCopied = fallbackCopy(props.code);
     }
 
-    if (!copied) {
+    if (!isCopied) {
       return;
     }
 

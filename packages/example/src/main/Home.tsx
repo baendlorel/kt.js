@@ -4,7 +4,15 @@ import installCode from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/plugin.vite.example.ts?raw';
 import babelConfigCode from '../code/plugin.babel.example.ts?raw';
+import { css } from '@emotion/css';
 
+const styles = {
+  discussion: css`
+    display: flex;
+    gap: 15px;
+    align-items: baseline;
+  `,
+};
 /**
  * Home page - Introduction to KT.js framework
  */
@@ -12,6 +20,24 @@ export function Home() {
   return (
     <div>
       <div class="demo-section">
+        <div class="home-badges">
+          <a href="https://www.npmjs.com/package/kt.js" aria-label="kt.js npm version badge">
+            <img src="https://img.shields.io/npm/v/kt.js?label=npm" alt="npm version" />
+          </a>
+          <a href="https://www.npmjs.com/package/kt.js" aria-label="kt.js npm downloads badge">
+            <img src="https://img.shields.io/npm/dm/kt.js?label=downloads" alt="npm downloads" />
+          </a>
+          <a href="https://www.npmjs.com/package/kt.js" aria-label="kt.js npm license badge">
+            <img src="https://img.shields.io/npm/l/kt.js?label=license" alt="npm license" />
+          </a>
+        </div>
+        <p class={styles.discussion}>
+          <span>Discussion:</span>
+          <code> QQ Group 1070434849</code>
+          <code>
+            <a href="https://t.me/kt_js">Telegram Group</a>
+          </code>
+        </p>
         <h3>Introduction</h3>
         <p>
           kt.js is a lightweight, direct DOM manipulation framework with <code>jsx</code>. Unlike React or Vue which use

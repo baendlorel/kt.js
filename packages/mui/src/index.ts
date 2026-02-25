@@ -4,6 +4,7 @@ import './main.css';
 // UI Components
 export { Alert } from './components/Alert/Index.js';
 export { Button } from './components/Button/Index.js';
+export { DropdownButton } from './components/DropdownButton/Index.js';
 export { Checkbox, CheckboxGroup } from './components/Checkbox/Index.js';
 export { Dialog } from './components/Dialog/Index.js';
 export { FormLabel } from './components/FormLabel/Index.js';
@@ -26,6 +27,11 @@ export type { KTMuiCardProps, KTMuiCard } from './components/Card/Index.js';
 export type { KTMuiSwitchProps, KTMuiSwitch } from './components/Switch/Index.js';
 export type { KTMuiPillProps, KTMuiPill } from './components/Pill/Index.js';
 export type { KTMuiBadgeProps, KTMuiBadge, KTMuiBadgeAnchorOrigin } from './components/Badge/Index.js';
+export type {
+  KTMuiDropdownButtonProps,
+  KTMuiDropdownButton,
+  KTMuiDropdownButtonOption,
+} from './components/DropdownButton/Index.js';
 export type {
   KTMuiPopoverProps,
   KTMuiPopover,

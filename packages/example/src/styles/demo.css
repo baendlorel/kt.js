@@ -103,6 +103,8 @@
 .demo-section h4 code,
 .demo-section .demo-desc code {
   display: inline-block;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
   padding: 1px 6px;
   border-radius: 6px;
   border: 1px solid #d5dfec;

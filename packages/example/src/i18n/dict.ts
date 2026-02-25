@@ -12,6 +12,8 @@ export const zh = {
   'home.discussion.qq': 'QQ 群 1070434849',
   'home.discussion.telegram': 'Telegram 群',
   'home.section.introduction': '介绍',
+  'home.section.introduction.content':
+    'kt.js是一个轻量级、直接操作DOM的前端框架，支持{{1}}语法，拥有基本的响应式，让你对DOM和业务有着充分的掌控。',
   'home.section.gettingStarted': '快速开始',
   'home.step.installation': '1. 安装',
   'home.step.tsconfig': '2. TypeScript 配置',
@@ -88,6 +90,9 @@ const en: typeof zh = {
   'home.discussion.qq': 'QQ Group 1070434849',
   'home.discussion.telegram': 'Telegram Group',
   'home.section.introduction': 'Introduction',
+  'home.section.introduction.content':
+    'kt.js is a lightweight, direct DOM manipulation framework with {{1}}. Unlike React or Vue which use virtual DOM and automatic re-rendering, kt.js gives you fine-grained control over when and how DOM updates happen.',
+
   'home.section.gettingStarted': 'Getting Started',
   'home.step.installation': '1. Installation',
   'home.step.tsconfig': '2. TypeScript Configuration',
@@ -152,54 +157,4 @@ const en: typeof zh = {
   'nav.mui.icons.description': 'Material-UI Icons',
 };
 
-export const dictionaries = {
-  'zh-CN': zh,
-  'en-US': en,
-} as const;
-
-export const localeStorageKey = 'ktjs-example-locale';
-export const defaultLocale = 'zh-CN';
-export const localeOptions = ['zh-CN', 'en-US'] as const;
-
-export type Locale = (typeof localeOptions)[number];
-export type I18nKey = keyof typeof zh;
-
-export const normalizeLocale = (value?: string | null): Locale | undefined => {
-  if (!value) {
-    return undefined;
-  }
-
-  const normalized = value.toLowerCase();
-  if (normalized.startsWith('zh')) {
-    return 'zh-CN';
-  }
-  if (normalized.startsWith('en')) {
-    return 'en-US';
-  }
-  return undefined;
-};
-
-export const resolveLocale = (): Locale => {
-  if (typeof window === 'undefined') {
-    return defaultLocale;
-  }
-
-  const url = new URL(window.location.href);
-  const fromQuery = normalizeLocale(url.searchParams.get('lang'));
-  if (fromQuery) {
-    return fromQuery;
-  }
-
-  const pathLocaleMatch = window.location.pathname.match(/(zh-CN|en-US)/i);
-  const fromPath = normalizeLocale(pathLocaleMatch?.[1]);
-  if (fromPath) {
-    return fromPath;
-  }
-
-  const fromStorage = normalizeLocale(window.localStorage.getItem(localeStorageKey));
-  if (fromStorage) {
-    return fromStorage;
-  }
-
-  return normalizeLocale(window.navigator.language) ?? defaultLocale;
-};
+export const dict = window.location.href.includes('en-US') ? en : zh;

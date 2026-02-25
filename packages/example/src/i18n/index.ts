@@ -1,33 +1,22 @@
-import { dictionaries, localeOptions, localeStorageKey, resolveLocale, type I18nKey, type Locale } from './dict.js';
+import { dict } from './dict.js';
 
-const getTemplate = (locale: Locale, key: I18nKey): string => {
-  return dictionaries[locale][key] ?? key;
-};
+export type I18NContent = DocumentFragment;
 
-export const getLocale = (): Locale => resolveLocale();
-
-export const i18n = (key: I18nKey, ...replacements: Array<string | number>): string => {
-  const template = getTemplate(resolveLocale(), key);
-  let result = template;
-  for (let i = 0; i < replacements.length; i++) {
-    result = result.replace(`{{${i}}}`, String(replacements[i]));
+export const i18n = (key: keyof typeof dict, ...replacements: Array<any>): I18NContent => {
+  const text = dict[key] ?? key;
+  const template = text.split(/{{\d+}}/g);
+  const result: I18NContent = document.createDocumentFragment();
+  for (let i = 0; i < template.length; i++) {
+    result.append(template[i]);
+    const r = replacements[i];
+    if (r) {
+      result.append(r);
+    }
   }
   return result;
 };
 
-export const setLocale = (locale: Locale) => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  if (resolveLocale() === locale) {
-    return;
-  }
-
-  window.localStorage.setItem(localeStorageKey, locale);
-  const url = new URL(window.location.href);
-  url.searchParams.set('lang', locale);
-  window.location.assign(url.toString());
-};
-
-export { localeOptions, type Locale };
+export const LocaleOptions = [
+  { label: 'English', value: 'en' },
+  { label: '中文', value: 'zh' },
+] as const;

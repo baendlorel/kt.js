@@ -3,7 +3,7 @@ import './styles/demo.css';
 
 import { computed, ref } from '@ktjs/core';
 import icon from '../assets/icon.svg';
-import { getLocale, i18n, localeOptions, setLocale, type Locale } from './i18n/index.js';
+import { i18n, I18NContent, LocaleOptions } from './i18n/index.js';
 import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
@@ -11,12 +11,12 @@ import { muiNavItems } from './ui/index.js';
 
 type NavGroup = {
   id: string;
-  label: string;
+  label: I18NContent;
   items: NavItem[];
 };
 
 type NavLookup = {
-  section: string;
+  section: I18NContent;
   item: NavItem;
   groupId?: string;
 };
@@ -68,10 +68,9 @@ const navLookupMap = new Map<string, NavLookup>(orderedNavItems.map((entry) => [
 function createApp() {
   const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
 
-  const currentPageRef = ref<string>(firstItem.id);
-  const currentSectionRef = ref<string>(firstItem.label);
-  const openGroupRef = ref<string>(navGroups[0].id);
-  const localeRef = ref<Locale>(getLocale());
+  const currentPageRef = ref(firstItem.id);
+  const currentSectionRef = ref(firstItem.label);
+  const openGroupRef = ref(navGroups[0].id);
   const headerTitleRef = ref(firstItem.title);
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
@@ -107,15 +106,6 @@ function createApp() {
     openGroupRef.value = groupId;
   };
 
-  const switchLocale = (locale: Locale) => {
-    if (localeRef.value === locale) {
-      return;
-    }
-
-    localeRef.value = locale;
-    setLocale(locale);
-  };
-
   const headerEyebrowRef = computed(() => currentSectionRef.value, [currentSectionRef]);
   const currentNavIndexRef = computed(
     () => orderedNavItems.findIndex((entry) => entry.item.id === currentPageRef.value),
@@ -148,17 +138,7 @@ function createApp() {
           <div class="brand-content">
             <h1>KT.js</h1>
             <p>{i18n('app.brand.tagline')}</p>
-            <div class="brand-locale">
-              {localeOptions.map((locale) => (
-                <button
-                  type="button"
-                  class={computed(() => `brand-locale-btn ${localeRef.value === locale ? 'active' : ''}`, [localeRef])}
-                  on:click={() => switchLocale(locale)}
-                >
-                  {locale === 'zh-CN' ? i18n('app.locale.zh') : i18n('app.locale.en')}
-                </button>
-              ))}
-            </div>
+            <div class="brand-locale">在这里切换语言</div>
           </div>
         </div>
 
@@ -167,7 +147,10 @@ function createApp() {
             {topLevelItems.map((item) => (
               <button
                 type="button"
-                class={computed(() => `nav-item nav-item-top ${item.id === currentPageRef.value ? 'active' : ''}`, [currentPageRef])}
+                class={computed(
+                  () => `nav-item nav-item-top ${item.id === currentPageRef.value ? 'active' : ''}`,
+                  [currentPageRef],
+                )}
                 on:click={() => navigateTo(item.id)}
               >
                 {item.label}
@@ -180,20 +163,36 @@ function createApp() {
             <div class="nav-section">
               <button
                 type="button"
-                class={computed(() => `nav-group-toggle ${openGroupRef.value === group.id ? 'open' : ''}`, [openGroupRef])}
+                class={computed(
+                  () => `nav-group-toggle ${openGroupRef.value === group.id ? 'open' : ''}`,
+                  [openGroupRef],
+                )}
                 on:click={() => toggleGroup(group.id)}
               >
                 <span>{group.label}</span>
-                <span class={computed(() => `nav-group-arrow ${openGroupRef.value === group.id ? 'open' : ''}`, [openGroupRef])}>
+                <span
+                  class={computed(
+                    () => `nav-group-arrow ${openGroupRef.value === group.id ? 'open' : ''}`,
+                    [openGroupRef],
+                  )}
+                >
                   ▾
                 </span>
               </button>
 
-              <div class={computed(() => `nav-group-panel ${openGroupRef.value === group.id ? 'open' : 'collapsed'}`, [openGroupRef])}>
+              <div
+                class={computed(
+                  () => `nav-group-panel ${openGroupRef.value === group.id ? 'open' : 'collapsed'}`,
+                  [openGroupRef],
+                )}
+              >
                 {group.items.map((item) => (
                   <button
                     type="button"
-                    class={computed(() => `nav-item ${item.id === currentPageRef.value ? 'active' : ''}`, [currentPageRef])}
+                    class={computed(
+                      () => `nav-item ${item.id === currentPageRef.value ? 'active' : ''}`,
+                      [currentPageRef],
+                    )}
                     on:click={() => navigateTo(item.id)}
                   >
                     {item.label}
@@ -201,7 +200,10 @@ function createApp() {
                 ))}
               </div>
 
-              <div k-if={groupIndex !== navGroups.length - 1} class="nav-section-divider nav-section-divider-group"></div>
+              <div
+                k-if={groupIndex !== navGroups.length - 1}
+                class="nav-section-divider nav-section-divider-group"
+              ></div>
             </div>
           ))}
         </nav>
@@ -235,7 +237,10 @@ function createApp() {
           </button>
           <button
             type="button"
-            class={computed(() => `content-pagination-btn content-pagination-next ${nextNavRef.value ? '' : 'disabled'}`, [nextNavRef])}
+            class={computed(
+              () => `content-pagination-btn content-pagination-next ${nextNavRef.value ? '' : 'disabled'}`,
+              [nextNavRef],
+            )}
             disabled={computed(() => !nextNavRef.value, [nextNavRef])}
             on:click={() => {
               const next = nextNavRef.value;

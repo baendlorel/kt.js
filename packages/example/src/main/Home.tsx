@@ -33,9 +33,10 @@ export function Home() {
         </p>
         <h3>{i18n('home.section.introduction')}</h3>
         <p>
-          kt.js is a lightweight, direct DOM manipulation framework with <code>jsx</code>. Unlike React or Vue which use
+          {/* kt.js is a lightweight, direct DOM manipulation framework with <code>jsx</code>. Unlike React or Vue which use
           virtual DOM and automatic re-rendering, kt.js gives you fine-grained control over when and how DOM updates
-          happen.
+          happen. */}
+          {i18n('home.section.introduction.content', <code>jsx</code>)}
         </p>
         <h3>{i18n('home.section.gettingStarted')}</h3>
         <p>Follow these steps to start using KT.js in your project:</p>

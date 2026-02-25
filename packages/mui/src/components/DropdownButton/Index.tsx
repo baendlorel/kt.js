@@ -105,12 +105,14 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
 
   const members = options.toComputed((list) => {
     return list.map((o) => {
+      // custom label element - attach click handler directly
       if (o.label instanceof Node) {
         o.label.removeEventListener('click', selectOption);
         o.label.addEventListener('click', selectOption);
         return o;
       }
 
+      // create button element for string label
       return (
         <button
           type="button"

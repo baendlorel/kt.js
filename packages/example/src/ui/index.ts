@@ -3,13 +3,20 @@ import { t } from '../i18n/index.js';
 
 // # Views
 import { MuiAlertDemo } from './mui-alert.js';
+import { MuiBadgeDemo } from './mui-badge.js';
 import { MuiButtonDemo } from './mui-button.js';
+import { MuiCardDemo } from './mui-card.js';
 import { MuiCheckboxDemo } from './mui-checkbox.js';
 import { MuiDialogDemo } from './mui-dialog.js';
+import { MuiDropdownButtonDemo } from './mui-dropdown-button.js';
+import { MuiFormLabelDemo } from './mui-formlabel.js';
 import { MuiIconsDemo } from './mui-icons.js';
+import { MuiPillDemo } from './mui-pill.js';
+import { MuiPopoverDemo } from './mui-popover.js';
 import { MuiProgressDemo } from './mui-progress.js';
 import { MuiRadioDemo } from './mui-radio.js';
 import { MuiSelectDemo } from './mui-select.js';
+import { MuiSwitchDemo } from './mui-switch.js';
 import { MuiTextFieldDemo } from './mui-textfield.js';
 // import { MuiTextFieldRefDemo } from './mui-textfield-ref-demo.js';
 
@@ -27,6 +34,13 @@ export const muiNavItems: NavItem[] = [
     title: t('nav.mui.alert.title'),
     description: t('nav.mui.alert.description'),
     component: MuiAlertDemo,
+  },
+  {
+    id: 'mui-dropdown-button',
+    label: t('nav.mui.dropdownButton.label'),
+    title: t('nav.mui.dropdownButton.title'),
+    description: t('nav.mui.dropdownButton.description'),
+    component: MuiDropdownButtonDemo,
   },
   {
     id: 'mui-textfield',
@@ -71,11 +85,53 @@ export const muiNavItems: NavItem[] = [
     component: MuiCheckboxDemo,
   },
   {
+    id: 'mui-switch',
+    label: t('nav.mui.switch.label'),
+    title: t('nav.mui.switch.title'),
+    description: t('nav.mui.switch.description'),
+    component: MuiSwitchDemo,
+  },
+  {
     id: 'mui-select',
     label: t('nav.mui.select.label'),
     title: t('nav.mui.select.title'),
     description: t('nav.mui.select.description'),
     component: MuiSelectDemo,
+  },
+  {
+    id: 'mui-formlabel',
+    label: t('nav.mui.formlabel.label'),
+    title: t('nav.mui.formlabel.title'),
+    description: t('nav.mui.formlabel.description'),
+    component: MuiFormLabelDemo,
+  },
+  {
+    id: 'mui-card',
+    label: t('nav.mui.card.label'),
+    title: t('nav.mui.card.title'),
+    description: t('nav.mui.card.description'),
+    component: MuiCardDemo,
+  },
+  {
+    id: 'mui-pill',
+    label: t('nav.mui.pill.label'),
+    title: t('nav.mui.pill.title'),
+    description: t('nav.mui.pill.description'),
+    component: MuiPillDemo,
+  },
+  {
+    id: 'mui-badge',
+    label: t('nav.mui.badge.label'),
+    title: t('nav.mui.badge.title'),
+    description: t('nav.mui.badge.description'),
+    component: MuiBadgeDemo,
+  },
+  {
+    id: 'mui-popover',
+    label: t('nav.mui.popover.label'),
+    title: t('nav.mui.popover.title'),
+    description: t('nav.mui.popover.description'),
+    component: MuiPopoverDemo,
   },
   {
     id: 'mui-icons',

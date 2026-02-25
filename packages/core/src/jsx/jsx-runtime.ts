@@ -2,42 +2,23 @@ import type { JSXTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTAttribute, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 
-import { h, mathml as createMathMLElement, svg as createSVGElement } from '../h/index.js';
+import { h, mathml as _mathml, svg as _svg } from '../h/index.js';
 import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 
-function assertWritableRef(props: KTAttribute) {
-  if (isComputed(props.ref)) {
+function create(creator: (tag: any, props: KTAttribute) => JSX.Element, tag: any, props: KTAttribute) {
+  if (props.ref && isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
   }
-}
-
-/**
- * @param tag html tag or function component
- * @param props properties/attributes
- */
-export function jsx(tag: JSXTag, props: KTAttribute): JSX.Element {
-  assertWritableRef(props);
-  const el = jsxh(tag, props);
+  const el = creator(tag, props);
   $initRef(props, el);
   return el;
 }
 
-export function svg(tag: SVGTag, props: KTAttribute): JSX.Element {
-  assertWritableRef(props);
-  const el = createSVGElement(tag, props, props.children) as unknown as JSX.Element;
-  $initRef(props, el);
-  return el;
-}
-
-export function mathml(tag: MathMLTag, props: KTAttribute): JSX.Element {
-  assertWritableRef(props);
-  const el = createMathMLElement(tag, props, props.children) as unknown as JSX.Element;
-  $initRef(props, el);
-  return el;
-}
-
+export const jsx = (tag: JSXTag, props: KTAttribute): JSX.Element => create(jsxh, tag, props);
+export const svg = (tag: SVGTag, props: KTAttribute): JSX.Element => create(_svg, tag, props);
+export const mathml = (tag: MathMLTag, props: KTAttribute): JSX.Element => create(_mathml, tag, props);
 export { svg as svgRuntime, mathml as mathmlRuntime };
 
 /**
@@ -73,30 +54,3 @@ export const jsxs = jsx;
 
 // Export h as the classic JSX factory for backward compatibility
 export { h, h as createElement };
-
-/**
- * A helper to create redrawable elements
- * ```tsx
- * export function MyComponent() {
- *    let aa = 10;
- *    // ...
- *    // aa might be changed
- *    return createRedrawable(() => <div>{aa}</div>);
- * }
- * ```
- * Then the returned element has a `redraw` method to redraw itself with new values.
- * @param creator a simple creator function that returns an element
- * @returns created element's ref
- */
-export function createRedrawable<T>(creator: () => T): KTRef<T> & { redraw: () => T } {
-  const elRef = ref<T>() as KTRef<T> & { redraw: () => T };
-
-  const redraw = () => {
-    elRef.value = creator(); // ref setter automatically calls replaceWith
-    elRef.redraw = redraw;
-    return elRef.value;
-  };
-
-  redraw();
-  return elRef;
-}

@@ -11,6 +11,6 @@ export const t = (key: keyof typeof dict, ...replacements: Array<any>): I18NCont
 };
 
 export const LocaleOptions = [
-  { label: 'English', value: 'en' },
-  { label: '中文', value: 'zh' },
+  { label: 'English', value: 'en-US' },
+  { label: '中文', value: 'zh-CN' },
 ] as const;

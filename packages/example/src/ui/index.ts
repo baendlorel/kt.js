@@ -35,13 +35,13 @@ export const muiNavItems: NavItem[] = [
     description: t('nav.mui.textfield.description'),
     component: MuiTextFieldDemo,
   },
-  {
-    id: 'mui-textfield-ref',
-    label: t('nav.mui.textfieldRef.label'),
-    title: t('nav.mui.textfieldRef.title'),
-    description: t('nav.mui.textfieldRef.description'),
-    component: MuiTextFieldRefDemo,
-  },
+  // {
+  //   id: 'mui-textfield-ref',
+  //   label: t('nav.mui.textfieldRef.label'),
+  //   title: t('nav.mui.textfieldRef.title'),
+  //   description: t('nav.mui.textfieldRef.description'),
+  //   component: MuiTextFieldRefDemo,
+  // },
   {
     id: 'mui-dialog',
     label: t('nav.mui.dialog.label'),

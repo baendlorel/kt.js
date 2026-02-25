@@ -138,7 +138,11 @@ function createApp() {
           <div class="brand-content">
             <h1>KT.js</h1>
             <p k-html={t('app.brand.tagline')}></p>
-            <div class="brand-locale" k-html={t('app.locale.switchHint')}></div>
+            <div class="brand-locale">
+              {LocaleOptions.map((option) => {
+                return <a href={'/' + option.value}>{option.label}</a>;
+              })}
+            </div>
           </div>
         </div>
 

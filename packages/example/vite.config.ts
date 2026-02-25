@@ -16,7 +16,9 @@ export default defineConfig(({ command }) => ({
     alias: getAliases(),
   },
   plugins: [ktjsx()],
-  define: globalDefines,
+  define: Object.assign({}, globalDefines, {
+    'process.env.BASE_URL': JSON.stringify(command === 'build' ? '/kt.js/' : '/'),
+  }), //
   build: {
     rollupOptions: {
       output: {

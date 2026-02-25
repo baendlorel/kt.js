@@ -10,17 +10,17 @@ import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
 import { applyTheme, resolveInitialTheme, state } from './common/state.js';
 
-type NavGroup = {
+interface NavGroup {
   id: string;
   label: I18NContent;
   items: NavItem[];
-};
+}
 
-type NavLookup = {
+interface NavLookup {
   section: I18NContent;
   item: NavItem;
   groupId?: string;
-};
+}
 
 const basicItemMap = new Map<string, NavItem>(basicNavItems.map((item) => [item.id, item]));
 
@@ -78,7 +78,7 @@ function createApp() {
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
   const view = ref(firstItem.component());
-  const currentLocale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
+  const locale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
 
   const findNavItem = (id: string): NavLookup | undefined => navLookupMap.get(id);
 
@@ -132,9 +132,9 @@ function createApp() {
         <div class="locale-switch">
           {LocaleOptions.map((option) => (
             <a
-              href={'/' + option.value}
-              class={`locale-switch-btn ${option.value === currentLocale ? 'active' : ''}`}
-              aria-current={option.value === currentLocale ? 'true' : undefined}
+              href={process.env.BASE_URL + option.value}
+              class={`locale-switch-btn ${option.value === locale ? 'active' : ''}`}
+              aria-current={option.value === locale ? 'true' : undefined}
             >
               {option.label}
             </a>

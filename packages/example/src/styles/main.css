@@ -186,9 +186,9 @@ body {
 }
 
 .content-header {
-  padding: 24px 34px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #ffffff;
+  margin: 0px 0px 28px 0px;
+  padding: 2px 0 4px;
+  background: transparent;
 }
 
 .content-eyebrow {
@@ -218,12 +218,13 @@ body {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 24px;
+  padding: 24px 36px 18px;
   background: #ffffff;
 }
 
 .content-body > div {
-  margin: 0 auto;
+  width: 100%;
+  max-width: 980px;
 }
 
 .content-pagination {
@@ -305,7 +306,7 @@ body {
   }
 
   .content-header {
-    padding: 20px 22px 16px;
+    margin-bottom: 14px;
   }
 
   .content-header h2 {
@@ -313,7 +314,7 @@ body {
   }
 
   .content-body {
-    padding: 18px;
+    padding: 18px 18px 14px;
   }
 
   .content-pagination {
@@ -337,7 +338,8 @@ body {
   }
 
   .content-header {
-    padding: 18px 16px 14px;
+    margin-bottom: 12px;
+    padding: 0;
   }
 
   .content-header h2 {
@@ -349,7 +351,7 @@ body {
   }
 
   .content-body {
-    padding: 12px;
+    padding: 12px 12px 10px;
   }
 
   .content-pagination {

@@ -186,12 +186,12 @@ function createApp() {
       </aside>
 
       <main class="main-content">
-        <div class="content-header">
-          <p class="content-eyebrow">{headerEyebrowRef}</p>
-          <h2>{headerTitleRef}</h2>
-          <p class="content-description">{headerDescRef}</p>
-        </div>
         <div ref={contentBodyRef} class="content-body">
+          <div class="content-header">
+            <p class="content-eyebrow">{headerEyebrowRef}</p>
+            <h2>{headerTitleRef}</h2>
+            <p class="content-description">{headerDescRef}</p>
+          </div>
           {view}
         </div>
         <div class="content-pagination">

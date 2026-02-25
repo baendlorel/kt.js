@@ -50,7 +50,7 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-const orderedNavItems: NavLookup[] = [
+const navs: NavLookup[] = [
   ...topLevelItems.map((item) => ({
     section: item.label,
     item,
@@ -64,16 +64,16 @@ const orderedNavItems: NavLookup[] = [
   ),
 ];
 
-const navLookupMap = new Map<string, NavLookup>(orderedNavItems.map((entry) => [entry.item.id, entry]));
+const navLookupMap = new Map<string, NavLookup>(navs.map((entry) => [entry.item.id, entry]));
 
 function createApp() {
   resolveInitialTheme();
 
   const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
 
-  const currentPageRef = ref(firstItem.id);
-  const currentSectionRef = ref(firstItem.label);
-  const openGroupRef = ref(navGroups[0].id);
+  const page = ref(firstItem.id);
+  const currentSection = ref(firstItem.label);
+  const openedGroup = ref(navGroups[0].id);
   const headerTitleRef = ref(firstItem.title);
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
@@ -88,14 +88,14 @@ function createApp() {
       return;
     }
 
-    if (currentPageRef.value === navItem.item.id) {
+    if (page.value === navItem.item.id) {
       return;
     }
 
-    currentPageRef.value = navItem.item.id;
-    currentSectionRef.value = navItem.section;
+    page.value = navItem.item.id;
+    currentSection.value = navItem.section;
     if (navItem.groupId) {
-      openGroupRef.value = navItem.groupId;
+      openedGroup.value = navItem.groupId;
     }
     headerTitleRef.value = navItem.item.title;
     headerDescRef.value = navItem.item.description;
@@ -103,40 +103,14 @@ function createApp() {
     contentBodyRef.value.scrollTop = 0;
   };
 
-  const toggleGroup = (groupId: string) => {
-    if (openGroupRef.value === groupId) {
-      return;
-    }
-    openGroupRef.value = groupId;
-  };
+  const toggleGroup = (groupId: string) => (openedGroup.value = groupId); // equal values does not trigger onChange events
 
-  const headerEyebrowRef = computed(() => currentSectionRef.value, [currentSectionRef]);
-  const currentNavIndexRef = computed(
-    () => orderedNavItems.findIndex((entry) => entry.item.id === currentPageRef.value),
-    [currentPageRef],
-  );
-  const prevNavRef = computed(() => {
-    const currentIndex = currentNavIndexRef.value;
-    if (currentIndex <= 0) {
-      return undefined;
-    }
+  const navIndex = page.toComputed((v) => navs.findIndex((entry) => entry.item.id === v));
+  const prev = navIndex.toComputed((i) => (i <= 0 ? null : navs[i - 1]));
+  const next = navIndex.toComputed((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
 
-    return orderedNavItems[currentIndex - 1];
-  }, [currentNavIndexRef]);
-  const nextNavRef = computed(() => {
-    const currentIndex = currentNavIndexRef.value;
-    if (currentIndex < 0 || currentIndex >= orderedNavItems.length - 1) {
-      return undefined;
-    }
-
-    return orderedNavItems[currentIndex + 1];
-  }, [currentNavIndexRef]);
-
-  const themeLabelRef = computed(
-    () => (state.theme.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')),
-    [state.theme],
-  );
-  const themeIconRef = computed(() => (state.theme.value === 'dark' ? '🌙' : '☀️'), [state.theme]);
+  const themeLabel = state.theme.toComputed((v) => t(('app.theme.' + v) as any));
+  const themeIcon = state.theme.toComputed((v) => (v === 'dark' ? '🌙' : '☀️'));
   const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
@@ -157,10 +131,7 @@ function createApp() {
             {topLevelItems.map((item) => (
               <button
                 type="button"
-                class={computed(
-                  () => `nav-item nav-item-top ${item.id === currentPageRef.value ? 'active' : ''}`,
-                  [currentPageRef],
-                )}
+                class={page.toComputed((p) => `nav-item nav-item-top ${item.id === p ? 'active' : ''}`)}
                 on:click={() => navigateTo(item.id)}
               >
                 {item.label}
@@ -174,35 +145,27 @@ function createApp() {
               <button
                 type="button"
                 class={computed(
-                  () => `nav-group-toggle ${openGroupRef.value === group.id ? 'open' : ''}`,
-                  [openGroupRef],
+                  () => `nav-group-toggle ${openedGroup.value === group.id ? 'open' : ''}`,
+                  [openedGroup],
                 )}
                 on:click={() => toggleGroup(group.id)}
               >
                 <span>{group.label}</span>
                 <span
                   class={computed(
-                    () => `nav-group-arrow ${openGroupRef.value === group.id ? 'open' : ''}`,
-                    [openGroupRef],
+                    () => `nav-group-arrow ${openedGroup.value === group.id ? 'open' : ''}`,
+                    [openedGroup],
                   )}
                 >
                   ▾
                 </span>
               </button>
 
-              <div
-                class={computed(
-                  () => `nav-group-panel ${openGroupRef.value === group.id ? 'open' : 'collapsed'}`,
-                  [openGroupRef],
-                )}
-              >
+              <div class={openedGroup.toComputed((v) => `nav-group-panel ${v === group.id ? 'open' : 'collapsed'}`)}>
                 {group.items.map((item) => (
                   <button
                     type="button"
-                    class={computed(
-                      () => `nav-item ${item.id === currentPageRef.value ? 'active' : ''}`,
-                      [currentPageRef],
-                    )}
+                    class={page.toComputed((v) => `nav-item ${item.id === v ? 'active' : ''}`)}
                     on:click={() => navigateTo(item.id)}
                   >
                     {item.label}
@@ -223,15 +186,15 @@ function createApp() {
         <div ref={contentBodyRef} class="content-body">
           <div class="content-header">
             <div class="content-header-top">
-              <p class="content-eyebrow">{headerEyebrowRef}</p>
+              <p class="content-eyebrow">{currentSection}</p>
               <div class="content-controls" aria-label={t('app.controls.ariaLabel')}>
                 <button
                   type="button"
-                  class={computed(() => `theme-toggle-btn ${themeRef.value === 'dark' ? 'dark' : 'light'}`, [themeRef])}
+                  class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)}
                   on:click={toggleTheme}
                 >
-                  <span class="theme-toggle-icon">{themeIconRef}</span>
-                  <span class="theme-toggle-text">{themeLabelRef}</span>
+                  <span class="theme-toggle-icon">{themeIcon}</span>
+                  <span class="theme-toggle-text">{themeLabel}</span>
                 </button>
                 <div class="locale-switch">
                   {LocaleOptions.map((option) => (
@@ -254,39 +217,34 @@ function createApp() {
         <div class="content-pagination">
           <button
             type="button"
-            class={computed(() => `content-pagination-btn ${prevNavRef.value ? '' : 'disabled'}`, [prevNavRef])}
-            disabled={computed(() => !prevNavRef.value, [prevNavRef])}
+            class={prev.toComputed((v) => `content-pagination-btn ${v ? '' : 'disabled'}`)}
+            disabled={prev.toComputed((v) => !v)}
             on:click={() => {
-              const prev = prevNavRef.value;
-              if (prev) {
-                navigateTo(prev.item.id);
+              if (prev.value) {
+                navigateTo(prev.value.item.id);
               }
             }}
           >
             <span class="content-pagination-caption" k-html={t('app.pagination.prev')}></span>
             <span
               class="content-pagination-title"
-              k-html={computed(() => prevNavRef.value?.item.label ?? t('app.pagination.noPrev'), [prevNavRef])}
+              k-html={prev.toComputed((v) => v?.item.label ?? t('app.pagination.noPrev'))}
             ></span>
           </button>
           <button
             type="button"
-            class={computed(
-              () => `content-pagination-btn content-pagination-next ${nextNavRef.value ? '' : 'disabled'}`,
-              [nextNavRef],
-            )}
-            disabled={computed(() => !nextNavRef.value, [nextNavRef])}
+            class={next.toComputed((v) => `content-pagination-btn content-pagination-next ${v ? '' : 'disabled'}`)}
+            disabled={next.toComputed((v) => !v)}
             on:click={() => {
-              const next = nextNavRef.value;
-              if (next) {
-                navigateTo(next.item.id);
+              if (next.value) {
+                navigateTo(next.value.item.id);
               }
             }}
           >
             <span class="content-pagination-caption" k-html={t('app.pagination.next')}></span>
             <span
               class="content-pagination-title"
-              k-html={computed(() => nextNavRef.value?.item.label ?? t('app.pagination.noNext'), [nextNavRef])}
+              k-html={next.toComputed((v) => v?.item.label ?? t('app.pagination.noNext'))}
             ></span>
           </button>
         </div>

@@ -34,14 +34,18 @@ export class KTReactive<T> {
   mutate<R = void>(mutator: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R;
 
   /**
-   * A simple way to create a computed value based on this reactive.
+   * Ccreate a computed value based on this `KTReactive` instance.
+   * @param calculator A function that calculates the computed value based on the current value of this `KTReactive` instance.
+   * @param dependencies Optional additional dependencies that the computed value relies on.
+   * @returns A `KTComputed` instance
    */
-  deriveComputed<R>(calculator: (currentValue: T) => R): KTComputed<R>;
+  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R>;
 
   /**
    * Register a callback when the value changes
    * - Value setter will check `Object.is(newValue, oldValue)`.
    * @param callback (newValue, oldValue) => xxx
+   * @param key Optional key to identify this change handler. If not provided, a numeric id will be generated and returned.
    */
   addOnChange<K extends ReactiveChangeKey | undefined>(
     callback: ReactiveChangeHandler<T>,

@@ -21,8 +21,7 @@ const fallbackCopy = (code: string) => {
 };
 
 export function Code(props: CodeProps) {
-  const copiedRef = ref(false);
-  const buttonText = computed(() => (copiedRef.value ? 'Copied' : 'Copy'), [copiedRef]);
+  const copied = ref(false);
   let copiedTimer: number | undefined;
 
   const copyCode = async () => {
@@ -45,19 +44,19 @@ export function Code(props: CodeProps) {
       return;
     }
 
-    copiedRef.value = true;
+    copied.value = true;
     if (copiedTimer !== undefined) {
       clearTimeout(copiedTimer);
     }
-    copiedTimer = window.setTimeout(() => (copiedRef.value = false), 1200);
+    copiedTimer = window.setTimeout(() => (copied.value = false), 1200);
   };
 
   return (
     <div class="demo-code code-panel">
       <button class="demo-code-copy" on:click={copyCode}>
-        {buttonText}
+        {copied.toComputed((v) => (v ? 'Copied' : 'Copy'))}
       </button>
-      <div k-if={state.isLightTheme}> {highlight(props.code, props.lang || 'tsx')}</div>
+      <div k-if={state.theme.toComputed((v) => v === 'light')}> {highlight(props.code, props.lang || 'tsx')}</div>
       <div k-else> {highlightDark(props.code, props.lang || 'tsx')} </div>
     </div>
   );

@@ -100,7 +100,7 @@ export class KTComputed<T> implements KTReactive<T> {
     return this._value as unknown as R;
   }
 
-  deriveComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<unknown>[]): KTComputed<R> {
+  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
     return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
   }
 

@@ -1,3 +1,4 @@
+import type { KTComputed } from '../reactive/computed.js';
 import type { KTReactiveType } from '../reactive/core.ts';
 
 export type ReactiveChangeHandler<T> = (newValue: T, oldValue: T) => void;
@@ -31,6 +32,11 @@ export class KTReactive<T> {
    * items.mutate((list) => list.push(3));
    */
   mutate<R = void>(mutator: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R;
+
+  /**
+   * A simple way to create a computed value based on this reactive.
+   */
+  deriveComputed<R>(calculator: (currentValue: T) => R): KTComputed<R>;
 
   /**
    * Register a callback when the value changes

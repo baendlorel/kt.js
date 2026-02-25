@@ -8,23 +8,7 @@ import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
-import { state } from './common/state';
-
-type ThemeMode = 'light' | 'dark';
-
-const themeStorageKey = 'ktjs-example-theme';
-
-const resolveInitialTheme = (): ThemeMode => {
-  const storedTheme = window.localStorage.getItem(themeStorageKey);
-  if (storedTheme === 'dark' || storedTheme === 'light') {
-    return storedTheme;
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-};
-
-const applyTheme = (theme: ThemeMode) => {
-  document.documentElement.setAttribute('data-theme', theme);
-};
+import { applyTheme, resolveInitialTheme, state } from './common/state';
 
 type NavGroup = {
   id: string;
@@ -83,6 +67,8 @@ const orderedNavItems: NavLookup[] = [
 const navLookupMap = new Map<string, NavLookup>(orderedNavItems.map((entry) => [entry.item.id, entry]));
 
 function createApp() {
+  resolveInitialTheme();
+
   const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
 
   const currentPageRef = ref(firstItem.id);
@@ -92,9 +78,7 @@ function createApp() {
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
   const view = ref(firstItem.component());
-  const themeRef = ref<ThemeMode>(resolveInitialTheme());
   const currentLocale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
-  applyTheme(themeRef.value);
 
   const findNavItem = (id: string): NavLookup | undefined => navLookupMap.get(id);
 
@@ -147,22 +131,13 @@ function createApp() {
 
     return orderedNavItems[currentIndex + 1];
   }, [currentNavIndexRef]);
+
   const themeLabelRef = computed(
-    () => (themeRef.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')),
-    [themeRef],
+    () => (state.theme.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')),
+    [state.theme],
   );
-  const themeAriaLabelRef = computed(
-    () => (themeRef.value === 'dark' ? t('app.theme.switchToLight') : t('app.theme.switchToDark')),
-    [themeRef],
-  );
-  const themeIconRef = computed(() => (themeRef.value === 'dark' ? '🌙' : '☀️'), [themeRef]);
-  const toggleTheme = () => {
-    const nextTheme = themeRef.value === 'dark' ? 'light' : 'dark';
-    themeRef.value = nextTheme;
-    applyTheme(nextTheme);
-    state.isLightTheme.value = nextTheme === 'light';
-    window.localStorage.setItem(themeStorageKey, nextTheme);
-  };
+  const themeIconRef = computed(() => (state.theme.value === 'dark' ? '🌙' : '☀️'), [state.theme]);
+  const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
@@ -254,8 +229,6 @@ function createApp() {
                   type="button"
                   class={computed(() => `theme-toggle-btn ${themeRef.value === 'dark' ? 'dark' : 'light'}`, [themeRef])}
                   on:click={toggleTheme}
-                  aria-label={themeAriaLabelRef}
-                  title={themeAriaLabelRef}
                 >
                   <span class="theme-toggle-icon">{themeIconRef}</span>
                   <span class="theme-toggle-text">{themeLabelRef}</span>

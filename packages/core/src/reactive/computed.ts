@@ -100,6 +100,10 @@ export class KTComputed<T> implements KTReactive<T> {
     return this._value as unknown as R;
   }
 
+  deriveComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<unknown>[]): KTComputed<R> {
+    return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
+  }
+
   /**
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
@@ -130,11 +134,11 @@ export class KTComputed<T> implements KTReactive<T> {
 /**
  * Create a reactive computed value
  * @param computeFn
- * @param reactives refs and computeds that this computed depends on
+ * @param dependencies refs and computeds that this computed depends on
  */
-export function computed<T = JSX.Element>(computeFn: () => T, reactives: Array<KTReactive<any>>): KTComputed<T> {
-  if (reactives.some((v) => !isKT(v))) {
+export function computed<T = JSX.Element>(computeFn: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> {
+  if (dependencies.some((v) => !isKT(v))) {
     $throw('computed: all reactives must be KTRef or KTComputed instances');
   }
-  return new KTComputed<T>(computeFn, reactives);
+  return new KTComputed<T>(computeFn, dependencies);
 }

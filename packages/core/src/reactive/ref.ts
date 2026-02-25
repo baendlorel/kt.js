@@ -3,6 +3,7 @@ import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../ty
 import type { JSX } from '../types/jsx.js';
 import { isComputed, isRef, KTReactiveType } from './core.js';
 import { IdGenerator } from '../common.js';
+import { computed, type KTComputed } from './computed.js';
 
 export class KTRef<T> implements KTReactive<T> {
   /**
@@ -82,6 +83,10 @@ export class KTRef<T> implements KTReactive<T> {
     const result = mutator(this._value);
     this._emit(this._value, oldValue, changeKeys);
     return result;
+  }
+
+  deriveComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<unknown>[]): KTComputed<R> {
+    return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
   }
 
   /**

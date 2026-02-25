@@ -1,7 +1,7 @@
 import type { JSX } from '@ktjs/core';
 import type { KTReactive } from '@ktjs/core';
 import type { ChangeHandler } from '../../common/handler.js';
-import type { KTMuiProps } from '../../types/component.js';
+import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
@@ -16,12 +16,12 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMu
    * Label text for the input field
    * - Provide a `KTReactive` to make it reactive
    */
-  label?: string | KTReactive<string>;
+  label?: KTMaybeReactive<string>;
   /**
    * Placeholder text for the input field
    * - Provide a `KTReactive` to make it reactive
    */
-  placeholder?: string | KTReactive<string>;
+  placeholder?: KTMaybeReactive<string>;
   /**
    * Current value of the input field
    * - Provide a `KTReactive` to make it reactive
@@ -32,49 +32,49 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMu
    * Type of the input field
    * - Provide a `KTReactive` to make it reactive
    */
-  type?: T | KTReactive<T>;
+  type?: KTMaybeReactive<T>;
   /**
    * Whether the input is disabled
    * - Provide a `KTReactive` to make it reactive
    */
-  disabled?: boolean | KTReactive<boolean>;
+  disabled?: KTMaybeReactive<boolean>;
   /**
    * Whether the input is readonly
    * - Provide a `KTReactive` to make it reactive
    *
    * __Note:__ The correct prop name is `readOnly` with a capital "O". Same as it is in DOM.
    */
-  readOnly?: boolean | KTReactive<boolean>;
+  readOnly?: KTMaybeReactive<boolean>;
   /**
    * Whether the input is required
    * - Provide a `KTReactive` to make it reactive
    */
-  required?: boolean | KTReactive<boolean>;
+  required?: KTMaybeReactive<boolean>;
   /**
    * Whether the input is in error state
    * - Provide a `KTReactive` to make it reactive
    */
-  error?: boolean | KTReactive<boolean>;
+  error?: KTMaybeReactive<boolean>;
   /**
    * Helper text displayed below the input
    * - Provide a `KTReactive` to make it reactive
    */
-  helperText?: string | KTReactive<string>;
+  helperText?: KTMaybeReactive<string>;
   /**
    * Whether the input should take full width
    * - Provide a `KTReactive` to make it reactive
    */
-  fullWidth?: boolean | KTReactive<boolean>;
+  fullWidth?: KTMaybeReactive<boolean>;
   /**
    * Whether the input is multiline (textarea)
    * - Provide a `KTReactive` to make it reactive
    */
-  multiline?: boolean | KTReactive<boolean>;
+  multiline?: KTMaybeReactive<boolean>;
   /**
    * Number of rows for multiline input
    * - Provide a `KTReactive` to make it reactive
    */
-  rows?: number | KTReactive<number>;
+  rows?: KTMaybeReactive<number>;
   /**
    * Size of the input field
    * - Provide a `KTReactive` to make it reactive

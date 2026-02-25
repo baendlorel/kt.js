@@ -5,3 +5,5 @@ export interface KTMuiProps {
   style?: string | Partial<CSSStyleDeclaration> | KTReactive<string> | KTReactive<Partial<CSSStyleDeclaration>>;
   children?: KTRawContent;
 }
+
+export type KTMaybeReactive<T> = T | KTReactive<T>;

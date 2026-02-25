@@ -1,25 +1,25 @@
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX } from '@ktjs/core';
 import { computed, KTFor, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import type { KTMuiProps } from '../../types/component.js';
+import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import { ExpandMoreIcon } from '../../Icons/ExpandMore.js';
 import '../Button/Button.css';
 import './DropdownButton.css';
 
 export interface KTMuiDropdownButtonOption {
   value: string;
-  label: string | JSX.Element | HTMLElement;
+  label: string | JSX.Element;
   disabled?: boolean;
 }
 
 export interface KTMuiDropdownButtonProps extends KTMuiProps {
-  label?: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
-  options: KTMuiDropdownButtonOption[] | KTReactive<KTMuiDropdownButtonOption[]>;
-  variant?: 'contained' | 'outlined' | 'text';
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-  size?: 'small' | 'medium' | 'large';
-  disabled?: boolean | KTReactive<boolean>;
-  fullWidth?: boolean;
+  label?: KTMaybeReactive<string | JSX.Element>;
+  options: KTMaybeReactive<KTMuiDropdownButtonOption[]>;
+  variant?: KTMaybeReactive<'contained' | 'outlined' | 'text'>;
+  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+  disabled?: KTMaybeReactive<boolean>;
+  fullWidth?: KTMaybeReactive<boolean>;
   'on:click'?: (event: MouseEvent) => void;
   'on:select'?: (value: string, option: KTMuiDropdownButtonOption) => void;
 }
@@ -33,60 +33,56 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
   const onSelect = props['on:select'] ?? $emptyFn;
   const onClick = props['on:click'] ?? $emptyFn;
 
-  const openRef = ref(false);
-  const labelRef = toReactive(props.label ?? props.children ?? 'Options');
-  const optionsRef = toReactive(props.options);
-  const variantRef = toReactive(props.variant ?? 'contained');
-  const colorRef = toReactive(props.color ?? 'primary');
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const disabledRef = toReactive(props.disabled ?? false, (disabled) => {
-    if (disabled) {
-      openRef.value = false;
+  const open = ref(false);
+  const label = toReactive(props.label ?? '');
+  const options = toReactive(props.options);
+  const variant = toReactive(props.variant ?? 'contained');
+  const color = toReactive(props.color ?? 'primary');
+  const size = toReactive(props.size ?? 'medium');
+  const disabled = toReactive(props.disabled ?? false, (v) => {
+    if (v) {
+      open.value = false;
     }
   });
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
-  const classRef = toReactive(props.class ?? '');
+  const fullWidth = toReactive(props.fullWidth ?? false);
+  const style = toReactive($parseStyle(props.style ?? ''));
+  const className = toReactive(props.class ?? '');
 
   const wrapperClass = computed(() => {
     return [
       'mui-dropdown-button-wrapper',
-      fullWidthRef.value ? 'mui-dropdown-button-fullwidth' : '',
-      disabledRef.value ? 'mui-dropdown-button-disabled' : '',
-      openRef.value ? 'mui-dropdown-button-open' : '',
-      classRef.value,
-    ]
-      .join(' ')
-      .trim();
-  }, [fullWidthRef, disabledRef, openRef, classRef]);
+      fullWidth.value ? 'mui-dropdown-button-fullwidth' : '',
+      disabled.value ? 'mui-dropdown-button-disabled' : '',
+      open.value ? 'mui-dropdown-button-open' : '',
+      className.value,
+    ].join(' ');
+  }, [fullWidth, disabled, open, className]);
 
   const triggerClass = computed(() => {
     return [
       'mui-button',
-      `mui-button-${variantRef.value}`,
-      `mui-button-${variantRef.value}-${colorRef.value}`,
-      `mui-button-size-${sizeRef.value}`,
-      fullWidthRef.value ? 'mui-button-fullwidth' : '',
+      `mui-button-${variant.value}`,
+      `mui-button-${variant.value}-${color.value}`,
+      `mui-button-size-${size.value}`,
+      fullWidth.value ? 'mui-button-fullwidth' : '',
       'mui-dropdown-button-trigger',
-    ]
-      .join(' ')
-      .trim();
-  }, [variantRef, colorRef, sizeRef, fullWidthRef]);
+    ].join(' ');
+  }, [variant, color, size, fullWidth]);
 
   const menuClass = computed(() => {
-    return `mui-dropdown-button-menu ${openRef.value ? 'mui-dropdown-button-menu-open' : ''}`;
-  }, [openRef]);
+    return `mui-dropdown-button-menu ${open.value ? 'mui-dropdown-button-menu-open' : ''}`;
+  }, [open]);
 
   const closeMenu = () => {
-    openRef.value = false;
+    open.value = false;
   };
 
   const toggleMenu = (e: MouseEvent) => {
-    if (disabledRef.value) {
+    if (disabled.value) {
       e.preventDefault();
       return;
     }
-    openRef.value = !openRef.value;
+    open.value = !open.value;
     onClick(e);
   };
 
@@ -99,7 +95,7 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
     if (!value) {
       return;
     }
-    const option = optionsRef.value.find((item) => item.value === value);
+    const option = options.value.find((item) => item.value === value);
     if (!option || option.disabled) {
       return;
     }
@@ -108,7 +104,7 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
   };
 
   const members = computed(() => {
-    return optionsRef.value.map((option) => (
+    return options.value.map((option) => (
       <button
         type="button"
         class={`mui-dropdown-button-option ${option.disabled ? 'mui-dropdown-button-option-disabled' : ''}`}
@@ -120,19 +116,19 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
         {option.label}
       </button>
     ));
-  }, [optionsRef]);
+  }, [options]);
 
   const container = (
-    <div class={wrapperClass} style={styleRef}>
+    <div class={wrapperClass} style={style}>
       <button
         type="button"
         class={triggerClass}
-        disabled={disabledRef}
+        disabled={disabled}
         on:click={toggleMenu}
         aria-haspopup="menu"
-        aria-expanded={openRef}
+        aria-expanded={open}
       >
-        <span class="mui-button-label">{labelRef}</span>
+        <span class="mui-button-label">{label}</span>
         <span class="mui-dropdown-button-end-icon">
           <ExpandMoreIcon />
         </span>

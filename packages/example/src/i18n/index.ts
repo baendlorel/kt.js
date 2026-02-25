@@ -7,10 +7,15 @@ export const i18n = (key: keyof typeof dict, ...replacements: Array<any>): I18NC
   const template = text.split(/{{\d+}}/g);
   const result: I18NContent = document.createDocumentFragment();
   for (let i = 0; i < template.length; i++) {
-    result.append(template[i]);
+    const textNode = document.createTextNode(template[i]);
+    result.appendChild(textNode);
     const r = replacements[i];
     if (r) {
-      result.append(r);
+      if (r instanceof Node) {
+        result.appendChild(r);
+      } else {
+        result.appendChild(document.createTextNode(r));
+      }
     }
   }
   return result;

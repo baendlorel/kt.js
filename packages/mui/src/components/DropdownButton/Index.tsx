@@ -86,7 +86,7 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
     onClick(e);
   };
 
-  const selectOption = (e: MouseEvent) => {
+  const selectOption = (e: Event) => {
     const target = e.currentTarget as HTMLElement | null;
     if (!target) {
       return;
@@ -103,20 +103,28 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
     closeMenu();
   };
 
-  const members = computed(() => {
-    return options.value.map((option) => (
-      <button
-        type="button"
-        class={`mui-dropdown-button-option ${option.disabled ? 'mui-dropdown-button-option-disabled' : ''}`}
-        data-value={option.value}
-        disabled={option.disabled ?? false}
-        on:click={selectOption}
-        role="menuitem"
-      >
-        {option.label}
-      </button>
-    ));
-  }, [options]);
+  const members = options.toComputed((list) => {
+    return list.map((o) => {
+      if (o.label instanceof Node) {
+        o.label.removeEventListener('click', selectOption);
+        o.label.addEventListener('click', selectOption);
+        return o;
+      }
+
+      return (
+        <button
+          type="button"
+          class={`mui-dropdown-button-option ${o.disabled ? 'mui-dropdown-button-option-disabled' : ''}`}
+          data-value={o.value}
+          disabled={o.disabled ?? false}
+          on:click={selectOption}
+          role="menuitem"
+        >
+          {o.label}
+        </button>
+      );
+    });
+  });
 
   const container = (
     <div class={wrapperClass} style={style}>

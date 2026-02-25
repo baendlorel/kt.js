@@ -13,7 +13,7 @@ export const zh = {
   'home.discussion.telegram': 'Telegram 群',
   'home.section.introduction': '介绍',
   'home.section.introduction.content':
-    'kt.js是一个轻量级、直接操作DOM的前端框架，支持{{1}}语法，拥有基本的响应式，让你对DOM和业务有着充分的掌控。',
+    'kt.js是一个轻量级、直接操作DOM的前端框架，支持<code>jsx</code>语法，拥有基本的响应式，让你对DOM和业务有着充分的掌控。',
   'home.section.gettingStarted': '快速开始',
   'home.step.installation': '1. 安装',
   'home.step.tsconfig': '2. TypeScript 配置',

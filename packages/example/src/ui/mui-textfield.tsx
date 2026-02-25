@@ -23,7 +23,7 @@ export function MuiTextFieldDemo() {
         <TextField label="Error State" error helperText="This field has an error" />
         <TextField label="With Helper" helperText="Some helpful text" />
         <TextField label="Password" type="password" value="secret123" />
-        <TextField label="Email" type="email" placeholder="your@email.com" />
+        <TextField label="Email" type="email" placeholder="your@email.com" required />
         <TextField label="Small Size" size="small" />
         <TextField label="readonly" readOnly value="cannot modify" />
         <TextField size="small" placeholder="ssdf" />

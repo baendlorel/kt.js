@@ -48,6 +48,22 @@ const navGroups: NavGroup[] = [
   },
 ];
 
+const orderedNavItems: NavLookup[] = [
+  ...topLevelItems.map((item) => ({
+    section: item.label,
+    item,
+  })),
+  ...navGroups.flatMap((group) =>
+    group.items.map((item) => ({
+      section: group.label,
+      item,
+      groupId: group.id,
+    })),
+  ),
+];
+
+const navLookupMap = new Map<string, NavLookup>(orderedNavItems.map((entry) => [entry.item.id, entry]));
+
 function createApp() {
   const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
 
@@ -59,28 +75,7 @@ function createApp() {
   const contentBodyRef = ref<HTMLDivElement>();
   const view = ref(firstItem.component());
 
-  const findNavItem = (id: string): NavLookup | undefined => {
-    const topLevelItem = topLevelItems.find((item) => item.id === id);
-    if (topLevelItem) {
-      return {
-        section: topLevelItem.label,
-        item: topLevelItem,
-      };
-    }
-
-    for (let gi = 0; gi < navGroups.length; gi++) {
-      const group = navGroups[gi];
-      const found = group.items.find((item) => item.id === id);
-      if (found) {
-        return {
-          section: group.label,
-          item: found,
-          groupId: group.id,
-        };
-      }
-    }
-    return undefined;
-  };
+  const findNavItem = (id: string): NavLookup | undefined => navLookupMap.get(id);
 
   const navigateTo = (pageId: string) => {
     const navItem = findNavItem(pageId);
@@ -111,6 +106,26 @@ function createApp() {
   };
 
   const headerEyebrowRef = computed(() => currentSectionRef.value, [currentSectionRef]);
+  const currentNavIndexRef = computed(
+    () => orderedNavItems.findIndex((entry) => entry.item.id === currentPageRef.value),
+    [currentPageRef],
+  );
+  const prevNavRef = computed(() => {
+    const currentIndex = currentNavIndexRef.value;
+    if (currentIndex <= 0) {
+      return undefined;
+    }
+
+    return orderedNavItems[currentIndex - 1];
+  }, [currentNavIndexRef]);
+  const nextNavRef = computed(() => {
+    const currentIndex = currentNavIndexRef.value;
+    if (currentIndex < 0 || currentIndex >= orderedNavItems.length - 1) {
+      return undefined;
+    }
+
+    return orderedNavItems[currentIndex + 1];
+  }, [currentNavIndexRef]);
 
   return (
     <div class="app-layout">
@@ -178,6 +193,40 @@ function createApp() {
         </div>
         <div ref={contentBodyRef} class="content-body">
           {view}
+        </div>
+        <div class="content-pagination">
+          <button
+            type="button"
+            class={computed(() => `content-pagination-btn ${prevNavRef.value ? '' : 'disabled'}`, [prevNavRef])}
+            disabled={computed(() => !prevNavRef.value, [prevNavRef])}
+            on:click={() => {
+              const prev = prevNavRef.value;
+              if (prev) {
+                navigateTo(prev.item.id);
+              }
+            }}
+          >
+            <span class="content-pagination-caption">← Prev</span>
+            <span class="content-pagination-title">
+              {computed(() => prevNavRef.value?.item.label ?? 'No previous page', [prevNavRef])}
+            </span>
+          </button>
+          <button
+            type="button"
+            class={computed(() => `content-pagination-btn content-pagination-next ${nextNavRef.value ? '' : 'disabled'}`, [nextNavRef])}
+            disabled={computed(() => !nextNavRef.value, [nextNavRef])}
+            on:click={() => {
+              const next = nextNavRef.value;
+              if (next) {
+                navigateTo(next.item.id);
+              }
+            }}
+          >
+            <span class="content-pagination-caption">Next →</span>
+            <span class="content-pagination-title">
+              {computed(() => nextNavRef.value?.item.label ?? 'No next page', [nextNavRef])}
+            </span>
+          </button>
         </div>
       </main>
     </div>

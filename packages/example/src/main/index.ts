@@ -19,8 +19,8 @@ export const basicNavItems: NavItem[] = [
   {
     id: 'ie11-compatibility',
     label: 'IE11 Compatibility',
-    title: 'IE11 Compatibility',
-    description: 'Learn about how to configure your project for IE11 support',
+    title: 'How to Configure for IE11 Support',
+    description: 'We need babel to downgrade the code and include necessary polyfills.',
     component: IE11Compatibility,
   },
   {

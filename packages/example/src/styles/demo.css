@@ -84,11 +84,6 @@ button:not([class*='mui-']) {
   cursor: pointer;
 }
 
-button:not([class*='mui-']):hover {
-  /* box-shadow: 0 8px 18px rgba(49, 110, 178, 0.2);
-  transform: translateY(-1px); */
-}
-
 .button-group,
 .demo-flex-gap {
   display: flex;

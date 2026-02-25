@@ -14,6 +14,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const onFocus = props['on:focus'] ?? $emptyFn;
 
   const isFocusedRef = ref(false);
+  const hasInputValue = (value: unknown) => value !== '' && value !== null && value !== undefined;
 
   // # methods
 
@@ -44,12 +45,12 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   };
 
   const handleFocus = () => {
-    isFocused.value = true;
+    isFocusedRef.value = true;
     onFocus(inputEl.value);
   };
 
   const handleBlur = () => {
-    isFocused.value = false;
+    isFocusedRef.value = false;
     onBlur(inputEl.value);
   };
 
@@ -64,7 +65,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     setTimeout(() => inputEl.focus(), 0);
   };
 
-  const getPlaceholder = () => (labelRef.value && !isFocused && !modelRef.value ? '' : placeholderRef.value);
+  const getPlaceholder = () => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : placeholderRef.value);
 
   // # non-refs
   const inputType = dereactive(props.type ?? ('text' as T));
@@ -93,7 +94,6 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   // //   updateContainerClass();
   // // });
 
-  const isFocused = ref(false);
   const inputEl = multiline
     ? ((
         <textarea
@@ -137,12 +137,12 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       errorRef.value ? 'mui-textfield-error' : '',
       disabledRef.value ? 'mui-textfield-disabled' : '',
       fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
-      labelRef.value && inputEl.value ? 'mui-textfield-has-value' : '',
+      labelRef.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
       labelRef.value ? '' : 'mui-textfield-no-label',
       customClassRef.value ? customClassRef.value : '',
     ].join(' ');
     return className;
-  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, customClassRef]);
+  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, modelRef, customClassRef]);
 
   // if (multiline) {
   //   rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));

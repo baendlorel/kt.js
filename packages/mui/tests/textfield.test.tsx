@@ -110,8 +110,10 @@ describe('MUI TextField component', () => {
     const input = textfield.querySelector('input') as HTMLInputElement;
     input.dispatchEvent(new Event('focus'));
     expect(onFocus).toHaveBeenCalled();
+    expect(textfield.className).toContain('mui-textfield-focused');
     input.dispatchEvent(new Event('blur'));
     expect(onBlur).toHaveBeenCalled();
+    expect(textfield.className).not.toContain('mui-textfield-focused');
   });
 
   it('should apply custom class and style', () => {

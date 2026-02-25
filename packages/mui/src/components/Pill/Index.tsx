@@ -17,19 +17,17 @@ export interface KTMuiPillProps extends KTMuiProps {
   size?: PillSize | KTReactive<PillSize>;
   clickable?: boolean | KTReactive<boolean>;
   disabled?: boolean | KTReactive<boolean>;
+  autoRemoveOnDelete?: boolean | KTReactive<boolean>;
   'on:click'?: (event: MouseEvent) => void;
-  'on:delete'?: (event: MouseEvent) => void;
+  'on:delete'?: (event: MouseEvent) => void | boolean;
 }
 
 export type KTMuiPill = JSX.Element & {};
 
 const defaultDeleteIcon = (
-  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-    <path
-      fill="currentColor"
-      d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-    />
-  </svg>
+  <span class="mui-pill-delete-mark" aria-hidden="true">
+    ×
+  </span>
 );
 
 /**
@@ -45,8 +43,10 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const sizeRef = toReactive(props.size ?? 'medium');
   const clickableRef = toReactive(props.clickable ?? !!props['on:click']);
   const disabledRef = toReactive(props.disabled ?? false);
+  const autoRemoveOnDeleteRef = toReactive(props.autoRemoveOnDelete ?? true);
   const classRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style ?? ''));
+  let container: KTMuiPill;
 
   const className = computed(() => {
     return [
@@ -85,10 +85,19 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
     if (disabledRef.value || !onDelete) {
       return;
     }
-    onDelete(e);
+    const shouldKeep = onDelete(e);
+    if (!autoRemoveOnDeleteRef.value) {
+      return;
+    }
+
+    if (shouldKeep === false) {
+      return;
+    }
+
+    container.remove();
   };
 
-  const container = (
+  container = (
     <span
       class={className}
       style={styleRef}

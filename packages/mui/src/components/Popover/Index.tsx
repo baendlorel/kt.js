@@ -35,6 +35,7 @@ const DEFAULT_TRANSFORM_ORIGIN: KTMuiPopoverOrigin = {
   vertical: 'top',
   horizontal: 'left',
 };
+const EXIT_TRANSITION_MS = 180;
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
@@ -79,10 +80,51 @@ const getElevationShadow = (level: number) => {
  */
 export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const onClose = props['on:close'] ?? $emptyFn;
+  let openTransitionTimer = 0;
+  let hideTransitionTimer = 0;
+
+  const clearTransitionTimers = () => {
+    if (openTransitionTimer) {
+      clearTimeout(openTransitionTimer);
+      openTransitionTimer = 0;
+    }
+
+    if (hideTransitionTimer) {
+      clearTimeout(hideTransitionTimer);
+      hideTransitionTimer = 0;
+    }
+  };
+
+  const syncOpenState = (isOpen: boolean) => {
+    clearTransitionTimers();
+    paper.setAttribute('aria-hidden', String(!isOpen));
+
+    if (isOpen) {
+      container.style.display = 'block';
+      container.classList.add('mui-popover-rendered');
+      openTransitionTimer = window.setTimeout(() => {
+        openTransitionTimer = 0;
+        if (!openRef.value) {
+          return;
+        }
+        container.classList.add('mui-popover-open');
+      }, 0);
+      return;
+    }
+
+    container.classList.remove('mui-popover-open');
+    hideTransitionTimer = window.setTimeout(() => {
+      hideTransitionTimer = 0;
+      if (openRef.value) {
+        return;
+      }
+      container.style.display = 'none';
+      container.classList.remove('mui-popover-rendered');
+    }, EXIT_TRANSITION_MS);
+  };
 
   const openRef = toReactive(props.open ?? false, (isOpen) => {
-    container.style.display = isOpen ? 'block' : 'none';
-    container.classList.toggle('mui-popover-open', isOpen);
+    syncOpenState(isOpen);
     if (isOpen) {
       scheduleUpdatePosition();
     }
@@ -202,7 +244,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
 
   const container = (
     <div
-      class={`mui-popover-root ${openRef.value ? 'mui-popover-open' : ''}`}
+      class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}
       style={{ display: openRef.value ? 'block' : 'none' }}
     >
       {paper}
@@ -214,6 +256,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   window.addEventListener('resize', handleWindowResize);
   window.addEventListener('scroll', handleWindowResize, true);
 
+  syncOpenState(openRef.value);
   if (openRef.value) {
     scheduleUpdatePosition();
   }
@@ -221,6 +264,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   // Ensure listeners are removed when users call element.remove().
   const originalRemove = container.remove;
   container.remove = () => {
+    clearTransitionTimers();
     if (positionTimer) {
       clearTimeout(positionTimer);
     }

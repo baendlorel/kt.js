@@ -1,8 +1,6 @@
 import type { KTAttribute } from '@ktjs/core';
+import { createMuiIcon } from './createMuiIcon.js';
+
 export function StopIcon(props: KTAttribute) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em" {...props}>
-      <path d="M6 6h12v12H6z" />
-    </svg>
-  );
+  return createMuiIcon('M6 6h12v12H6z', props);
 }

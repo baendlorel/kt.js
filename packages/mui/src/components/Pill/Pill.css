@@ -54,11 +54,18 @@
   height: 18px;
   background: transparent;
   color: inherit;
-  opacity: 0.7;
+  opacity: 0.88;
   cursor: pointer;
   transition:
     opacity 0.2s ease,
     background-color 0.2s ease;
+}
+
+.mui-pill-delete-mark {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-0.5px);
 }
 
 .mui-pill-delete:hover {

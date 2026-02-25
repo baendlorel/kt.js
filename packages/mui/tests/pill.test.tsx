@@ -45,6 +45,7 @@ describe('MUI Pill component', () => {
       'on:click': onClick,
       'on:delete': onDelete,
     }) as HTMLElement;
+    document.body.appendChild(pill);
 
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     const deleteButton = pill.querySelector('.mui-pill-delete') as HTMLButtonElement;
@@ -52,5 +53,23 @@ describe('MUI Pill component', () => {
 
     expect(onClick).toHaveBeenCalledTimes(1);
     expect(onDelete).toHaveBeenCalledTimes(1);
+    expect(pill.isConnected).toBe(false);
+  });
+
+  it('should keep element when autoRemoveOnDelete is false', () => {
+    const onDelete = vi.fn();
+    const pill = Pill({
+      label: 'Pinned',
+      autoRemoveOnDelete: false,
+      'on:delete': onDelete,
+    }) as HTMLElement;
+
+    document.body.appendChild(pill);
+    const deleteButton = pill.querySelector('.mui-pill-delete') as HTMLButtonElement;
+    deleteButton.click();
+
+    expect(onDelete).toHaveBeenCalledTimes(1);
+    expect(pill.isConnected).toBe(true);
+    pill.remove();
   });
 });

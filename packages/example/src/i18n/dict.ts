@@ -178,6 +178,10 @@ export const zh = {
   'nav.otherElements.label': '其他元素',
   'nav.otherElements.title': '非 HTMLElement 元素',
   'nav.otherElements.description': '展示如何用 jsx 创建 svg 与 mathml 元素。',
+  'nav.trivia.label': 'Trivia',
+  'nav.trivia.title': 'Trivia',
+  'nav.trivia.description': '关于kt.js的一些有趣的事情',
+
   'nav.mui.button.label': 'Button',
   'nav.mui.button.title': 'MUI Button',
   'nav.mui.button.description': 'Material-UI Button 组件',
@@ -422,6 +426,10 @@ const en: typeof zh = {
   'nav.otherElements.title': 'Non-HTMLElement Elements',
   'nav.otherElements.description':
     'KT.js supports creating non-HTMLElement elements like svg and mathml using jsx syntax. This demo shows how to use them.',
+  'nav.trivia.label': 'Trivia',
+  'nav.trivia.title': 'Trivia',
+  'nav.trivia.description': 'Some interesting facts and lesser-known features about KT.js framework',
+
   'nav.mui.button.label': 'Button',
   'nav.mui.button.title': 'MUI Button',
   'nav.mui.button.description': 'Material-UI Button component',

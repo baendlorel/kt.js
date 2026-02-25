@@ -66,4 +66,11 @@ export const basicNavItems: NavItem[] = [
     description: t('nav.otherElements.description'),
     component: OtherElements,
   },
+  {
+    id: 'trivia',
+    label: t('nav.trivia.label'),
+    title: t('nav.trivia.title'),
+    description: t('nav.trivia.description'),
+    component: OtherElements,
+  },
 ];

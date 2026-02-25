@@ -22,21 +22,8 @@ interface NavLookup {
   groupId?: string;
 }
 
-const basicItemMap = new Map<string, NavItem>(basicNavItems.map((item) => [item.id, item]));
-
-const pickBasicItems = (ids: string[]): NavItem[] => {
-  const items: NavItem[] = [];
-  for (let i = 0; i < ids.length; i++) {
-    const item = basicItemMap.get(ids[i]);
-    if (item) {
-      items.push(item);
-    }
-  }
-  return items;
-};
-
+const pickBasicItems = (ids: string[]): NavItem[] => basicNavItems.filter((item) => ids.includes(item.id));
 const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog']);
-
 const navGroups: NavGroup[] = [
   {
     id: 'features',
@@ -80,10 +67,8 @@ function createApp() {
   const view = ref(firstItem.component());
   const locale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
 
-  const findNavItem = (id: string): NavLookup | undefined => navLookupMap.get(id);
-
   const navigateTo = (pageId: string) => {
-    const navItem = findNavItem(pageId);
+    const navItem = navLookupMap.get(pageId);
     if (!navItem) {
       return;
     }

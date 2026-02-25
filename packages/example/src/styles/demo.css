@@ -118,7 +118,6 @@
 
 button:not([class*='mui-']) {
   border-radius: 10px;
-  color: #204c75;
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;

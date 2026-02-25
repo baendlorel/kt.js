@@ -7,7 +7,11 @@
   --text-primary: #111827;
   --text-secondary: #4b5563;
   --text-muted: #6b7280;
-  --border-color: #e5e7eb;
+  --nav-text-color: #4b5563;
+  --nav-subtle-color: #6b7280;
+  --nav-hover-color: #0369a1;
+  --nav-active-color: #0369a1;
+  --border-color: #e5e7eb82;
   --accent-color: #4cb3ff;
   --accent-strong: #0369a1;
   --accent-soft: #eef8ff;
@@ -28,6 +32,10 @@
   --text-primary: #cccccc;
   --text-secondary: #9d9d9d;
   --text-muted: #868686;
+  --nav-text-color: #cccccc;
+  --nav-subtle-color: #9d9d9d;
+  --nav-hover-color: #75beff;
+  --nav-active-color: #9cdcfe;
   --border-color: #2b2b2b;
   --accent-color: #0078d4;
   --accent-strong: #4daafc;
@@ -181,7 +189,7 @@ body {
   padding: 7px 6px 7px 14px;
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--nav-subtle-color);
   font: inherit;
   font-size: 0.9rem;
   text-align: left;
@@ -192,15 +200,15 @@ body {
 .nav-item-top {
   padding: 8px 6px;
   font-size: 0.92rem;
-  color: var(--text-secondary);
+  color: var(--nav-text-color);
 }
 
 .nav-item:hover {
-  color: var(--accent-color);
+  color: var(--nav-hover-color);
 }
 
 .nav-item.active {
-  color: var(--accent-color);
+  color: var(--nav-active-color);
   font-weight: 600;
 }
 

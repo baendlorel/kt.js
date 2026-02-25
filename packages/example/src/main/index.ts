@@ -1,4 +1,5 @@
 import { NavItem } from '../types/router.js';
+import { i18n } from '../i18n/index.js';
 import { ChangeLog } from './Changelog.js';
 import { Directives } from './Directive.js';
 import { Events } from './Events.js';
@@ -11,58 +12,58 @@ import { Reactivity } from './Reactive.js';
 export const basicNavItems: NavItem[] = [
   {
     id: 'home',
-    label: 'Getting Started',
-    title: 'Welcome to KT.js Framework',
-    description: 'Introduction to KT.js framework and core concepts',
+    label: i18n('nav.home.label'),
+    title: i18n('nav.home.title'),
+    description: i18n('nav.home.description'),
     component: Home,
   },
   {
     id: 'ie11-compatibility',
-    label: 'IE11 Compatibility',
-    title: 'How to Configure for IE11 Support',
-    description: 'We need babel to downgrade the code and include necessary polyfills.',
+    label: i18n('nav.ie11.label'),
+    title: i18n('nav.ie11.title'),
+    description: i18n('nav.ie11.description'),
     component: IE11Compatibility,
   },
   {
     id: 'changelog',
-    label: 'ChangeLog',
-    title: 'View ChangeLog',
-    description: 'A comprehensive list of changes, updates, and improvements in the KT.js framework',
+    label: i18n('nav.changelog.label'),
+    title: i18n('nav.changelog.title'),
+    description: i18n('nav.changelog.description'),
     component: ChangeLog,
   },
   {
     id: 'reactive',
-    label: 'Reactive',
-    title: 'Reactive',
-    description: 'Demonstration of reactive features using kt.js refs',
+    label: i18n('nav.reactive.label'),
+    title: i18n('nav.reactive.title'),
+    description: i18n('nav.reactive.description'),
     component: Reactivity,
   },
   {
     id: 'directives',
-    label: 'Directives',
-    title: 'Directives',
-    description: 'Examples for k-if/k-else, k-model, and k-html directives',
+    label: i18n('nav.directives.label'),
+    title: i18n('nav.directives.title'),
+    description: i18n('nav.directives.description'),
     component: Directives,
   },
   {
     id: 'fragment',
-    label: 'Fragment',
-    title: 'Fragment',
-    description: 'Demonstrates fragment shorthand and reactive fragment children arrays',
+    label: i18n('nav.fragment.label'),
+    title: i18n('nav.fragment.title'),
+    description: i18n('nav.fragment.description'),
     component: FragmentDemo,
   },
   {
     id: 'events',
-    label: 'Events',
-    title: 'Events Handling',
-    description: `KT.js uses the on: syntax for event handling, similar to React but with direct DOM events.`,
+    label: i18n('nav.events.label'),
+    title: i18n('nav.events.title'),
+    description: i18n('nav.events.description'),
     component: Events,
   },
   {
     id: 'other-elements',
-    label: 'Other Elements',
-    title: 'Non-HTMLElement Elements',
-    description: `KT.js supports creating non-HTMLElement elements like svg and mathml using jsx syntax. This demo shows how to use them.`,
+    label: i18n('nav.otherElements.label'),
+    title: i18n('nav.otherElements.title'),
+    description: i18n('nav.otherElements.description'),
     component: OtherElements,
   },
 ];

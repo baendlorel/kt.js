@@ -77,6 +77,40 @@ body {
   color: #6b7280;
 }
 
+.brand-locale {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.brand-locale-btn {
+  min-width: 44px;
+  padding: 3px 8px;
+  border: 1px solid #d4deea;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.brand-locale-btn:hover {
+  border-color: #4cb3ff;
+  color: #0369a1;
+}
+
+.brand-locale-btn.active {
+  border-color: #4cb3ff;
+  color: #0369a1;
+  background: #eef8ff;
+}
+
 .nav-menu {
   flex: 1;
   overflow-y: auto;

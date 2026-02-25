@@ -3,6 +3,7 @@ import './styles/demo.css';
 
 import { computed, ref } from '@ktjs/core';
 import icon from '../assets/icon.svg';
+import { getLocale, i18n, localeOptions, setLocale, type Locale } from './i18n/index.js';
 import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
@@ -38,12 +39,12 @@ const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog']
 const navGroups: NavGroup[] = [
   {
     id: 'features',
-    label: 'Features',
+    label: i18n('app.nav.group.features'),
     items: pickBasicItems(['reactive', 'directives', 'fragment', 'events', 'other-elements']),
   },
   {
     id: 'mui',
-    label: 'MUI Components',
+    label: i18n('app.nav.group.mui'),
     items: muiNavItems,
   },
 ];
@@ -70,6 +71,7 @@ function createApp() {
   const currentPageRef = ref<string>(firstItem.id);
   const currentSectionRef = ref<string>(firstItem.label);
   const openGroupRef = ref<string>(navGroups[0].id);
+  const localeRef = ref<Locale>(getLocale());
   const headerTitleRef = ref(firstItem.title);
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
@@ -105,6 +107,15 @@ function createApp() {
     openGroupRef.value = groupId;
   };
 
+  const switchLocale = (locale: Locale) => {
+    if (localeRef.value === locale) {
+      return;
+    }
+
+    localeRef.value = locale;
+    setLocale(locale);
+  };
+
   const headerEyebrowRef = computed(() => currentSectionRef.value, [currentSectionRef]);
   const currentNavIndexRef = computed(
     () => orderedNavItems.findIndex((entry) => entry.item.id === currentPageRef.value),
@@ -136,7 +147,18 @@ function createApp() {
           </div>
           <div class="brand-content">
             <h1>KT.js</h1>
-            <p>Fine-grained DOM framework playground</p>
+            <p>{i18n('app.brand.tagline')}</p>
+            <div class="brand-locale">
+              {localeOptions.map((locale) => (
+                <button
+                  type="button"
+                  class={computed(() => `brand-locale-btn ${localeRef.value === locale ? 'active' : ''}`, [localeRef])}
+                  on:click={() => switchLocale(locale)}
+                >
+                  {locale === 'zh-CN' ? i18n('app.locale.zh') : i18n('app.locale.en')}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -206,9 +228,9 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">← Prev</span>
+            <span class="content-pagination-caption">{i18n('app.pagination.prev')}</span>
             <span class="content-pagination-title">
-              {computed(() => prevNavRef.value?.item.label ?? 'No previous page', [prevNavRef])}
+              {computed(() => prevNavRef.value?.item.label ?? i18n('app.pagination.noPrev'), [prevNavRef])}
             </span>
           </button>
           <button
@@ -222,9 +244,9 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">Next →</span>
+            <span class="content-pagination-caption">{i18n('app.pagination.next')}</span>
             <span class="content-pagination-title">
-              {computed(() => nextNavRef.value?.item.label ?? 'No next page', [nextNavRef])}
+              {computed(() => nextNavRef.value?.item.label ?? i18n('app.pagination.noNext'), [nextNavRef])}
             </span>
           </button>
         </div>

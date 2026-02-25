@@ -1,5 +1,205 @@
-const zh = {};
+export const zh = {
+  'app.brand.tagline': '细粒度 DOM 框架示例',
+  'app.locale.zh': '中文',
+  'app.locale.en': 'EN',
+  'app.nav.group.features': '核心特性',
+  'app.nav.group.mui': 'MUI 组件',
+  'app.pagination.prev': '← 上一页',
+  'app.pagination.next': '下一页 →',
+  'app.pagination.noPrev': '没有上一页',
+  'app.pagination.noNext': '没有下一页',
+  'home.discussion.label': '交流群',
+  'home.discussion.qq': 'QQ 群 1070434849',
+  'home.discussion.telegram': 'Telegram 群',
+  'home.section.introduction': '介绍',
+  'home.section.gettingStarted': '快速开始',
+  'home.step.installation': '1. 安装',
+  'home.step.tsconfig': '2. TypeScript 配置',
+  'home.step.tsPlugin': '3. TypeScript 插件',
+  'home.step.viteConfig': '4. Vite 配置',
+  'home.label.useBabel': '使用 babel',
+  'nav.home.label': '快速开始',
+  'nav.home.title': '欢迎使用 KT.js 框架',
+  'nav.home.description': 'KT.js 框架介绍与核心概念',
+  'nav.ie11.label': 'IE11 兼容',
+  'nav.ie11.title': '如何配置 IE11 支持',
+  'nav.ie11.description': '需要使用 babel 对代码降级并注入必要 polyfill。',
+  'nav.changelog.label': '更新日志',
+  'nav.changelog.title': '查看更新日志',
+  'nav.changelog.description': 'KT.js 框架各版本的变更与改进列表',
+  'nav.reactive.label': '响应式',
+  'nav.reactive.title': '响应式',
+  'nav.reactive.description': '使用 kt.js refs 展示响应式能力',
+  'nav.directives.label': '指令',
+  'nav.directives.title': '指令',
+  'nav.directives.description': 'k-if/k-else、k-model、k-html 指令示例',
+  'nav.fragment.label': 'Fragment',
+  'nav.fragment.title': 'Fragment',
+  'nav.fragment.description': 'Fragment 简写与响应式子节点数组示例',
+  'nav.events.label': '事件',
+  'nav.events.title': '事件处理',
+  'nav.events.description': 'KT.js 使用 on: 语法处理原生 DOM 事件。',
+  'nav.otherElements.label': '其他元素',
+  'nav.otherElements.title': '非 HTMLElement 元素',
+  'nav.otherElements.description': '展示如何用 jsx 创建 svg 与 mathml 元素。',
+  'nav.mui.button.label': 'Button',
+  'nav.mui.button.title': 'MUI Button',
+  'nav.mui.button.description': 'Material-UI Button 组件',
+  'nav.mui.alert.label': 'Alert',
+  'nav.mui.alert.title': 'MUI Alert',
+  'nav.mui.alert.description': 'Material-UI Alert 组件',
+  'nav.mui.textfield.label': 'TextField',
+  'nav.mui.textfield.title': 'MUI TextField',
+  'nav.mui.textfield.description': 'Material-UI TextField 组件',
+  'nav.mui.textfieldRef.label': 'TextField (响应式 Refs)',
+  'nav.mui.textfieldRef.title': 'MUI TextField（响应式 Refs）',
+  'nav.mui.textfieldRef.description': '展示如何通过 KTRef 控制 TextField 各项属性',
+  'nav.mui.dialog.label': 'Dialog',
+  'nav.mui.dialog.title': 'MUI Dialog',
+  'nav.mui.dialog.description': 'Material-UI Dialog 组件',
+  'nav.mui.progress.label': 'Progress',
+  'nav.mui.progress.title': 'MUI LinearProgress',
+  'nav.mui.progress.description': 'Material-UI 进度指示器',
+  'nav.mui.radio.label': 'Radio',
+  'nav.mui.radio.title': 'MUI Radio',
+  'nav.mui.radio.description': 'Material-UI Radio 组件',
+  'nav.mui.checkbox.label': 'Checkbox',
+  'nav.mui.checkbox.title': 'MUI Checkbox',
+  'nav.mui.checkbox.description': 'Material-UI Checkbox 组件',
+  'nav.mui.select.label': 'Select',
+  'nav.mui.select.title': 'MUI Select',
+  'nav.mui.select.description': 'Material-UI Select 组件',
+  'nav.mui.icons.label': 'Icons',
+  'nav.mui.icons.title': 'MUI Icons',
+  'nav.mui.icons.description': 'Material-UI Icons 组件',
+};
 
-const en: typeof zh = {};
+const en: typeof zh = {
+  'app.brand.tagline': 'Fine-grained DOM framework playground',
+  'app.locale.zh': '中文',
+  'app.locale.en': 'EN',
+  'app.nav.group.features': 'Features',
+  'app.nav.group.mui': 'MUI Components',
+  'app.pagination.prev': '← Prev',
+  'app.pagination.next': 'Next →',
+  'app.pagination.noPrev': 'No previous page',
+  'app.pagination.noNext': 'No next page',
+  'home.discussion.label': 'Discussion',
+  'home.discussion.qq': 'QQ Group 1070434849',
+  'home.discussion.telegram': 'Telegram Group',
+  'home.section.introduction': 'Introduction',
+  'home.section.gettingStarted': 'Getting Started',
+  'home.step.installation': '1. Installation',
+  'home.step.tsconfig': '2. TypeScript Configuration',
+  'home.step.tsPlugin': '3. TypeScript Plugin',
+  'home.step.viteConfig': '4. Vite Configuration',
+  'home.label.useBabel': 'Use babel',
+  'nav.home.label': 'Getting Started',
+  'nav.home.title': 'Welcome to KT.js Framework',
+  'nav.home.description': 'Introduction to KT.js framework and core concepts',
+  'nav.ie11.label': 'IE11 Compatibility',
+  'nav.ie11.title': 'How to Configure for IE11 Support',
+  'nav.ie11.description': 'We need babel to downgrade the code and include necessary polyfills.',
+  'nav.changelog.label': 'ChangeLog',
+  'nav.changelog.title': 'View ChangeLog',
+  'nav.changelog.description': 'A comprehensive list of changes, updates, and improvements in the KT.js framework',
+  'nav.reactive.label': 'Reactive',
+  'nav.reactive.title': 'Reactive',
+  'nav.reactive.description': 'Demonstration of reactive features using kt.js refs',
+  'nav.directives.label': 'Directives',
+  'nav.directives.title': 'Directives',
+  'nav.directives.description': 'Examples for k-if/k-else, k-model, and k-html directives',
+  'nav.fragment.label': 'Fragment',
+  'nav.fragment.title': 'Fragment',
+  'nav.fragment.description': 'Demonstrates fragment shorthand and reactive fragment children arrays',
+  'nav.events.label': 'Events',
+  'nav.events.title': 'Events Handling',
+  'nav.events.description':
+    'KT.js uses the on: syntax for event handling, similar to React but with direct DOM events.',
+  'nav.otherElements.label': 'Other Elements',
+  'nav.otherElements.title': 'Non-HTMLElement Elements',
+  'nav.otherElements.description':
+    'KT.js supports creating non-HTMLElement elements like svg and mathml using jsx syntax. This demo shows how to use them.',
+  'nav.mui.button.label': 'Button',
+  'nav.mui.button.title': 'MUI Button',
+  'nav.mui.button.description': 'Material-UI Button component',
+  'nav.mui.alert.label': 'Alert',
+  'nav.mui.alert.title': 'MUI Alert',
+  'nav.mui.alert.description': 'Material-UI Alert component',
+  'nav.mui.textfield.label': 'TextField',
+  'nav.mui.textfield.title': 'MUI TextField',
+  'nav.mui.textfield.description': 'Material-UI TextField component',
+  'nav.mui.textfieldRef.label': 'TextField (Reactive Refs)',
+  'nav.mui.textfieldRef.title': 'MUI TextField with Reactive Refs',
+  'nav.mui.textfieldRef.description': 'Demonstrates all TextField properties controlled via KTRefs',
+  'nav.mui.dialog.label': 'Dialog',
+  'nav.mui.dialog.title': 'MUI Dialog',
+  'nav.mui.dialog.description': 'Material-UI Dialog component',
+  'nav.mui.progress.label': 'Progress',
+  'nav.mui.progress.title': 'MUI LinearProgress',
+  'nav.mui.progress.description': 'Material-UI Progress indicator',
+  'nav.mui.radio.label': 'Radio',
+  'nav.mui.radio.title': 'MUI Radio',
+  'nav.mui.radio.description': 'Material-UI Radio component',
+  'nav.mui.checkbox.label': 'Checkbox',
+  'nav.mui.checkbox.title': 'MUI Checkbox',
+  'nav.mui.checkbox.description': 'Material-UI Checkbox component',
+  'nav.mui.select.label': 'Select',
+  'nav.mui.select.title': 'MUI Select',
+  'nav.mui.select.description': 'Material-UI Select component',
+  'nav.mui.icons.label': 'Icons',
+  'nav.mui.icons.title': 'MUI Icons',
+  'nav.mui.icons.description': 'Material-UI Icons',
+};
 
-export const dict = window.location.href.includes('en-US') ? en : zh;
+export const dictionaries = {
+  'zh-CN': zh,
+  'en-US': en,
+} as const;
+
+export const localeStorageKey = 'ktjs-example-locale';
+export const defaultLocale = 'zh-CN';
+export const localeOptions = ['zh-CN', 'en-US'] as const;
+
+export type Locale = (typeof localeOptions)[number];
+export type I18nKey = keyof typeof zh;
+
+export const normalizeLocale = (value?: string | null): Locale | undefined => {
+  if (!value) {
+    return undefined;
+  }
+
+  const normalized = value.toLowerCase();
+  if (normalized.startsWith('zh')) {
+    return 'zh-CN';
+  }
+  if (normalized.startsWith('en')) {
+    return 'en-US';
+  }
+  return undefined;
+};
+
+export const resolveLocale = (): Locale => {
+  if (typeof window === 'undefined') {
+    return defaultLocale;
+  }
+
+  const url = new URL(window.location.href);
+  const fromQuery = normalizeLocale(url.searchParams.get('lang'));
+  if (fromQuery) {
+    return fromQuery;
+  }
+
+  const pathLocaleMatch = window.location.pathname.match(/(zh-CN|en-US)/i);
+  const fromPath = normalizeLocale(pathLocaleMatch?.[1]);
+  if (fromPath) {
+    return fromPath;
+  }
+
+  const fromStorage = normalizeLocale(window.localStorage.getItem(localeStorageKey));
+  if (fromStorage) {
+    return fromStorage;
+  }
+
+  return normalizeLocale(window.navigator.language) ?? defaultLocale;
+};

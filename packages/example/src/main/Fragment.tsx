@@ -1,10 +1,16 @@
 import { JSX, computed, Fragment, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
+import { i18n } from '../i18n/index.js';
+import { i18nText } from '../i18n/text.js';
 
 import fragmentDemoCode from '../code/fragment-demo.tsx?raw';
 
-const defaultSections = ['Header', 'Content', 'Actions'];
+const defaultSections = [
+  i18nText('fragment.default.header'),
+  i18nText('fragment.default.content'),
+  i18nText('fragment.default.actions'),
+];
 
 const createPill = (label: string, index: number): JSX.Element => (
   <span class="fragment-pill">
@@ -16,14 +22,18 @@ const createPill = (label: string, index: number): JSX.Element => (
 export function FragmentDemo() {
   const labelsRef = ref<string[]>([...defaultSections]);
   const childrenRef = ref<JSX.Element[]>(labelsRef.value.map(createPill));
-  const summaryRef = computed(() => `${labelsRef.value.length} nodes: ${labelsRef.value.join(' / ')}`, [labelsRef]);
+  const summaryRef = computed(
+    () => i18nText('fragment.reactive.summary', labelsRef.value.length, labelsRef.value.join(' / ')),
+    [labelsRef],
+  );
 
   const syncChildren = (nextLabels: string[]) => {
     labelsRef.value = nextLabels;
     childrenRef.value = nextLabels.map(createPill);
   };
 
-  const addItem = () => syncChildren([...labelsRef.value, `Section ${labelsRef.value.length + 1}`]);
+  const addItem = () =>
+    syncChildren([...labelsRef.value, `${i18nText('fragment.reactive.sectionPrefix')} ${labelsRef.value.length + 1}`]);
 
   const removeItem = () => {
     if (labelsRef.value.length <= 1) {
@@ -45,38 +55,33 @@ export function FragmentDemo() {
   return (
     <div>
       <div class="demo-section">
-        <h3>Fragment Shorthand</h3>
-        <p>
-          Use <code>{'<>...</>'}</code> to return multiple siblings without adding an extra wrapper element.
-        </p>
+        <h3>{i18n('fragment.shorthand.title')}</h3>
+        <p>{i18n('fragment.shorthand.description')}</p>
         <div class="demo-block fragment-row">
           <>
-            <span class="fragment-pill fragment-pill--preview">Title</span>
-            <span class="fragment-pill fragment-pill--preview">Description</span>
-            <span class="fragment-pill fragment-pill--preview">Actions</span>
+            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.title')}</span>
+            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.description')}</span>
+            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.actions')}</span>
           </>
         </div>
-        <p class="demo-desc">These pills are direct siblings in the container, so flex/grid layouts stay flat.</p>
+        <p class="demo-desc">{i18n('fragment.shorthand.note')}</p>
       </div>
 
       <div class="demo-section">
-        <h3>Reactive Fragment</h3>
-        <p>
-          Combine <code>Fragment</code> with a <code>ref</code> array to redraw sibling nodes in-place whenever the list
-          changes.
-        </p>
+        <h3>{i18n('fragment.reactive.title')}</h3>
+        <p>{i18n('fragment.reactive.description')}</p>
         <div class="demo-flex-gap">
           <Button variant="contained" color="primary" on:click={addItem}>
-            Add Item
+            {i18n('fragment.reactive.addItem')}
           </Button>
           <Button variant="contained" color="primary" on:click={removeItem}>
-            Remove Last
+            {i18n('fragment.reactive.removeLast')}
           </Button>
           <Button variant="contained" color="primary" on:click={rotate}>
-            Rotate
+            {i18n('fragment.reactive.rotate')}
           </Button>
           <Button variant="contained" color="primary" on:click={reset}>
-            Reset
+            {i18n('fragment.reactive.reset')}
           </Button>
         </div>
         <div class="demo-result">{summaryRef}</div>

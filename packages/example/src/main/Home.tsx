@@ -33,39 +33,22 @@ export function Home() {
         </p>
         <h3>{i18n('home.section.introduction')}</h3>
         <p>
-          {/* kt.js is a lightweight, direct DOM manipulation framework with <code>jsx</code>. Unlike React or Vue which use
-          virtual DOM and automatic re-rendering, kt.js gives you fine-grained control over when and how DOM updates
-          happen. */}
-          {i18n('home.section.introduction.content', <code>jsx</code>)}
+          {i18n('home.section.introduction.content')}
         </p>
         <h3>{i18n('home.section.gettingStarted')}</h3>
-        <p>Follow these steps to start using KT.js in your project:</p>
+        <p>{i18n('home.gettingStarted.guide')}</p>
         <h4>{i18n('home.step.installation')}</h4>
         <Code code={installCode} lang="bash" />
         <h4>{i18n('home.step.tsconfig')}</h4>
-        <p>
-          Add these settings to your <code>tsconfig.json</code>:
-        </p>
+        <p>{i18n('home.tsconfig.description')}</p>
         <Code code={tsconfigCode} lang="json" />
         <h4>{i18n('home.step.tsPlugin')}</h4>
-        <p>
-          Add ts-plugin to your project to provide better support for kt.js in your editor(mainly for <code>k-for</code>{' '}
-          directive)
-        </p>
+        <p>{i18n('home.tsPlugin.description')}</p>
         <Code code="pnpm add -D @ktjs/ts-plugin" lang="bash"></Code>
-        <p>
-          Press <code>Ctrl+Shift+P</code> in VSCode, select <strong>TypeScript: Select TypeScript Version</strong>, then
-          select <strong>Use Workspace Version</strong>.
-        </p>
-        <p>
-          Finally, restart the TypeScript server by selecting <strong>TypeScript: Restart TS Server</strong> from the
-          command palette.
-        </p>
+        <p>{i18n('home.tsPlugin.vscodeStep')}</p>
+        <p>{i18n('home.tsPlugin.restartStep')}</p>
         <h4>{i18n('home.step.viteConfig')}</h4>
-        <p>
-          Using <code>vite.config.ts</code> is recommended. It provides support for <code>svg</code> and{' '}
-          <code>mathml</code> elements:
-        </p>
+        <p>{i18n('home.viteConfig.description')}</p>
         <Code code={viteConfigCode} />
         <p>{i18n('home.label.useBabel')}</p>
         <Code code={babelConfigCode} />

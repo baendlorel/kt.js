@@ -1,14 +1,12 @@
 import ieCompatibleViteConfig from '../code/plugin.ie11.vite.config.ts?raw';
 import { Code } from '../components/Code';
+import { i18n } from '../i18n/index.js';
 
 export function IE11Compatibility() {
   return (
     <div class="demo-section">
-      <p>kt.js contains built-in polyfills for certain DOM methods to support IE11.</p>
-      <p>
-        To make your project fully compatible with IE11, we need to transpile the code using Babel and include necessary
-        polyfills. Below is the Vite configuration we used for this purpose:
-      </p>
+      <p>{i18n('ie11.intro')}</p>
+      <p>{i18n('ie11.description')}</p>
       <Code code={ieCompatibleViteConfig}></Code>
     </div>
   );

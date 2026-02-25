@@ -138,7 +138,7 @@ function createApp() {
           <div class="brand-content">
             <h1>KT.js</h1>
             <p>{i18n('app.brand.tagline')}</p>
-            <div class="brand-locale">在这里切换语言</div>
+            <div class="brand-locale">{i18n('app.locale.switchHint')}</div>
           </div>
         </div>
 

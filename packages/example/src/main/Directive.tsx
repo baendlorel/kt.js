@@ -1,69 +1,72 @@
 import { computed, ref } from 'kt.js';
 import { Button, TextField } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
+import { i18n } from '../i18n/index.js';
+import { i18nText } from '../i18n/text.js';
 
 import directivesCode from '../code/directives.tsx?raw';
 
 export function Directives() {
   const kifFlag = ref(false);
-  const kmodelText = ref('Reactive text');
-  const khtmlContent = ref('<span style="color: #52c41a;">初始HTML</span>');
+  const kmodelText = ref(i18nText('directives.model.initialValue'));
+  const khtmlContent = ref(`<span style="color: #52c41a;">${i18nText('directives.html.initialContent')}</span>`);
 
-  const kifStateText = computed(() => (kifFlag.value ? 'true' : 'false'), [kifFlag]);
+  const kifStateText = computed(
+    () => i18nText(kifFlag.value ? 'directives.ifElse.state.true' : 'directives.ifElse.state.false'),
+    [kifFlag],
+  );
 
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
-    kmodelText.value = `Updated at: ${time}`;
+    kmodelText.value = i18nText('directives.model.updatedAt', time);
   }, 1000);
 
   setInterval(() => {
     const color = Math.floor(Math.random() * 0xffffff)
       .toString(16)
       .padStart(6, '0');
-    khtmlContent.value = `<span style="color: #${color};">初始HTML</span>`;
+    khtmlContent.value = `<span style="color: #${color};">${i18nText('directives.html.initialContent')}</span>`;
   }, 1000);
 
   return (
     <div>
       <div class="demo-section">
-        <h3>Directives</h3>
-        <h4>k-if + k-else</h4>
-        <p>
-          <code>k-if</code> and <code>k-else</code> can be used as adjacent sibling branches.
-        </p>
+        <h3>{i18n('directives.title')}</h3>
+        <h4>{i18n('directives.ifElse.title')}</h4>
+        <p>{i18n('directives.ifElse.description')}</p>
         <div class="demo-flex-gap">
           <Button variant="contained" color="primary" on:click={() => (kifFlag.value = true)}>
-            Show k-if
+            {i18n('directives.ifElse.showIf')}
           </Button>
           <Button variant="contained" color="primary" on:click={() => (kifFlag.value = false)}>
-            Show k-else
+            {i18n('directives.ifElse.showElse')}
           </Button>
           <Button variant="contained" color="primary" on:click={() => (kifFlag.value = !kifFlag.value)}>
-            Toggle
+            {i18n('directives.ifElse.toggle')}
           </Button>
         </div>
         <div class="demo-result">
-          Condition: {kifStateText}
+          {i18n('directives.ifElse.condition')} {kifStateText}
           <div class="demo-block" style="margin-top: 12px;">
-            <span k-if={kifFlag}>k-if branch: primary content is rendered.</span>
-            <span k-else>k-else branch: fallback content is rendered.</span>
+            <span k-if={kifFlag}>{i18n('directives.ifElse.branchIf')}</span>
+            <span k-else>{i18n('directives.ifElse.branchElse')}</span>
           </div>
         </div>
-        <p class="demo-desc">Syntax rule: k-else must be immediately after a sibling k-if.</p>
+        <p class="demo-desc">{i18n('directives.ifElse.syntax')}</p>
         <Code code={`<span k-if={kifFlag}>primary content</span>\n<span k-else>fallback content</span>`} />
 
-        <h4>k-model</h4>
+        <h4>{i18n('directives.model.title')}</h4>
         <TextField k-model={kmodelText}></TextField>
-        <p class="demo-desc">k-model must pass a ref, implements two-way binding</p>
+        <p class="demo-desc">{i18n('directives.model.description')}</p>
         <div class="demo-result">{kmodelText}</div>
         <Code code={`<TextField k-model={kmodelText}></TextField> // TextField is from @ktjs/mui`} />
 
-        <h4>k-html</h4>
+        <h4>{i18n('directives.html.title')}</h4>
         <div k-html={khtmlContent} class="demo-block" />
-        <p class="demo-desc">k-html passes a ref, automatically redraws when ref changes</p>
+        <p class="demo-desc">{i18n('directives.html.description')}</p>
         <Code code={`<div k-html={khtmlContent} class="demo-block"></div>`} />
 
-        <h4>Full Demo</h4>
+        <h4>{i18n('directives.fullDemo')}</h4>
         <Code code={directivesCode} />
       </div>
     </div>

@@ -11,9 +11,6 @@ export function MuiCheckboxDemo() {
 
       <FormLabel>Select technologies:</FormLabel>
 
-      {
-        // fixme checkboxgroup的model没效果？
-      }
       <CheckboxGroup
         k-model={selectedValues}
         options={[

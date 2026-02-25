@@ -10,7 +10,7 @@ describe('MUI LinearProgress component', () => {
   });
 
   it('should apply determinate width and color', () => {
-    const progress = LinearProgress({ variant: 'determinate', progress: 40, color: 'error' }) as HTMLElement;
+    const progress = LinearProgress({ variant: 'determinate', value: 40, color: 'error' }) as HTMLElement;
     const bar = progress.querySelector('.mui-linear-progress-bar') as HTMLElement;
     expect(progress.className).toContain('mui-linear-progress-determinate');
     expect(progress.className).toContain('mui-linear-progress-error');
@@ -24,11 +24,11 @@ describe('MUI LinearProgress component', () => {
   });
 
   it('should update width when progress property changes', () => {
-    const progress = LinearProgress({ variant: 'determinate', progress: 10 }) as HTMLElement & { progress: number };
+    const progress = LinearProgress({ variant: 'determinate', value: 10 });
     const bar = progress.querySelector('.mui-linear-progress-bar') as HTMLElement;
 
     expect(bar.style.width).toBe('10%');
-    progress.progress = 65;
+    progress.value = 65;
     expect(bar.style.width).toBe('65%');
   });
 });

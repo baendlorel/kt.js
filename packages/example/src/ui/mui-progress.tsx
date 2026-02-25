@@ -1,22 +1,21 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { LinearProgress, Button } from '@ktjs/mui';
-import type { KTMuiLinearProgress } from '@ktjs/mui';
 
 export function MuiProgressDemo() {
-  const progressBar = (<LinearProgress progress={0} variant="determinate" />) as KTMuiLinearProgress;
+  const value = ref(0);
 
   let intervalId: number | null = null;
 
   const startProgress = () => {
-    if (intervalId !== null) return;
+    if (intervalId !== null) {
+      return;
+    }
 
-    progressBar.progress = 0;
-
+    value.value = 0;
     intervalId = window.setInterval(() => {
-      progressBar.progress += 5;
-
-      if (progressBar.progress >= 100) {
+      value.value += 5;
+      if (value.value >= 100) {
         window.clearInterval(intervalId!);
         intervalId = null;
       }
@@ -28,7 +27,7 @@ export function MuiProgressDemo() {
       window.clearInterval(intervalId);
       intervalId = null;
     }
-    progressBar.progress = 0;
+    value.value = 0;
   };
 
   return (
@@ -36,7 +35,9 @@ export function MuiProgressDemo() {
       <h2>LinearProgress Component</h2>
       <p class="description">Progress indicators show the completion status of an operation.</p>
 
-      <div style="margin: 20px 0;">{progressBar}</div>
+      <div style="margin: 20px 0;">
+        (<LinearProgress value={value} variant="determinate" />)
+      </div>
 
       <div class="button-group">
         <Button variant="contained" on:click={startProgress}>

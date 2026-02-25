@@ -1,5 +1,5 @@
 import { $defines } from '@ktjs/shared';
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTReactive } from '@ktjs/core';
 import { computed, ref, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css';
@@ -8,42 +8,40 @@ interface LinearProgressProps extends Pick<KTMuiProps, 'class'> {
   // todo 此处不一样
   style?: string | Partial<CSSStyleDeclaration>;
   variant?: 'determinate' | 'indeterminate';
-  progress?: number;
+  value?: number | KTReactive<number>;
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 }
 
 export type KTMuiLinearProgress = JSX.Element & {
-  progress: number;
+  value: number;
 };
 
 export function LinearProgress(props: LinearProgressProps) {
-  const valueRef = ref(props.progress ?? 0);
-  const customClassRef = toReactive(props.class ?? '');
-  const colorRef = toReactive(props.color ?? 'primary');
-  const variantRef = toReactive(props.variant ?? 'indeterminate');
-  const classRef = computed(() => {
-    return `mui-linear-progress mui-linear-progress-${variantRef.value} mui-linear-progress-${colorRef.value} ${customClassRef.value}`;
-  }, [customClassRef, colorRef, variantRef]);
+  const value = toReactive(props.value ?? 0);
+  const customClass = toReactive(props.class ?? '');
+  const color = toReactive(props.color ?? 'primary');
+  const variant = toReactive(props.variant ?? 'indeterminate');
+  const className = computed(() => {
+    return `mui-linear-progress mui-linear-progress-${variant.value} mui-linear-progress-${color.value} ${customClass.value}`;
+  }, [customClass, color, variant]);
 
-  const styleRef = toReactive(props.style ?? '');
+  const style = toReactive(props.style ?? '');
 
-  const barLengthRef = computed(() => {
-    return variantRef.value === 'determinate' ? `width: ${valueRef.value}%` : '';
-  }, [variantRef, valueRef]);
+  const barLength = computed(() => (variant.value === 'determinate' ? `width: ${value.value}%` : ''), [variant, value]);
 
   const container = (
-    <div class={classRef} style={styleRef} role="progressbar" aria-valuenow={valueRef}>
-      <div class="mui-linear-progress-bar" style={barLengthRef}></div>
+    <div class={className} style={style} role="progressbar" aria-valuenow={value}>
+      <div class="mui-linear-progress-bar" style={barLength}></div>
     </div>
   ) as KTMuiLinearProgress;
-  // fixme example页面的进度条不动的问题
+
   $defines(container, {
-    progress: {
+    value: {
       get() {
-        return valueRef.value;
+        return value.value;
       },
       set(v: number) {
-        valueRef.value = v;
+        value.value = v;
       },
     },
   });

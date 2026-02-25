@@ -18,42 +18,9 @@ const className = css`
       word-wrap: break-word;
     }
 
-    /* Titles */
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #2d2d2d;
-      font-weight: 500;
-      line-height: 1.3;
-      margin-top: 1.5rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.3rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    h1 {
-      font-size: 1.75rem;
-    }
-
     h2 {
-      font-size: 1.5rem;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-    }
-
-    h4 {
-      font-size: 1.125rem;
-    }
-
-    h5,
-    h6 {
-      font-size: 1rem;
-      font-weight: 400;
+      color: #0159be;
+      padding-bottom: 13px;
     }
 
     /* Paragraph */
@@ -79,7 +46,7 @@ const className = css`
     /* Lists */
     ul,
     ol {
-      margin: 0;
+      margin: 10px 0 0 0;
       padding-left: 1.5rem;
     }
 
@@ -89,10 +56,8 @@ const className = css`
       font-size: 1rem;
     }
 
-    ul li::before {
-      content: '•';
+    ul li::marker {
       color: #007acc;
-      margin-right: 0.6rem;
     }
 
     /* Blockquotes */
@@ -121,14 +86,6 @@ const className = css`
       margin: 1.5rem 0;
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.95rem;
-    }
-
-    code {
-      background-color: #f5f5f5;
-      color: #e83e8c;
-      padding: 0.3rem 0.5rem;
-      border-radius: 5px;
-      font-family: 'Courier New', Courier, monospace;
     }
 
     /* Images */
@@ -218,9 +175,16 @@ const className = css`
 `;
 
 export function ChangeLog() {
+  const changelogList = changelog
+    .replace('# Changelog', '')
+    .trim()
+    .split(/\n##\s/g)
+    .map((block) => '## ' + block.trim().replace(/^##\s+/g, ''));
   return (
-    <div class={className} style="margin:-20px 20px 0px 20px;">
-      <div k-html={marked(changelog.replace('# Changelog', '').trim())}></div>
+    <div class={className}>
+      <div k-for="item in changelogList" class="demo-section">
+        <div k-html={marked(item)}></div>
+      </div>
     </div>
   );
 }

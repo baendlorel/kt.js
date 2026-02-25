@@ -1,3 +1,4 @@
+import { $defines } from '@ktjs/shared';
 import type { JSX } from '@ktjs/core';
 import { computed, ref, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
@@ -11,7 +12,9 @@ interface LinearProgressProps extends Pick<KTMuiProps, 'class'> {
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 }
 
-export type KTMuiLinearProgress = JSX.Element & {};
+export type KTMuiLinearProgress = JSX.Element & {
+  progress: number;
+};
 
 export function LinearProgress(props: LinearProgressProps) {
   const valueRef = ref(props.progress ?? 0);
@@ -33,6 +36,17 @@ export function LinearProgress(props: LinearProgressProps) {
       <div class="mui-linear-progress-bar" style={barLengthRef}></div>
     </div>
   ) as KTMuiLinearProgress;
+  // fixme example页面的进度条不动的问题
+  $defines(container, {
+    progress: {
+      get() {
+        return valueRef.value;
+      },
+      set(v: number) {
+        valueRef.value = v;
+      },
+    },
+  });
 
   return container;
 }

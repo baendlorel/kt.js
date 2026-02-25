@@ -22,4 +22,13 @@ describe('MUI LinearProgress component', () => {
     expect(progress.className).toContain('custom');
     expect(progress.style.marginTop).toBe('8px');
   });
+
+  it('should update width when progress property changes', () => {
+    const progress = LinearProgress({ variant: 'determinate', progress: 10 }) as HTMLElement & { progress: number };
+    const bar = progress.querySelector('.mui-linear-progress-bar') as HTMLElement;
+
+    expect(bar.style.width).toBe('10%');
+    progress.progress = 65;
+    expect(bar.style.width).toBe('65%');
+  });
 });

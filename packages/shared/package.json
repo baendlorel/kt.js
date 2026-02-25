@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/shared",
-  "version": "0.31.1",
+  "version": "0.31.2",
   "description": "Shared utilities and cached native methods for kt.js framework",
   "description_zh": "kt.js 框架的共享工具与原生方法缓存。",
   "type": "module",

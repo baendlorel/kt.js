@@ -1,7 +1,7 @@
 import { JSX, computed, Fragment, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
-import { i18n } from '../i18n/index.js';
+import { t } from '../i18n/index.js';
 import { i18nText } from '../i18n/text.js';
 
 import fragmentDemoCode from '../code/fragment-demo.tsx?raw';
@@ -55,33 +55,33 @@ export function FragmentDemo() {
   return (
     <div>
       <div class="demo-section">
-        <h3>{i18n('fragment.shorthand.title')}</h3>
-        <p>{i18n('fragment.shorthand.description')}</p>
+        <h3>{t('fragment.shorthand.title')}</h3>
+        <p>{t('fragment.shorthand.description')}</p>
         <div class="demo-block fragment-row">
           <>
-            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.title')}</span>
-            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.description')}</span>
-            <span class="fragment-pill fragment-pill--preview">{i18n('fragment.shorthand.preview.actions')}</span>
+            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.title')}</span>
+            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.description')}</span>
+            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.actions')}</span>
           </>
         </div>
-        <p class="demo-desc">{i18n('fragment.shorthand.note')}</p>
+        <p class="demo-desc">{t('fragment.shorthand.note')}</p>
       </div>
 
       <div class="demo-section">
-        <h3>{i18n('fragment.reactive.title')}</h3>
-        <p>{i18n('fragment.reactive.description')}</p>
+        <h3>{t('fragment.reactive.title')}</h3>
+        <p>{t('fragment.reactive.description')}</p>
         <div class="demo-flex-gap">
           <Button variant="contained" color="primary" on:click={addItem}>
-            {i18n('fragment.reactive.addItem')}
+            {t('fragment.reactive.addItem')}
           </Button>
           <Button variant="contained" color="primary" on:click={removeItem}>
-            {i18n('fragment.reactive.removeLast')}
+            {t('fragment.reactive.removeLast')}
           </Button>
           <Button variant="contained" color="primary" on:click={rotate}>
-            {i18n('fragment.reactive.rotate')}
+            {t('fragment.reactive.rotate')}
           </Button>
           <Button variant="contained" color="primary" on:click={reset}>
-            {i18n('fragment.reactive.reset')}
+            {t('fragment.reactive.reset')}
           </Button>
         </div>
         <div class="demo-result">{summaryRef}</div>

@@ -1,7 +1,7 @@
 import { ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
-import { i18n } from '../i18n/index.js';
+import { t } from '../i18n/index.js';
 import { i18nText } from '../i18n/text.js';
 
 import clickEventCode from '../code/click-event.tsx?raw';
@@ -17,7 +17,7 @@ export function Events() {
   return (
     <div>
       <div class="demo-section">
-        <p>{i18n('events.intro')}</p>
+        <p>{t('events.intro')}</p>
         <div>
           <div class="demo-flex-gap">
             <Button
@@ -25,14 +25,14 @@ export function Events() {
               color="primary"
               on:click={() => (outputRef.value = i18nText('events.output.clickedAt', new Date().toLocaleTimeString()))}
             >
-              {i18n('events.button.click')}
+              {t('events.button.click')}
             </Button>
             <Button
               variant="contained"
               color="primary"
               on:dblclick={() => (outputRef.value = i18nText('events.output.doubleClicked'))}
             >
-              {i18n('events.button.doubleClick')}
+              {t('events.button.doubleClick')}
             </Button>
             <Button
               variant="contained"
@@ -40,7 +40,7 @@ export function Events() {
               on:mouseenter={() => (outputRef.value = i18nText('events.output.mouseEntered'))}
               on:mouseleave={() => (outputRef.value = i18nText('events.output.mouseLeft'))}
             >
-              {i18n('events.button.hover')}
+              {t('events.button.hover')}
             </Button>
             <Button
               variant="contained"
@@ -48,7 +48,7 @@ export function Events() {
               on:focus={() => (outputRef.value = i18nText('events.output.focused'))}
               on:blur={() => (outputRef.value = i18nText('events.output.blurred'))}
             >
-              {i18n('events.button.focus')}
+              {t('events.button.focus')}
             </Button>
           </div>
           <div class="demo-result">{outputRef}</div>
@@ -57,8 +57,8 @@ export function Events() {
       </div>
 
       <div class="demo-section">
-        <h3>{i18n('events.counter.title')}</h3>
-        <p>{i18n('events.counter.description')}</p>
+        <h3>{t('events.counter.title')}</h3>
+        <p>{t('events.counter.description')}</p>
         <div class="demo-flex-gap">
           <div style="width:200px; font-size: 2rem; font-weight: bold; color: #667eea;">
             {i18nText('events.counter.label')} {counterRef}
@@ -73,7 +73,7 @@ export function Events() {
             +10
           </Button>
           <Button variant="contained" color="primary" on:click={() => (counterRef.value = 0)}>
-            {i18n('events.counter.reset')}
+            {t('events.counter.reset')}
           </Button>
         </div>
         <Code code={counterDemoCode} />

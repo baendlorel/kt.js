@@ -4,7 +4,7 @@ import installCode from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
 import viteConfigCode from '../code/plugin.vite.example.ts?raw';
 import babelConfigCode from '../code/plugin.babel.example.ts?raw';
-import { i18n } from '../i18n/index.js';
+import { t } from '../i18n/index.js';
 /**
  * Home page - Introduction to KT.js framework
  */
@@ -24,33 +24,34 @@ export function Home() {
           </a>
         </div>
         <p class="home-community">
-          <span>{i18n('home.discussion.label')}:</span> <code>{i18n('home.discussion.qq')}</code>{' '}
+          <span k-html={t('home.discussion.label')}>:</span> <code k-html={t('home.discussion.qq')}></code>
           <code>
-            <a href="https://t.me/+1i2ALsdw_LM2ZDY1" target="_blank" rel="noopener noreferrer">
-              {i18n('home.discussion.telegram')}
-            </a>
+            <a
+              k-html={t('home.discussion.telegram')}
+              href="https://t.me/kt_js"
+              target="_blank"
+              rel="noopener noreferrer"
+            ></a>
           </code>
         </p>
-        <h3>{i18n('home.section.introduction')}</h3>
-        <p>
-          {i18n('home.section.introduction.content')}
-        </p>
-        <h3>{i18n('home.section.gettingStarted')}</h3>
-        <p>{i18n('home.gettingStarted.guide')}</p>
-        <h4>{i18n('home.step.installation')}</h4>
+        <h3>{t('home.section.introduction')}</h3>
+        <p>{t('home.section.introduction.content')}</p>
+        <h3>{t('home.section.gettingStarted')}</h3>
+        <p>{t('home.gettingStarted.guide')}</p>
+        <h4>{t('home.step.installation')}</h4>
         <Code code={installCode} lang="bash" />
-        <h4>{i18n('home.step.tsconfig')}</h4>
-        <p>{i18n('home.tsconfig.description')}</p>
+        <h4>{t('home.step.tsconfig')}</h4>
+        <p>{t('home.tsconfig.description')}</p>
         <Code code={tsconfigCode} lang="json" />
-        <h4>{i18n('home.step.tsPlugin')}</h4>
-        <p>{i18n('home.tsPlugin.description')}</p>
+        <h4>{t('home.step.tsPlugin')}</h4>
+        <p>{t('home.tsPlugin.description')}</p>
         <Code code="pnpm add -D @ktjs/ts-plugin" lang="bash"></Code>
-        <p>{i18n('home.tsPlugin.vscodeStep')}</p>
-        <p>{i18n('home.tsPlugin.restartStep')}</p>
-        <h4>{i18n('home.step.viteConfig')}</h4>
-        <p>{i18n('home.viteConfig.description')}</p>
+        <p>{t('home.tsPlugin.vscodeStep')}</p>
+        <p>{t('home.tsPlugin.restartStep')}</p>
+        <h4>{t('home.step.viteConfig')}</h4>
+        <p>{t('home.viteConfig.description')}</p>
         <Code code={viteConfigCode} />
-        <p>{i18n('home.label.useBabel')}</p>
+        <p>{t('home.label.useBabel')}</p>
         <Code code={babelConfigCode} />
       </div>
     </div>

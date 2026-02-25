@@ -3,7 +3,7 @@ import './styles/demo.css';
 
 import { computed, ref } from '@ktjs/core';
 import icon from '../assets/icon.svg';
-import { i18n, I18NContent, LocaleOptions } from './i18n/index.js';
+import { t, I18NContent, LocaleOptions } from './i18n/index.js';
 import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
@@ -39,12 +39,12 @@ const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog']
 const navGroups: NavGroup[] = [
   {
     id: 'features',
-    label: i18n('app.nav.group.features'),
+    label: t('app.nav.group.features'),
     items: pickBasicItems(['reactive', 'directives', 'fragment', 'events', 'other-elements']),
   },
   {
     id: 'mui',
-    label: i18n('app.nav.group.mui'),
+    label: t('app.nav.group.mui'),
     items: muiNavItems,
   },
 ];
@@ -137,8 +137,8 @@ function createApp() {
           </div>
           <div class="brand-content">
             <h1>KT.js</h1>
-            <p>{i18n('app.brand.tagline')}</p>
-            <div class="brand-locale">{i18n('app.locale.switchHint')}</div>
+            <p>{t('app.brand.tagline')}</p>
+            <div class="brand-locale">{t('app.locale.switchHint')}</div>
           </div>
         </div>
 
@@ -230,9 +230,9 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">{i18n('app.pagination.prev')}</span>
+            <span class="content-pagination-caption">{t('app.pagination.prev')}</span>
             <span class="content-pagination-title">
-              {computed(() => prevNavRef.value?.item.label ?? i18n('app.pagination.noPrev'), [prevNavRef])}
+              {computed(() => prevNavRef.value?.item.label ?? t('app.pagination.noPrev'), [prevNavRef])}
             </span>
           </button>
           <button
@@ -249,9 +249,9 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">{i18n('app.pagination.next')}</span>
+            <span class="content-pagination-caption">{t('app.pagination.next')}</span>
             <span class="content-pagination-title">
-              {computed(() => nextNavRef.value?.item.label ?? i18n('app.pagination.noNext'), [nextNavRef])}
+              {computed(() => nextNavRef.value?.item.label ?? t('app.pagination.noNext'), [nextNavRef])}
             </span>
           </button>
         </div>

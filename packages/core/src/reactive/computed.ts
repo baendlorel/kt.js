@@ -29,10 +29,10 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _emit(newValue: T, oldValue: T, changeKeys?: ReactiveChangeKey[]) {
-    if (changeKeys) {
-      for (let i = 0; i < changeKeys.length; i++) {
-        this._onChanges.get(changeKeys[i])?.(newValue, oldValue);
+  private _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
+    if (handlerKeys) {
+      for (let i = 0; i < handlerKeys.length; i++) {
+        this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
       }
       return;
     }
@@ -42,17 +42,17 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _recalculate(forceEmit: boolean = false, changeKeys?: ReactiveChangeKey[]) {
+  private _recalculate(forceEmit: boolean = false, handlerKeys?: ReactiveChangeKey[]) {
     const oldValue = this._value;
     const newValue = this._calculator();
     if (oldValue === newValue) {
       if (forceEmit) {
-        this._emit(newValue, oldValue, changeKeys);
+        this._emit(newValue, oldValue, handlerKeys);
       }
       return;
     }
     this._value = newValue;
-    this._emit(newValue, oldValue, changeKeys);
+    this._emit(newValue, oldValue, handlerKeys);
   }
 
   /**
@@ -85,17 +85,17 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * Force listeners to run once with the latest computed result.
    */
-  notify(changeKeys?: ReactiveChangeKey[]) {
-    this._recalculate(true, changeKeys);
+  notify(handlerKeys?: ReactiveChangeKey[]) {
+    this._recalculate(true, handlerKeys);
   }
 
   /**
    * Computed values are derived from dependencies and should not be mutated manually.
    */
-  mutate<R = void>(_mutator?: (currentValue: T) => R, changeKeys?: ReactiveChangeKey[]): R {
+  mutate<R = void>(_mutator?: (currentValue: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
     $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
-    if (changeKeys) {
-      this._emit(this._value, this._value, changeKeys);
+    if (handlerKeys) {
+      this._emit(this._value, this._value, handlerKeys);
     }
     return this._value as unknown as R;
   }

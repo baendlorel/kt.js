@@ -28,7 +28,7 @@ describe('reactive helpers', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('notify with changeKeys should only trigger selected listeners', () => {
+  it('notify with handlerKeys should only trigger selected listeners', () => {
     const valueRef = ref(1);
     const onA = vi.fn();
     const onB = vi.fn();
@@ -44,7 +44,7 @@ describe('reactive helpers', () => {
     expect(onC).toHaveBeenCalledTimes(1);
   });
 
-  it('mutate with changeKeys should only trigger selected listeners', () => {
+  it('mutate with handlerKeys should only trigger selected listeners', () => {
     const list = ref<number[]>([1, 2]);
     const onAll = vi.fn();
     const onPick = vi.fn();
@@ -80,7 +80,7 @@ describe('reactive helpers', () => {
     expect(onChange).toHaveBeenCalledWith(4, 4);
   });
 
-  it('computed notify with changeKeys should only trigger selected listeners', () => {
+  it('computed notify with handlerKeys should only trigger selected listeners', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);
     const onA = vi.fn();
@@ -95,7 +95,7 @@ describe('reactive helpers', () => {
     expect(onB).toHaveBeenCalledWith(4, 4);
   });
 
-  it('computed mutate with changeKeys should trigger selected listeners only', () => {
+  it('computed mutate with handlerKeys should trigger selected listeners only', () => {
     const oldWarn = (globalThis as any).$warn;
     const warn = vi.fn();
     (globalThis as any).$warn = warn;

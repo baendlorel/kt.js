@@ -380,7 +380,11 @@ button:not([class*='mui-']) {
 }
 
 .reactive-api-method-list code {
-  margin-right: 6px;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0 0 4px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .reactive-api-grid {

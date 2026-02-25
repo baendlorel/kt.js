@@ -1,5 +1,6 @@
 import { computed, ref } from 'kt.js';
-import { highlight } from '../common/highlight.js';
+import { highlight, highlightDark } from '../common/highlight.js';
+import { state } from '../common/state.js';
 
 type CodeProps = {
   code: string;
@@ -56,7 +57,8 @@ export function Code(props: CodeProps) {
       <button class="demo-code-copy" on:click={copyCode}>
         {buttonText}
       </button>
-      {highlight(props.code, props.lang || 'tsx')}
+      <div k-if={state.isLightTheme}> {highlight(props.code, props.lang || 'tsx')}</div>
+      <div k-else> {highlightDark(props.code, props.lang || 'tsx')} </div>
     </div>
   );
 }

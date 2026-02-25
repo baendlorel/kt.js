@@ -8,6 +8,7 @@ import type { NavItem } from './types/router.js';
 
 import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
+import { state } from './common/state';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -146,7 +147,10 @@ function createApp() {
 
     return orderedNavItems[currentIndex + 1];
   }, [currentNavIndexRef]);
-  const themeLabelRef = computed(() => (themeRef.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')), [themeRef]);
+  const themeLabelRef = computed(
+    () => (themeRef.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')),
+    [themeRef],
+  );
   const themeAriaLabelRef = computed(
     () => (themeRef.value === 'dark' ? t('app.theme.switchToLight') : t('app.theme.switchToDark')),
     [themeRef],
@@ -156,6 +160,7 @@ function createApp() {
     const nextTheme = themeRef.value === 'dark' ? 'light' : 'dark';
     themeRef.value = nextTheme;
     applyTheme(nextTheme);
+    state.isLightTheme.value = nextTheme === 'light';
     window.localStorage.setItem(themeStorageKey, nextTheme);
   };
 

@@ -35,7 +35,7 @@ const className = css`
     a {
       color: #007acc;
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease;
     }
 
     a:hover {

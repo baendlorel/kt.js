@@ -192,9 +192,9 @@ button:not([class*='mui-']) {
   border: 1px solid #e2e9f3;
   background: #f9fbff;
   transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    background 0.2s ease;
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    background 0.3s ease;
 }
 
 .icon-item:hover {
@@ -226,8 +226,8 @@ button:not([class*='mui-']) {
   border: 1px solid #dce4f0;
   background: #ffffff;
   transition:
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .control-group:hover {

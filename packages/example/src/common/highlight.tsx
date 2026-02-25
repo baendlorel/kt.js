@@ -5,9 +5,16 @@ import langBash from 'shiki/dist/langs/bash.mjs';
 import langJson from 'shiki/dist/langs/json.mjs';
 import langTsx from 'shiki/dist/langs/tsx.mjs';
 import themeOneLight from 'shiki/dist/themes/one-light.mjs';
+import themeGithubDark from 'shiki/dist/themes/github-dark.mjs';
 
 const highlighterPromise = createHighlighterCore({
   themes: [themeOneLight],
+  langs: [langTsx, langBash, langJson],
+  engine: createJavaScriptRegexEngine(),
+});
+
+const highlighterDarkPromise = createHighlighterCore({
+  themes: [themeGithubDark],
   langs: [langTsx, langBash, langJson],
   engine: createJavaScriptRegexEngine(),
 });
@@ -33,6 +40,20 @@ export const highlight = (code: string, lang: string = 'tsx') => {
       const html = highlighter.codeToHtml(code, {
         lang: normalizeLang(lang) as any,
         theme: 'one-light',
+      });
+      o.value = <div class="highlight" k-html={html}></div>;
+    })
+    .catch(() => (o.value = <pre class="highlight">{code}</pre>));
+  return o;
+};
+
+export const highlightDark = (code: string, lang: string = 'tsx') => {
+  const o = ref(document.createComment('loading code...') as unknown as Node);
+  highlighterDarkPromise
+    .then((highlighter) => {
+      const html = highlighter.codeToHtml(code, {
+        lang: normalizeLang(lang) as any,
+        theme: 'github-dark',
       });
       o.value = <div class="highlight" k-html={html}></div>;
     })

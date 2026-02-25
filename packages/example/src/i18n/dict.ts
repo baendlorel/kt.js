@@ -73,8 +73,7 @@ export const zh = {
   'reactive.api.notifyMutate.summary': 'count={{1}}，updatedAt={{2}}',
   'reactive.api.notifyMutate.tip': '先点“仅原地修改”不会刷新，再点 <code>notify()</code> 即可看到变化。',
   'reactive.api.toComputed.title': '<code>toComputed</code>',
-  'reactive.api.toComputed.description':
-    '可从当前值派生 computed，并通过第二个参数声明额外依赖（如折扣与税率）。',
+  'reactive.api.toComputed.description': '可从当前值派生 computed，并通过第二个参数声明额外依赖（如折扣与税率）。',
   'reactive.api.toComputed.price': '原价：{{1}}',
   'reactive.api.toComputed.discount': '折扣：{{1}}%',
   'reactive.api.toComputed.tax': '税率：{{1}}%',
@@ -254,7 +253,8 @@ const en: typeof zh = {
   'ie11.description':
     'To make your project fully compatible with IE11, we need to transpile the code with Babel and include necessary polyfills. Below is the Vite configuration used for this purpose:',
   'reactive.section.title': '<code>ref</code> and <code>computed</code>',
-  'reactive.section.description': 'Note that you should manually declare dependencies for a <code>computed</code> value.',
+  'reactive.section.description':
+    'Note that you should manually declare dependencies for a <code>computed</code> value.',
   'reactive.attribute.title': 'Attribute Ref',
   'reactive.attribute.description': 'Make attributes reactive.',
   'reactive.attribute.currentWidth': 'Current Width: {{1}}',
@@ -269,7 +269,8 @@ const en: typeof zh = {
   'reactive.api.method.value': 'Read or set the current reactive value.',
   'reactive.api.method.notify': 'Force listeners to run; useful after in-place object/array updates.',
   'reactive.api.method.mutate': 'Mutate in-place within one callback and emit exactly once.',
-  'reactive.api.method.toComputed': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
+  'reactive.api.method.toComputed':
+    'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
   'reactive.api.method.removeOnChange': 'Remove a listener by key.',
   'reactive.api.value.title': '<code>value</code> read/write',
@@ -334,7 +335,8 @@ const en: typeof zh = {
   'events.counter.reset': 'Reset',
   'directives.title': 'Directives',
   'directives.ifElse.title': 'k-if + k-else',
-  'directives.ifElse.description': '<code>k-if</code> and <code>k-else</code> can be used as adjacent sibling branches.',
+  'directives.ifElse.description':
+    '<code>k-if</code> and <code>k-else</code> can be used as adjacent sibling branches.',
   'directives.ifElse.showIf': 'Show k-if',
   'directives.ifElse.showElse': 'Show k-else',
   'directives.ifElse.toggle': 'Toggle',
@@ -431,4 +433,4 @@ const en: typeof zh = {
   'nav.mui.icons.description': 'Material-UI Icons',
 };
 
-export const dict = window.location.href.includes('en-US') ? en : zh;
+export const dict = window.location.href.includes('lang=en-US') ? en : zh;

@@ -117,7 +117,7 @@ function createApp() {
         <div class="locale-switch">
           {LocaleOptions.map((option) => (
             <a
-              href={process.env.BASE_URL + option.value}
+              href={`${process.env.BASE_URL}?lang=${option.value}`}
               class={`locale-switch-btn ${option.value === locale ? 'active' : ''}`}
               aria-current={option.value === locale ? 'true' : undefined}
             >

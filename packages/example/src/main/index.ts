@@ -8,6 +8,7 @@ import { Home } from './Home.js';
 import { IE11Compatibility } from './IE11Compatibility.js';
 import { OtherElements } from './OtherElements.js';
 import { Reactivity } from './Reactive.js';
+import { Trivia } from './Trivia.js';
 
 export const basicNavItems: NavItem[] = [
   {
@@ -71,6 +72,6 @@ export const basicNavItems: NavItem[] = [
     label: t('nav.trivia.label'),
     title: t('nav.trivia.title'),
     description: t('nav.trivia.description'),
-    component: OtherElements,
+    component: Trivia,
   },
 ];

@@ -36,7 +36,7 @@ export function MuiProgressDemo() {
       <p class="description">Progress indicators show the completion status of an operation.</p>
 
       <div style="margin: 20px 0;">
-        (<LinearProgress value={value} variant="determinate" />)
+        <LinearProgress value={value} variant="determinate" />
       </div>
 
       <div class="button-group">

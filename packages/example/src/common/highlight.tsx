@@ -36,8 +36,6 @@ export const highlight = (code: string, lang: string = 'tsx') => {
       });
       o.value = <div class="highlight" k-html={html}></div>;
     })
-    .catch(() => {
-      o.value = <pre class="highlight">{code}</pre>;
-    });
+    .catch(() => (o.value = <pre class="highlight">{code}</pre>));
   return o;
 };

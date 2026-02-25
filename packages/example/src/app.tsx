@@ -9,6 +9,22 @@ import type { NavItem } from './types/router.js';
 import { basicNavItems } from './main/index.js';
 import { muiNavItems } from './ui/index.js';
 
+type ThemeMode = 'light' | 'dark';
+
+const themeStorageKey = 'ktjs-example-theme';
+
+const resolveInitialTheme = (): ThemeMode => {
+  const storedTheme = window.localStorage.getItem(themeStorageKey);
+  if (storedTheme === 'dark' || storedTheme === 'light') {
+    return storedTheme;
+  }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
+const applyTheme = (theme: ThemeMode) => {
+  document.documentElement.setAttribute('data-theme', theme);
+};
+
 type NavGroup = {
   id: string;
   label: I18NContent;
@@ -75,6 +91,9 @@ function createApp() {
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
   const view = ref(firstItem.component());
+  const themeRef = ref<ThemeMode>(resolveInitialTheme());
+  const currentLocale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
+  applyTheme(themeRef.value);
 
   const findNavItem = (id: string): NavLookup | undefined => navLookupMap.get(id);
 
@@ -127,6 +146,18 @@ function createApp() {
 
     return orderedNavItems[currentIndex + 1];
   }, [currentNavIndexRef]);
+  const themeLabelRef = computed(() => (themeRef.value === 'dark' ? t('app.theme.dark') : t('app.theme.light')), [themeRef]);
+  const themeAriaLabelRef = computed(
+    () => (themeRef.value === 'dark' ? t('app.theme.switchToLight') : t('app.theme.switchToDark')),
+    [themeRef],
+  );
+  const themeIconRef = computed(() => (themeRef.value === 'dark' ? '🌙' : '☀️'), [themeRef]);
+  const toggleTheme = () => {
+    const nextTheme = themeRef.value === 'dark' ? 'light' : 'dark';
+    themeRef.value = nextTheme;
+    applyTheme(nextTheme);
+    window.localStorage.setItem(themeStorageKey, nextTheme);
+  };
 
   return (
     <div class="app-layout">
@@ -138,11 +169,6 @@ function createApp() {
           <div class="brand-content">
             <h1>KT.js</h1>
             <p k-html={t('app.brand.tagline')}></p>
-            <div class="brand-locale">
-              {LocaleOptions.map((option) => {
-                return <a href={'/' + option.value}>{option.label}</a>;
-              })}
-            </div>
           </div>
         </div>
 
@@ -216,7 +242,32 @@ function createApp() {
       <main class="main-content">
         <div ref={contentBodyRef} class="content-body">
           <div class="content-header">
-            <p class="content-eyebrow">{headerEyebrowRef}</p>
+            <div class="content-header-top">
+              <p class="content-eyebrow">{headerEyebrowRef}</p>
+              <div class="content-controls" aria-label={t('app.controls.ariaLabel')}>
+                <button
+                  type="button"
+                  class={computed(() => `theme-toggle-btn ${themeRef.value === 'dark' ? 'dark' : 'light'}`, [themeRef])}
+                  on:click={toggleTheme}
+                  aria-label={themeAriaLabelRef}
+                  title={themeAriaLabelRef}
+                >
+                  <span class="theme-toggle-icon">{themeIconRef}</span>
+                  <span class="theme-toggle-text">{themeLabelRef}</span>
+                </button>
+                <div class="locale-switch">
+                  {LocaleOptions.map((option) => (
+                    <a
+                      href={'/' + option.value}
+                      class={`locale-switch-btn ${option.value === currentLocale ? 'active' : ''}`}
+                      aria-current={option.value === currentLocale ? 'true' : undefined}
+                    >
+                      {option.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
             <h2>{headerTitleRef}</h2>
             <p class="content-description">{headerDescRef}</p>
           </div>

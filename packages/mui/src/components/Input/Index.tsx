@@ -144,6 +144,34 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     return className;
   }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, modelRef, customClassRef]);
 
+  const labelElement = computed(() => {
+    if (!labelRef.value) {
+      return '';
+    }
+
+    return (
+      <label class="mui-textfield-label">
+        {labelRef}
+        {requiredRef.value ? <span class="mui-textfield-required">*</span> : ''}
+      </label>
+    );
+  }, [labelRef, requiredRef]);
+
+  const legendElement = computed(() => {
+    if (!labelRef.value) {
+      return '';
+    }
+
+    return (
+      <legend class="mui-textfield-legend">
+        <span>
+          {labelRef}
+          {requiredRef.value ? <span>*</span> : ''}
+        </span>
+      </legend>
+    );
+  }, [labelRef, requiredRef]);
+
   // if (multiline) {
   //   rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
   // }
@@ -151,21 +179,9 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const container = (
     <div class={classRef} style={styleRef}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
-        <label class="mui-textfield-label">
-          {labelRef}
-          <span k-if={requiredRef} class="mui-textfield-required">
-            *
-          </span>
-        </label>
+        {labelElement}
         <div class="mui-textfield-input-wrapper">{inputEl}</div>
-        <fieldset class="mui-textfield-fieldset">
-          <legend class="mui-textfield-legend">
-            <span>
-              {labelRef}
-              <span k-if={requiredRef}>*</span>
-            </span>
-          </legend>
-        </fieldset>
+        <fieldset class="mui-textfield-fieldset">{legendElement}</fieldset>
       </div>
       <p class="mui-textfield-helper-text">{helperTextRef}</p>
     </div>

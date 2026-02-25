@@ -10,6 +10,7 @@
   padding: 9px;
   border-radius: 4px;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mui-checkbox-disabled {
@@ -52,6 +53,7 @@
   border-radius: 4px;
   color: rgba(0, 0, 0, 0.6);
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Icon SVG */
@@ -160,15 +162,16 @@
   opacity: 0;
   background-color: currentColor;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  display: none;
 }
 
 .mui-checkbox-wrapper:active .mui-checkbox-icon::after {
-  opacity: 0.12;
+  opacity: 0;
 }
 
 /* Focus visible */
 .mui-checkbox-input:focus-visible ~ .mui-checkbox-icon {
-  box-shadow: 0 0 0 8px rgba(25, 118, 210, 0.12);
+  box-shadow: none;
 }
 
 /* Dark mode support */
@@ -206,6 +209,6 @@
   }
 
   .mui-checkbox-input:focus-visible ~ .mui-checkbox-icon {
-    box-shadow: 0 0 0 8px rgba(144, 202, 249, 0.16);
+    box-shadow: none;
   }
 }

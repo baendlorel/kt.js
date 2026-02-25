@@ -51,6 +51,14 @@ describe('MUI TextField component', () => {
     expect(input?.required).toBe(true);
   });
 
+  it('should not render required mark when there is no label', () => {
+    const textfield = TextField({ required: true, placeholder: 'Enter text' }) as HTMLElement;
+    const input = textfield.querySelector('input');
+    expect(input?.placeholder).toBe('Enter text');
+    expect(textfield.className).toContain('mui-textfield-no-label');
+    expect(textfield.querySelector('.mui-textfield-required')).toBeFalsy();
+  });
+
   it('should handle error state', () => {
     const textfield = TextField({ error: true }) as HTMLElement;
     expect(textfield.className).toContain('mui-textfield-error');

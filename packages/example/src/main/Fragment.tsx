@@ -55,21 +55,24 @@ export function FragmentDemo() {
   return (
     <div>
       <div class="demo-section">
-        <h3>{t('fragment.shorthand.title')}</h3>
-        <p>{t('fragment.shorthand.description')}</p>
+        <h3 k-html={t('fragment.shorthand.title')}></h3>
+        <p k-html={t('fragment.shorthand.description')}></p>
         <div class="demo-block fragment-row">
           <>
-            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.title')}</span>
-            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.description')}</span>
-            <span class="fragment-pill fragment-pill--preview">{t('fragment.shorthand.preview.actions')}</span>
+            <span class="fragment-pill fragment-pill--preview" k-html={t('fragment.shorthand.preview.title')}></span>
+            <span
+              class="fragment-pill fragment-pill--preview"
+              k-html={t('fragment.shorthand.preview.description')}
+            ></span>
+            <span class="fragment-pill fragment-pill--preview" k-html={t('fragment.shorthand.preview.actions')}></span>
           </>
         </div>
-        <p class="demo-desc">{t('fragment.shorthand.note')}</p>
+        <p class="demo-desc" k-html={t('fragment.shorthand.note')}></p>
       </div>
 
       <div class="demo-section">
-        <h3>{t('fragment.reactive.title')}</h3>
-        <p>{t('fragment.reactive.description')}</p>
+        <h3 k-html={t('fragment.reactive.title')}></h3>
+        <p k-html={t('fragment.reactive.description')}></p>
         <div class="demo-flex-gap">
           <Button variant="contained" color="primary" on:click={addItem}>
             {t('fragment.reactive.addItem')}

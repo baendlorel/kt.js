@@ -34,24 +34,24 @@ export function Home() {
             ></a>
           </code>
         </p>
-        <h3>{t('home.section.introduction')}</h3>
-        <p>{t('home.section.introduction.content')}</p>
-        <h3>{t('home.section.gettingStarted')}</h3>
-        <p>{t('home.gettingStarted.guide')}</p>
-        <h4>{t('home.step.installation')}</h4>
+        <h3 k-html={t('home.section.introduction')}></h3>
+        <p k-html={t('home.section.introduction.content')}></p>
+        <h3 k-html={t('home.section.gettingStarted')}></h3>
+        <p k-html={t('home.gettingStarted.guide')}></p>
+        <h4 k-html={t('home.step.installation')}></h4>
         <Code code={installCode} lang="bash" />
-        <h4>{t('home.step.tsconfig')}</h4>
-        <p>{t('home.tsconfig.description')}</p>
+        <h4 k-html={t('home.step.tsconfig')}></h4>
+        <p k-html={t('home.tsconfig.description')}></p>
         <Code code={tsconfigCode} lang="json" />
-        <h4>{t('home.step.tsPlugin')}</h4>
-        <p>{t('home.tsPlugin.description')}</p>
+        <h4 k-html={t('home.step.tsPlugin')}></h4>
+        <p k-html={t('home.tsPlugin.description')}></p>
         <Code code="pnpm add -D @ktjs/ts-plugin" lang="bash"></Code>
-        <p>{t('home.tsPlugin.vscodeStep')}</p>
-        <p>{t('home.tsPlugin.restartStep')}</p>
-        <h4>{t('home.step.viteConfig')}</h4>
-        <p>{t('home.viteConfig.description')}</p>
+        <p k-html={t('home.tsPlugin.vscodeStep')}></p>
+        <p k-html={t('home.tsPlugin.restartStep')}></p>
+        <h4 k-html={t('home.step.viteConfig')}></h4>
+        <p k-html={t('home.viteConfig.description')}></p>
         <Code code={viteConfigCode} />
-        <p>{t('home.label.useBabel')}</p>
+        <p k-html={t('home.label.useBabel')}></p>
         <Code code={babelConfigCode} />
       </div>
     </div>

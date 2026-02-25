@@ -3,13 +3,13 @@ import { t } from '../i18n/index.js';
 export function OtherElements() {
   return (
     <div class="demo-section">
-      <h3>{t('otherElements.svgTitle')}</h3>
+      <h3 k-html={t('otherElements.svgTitle')}></h3>
       <svg width="100" height="100">
         <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
         <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
         <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
       </svg>
-      <h3>{t('otherElements.mathmlTitle')}</h3>
+      <h3 k-html={t('otherElements.mathmlTitle')}></h3>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <msup>
           <mi>x</mi>

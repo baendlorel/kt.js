@@ -17,7 +17,7 @@ export function Events() {
   return (
     <div>
       <div class="demo-section">
-        <p>{t('events.intro')}</p>
+        <p k-html={t('events.intro')}></p>
         <div>
           <div class="demo-flex-gap">
             <Button
@@ -57,8 +57,8 @@ export function Events() {
       </div>
 
       <div class="demo-section">
-        <h3>{t('events.counter.title')}</h3>
-        <p>{t('events.counter.description')}</p>
+        <h3 k-html={t('events.counter.title')}></h3>
+        <p k-html={t('events.counter.description')}></p>
         <div class="demo-flex-gap">
           <div style="width:200px; font-size: 2rem; font-weight: bold; color: #667eea;">
             {i18nText('events.counter.label')} {counterRef}

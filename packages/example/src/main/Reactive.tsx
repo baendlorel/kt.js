@@ -28,20 +28,20 @@ export function Reactivity() {
   return (
     <div>
       <div class="demo-section">
-        <h3>{t('reactive.section.title')}</h3>
-        <p>{t('reactive.section.description')}</p>
+        <h3 k-html={t('reactive.section.title')}></h3>
+        <p k-html={t('reactive.section.description')}></p>
         <Code code={reactiveCode} />
       </div>
       <div class="demo-section">
-        <h3>{t('reactive.attribute.title')}</h3>
-        <p>{t('reactive.attribute.description')}</p>
+        <h3 k-html={t('reactive.attribute.title')}></h3>
+        <p k-html={t('reactive.attribute.description')}></p>
         <div style={styleRef}></div>
         <div class="demo-result">{widthTextRef}</div>
         <Code code={`<div style={styleRef}></div>`} />
       </div>
       <div class="demo-section">
-        <h3>{t('reactive.children.title')}</h3>
-        <p>{t('reactive.children.description')}</p>
+        <h3 k-html={t('reactive.children.title')}></h3>
+        <p k-html={t('reactive.children.description')}></p>
         <div class="demo-result">{childRef}</div>
         <Code code={`<div>{childRef}</div>`} />
       </div>

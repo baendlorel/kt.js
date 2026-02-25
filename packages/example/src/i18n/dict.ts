@@ -86,7 +86,7 @@ export const zh = {
   'fragment.default.actions': '操作',
   'fragment.reactive.sectionPrefix': '分区',
   'fragment.shorthand.title': 'Fragment 简写',
-  'fragment.shorthand.description': '使用 <code><>...</></code> 返回多个同级节点，而无需额外包裹元素。',
+  'fragment.shorthand.description': '使用 <code>&lt;&gt;...&lt;/&gt;</code> 返回多个同级节点，而无需额外包裹元素。',
   'fragment.shorthand.preview.title': '标题',
   'fragment.shorthand.preview.description': '描述',
   'fragment.shorthand.preview.actions': '操作',
@@ -246,7 +246,7 @@ const en: typeof zh = {
   'fragment.reactive.sectionPrefix': 'Section',
   'fragment.shorthand.title': 'Fragment Shorthand',
   'fragment.shorthand.description':
-    'Use <code><>...</></code> to return multiple siblings without adding an extra wrapper element.',
+    'Use <code>&lt;&gt;...&lt;/&gt;</code> to return multiple siblings without adding an extra wrapper element.',
   'fragment.shorthand.preview.title': 'Title',
   'fragment.shorthand.preview.description': 'Description',
   'fragment.shorthand.preview.actions': 'Actions',

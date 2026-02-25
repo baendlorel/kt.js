@@ -5,8 +5,8 @@ import { t } from '../i18n/index.js';
 export function IE11Compatibility() {
   return (
     <div class="demo-section">
-      <p>{t('ie11.intro')}</p>
-      <p>{t('ie11.description')}</p>
+      <p k-html={t('ie11.intro')}></p>
+      <p k-html={t('ie11.description')}></p>
       <Code code={ieCompatibleViteConfig}></Code>
     </div>
   );

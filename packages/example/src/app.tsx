@@ -137,8 +137,8 @@ function createApp() {
           </div>
           <div class="brand-content">
             <h1>KT.js</h1>
-            <p>{t('app.brand.tagline')}</p>
-            <div class="brand-locale">{t('app.locale.switchHint')}</div>
+            <p k-html={t('app.brand.tagline')}></p>
+            <div class="brand-locale" k-html={t('app.locale.switchHint')}></div>
           </div>
         </div>
 
@@ -230,10 +230,11 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">{t('app.pagination.prev')}</span>
-            <span class="content-pagination-title">
-              {computed(() => prevNavRef.value?.item.label ?? t('app.pagination.noPrev'), [prevNavRef])}
-            </span>
+            <span class="content-pagination-caption" k-html={t('app.pagination.prev')}></span>
+            <span
+              class="content-pagination-title"
+              k-html={computed(() => prevNavRef.value?.item.label ?? t('app.pagination.noPrev'), [prevNavRef])}
+            ></span>
           </button>
           <button
             type="button"
@@ -249,10 +250,11 @@ function createApp() {
               }
             }}
           >
-            <span class="content-pagination-caption">{t('app.pagination.next')}</span>
-            <span class="content-pagination-title">
-              {computed(() => nextNavRef.value?.item.label ?? t('app.pagination.noNext'), [nextNavRef])}
-            </span>
+            <span class="content-pagination-caption" k-html={t('app.pagination.next')}></span>
+            <span
+              class="content-pagination-title"
+              k-html={computed(() => nextNavRef.value?.item.label ?? t('app.pagination.noNext'), [nextNavRef])}
+            ></span>
           </button>
         </div>
       </main>

@@ -368,6 +368,50 @@ button:not([class*='mui-']) {
   background: #eff6ff;
 }
 
+.reactive-api-method-list {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.reactive-api-method-list li {
+  color: #4d6077;
+  line-height: 1.6;
+}
+
+.reactive-api-method-list code {
+  margin-right: 6px;
+}
+
+.reactive-api-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.reactive-api-card {
+  margin-top: 0;
+}
+
+.reactive-api-card h4 {
+  margin-top: 0;
+}
+
+.reactive-api-log {
+  margin: 12px 0 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d6deea;
+  background: #f4f8ff;
+  color: #355174;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
 :root[data-theme='dark'] .demo-section h1,
 :root[data-theme='dark'] .demo-section h2,
 :root[data-theme='dark'] .demo-section h3,
@@ -490,6 +534,16 @@ button:not([class*='mui-']) {
 
 :root[data-theme='dark'] .fragment-pill--preview {
   background: #19355a;
+}
+
+:root[data-theme='dark'] .reactive-api-method-list li {
+  color: #b1c1d6;
+}
+
+:root[data-theme='dark'] .reactive-api-log {
+  border-color: #355174;
+  background: #12233d;
+  color: #c6ddfa;
 }
 
 @media (max-width: 860px) {

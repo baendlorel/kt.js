@@ -1,22 +1,31 @@
 import type { otherstring } from '@ktjs/shared';
 import type { KTPrefixedEventAttribute } from './h.js';
-import type { KTReactify, KTReactifyProps } from './reactive.js';
+import type { KTReactify } from './reactive.js';
+
+type KTMaybeReactive<T> = T | KTReactify<T>;
+
+type KTMaybeReactiveProps<T extends object> = {
+  [K in keyof T]: K extends 'id' | 'name' | `on:${string}` ? T[K] : KTMaybeReactive<Exclude<T[K], undefined>> | T[K];
+};
 
 // Base events available to all HTML elements
-type BaseAttr = KTPrefixedEventAttribute &
-  KTReactifyProps<{
-    [k: string]: any;
-
+type BaseAttr = KTPrefixedEventAttribute & {
+  [k: string]: KTMaybeReactive<any>;
+  [k: `on:${string}`]: (...args: any[]) => any;
+} & KTMaybeReactiveProps<{
     // # base attributes
+    id?: string;
+    name?: string;
     class?: string;
     className?: string;
-    style?: string | Partial<CSSStyleDeclaration>;
-  }>;
+  }> & {
+    style?: string | Partial<CSSStyleDeclaration> | KTReactify<string> | KTReactify<Partial<CSSStyleDeclaration>>;
+  };
 
 export interface AttributesMap {
   // Anchor element
   a: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       download?: string;
       href?: string;
       hreflang?: string;
@@ -37,7 +46,7 @@ export interface AttributesMap {
 
   // Area element
   area: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       alt?: string;
       coords?: string;
       download?: string;
@@ -59,7 +68,7 @@ export interface AttributesMap {
 
   // Audio element
   audio: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       autoplay?: boolean;
       controls?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
@@ -71,20 +80,20 @@ export interface AttributesMap {
 
   // Base element
   base: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       href?: string;
       target?: '_self' | '_blank' | '_parent' | '_top' | string;
     }>;
 
   // Body element
-  body: BaseAttr & KTReactifyProps<{}>;
+  body: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // BR element
-  br: BaseAttr & KTReactifyProps<{}>;
+  br: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Button element
   button: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       disabled?: boolean;
       form?: string;
       formaction?: string;
@@ -99,57 +108,57 @@ export interface AttributesMap {
 
   // Canvas element
   canvas: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       height?: number | string;
       width?: number | string;
     }>;
 
   // Table caption element
-  caption: BaseAttr & KTReactifyProps<{}>;
+  caption: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Col element
   col: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       span?: number | string;
     }>;
 
   // Colgroup element
   colgroup: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       span?: number | string;
     }>;
 
   // Data element
   data: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       value?: string;
     }>;
 
   // Datalist element
-  datalist: BaseAttr & KTReactifyProps<{}>;
+  datalist: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Del element
   del: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       cite?: string;
       datetime?: string;
     }>;
 
   // Details element
   details: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       open?: boolean;
     }>;
 
   // Dialog element
   dialog: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       open?: boolean;
     }>;
 
   // Embed element
   embed: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       height?: number | string;
       src?: string;
       type?: string;
@@ -158,7 +167,7 @@ export interface AttributesMap {
 
   // Fieldset element
   fieldset: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       disabled?: boolean;
       form?: string;
       name?: string;
@@ -166,7 +175,7 @@ export interface AttributesMap {
 
   // Form element
   form: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       'accept-charset'?: string;
       action?: string;
       autocomplete?: 'on' | 'off';
@@ -179,17 +188,17 @@ export interface AttributesMap {
     }>;
 
   // Head element
-  head: BaseAttr & KTReactifyProps<{}>;
+  head: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // HR element
-  hr: BaseAttr & KTReactifyProps<{}>;
+  hr: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // HTML element
-  html: BaseAttr & KTReactifyProps<{}>;
+  html: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // IFrame element
   iframe: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       allow?: string;
       allowfullscreen?: boolean;
       allowpaymentrequest?: boolean;
@@ -213,7 +222,7 @@ export interface AttributesMap {
 
   // Image element
   img: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       alt?: string;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       decoding?: 'sync' | 'async' | 'auto';
@@ -238,7 +247,7 @@ export interface AttributesMap {
 
   // Input element
   input: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       accept?: string;
       alt?: string;
       autocomplete?: string;
@@ -295,29 +304,29 @@ export interface AttributesMap {
 
   // Ins element
   ins: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       cite?: string;
       datetime?: string;
     }>;
 
   // Label element
   label: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       for?: string;
     }>;
 
   // Legend element
-  legend: BaseAttr & KTReactifyProps<{}>;
+  legend: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // LI element
   li: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       value?: number | string;
     }>;
 
   // Link element
   link: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       as?: string;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       disabled?: boolean;
@@ -343,16 +352,16 @@ export interface AttributesMap {
 
   // Map element
   map: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       name?: string;
     }>;
 
   // Menu element
-  menu: BaseAttr & KTReactifyProps<{}>;
+  menu: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Meta element
   meta: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       charset?: string;
       content?: string;
       'http-equiv'?: 'content-security-policy' | 'content-type' | 'default-style' | 'refresh' | string;
@@ -361,7 +370,7 @@ export interface AttributesMap {
 
   // Meter element
   meter: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       form?: string;
       high?: number | string;
       low?: number | string;
@@ -373,7 +382,7 @@ export interface AttributesMap {
 
   // Object element
   object: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       data?: string;
       form?: string;
       height?: number | string;
@@ -385,7 +394,7 @@ export interface AttributesMap {
 
   // OL element
   ol: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       reversed?: boolean;
       start?: number | string;
       type?: '1' | 'a' | 'A' | 'i' | 'I';
@@ -393,14 +402,14 @@ export interface AttributesMap {
 
   // Optgroup element
   optgroup: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       disabled?: boolean;
       label?: string;
     }>;
 
   // Option element
   option: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       disabled?: boolean;
       label?: string;
       selected?: boolean;
@@ -409,39 +418,39 @@ export interface AttributesMap {
 
   // Output element
   output: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       for?: string;
       form?: string;
       name?: string;
     }>;
 
   // Picture element
-  picture: BaseAttr & KTReactifyProps<{}>;
+  picture: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Pre element
-  pre: BaseAttr & KTReactifyProps<{}>;
+  pre: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Progress element
   progress: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       max?: number | string;
       value?: number | string;
     }>;
 
   // Quote element (q and blockquote)
   q: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       cite?: string;
     }>;
 
   blockquote: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       cite?: string;
     }>;
 
   // Script element
   script: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       async?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
       defer?: boolean;
@@ -462,7 +471,7 @@ export interface AttributesMap {
 
   // Select element
   select: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       autocomplete?: string;
       disabled?: boolean;
       form?: string;
@@ -474,13 +483,13 @@ export interface AttributesMap {
 
   // Slot element
   slot: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       name?: string;
     }>;
 
   // Source element
   source: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       height?: number | string;
       media?: string;
       sizes?: string;
@@ -492,30 +501,30 @@ export interface AttributesMap {
 
   // Style element
   style: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       media?: string;
     }>;
 
   // Table element
-  table: BaseAttr & KTReactifyProps<{}>;
+  table: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Table body/footer/header elements
-  tbody: BaseAttr & KTReactifyProps<{}>;
+  tbody: BaseAttr & KTMaybeReactiveProps<{}>;
 
-  tfoot: BaseAttr & KTReactifyProps<{}>;
+  tfoot: BaseAttr & KTMaybeReactiveProps<{}>;
 
-  thead: BaseAttr & KTReactifyProps<{}>;
+  thead: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Table cell elements
   td: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       colspan?: number | string;
       headers?: string;
       rowspan?: number | string;
     }>;
 
   th: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       abbr?: string;
       colspan?: number | string;
       headers?: string;
@@ -524,11 +533,11 @@ export interface AttributesMap {
     }>;
 
   // Template element
-  template: BaseAttr & KTReactifyProps<{}>;
+  template: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Textarea element
   textarea: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       autocomplete?: string;
       cols?: number | string;
       dirname?: string;
@@ -546,19 +555,19 @@ export interface AttributesMap {
 
   // Time element
   time: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       datetime?: string;
     }>;
 
   // Title element
-  title: BaseAttr & KTReactifyProps<{}>;
+  title: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // TR element
-  tr: BaseAttr & KTReactifyProps<{}>;
+  tr: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Track element
   track: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       default?: boolean;
       kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
       label?: string;
@@ -567,11 +576,11 @@ export interface AttributesMap {
     }>;
 
   // UL element
-  ul: BaseAttr & KTReactifyProps<{}>;
+  ul: BaseAttr & KTMaybeReactiveProps<{}>;
 
   // Video element
   video: BaseAttr &
-    KTReactifyProps<{
+    KTMaybeReactiveProps<{
       autoplay?: boolean;
       controls?: boolean;
       crossorigin?: 'anonymous' | 'use-credentials' | '';
@@ -586,296 +595,327 @@ export interface AttributesMap {
     }>;
 
   // Generic HTMLElement (no specific attributes beyond BaseEvent)
-  abbr: BaseAttr & KTReactifyProps<{}>;
-  address: BaseAttr & KTReactifyProps<{}>;
-  article: BaseAttr & KTReactifyProps<{}>;
-  aside: BaseAttr & KTReactifyProps<{}>;
-  b: BaseAttr & KTReactifyProps<{}>;
-  bdi: BaseAttr & KTReactifyProps<{}>;
-  bdo: BaseAttr & KTReactifyProps<{}>;
-  cite: BaseAttr & KTReactifyProps<{}>;
-  code: BaseAttr & KTReactifyProps<{}>;
-  dd: BaseAttr & KTReactifyProps<{}>;
-  dfn: BaseAttr & KTReactifyProps<{}>;
-  div: BaseAttr & KTReactifyProps<{}>;
-  dl: BaseAttr & KTReactifyProps<{}>;
-  dt: BaseAttr & KTReactifyProps<{}>;
-  em: BaseAttr & KTReactifyProps<{}>;
-  figcaption: BaseAttr & KTReactifyProps<{}>;
-  figure: BaseAttr & KTReactifyProps<{}>;
-  footer: BaseAttr & KTReactifyProps<{}>;
-  h1: BaseAttr & KTReactifyProps<{}>;
-  h2: BaseAttr & KTReactifyProps<{}>;
-  h3: BaseAttr & KTReactifyProps<{}>;
-  h4: BaseAttr & KTReactifyProps<{}>;
-  h5: BaseAttr & KTReactifyProps<{}>;
-  h6: BaseAttr & KTReactifyProps<{}>;
-  header: BaseAttr & KTReactifyProps<{}>;
-  hgroup: BaseAttr & KTReactifyProps<{}>;
-  i: BaseAttr & KTReactifyProps<{}>;
-  kbd: BaseAttr & KTReactifyProps<{}>;
-  main: BaseAttr & KTReactifyProps<{}>;
-  mark: BaseAttr & KTReactifyProps<{}>;
-  nav: BaseAttr & KTReactifyProps<{}>;
-  noscript: BaseAttr & KTReactifyProps<{}>;
-  p: BaseAttr & KTReactifyProps<{}>;
-  rp: BaseAttr & KTReactifyProps<{}>;
-  rt: BaseAttr & KTReactifyProps<{}>;
-  ruby: BaseAttr & KTReactifyProps<{}>;
-  s: BaseAttr & KTReactifyProps<{}>;
-  samp: BaseAttr & KTReactifyProps<{}>;
-  search: BaseAttr & KTReactifyProps<{}>;
-  section: BaseAttr & KTReactifyProps<{}>;
-  small: BaseAttr & KTReactifyProps<{}>;
-  span: BaseAttr & KTReactifyProps<{}>;
-  strong: BaseAttr & KTReactifyProps<{}>;
-  sub: BaseAttr & KTReactifyProps<{}>;
-  summary: BaseAttr & KTReactifyProps<{}>;
-  sup: BaseAttr & KTReactifyProps<{}>;
-  u: BaseAttr & KTReactifyProps<{}>;
-  var: BaseAttr & KTReactifyProps<{}>;
-  wbr: BaseAttr & KTReactifyProps<{}>;
+  abbr: BaseAttr & KTMaybeReactiveProps<{}>;
+  address: BaseAttr & KTMaybeReactiveProps<{}>;
+  article: BaseAttr & KTMaybeReactiveProps<{}>;
+  aside: BaseAttr & KTMaybeReactiveProps<{}>;
+  b: BaseAttr & KTMaybeReactiveProps<{}>;
+  bdi: BaseAttr & KTMaybeReactiveProps<{}>;
+  bdo: BaseAttr & KTMaybeReactiveProps<{}>;
+  cite: BaseAttr & KTMaybeReactiveProps<{}>;
+  code: BaseAttr & KTMaybeReactiveProps<{}>;
+  dd: BaseAttr & KTMaybeReactiveProps<{}>;
+  dfn: BaseAttr & KTMaybeReactiveProps<{}>;
+  div: BaseAttr & KTMaybeReactiveProps<{}>;
+  dl: BaseAttr & KTMaybeReactiveProps<{}>;
+  dt: BaseAttr & KTMaybeReactiveProps<{}>;
+  em: BaseAttr & KTMaybeReactiveProps<{}>;
+  figcaption: BaseAttr & KTMaybeReactiveProps<{}>;
+  figure: BaseAttr & KTMaybeReactiveProps<{}>;
+  footer: BaseAttr & KTMaybeReactiveProps<{}>;
+  h1: BaseAttr & KTMaybeReactiveProps<{}>;
+  h2: BaseAttr & KTMaybeReactiveProps<{}>;
+  h3: BaseAttr & KTMaybeReactiveProps<{}>;
+  h4: BaseAttr & KTMaybeReactiveProps<{}>;
+  h5: BaseAttr & KTMaybeReactiveProps<{}>;
+  h6: BaseAttr & KTMaybeReactiveProps<{}>;
+  header: BaseAttr & KTMaybeReactiveProps<{}>;
+  hgroup: BaseAttr & KTMaybeReactiveProps<{}>;
+  i: BaseAttr & KTMaybeReactiveProps<{}>;
+  kbd: BaseAttr & KTMaybeReactiveProps<{}>;
+  main: BaseAttr & KTMaybeReactiveProps<{}>;
+  mark: BaseAttr & KTMaybeReactiveProps<{}>;
+  nav: BaseAttr & KTMaybeReactiveProps<{}>;
+  noscript: BaseAttr & KTMaybeReactiveProps<{}>;
+  p: BaseAttr & KTMaybeReactiveProps<{}>;
+  rp: BaseAttr & KTMaybeReactiveProps<{}>;
+  rt: BaseAttr & KTMaybeReactiveProps<{}>;
+  ruby: BaseAttr & KTMaybeReactiveProps<{}>;
+  s: BaseAttr & KTMaybeReactiveProps<{}>;
+  samp: BaseAttr & KTMaybeReactiveProps<{}>;
+  search: BaseAttr & KTMaybeReactiveProps<{}>;
+  section: BaseAttr & KTMaybeReactiveProps<{}>;
+  small: BaseAttr & KTMaybeReactiveProps<{}>;
+  span: BaseAttr & KTMaybeReactiveProps<{}>;
+  strong: BaseAttr & KTMaybeReactiveProps<{}>;
+  sub: BaseAttr & KTMaybeReactiveProps<{}>;
+  summary: BaseAttr & KTMaybeReactiveProps<{}>;
+  sup: BaseAttr & KTMaybeReactiveProps<{}>;
+  u: BaseAttr & KTMaybeReactiveProps<{}>;
+  var: BaseAttr & KTMaybeReactiveProps<{}>;
+  wbr: BaseAttr & KTMaybeReactiveProps<{}>;
 
-  svg: BaseAttr & {
-    class?: string;
-    style?: string | Partial<CSSStyleDeclaration>;
-    width?: number | string;
-    height?: number | string;
-    viewBox?: string;
-    xmlns?: string;
-    fill?: string;
-    stroke?: string;
-    strokeWidth?: number | string;
-    strokeLinecap?: 'butt' | 'round' | 'square' | 'inherit';
-    strokeLinejoin?: 'miter' | 'round' | 'bevel' | 'inherit';
-    strokeDasharray?: string;
-    strokeDashoffset?: number | string;
-    opacity?: number | string;
-    preserveAspectRatio?: string;
-    transform?: string;
-    x?: number | string;
-    y?: number | string;
-    rx?: number | string;
-    ry?: number | string;
-    r?: number | string;
-    cx?: number | string;
-    cy?: number | string;
-    d?: string;
-    points?: string;
-    pathLength?: number | string;
-    viewbox?: string;
-    role?: string;
-    focusable?: boolean | 'true' | 'false';
-    xlinkHref?: string; // legacy xlink:href
-  };
+  svg: BaseAttr &
+    KTMaybeReactiveProps<{
+      class?: string;
+      style?: string | Partial<CSSStyleDeclaration>;
+      width?: number | string;
+      height?: number | string;
+      viewBox?: string;
+      xmlns?: string;
+      fill?: string;
+      stroke?: string;
+      strokeWidth?: number | string;
+      strokeLinecap?: 'butt' | 'round' | 'square' | 'inherit';
+      strokeLinejoin?: 'miter' | 'round' | 'bevel' | 'inherit';
+      strokeDasharray?: string;
+      strokeDashoffset?: number | string;
+      opacity?: number | string;
+      preserveAspectRatio?: string;
+      transform?: string;
+      x?: number | string;
+      y?: number | string;
+      rx?: number | string;
+      ry?: number | string;
+      r?: number | string;
+      cx?: number | string;
+      cy?: number | string;
+      d?: string;
+      points?: string;
+      pathLength?: number | string;
+      viewbox?: string;
+      role?: string;
+      focusable?: boolean | 'true' | 'false';
+      xlinkHref?: string; // legacy xlink:href
+    }>;
 }
 
 export interface SVGAttributesMap {
-  a: AttributesMap['svg'] & { href?: string; x?: number | string; y?: number | string };
-  animate: AttributesMap['svg'] & {
-    attributeName?: string;
-    from?: string | number;
-    to?: string | number;
-    dur?: string;
-    repeatCount?: string | number;
-  };
-  animateMotion: AttributesMap['svg'] & { path?: string; dur?: string; rotate?: string };
-  animateTransform: AttributesMap['svg'] & { type?: string; from?: string; to?: string; dur?: string };
-  circle: AttributesMap['svg'] & { cx?: number | string; cy?: number | string; r?: number | string };
-  clipPath: AttributesMap['svg'] & { clipPathUnits?: 'userSpaceOnUse' | 'objectBoundingBox' };
+  a: AttributesMap['svg'] & KTMaybeReactiveProps<{ href?: string; x?: number | string; y?: number | string }>;
+  animate: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      attributeName?: string;
+      from?: string | number;
+      to?: string | number;
+      dur?: string;
+      repeatCount?: string | number;
+    }>;
+  animateMotion: AttributesMap['svg'] & KTMaybeReactiveProps<{ path?: string; dur?: string; rotate?: string }>;
+  animateTransform: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ type?: string; from?: string; to?: string; dur?: string }>;
+  circle: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ cx?: number | string; cy?: number | string; r?: number | string }>;
+  clipPath: AttributesMap['svg'] & KTMaybeReactiveProps<{ clipPathUnits?: 'userSpaceOnUse' | 'objectBoundingBox' }>;
   defs: AttributesMap['svg'];
   desc: AttributesMap['svg'];
-  ellipse: AttributesMap['svg'] & {
-    cx?: number | string;
-    cy?: number | string;
-    rx?: number | string;
-    ry?: number | string;
-  };
+  ellipse: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      cx?: number | string;
+      cy?: number | string;
+      rx?: number | string;
+      ry?: number | string;
+    }>;
 
   // Filter primitives (provide common props)
-  feBlend: AttributesMap['svg'] & { in?: string; in2?: string; mode?: string };
-  feColorMatrix: AttributesMap['svg'] & {
-    type?: 'matrix' | 'saturate' | 'hueRotate' | 'luminanceToAlpha';
-    values?: string;
-  };
-  feComponentTransfer: AttributesMap['svg'] & {};
-  feComposite: AttributesMap['svg'] & {
-    in?: string;
-    in2?: string;
-    operator?: string;
-    k1?: number | string;
-    k2?: number | string;
-    k3?: number | string;
-    k4?: number | string;
-  };
-  feConvolveMatrix: AttributesMap['svg'] & {
-    order?: string | number;
-    kernelMatrix?: string;
-    divisor?: string | number;
-    bias?: string | number;
-  };
-  feDiffuseLighting: AttributesMap['svg'] & {};
-  feDisplacementMap: AttributesMap['svg'] & {
-    in?: string;
-    in2?: string;
-    scale?: number | string;
-    xChannelSelector?: string;
-    yChannelSelector?: string;
-  };
-  feDistantLight: AttributesMap['svg'] & { azimuth?: number | string; elevation?: number | string };
-  feDropShadow: AttributesMap['svg'] & {
-    dx?: number | string;
-    dy?: number | string;
-    stdDeviation?: number | string;
-    floodColor?: string;
-    floodOpacity?: number | string;
-  };
-  feFlood: AttributesMap['svg'] & { floodColor?: string; floodOpacity?: number | string };
-  feFuncA: AttributesMap['svg'] & {};
-  feFuncB: AttributesMap['svg'] & {};
-  feFuncG: AttributesMap['svg'] & {};
-  feFuncR: AttributesMap['svg'] & {};
-  feGaussianBlur: AttributesMap['svg'] & { stdDeviation?: number | string; edgeMode?: string };
-  feImage: AttributesMap['svg'] & { href?: string };
-  feMerge: AttributesMap['svg'] & {};
-  feMergeNode: AttributesMap['svg'] & { in?: string };
-  feMorphology: AttributesMap['svg'] & { operator?: 'erode' | 'dilate'; radius?: number | string };
-  feOffset: AttributesMap['svg'] & { dx?: number | string; dy?: number | string };
-  fePointLight: AttributesMap['svg'] & { x?: number | string; y?: number | string; z?: number | string };
-  feSpecularLighting: AttributesMap['svg'] & {
-    specularConstant?: number | string;
-    specularExponent?: number | string;
-    surfaceScale?: number | string;
-  };
-  feSpotLight: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    z?: number | string;
-    pointsAtX?: number | string;
-    pointsAtY?: number | string;
-    pointsAtZ?: number | string;
-    specularExponent?: number | string;
-    limitingConeAngle?: number | string;
-  };
-  feTile: AttributesMap['svg'] & {};
-  feTurbulence: AttributesMap['svg'] & {
-    baseFrequency?: number | string;
-    numOctaves?: number | string;
-    seed?: number | string;
-    stitchTiles?: string;
-    type?: 'fractalNoise' | 'turbulence';
-  };
+  feBlend: AttributesMap['svg'] & KTMaybeReactiveProps<{ in?: string; in2?: string; mode?: string }>;
+  feColorMatrix: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      type?: 'matrix' | 'saturate' | 'hueRotate' | 'luminanceToAlpha';
+      values?: string;
+    }>;
+  feComponentTransfer: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feComposite: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      in?: string;
+      in2?: string;
+      operator?: string;
+      k1?: number | string;
+      k2?: number | string;
+      k3?: number | string;
+      k4?: number | string;
+    }>;
+  feConvolveMatrix: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      order?: string | number;
+      kernelMatrix?: string;
+      divisor?: string | number;
+      bias?: string | number;
+    }>;
+  feDiffuseLighting: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feDisplacementMap: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      in?: string;
+      in2?: string;
+      scale?: number | string;
+      xChannelSelector?: string;
+      yChannelSelector?: string;
+    }>;
+  feDistantLight: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ azimuth?: number | string; elevation?: number | string }>;
+  feDropShadow: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      dx?: number | string;
+      dy?: number | string;
+      stdDeviation?: number | string;
+      floodColor?: string;
+      floodOpacity?: number | string;
+    }>;
+  feFlood: AttributesMap['svg'] & KTMaybeReactiveProps<{ floodColor?: string; floodOpacity?: number | string }>;
+  feFuncA: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feFuncB: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feFuncG: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feFuncR: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feGaussianBlur: AttributesMap['svg'] & KTMaybeReactiveProps<{ stdDeviation?: number | string; edgeMode?: string }>;
+  feImage: AttributesMap['svg'] & KTMaybeReactiveProps<{ href?: string }>;
+  feMerge: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feMergeNode: AttributesMap['svg'] & KTMaybeReactiveProps<{ in?: string }>;
+  feMorphology: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ operator?: 'erode' | 'dilate'; radius?: number | string }>;
+  feOffset: AttributesMap['svg'] & KTMaybeReactiveProps<{ dx?: number | string; dy?: number | string }>;
+  fePointLight: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ x?: number | string; y?: number | string; z?: number | string }>;
+  feSpecularLighting: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      specularConstant?: number | string;
+      specularExponent?: number | string;
+      surfaceScale?: number | string;
+    }>;
+  feSpotLight: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      z?: number | string;
+      pointsAtX?: number | string;
+      pointsAtY?: number | string;
+      pointsAtZ?: number | string;
+      specularExponent?: number | string;
+      limitingConeAngle?: number | string;
+    }>;
+  feTile: AttributesMap['svg'] & KTMaybeReactiveProps<{}>;
+  feTurbulence: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      baseFrequency?: number | string;
+      numOctaves?: number | string;
+      seed?: number | string;
+      stitchTiles?: string;
+      type?: 'fractalNoise' | 'turbulence';
+    }>;
 
-  filter: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-    filterUnits?: string;
-    primitiveUnits?: string;
-  };
-  foreignObject: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-  };
+  filter: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+      filterUnits?: string;
+      primitiveUnits?: string;
+    }>;
+  foreignObject: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+    }>;
   g: AttributesMap['svg'];
-  image: AttributesMap['svg'] & {
-    href?: string;
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-  };
-  line: AttributesMap['svg'] & {
-    x1?: number | string;
-    y1?: number | string;
-    x2?: number | string;
-    y2?: number | string;
-  };
-  linearGradient: AttributesMap['svg'] & {
-    x1?: number | string;
-    y1?: number | string;
-    x2?: number | string;
-    y2?: number | string;
-    gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
-    gradientTransform?: string;
-  };
-  marker: AttributesMap['svg'] & {
-    markerUnits?: string;
-    markerWidth?: number | string;
-    markerHeight?: number | string;
-    refX?: number | string;
-    refY?: number | string;
-    orient?: string;
-  };
-  mask: AttributesMap['svg'] & {
-    maskUnits?: string;
-    maskContentUnits?: string;
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-  };
+  image: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      href?: string;
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+    }>;
+  line: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x1?: number | string;
+      y1?: number | string;
+      x2?: number | string;
+      y2?: number | string;
+    }>;
+  linearGradient: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x1?: number | string;
+      y1?: number | string;
+      x2?: number | string;
+      y2?: number | string;
+      gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
+      gradientTransform?: string;
+    }>;
+  marker: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      markerUnits?: string;
+      markerWidth?: number | string;
+      markerHeight?: number | string;
+      refX?: number | string;
+      refY?: number | string;
+      orient?: string;
+    }>;
+  mask: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      maskUnits?: string;
+      maskContentUnits?: string;
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+    }>;
   metadata: AttributesMap['svg'];
-  mpath: AttributesMap['svg'] & { href?: string };
-  path: AttributesMap['svg'] & { d?: string; pathLength?: number | string };
-  pattern: AttributesMap['svg'] & {
-    patternUnits?: string;
-    patternContentUnits?: string;
-    width?: number | string;
-    height?: number | string;
-    x?: number | string;
-    y?: number | string;
-  };
-  polygon: AttributesMap['svg'] & { points?: string };
-  polyline: AttributesMap['svg'] & { points?: string };
-  radialGradient: AttributesMap['svg'] & {
-    cx?: number | string;
-    cy?: number | string;
-    r?: number | string;
-    fx?: number | string;
-    fy?: number | string;
-    gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
-    gradientTransform?: string;
-  };
-  rect: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-    rx?: number | string;
-    ry?: number | string;
-  };
-  script: AttributesMap['svg'] & { href?: string; type?: string };
-  set: AttributesMap['svg'] & { attributeName?: string; to?: string | number; begin?: string; dur?: string };
-  stop: AttributesMap['svg'] & { offset?: number | string; stopColor?: string; stopOpacity?: number | string };
-  style: AttributesMap['svg'] & { media?: string };
+  mpath: AttributesMap['svg'] & KTMaybeReactiveProps<{ href?: string }>;
+  path: AttributesMap['svg'] & KTMaybeReactiveProps<{ d?: string; pathLength?: number | string }>;
+  pattern: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      patternUnits?: string;
+      patternContentUnits?: string;
+      width?: number | string;
+      height?: number | string;
+      x?: number | string;
+      y?: number | string;
+    }>;
+  polygon: AttributesMap['svg'] & KTMaybeReactiveProps<{ points?: string }>;
+  polyline: AttributesMap['svg'] & KTMaybeReactiveProps<{ points?: string }>;
+  radialGradient: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      cx?: number | string;
+      cy?: number | string;
+      r?: number | string;
+      fx?: number | string;
+      fy?: number | string;
+      gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox';
+      gradientTransform?: string;
+    }>;
+  rect: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+      rx?: number | string;
+      ry?: number | string;
+    }>;
+  script: AttributesMap['svg'] & KTMaybeReactiveProps<{ href?: string; type?: string }>;
+  set: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ attributeName?: string; to?: string | number; begin?: string; dur?: string }>;
+  stop: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{ offset?: number | string; stopColor?: string; stopOpacity?: number | string }>;
+  style: AttributesMap['svg'] & KTMaybeReactiveProps<{ media?: string }>;
   svg: AttributesMap['svg'];
   switch: AttributesMap['svg'];
-  symbol: AttributesMap['svg'] & { viewBox?: string; preserveAspectRatio?: string };
-  text: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    dx?: number | string;
-    dy?: number | string;
-    textLength?: number | string;
-  };
-  textPath: AttributesMap['svg'] & { href?: string; startOffset?: number | string };
+  symbol: AttributesMap['svg'] & KTMaybeReactiveProps<{ viewBox?: string; preserveAspectRatio?: string }>;
+  text: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      dx?: number | string;
+      dy?: number | string;
+      textLength?: number | string;
+    }>;
+  textPath: AttributesMap['svg'] & KTMaybeReactiveProps<{ href?: string; startOffset?: number | string }>;
   title: AttributesMap['svg'];
-  tspan: AttributesMap['svg'] & {
-    x?: number | string;
-    y?: number | string;
-    dx?: number | string;
-    dy?: number | string;
-  };
-  use: AttributesMap['svg'] & {
-    href?: string;
-    x?: number | string;
-    y?: number | string;
-    width?: number | string;
-    height?: number | string;
-  };
-  view: AttributesMap['svg'] & { viewBox?: string; preserveAspectRatio?: string };
+  tspan: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      x?: number | string;
+      y?: number | string;
+      dx?: number | string;
+      dy?: number | string;
+    }>;
+  use: AttributesMap['svg'] &
+    KTMaybeReactiveProps<{
+      href?: string;
+      x?: number | string;
+      y?: number | string;
+      width?: number | string;
+      height?: number | string;
+    }>;
+  view: AttributesMap['svg'] & KTMaybeReactiveProps<{ viewBox?: string; preserveAspectRatio?: string }>;
 }

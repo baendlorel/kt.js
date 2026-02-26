@@ -239,3 +239,11 @@ const ssss = bindParams(sss, 'a');
 ---
 
 帮我设计k-for指令。我不知道如何设计，因为vue 的写法需要的插件太多了。我预设的想法是让k-for={somearray}，但具体其他地方怎么写，我不知道。请你帮我设计怎么写法比较好。请你舍弃我已经写好的kfor组件，重新设计一个k-for指令，可以有多种方案，最终结果放在draft/k-for.md里
+
+---
+
+对于`packages/core/src/types/attribute.d.ts`，我希望attr属性们，可以是KTReactive的，也可以不是。那么类型标注就很麻烦了；
+我希望你给每一个类型都标注KTMaybeReactive<T>，这个类型表示T或者KTR<T>，你帮我写一下；
+然后，把每个属性都写成这样的类型，但是：
+1、id不可以这样，name不可以这样；
+2、绑定的事件，on:xxx不可以Reactive；

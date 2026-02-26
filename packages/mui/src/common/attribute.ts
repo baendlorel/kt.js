@@ -15,6 +15,7 @@ export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undef
   return '';
 };
 
+// todo 也要给别的组件注册事件
 export const registerPrefixedEvents = (element: HTMLElement, props: { [key: string]: any }) => {
   for (const key in props) {
     if (key.startsWith('on:')) {

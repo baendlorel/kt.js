@@ -238,6 +238,28 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).toContain('map: (item, index) => jsx');
       expect(result).not.toContain('k-for');
     });
+
+    it('unwraps <template k-for> with a single child element', () => {
+      const code = `const list = <template k-for="item in users"><li>{item.name}</li></template>;`;
+      const result = transform(code);
+
+      expect(result).toContain('import { KTFor as _KTFor }');
+      expect(result).toContain('map: (item, index) => <li>{item.name}</li>');
+      expect(result).not.toContain('<template');
+      expect(result).not.toContain('k-for');
+    });
+
+    it('unwraps <template k-for> with multiple children into fragment body', () => {
+      const code = `const list = <template k-for="item in users"><li>{item.name}</li><span>{index}</span></template>;`;
+      const result = transform(code);
+
+      expect(result).toContain('import { KTFor as _KTFor }');
+      expect(result).toContain('map: (item, index) => <>');
+      expect(result).toContain('<li>{item.name}</li>');
+      expect(result).toContain('<span>{index}</span>');
+      expect(result).not.toContain('<template');
+      expect(result).not.toContain('k-for');
+    });
   });
 
   describe('invalid directive combinations', () => {

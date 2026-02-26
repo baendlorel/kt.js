@@ -54,9 +54,10 @@ export function transformKFor(path: NodePath<t.JSXElement>): boolean {
   const renderNode = t.cloneNode(path.node, true) as t.JSXElement;
   const renderOpening = renderNode.openingElement;
   renderOpening.attributes = removeAttributes(renderOpening.attributes, ['k-for', 'k-key']);
+  const callbackBody = resolveKForRenderBody(path, renderNode);
 
   const callbackParams = parsedFor.aliases.map((alias) => t.identifier(alias));
-  const callback = t.arrowFunctionExpression(callbackParams, renderNode);
+  const callback = t.arrowFunctionExpression(callbackParams, callbackBody);
   const ktForIdentifier = ensureKTForIdentifier(path);
   const props: t.ObjectProperty[] = [
     t.objectProperty(t.identifier('list'), sourceExpression),
@@ -101,9 +102,10 @@ export function transformKForCallExpression(path: NodePath<t.CallExpression>): b
     return false;
   }
   renderProps.properties = removeObjectProperties(renderProps.properties, ['k-for', 'k-key']);
+  const callbackBody = resolveKForCallRenderBody(path, renderCall, targetProps.argIndex);
 
   const callbackParams = parsedFor.aliases.map((alias) => t.identifier(alias));
-  const callback = t.arrowFunctionExpression(callbackParams, renderCall);
+  const callback = t.arrowFunctionExpression(callbackParams, callbackBody);
   const ktForIdentifier = ensureKTForIdentifier(path);
   const props: t.ObjectProperty[] = [
     t.objectProperty(t.identifier('list'), sourceExpression),
@@ -177,6 +179,133 @@ function parseTextAsExpression(path: KForTransformPath, text: string, label: str
     const message = error instanceof Error ? error.message : String(error);
     throw path.buildCodeFrameError(`Failed to parse ${label}: ${message}`);
   }
+}
+
+function resolveKForRenderBody(path: NodePath<t.JSXElement>, renderNode: t.JSXElement): t.Expression {
+  if (!isTemplateJSXElement(renderNode)) {
+    return renderNode;
+  }
+
+  const templateChildren = normalizeTemplateJSXChildren(renderNode.children);
+  if (templateChildren.length === 0) {
+    throw path.buildCodeFrameError('`<template k-for>` must contain at least one renderable child.');
+  }
+
+  if (templateChildren.length === 1) {
+    const child = templateChildren[0];
+    if (t.isJSXExpressionContainer(child)) {
+      if (t.isJSXEmptyExpression(child.expression)) {
+        throw path.buildCodeFrameError('`<template k-for>` must contain at least one renderable child.');
+      }
+      return t.cloneNode(child.expression, true);
+    }
+    if (t.isJSXText(child)) {
+      return t.stringLiteral(child.value);
+    }
+    if (t.isJSXSpreadChild(child)) {
+      return t.cloneNode(child.expression, true);
+    }
+    return t.cloneNode(child, true);
+  }
+
+  return t.jsxFragment(
+    t.jsxOpeningFragment(),
+    t.jsxClosingFragment(),
+    templateChildren.map((child) => t.cloneNode(child, true)),
+  );
+}
+
+function resolveKForCallRenderBody(
+  path: KForTransformPath,
+  renderCall: t.CallExpression,
+  propsArgIndex: number,
+): t.Expression {
+  if (!isTemplateCallExpression(renderCall)) {
+    return renderCall;
+  }
+
+  const renderProps = renderCall.arguments[propsArgIndex];
+  if (!renderProps || !t.isObjectExpression(renderProps)) {
+    return renderCall;
+  }
+
+  const childrenProperty = getObjectProperty(renderProps, 'children');
+  if (!childrenProperty || !t.isExpression(childrenProperty.value)) {
+    throw path.buildCodeFrameError('`<template k-for>` in lowered call form requires a `children` expression.');
+  }
+
+  if (t.isArrayExpression(childrenProperty.value)) {
+    const filteredChildren = childrenProperty.value.elements.filter(
+      (item): item is t.Expression | t.SpreadElement => !!item,
+    );
+
+    if (filteredChildren.length === 0) {
+      throw path.buildCodeFrameError('`<template k-for>` must contain at least one renderable child.');
+    }
+
+    if (filteredChildren.length === 1 && t.isExpression(filteredChildren[0])) {
+      return t.cloneNode(filteredChildren[0], true);
+    }
+
+    throw path.buildCodeFrameError(
+      '`<template k-for>` with multiple children is not supported in lowered call form. Please transform before JSX runtime lowering.',
+    );
+  }
+
+  return t.cloneNode(childrenProperty.value, true);
+}
+
+function isTemplateJSXElement(node: t.JSXElement): boolean {
+  const name = node.openingElement.name;
+  return t.isJSXIdentifier(name) && name.name === 'template';
+}
+
+function isTemplateCallExpression(callExpression: t.CallExpression): boolean {
+  const firstArgument = callExpression.arguments[0];
+  if (!firstArgument || t.isSpreadElement(firstArgument) || t.isArgumentPlaceholder(firstArgument)) {
+    return false;
+  }
+
+  if (t.isStringLiteral(firstArgument)) {
+    return firstArgument.value === 'template';
+  }
+
+  if (t.isTemplateLiteral(firstArgument) && firstArgument.expressions.length === 0) {
+    return (firstArgument.quasis[0]?.value.cooked ?? '') === 'template';
+  }
+
+  return false;
+}
+
+function normalizeTemplateJSXChildren(
+  children: t.JSXElement['children'],
+): Array<t.JSXText | t.JSXExpressionContainer | t.JSXSpreadChild | t.JSXElement | t.JSXFragment> {
+  const normalized: Array<t.JSXText | t.JSXExpressionContainer | t.JSXSpreadChild | t.JSXElement | t.JSXFragment> = [];
+
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    if (t.isJSXText(child)) {
+      if (!/\S/.test(child.value)) {
+        continue;
+      }
+      normalized.push(child);
+      continue;
+    }
+
+    if (t.isJSXExpressionContainer(child)) {
+      if (t.isJSXEmptyExpression(child.expression)) {
+        continue;
+      }
+      normalized.push(child);
+      continue;
+    }
+
+    if (t.isJSXSpreadChild(child) || t.isJSXElement(child) || t.isJSXFragment(child)) {
+      normalized.push(child);
+    }
+  }
+
+  return normalized;
 }
 
 function getAttribute(opening: t.JSXOpeningElement, name: string): t.JSXAttribute | undefined {

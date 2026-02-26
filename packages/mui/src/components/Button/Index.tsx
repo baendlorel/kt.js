@@ -1,22 +1,23 @@
 import type { JSX } from '@ktjs/core';
-import type { KTReactive, KTPrefixedEventAttribute } from '@ktjs/core';
 import { computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
-import type { KTMuiProps } from '../../types/component.js';
+import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEventsForButton } from '../../common/attribute.js';
 import './Button.css';
 
 interface KTMuiButtonProps extends KTMuiProps {
-  variant?: 'contained' | 'outlined' | 'text';
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-  size?: 'small' | 'medium' | 'large';
-  disabled?: boolean | KTReactive<boolean>;
-  fullWidth?: boolean;
-  iconOnly?: boolean;
-  startIcon?: SVGElement | HTMLElement | JSX.Element;
-  endIcon?: SVGElement | HTMLElement | JSX.Element;
-  type?: 'button' | 'submit' | 'reset';
+  variant?: KTMaybeReactive<'contained' | 'outlined' | 'text'>;
+  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+  disabled?: KTMaybeReactive<boolean>;
+  fullWidth?: KTMaybeReactive<boolean>;
+  iconOnly?: KTMaybeReactive<boolean>;
+  startIcon?: KTMaybeReactive<JSX.Element>;
+  endIcon?: KTMaybeReactive<JSX.Element>;
+  type?: KTMaybeReactive<'button' | 'submit' | 'reset'>;
+  'on:click': (e: MouseEvent) => void;
+  'on:dblclick': (e: MouseEvent) => void;
 }
 
 export type KTMuiButton = JSX.Element;
@@ -24,7 +25,7 @@ export type KTMuiButton = JSX.Element;
 /**
  * Button component - mimics MUI Button appearance and behavior
  */
-export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.Element {
+export function Button(props: KTMuiButtonProps): JSX.Element {
   const onClick = props['on:click'] ?? $emptyFn; // & must be bound because of the ripple effect
 
   // # refs
@@ -32,27 +33,27 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
   const rippleContainerRef = ref<HTMLSpanElement>();
 
   // # ref props
-  const variantRef = toReactive(props.variant ?? 'text');
-  const colorRef = toReactive(props.color ?? 'primary');
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const iconOnlyRef = toReactive(props.iconOnly ?? false);
-  const disabledRef = toReactive(props.disabled ?? false);
+  const variant = toReactive(props.variant ?? 'text');
+  const color = toReactive(props.color ?? 'primary');
+  const size = toReactive(props.size ?? 'medium');
+  const fullWidth = toReactive(props.fullWidth ?? false);
+  const iconOnly = toReactive(props.iconOnly ?? false);
+  const disabled = toReactive(props.disabled ?? false);
   const styleRef = toReactive($parseStyle(props.style ?? ''));
-  const classRef = toReactive(props.class ?? '');
+  const customClass = toReactive(props.class ?? '');
 
   const className = computed(() => {
     return [
       'mui-button',
-      `mui-button-${variantRef.value}`,
-      `mui-button-${variantRef.value}-${colorRef.value}`,
-      `mui-button-size-${sizeRef.value}`,
-      fullWidthRef.value ? 'mui-button-fullwidth' : '',
-      iconOnlyRef.value ? 'mui-button-icon-only' : '',
-      disabledRef.value ? 'mui-button-disabled' : '',
-      classRef.value,
+      `mui-button-${variant.value}`,
+      `mui-button-${variant.value}-${color.value}`,
+      `mui-button-size-${size.value}`,
+      fullWidth.value ? 'mui-button-fullwidth' : '',
+      iconOnly.value ? 'mui-button-icon-only' : '',
+      disabled.value ? 'mui-button-disabled' : '',
+      customClass.value,
     ].join(' ');
-  }, [variantRef, colorRef, sizeRef, fullWidthRef, iconOnlyRef, disabledRef, classRef]);
+  }, [variant, color, size, fullWidth, iconOnly, disabled, customClass]);
 
   const createRippleEffect = (mouseX: number, mouseY: number) => {
     const buttonEl = buttonRef.value;
@@ -62,14 +63,14 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
     }
 
     const rect = buttonEl.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = mouseX - rect.left - size / 2;
-    const y = mouseY - rect.top - size / 2;
+    const longerSide = Math.max(rect.width, rect.height);
+    const x = mouseX - rect.left - longerSide / 2;
+    const y = mouseY - rect.top - longerSide / 2;
 
     const ripple = (
       <span
         class="mui-button-ripple-effect"
-        style={`width:${size}px; height:${size}px; left:${x}px; top:${y}px;`}
+        style={`width:${longerSide}px; height:${longerSide}px; left:${x}px; top:${y}px;`}
       ></span>
     ) as HTMLSpanElement;
 
@@ -78,7 +79,7 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
   };
 
   const handleClick = (e: MouseEvent) => {
-    if (disabledRef.value) {
+    if (disabled.value) {
       e.preventDefault();
       return;
     }
@@ -92,8 +93,8 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
       ref={buttonRef}
       class={className}
       style={styleRef}
-      type={props.type ?? 'button'}
-      disabled={disabledRef}
+      type={toReactive<'button' | 'submit' | 'reset'>(props.type ?? 'button')}
+      disabled={disabled}
       on:click={handleClick}
     >
       <span k-if={props.startIcon} class="mui-button-start-icon">
@@ -110,7 +111,7 @@ export function Button(props: KTMuiButtonProps & KTPrefixedEventAttribute): JSX.
   const onDblclick = props['on:dblclick'];
   if (onDblclick) {
     container.addEventListener('dblclick', (e) => {
-      if (disabledRef.value) {
+      if (disabled.value) {
         e.preventDefault();
         return;
       }

@@ -167,6 +167,30 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-for');
   });
 
+  it('unwraps <template k-for> with a single child element', async () => {
+    const result = await runTransform('const view = <template k-for="item in users"><li>{item.name}</li></template>;');
+    const code = toCode(result);
+
+    expect(code).toContain('import { KTFor as _KTFor }');
+    expect(code).toContain('map: (item, index) => <li>{item.name}</li>');
+    expect(code).not.toContain('<template');
+    expect(code).not.toContain('k-for');
+  });
+
+  it('unwraps <template k-for> with multiple children into fragment body', async () => {
+    const result = await runTransform(
+      'const view = <template k-for="item in users"><li>{item.name}</li><span>{index}</span></template>;',
+    );
+    const code = toCode(result);
+
+    expect(code).toContain('import { KTFor as _KTFor }');
+    expect(code).toContain('map: (item, index) => <>');
+    expect(code).toContain('<li>{item.name}</li>');
+    expect(code).toContain('<span>{index}</span>');
+    expect(code).not.toContain('<template');
+    expect(code).not.toContain('k-for');
+  });
+
   it('rewrites lowered jsx-runtime svg/mathml calls to namespace helpers', async () => {
     const result = await runTransform(
       [

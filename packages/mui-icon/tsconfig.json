@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "@ktjs/core": ["../core/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.*"],
+  "references": [{ "path": "../core" }]
+}

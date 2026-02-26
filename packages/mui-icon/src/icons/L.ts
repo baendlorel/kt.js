@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const LabelIcon = (props?: KTRawAttr)=> {const s = _LabelIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _LabelIcon = svg(svg("path", {  d: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12z"}), 'Label');

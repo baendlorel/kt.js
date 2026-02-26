@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const OfflineBoltIcon = (props?: KTRawAttr)=> {const s = _OfflineBoltIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _OfflineBoltIcon = svg(svg("path", {  d: "M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02M11.48 20v-6.26H8L13 4v6.26h3.35z"}), 'OfflineBolt');

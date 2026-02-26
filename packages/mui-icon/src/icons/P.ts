@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const PaddingIcon = (props?: KTRawAttr)=> {const s = _PaddingIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _PaddingIcon = svg(svg("path", {  d: "M3 3v18h18V3zm16 16H5V5h14zM11 7h2v2h-2zM7 7h2v2H7zm8 0h2v2h-2z"}), 'Padding');
@@ -1146,7 +1146,7 @@ export const _PlayCircleFilledWhiteRoundedIcon = svg(svg("path", {  d: "M12 2C6.
 export const PlayCircleFilledWhiteSharpIcon = (props?: KTRawAttr)=> {const s = _PlayCircleFilledWhiteSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _PlayCircleFilledWhiteSharpIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"}), 'PlayCircleFilledWhiteSharp');
 export const PlayCircleFilledWhiteTwoToneIcon = (props?: KTRawAttr)=> {const s = _PlayCircleFilledWhiteTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
-export const _PlayCircleFilledWhiteTwoToneIcon = svg(svgs(React.Fragment, {  children: [svg("path", {    d: "M12 20c4.41 0 8-3.59 8-8s-3.59-8-8-8-8 3.59-8 8 3.59 8 8 8zM10 7.5l6 4.5-6 4.5v-9z",    opacity: ".3"  }), svg("path", {    d: "M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm-2 3.5v9l6-4.5z"  })]}), 'PlayCircleFilledWhiteTwoTone');
+export const _PlayCircleFilledWhiteTwoToneIcon = svg(svg( {  children: [svg("path", {    d: "M12 20c4.41 0 8-3.59 8-8s-3.59-8-8-8-8 3.59-8 8 3.59 8 8 8zM10 7.5l6 4.5-6 4.5v-9z",    opacity: ".3"  }), svg("path", {    d: "M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm-2 3.5v9l6-4.5z"  })]}), 'PlayCircleFilledWhiteTwoTone');
 export const PlayCircleOutlineIcon = (props?: KTRawAttr)=> {const s = _PlayCircleOutlineIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _PlayCircleOutlineIcon = svg(svg("path", {  d: "m10 16.5 6-4.5-6-4.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}), 'PlayCircleOutline');
 export const PlayCircleOutlineOutlinedIcon = (props?: KTRawAttr)=> {const s = _PlayCircleOutlineOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 

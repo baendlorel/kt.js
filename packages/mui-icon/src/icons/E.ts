@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const EMobiledataIcon = (props?: KTRawAttr)=> {const s = _EMobiledataIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _EMobiledataIcon = svg(svg("path", {  d: "M16 9V7H8v10h8v-2h-6v-2h6v-2h-6V9z"}), 'EMobiledata');

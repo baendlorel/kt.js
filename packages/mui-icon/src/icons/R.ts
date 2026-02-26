@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const RMobiledataIcon = (props?: KTRawAttr)=> {const s = _RMobiledataIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _RMobiledataIcon = svg(svg("path", {  d: "M7.8 7.2 9 10H7L5.87 7.33H4V10H2V2h5c1.13 0 2 .87 2 2v1.33c0 .8-.53 1.54-1.2 1.87M7 4H4v1.33h3z"}), 'RMobiledata');
@@ -192,7 +192,7 @@ export const _RecordVoiceOverRoundedIcon = svg([svg("circle", {  cx: "9",  cy: "
 export const RecordVoiceOverSharpIcon = (props?: KTRawAttr)=> {const s = _RecordVoiceOverSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _RecordVoiceOverSharpIcon = svg([svg("circle", {  cx: "9",  cy: "9",  r: "4"}, "0"), svg("path", {  d: "M9 15c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4m6.08-7.95c.84 1.18.84 2.71 0 3.89l1.68 1.69c2.02-2.02 2.02-5.07 0-7.27zM20.07 2l-1.63 1.63c2.77 3.02 2.77 7.56 0 10.74L20.07 16c3.9-3.89 3.91-9.95 0-14"}, "1")], 'RecordVoiceOverSharp');
 export const RecordVoiceOverTwoToneIcon = (props?: KTRawAttr)=> {const s = _RecordVoiceOverTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
-export const _RecordVoiceOverTwoToneIcon = svg([svgs("g", {  opacity: ".3",  children: [svg("circle", {    cx: "9",    cy: "9",    r: "2"  }), svg("path", {    d: "M9 17c-2.69 0-5.77 1.28-6 2h12c-.2-.71-3.3-2-6-2"  })]}, "0"), svg("path", {  d: "M9 13c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 8c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4m-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2zM16.76 5.36l-1.68 1.69c.84 1.18.84 2.71 0 3.89l1.68 1.69c2.02-2.02 2.02-5.07 0-7.27M20.07 2l-1.63 1.63c2.77 3.02 2.77 7.56 0 10.74L20.07 16c3.9-3.89 3.91-9.95 0-14"}, "1")], 'RecordVoiceOverTwoTone');
+export const _RecordVoiceOverTwoToneIcon = svg([svg("g", {  opacity: ".3",  children: [svg("circle", {    cx: "9",    cy: "9",    r: "2"  }), svg("path", {    d: "M9 17c-2.69 0-5.77 1.28-6 2h12c-.2-.71-3.3-2-6-2"  })]}, "0"), svg("path", {  d: "M9 13c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 8c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4m-6 4c.22-.72 3.31-2 6-2 2.7 0 5.8 1.29 6 2zM16.76 5.36l-1.68 1.69c.84 1.18.84 2.71 0 3.89l1.68 1.69c2.02-2.02 2.02-5.07 0-7.27M20.07 2l-1.63 1.63c2.77 3.02 2.77 7.56 0 10.74L20.07 16c3.9-3.89 3.91-9.95 0-14"}, "1")], 'RecordVoiceOverTwoTone');
 export const RectangleIcon = (props?: KTRawAttr)=> {const s = _RectangleIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _RectangleIcon = svg(svg("path", {  d: "M2 4h20v16H2z"}), 'Rectangle');
 export const RectangleOutlinedIcon = (props?: KTRawAttr)=> {const s = _RectangleOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 

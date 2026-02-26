@@ -5,7 +5,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "paths": {
-      "@ktjs/core": ["../core/src/index.ts"]
+      "@ktjs/core": ["../core/dist/index.d.ts"]
     }
   },
   "include": ["src/**/*.*"],

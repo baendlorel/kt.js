@@ -1,5 +1,5 @@
 import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js'  
+import { svg, svgs } from '../common/index.js'  
 
 export const FaceIcon = (props?: KTRawAttr)=> {const s = _FaceIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _FaceIcon = svg(svg("path", {  d: "M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25m6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8"}), 'Face');
@@ -102,7 +102,7 @@ export const _FacebookTwoToneIcon = svg(svg("path", {  d: "M22 12c0-5.52-4.48-10
 export const FactCheckIcon = (props?: KTRawAttr)=> {const s = _FactCheckIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _FactCheckIcon = svg(svg("path", {  fillRule: "evenodd",  d: "M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M10 17H5v-2h5zm0-4H5v-2h5zm0-4H5V7h5zm4.82 6L12 12.16l1.41-1.41 1.41 1.42L17.99 9l1.42 1.42z"}), 'FactCheck');
 export const FactCheckOutlinedIcon = (props?: KTRawAttr)=> {const s = _FactCheckOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
-export const _FactCheckOutlinedIcon = svg(svgs("g", {  fillRule: "evenodd",  children: [svg("path", {    d: "M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H4V5h16z"  }), svg("path", {    d: "M19.41 10.42 17.99 9l-3.17 3.17-1.41-1.42L12 12.16 14.82 15zM5 7h5v2H5zm0 4h5v2H5zm0 4h5v2H5z"  })]}), 'FactCheckOutlined');
+export const _FactCheckOutlinedIcon = svg(svg("g", {  fillRule: "evenodd",  children: [svg("path", {    d: "M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H4V5h16z"  }), svg("path", {    d: "M19.41 10.42 17.99 9l-3.17 3.17-1.41-1.42L12 12.16 14.82 15zM5 7h5v2H5zm0 4h5v2H5zm0 4h5v2H5z"  })]}), 'FactCheckOutlined');
 export const FactCheckRoundedIcon = (props?: KTRawAttr)=> {const s = _FactCheckRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 
 export const _FactCheckRoundedIcon = svg(svg("path", {  fillRule: "evenodd",  d: "M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M9 17H6c-.55 0-1-.45-1-1s.45-1 1-1h3c.55 0 1 .45 1 1s-.45 1-1 1m0-4H6c-.55 0-1-.45-1-1s.45-1 1-1h3c.55 0 1 .45 1 1s-.45 1-1 1m0-4H6c-.55 0-1-.45-1-1s.45-1 1-1h3c.55 0 1 .45 1 1s-.45 1-1 1m9.7 2.12-3.17 3.17c-.39.39-1.03.39-1.42 0l-1.41-1.42a.996.996 0 0 1 0-1.41c.39-.39 1.02-.39 1.41 0l.71.71 2.47-2.47c.39-.39 1.02-.39 1.41 0l.01.01c.38.39.38 1.03-.01 1.41"}), 'FactCheckRounded');
 export const FactCheckSharpIcon = (props?: KTRawAttr)=> {const s = _FactCheckSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s;} 

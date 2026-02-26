@@ -1,0 +1,458 @@
+ // import svg from ? 
+
+export const KayakingIcon = svg(svg("path", {
+  d: "M21 23c-1.03 0-2.06-.25-3-.75-1.89 1-4.11 1-6 0-1.89 1-4.11 1-6 0-.95.5-1.97.75-3 .75H2v-2h1c1.04 0 2.08-.35 3-1 1.83 1.3 4.17 1.3 6 0 1.83 1.3 4.17 1.3 6 0 .91.65 1.96 1 3 1h1v2zM12 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 12s-1.52.71-3.93 1.37c-.82-.23-1.53-.75-2.07-1.37-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.54.61-1.25 1.13-2.07 1.37C1.52 18.21 0 17.5 0 17.5s2.93-1.36 7.13-2.08l1.35-4.17c.31-.95 1.32-1.47 2.27-1.16.09.03.19.07.27.11l2.47 1.3 2.84-1.5 1.65-3.71-.51-1.32L18.8 2 22 3.43 20.67 6.4l-1.31.5-3.72 8.34c4.85.63 8.36 2.26 8.36 2.26m-8.98-4.54-1.52.8-1.75-.92-.71 2.17c.32 0 .64-.01.96-.01.71 0 1.4.03 2.07.08z"
+}), 'Kayaking');
+export const KayakingOutlinedIcon = svg(svg("path", {
+  d: "M21 23c-1.03 0-2.06-.25-3-.75-1.89 1-4.11 1-6 0-1.89 1-4.11 1-6 0-.95.5-1.97.75-3 .75H2v-2h1c1.04 0 2.08-.35 3-1 1.83 1.3 4.17 1.3 6 0 1.83 1.3 4.17 1.3 6 0 .91.65 1.96 1 3 1h1v2zM12 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 12s-1.52.71-3.93 1.37c-.82-.23-1.53-.75-2.07-1.37-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.54.61-1.25 1.13-2.07 1.37C1.52 18.21 0 17.5 0 17.5s2.93-1.36 7.13-2.08l1.35-4.17c.31-.95 1.32-1.47 2.27-1.16.09.03.19.07.27.11l2.47 1.3 2.84-1.5 1.65-3.71-.51-1.32L18.8 2 22 3.43 20.67 6.4l-1.31.5-3.72 8.34c4.85.63 8.36 2.26 8.36 2.26m-8.98-4.54-1.52.8-1.75-.92-.71 2.17c.32 0 .64-.01.96-.01.71 0 1.4.03 2.07.08z"
+}), 'KayakingOutlined');
+export const KayakingRoundedIcon = svg(svg("path", {
+  d: "M2 22c0-.55.45-1 1-1 .87 0 1.73-.24 2.53-.7.29-.16.65-.17.94 0 1.59.9 3.48.9 5.06 0 .29-.16.65-.16.94 0 1.59.9 3.48.9 5.06 0 .29-.16.65-.16.94 0 .8.46 1.66.7 2.53.7.55 0 1 .45 1 1s-.45 1-1 1c-1.03 0-2.06-.25-3-.75-1.92 1.02-4.18 1-6.09-.05-1.79.87-3.92.98-5.58-.14C5.3 22.69 4.15 23 3 23c-.55 0-1-.45-1-1M12 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m9.47 12.95c-.42.14-.9.28-1.41.42-.53-.15-1.03-.43-1.45-.77-.35-.29-.87-.29-1.23 0-.66.53-1.48.9-2.38.9s-1.72-.37-2.39-.91c-.35-.28-.87-.28-1.22 0-.67.54-1.49.91-2.39.91s-1.72-.37-2.39-.91c-.35-.29-.87-.28-1.23 0-.43.35-.92.62-1.45.77-.51-.14-.98-.28-1.4-.42-.92-.3-.92-1.6 0-1.9 1.21-.39 2.79-.82 4.6-1.13l1.35-4.17c.31-.95 1.32-1.47 2.27-1.16.09.03.19.07.27.11l2.47 1.3 2.84-1.5 1.65-3.71-.36-.93c-.1-.25-.09-.52.02-.76l.74-1.68c.22-.51.82-.73 1.32-.51l1.37.61c.5.23.73.82.5 1.32l-.75 1.68c-.11.24-.31.43-.56.53l-.9.36-3.72 8.34c2.33.3 4.35.84 5.82 1.31.93.3.94 1.6.01 1.9m-6.45-5.49-.59.31c-.58.31-1.28.31-1.86 0l-.81-.43-.71 2.17c.31 0 .63-.01.95-.01.71 0 1.4.03 2.07.08z"
+}), 'KayakingRounded');
+export const KayakingSharpIcon = svg(svg("path", {
+  d: "M21 23c-1.03 0-2.06-.25-3-.75-1.89 1-4.11 1-6 0-1.89 1-4.11 1-6 0-.95.5-1.97.75-3 .75H2v-2h1c1.04 0 2.08-.35 3-1 1.83 1.3 4.17 1.3 6 0 1.83 1.3 4.17 1.3 6 0 .91.65 1.96 1 3 1h1v2zM12 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 12s-1.52.71-3.93 1.37c-.82-.23-1.53-.75-2.07-1.37-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.54.61-1.25 1.13-2.07 1.37C1.52 18.21 0 17.5 0 17.5s2.93-1.36 7.13-2.08l1.35-4.17c.31-.95 1.32-1.47 2.27-1.16.09.03.19.07.27.11l2.47 1.3 2.84-1.5 1.65-3.71-.51-1.32L18.8 2 22 3.43 20.67 6.4l-1.31.5-3.72 8.34c4.85.63 8.36 2.26 8.36 2.26m-8.98-4.54-1.52.8-1.75-.92-.71 2.17c.32 0 .64-.01.96-.01.71 0 1.4.03 2.07.08z"
+}), 'KayakingSharp');
+export const KayakingTwoToneIcon = svg(svg("path", {
+  d: "M21 23c-1.03 0-2.06-.25-3-.75-1.89 1-4.11 1-6 0-1.89 1-4.11 1-6 0-.95.5-1.97.75-3 .75H2v-2h1c1.04 0 2.08-.35 3-1 1.83 1.3 4.17 1.3 6 0 1.83 1.3 4.17 1.3 6 0 .91.65 1.96 1 3 1h1v2zM12 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 12s-1.52.71-3.93 1.37c-.82-.23-1.53-.75-2.07-1.37-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.73.84-1.8 1.5-3 1.5s-2.27-.66-3-1.5c-.54.61-1.25 1.13-2.07 1.37C1.52 18.21 0 17.5 0 17.5s2.93-1.36 7.13-2.08l1.35-4.17c.31-.95 1.32-1.47 2.27-1.16.09.03.19.07.27.11l2.47 1.3 2.84-1.5 1.65-3.71-.51-1.32L18.8 2 22 3.43 20.67 6.4l-1.31.5-3.72 8.34c4.85.63 8.36 2.26 8.36 2.26m-8.98-4.54-1.52.8-1.75-.92-.71 2.17c.32 0 .64-.01.96-.01.71 0 1.4.03 2.07.08z"
+}), 'KayakingTwoTone');
+export const KebabDiningIcon = svg(svg("path", {
+  d: "M7.75 8H11v5H7.75v1h.75c1.38 0 2.5 1.12 2.5 2.5S9.88 19 8.5 19h-.75v4h-1.5v-4H5.5C4.12 19 3 17.88 3 16.5S4.12 14 5.5 14h.75v-1H3V8h3.25V7H5.5C4.12 7 3 5.88 3 4.5S4.12 2 5.5 2h.75V1h1.5v1h.75C9.88 2 11 3.12 11 4.5S9.88 7 8.5 7h-.75zm10-1h.75C19.88 7 21 5.88 21 4.5S19.88 2 18.5 2h-.75V1h-1.5v1h-.75C14.12 2 13 3.12 13 4.5S14.12 7 15.5 7h.75v1H13v5h3.25v1h-.75c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S19.88 14 18.5 14h-.75v-1H21V8h-3.25z"
+}), 'KebabDining');
+export const KebabDiningOutlinedIcon = svg(svg("path", {
+  d: "M17.75 7h.75C19.88 7 21 5.88 21 4.5S19.88 2 18.5 2h-.75V1h-1.5v1h-.75C14.12 2 13 3.12 13 4.5S14.12 7 15.5 7h.75v1H13v5h3.25v1h-.75c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S19.88 14 18.5 14h-.75v-1H21V8h-3.25zM15.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1h-4v-1zM7.75 7h.75C9.88 7 11 5.88 11 4.5S9.88 2 8.5 2h-.75V1h-1.5v1H5.5C4.12 2 3 3.12 3 4.5S4.12 7 5.5 7h.75v1H3v5h3.25v1H5.5C4.12 14 3 15.12 3 16.5S4.12 19 5.5 19h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S9.88 14 8.5 14h-.75v-1H11V8H7.75zM5.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1H5v-1z"
+}), 'KebabDiningOutlined');
+export const KebabDiningRoundedIcon = svg(svg("path", {
+  d: "M7.75 13v1h.75c1.38 0 2.5 1.12 2.5 2.5S9.88 19 8.5 19h-.75v3.25c0 .41-.34.75-.75.75s-.75-.34-.75-.75V19H5.5C4.12 19 3 17.88 3 16.5S4.12 14 5.5 14h.75v-1H4c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h2.25V7H5.5C4.12 7 3 5.88 3 4.5S4.12 2 5.5 2h.75v-.25c0-.41.34-.75.75-.75s.75.34.75.75V2h.75C9.88 2 11 3.12 11 4.5S9.88 7 8.5 7h-.75v1H10c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1zm10 0v1h.75c1.38 0 2.5 1.12 2.5 2.5S19.88 19 18.5 19h-.75v3.25c0 .41-.34.75-.75.75s-.75-.34-.75-.75V19h-.75c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5h.75v-1H14c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h2.25V7h-.75C14.12 7 13 5.88 13 4.5S14.12 2 15.5 2h.75v-.25c0-.41.34-.75.75-.75s.75.34.75.75V2h.75C19.88 2 21 3.12 21 4.5S19.88 7 18.5 7h-.75v1H20c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1z"
+}), 'KebabDiningRounded');
+export const KebabDiningSharpIcon = svg(svg("path", {
+  d: "M7.75 8H11v5H7.75v1h.75c1.38 0 2.5 1.12 2.5 2.5S9.88 19 8.5 19h-.75v4h-1.5v-4H5.5C4.12 19 3 17.88 3 16.5S4.12 14 5.5 14h.75v-1H3V8h3.25V7H5.5C4.12 7 3 5.88 3 4.5S4.12 2 5.5 2h.75V1h1.5v1h.75C9.88 2 11 3.12 11 4.5S9.88 7 8.5 7h-.75zm10-1h.75C19.88 7 21 5.88 21 4.5S19.88 2 18.5 2h-.75V1h-1.5v1h-.75C14.12 2 13 3.12 13 4.5S14.12 7 15.5 7h.75v1H13v5h3.25v1h-.75c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S19.88 14 18.5 14h-.75v-1H21V8h-3.25z"
+}), 'KebabDiningSharp');
+export const KebabDiningTwoToneIcon = svg([svg("path", {
+  d: "M15.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1h-4v-1zM5.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1H5v-1z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M17.75 7h.75C19.88 7 21 5.88 21 4.5S19.88 2 18.5 2h-.75V1h-1.5v1h-.75C14.12 2 13 3.12 13 4.5S14.12 7 15.5 7h.75v1H13v5h3.25v1h-.75c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S19.88 14 18.5 14h-.75v-1H21V8h-3.25zM15.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1h-4v-1zM7.75 7h.75C9.88 7 11 5.88 11 4.5S9.88 2 8.5 2h-.75V1h-1.5v1H5.5C4.12 2 3 3.12 3 4.5S4.12 7 5.5 7h.75v1H3v5h3.25v1H5.5C4.12 14 3 15.12 3 16.5S4.12 19 5.5 19h.75v4h1.5v-4h.75c1.38 0 2.5-1.12 2.5-2.5S9.88 14 8.5 14h-.75v-1H11V8H7.75zM5.5 5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5zm3 11c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5-6v1H5v-1z"
+}, "1")], 'KebabDiningTwoTone');
+export const KeyIcon = svg(svg("path", {
+  d: "M21 10h-8.35C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H13l2 2 2-2 2 2 4-4.04zM7 15c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"
+}), 'Key');
+export const KeyOffIcon = svg(svg("path", {
+  d: "M16.91 14.09 17 14l2 2 4-4.04L21 10h-8.17zM3.98 6.81C2.2 7.85 1 9.79 1 12c0 3.31 2.69 6 6 6 2.21 0 4.15-1.2 5.18-2.99l7.59 7.59 1.41-1.41L2.81 2.81 1.39 4.22zm5.93 5.93C9.58 14.03 8.4 15 7 15c-1.65 0-3-1.35-3-3 0-1.4.97-2.58 2.26-2.91z"
+}), 'KeyOff');
+export const KeyOffOutlinedIcon = svg(svg("path", {
+  d: "m10.7 13.53-1.71-1.71c.01.06.01.12.01.18 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.06 0 .12 0 .18.01L5.47 8.3C4.02 8.9 3 10.33 3 12c0 2.21 1.79 4 4 4 1.67 0 3.1-1.02 3.7-2.47m1.49 1.49C11.15 16.8 9.21 18 7 18c-3.31 0-6-2.69-6-6 0-2.21 1.2-4.15 2.98-5.19L1.39 4.22 2.8 2.81l18.38 18.38-1.41 1.41zm4.07-1.59 1.24-.93 1.81 1.36L21.17 12l-1-1h-6.34l-2-2H21l3 3-4.5 4.5-.69-.51z"
+}), 'KeyOffOutlined');
+export const KeyOffRoundedIcon = svg(svg("path", {
+  d: "m12.83 10 4.09 4.09L17 14l1.29 1.29c.39.39 1.03.39 1.42 0l2.59-2.61c.39-.39.39-1.03-.01-1.42l-.99-.97c-.2-.19-.45-.29-.71-.29zm6.24 11.9c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L3.51 3.51a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41L3.98 6.8C2.2 7.85 1 9.79 1 12c0 3.31 2.69 6 6 6 2.21 0 4.15-1.2 5.18-2.99zm-9.16-9.16C9.58 14.03 8.4 15 7 15c-1.65 0-3-1.35-3-3 0-1.4.97-2.58 2.26-2.91z"
+}), 'KeyOffRounded');
+export const KeyOffSharpIcon = svg(svg("path", {
+  d: "M16.91 14.09 17 14l2 2 4-4.04L21 10h-8.17zM3.98 6.81C2.2 7.85 1 9.79 1 12c0 3.31 2.69 6 6 6 2.21 0 4.15-1.2 5.18-2.99l7.59 7.59 1.41-1.41L2.81 2.81 1.39 4.22zm5.93 5.93C9.58 14.03 8.4 15 7 15c-1.65 0-3-1.35-3-3 0-1.4.97-2.58 2.26-2.91z"
+}), 'KeyOffSharp');
+export const KeyOffTwoToneIcon = svg([svg("path", {
+  d: "m10.7 13.53-1.71-1.71c.01.06.01.12.01.18 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.06 0 .12 0 .18.01L5.47 8.3C4.02 8.9 3 10.33 3 12c0 2.21 1.79 4 4 4 1.67 0 3.1-1.02 3.7-2.47m5.56-.1 1.24-.93 1.81 1.36L21.17 12l-1-1h-6.34z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "m10.7 13.53-1.71-1.71c.01.06.01.12.01.18 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.06 0 .12 0 .18.01L5.47 8.3C4.02 8.9 3 10.33 3 12c0 2.21 1.79 4 4 4 1.67 0 3.1-1.02 3.7-2.47m1.49 1.49C11.15 16.8 9.21 18 7 18c-3.31 0-6-2.69-6-6 0-2.21 1.2-4.15 2.98-5.19L1.39 4.22 2.8 2.81l18.38 18.38-1.41 1.41zm4.07-1.59 1.24-.93 1.81 1.36L21.17 12l-1-1h-6.34l-2-2H21l3 3-4.5 4.5-.69-.51z"
+}, "1")], 'KeyOffTwoTone');
+export const KeyOutlinedIcon = svg(svg("path", {
+  d: "M21 10h-8.35C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H13l2 2 2-2 2 2 4-4.04zM7 15c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"
+}), 'KeyOutlined');
+export const KeyRoundedIcon = svg(svg("path", {
+  d: "M20.59 10h-7.94c-.95-2.69-3.76-4.5-6.88-3.88-2.29.46-4.15 2.3-4.63 4.58C.32 14.58 3.26 18 7 18c2.61 0 4.83-1.67 5.65-4H13l1.29 1.29c.39.39 1.02.39 1.41 0L17 14l1.29 1.29c.39.39 1.03.39 1.42 0l2.59-2.61c.39-.39.39-1.03-.01-1.42l-.99-.97c-.2-.19-.45-.29-.71-.29M7 15c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"
+}), 'KeyRounded');
+export const KeySharpIcon = svg(svg("path", {
+  d: "M21 10h-8.35C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H13l2 2 2-2 2 2 4-4.04zM7 15c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"
+}), 'KeySharp');
+export const KeyTwoToneIcon = svg(svg("path", {
+  d: "M21 10h-8.35C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H13l2 2 2-2 2 2 4-4.04zM7 15c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"
+}), 'KeyTwoTone');
+export const KeyboardIcon = svg(svg("path", {
+  d: "M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m-9 3h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm-1 2H5v-2h2zm0-3H5V8h2zm9 7H8v-2h8zm0-4h-2v-2h2zm0-3h-2V8h2zm3 3h-2v-2h2zm0-3h-2V8h2z"
+}), 'Keyboard');
+export const KeyboardAltIcon = svg(svg("path", {
+  d: "M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M7 12v2H5v-2zm-2-2V8h2v2zm6 2v2H9v-2zm-2-2V8h2v2zm7 6v1H8v-1zm-1-4v2h-2v-2zm-2-2V8h2v2zm4 4v-2h2v2zm2-4h-2V8h2z"
+}), 'KeyboardAlt');
+export const KeyboardAltOutlinedIcon = svg(svg("path", {
+  d: "M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 15H3V6h18zM9 8h2v2H9zM5 8h2v2H5zm3 8h8v1H8zm5-8h2v2h-2zm-4 4h2v2H9zm-4 0h2v2H5zm8 0h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"
+}), 'KeyboardAltOutlined');
+export const KeyboardAltRoundedIcon = svg(svg("path", {
+  d: "M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M7 12v2H5v-2zm-2-2V8h2v2zm6 2v2H9v-2zm-2-2V8h2v2zm7 6.5c0 .28-.22.5-.5.5h-7c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h7c.28 0 .5.22.5.5M15 12v2h-2v-2zm-2-2V8h2v2zm4 4v-2h2v2zm2-4h-2V8h2z"
+}), 'KeyboardAltRounded');
+export const KeyboardAltSharpIcon = svg(svg("path", {
+  d: "M23 4H1v17h22zM7 12v2H5v-2zm-2-2V8h2v2zm6 2v2H9v-2zm-2-2V8h2v2zm7 6v1H8v-1zm-1-4v2h-2v-2zm-2-2V8h2v2zm4 4v-2h2v2zm2-4h-2V8h2z"
+}), 'KeyboardAltSharp');
+export const KeyboardAltTwoToneIcon = svg([svg("path", {
+  d: "M3 19h18V6H3zM17 8h2v2h-2zm0 4h2v2h-2zm-4-4h2v2h-2zm0 4h2v2h-2zM9 8h2v2H9zm0 4h2v2H9zm-1 4h8v1H8zM5 8h2v2H5zm0 4h2v2H5z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 15H3V6h18z"
+}, "1"), svg("path", {
+  d: "M9 8h2v2H9zM5 8h2v2H5zm3 8h8v1H8zm5-8h2v2h-2zm-4 4h2v2H9zm-4 0h2v2H5zm8 0h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"
+}, "2")], 'KeyboardAltTwoTone');
+export const KeyboardArrowDownIcon = svg(svg("path", {
+  d: "M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+}), 'KeyboardArrowDown');
+export const KeyboardArrowDownOutlinedIcon = svg(svg("path", {
+  d: "M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+}), 'KeyboardArrowDownOutlined');
+export const KeyboardArrowDownRoundedIcon = svg(svg("path", {
+  d: "M8.12 9.29 12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7a.996.996 0 0 1 0-1.41c.39-.38 1.03-.39 1.42 0"
+}), 'KeyboardArrowDownRounded');
+export const KeyboardArrowDownSharpIcon = svg(svg("path", {
+  d: "M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+}), 'KeyboardArrowDownSharp');
+export const KeyboardArrowDownTwoToneIcon = svg(svg("path", {
+  d: "M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+}), 'KeyboardArrowDownTwoTone');
+export const KeyboardArrowLeftIcon = svg(svg("path", {
+  d: "M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+}), 'KeyboardArrowLeft');
+export const KeyboardArrowLeftOutlinedIcon = svg(svg("path", {
+  d: "M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+}), 'KeyboardArrowLeftOutlined');
+export const KeyboardArrowLeftRoundedIcon = svg(svg("path", {
+  d: "M14.71 15.88 10.83 12l3.88-3.88c.39-.39.39-1.02 0-1.41a.996.996 0 0 0-1.41 0L8.71 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0 .38-.39.39-1.03 0-1.42"
+}), 'KeyboardArrowLeftRounded');
+export const KeyboardArrowLeftSharpIcon = svg(svg("path", {
+  d: "M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+}), 'KeyboardArrowLeftSharp');
+export const KeyboardArrowLeftTwoToneIcon = svg(svg("path", {
+  d: "M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+}), 'KeyboardArrowLeftTwoTone');
+export const KeyboardArrowRightIcon = svg(svg("path", {
+  d: "M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
+}), 'KeyboardArrowRight');
+export const KeyboardArrowRightOutlinedIcon = svg(svg("path", {
+  d: "M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
+}), 'KeyboardArrowRightOutlined');
+export const KeyboardArrowRightRoundedIcon = svg(svg("path", {
+  d: "M9.29 15.88 13.17 12 9.29 8.12a.996.996 0 0 1 0-1.41c.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42"
+}), 'KeyboardArrowRightRounded');
+export const KeyboardArrowRightSharpIcon = svg(svg("path", {
+  d: "M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
+}), 'KeyboardArrowRightSharp');
+export const KeyboardArrowRightTwoToneIcon = svg(svg("path", {
+  d: "M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
+}), 'KeyboardArrowRightTwoTone');
+export const KeyboardArrowUpIcon = svg(svg("path", {
+  d: "M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+}), 'KeyboardArrowUp');
+export const KeyboardArrowUpOutlinedIcon = svg(svg("path", {
+  d: "M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+}), 'KeyboardArrowUpOutlined');
+export const KeyboardArrowUpRoundedIcon = svg(svg("path", {
+  d: "M8.12 14.71 12 10.83l3.88 3.88c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.7 8.71a.996.996 0 0 0-1.41 0L6.7 13.3c-.39.39-.39 1.02 0 1.41.39.38 1.03.39 1.42 0"
+}), 'KeyboardArrowUpRounded');
+export const KeyboardArrowUpSharpIcon = svg(svg("path", {
+  d: "M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+}), 'KeyboardArrowUpSharp');
+export const KeyboardArrowUpTwoToneIcon = svg(svg("path", {
+  d: "M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+}), 'KeyboardArrowUpTwoTone');
+export const KeyboardBackspaceIcon = svg(svg("path", {
+  d: "M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+}), 'KeyboardBackspace');
+export const KeyboardBackspaceOutlinedIcon = svg(svg("path", {
+  d: "M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+}), 'KeyboardBackspaceOutlined');
+export const KeyboardBackspaceRoundedIcon = svg(svg("path", {
+  d: "M20 11H6.83l2.88-2.88c.39-.39.39-1.02 0-1.41a.996.996 0 0 0-1.41 0L3.71 11.3c-.39.39-.39 1.02 0 1.41L8.3 17.3c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L6.83 13H20c.55 0 1-.45 1-1s-.45-1-1-1"
+}), 'KeyboardBackspaceRounded');
+export const KeyboardBackspaceSharpIcon = svg(svg("path", {
+  d: "M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+}), 'KeyboardBackspaceSharp');
+export const KeyboardBackspaceTwoToneIcon = svg(svg("path", {
+  d: "M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+}), 'KeyboardBackspaceTwoTone');
+export const KeyboardCapslockIcon = svg(svg("path", {
+  d: "M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"
+}), 'KeyboardCapslock');
+export const KeyboardCapslockOutlinedIcon = svg(svg("path", {
+  d: "M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"
+}), 'KeyboardCapslockOutlined');
+export const KeyboardCapslockRoundedIcon = svg(svg("path", {
+  d: "m12 8.41 3.89 3.89c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.71 6.3a.996.996 0 0 0-1.41 0l-4.6 4.59c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0zM7 18h10c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1"
+}), 'KeyboardCapslockRounded');
+export const KeyboardCapslockSharpIcon = svg(svg("path", {
+  d: "M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"
+}), 'KeyboardCapslockSharp');
+export const KeyboardCapslockTwoToneIcon = svg(svg("path", {
+  d: "M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"
+}), 'KeyboardCapslockTwoTone');
+export const KeyboardCommandKeyIcon = svg(svg("path", {
+  d: "M17.5 3C15.57 3 14 4.57 14 6.5V8h-4V6.5C10 4.57 8.43 3 6.5 3S3 4.57 3 6.5 4.57 10 6.5 10H8v4H6.5C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5V16h4v1.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5H16v-4h1.5c1.93 0 3.5-1.57 3.5-3.5S19.43 3 17.5 3M16 8V6.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S18.33 8 17.5 8zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5V8zm3.5 6v-4h4v4zm7.5 5c-.83 0-1.5-.67-1.5-1.5V16h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16H8v1.5c0 .83-.67 1.5-1.5 1.5"
+}), 'KeyboardCommandKey');
+export const KeyboardCommandKeyOutlinedIcon = svg(svg("path", {
+  d: "M17.5 3C15.57 3 14 4.57 14 6.5V8h-4V6.5C10 4.57 8.43 3 6.5 3S3 4.57 3 6.5 4.57 10 6.5 10H8v4H6.5C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5V16h4v1.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5H16v-4h1.5c1.93 0 3.5-1.57 3.5-3.5S19.43 3 17.5 3M16 8V6.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S18.33 8 17.5 8zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5V8zm3.5 6v-4h4v4zm7.5 5c-.83 0-1.5-.67-1.5-1.5V16h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16H8v1.5c0 .83-.67 1.5-1.5 1.5"
+}), 'KeyboardCommandKeyOutlined');
+export const KeyboardCommandKeyRoundedIcon = svg(svg("path", {
+  d: "M17.5 3C15.57 3 14 4.57 14 6.5V8h-4V6.5C10 4.57 8.43 3 6.5 3S3 4.57 3 6.5 4.57 10 6.5 10H8v4H6.5C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5V16h4v1.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5H16v-4h1.5c1.93 0 3.5-1.57 3.5-3.5S19.43 3 17.5 3M16 8V6.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S18.33 8 17.5 8zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5V8zm3.5 6v-4h4v4zm7.5 5c-.83 0-1.5-.67-1.5-1.5V16h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16H8v1.5c0 .83-.67 1.5-1.5 1.5"
+}), 'KeyboardCommandKeyRounded');
+export const KeyboardCommandKeySharpIcon = svg(svg("path", {
+  d: "M17.5 3C15.57 3 14 4.57 14 6.5V8h-4V6.5C10 4.57 8.43 3 6.5 3S3 4.57 3 6.5 4.57 10 6.5 10H8v4H6.5C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5V16h4v1.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5H16v-4h1.5c1.93 0 3.5-1.57 3.5-3.5S19.43 3 17.5 3M16 8V6.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S18.33 8 17.5 8zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5V8zm3.5 6v-4h4v4zm7.5 5c-.83 0-1.5-.67-1.5-1.5V16h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16H8v1.5c0 .83-.67 1.5-1.5 1.5"
+}), 'KeyboardCommandKeySharp');
+export const KeyboardCommandKeyTwoToneIcon = svg(svg("path", {
+  d: "M17.5 3C15.57 3 14 4.57 14 6.5V8h-4V6.5C10 4.57 8.43 3 6.5 3S3 4.57 3 6.5 4.57 10 6.5 10H8v4H6.5C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5V16h4v1.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5H16v-4h1.5c1.93 0 3.5-1.57 3.5-3.5S19.43 3 17.5 3M16 8V6.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S18.33 8 17.5 8zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5V8zm3.5 6v-4h4v4zm7.5 5c-.83 0-1.5-.67-1.5-1.5V16h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5m-11 0c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16H8v1.5c0 .83-.67 1.5-1.5 1.5"
+}), 'KeyboardCommandKeyTwoTone');
+export const KeyboardControlKeyIcon = svg(svg("path", {
+  d: "m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"
+}), 'KeyboardControlKey');
+export const KeyboardControlKeyOutlinedIcon = svg(svg("path", {
+  d: "m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"
+}), 'KeyboardControlKeyOutlined');
+export const KeyboardControlKeyRoundedIcon = svg(svg("path", {
+  d: "M5.71 12.71c.39.39 1.02.39 1.41 0L12 7.83l4.88 4.88c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.7 5.71a.996.996 0 0 0-1.41 0L5.7 11.3c-.38.38-.38 1.02.01 1.41"
+}), 'KeyboardControlKeyRounded');
+export const KeyboardControlKeySharpIcon = svg(svg("path", {
+  d: "m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"
+}), 'KeyboardControlKeySharp');
+export const KeyboardControlKeyTwoToneIcon = svg(svg("path", {
+  d: "m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"
+}), 'KeyboardControlKeyTwoTone');
+export const KeyboardDoubleArrowDownIcon = svg([svg("path", {
+  d: "M18 6.41 16.59 5 12 9.58 7.41 5 6 6.41l6 6z"
+}, "0"), svg("path", {
+  d: "m18 13-1.41-1.41L12 16.17l-4.59-4.58L6 13l6 6z"
+}, "1")], 'KeyboardDoubleArrowDown');
+export const KeyboardDoubleArrowDownOutlinedIcon = svg([svg("path", {
+  d: "M18 6.41 16.59 5 12 9.58 7.41 5 6 6.41l6 6z"
+}, "0"), svg("path", {
+  d: "m18 13-1.41-1.41L12 16.17l-4.59-4.58L6 13l6 6z"
+}, "1")], 'KeyboardDoubleArrowDownOutlined');
+export const KeyboardDoubleArrowDownRoundedIcon = svg([svg("path", {
+  d: "M17.29 5.71a.996.996 0 0 0-1.41 0L12 9.58 8.11 5.7a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.39-.38.39-1.01 0-1.4"
+}, "0"), svg("path", {
+  d: "M17.29 12.3a.996.996 0 0 0-1.41 0L12 16.17l-3.88-3.88a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.38-.38.38-1.01-.01-1.4"
+}, "1")], 'KeyboardDoubleArrowDownRounded');
+export const KeyboardDoubleArrowDownSharpIcon = svg([svg("path", {
+  d: "M18 6.41 16.59 5 12 9.58 7.41 5 6 6.41l6 6z"
+}, "0"), svg("path", {
+  d: "m18 13-1.41-1.41L12 16.17l-4.59-4.58L6 13l6 6z"
+}, "1")], 'KeyboardDoubleArrowDownSharp');
+export const KeyboardDoubleArrowDownTwoToneIcon = svg([svg("path", {
+  d: "M18 6.41 16.59 5 12 9.58 7.41 5 6 6.41l6 6z"
+}, "0"), svg("path", {
+  d: "m18 13-1.41-1.41L12 16.17l-4.59-4.58L6 13l6 6z"
+}, "1")], 'KeyboardDoubleArrowDownTwoTone');
+export const KeyboardDoubleArrowLeftIcon = svg([svg("path", {
+  d: "M17.59 18 19 16.59 14.42 12 19 7.41 17.59 6l-6 6z"
+}, "0"), svg("path", {
+  d: "m11 18 1.41-1.41L7.83 12l4.58-4.59L11 6l-6 6z"
+}, "1")], 'KeyboardDoubleArrowLeft');
+export const KeyboardDoubleArrowLeftOutlinedIcon = svg([svg("path", {
+  d: "M17.59 18 19 16.59 14.42 12 19 7.41 17.59 6l-6 6z"
+}, "0"), svg("path", {
+  d: "m11 18 1.41-1.41L7.83 12l4.58-4.59L11 6l-6 6z"
+}, "1")], 'KeyboardDoubleArrowLeftOutlined');
+export const KeyboardDoubleArrowLeftRoundedIcon = svg([svg("path", {
+  d: "M18.29 17.29c.39-.39.39-1.02 0-1.41L14.42 12l3.88-3.88c.39-.39.39-1.02 0-1.41a.996.996 0 0 0-1.41 0L12.3 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.38.38 1.01.38 1.4-.01"
+}, "0"), svg("path", {
+  d: "M11.7 17.29c.39-.39.39-1.02 0-1.41L7.83 12l3.88-3.88c.39-.39.39-1.02 0-1.41a.996.996 0 0 0-1.41 0L5.71 11.3c-.39.39-.39 1.02 0 1.41l4.59 4.59c.38.38 1.01.38 1.4-.01"
+}, "1")], 'KeyboardDoubleArrowLeftRounded');
+export const KeyboardDoubleArrowLeftSharpIcon = svg([svg("path", {
+  d: "M17.59 18 19 16.59 14.42 12 19 7.41 17.59 6l-6 6z"
+}, "0"), svg("path", {
+  d: "m11 18 1.41-1.41L7.83 12l4.58-4.59L11 6l-6 6z"
+}, "1")], 'KeyboardDoubleArrowLeftSharp');
+export const KeyboardDoubleArrowLeftTwoToneIcon = svg([svg("path", {
+  d: "M17.59 18 19 16.59 14.42 12 19 7.41 17.59 6l-6 6z"
+}, "0"), svg("path", {
+  d: "m11 18 1.41-1.41L7.83 12l4.58-4.59L11 6l-6 6z"
+}, "1")], 'KeyboardDoubleArrowLeftTwoTone');
+export const KeyboardDoubleArrowRightIcon = svg([svg("path", {
+  d: "M6.41 6 5 7.41 9.58 12 5 16.59 6.41 18l6-6z"
+}, "0"), svg("path", {
+  d: "m13 6-1.41 1.41L16.17 12l-4.58 4.59L13 18l6-6z"
+}, "1")], 'KeyboardDoubleArrowRight');
+export const KeyboardDoubleArrowRightOutlinedIcon = svg([svg("path", {
+  d: "M6.41 6 5 7.41 9.58 12 5 16.59 6.41 18l6-6z"
+}, "0"), svg("path", {
+  d: "m13 6-1.41 1.41L16.17 12l-4.58 4.59L13 18l6-6z"
+}, "1")], 'KeyboardDoubleArrowRightOutlined');
+export const KeyboardDoubleArrowRightRoundedIcon = svg([svg("path", {
+  d: "M5.7 6.71c-.39.39-.39 1.02 0 1.41L9.58 12 5.7 15.88c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L7.12 6.71c-.39-.39-1.03-.39-1.42 0"
+}, "0"), svg("path", {
+  d: "M12.29 6.71c-.39.39-.39 1.02 0 1.41L16.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L13.7 6.7c-.38-.38-1.02-.38-1.41.01"
+}, "1")], 'KeyboardDoubleArrowRightRounded');
+export const KeyboardDoubleArrowRightSharpIcon = svg([svg("path", {
+  d: "M6.41 6 5 7.41 9.58 12 5 16.59 6.41 18l6-6z"
+}, "0"), svg("path", {
+  d: "m13 6-1.41 1.41L16.17 12l-4.58 4.59L13 18l6-6z"
+}, "1")], 'KeyboardDoubleArrowRightSharp');
+export const KeyboardDoubleArrowRightTwoToneIcon = svg([svg("path", {
+  d: "M6.41 6 5 7.41 9.58 12 5 16.59 6.41 18l6-6z"
+}, "0"), svg("path", {
+  d: "m13 6-1.41 1.41L16.17 12l-4.58 4.59L13 18l6-6z"
+}, "1")], 'KeyboardDoubleArrowRightTwoTone');
+export const KeyboardDoubleArrowUpIcon = svg([svg("path", {
+  d: "M6 17.59 7.41 19 12 14.42 16.59 19 18 17.59l-6-6z"
+}, "0"), svg("path", {
+  d: "m6 11 1.41 1.41L12 7.83l4.59 4.58L18 11l-6-6z"
+}, "1")], 'KeyboardDoubleArrowUp');
+export const KeyboardDoubleArrowUpOutlinedIcon = svg([svg("path", {
+  d: "M6 17.59 7.41 19 12 14.42 16.59 19 18 17.59l-6-6z"
+}, "0"), svg("path", {
+  d: "m6 11 1.41 1.41L12 7.83l4.59 4.58L18 11l-6-6z"
+}, "1")], 'KeyboardDoubleArrowUpOutlined');
+export const KeyboardDoubleArrowUpRoundedIcon = svg([svg("path", {
+  d: "M6.7 18.29c.39.39 1.02.39 1.41 0L12 14.42l3.88 3.88c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.7 12.3a.996.996 0 0 0-1.41 0L6.7 16.88c-.39.39-.39 1.02 0 1.41"
+}, "0"), svg("path", {
+  d: "M6.7 11.7c.39.39 1.02.39 1.41 0L12 7.83l3.88 3.88c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.7 5.71a.996.996 0 0 0-1.41 0L6.7 10.29c-.39.39-.39 1.02 0 1.41"
+}, "1")], 'KeyboardDoubleArrowUpRounded');
+export const KeyboardDoubleArrowUpSharpIcon = svg([svg("path", {
+  d: "M6 17.59 7.41 19 12 14.42 16.59 19 18 17.59l-6-6z"
+}, "0"), svg("path", {
+  d: "m6 11 1.41 1.41L12 7.83l4.59 4.58L18 11l-6-6z"
+}, "1")], 'KeyboardDoubleArrowUpSharp');
+export const KeyboardDoubleArrowUpTwoToneIcon = svg([svg("path", {
+  d: "M6 17.59 7.41 19 12 14.42 16.59 19 18 17.59l-6-6z"
+}, "0"), svg("path", {
+  d: "m6 11 1.41 1.41L12 7.83l4.59 4.58L18 11l-6-6z"
+}, "1")], 'KeyboardDoubleArrowUpTwoTone');
+export const KeyboardHideIcon = svg(svg("path", {
+  d: "M20 3H4c-1.1 0-1.99.9-1.99 2L2 15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9 3h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zm-1 2H5V9h2zm0-3H5V6h2zm9 7H8v-2h8zm0-4h-2V9h2zm0-3h-2V6h2zm3 3h-2V9h2zm0-3h-2V6h2zm-7 15 4-4H8z"
+}), 'KeyboardHide');
+export const KeyboardHideOutlinedIcon = svg(svg("path", {
+  d: "M20 3H4c-1.1 0-1.99.9-1.99 2L2 15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 12H4V5h16zm-9-9h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zM5 9h2v2H5zm0-3h2v2H5zm3 6h8v2H8zm6-3h2v2h-2zm0-3h2v2h-2zm3 3h2v2h-2zm0-3h2v2h-2zm-5 17 4-4H8z"
+}), 'KeyboardHideOutlined');
+export const KeyboardHideRoundedIcon = svg(svg("path", {
+  d: "M20 3H4c-1.1 0-1.99.9-1.99 2L2 15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9 3h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zm-1 2H5V9h2zm0-3H5V6h2zm8 7H9c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1m1-4h-2V9h2zm0-3h-2V6h2zm3 3h-2V9h2zm0-3h-2V6h2zm-6.65 14.65 2.79-2.79a.5.5 0 0 0-.35-.85H9.21c-.45 0-.67.54-.35.85l2.79 2.79c.19.19.51.19.7 0"
+}), 'KeyboardHideRounded');
+export const KeyboardHideSharpIcon = svg(svg("path", {
+  d: "M22 3H2.01L2 17h20zM11 6h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zm-1 2H5V9h2zm0-3H5V6h2zm9 7H8v-2h8zm0-4h-2V9h2zm0-3h-2V6h2zm3 3h-2V9h2zm0-3h-2V6h2zm-7 15 4-4H8z"
+}), 'KeyboardHideSharp');
+export const KeyboardHideTwoToneIcon = svg([svg("path", {
+  d: "M4 15h16V5H4zm13-9h2v2h-2zm0 3h2v2h-2zm-3-3h2v2h-2zm0 3h2v2h-2zm-3-3h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zm0 3h8v2H8zM5 6h2v2H5zm0 3h2v2H5z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M20 3H4c-1.1 0-1.99.9-1.99 2L2 15c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 12H4V5h16zm-9-9h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zM5 9h2v2H5zm0-3h2v2H5zm3 6h8v2H8zm6-3h2v2h-2zm0-3h2v2h-2zm3 3h2v2h-2zm0-3h2v2h-2zm-5 17 4-4H8z"
+}, "1")], 'KeyboardHideTwoTone');
+export const KeyboardOptionKeyIcon = svg(svg("path", {
+  d: "M15 5h6v2h-6zM9 5H3v2h4.85l6.92 12H21v-2h-5.07z"
+}), 'KeyboardOptionKey');
+export const KeyboardOptionKeyOutlinedIcon = svg(svg("path", {
+  d: "M15 5h6v2h-6zM9 5H3v2h4.85l6.92 12H21v-2h-5.07z"
+}), 'KeyboardOptionKeyOutlined');
+export const KeyboardOptionKeyRoundedIcon = svg(svg("path", {
+  d: "M15 6c0 .55.45 1 1 1h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1M9.58 6c-.36-.62-1.02-1-1.73-1H4c-.55 0-1 .45-1 1s.45 1 1 1h3.85l6.35 11c.36.62 1.02 1 1.73 1H20c.55 0 1-.45 1-1s-.45-1-1-1h-4.07z"
+}), 'KeyboardOptionKeyRounded');
+export const KeyboardOptionKeySharpIcon = svg(svg("path", {
+  d: "M15 5h6v2h-6zM9 5H3v2h4.85l6.92 12H21v-2h-5.07z"
+}), 'KeyboardOptionKeySharp');
+export const KeyboardOptionKeyTwoToneIcon = svg(svg("path", {
+  d: "M15 5h6v2h-6zM9 5H3v2h4.85l6.92 12H21v-2h-5.07z"
+}), 'KeyboardOptionKeyTwoTone');
+export const KeyboardOutlinedIcon = svg(svg("path", {
+  d: "M20 7v10H4V7zm0-2H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m-9 3h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm-3 0h2v2H5zm0-3h2v2H5zm3 6h8v2H8zm6-3h2v2h-2zm0-3h2v2h-2zm3 3h2v2h-2zm0-3h2v2h-2z"
+}), 'KeyboardOutlined');
+export const KeyboardReturnIcon = svg(svg("path", {
+  d: "M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"
+}), 'KeyboardReturn');
+export const KeyboardReturnOutlinedIcon = svg(svg("path", {
+  d: "M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"
+}), 'KeyboardReturnOutlined');
+export const KeyboardReturnRoundedIcon = svg(svg("path", {
+  d: "M19 8v3H5.83l2.88-2.88c.39-.39.39-1.02 0-1.41a.996.996 0 0 0-1.41 0L2.71 11.3c-.39.39-.39 1.02 0 1.41L7.3 17.3c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.83 13H20c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1s-1 .45-1 1"
+}), 'KeyboardReturnRounded');
+export const KeyboardReturnSharpIcon = svg(svg("path", {
+  d: "M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"
+}), 'KeyboardReturnSharp');
+export const KeyboardReturnTwoToneIcon = svg(svg("path", {
+  d: "M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"
+}), 'KeyboardReturnTwoTone');
+export const KeyboardRoundedIcon = svg(svg("path", {
+  d: "M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m-9 3h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm-1 2H5v-2h2zm0-3H5V8h2zm8 7H9c-.55 0-1-.45-1-1s.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1m1-4h-2v-2h2zm0-3h-2V8h2zm3 3h-2v-2h2zm0-3h-2V8h2z"
+}), 'KeyboardRounded');
+export const KeyboardSharpIcon = svg(svg("path", {
+  d: "M22 5H2.01L2 19h20zM11 8h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm-1 2H5v-2h2zm0-3H5V8h2zm9 7H8v-2h8zm0-4h-2v-2h2zm0-3h-2V8h2zm3 3h-2v-2h2zm0-3h-2V8h2z"
+}), 'KeyboardSharp');
+export const KeyboardTabIcon = svg(svg("path", {
+  d: "M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"
+}), 'KeyboardTab');
+export const KeyboardTabOutlinedIcon = svg(svg("path", {
+  d: "M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"
+}), 'KeyboardTabOutlined');
+export const KeyboardTabRoundedIcon = svg(svg("path", {
+  d: "M12.29 8.12 15.17 11H2c-.55 0-1 .45-1 1s.45 1 1 1h13.17l-2.88 2.88c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L13.7 6.7a.996.996 0 0 0-1.41 0c-.38.39-.39 1.03 0 1.42M20 7v10c0 .55.45 1 1 1s1-.45 1-1V7c0-.55-.45-1-1-1s-1 .45-1 1"
+}), 'KeyboardTabRounded');
+export const KeyboardTabSharpIcon = svg(svg("path", {
+  d: "M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"
+}), 'KeyboardTabSharp');
+export const KeyboardTabTwoToneIcon = svg(svg("path", {
+  d: "M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"
+}), 'KeyboardTabTwoTone');
+export const KeyboardTwoToneIcon = svg([svg("path", {
+  d: "M4 17h16V7H4zm13-9h2v2h-2zm0 3h2v2h-2zm-3-3h2v2h-2zm0 3h2v2h-2zm-3-3h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm0 3h8v2H8zM5 8h2v2H5zm0 3h2v2H5z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 12H4V7h16zm-9-9h2v2h-2zm0 3h2v2h-2zM8 8h2v2H8zm0 3h2v2H8zm-3 0h2v2H5zm0-3h2v2H5zm3 6h8v2H8zm6-3h2v2h-2zm0-3h2v2h-2zm3 3h2v2h-2zm0-3h2v2h-2z"
+}, "1")], 'KeyboardTwoTone');
+export const KeyboardVoiceIcon = svg(svg("path", {
+  d: "M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3m5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.42 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72z"
+}), 'KeyboardVoice');
+export const KeyboardVoiceOutlinedIcon = svg(svg("path", {
+  d: "M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3m-1.2-9.1c0-.66.54-1.2 1.2-1.2s1.2.54 1.2 1.2l-.01 6.2c0 .66-.53 1.2-1.19 1.2s-1.2-.54-1.2-1.2zm6.5 6.1c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72z"
+}), 'KeyboardVoiceOutlined');
+export const KeyboardVoiceRoundedIcon = svg(svg("path", {
+  d: "M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3m6.08-3c-.42 0-.77.3-.83.71-.37 2.61-2.72 4.39-5.25 4.39s-4.88-1.77-5.25-4.39c-.06-.41-.42-.71-.83-.71-.52 0-.92.46-.85.97.46 2.97 2.96 5.3 5.93 5.75V21c0 .55.45 1 1 1s1-.45 1-1v-2.28c2.96-.43 5.47-2.78 5.93-5.75.07-.51-.33-.97-.85-.97"
+}), 'KeyboardVoiceRounded');
+export const KeyboardVoiceSharpIcon = svg(svg("path", {
+  d: "M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3m5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.42 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72z"
+}), 'KeyboardVoiceSharp');
+export const KeyboardVoiceTwoToneIcon = svg([svg("path", {
+  d: "M12 13.3c.66 0 1.19-.54 1.19-1.2l.01-6.2c0-.66-.54-1.2-1.2-1.2s-1.2.54-1.2 1.2v6.2c0 .66.54 1.2 1.2 1.2",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3m-1.2-9.1c0-.66.54-1.2 1.2-1.2s1.2.54 1.2 1.2l-.01 6.2c0 .66-.53 1.2-1.19 1.2s-1.2-.54-1.2-1.2zm6.5 6.1c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72z"
+}, "1")], 'KeyboardVoiceTwoTone');
+export const KingBedIcon = svg(svg("path", {
+  d: "M20 10V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-5c0-1.1-.9-2-2-2m-9 0H6V7h5zm7 0h-5V7h5z"
+}), 'KingBed');
+export const KingBedOutlinedIcon = svg(svg("path", {
+  d: "M22 12c0-1.1-.9-2-2-2V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22zm-4-2h-5V7h5zM6 7h5v3H6zm-2 5h16v3H4z"
+}), 'KingBedOutlined');
+export const KingBedRoundedIcon = svg(svg("path", {
+  d: "M20 10V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33l.51 1.53c.1.28.36.47.66.47s.56-.19.66-.47L5.67 17h12.67l.51 1.53c.09.28.35.47.65.47s.56-.19.66-.47l.51-1.53H22v-5c0-1.1-.9-2-2-2m-9 0H6V8c0-.55.45-1 1-1h4zm7 0h-5V7h4c.55 0 1 .45 1 1z"
+}), 'KingBedRounded');
+export const KingBedSharpIcon = svg(svg("path", {
+  d: "M20 10V5H4v5H2v7h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-7zm-9 0H6V7h5zm7 0h-5V7h5z"
+}), 'KingBedSharp');
+export const KingBedTwoToneIcon = svg([svg("path", {
+  d: "M4 12h16v3H4z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M20 10V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-5c0-1.1-.9-2-2-2m-7-3h5v3h-5zM6 7h5v3H6zm14 8H4v-3h16z"
+}, "1")], 'KingBedTwoTone');
+export const KitchenIcon = svg(svg("path", {
+  d: "M20 9V4c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v5zM8 5h2v3H8zm-4 6v9c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-9zm6 6H8v-5h2z"
+}), 'Kitchen');
+export const KitchenOutlinedIcon = svg(svg("path", {
+  d: "M8 5h2v3H8zm0 7h2v5H8zm10-9.99L6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.11-.9-1.99-2-1.99M18 20H6v-9.02h12zm0-11H6V4h12z"
+}), 'KitchenOutlined');
+export const KitchenRoundedIcon = svg(svg("path", {
+  d: "M18 2.01 6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.11-.9-1.99-2-1.99M17 20H7c-.55 0-1-.45-1-1v-7.02c0-.55.45-1 1-1h10c.55 0 1 .45 1 1V19c0 .55-.45 1-1 1m0-11H7c-.55 0-1-.45-1-1V5c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1M9 5c.55 0 1 .45 1 1v1c0 .55-.45 1-1 1s-1-.45-1-1V6c0-.55.45-1 1-1m0 7c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1s-1-.45-1-1v-3c0-.55.45-1 1-1"
+}), 'KitchenRounded');
+export const KitchenSharpIcon = svg(svg("path", {
+  d: "M20 2.01 4 2v20h16zM18 20H6v-9.02h12zm0-11H6V4h12zM8 5h2v3H8zm0 7h2v5H8z"
+}), 'KitchenSharp');
+export const KitchenTwoToneIcon = svg([svg("path", {
+  d: "M8 5h2v3H8zm0 7h2v5H8zm-2 8h12v-9.02H6zm2-8h2v5H8zM6 9h12V4H6zm2-4h2v3H8z",
+  opacity: ".3"
+}, "0"), svg("path", {
+  d: "M18 2.01 6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.11-.9-1.99-2-1.99M18 20H6v-9.02h12zm0-11H6V4h12zM8 5h2v3H8zm0 7h2v5H8z"
+}, "1")], 'KitchenTwoTone');
+export const KitesurfingIcon = svg(svg("path", {
+  d: "M6 3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m14.06-2h-2.12L15.5 3.44l1.06 1.06zM22 23v-2h-1c-1.04 0-2.08-.35-3-1-1.83 1.3-4.17 1.3-6 0-1.83 1.3-4.17 1.3-6 0-.91.65-1.96 1-3 1H2v2h1c1.03 0 2.05-.25 3-.75 1.89 1 4.11 1 6 0 1.89 1 4.11 1 6 0 .95.5 1.97.75 3 .75zm-1-9.72c0 1.44-2.19 3.62-5.04 5.58-.31.09-.63.14-.96.14-1.2 0-2.27-.66-3-1.5-.73.84-1.8 1.5-3 1.5-.94 0-1.81-.41-2.49-.99.46-.39.96-.78 1.49-1.17l-1.55-2.97C6.15 13.3 6 12.64 6 12V8c0-1.1.9-2 2-2h3c1.38 0 2.63-.56 3.54-1.46l1.41 1.41C14.68 7.21 12.93 8 11 8H9.6v3.5h2.8l1.69 1.88c1.95-.84 3.77-1.38 5.06-1.38.84 0 1.85.25 1.85 1.28m-8.8.99-.7-.77-2.5.1.83 2.01c.59-.38 1.81-1.06 2.37-1.34"
+}), 'Kitesurfing');
+export const KitesurfingOutlinedIcon = svg(svg("path", {
+  d: "M6 3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m14.06-2h-2.12L15.5 3.44l1.06 1.06zM22 23v-2h-1c-1.04 0-2.08-.35-3-1-1.83 1.3-4.17 1.3-6 0-1.83 1.3-4.17 1.3-6 0-.91.65-1.96 1-3 1H2v2h1c1.03 0 2.05-.25 3-.75 1.89 1 4.11 1 6 0 1.89 1 4.11 1 6 0 .95.5 1.97.75 3 .75zm-1-9.72c0 1.44-2.19 3.62-5.04 5.58-.31.09-.63.14-.96.14-1.2 0-2.27-.66-3-1.5-.73.84-1.8 1.5-3 1.5-.94 0-1.81-.41-2.49-.99.46-.39.96-.78 1.49-1.17l-1.55-2.97C6.15 13.3 6 12.64 6 12V8c0-1.1.9-2 2-2h3c1.38 0 2.63-.56 3.54-1.46l1.41 1.41C14.68 7.21 12.93 8 11 8H9.6v3.5h2.8l1.69 1.88c1.95-.84 3.77-1.38 5.06-1.38.84 0 1.85.25 1.85 1.28m-8.8.99-.7-.77-2.5.1.83 2.01c.59-.38 1.81-1.06 2.37-1.34"
+}), 'KitesurfingOutlined');
+export const KitesurfingRoundedIcon = svg(svg("path", {
+  d: "M6 3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m10.03.97c.29.29.77.29 1.06 0L20.06 1h-2.12l-1.91 1.91c-.29.29-.29.77 0 1.06M19.15 12c-1.29 0-3.11.53-5.06 1.38L13 12.16c-.38-.42-.92-.66-1.49-.66H9.6V8H11c1.52 0 2.94-.49 4.09-1.32.49-.35.52-1.07.09-1.5-.35-.35-.9-.38-1.3-.09-.82.57-1.81.91-2.88.91H8c-1.1 0-2 .9-2 2v4.04c0 .64.15 1.27.45 1.83L8 16.84c-.53.38-1.03.78-1.49 1.17.68.58 1.55.99 2.49.99 1.2 0 2.27-.66 3-1.5.73.84 1.8 1.5 3 1.5.33 0 .65-.05.96-.14C18.81 16.9 21 14.72 21 13.28c0-1.03-1.01-1.28-1.85-1.28m-9.32 3.61L9 13.6l2.5-.1.7.77c-.56.28-1.78.96-2.37 1.34M22 22c0-.55-.45-1-1-1-.87 0-1.73-.24-2.53-.7-.29-.16-.65-.17-.94 0-1.59.9-3.47.9-5.06 0-.29-.16-.65-.16-.94 0-1.59.9-3.47.9-5.06 0-.29-.16-.65-.16-.94 0-.8.46-1.66.7-2.53.7-.55 0-1 .45-1 1s.45 1 1 1c1.15 0 2.3-.31 3.33-.94 1.66 1.11 3.78 1.01 5.58.14 1.91 1.05 4.17 1.07 6.09.05.95.5 1.97.75 3 .75.55 0 1-.45 1-1"
+}), 'KitesurfingRounded');
+export const KitesurfingSharpIcon = svg(svg("path", {
+  d: "M6 3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m14.06-2h-2.12L15.5 3.44l1.06 1.06zM22 23v-2h-1c-1.04 0-2.08-.35-3-1-1.83 1.3-4.17 1.3-6 0-1.83 1.3-4.17 1.3-6 0-.91.65-1.96 1-3 1H2v2h1c1.03 0 2.05-.25 3-.75 1.89 1 4.11 1 6 0 1.89 1 4.11 1 6 0 .95.5 1.97.75 3 .75zm-1-9.72c0 1.44-2.19 3.62-5.04 5.58-.31.09-.63.14-.96.14-1.2 0-2.27-.66-3-1.5-.73.84-1.8 1.5-3 1.5-.94 0-1.81-.41-2.49-.99.46-.39.96-.78 1.49-1.17L6 13V8c0-1.1.9-2 2-2h3c1.38 0 2.63-.56 3.54-1.46l1.41 1.41C14.68 7.21 12.93 8 11 8H9.6v3.5h2.8l1.69 1.88c1.95-.84 3.77-1.38 5.06-1.38.84 0 1.85.25 1.85 1.28m-8.8.99-.7-.77-2.5.1.83 2.01c.59-.38 1.81-1.06 2.37-1.34"
+}), 'KitesurfingSharp');
+export const KitesurfingTwoToneIcon = svg(svg("path", {
+  d: "M6 3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m14.06-2h-2.12L15.5 3.44l1.06 1.06zM22 23v-2h-1c-1.04 0-2.08-.35-3-1-1.83 1.3-4.17 1.3-6 0-1.83 1.3-4.17 1.3-6 0-.91.65-1.96 1-3 1H2v2h1c1.03 0 2.05-.25 3-.75 1.89 1 4.11 1 6 0 1.89 1 4.11 1 6 0 .95.5 1.97.75 3 .75zm-1-9.72c0 1.44-2.19 3.62-5.04 5.58-.31.09-.63.14-.96.14-1.2 0-2.27-.66-3-1.5-.73.84-1.8 1.5-3 1.5-.94 0-1.81-.41-2.49-.99.46-.39.96-.78 1.49-1.17l-1.55-2.97C6.15 13.3 6 12.64 6 12V8c0-1.1.9-2 2-2h3c1.38 0 2.63-.56 3.54-1.46l1.41 1.41C14.68 7.21 12.93 8 11 8H9.6v3.5h2.8l1.69 1.88c1.95-.84 3.77-1.38 5.06-1.38.84 0 1.85.25 1.85 1.28m-8.8.99-.7-.77-2.5.1.83 2.01c.59-.38 1.81-1.06 2.37-1.34"
+}), 'KitesurfingTwoTone');

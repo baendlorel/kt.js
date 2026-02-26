@@ -1,8 +1,8 @@
 {
-  "name": "@ktjs/mui",
-  "version": "0.23.2",
-  "description": "Material-UI inspired components for kt.js - pre-styled UI components",
-  "description_zh": "面向 kt.js 的类 Material-UI 预设组件库。",
+  "name": "@ktjs/mui-icon",
+  "version": "0.1.0",
+  "description": "Material-UI icon components for kt.js - pre-styled UI components",
+  "description_zh": "面向 kt.js 的类 Material-UI 图标组件库。",
   "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -20,6 +20,7 @@
   "keywords": [
     "kt.js",
     "ui",
+    "icon",
     "components",
     "material-ui",
     "mui",

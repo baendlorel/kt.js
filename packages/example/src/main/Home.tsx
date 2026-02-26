@@ -38,11 +38,12 @@ export function Home() {
         <p k-html={t('home.section.introduction.content')}></p>
         <h3 k-html={t('home.section.gettingStarted')}></h3>
 
-        <h4>Use cli</h4>
-        <p> Using create statement to create a new project with sample codes.</p>
+        <h4 k-html={t('home.step.createCli')}></h4>
+        <p k-html={t('home.createCli.description')}></p>
         <Code code="pnpm create kt.js" lang="bash"></Code>
+        <p k-html={t('home.createCli.more')}></p>
 
-        <p k-html={t('home.gettingStarted.guide')}></p>
+        <h3 k-html={t('home.gettingStarted.guide')}></h3>
         <h4 k-html={t('home.step.installation')}></h4>
         <Code code={installCode} lang="bash" />
 

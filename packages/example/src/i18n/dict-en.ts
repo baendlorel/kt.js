@@ -6,6 +6,7 @@ export const en: typeof zh = {
   'app.locale.en': 'EN',
   'app.locale.switchHint': 'Switch language here',
   'app.controls.ariaLabel': 'Theme and language settings',
+  'app.controls.githubRepo': 'Open kt.js GitHub repository',
   'app.theme.light': 'Light',
   'app.theme.dark': 'Dark',
   'app.theme.switchToLight': 'Switch to light theme',

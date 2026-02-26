@@ -12,6 +12,7 @@ import { muiNav } from './ui/index.js';
 
 const navs: Nav[] = [...mainNavs, muiNav];
 const navsFlat: NavItem[] = muiNav.items.concat(...mainNavs.map((nav) => ('items' in nav ? nav.items : [nav])));
+const githubRepoUrl = 'https://github.com/baendlorel/kt.js';
 
 function createApp() {
   resolveInitialTheme();
@@ -70,6 +71,16 @@ function createApp() {
           <span class="theme-toggle-icon">{themeIcon}</span>
           <span class="theme-toggle-text">{themeLabel}</span>
         </button>
+        <a
+          href={githubRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link-btn"
+          aria-label={t('app.controls.githubRepo')}
+          title={t('app.controls.githubRepo')}
+        >
+          GitHub
+        </a>
         <div class="locale-switch">
           {LocaleOptions.map((option) => (
             <a

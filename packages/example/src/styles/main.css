@@ -298,6 +298,36 @@ a:hover {
   font-size: 0.95rem;
 }
 
+.github-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--control-border);
+  background: var(--control-bg);
+  color: var(--text-secondary);
+  box-shadow: var(--control-shadow);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.github-link-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-color);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+
 .locale-switch {
   display: inline-flex;
   gap: 6px;
@@ -336,6 +366,7 @@ a:hover {
 }
 
 .theme-toggle-btn:focus-visible,
+.github-link-btn:focus-visible,
 .locale-switch-btn:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 2px;
@@ -491,6 +522,13 @@ a:hover {
 
   .theme-toggle-btn {
     min-width: 82px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 0.74rem;
+  }
+
+  .github-link-btn {
+    min-width: 80px;
     height: 30px;
     padding: 0 10px;
     font-size: 0.74rem;

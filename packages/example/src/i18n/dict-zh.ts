@@ -4,6 +4,7 @@ export const zh = {
   'app.locale.en': 'EN',
   'app.locale.switchHint': '在这里切换语言',
   'app.controls.ariaLabel': '主题与语言设置',
+  'app.controls.githubRepo': '打开 kt.js GitHub 仓库',
   'app.theme.light': '浅色',
   'app.theme.dark': '深色',
   'app.theme.switchToLight': '切换到浅色主题',

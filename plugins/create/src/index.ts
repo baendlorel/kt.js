@@ -275,12 +275,14 @@ const createPackageJson = (projectName: string, useMui: boolean, supportIE11: bo
     name?: string;
     dependencies?: unknown;
     devDependencies?: unknown;
+    scripts?: unknown;
   };
 
   packageJson.name = projectName;
 
   const dependencies = toStringMap(packageJson.dependencies);
   const devDependencies = toStringMap(packageJson.devDependencies);
+  const scripts = toStringMap(packageJson.scripts);
 
   if (useMui) {
     dependencies['@ktjs/mui'] = 'latest';
@@ -293,8 +295,10 @@ const createPackageJson = (projectName: string, useMui: boolean, supportIE11: bo
     devDependencies['@babel/preset-env'] = 'latest';
     devDependencies['@babel/preset-typescript'] = 'latest';
     devDependencies['vite-plugin-babel'] = 'latest';
+    scripts['build:ie11'] = 'vite build --config vite.ie11.config.ts';
   }
 
+  packageJson.scripts = scripts;
   packageJson.dependencies = dependencies;
   packageJson.devDependencies = devDependencies;
 
@@ -312,7 +316,7 @@ const createTemplateFiles = (projectName: string, useMui: boolean, supportIE11: 
   },
   {
     path: 'vite.config.ts',
-    content: supportIE11 ? projectViteIE11Config : projectViteConfig,
+    content: projectViteConfig,
   },
   {
     path: 'index.html',
@@ -339,6 +343,19 @@ const createTemplateFiles = (projectName: string, useMui: boolean, supportIE11: 
     content: applyProjectName(projectReadme, projectName),
   },
 ];
+
+const appendIE11Template = (files: TemplateFile[], supportIE11: boolean): TemplateFile[] => {
+  if (!supportIE11) {
+    return files;
+  }
+  return [
+    ...files,
+    {
+      path: 'vite.ie11.config.ts',
+      content: projectViteIE11Config,
+    },
+  ];
+};
 
 const ensureTargetDir = (targetDir: string, displayDir: string): void => {
   if (!existsSync(targetDir)) {
@@ -381,7 +398,10 @@ const run = async (): Promise<void> => {
   const displayDir = path.relative(cwd, projectRoot) || '.';
 
   ensureTargetDir(projectRoot, displayDir);
-  writeTemplateFiles(projectRoot, createTemplateFiles(setup.projectName, setup.useMui, setup.supportIE11));
+  writeTemplateFiles(
+    projectRoot,
+    appendIE11Template(createTemplateFiles(setup.projectName, setup.useMui, setup.supportIE11), setup.supportIE11),
+  );
 
   console.log(`\nScaffolded KT.js project in ${displayDir}.`);
 

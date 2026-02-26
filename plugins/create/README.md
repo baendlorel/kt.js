@@ -18,4 +18,4 @@ pnpm create kt.js my-app
 
 - `projectName`：写入 `package.json` 的 `name` 字段。
 - `Use @ktjs/mui`：是否额外加入 `@ktjs/mui` 依赖。
-- `Support IE11`：默认 `No`。若选择 `Yes`，会用 `vite.ie11.config.ts` 模板写入 `vite.config.ts`。
+- `Support IE11`：默认 `No`。若选择 `Yes`，会额外生成 `vite.ie11.config.ts`，并添加脚本 `build:ie11`。

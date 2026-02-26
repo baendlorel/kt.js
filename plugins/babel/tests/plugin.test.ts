@@ -208,6 +208,24 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).not.toContain('k-key');
     });
 
+    it('keeps k-key function identifier as-is', () => {
+      const code = `const list = <li k-for="item in users" k-key={getKey}>{item.name}</li>;`;
+      const result = transform(code);
+
+      expect(result).toContain('key: getKey');
+      expect(result).toContain('map: (item, index) =>');
+      expect(result).not.toContain('k-key');
+    });
+
+    it('still wraps k-key alias identifier expression', () => {
+      const code = `const list = <li k-for="item in users" k-key={item}>{item.name}</li>;`;
+      const result = transform(code);
+
+      expect(result).toContain('key: (item, index) => item');
+      expect(result).toContain('map: (item, index) =>');
+      expect(result).not.toContain('k-key');
+    });
+
     it('transforms already lowered jsx-runtime call form', () => {
       const code = `
         import { jsx } from '@ktjs/core/jsx-runtime';

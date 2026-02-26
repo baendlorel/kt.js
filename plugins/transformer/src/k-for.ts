@@ -291,6 +291,10 @@ function resolveKeyCallbackFromExpression(
   }
 
   if (t.isExpression(keyExpression)) {
+    if (t.isIdentifier(keyExpression) && !aliases.includes(keyExpression.name)) {
+      return t.cloneNode(keyExpression, true);
+    }
+
     if (hasStringLikeExpression(keyExpression)) {
       const keyText = readExpressionStringValue(keyExpression, path, 'k-key');
       return createWrappedKeyCallback(path, keyText, aliases);

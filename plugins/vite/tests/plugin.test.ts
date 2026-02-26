@@ -130,6 +130,24 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-key');
   });
 
+  it('keeps k-key function identifier as-is', async () => {
+    const result = await runTransform('const view = <li k-for="item in users" k-key={getKey}>{item.name}</li>;');
+    const code = toCode(result);
+
+    expect(code).toContain('key: getKey');
+    expect(code).toContain('map: (item, index) =>');
+    expect(code).not.toContain('k-key');
+  });
+
+  it('still wraps k-key alias identifier expression', async () => {
+    const result = await runTransform('const view = <li k-for="item in users" k-key={item}>{item.name}</li>;');
+    const code = toCode(result);
+
+    expect(code).toContain('key: (item, index) => item');
+    expect(code).toContain('map: (item, index) =>');
+    expect(code).not.toContain('k-key');
+  });
+
   it('provides default index alias for `item in list` syntax', async () => {
     const result = await runTransform('const view = <li k-for="item in users">{item.name}-{index}</li>;');
     const code = toCode(result);

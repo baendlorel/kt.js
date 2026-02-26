@@ -1,4 +1,4 @@
-import { NavItem } from '../types/router.js';
+import type { Nav } from '../types/router.js';
 import { t } from '../i18n/index.js';
 import { ChangeLog } from './Changelog.js';
 import { Directives } from './Directive.js';
@@ -10,7 +10,7 @@ import { OtherElements } from './OtherElements.js';
 import { Reactivity } from './Reactive.js';
 import { Trivia } from './Trivia.js';
 
-export const basicNavItems: NavItem[] = [
+export const mainNavs: Nav[] = [
   {
     id: 'home',
     label: t('nav.home.label'),
@@ -33,45 +33,51 @@ export const basicNavItems: NavItem[] = [
     component: ChangeLog,
   },
   {
-    id: 'reactive',
-    label: t('nav.reactive.label'),
-    title: t('nav.reactive.title'),
-    description: t('nav.reactive.description'),
-    component: Reactivity,
-  },
-  {
-    id: 'directives',
-    label: t('nav.directives.label'),
-    title: t('nav.directives.title'),
-    description: t('nav.directives.description'),
-    component: Directives,
-  },
-  {
-    id: 'fragment',
-    label: t('nav.fragment.label'),
-    title: t('nav.fragment.title'),
-    description: t('nav.fragment.description'),
-    component: FragmentDemo,
-  },
-  {
-    id: 'events',
-    label: t('nav.events.label'),
-    title: t('nav.events.title'),
-    description: t('nav.events.description'),
-    component: Events,
-  },
-  {
-    id: 'other-elements',
-    label: t('nav.otherElements.label'),
-    title: t('nav.otherElements.title'),
-    description: t('nav.otherElements.description'),
-    component: OtherElements,
-  },
-  {
     id: 'trivia',
     label: t('nav.trivia.label'),
     title: t('nav.trivia.title'),
     description: t('nav.trivia.description'),
     component: Trivia,
+  },
+  {
+    id: 'features',
+    label: t('app.nav.group.features'),
+    items: [
+      {
+        id: 'reactive',
+        label: t('nav.reactive.label'),
+        title: t('nav.reactive.title'),
+        description: t('nav.reactive.description'),
+        component: Reactivity,
+      },
+      {
+        id: 'directives',
+        label: t('nav.directives.label'),
+        title: t('nav.directives.title'),
+        description: t('nav.directives.description'),
+        component: Directives,
+      },
+      {
+        id: 'fragment',
+        label: t('nav.fragment.label'),
+        title: t('nav.fragment.title'),
+        description: t('nav.fragment.description'),
+        component: FragmentDemo,
+      },
+      {
+        id: 'events',
+        label: t('nav.events.label'),
+        title: t('nav.events.title'),
+        description: t('nav.events.description'),
+        component: Events,
+      },
+      {
+        id: 'other-elements',
+        label: t('nav.otherElements.label'),
+        title: t('nav.otherElements.title'),
+        description: t('nav.otherElements.description'),
+        component: OtherElements,
+      },
+    ].map((item) => ({ ...item, groupId: 'features' })), // add groupId to each item for reverse lookup
   },
 ];

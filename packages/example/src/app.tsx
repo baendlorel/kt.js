@@ -1,20 +1,14 @@
 import './styles/main.css';
 import './styles/demo.css';
 
-import { computed, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
+import type { Nav, NavItem } from './types/router.js';
 import icon from '../assets/icon.svg';
-import { t, I18NContent, LocaleOptions } from './i18n/index.js';
-import type { NavItem } from './types/router.js';
-
-import { basicNavItems } from './main/index.js';
-import { muiNavItems } from './ui/index.js';
 import { applyTheme, resolveInitialTheme, state } from './common/state.js';
+import { t, I18NContent, LocaleOptions } from './i18n/index.js';
 
-interface NavGroup {
-  id: string;
-  label: I18NContent;
-  items: NavItem[];
-}
+import { mainNavs } from './main/index.js';
+import { muiNav } from './ui/index.js';
 
 interface NavLookup {
   section: I18NContent;
@@ -22,45 +16,17 @@ interface NavLookup {
   groupId?: string;
 }
 
-const pickBasicItems = (ids: string[]): NavItem[] => basicNavItems.filter((item) => ids.includes(item.id));
-const topLevelItems = pickBasicItems(['home', 'ie11-compatibility', 'changelog', 'trivia']);
-const navGroups: NavGroup[] = [
-  {
-    id: 'features',
-    label: t('app.nav.group.features'),
-    items: pickBasicItems(['reactive', 'directives', 'fragment', 'events', 'other-elements']),
-  },
-  {
-    id: 'mui',
-    label: t('app.nav.group.mui'),
-    items: muiNavItems,
-  },
-];
-
-const navs: NavLookup[] = [
-  ...topLevelItems.map((item) => ({
-    section: item.label,
-    item,
-  })),
-  ...navGroups.flatMap((group) =>
-    group.items.map((item) => ({
-      section: group.label,
-      item,
-      groupId: group.id,
-    })),
-  ),
-];
-
-const navLookupMap = new Map<string, NavLookup>(navs.map((entry) => [entry.item.id, entry]));
+const navs: Nav[] = [...mainNavs, muiNav];
+const navsFlat: NavItem[] = muiNav.items.concat(...mainNavs.map((nav) => ('items' in nav ? nav.items : [nav])));
 
 function createApp() {
   resolveInitialTheme();
 
-  const firstItem = topLevelItems[0] ?? navGroups[0].items[0];
+  const firstItem = mainNavs[0] as NavItem; // mainNavs is guaranteed to have at least one item
 
   const page = ref(firstItem.id);
   const currentSection = ref(firstItem.label);
-  const openedGroup = ref(navGroups[0].id);
+  const openedGroup = ref(mainNavs[0].id);
   const headerTitleRef = ref(firstItem.title);
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();
@@ -68,29 +34,29 @@ function createApp() {
   const locale = window.location.href.includes('en-US') ? 'en-US' : 'zh-CN';
 
   const navigateTo = (pageId: string) => {
-    const navItem = navLookupMap.get(pageId);
+    const navItem = navsFlat.find((nav) => nav.id === pageId);
     if (!navItem) {
+      throw new Error('Invalid page id: ' + pageId);
+    }
+
+    if (page.value === navItem.id) {
       return;
     }
 
-    if (page.value === navItem.item.id) {
-      return;
-    }
-
-    page.value = navItem.item.id;
-    currentSection.value = navItem.section;
+    page.value = navItem.id;
+    currentSection.value = navItem.label;
     if (navItem.groupId) {
       openedGroup.value = navItem.groupId;
     }
-    headerTitleRef.value = navItem.item.title;
-    headerDescRef.value = navItem.item.description;
-    view.value = navItem.item.component();
+    headerTitleRef.value = navItem.title;
+    headerDescRef.value = navItem.description;
+    view.value = navItem.component();
     contentBodyRef.value.scrollTop = 0;
   };
 
   const toggleGroup = (groupId: string) => (openedGroup.value = groupId); // equal values does not trigger onChange events
 
-  const navIndex = page.toComputed((v) => navs.findIndex((entry) => entry.item.id === v));
+  const navIndex = page.toComputed((v) => navs.findIndex((entry) => entry.id === v));
   const prev = navIndex.toComputed((i) => (i <= 0 ? null : navs[i - 1]));
   const next = navIndex.toComputed((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
 
@@ -138,58 +104,44 @@ function createApp() {
         </div>
 
         <nav class="nav-menu">
-          <div class="nav-top-level">
-            {topLevelItems.map((item) => (
-              <button
-                type="button"
-                class={page.toComputed((p) => `nav-item nav-item-top ${item.id === p ? 'active' : ''}`)}
-                on:click={() => navigateTo(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div class="nav-section-divider"></div>
-
-          {navGroups.map((group, groupIndex) => (
-            <div class="nav-section">
-              <button
-                type="button"
-                class={computed(
-                  () => `nav-group-toggle ${openedGroup.value === group.id ? 'open' : ''}`,
-                  [openedGroup],
-                )}
-                on:click={() => toggleGroup(group.id)}
-              >
-                <span>{group.label}</span>
-                <span
-                  class={computed(
-                    () => `nav-group-arrow ${openedGroup.value === group.id ? 'open' : ''}`,
-                    [openedGroup],
-                  )}
-                >
-                  ▾
-                </span>
-              </button>
-
-              <div class={openedGroup.toComputed((v) => `nav-group-panel ${v === group.id ? 'open' : 'collapsed'}`)}>
-                {group.items.map((item) => (
+          {navs.map((nav) => {
+            if ('items' in nav) {
+              return (
+                <div class="nav-section">
                   <button
                     type="button"
-                    class={page.toComputed((v) => `nav-item ${item.id === v ? 'active' : ''}`)}
-                    on:click={() => navigateTo(item.id)}
+                    class={openedGroup.toComputed((v) => `nav-group-toggle ${v === nav.id ? 'open' : ''}`)}
+                    on:click={() => toggleGroup(nav.id)}
                   >
-                    {item.label}
+                    <span>{nav.label}</span>
+                    <span class={openedGroup.toComputed((v) => `nav-group-arrow ${v === nav.id ? 'open' : ''}`)}>
+                      ▾
+                    </span>
                   </button>
-                ))}
-              </div>
 
-              <div
-                k-if={groupIndex !== navGroups.length - 1}
-                class="nav-section-divider nav-section-divider-group"
-              ></div>
-            </div>
-          ))}
+                  <div class={openedGroup.toComputed((v) => `nav-group-panel ${v === nav.id ? 'open' : 'collapsed'}`)}>
+                    {nav.items.map((item) => (
+                      <button
+                        type="button"
+                        class={page.toComputed((v) => `nav-item ${item.id === v ? 'active' : ''}`)}
+                        on:click={() => navigateTo(item.id)}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            } else {
+              <button
+                type="button"
+                class={page.toComputed((p) => `nav-item nav-item-top ${nav.id === p ? 'active' : ''}`)}
+                on:click={() => navigateTo(nav.id)}
+              >
+                {nav.label}
+              </button>;
+            }
+          })}
         </nav>
       </aside>
 
@@ -209,14 +161,14 @@ function createApp() {
             disabled={prev.toComputed((v) => !v)}
             on:click={() => {
               if (prev.value) {
-                navigateTo(prev.value.item.id);
+                navigateTo(prev.value.id);
               }
             }}
           >
             <span class="content-pagination-caption" k-html={t('app.pagination.prev')}></span>
             <span
               class="content-pagination-title"
-              k-html={prev.toComputed((v) => v?.item.label ?? t('app.pagination.noPrev'))}
+              k-html={prev.toComputed((v) => v?.label ?? t('app.pagination.noPrev'))}
             ></span>
           </button>
           <button
@@ -225,14 +177,14 @@ function createApp() {
             disabled={next.toComputed((v) => !v)}
             on:click={() => {
               if (next.value) {
-                navigateTo(next.value.item.id);
+                navigateTo(next.value.id);
               }
             }}
           >
             <span class="content-pagination-caption" k-html={t('app.pagination.next')}></span>
             <span
               class="content-pagination-title"
-              k-html={next.toComputed((v) => v?.item.label ?? t('app.pagination.noNext'))}
+              k-html={next.toComputed((v) => v?.label ?? t('app.pagination.noNext'))}
             ></span>
           </button>
         </div>

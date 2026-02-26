@@ -5,16 +5,10 @@ import { ref } from '@ktjs/core';
 import type { Nav, NavItem } from './types/router.js';
 import icon from '../assets/icon.svg';
 import { applyTheme, resolveInitialTheme, state } from './common/state.js';
-import { t, I18NContent, LocaleOptions } from './i18n/index.js';
+import { t, LocaleOptions } from './i18n/index.js';
 
 import { mainNavs } from './main/index.js';
 import { muiNav } from './ui/index.js';
-
-interface NavLookup {
-  section: I18NContent;
-  item: NavItem;
-  groupId?: string;
-}
 
 const navs: Nav[] = [...mainNavs, muiNav];
 const navsFlat: NavItem[] = muiNav.items.concat(...mainNavs.map((nav) => ('items' in nav ? nav.items : [nav])));
@@ -54,29 +48,25 @@ function createApp() {
     contentBodyRef.value.scrollTop = 0;
   };
 
-  const toggleGroup = (groupId: string) => (openedGroup.value = groupId); // equal values does not trigger onChange events
-
+  const toggleGroup = (groupId: string) => {
+    if (openedGroup.value === groupId) {
+      openedGroup.value = '';
+    } else {
+      openedGroup.value = groupId;
+    }
+  };
   const navIndex = page.toComputed((v) => navs.findIndex((entry) => entry.id === v));
   const prev = navIndex.toComputed((i) => (i <= 0 ? null : navs[i - 1]));
   const next = navIndex.toComputed((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
 
   const themeLabel = state.theme.toComputed((v) => t(('app.theme.' + v) as any));
   const themeIcon = state.theme.toComputed((v) => (v === 'dark' ? '🌙' : '☀️'));
-  const themeAriaLabel = state.theme.toComputed((v) =>
-    v === 'dark' ? t('app.theme.switchToLight') : t('app.theme.switchToDark'),
-  );
   const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
       <div class="floating-controls" aria-label={t('app.controls.ariaLabel')}>
-        <button
-          type="button"
-          class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)}
-          on:click={toggleTheme}
-          aria-label={themeAriaLabel}
-          title={themeAriaLabel}
-        >
+        <button type="button" class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)} on:click={toggleTheme}>
           <span class="theme-toggle-icon">{themeIcon}</span>
           <span class="theme-toggle-text">{themeLabel}</span>
         </button>
@@ -133,13 +123,17 @@ function createApp() {
                 </div>
               );
             } else {
-              <button
-                type="button"
-                class={page.toComputed((p) => `nav-item nav-item-top ${nav.id === p ? 'active' : ''}`)}
-                on:click={() => navigateTo(nav.id)}
-              >
-                {nav.label}
-              </button>;
+              return (
+                <div class="nav-section">
+                  <button
+                    type="button"
+                    class={page.toComputed((p) => `nav-item nav-item-top ${nav.id === p ? 'active' : ''}`)}
+                    on:click={() => navigateTo(nav.id)}
+                  >
+                    {nav.label}
+                  </button>
+                </div>
+              );
             }
           })}
         </nav>

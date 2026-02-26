@@ -8,8 +8,8 @@
   --text-muted: #6b7280;
   --nav-text-color: #4b5563;
   --nav-subtle-color: #6b7280;
-  --nav-hover-color: #0369a1;
-  --nav-active-color: #0369a1;
+  --nav-hover-color: #20b1ff;
+  --nav-active-color: #53c1fd;
   --border-color: #e5e7eb82;
   --accent-color: #4cb3ff;
   --accent-strong: #0369a1;
@@ -165,7 +165,7 @@ a:hover {
 
 .nav-group-toggle:hover,
 .nav-group-toggle.open {
-  color: var(--text-primary);
+  color: var(--nav-hover-color);
 }
 
 .nav-group-arrow {

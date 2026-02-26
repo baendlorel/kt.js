@@ -1,6 +1,7 @@
 export function svg(svgElements: SVGElement[], title?: string): SVGElement;
 export function svg(svgElement: SVGElement, title?: string): SVGElement;
-export function svg(tag: string, attrs: Record<string, string>, title?: string): SVGElement;
+export function svg(props: { children: SVGElement[] }, title?: string): SVGElement;
+export function svg(tag: string, attrs: Record<string, string | SVGElement[] | SVGElement>, title?: string): SVGElement;
 export function svg(...args: any[]) {
   const [a0, a1, a2] = args;
   if (typeof a0 === 'object' && a0 !== null && a0.children) {
@@ -11,7 +12,17 @@ export function svg(...args: any[]) {
     const s = a0 === 'svg' ? create() : document.createElementNS('http://www.w3.org/2000/svg', a0);
 
     if (a1) {
-      Object.entries(a1).forEach(([k, v]) => s.setAttribute(k, v as string));
+      Object.entries(a1).forEach(([k, v]) => {
+        if (k !== 'children') {
+          s.setAttribute(k, v as string);
+          return;
+        }
+        if (Array.isArray(v)) {
+          v.forEach((e) => s.appendChild(e));
+        } else if (v instanceof SVGElement) {
+          s.appendChild(v);
+        }
+      });
     }
     if (typeof a2 === 'string') {
       s.setAttribute('title', a2);

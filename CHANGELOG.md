@@ -1,16 +1,48 @@
 # Changelog
 
-## 0.31.x - 2026-02-26
+## 0.31.x - 2026-02-25 ~ 2026-02-26
+
+### New Features
+
+- **`create-kt.js` scaffolding CLI (`0.1.1` ~ `0.1.3`)**:
+  - Added project bootstrap flow via `pnpm create kt.js my-app`.
+  - Added interactive options for `@ktjs/mui` and IE11 compatibility.
+  - Added optional extra IE11 build command in scaffolded projects.
+- **`k-for` / `k-key` compiler upgrades**:
+  - In `@ktjs/transformer` + Babel/Vite wrappers (`0.4.3`), `k-key` now handles alias expressions and function references more accurately.
+  - `k-key={item.id}` is compiled to a key callback, while function expressions and external identifier functions are preserved.
+- **TypeScript plugin improvements (`@ktjs/ts-plugin@0.1.13`)**:
+  - `k-key` now understands `k-for` aliases (`item`, etc.) for better type-aware editing feedback.
+- **Core/shared typing and reactive API polish**:
+  - Added `KTMaybeReactive` for simpler component prop typing patterns.
+  - Unified recent reactive helper naming around `toComputed`.
+- **Example and UI showcase expansion**:
+  - Added i18n flow (`zh-CN` / `en-US`) and theme switching improvements.
+  - Migrated main navigation to a tree-style structure and expanded showcase pages (including `Trivia` and more MUI demos).
+  - Added `DropdownButton` component with tests and integrated docs/demo coverage.
+
+### Bug Fixes
+
+- **Example runtime behavior**:
+  - Fixed base URL handling regressions.
+  - Fixed language switch behavior.
+- **MUI correctness and UX fixes**:
+  - Fixed `TextField` required + placeholder overlap (with regression test).
+  - Fixed `LinearProgress` value update behavior.
+  - Fixed closable `Pill` interaction/visibility issues and SVG nested icon rendering.
+  - Fixed `h4` rendering issue caused by real-DOM node reuse.
+
+### Optimizations
+
+- Simplified core internals (including removal of `createRedrawable`) and reduced runtime/app wiring overhead.
+- Continued demo/app refactors for cleaner structure and lighter UI logic.
 
 ### Documentation
 
 - Added `pnpm create kt.js my-app` quick-start guidance to key READMEs.
-- Document page published.
-- `k-key` can now use variables in `k-for` string.
-- `toComputed` added. To create a computed value from an existed ref or computed value.
-- `Dropdown` component optimized.
+- Updated reactive showcase documentation.
 
-## 0.30.x - 2026-02-22 ~ 2026-02-23
+## 0.30.x - 2026-02-22 ~ 2026-02-25
 
 ### New Features
 
@@ -30,6 +62,18 @@
 - **Runtime behavior fixes**:
   - Refined `applyKModel` element checks to use tag-based handling for correctness.
   - Fix that `svg` and `mathml` JSX calls were not properly transformed in the runtime.
+
+### Follow-up Updates (2026-02-24 ~ 2026-02-25)
+
+- **IE11 compatibility hardening**:
+  - Added DOM polyfills (`remove` / `replaceWith`) and related compatibility adjustments.
+  - Added IE11 compatibility demonstration content in `packages/example`.
+- **Reactive/event pipeline refinements**:
+  - Ref change listeners moved to keyed `Map` storage.
+  - `notify` / `mutate` gained selective handler triggering (`handlerKeys` semantics).
+  - Improved checkbox event flow and reduced unintended internal-trigger side effects.
+- **Tooling and tests**:
+  - Fixed Vite test-environment configuration placement.
 
 ### Optimizations
 

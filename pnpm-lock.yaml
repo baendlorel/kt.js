@@ -22,8 +22,8 @@ importers:
         version: 3.22.0
     devDependencies:
       '@ktjs/ts-plugin':
-        specifier: ^0.1.12
-        version: 0.1.12(typescript@5.9.3)
+        specifier: ^0.1.13
+        version: 0.1.13(typescript@5.9.3)
       '@rollup/plugin-alias':
         specifier: ^6.0.0
         version: 6.0.0(rollup@4.58.0)
@@ -628,8 +628,8 @@ packages:
   '@ktjs/transformer@0.4.1':
     resolution: {integrity: sha512-Mb8QKVokaWFKzC54rLGFopvBX410ajpc2M+FA083/9UyiwT8oxo3/J9JJ/MZmI23Ez4lzOIYSRvl6hDLnDLw+Q==}
 
-  '@ktjs/ts-plugin@0.1.12':
-    resolution: {integrity: sha512-96gsUCidewBx/IpH5wItAKnchMAQs265N07aIOZp2+wzuDm9dZOoWXFuBL0+lKHoh16FD6artjQfkxF/qtA1Xg==}
+  '@ktjs/ts-plugin@0.1.13':
+    resolution: {integrity: sha512-4aPGCuEN6FInR9njWuKf8UUETBC2HiaFlMTNPzavbbKI9EejJfzNzrnJHahwEMwlElx1Rz/XslIvrrWGTNRiJg==}
     peerDependencies:
       typescript: '>=5.0.0'
 
@@ -2143,7 +2143,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ktjs/ts-plugin@0.1.12(typescript@5.9.3)':
+  '@ktjs/ts-plugin@0.1.13(typescript@5.9.3)':
     dependencies:
       typescript: 5.9.3
 

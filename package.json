@@ -35,7 +35,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@ktjs/ts-plugin": "^0.1.12",
+    "@ktjs/ts-plugin": "^0.1.13",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-json": "^6.1.0",

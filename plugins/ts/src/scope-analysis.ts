@@ -1,5 +1,5 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
-import { getAttributeText, getJsxAttribute } from './jsx-attributes';
+import { getAttributeExpression, getAttributeText, getJsxAttribute } from './jsx-attributes';
 import { parseKForExpression } from './kfor-parser';
 import { resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
 import type {
@@ -95,11 +95,17 @@ function collectKForScopes(
       const forAttr = getJsxAttribute(node.openingElement, config.forAttr, ts);
       if (forAttr) {
         const bindings = resolveScopeBindings(node.openingElement, forAttr, checker, config, ts);
-        const start = node.openingElement.end;
-        const end = node.closingElement.getStart(sourceFile);
+        if (bindings.length > 0) {
+          const bodyStart = node.openingElement.end;
+          const bodyEnd = node.closingElement.getStart(sourceFile);
+          if (bodyStart < bodyEnd) {
+            scopes.push({ start: bodyStart, end: bodyEnd, bindings });
+          }
 
-        if (start < end && bindings.length > 0) {
-          scopes.push({ start, end, bindings });
+          const keyScope = resolveKeyAttributeScope(node.openingElement, sourceFile, ts, config);
+          if (keyScope) {
+            scopes.push({ start: keyScope.start, end: keyScope.end, bindings });
+          }
         }
       }
     }
@@ -109,6 +115,31 @@ function collectKForScopes(
 
   visit(sourceFile);
   return scopes;
+}
+
+function resolveKeyAttributeScope(
+  opening: JsxOpeningLikeElement,
+  sourceFile: tsModule.SourceFile,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): { start: number; end: number } | undefined {
+  const keyAttr = getJsxAttribute(opening, config.keyAttr, ts);
+  if (!keyAttr) {
+    return undefined;
+  }
+
+  const keyExpression = getAttributeExpression(keyAttr, ts);
+  if (!keyExpression || !keyAttr.initializer || !ts.isJsxExpression(keyAttr.initializer)) {
+    return undefined;
+  }
+
+  const start = keyAttr.initializer.getStart(sourceFile);
+  const end = keyAttr.initializer.end;
+  if (start >= end) {
+    return undefined;
+  }
+
+  return { start, end };
 }
 
 function resolveScopeBindings(

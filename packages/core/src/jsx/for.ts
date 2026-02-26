@@ -13,6 +13,7 @@ export interface KTForProps<T> {
   map?: (item: T, index: number, array: T[]) => HTMLElement;
 }
 
+// todo 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__

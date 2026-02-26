@@ -38,6 +38,3 @@ export type {
   KTMuiPopoverOrigin,
   KTMuiPopoverCloseReason,
 } from './components/Popover/Index.js';
-
-// Icons
-export * from './Icons/index.js';

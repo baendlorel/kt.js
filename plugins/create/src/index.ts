@@ -2,6 +2,8 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import { createInterface } from 'node:readline/promises';
+
 import projectGitignore from './template/.gitignore?raw';
 import projectIndexHtml from './template/index.html?raw';
 import projectPackageJson from './template/package.json?raw';
@@ -9,6 +11,7 @@ import projectReadme from './template/README.md?raw';
 import projectMainTsx from './template/src/main.tsx?raw';
 import projectStyleCss from './template/src/style.css?raw';
 import projectTsconfig from './template/tsconfig.json?raw';
+import projectViteIE11Config from './template/vite.ie11.config.ts?raw';
 import projectViteConfig from './template/vite.config.ts?raw';
 import icon from '../../../assets/ktjs-0.0.1.svg?raw';
 
@@ -16,6 +19,7 @@ type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
 
 interface CliOptions {
   targetDir: string;
+  targetDirSpecified: boolean;
   packageManager?: PackageManager;
   installDeps: boolean;
 }
@@ -31,13 +35,25 @@ interface TemplateFile {
   content: string;
 }
 
+interface ProjectSetup {
+  projectName: string;
+  targetDir: string;
+  useMui: boolean;
+  supportIE11: boolean;
+}
+
 const PROJECT_NAME_TOKEN = '__PROJECT_NAME__';
 
 const HELP_TEXT = `create-kt.js
 
 Usage:
-  npm create kt.js@latest [project-name] [-- --no-install] [-- --pm pnpm]
-  pnpm create kt.js [project-name] [--no-install] [--pm pnpm]
+  npm create kt.js@latest [project-dir] [-- --no-install] [-- --pm pnpm]
+  pnpm create kt.js [project-dir] [--no-install] [--pm pnpm]
+
+Prompts:
+  1. projectName (written to package.json name)
+  2. whether to include @ktjs/mui
+  3. whether to support IE11 (default no)
 
 Options:
   --no-install                 Skip dependency installation.
@@ -97,9 +113,9 @@ const getDevCommand = (packageManager: PackageManager): string => {
 const parseArgs = (argv: string[]): CliOptions => {
   const options: CliOptions = {
     targetDir: 'ktjs-app',
+    targetDirSpecified: false,
     installDeps: true,
   };
-  let hasTargetDir = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -138,34 +154,157 @@ const parseArgs = (argv: string[]): CliOptions => {
       fail(`Unknown option: ${arg}`);
     }
 
-    if (hasTargetDir) {
+    if (options.targetDirSpecified) {
       fail('Only one target directory can be specified.');
     }
 
     options.targetDir = arg;
-    hasTargetDir = true;
+    options.targetDirSpecified = true;
   }
 
   return options;
 };
 
-const sanitizePackageName = (name: string): string => {
-  const normalized = name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9._-]/g, '-')
-    .replace(/^[._-]+/, '')
-    .replace(/[._-]+$/, '');
-  return normalized || 'ktjs-app';
+const parseYesOrNo = (value: string, defaultValue: boolean): boolean | null => {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) {
+    return defaultValue;
+  }
+  if (normalized === 'y' || normalized === 'yes') {
+    return true;
+  }
+  if (normalized === 'n' || normalized === 'no') {
+    return false;
+  }
+  return null;
 };
 
-const applyProjectName = (source: string, packageName: string): string =>
-  source.replaceAll(PROJECT_NAME_TOKEN, packageName);
+const isValidPackageName = (name: string): boolean =>
+  /^(?:@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name);
 
-const createTemplateFiles = (packageName: string): TemplateFile[] => [
+const getDefaultProjectName = (targetDir: string): string => {
+  const normalized = targetDir.trim();
+  if (!normalized || normalized === '.') {
+    return 'ktjs-app';
+  }
+  return path.basename(normalized);
+};
+
+const inferTargetDir = (projectName: string, options: CliOptions): string => {
+  if (options.targetDirSpecified) {
+    return options.targetDir;
+  }
+  if (projectName.startsWith('@') && projectName.includes('/')) {
+    const [, name] = projectName.split('/');
+    return name || 'ktjs-app';
+  }
+  return projectName;
+};
+
+const promptProjectSetup = async (options: CliOptions): Promise<ProjectSetup> => {
+  const defaultProjectName = getDefaultProjectName(options.targetDir);
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    let projectName = '';
+    while (!projectName) {
+      const answer = (await rl.question(`Project name (${defaultProjectName}): `)).trim();
+      const nextProjectName = answer || defaultProjectName;
+      if (!isValidPackageName(nextProjectName)) {
+        console.log(`[create-kt.js] "${nextProjectName}" is not a valid npm package name.`);
+        continue;
+      }
+      projectName = nextProjectName;
+    }
+
+    let useMui = false;
+    while (true) {
+      const answer = await rl.question('Use @ktjs/mui? (y/N): ');
+      const parsed = parseYesOrNo(answer, false);
+      if (parsed === null) {
+        console.log('[create-kt.js] Please answer with y/yes or n/no.');
+        continue;
+      }
+      useMui = parsed;
+      break;
+    }
+
+    let supportIE11 = false;
+    while (true) {
+      const answer = await rl.question('Support IE11? (y/N): ');
+      const parsed = parseYesOrNo(answer, false);
+      if (parsed === null) {
+        console.log('[create-kt.js] Please answer with y/yes or n/no.');
+        continue;
+      }
+      supportIE11 = parsed;
+      break;
+    }
+
+    return {
+      projectName,
+      targetDir: inferTargetDir(projectName, options),
+      useMui,
+      supportIE11,
+    };
+  } finally {
+    rl.close();
+  }
+};
+
+const applyProjectName = (source: string, packageName: string): string => source.replaceAll(PROJECT_NAME_TOKEN, packageName);
+
+const toStringMap = (value: unknown): Record<string, string> => {
+  const out: Record<string, string> = {};
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return out;
+  }
+  for (const [entryName, entryValue] of Object.entries(value)) {
+    if (typeof entryValue === 'string') {
+      out[entryName] = entryValue;
+    }
+  }
+  return out;
+};
+
+const createPackageJson = (projectName: string, useMui: boolean, supportIE11: boolean): string => {
+  const packageJson = JSON.parse(projectPackageJson) as {
+    name?: string;
+    dependencies?: unknown;
+    devDependencies?: unknown;
+  };
+
+  packageJson.name = projectName;
+
+  const dependencies = toStringMap(packageJson.dependencies);
+  const devDependencies = toStringMap(packageJson.devDependencies);
+
+  if (useMui) {
+    dependencies['@ktjs/mui'] = 'latest';
+  }
+
+  if (supportIE11) {
+    dependencies['core-js'] = 'latest';
+    devDependencies['@ktjs/babel-plugin-ktjsx'] = 'latest';
+    devDependencies['@vitejs/plugin-legacy'] = 'latest';
+    devDependencies['@babel/preset-env'] = 'latest';
+    devDependencies['@babel/preset-typescript'] = 'latest';
+    devDependencies['vite-plugin-babel'] = 'latest';
+  }
+
+  packageJson.dependencies = dependencies;
+  packageJson.devDependencies = devDependencies;
+
+  return `${JSON.stringify(packageJson, null, 2)}\n`;
+};
+
+const createTemplateFiles = (projectName: string, useMui: boolean, supportIE11: boolean): TemplateFile[] => [
   {
     path: 'package.json',
-    content: applyProjectName(projectPackageJson, packageName),
+    content: createPackageJson(projectName, useMui, supportIE11),
   },
   {
     path: 'tsconfig.json',
@@ -173,7 +312,7 @@ const createTemplateFiles = (packageName: string): TemplateFile[] => [
   },
   {
     path: 'vite.config.ts',
-    content: projectViteConfig,
+    content: supportIE11 ? projectViteIE11Config : projectViteConfig,
   },
   {
     path: 'index.html',
@@ -197,7 +336,7 @@ const createTemplateFiles = (packageName: string): TemplateFile[] => [
   },
   {
     path: 'README.md',
-    content: applyProjectName(projectReadme, packageName),
+    content: applyProjectName(projectReadme, projectName),
   },
 ];
 
@@ -232,16 +371,17 @@ const installDependencies = (packageManager: PackageManager, cwd: string): boole
   return result.status === 0;
 };
 
-const run = (): void => {
+const run = async (): Promise<void> => {
   const options = parseArgs(process.argv.slice(2));
   const packageManager = options.packageManager ?? detectPackageManager();
+  const setup = await promptProjectSetup(options);
+
   const cwd = process.cwd();
-  const projectRoot = path.resolve(cwd, options.targetDir);
+  const projectRoot = path.resolve(cwd, setup.targetDir);
   const displayDir = path.relative(cwd, projectRoot) || '.';
-  const packageName = sanitizePackageName(path.basename(projectRoot));
 
   ensureTargetDir(projectRoot, displayDir);
-  writeTemplateFiles(projectRoot, createTemplateFiles(packageName));
+  writeTemplateFiles(projectRoot, createTemplateFiles(setup.projectName, setup.useMui, setup.supportIE11));
 
   console.log(`\nScaffolded KT.js project in ${displayDir}.`);
 
@@ -263,4 +403,7 @@ const run = (): void => {
   console.log(`  ${getDevCommand(packageManager)}`);
 };
 
-run();
+void run().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  fail(message);
+});

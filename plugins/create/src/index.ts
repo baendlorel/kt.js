@@ -10,6 +10,7 @@ import projectMainTsx from './template/src/main.tsx?raw';
 import projectStyleCss from './template/src/style.css?raw';
 import projectTsconfig from './template/tsconfig.json?raw';
 import projectViteConfig from './template/vite.config.ts?raw';
+import icon from '../../../assets/ktjs-0.0.1.svg?raw';
 
 type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
 
@@ -181,6 +182,10 @@ const createTemplateFiles = (packageName: string): TemplateFile[] => [
   {
     path: 'src/main.tsx',
     content: projectMainTsx,
+  },
+  {
+    path: 'src/logo.svg',
+    content: icon,
   },
   {
     path: 'src/style.css',

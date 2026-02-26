@@ -1,6 +1,6 @@
 {
   "name": "create-kt.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Scaffold a KT.js project via npm create kt.js.",
   "description_zh": "通过 npm create kt.js 快速初始化 KT.js 项目。",
   "type": "module",

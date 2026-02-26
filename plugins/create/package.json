@@ -1,0 +1,23 @@
+{
+  "name": "create-kt.js",
+  "version": "0.1.0",
+  "description": "Scaffold a KT.js project via npm create kt.js.",
+  "description_zh": "通过 npm create kt.js 快速初始化 KT.js 项目。",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "bin": {
+    "create-kt.js": "dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": {
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktjs/kt.js"
+  },
+  "license": "MIT"
+}

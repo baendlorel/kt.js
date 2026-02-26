@@ -1,0 +1,20 @@
+{
+  "name": "__PROJECT_NAME__",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "kt.js": "latest"
+  },
+  "devDependencies": {
+    "@ktjs/vite-plugin-ktjsx": "latest",
+    "@ktjs/ts-plugin": "latest",
+    "typescript": "^5.9.3",
+    "vite": "^7.0.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": false,
+    "declarationMap": false,
+    "types": ["node"],
+    "typeRoots": ["../../packages/types", "../../node_modules/@types"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+}

@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/ts-plugin",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "TypeScript language service plugin for kt.js k-for scope names in TSX.",
   "description_zh": "用于在 TSX 中支持 kt.js k-for 作用域提示的 TypeScript 语言服务插件。",
   "type": "commonjs",

@@ -40,6 +40,14 @@ Client-side router with navigation guards for KT.js.
 
 ## Installation
 
+### Create a KT.js project
+
+```bash
+pnpm create kt.js my-app
+```
+
+### Add router to an existing project
+
 ```bash
 pnpm add @ktjs/router @ktjs/core
 ```

@@ -4,6 +4,14 @@ Material-UI inspired components for kt.js framework.
 
 ## Installation
 
+### Create a KT.js project
+
+```bash
+pnpm create kt.js my-app
+```
+
+### Add MUI components to an existing project
+
 ```bash
 pnpm add @ktjs/mui
 ```

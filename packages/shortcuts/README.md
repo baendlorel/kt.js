@@ -31,6 +31,8 @@ Convenient shortcut functions for common DOM operations in KT.js.
 
 ## Installation
 
+### Add shortcuts to an existing project
+
 ```bash
 pnpm add @ktjs/shortcuts @ktjs/core
 ```

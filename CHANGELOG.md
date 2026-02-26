@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.31.x - 2026-02-26
+
+### Documentation
+
+- Added `pnpm create kt.js my-app` quick-start guidance to key READMEs.
+- Document page published.
+- `k-key` can now use variables in `k-for` string.
+- `toComputed` added. To create a computed value from an existed ref or computed value.
+- `Dropdown` component optimized.
+
 ## 0.30.x - 2026-02-22 ~ 2026-02-23
 
 ### New Features

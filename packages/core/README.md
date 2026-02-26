@@ -24,3 +24,12 @@
 kt.js is a simple framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
+
+## Quick Start
+
+```bash
+pnpm create kt.js my-app
+cd my-app
+pnpm install
+pnpm dev
+```

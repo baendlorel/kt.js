@@ -37,7 +37,6 @@
     "directory": "packages/mui"
   },
   "dependencies": {
-    "@ktjs/core": "workspace:^*",
-    "@ktjs/shared": "workspace:^*"
+    "@ktjs/core": "workspace:^*"
   }
 }

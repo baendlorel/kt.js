@@ -2,6 +2,8 @@ import '@ktjs/shared';
 
 export * from './h/index.js';
 
+export { applyAttr } from './h/attr.js';
+
 // Export JSX functionality
 export * from './jsx/index.js';
 export { svg, mathml, svg as svgRuntime, mathml as mathmlRuntime } from './jsx/jsx-runtime.js';

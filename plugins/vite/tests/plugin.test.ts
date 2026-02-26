@@ -112,6 +112,24 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-key');
   });
 
+  it('wraps k-key expression with k-for aliases', async () => {
+    const result = await runTransform('const view = <li k-for="item in users" k-key={item.id}>{item.name}</li>;');
+    const code = toCode(result);
+
+    expect(code).toContain('key: (item, index) => item.id');
+    expect(code).toContain('map: (item, index) =>');
+    expect(code).not.toContain('k-key');
+  });
+
+  it('keeps k-key function expression as-is', async () => {
+    const result = await runTransform('const view = <li k-for="item in users" k-key={(a) => a.id}>{item.name}</li>;');
+    const code = toCode(result);
+
+    expect(code).toContain('key: a => a.id');
+    expect(code).toContain('map: (item, index) =>');
+    expect(code).not.toContain('k-key');
+  });
+
   it('provides default index alias for `item in list` syntax', async () => {
     const result = await runTransform('const view = <li k-for="item in users">{item.name}-{index}</li>;');
     const code = toCode(result);

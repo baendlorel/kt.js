@@ -237,22 +237,6 @@ function readExpressionStringValue(
   throw path.buildCodeFrameError(`Directive \`${directiveName}\` must be a string literal.`);
 }
 
-function hasStringLikeValue(attr: t.JSXAttribute): boolean {
-  if (!attr.value) {
-    return false;
-  }
-  if (t.isStringLiteral(attr.value)) {
-    return true;
-  }
-  if (!t.isJSXExpressionContainer(attr.value)) {
-    return false;
-  }
-  if (t.isStringLiteral(attr.value.expression)) {
-    return true;
-  }
-  return t.isTemplateLiteral(attr.value.expression) && attr.value.expression.expressions.length === 0;
-}
-
 function hasStringLikeExpression(
   expression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder | undefined,
 ): expression is t.StringLiteral | t.TemplateLiteral {
@@ -269,27 +253,61 @@ function createKeyCallback(
   path: NodePath<t.JSXElement>,
   keyAttr: t.JSXAttribute | undefined,
   aliases: string[],
-): t.ArrowFunctionExpression | null {
-  if (!keyAttr || !hasStringLikeValue(keyAttr)) {
+): t.Expression | null {
+  if (!keyAttr || !keyAttr.value) {
     return null;
   }
 
-  const keyText = readAttributeStringValue(keyAttr, path, 'k-key');
-  const keyExpression = parseTextAsExpression(path, keyText, 'k-key');
-  const params = aliases.map((alias) => t.identifier(alias));
-  return t.arrowFunctionExpression(params, keyExpression);
+  if (t.isStringLiteral(keyAttr.value)) {
+    return createWrappedKeyCallback(path, keyAttr.value.value, aliases);
+  }
+
+  if (!t.isJSXExpressionContainer(keyAttr.value) || t.isJSXEmptyExpression(keyAttr.value.expression)) {
+    return null;
+  }
+
+  return resolveKeyCallbackFromExpression(path, keyAttr.value.expression, aliases);
 }
 
 function createKeyCallbackFromExpression(
   path: KForTransformPath,
   keyExpression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder | undefined,
   aliases: string[],
-): t.ArrowFunctionExpression | null {
-  if (!hasStringLikeExpression(keyExpression)) {
+): t.Expression | null {
+  if (!keyExpression) {
     return null;
   }
 
-  const keyText = readExpressionStringValue(keyExpression, path, 'k-key');
+  return resolveKeyCallbackFromExpression(path, keyExpression, aliases);
+}
+
+function resolveKeyCallbackFromExpression(
+  path: KForTransformPath,
+  keyExpression: t.Expression | t.PrivateName | t.PatternLike | t.ArgumentPlaceholder,
+  aliases: string[],
+): t.Expression | null {
+  if (t.isArrowFunctionExpression(keyExpression) || t.isFunctionExpression(keyExpression)) {
+    return t.cloneNode(keyExpression, true);
+  }
+
+  if (t.isExpression(keyExpression)) {
+    if (hasStringLikeExpression(keyExpression)) {
+      const keyText = readExpressionStringValue(keyExpression, path, 'k-key');
+      return createWrappedKeyCallback(path, keyText, aliases);
+    }
+
+    const params = aliases.map((alias) => t.identifier(alias));
+    return t.arrowFunctionExpression(params, t.cloneNode(keyExpression, true));
+  }
+
+  return null;
+}
+
+function createWrappedKeyCallback(
+  path: KForTransformPath,
+  keyText: string,
+  aliases: string[],
+): t.ArrowFunctionExpression {
   const parsedKeyExpression = parseTextAsExpression(path, keyText, 'k-key');
   const params = aliases.map((alias) => t.identifier(alias));
   return t.arrowFunctionExpression(params, parsedKeyExpression);

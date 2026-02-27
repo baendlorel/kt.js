@@ -138,7 +138,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const marginThresholdRef = toReactive(props.marginThreshold ?? 16, () => scheduleUpdatePosition());
   const elevationRef = toReactive(props.elevation ?? 8);
   const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style));
 
   const paperClassName = computed(() => {
     return ['mui-popover-paper', classRef.value].join(' ').trim();

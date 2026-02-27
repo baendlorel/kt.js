@@ -38,7 +38,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     thumb.classList.toggle('mui-switch-thumb-checked', newValue);
   });
 
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style));
   const classRef = toReactive(props.class ?? '');
 
   const className = computed(() => {

@@ -81,7 +81,7 @@ const severityToIcon = {
 
 export function Alert(props: KTMuiAlertProps): JSX.Element {
   const customClass = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style ?? ''));
+  const style = toReactive($parseStyle(props.style));
   const children = toReactive(props.children);
   const severity = toReactive(props.severity ?? 'info');
   const variant = toReactive(props.variant ?? 'standard');

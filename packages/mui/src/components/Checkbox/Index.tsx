@@ -33,7 +33,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const className = computed(() => {
     return `mui-checkbox-group ${row.value ? 'mui-checkbox-group-row' : ''} ${customClass.value}`;
   }, [row, customClass]);
-  const style = toReactive($parseStyle(props.style ?? ''));
+  const style = toReactive($parseStyle(props.style));
 
   const options = toReactive(props.options);
   const checkboxes: KTMuiCheckbox[] = [];

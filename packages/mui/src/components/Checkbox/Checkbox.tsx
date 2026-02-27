@@ -1,4 +1,4 @@
-import { $defines, $emptyFn } from '@ktjs/shared';
+import { $defines } from '@ktjs/shared';
 import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';

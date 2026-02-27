@@ -65,7 +65,8 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     setTimeout(() => inputEl.focus(), 0);
   };
 
-  const getPlaceholder = () => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : placeholderRef.value);
+  const getPlaceholder = () =>
+    labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : placeholderRef.value;
 
   // # non-refs
   const inputType = dereactive(props.type ?? ('text' as T));
@@ -127,7 +128,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       ) as HTMLInputElement);
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style));
   const customClassRef = toReactive(props.class ?? '');
   const classRef = computed(() => {
     const className = [

@@ -45,7 +45,7 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const disabledRef = toReactive(props.disabled ?? false);
   const autoRemoveOnDeleteRef = toReactive(props.autoRemoveOnDelete ?? true);
   const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const styleRef = toReactive($parseStyle(props.style));
   let container: KTMuiPill;
 
   const className = computed(() => {

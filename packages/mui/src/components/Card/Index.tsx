@@ -25,7 +25,7 @@ export function Card(props: KTMuiCardProps): KTMuiCard {
   const elevation = toReactive(props.elevation ?? 1);
   const square = toReactive(props.square ?? false);
   const raised = toReactive(props.raised ?? false);
-  const style = toReactive($parseStyle(props.style ?? ''));
+  const style = toReactive($parseStyle(props.style));
   const customClass = toReactive(props.class ?? '');
 
   const className = computed(() => {

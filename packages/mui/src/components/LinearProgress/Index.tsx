@@ -1,15 +1,14 @@
-import { $defines } from '@ktjs/shared';
-import type { JSX, KTReactive } from '@ktjs/core';
-import { computed, ref, toReactive } from '@ktjs/core';
+import { $defines, $parseStyle } from '@ktjs/shared';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
+import { computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
-interface LinearProgressProps extends Pick<KTMuiProps, 'class'> {
-  // todo 此处不一样
-  style?: string | Partial<CSSStyleDeclaration>;
-  variant?: 'determinate' | 'indeterminate';
-  value?: number | KTReactive<number>;
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+interface LinearProgressProps extends KTMuiProps {
+  variant?: KTMaybeReactive<'determinate' | 'indeterminate'>;
+  value?: KTMaybeReactive<number>;
+  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
 }
 
 export type KTMuiLinearProgress = JSX.Element & {
@@ -25,7 +24,7 @@ export function LinearProgress(props: LinearProgressProps) {
     return `mui-linear-progress mui-linear-progress-${variant.value} mui-linear-progress-${color.value} ${customClass.value}`;
   }, [customClass, color, variant]);
 
-  const style = toReactive(props.style ?? '');
+  const style = toReactive($parseStyle(props.style));
 
   const barLength = computed(() => (variant.value === 'determinate' ? `width: ${value.value}%` : ''), [variant, value]);
 
@@ -46,5 +45,6 @@ export function LinearProgress(props: LinearProgressProps) {
     },
   });
 
+  registerPrefixedEvents(container, props);
   return container;
 }

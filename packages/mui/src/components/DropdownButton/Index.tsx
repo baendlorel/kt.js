@@ -45,7 +45,7 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
     }
   });
   const fullWidth = toReactive(props.fullWidth ?? false);
-  const style = toReactive($parseStyle(props.style ?? ''));
+  const style = toReactive($parseStyle(props.style));
   const className = toReactive(props.class ?? '');
 
   const wrapperClass = computed(() => {

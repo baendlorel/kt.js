@@ -10,7 +10,7 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
   disabled?: KTMaybeReactive<boolean>;
   focused?: KTMaybeReactive<boolean>;
   filled?: KTMaybeReactive<boolean>;
-  component?: KTMaybeReactive<'label' | 'legend'>;
+  component?: 'label' | 'legend';
   htmlFor?: KTMaybeReactive<string>;
 }
 
@@ -23,7 +23,6 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
   const disabled = toReactive(props.disabled ?? false);
   const focused = toReactive(props.focused ?? false);
   const filled = toReactive(props.filled ?? false);
-  const component = toReactive(props.component ?? 'label');
   const htmlFor = toReactive(props.htmlFor ?? '');
 
   const classes = computed(
@@ -47,7 +46,7 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
   }
 
   const container =
-    component.value === 'legend' ? (
+    props.component === 'legend' ? (
       <legend {...labelProps}>
         {props.children}
         <span k-if={required} class="mui-form-label-asterisk">
@@ -62,7 +61,6 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
         </span>
       </label>
     );
-
   registerPrefixedEvents(container, props);
   return container;
 }

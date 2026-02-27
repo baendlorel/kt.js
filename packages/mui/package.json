@@ -36,10 +36,11 @@
     "directory": "packages/mui"
   },
   "scripts": {
-    "build": "rimraf dist && vite build && tsc --project tsconfig.json --declaration --emitDeclarationOnly --declarationMap false --outDir dist"
+    "build": "rollup --config rollup.config.mjs"
   },
   "dependencies": {
     "@ktjs/core": "workspace:^*",
+    "@ktjs/mui-icon": "workspace:^*",
     "@ktjs/shared": "workspace:^*"
   }
 }

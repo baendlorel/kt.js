@@ -2,8 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
+    "jsxImportSource": "@ktjs/core",
+    "baseUrl": ".",
+    "paths": {},
+    "composite": false,
+    "incremental": false,
+    "noCheck": true,
+    "skipLibCheck": true
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.d.ts"],
   "exclude": ["./**/*.test.tsx", "./**/*.test.ts", "./**/*.spec.tsx", "./**/*.spec.ts"]
 }

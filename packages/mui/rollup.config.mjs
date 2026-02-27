@@ -5,7 +5,7 @@ import json from '@rollup/plugin-json';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import dts from 'rollup-plugin-dts';
-import { terser } from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 import { rimraf } from 'rimraf';
 
 const pkgDir = path.resolve(import.meta.dirname);
@@ -34,6 +34,7 @@ export default async () => {
           sourceMap: true,
         }),
         postcss({
+          // fixme 样式打包问题，能否通过emotioncss解决？
           extract: path.join(distDir, 'index.css'),
           minimize: false,
           sourceMap: true,

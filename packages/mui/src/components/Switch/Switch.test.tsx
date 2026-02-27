@@ -4,7 +4,7 @@ import { Switch } from './Switch.js';
 
 describe('MUI Switch component', () => {
   it('should render with defaults', () => {
-    const sw = Switch({}) as HTMLElement;
+    const sw = <Switch {...{}} />;
     const input = sw.querySelector('input') as HTMLInputElement;
     expect(input.type).toBe('checkbox');
     expect(sw.className).toContain('mui-switch-wrapper');
@@ -13,11 +13,15 @@ describe('MUI Switch component', () => {
   });
 
   it('should render label and apply style/class', () => {
-    const sw = Switch({
-      label: 'Wi-Fi',
-      class: 'custom-switch',
-      style: { marginLeft: '12px' },
-    }) as HTMLElement;
+    const sw = (
+      <Switch
+        {...{
+          label: 'Wi-Fi',
+          class: 'custom-switch',
+          style: { marginLeft: '12px' },
+        }}
+      />
+    );
     expect(sw.querySelector('.mui-switch-label')?.textContent).toContain('Wi-Fi');
     expect(sw.className).toContain('custom-switch');
     expect(sw.style.marginLeft).toBe('12px');
@@ -25,7 +29,7 @@ describe('MUI Switch component', () => {
 
   it('should call on:change when toggled', () => {
     const onChange = vi.fn();
-    const sw = Switch({ value: 'v1', 'on:change': onChange }) as HTMLElement;
+    const sw = <Switch {...{ value: 'v1', 'on:change': onChange }} />;
     const input = sw.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
@@ -34,7 +38,7 @@ describe('MUI Switch component', () => {
 
   it('should apply disabled state and block on:change', () => {
     const onChange = vi.fn();
-    const sw = Switch({ disabled: true, 'on:change': onChange }) as HTMLElement;
+    const sw = <Switch {...{ disabled: true, 'on:change': onChange }} />;
     const input = sw.querySelector('input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
     expect(sw.className).toContain('mui-switch-disabled');
@@ -45,7 +49,7 @@ describe('MUI Switch component', () => {
 
   it('should react to disabled ref changes', () => {
     const disabled = ref(false);
-    const sw = Switch({ disabled }) as HTMLElement;
+    const sw = <Switch {...{ disabled }} />;
     expect(sw.className).not.toContain('mui-switch-disabled');
     disabled.value = true;
     expect(sw.className).toContain('mui-switch-disabled');

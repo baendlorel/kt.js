@@ -8,11 +8,15 @@ describe('MUI Alert component reactivity', () => {
     const severity = computed(() => severitySeed.value, [severitySeed]);
     const variant = ref<'standard' | 'filled'>('standard');
 
-    const alert = Alert({
-      children: 'Notice',
-      severity,
-      variant,
-    }) as HTMLElement;
+    const alert = (
+      <Alert
+        {...{
+          children: 'Notice',
+          severity,
+          variant,
+        }}
+      />
+    );
 
     expect(alert.className).toContain('mui-alert-info');
     expect(alert.className).toContain('mui-alert-standard');
@@ -26,7 +30,7 @@ describe('MUI Alert component reactivity', () => {
 
   it('reacts to icon visibility ref', () => {
     const icon = ref(true);
-    const alert = Alert({ children: 'Notice', icon }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Notice', icon }} />;
 
     expect(alert.querySelector('.mui-alert-icon-wrapper svg')).toBeTruthy();
 

@@ -10,15 +10,19 @@ describe('MUI Switch component reactivity', () => {
     const size = ref<'small' | 'large'>('small');
     const label = ref('Wi-Fi');
 
-    const sw = Switch({
-      'k-model': model,
-      color,
-      size,
-      label,
-    } as any) as HTMLElement;
+    const sw = (
+      <Switch
+        {...({
+          'k-model': model,
+          color,
+          size,
+          label,
+        } as any)}
+      />
+    );
 
     const input = sw.querySelector('input') as HTMLInputElement;
-    const track = sw.querySelector('.mui-switch-track') as HTMLElement;
+    const track = sw.querySelector('.mui-switch-track');
 
     expect(input.checked).toBe(false);
     expect(sw.className).toContain('mui-switch-size-small');
@@ -39,7 +43,7 @@ describe('MUI Switch component reactivity', () => {
   it('blocks and restores change callback with disabled ref', () => {
     const disabled = ref(true);
     const onChange = vi.fn();
-    const sw = Switch({ disabled, 'on:change': onChange }) as HTMLElement;
+    const sw = <Switch {...{ disabled, 'on:change': onChange }} />;
     const input = sw.querySelector('input') as HTMLInputElement;
 
     input.checked = true;

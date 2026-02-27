@@ -8,14 +8,18 @@ describe('MUI Badge component reactivity', () => {
     const max = ref(9);
     const showZero = ref(false);
 
-    const badge = Badge({
-      badgeContent,
-      max,
-      showZero,
-      children: <span>Inbox</span>,
-    }) as HTMLElement;
+    const badge = (
+      <Badge
+        {...{
+          badgeContent,
+          max,
+          showZero,
+          children: <span>Inbox</span>,
+        }}
+      />
+    );
 
-    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLElement;
+    const badgeNode = badge.querySelector('.mui-badge-badge');
     expect(badgeNode.className).toContain('mui-badge-invisible');
 
     showZero.value = true;
@@ -35,15 +39,19 @@ describe('MUI Badge component reactivity', () => {
     const color = ref<'default' | 'success'>('default');
     const anchorOrigin = ref({ vertical: 'top', horizontal: 'right' } as const);
 
-    const badge = Badge({
-      badgeContent: 1,
-      overlap,
-      color,
-      anchorOrigin,
-      children: <span>Avatar</span>,
-    }) as HTMLElement;
+    const badge = (
+      <Badge
+        {...{
+          badgeContent: 1,
+          overlap,
+          color,
+          anchorOrigin,
+          children: <span>Avatar</span>,
+        }}
+      />
+    );
 
-    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLElement;
+    const badgeNode = badge.querySelector('.mui-badge-badge');
     expect(badgeNode.className).toContain('mui-badge-overlap-rectangular');
     expect(badgeNode.className).toContain('mui-badge-anchor-top-right');
 

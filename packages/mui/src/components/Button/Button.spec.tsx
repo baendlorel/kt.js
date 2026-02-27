@@ -10,13 +10,17 @@ describe('MUI Button component reactivity', () => {
     const size = ref<'small' | 'large'>('small');
     const fullWidth = ref(false);
 
-    const button = Button({
-      children: 'Action',
-      variant,
-      color,
-      size,
-      fullWidth,
-    }) as HTMLButtonElement;
+    const button = (
+      <Button
+        {...{
+          children: 'Action',
+          variant,
+          color,
+          size,
+          fullWidth,
+        }}
+      />
+    );
 
     expect(button.className).toContain('mui-button-text');
     expect(button.className).toContain('mui-button-text-primary');
@@ -37,11 +41,15 @@ describe('MUI Button component reactivity', () => {
     const onClick = vi.fn();
     const disabled = ref(true);
 
-    const button = Button({
-      children: 'Click',
-      disabled,
-      'on:click': onClick,
-    }) as HTMLButtonElement;
+    const button = (
+      <Button
+        {...{
+          children: 'Click',
+          disabled,
+          'on:click': onClick,
+        }}
+      />
+    ) as HTMLButtonElement;
 
     button.click();
     expect(onClick).not.toHaveBeenCalled();

@@ -8,8 +8,8 @@ describe('MUI LinearProgress component reactivity', () => {
     const value = ref(15);
     const color = ref<'primary' | 'success'>('primary');
 
-    const progress = LinearProgress({ variant, value, color }) as HTMLElement;
-    const bar = progress.querySelector('.mui-linear-progress-bar') as HTMLElement;
+    const progress = <LinearProgress {...{ variant, value, color }} />;
+    const bar = progress.querySelector('.mui-linear-progress-bar');
 
     expect(progress.className).toContain('mui-linear-progress-determinate');
     expect(bar.style.width).toBe('15%');
@@ -29,8 +29,8 @@ describe('MUI LinearProgress component reactivity', () => {
     const seed = ref(20);
     const value = computed(() => seed.value, [seed]);
 
-    const progress = LinearProgress({ variant: 'determinate', value }) as HTMLElement;
-    const bar = progress.querySelector('.mui-linear-progress-bar') as HTMLElement;
+    const progress = <LinearProgress {...{ variant: 'determinate', value }} />;
+    const bar = progress.querySelector('.mui-linear-progress-bar');
 
     expect(bar.style.width).toBe('20%');
     seed.value = 45;

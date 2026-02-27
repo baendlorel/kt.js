@@ -22,7 +22,7 @@ const createAnchor = () => {
 
 describe('MUI Popover component', () => {
   it('should render hidden by default', () => {
-    const popover = Popover({ children: 'Body' }) as HTMLElement;
+    const popover = <Popover {...{ children: 'Body' }} />;
     expect(popover.className).toContain('mui-popover-root');
     expect(popover.style.display).toBe('none');
     popover.remove();
@@ -31,11 +31,11 @@ describe('MUI Popover component', () => {
   it('should position popover when opened', () => {
     vi.useFakeTimers();
     const anchor = createAnchor();
-    const popover = Popover({ open: true, anchorEl: anchor, children: 'Body' }) as HTMLElement;
+    const popover = <Popover {...{ open: true, anchorEl: anchor, children: 'Body' }} />;
     document.body.appendChild(popover);
 
     vi.runAllTimers();
-    const paper = popover.querySelector('.mui-popover-paper') as HTMLElement;
+    const paper = popover.querySelector('.mui-popover-paper');
     expect(popover.style.display).toBe('block');
     expect(paper.style.top).not.toBe('');
     expect(paper.style.left).not.toBe('');
@@ -50,12 +50,16 @@ describe('MUI Popover component', () => {
     const anchor = createAnchor();
     const openRef = ref(true);
     const onClose = vi.fn();
-    const popover = Popover({
-      open: openRef,
-      anchorEl: anchor,
-      'on:close': onClose,
-      children: 'Body',
-    }) as HTMLElement;
+    const popover = (
+      <Popover
+        {...{
+          open: openRef,
+          anchorEl: anchor,
+          'on:close': onClose,
+          children: 'Body',
+        }}
+      />
+    );
     document.body.appendChild(popover);
     vi.runAllTimers();
 
@@ -77,17 +81,21 @@ describe('MUI Popover component', () => {
   it('should apply custom class and style to paper', () => {
     vi.useFakeTimers();
     const anchor = createAnchor();
-    const popover = Popover({
-      open: true,
-      anchorEl: anchor,
-      class: 'custom-popover',
-      style: { minWidth: '240px' },
-      children: 'Body',
-    }) as HTMLElement;
+    const popover = (
+      <Popover
+        {...{
+          open: true,
+          anchorEl: anchor,
+          class: 'custom-popover',
+          style: { minWidth: '240px' },
+          children: 'Body',
+        }}
+      />
+    );
     document.body.appendChild(popover);
     vi.runAllTimers();
 
-    const paper = popover.querySelector('.mui-popover-paper') as HTMLElement;
+    const paper = popover.querySelector('.mui-popover-paper');
     expect(paper.className).toContain('custom-popover');
     expect(paper.style.minWidth).toBe('240px');
 

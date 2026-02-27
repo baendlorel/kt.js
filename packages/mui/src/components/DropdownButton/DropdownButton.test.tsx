@@ -3,13 +3,17 @@ import { DropdownButton } from './DropdownButton.js';
 
 describe('MUI DropdownButton component', () => {
   it('should render trigger with label and options', () => {
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      options: [
-        { label: 'Open', value: 'open' },
-        { label: 'Close', value: 'close' },
-      ],
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          options: [
+            { label: 'Open', value: 'open' },
+            { label: 'Close', value: 'close' },
+          ],
+        }}
+      />
+    );
 
     expect(dropdown.className).toContain('mui-dropdown-button-wrapper');
     expect(dropdown.querySelector('.mui-dropdown-button-trigger')?.textContent).toContain('Actions');
@@ -18,14 +22,18 @@ describe('MUI DropdownButton component', () => {
   });
 
   it('should open and close menu on trigger click', () => {
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      options: [{ label: 'Open', value: 'open' }],
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          options: [{ label: 'Open', value: 'open' }],
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;
-    const menu = dropdown.querySelector('.mui-dropdown-button-menu') as HTMLElement;
+    const menu = dropdown.querySelector('.mui-dropdown-button-menu');
 
     trigger.click();
     expect(menu.classList.contains('mui-dropdown-button-menu-open')).toBe(true);
@@ -41,11 +49,15 @@ describe('MUI DropdownButton component', () => {
   it('should emit on:select when selecting an option', () => {
     const onSelect = vi.fn();
     const option = { label: 'Delete', value: 'delete' };
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      options: [option],
-      'on:select': onSelect,
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          options: [option],
+          'on:select': onSelect,
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;
@@ -62,15 +74,19 @@ describe('MUI DropdownButton component', () => {
   });
 
   it('should not open when disabled', () => {
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      disabled: true,
-      options: [{ label: 'Open', value: 'open' }],
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          disabled: true,
+          options: [{ label: 'Open', value: 'open' }],
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;
-    const menu = dropdown.querySelector('.mui-dropdown-button-menu') as HTMLElement;
+    const menu = dropdown.querySelector('.mui-dropdown-button-menu');
 
     expect(trigger.disabled).toBe(true);
     trigger.click();
@@ -81,14 +97,18 @@ describe('MUI DropdownButton component', () => {
   });
 
   it('should close menu when clicking outside', () => {
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      options: [{ label: 'Open', value: 'open' }],
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          options: [{ label: 'Open', value: 'open' }],
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;
-    const menu = dropdown.querySelector('.mui-dropdown-button-menu') as HTMLElement;
+    const menu = dropdown.querySelector('.mui-dropdown-button-menu');
 
     trigger.click();
     expect(menu.classList.contains('mui-dropdown-button-menu-open')).toBe(true);

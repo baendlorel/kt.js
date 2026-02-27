@@ -4,7 +4,7 @@ import { Checkbox, CheckboxGroup } from './CheckboxGroup.js';
 
 describe('MUI Checkbox component', () => {
   it('should render with defaults', () => {
-    const checkbox = Checkbox({}) as HTMLElement;
+    const checkbox = <Checkbox {...{}} />;
     const input = checkbox.querySelector('input') as HTMLInputElement;
     expect(input.type).toBe('checkbox');
     expect(checkbox.className).toContain('mui-checkbox-wrapper');
@@ -14,27 +14,27 @@ describe('MUI Checkbox component', () => {
   });
 
   it('should render label text', () => {
-    const checkbox = Checkbox({ label: 'Accept' }) as HTMLElement;
+    const checkbox = <Checkbox {...{ label: 'Accept' }} />;
     const label = checkbox.querySelector('.mui-checkbox-label');
     expect(label?.textContent).toBe('Accept');
   });
 
   it('should toggle icons based on state', () => {
     const checkedModel = ref(true);
-    const checkbox = Checkbox({ 'k-model': checkedModel } as any) as HTMLElement;
-    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked') as HTMLElement;
-    const checked = checkbox.querySelector('.mui-checkbox-icon-checked') as HTMLElement;
-    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate') as HTMLElement;
+    const checkbox = <Checkbox {...({ 'k-model': checkedModel } as any)} />;
+    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked');
+    const checked = checkbox.querySelector('.mui-checkbox-icon-checked');
+    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
     expect(unchecked.style.display).toBe('none');
     expect(checked.style.display).toBe('');
     expect(indeterminate.style.display).toBe('none');
   });
 
   it('should show indeterminate icon', () => {
-    const checkbox = Checkbox({ indeterminate: true }) as HTMLElement;
-    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked') as HTMLElement;
-    const checked = checkbox.querySelector('.mui-checkbox-icon-checked') as HTMLElement;
-    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate') as HTMLElement;
+    const checkbox = <Checkbox {...{ indeterminate: true }} />;
+    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked');
+    const checked = checkbox.querySelector('.mui-checkbox-icon-checked');
+    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
     expect(unchecked.style.display).toBe('none');
     expect(checked.style.display).toBe('none');
     expect(indeterminate.style.display).toBe('');
@@ -42,7 +42,7 @@ describe('MUI Checkbox component', () => {
 
   it('should call on:change on toggle', () => {
     const onChange = vi.fn();
-    const checkbox = Checkbox({ value: 'v1', 'on:change': onChange }) as HTMLElement;
+    const checkbox = <Checkbox {...{ value: 'v1', 'on:change': onChange }} />;
     const input = checkbox.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
@@ -51,7 +51,7 @@ describe('MUI Checkbox component', () => {
 
   it('should keep disabled class and still emit native change payload', () => {
     const onChange = vi.fn();
-    const checkbox = Checkbox({ disabled: true, 'on:change': onChange }) as HTMLElement;
+    const checkbox = <Checkbox {...{ disabled: true, 'on:change': onChange }} />;
     const input = checkbox.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
@@ -62,26 +62,34 @@ describe('MUI Checkbox component', () => {
 
 describe('MUI CheckboxGroup component', () => {
   it('should render options and role', () => {
-    const group = CheckboxGroup({
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
-    }) as HTMLElement;
+    const group = (
+      <CheckboxGroup
+        {...{
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        }}
+      />
+    );
     expect(group.getAttribute('role')).toBe('group');
     expect(group.querySelectorAll('input[type="checkbox"]').length).toBe(2);
   });
 
   it('should update value list and call on:change', () => {
     const onChange = vi.fn();
-    const group = CheckboxGroup({
-      value: [],
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
-      'on:change': onChange,
-    }) as HTMLElement;
+    const group = (
+      <CheckboxGroup
+        {...{
+          value: [],
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+          'on:change': onChange,
+        }}
+      />
+    );
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     inputs[0].checked = true;
     inputs[0].dispatchEvent(new Event('change'));

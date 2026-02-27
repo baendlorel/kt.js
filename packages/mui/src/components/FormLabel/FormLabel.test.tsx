@@ -3,27 +3,31 @@ import { FormLabel } from './FormLabel.js';
 
 describe('MUI FormLabel component', () => {
   it('should render label by default', () => {
-    const label = FormLabel({ children: 'Name' }) as HTMLElement;
+    const label = <FormLabel {...{ children: 'Name' }} />;
     expect(label.tagName).toBe('LABEL');
     expect(label.textContent).toContain('Name');
     expect(label.className).toContain('mui-form-label');
   });
 
   it('should render legend when component is legend', () => {
-    const label = FormLabel({ children: 'Legend', component: 'legend' }) as HTMLElement;
+    const label = <FormLabel {...{ children: 'Legend', component: 'legend' }} />;
     expect(label.tagName).toBe('LEGEND');
   });
 
   it('should apply states and required marker', () => {
-    const label = FormLabel({
-      children: 'Email',
-      required: true,
-      error: true,
-      disabled: true,
-      focused: true,
-      filled: true,
-      htmlFor: 'email',
-    }) as HTMLElement;
+    const label = (
+      <FormLabel
+        {...{
+          children: 'Email',
+          required: true,
+          error: true,
+          disabled: true,
+          focused: true,
+          filled: true,
+          htmlFor: 'email',
+        }}
+      />
+    );
     expect(label.className).toContain('mui-form-label-error');
     expect(label.className).toContain('mui-form-label-disabled');
     expect(label.className).toContain('mui-form-label-focused');

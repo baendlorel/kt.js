@@ -3,7 +3,7 @@ import { Alert } from './Alert.js';
 
 describe('MUI Alert component', () => {
   it('should render alert with default props', () => {
-    const alert = Alert({ children: 'Message' }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Message' }} />;
     expect(alert.tagName).toBe('DIV');
     expect(alert.getAttribute('role')).toBe('alert');
     expect(alert.className).toContain('mui-alert');
@@ -15,41 +15,41 @@ describe('MUI Alert component', () => {
   });
 
   it('should apply severity classes', () => {
-    const error = Alert({ severity: 'error', children: 'Error' }) as HTMLElement;
+    const error = <Alert {...{ severity: 'error', children: 'Error' }} />;
     expect(error.className).toContain('mui-alert-error');
-    const warning = Alert({ severity: 'warning', children: 'Warning' }) as HTMLElement;
+    const warning = <Alert {...{ severity: 'warning', children: 'Warning' }} />;
     expect(warning.className).toContain('mui-alert-warning');
-    const success = Alert({ severity: 'success', children: 'Success' }) as HTMLElement;
+    const success = <Alert {...{ severity: 'success', children: 'Success' }} />;
     expect(success.className).toContain('mui-alert-success');
-    const info = Alert({ severity: 'info', children: 'Info' }) as HTMLElement;
+    const info = <Alert {...{ severity: 'info', children: 'Info' }} />;
     expect(info.className).toContain('mui-alert-info');
   });
 
   it('should apply variant classes', () => {
-    const filled = Alert({ variant: 'filled', children: 'Test' }) as HTMLElement;
+    const filled = <Alert {...{ variant: 'filled', children: 'Test' }} />;
     expect(filled.className).toContain('mui-alert-filled');
-    const outlined = Alert({ variant: 'outlined', children: 'Test' }) as HTMLElement;
+    const outlined = <Alert {...{ variant: 'outlined', children: 'Test' }} />;
     expect(outlined.className).toContain('mui-alert-outlined');
-    const standard = Alert({ variant: 'standard', children: 'Test' }) as HTMLElement;
+    const standard = <Alert {...{ variant: 'standard', children: 'Test' }} />;
     expect(standard.className).toContain('mui-alert-standard');
   });
 
   it('should hide icon when icon is false', () => {
-    const alert = Alert({ children: 'Test', icon: false }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Test', icon: false }} />;
     expect(alert.querySelector('.mui-alert-icon-wrapper svg')).toBeFalsy();
   });
 
   it('should use custom icon element', () => {
     const customIcon = document.createElement('span');
     customIcon.textContent = '!';
-    const alert = Alert({ children: 'Test', icon: customIcon }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Test', icon: customIcon }} />;
     const iconWrapper = alert.querySelector('.mui-alert-icon-wrapper');
     expect(iconWrapper).toBeTruthy();
   });
 
   it('should render close button when on:close provided', () => {
     const onClose = vi.fn();
-    const alert = Alert({ children: 'Test', 'on:close': onClose }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Test', 'on:close': onClose }} />;
     const closeButton = alert.querySelector('.mui-alert-close');
     expect(closeButton).toBeTruthy();
     expect(closeButton?.getAttribute('aria-label')).toBe('Close');
@@ -57,18 +57,22 @@ describe('MUI Alert component', () => {
 
   it('should call on:close when close button clicked', () => {
     const onClose = vi.fn();
-    const alert = Alert({ children: 'Test', 'on:close': onClose }) as HTMLElement;
+    const alert = <Alert {...{ children: 'Test', 'on:close': onClose }} />;
     const closeButton = alert.querySelector('.mui-alert-close') as HTMLButtonElement;
     closeButton.click();
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('should apply custom class and style', () => {
-    const alert = Alert({
-      children: 'Test',
-      class: 'custom-alert',
-      style: { backgroundColor: 'red', padding: '10px' },
-    }) as HTMLElement;
+    const alert = (
+      <Alert
+        {...{
+          children: 'Test',
+          class: 'custom-alert',
+          style: { backgroundColor: 'red', padding: '10px' },
+        }}
+      />
+    );
     expect(alert.className).toContain('custom-alert');
     expect(alert.style.backgroundColor).toBe('red');
     expect(alert.style.padding).toBe('10px');

@@ -8,15 +8,19 @@ describe('MUI Select component reactivity', () => {
     const label = ref('Status');
     const placeholder = ref('Pick one');
 
-    const select = Select({
-      'k-model': model,
-      label,
-      placeholder,
-      options: [
-        { label: 'Open', value: 'open' },
-        { label: 'Closed', value: 'closed' },
-      ],
-    } as any) as HTMLElement;
+    const select = (
+      <Select
+        {...({
+          'k-model': model,
+          label,
+          placeholder,
+          options: [
+            { label: 'Open', value: 'open' },
+            { label: 'Closed', value: 'closed' },
+          ],
+        } as any)}
+      />
+    );
 
     expect(select.querySelector('.mui-select-label')?.textContent).toContain('Status');
     expect(select.querySelector('.mui-select-display')?.textContent).toContain('Open');
@@ -37,11 +41,15 @@ describe('MUI Select component reactivity', () => {
       { label: 'Closed', value: 'closed' },
     ]);
 
-    const select = Select({
-      'k-model': model,
-      options,
-      'on:change': onChange,
-    } as any) as HTMLElement;
+    const select = (
+      <Select
+        {...({
+          'k-model': model,
+          options,
+          'on:change': onChange,
+        } as any)}
+      />
+    );
 
     const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
     expect(hiddenInput.value).toBe('open');

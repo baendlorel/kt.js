@@ -4,7 +4,7 @@ import { Pill } from './Pill.js';
 
 describe('MUI Pill component', () => {
   it('should render with default classes and label', () => {
-    const pill = Pill({ label: 'Draft' }) as HTMLElement;
+    const pill = <Pill {...{ label: 'Draft' }} />;
     expect(pill.className).toContain('mui-pill');
     expect(pill.className).toContain('mui-pill-color-default');
     expect(pill.className).toContain('mui-pill-variant-filled');
@@ -13,13 +13,17 @@ describe('MUI Pill component', () => {
   });
 
   it('should apply variant, color, class and style', () => {
-    const pill = Pill({
-      label: 'Beta',
-      variant: 'outlined',
-      color: 'primary',
-      class: 'custom-pill',
-      style: { marginTop: '8px' },
-    }) as HTMLElement;
+    const pill = (
+      <Pill
+        {...{
+          label: 'Beta',
+          variant: 'outlined',
+          color: 'primary',
+          class: 'custom-pill',
+          style: { marginTop: '8px' },
+        }}
+      />
+    );
 
     expect(pill.className).toContain('mui-pill-variant-outlined');
     expect(pill.className).toContain('mui-pill-color-primary');
@@ -29,7 +33,7 @@ describe('MUI Pill component', () => {
 
   it('should support reactive disabled state', () => {
     const disabled = ref(false);
-    const pill = Pill({ label: 'Reactive', disabled }) as HTMLElement;
+    const pill = <Pill {...{ label: 'Reactive', disabled }} />;
     expect(pill.className).not.toContain('mui-pill-disabled');
 
     disabled.value = true;
@@ -39,12 +43,16 @@ describe('MUI Pill component', () => {
   it('should trigger on:click and on:delete handlers', () => {
     const onClick = vi.fn();
     const onDelete = vi.fn();
-    const pill = Pill({
-      label: 'Closable',
-      clickable: true,
-      'on:click': onClick,
-      'on:delete': onDelete,
-    }) as HTMLElement;
+    const pill = (
+      <Pill
+        {...{
+          label: 'Closable',
+          clickable: true,
+          'on:click': onClick,
+          'on:delete': onDelete,
+        }}
+      />
+    );
     document.body.appendChild(pill);
 
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -58,11 +66,15 @@ describe('MUI Pill component', () => {
 
   it('should keep element when autoRemoveOnDelete is false', () => {
     const onDelete = vi.fn();
-    const pill = Pill({
-      label: 'Pinned',
-      autoRemoveOnDelete: false,
-      'on:delete': onDelete,
-    }) as HTMLElement;
+    const pill = (
+      <Pill
+        {...{
+          label: 'Pinned',
+          autoRemoveOnDelete: false,
+          'on:delete': onDelete,
+        }}
+      />
+    );
 
     document.body.appendChild(pill);
     const deleteButton = pill.querySelector('.mui-pill-delete') as HTMLButtonElement;

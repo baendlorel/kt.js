@@ -8,12 +8,16 @@ describe('MUI DropdownButton component reactivity', () => {
     const fullWidth = ref(false);
     const disabled = ref(false);
 
-    const dropdown = DropdownButton({
-      label,
-      fullWidth,
-      disabled,
-      options: [{ label: 'Open', value: 'open' }],
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label,
+          fullWidth,
+          disabled,
+          options: [{ label: 'Open', value: 'open' }],
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;
@@ -35,10 +39,14 @@ describe('MUI DropdownButton component reactivity', () => {
   it('reacts to options ref updates', () => {
     const options = ref([{ label: 'Open', value: 'open' }]);
 
-    const dropdown = DropdownButton({
-      label: 'Actions',
-      options,
-    }) as HTMLElement;
+    const dropdown = (
+      <DropdownButton
+        {...{
+          label: 'Actions',
+          options,
+        }}
+      />
+    );
     document.body.appendChild(dropdown);
 
     const trigger = dropdown.querySelector('.mui-dropdown-button-trigger') as HTMLButtonElement;

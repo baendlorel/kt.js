@@ -8,16 +8,20 @@ describe('MUI Checkbox component reactivity', () => {
     const indeterminate = ref(true);
     const label = ref('Accept');
 
-    const checkbox = Checkbox({
-      'k-model': model,
-      indeterminate,
-      label,
-      value: 'accept',
-    } as any) as HTMLElement;
+    const checkbox = (
+      <Checkbox
+        {...({
+          'k-model': model,
+          indeterminate,
+          label,
+          value: 'accept',
+        } as any)}
+      />
+    );
 
     const input = checkbox.querySelector('input') as HTMLInputElement;
-    const indeterminateIcon = checkbox.querySelector('.mui-checkbox-icon-indeterminate') as HTMLElement;
-    const checkedIcon = checkbox.querySelector('.mui-checkbox-icon-checked') as HTMLElement;
+    const indeterminateIcon = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
+    const checkedIcon = checkbox.querySelector('.mui-checkbox-icon-checked');
 
     expect(indeterminateIcon.style.display).toBe('');
     expect(checkedIcon.style.display).toBe('none');
@@ -37,14 +41,18 @@ describe('MUI CheckboxGroup component reactivity', () => {
     const value = ref<string[]>([]);
     const onChange = vi.fn();
 
-    const group = CheckboxGroup({
-      value,
-      options: ref([
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ]),
-      'on:change': onChange,
-    } as any) as HTMLElement;
+    const group = (
+      <CheckboxGroup
+        {...({
+          value,
+          options: ref([
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ]),
+          'on:change': onChange,
+        } as any)}
+      />
+    );
 
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     expect(inputs[0].checked).toBe(false);

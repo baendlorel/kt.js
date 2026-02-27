@@ -3,7 +3,7 @@ import { Radio, RadioGroup } from './Radio.js';
 
 describe('MUI Radio component', () => {
   it('should render with defaults', () => {
-    const radio = Radio({ label: 'Option', value: '' }) as HTMLElement;
+    const radio = <Radio {...{ label: 'Option', value: '' }} />;
     const input = radio.querySelector('input') as HTMLInputElement;
     expect(input.type).toBe('radio');
     expect(radio.className).toContain('mui-radio-wrapper');
@@ -14,10 +14,10 @@ describe('MUI Radio component', () => {
 
   it('should toggle icons and call on:change', () => {
     const onChange = vi.fn();
-    const radio = Radio({ value: 'a', 'on:change': onChange, label: 'Option' }) as HTMLElement;
+    const radio = <Radio {...{ value: 'a', 'on:change': onChange, label: 'Option' }} />;
     const input = radio.querySelector('input') as HTMLInputElement;
-    const unchecked = radio.querySelector('.mui-radio-icon-unchecked') as HTMLElement;
-    const checked = radio.querySelector('.mui-radio-icon-checked') as HTMLElement;
+    const unchecked = radio.querySelector('.mui-radio-icon-unchecked');
+    const checked = radio.querySelector('.mui-radio-icon-checked');
     expect(unchecked.style.display).toBe('');
     expect(checked.style.display).toBe('none');
     input.checked = true;
@@ -28,31 +28,39 @@ describe('MUI Radio component', () => {
   });
 
   it('should apply disabled class', () => {
-    const radio = Radio({ disabled: true, value: '', label: 'Option' }) as HTMLElement;
+    const radio = <Radio {...{ disabled: true, value: '', label: 'Option' }} />;
     expect(radio.className).toContain('mui-radio-disabled');
   });
 });
 
 describe('MUI RadioGroup component', () => {
   it('should render role container', () => {
-    const group = RadioGroup({
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
-    }) as HTMLElement;
+    const group = (
+      <RadioGroup
+        {...{
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        }}
+      />
+    );
     expect(group.getAttribute('role')).toBe('radiogroup');
     expect(group.className).toContain('mui-radio-group');
   });
 
   it('should expose value property updates', () => {
-    const group = RadioGroup({
-      value: 'a',
-      options: [
-        { label: 'A', value: 'a' },
-        { label: 'B', value: 'b' },
-      ],
-    }) as HTMLElement;
+    const group = (
+      <RadioGroup
+        {...{
+          value: 'a',
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        }}
+      />
+    );
 
     expect((group as any).value).toBe('a');
     (group as any).value = 'b';

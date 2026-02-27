@@ -10,13 +10,17 @@ describe('MUI Card component reactivity', () => {
     const square = ref(false);
     const raised = ref(false);
 
-    const card = Card({
-      children: 'Body',
-      variant,
-      elevation,
-      square,
-      raised,
-    }) as HTMLElement;
+    const card = (
+      <Card
+        {...{
+          children: 'Body',
+          variant,
+          elevation,
+          square,
+          raised,
+        }}
+      />
+    );
 
     expect(card.className).toContain('mui-card-elevation-2');
 
@@ -37,7 +41,7 @@ describe('MUI Card component reactivity', () => {
     const customSeed = ref<'card-a' | 'card-b'>('card-a');
     const customClass = computed(() => customSeed.value, [customSeed]);
 
-    const card = Card({ children: 'Body', class: customClass }) as HTMLElement;
+    const card = <Card {...{ children: 'Body', class: customClass }} />;
     expect(card.className).toContain('card-a');
 
     customSeed.value = 'card-b';

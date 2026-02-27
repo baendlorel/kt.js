@@ -9,12 +9,16 @@ describe('MUI TextField component reactivity', () => {
     const error = ref(false);
     const helperText = ref('Hint');
 
-    const textfield = TextField({
-      label,
-      required,
-      error,
-      helperText,
-    }) as HTMLElement;
+    const textfield = (
+      <TextField
+        {...{
+          label,
+          required,
+          error,
+          helperText,
+        }}
+      />
+    );
 
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('Email');
     expect(textfield.querySelector('.mui-textfield-required')?.getAttribute('k-if')).toBe('false');
@@ -35,10 +39,14 @@ describe('MUI TextField component reactivity', () => {
     const label = computed(() => labelSeed.value, [labelSeed]);
     const model = ref('alpha');
 
-    const textfield = TextField({
-      label,
-      'k-model': model,
-    } as any) as HTMLElement;
+    const textfield = (
+      <TextField
+        {...({
+          label,
+          'k-model': model,
+        } as any)}
+      />
+    );
     const input = textfield.querySelector('input') as HTMLInputElement;
 
     expect(input.value).toBe('alpha');

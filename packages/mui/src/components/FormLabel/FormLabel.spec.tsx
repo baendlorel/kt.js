@@ -8,12 +8,16 @@ describe('MUI FormLabel component reactivity', () => {
     const error = ref(false);
     const focused = ref(false);
 
-    const label = FormLabel({
-      children: 'Email',
-      required,
-      error,
-      focused,
-    }) as HTMLElement;
+    const label = (
+      <FormLabel
+        {...{
+          children: 'Email',
+          required,
+          error,
+          focused,
+        }}
+      />
+    );
 
     expect(label.className).not.toContain('mui-form-label-error');
     expect(label.querySelector('.mui-form-label-asterisk')?.getAttribute('k-if')).toBe('false');
@@ -29,7 +33,7 @@ describe('MUI FormLabel component reactivity', () => {
 
   it('reacts to htmlFor ref changes', () => {
     const htmlFor = ref('field-a');
-    const label = FormLabel({ children: 'Name', htmlFor }) as HTMLElement;
+    const label = <FormLabel {...{ children: 'Name', htmlFor }} />;
 
     expect(label.getAttribute('for')).toBe('field-a');
     htmlFor.value = 'field-b';

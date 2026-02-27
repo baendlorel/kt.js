@@ -3,7 +3,7 @@ import { Button } from './Button.js';
 
 describe('MUI Button component', () => {
   it('should render button with default props', () => {
-    const button = Button({ children: 'Click me' }) as HTMLButtonElement;
+    const button = <Button {...{ children: 'Click me' }} />;
     expect(button.tagName).toBe('BUTTON');
     expect(button.type).toBe('button');
     expect(button.textContent).toContain('Click me');
@@ -15,39 +15,39 @@ describe('MUI Button component', () => {
   });
 
   it('should apply variant and color classes', () => {
-    const contained = Button({ variant: 'contained', color: 'secondary', children: 'Test' }) as HTMLButtonElement;
+    const contained = <Button {...{ variant: 'contained', color: 'secondary', children: 'Test' }} />;
     expect(contained.className).toContain('mui-button-contained');
     expect(contained.className).toContain('mui-button-contained-secondary');
 
-    const outlined = Button({ variant: 'outlined', color: 'error', children: 'Test' }) as HTMLButtonElement;
+    const outlined = <Button {...{ variant: 'outlined', color: 'error', children: 'Test' }} />;
     expect(outlined.className).toContain('mui-button-outlined');
     expect(outlined.className).toContain('mui-button-outlined-error');
   });
 
   it('should apply size classes', () => {
-    const small = Button({ size: 'small', children: 'Test' }) as HTMLButtonElement;
+    const small = <Button {...{ size: 'small', children: 'Test' }} />;
     expect(small.className).toContain('mui-button-size-small');
-    const large = Button({ size: 'large', children: 'Test' }) as HTMLButtonElement;
+    const large = <Button {...{ size: 'large', children: 'Test' }} />;
     expect(large.className).toContain('mui-button-size-large');
   });
 
   it('should handle disabled state', () => {
-    const disabled = Button({ disabled: true, children: 'Test' }) as HTMLButtonElement;
+    const disabled = <Button {...{ disabled: true, children: 'Test' }} />;
     expect(disabled.disabled).toBe(true);
     expect(disabled.className).toContain('mui-button-disabled');
 
-    const enabled = Button({ disabled: false, children: 'Test' }) as HTMLButtonElement;
+    const enabled = <Button {...{ disabled: false, children: 'Test' }} />;
     expect(enabled.disabled).toBe(false);
     expect(enabled.className).not.toContain('mui-button-disabled');
   });
 
   it('should apply fullWidth class', () => {
-    const fullWidth = Button({ fullWidth: true, children: 'Test' }) as HTMLButtonElement;
+    const fullWidth = <Button {...{ fullWidth: true, children: 'Test' }} />;
     expect(fullWidth.className).toContain('mui-button-fullwidth');
   });
 
   it('should apply iconOnly class', () => {
-    const iconOnly = Button({ iconOnly: true, children: 'Test' }) as HTMLButtonElement;
+    const iconOnly = <Button {...{ iconOnly: true, children: 'Test' }} />;
     expect(iconOnly.className).toContain('mui-button-icon-only');
   });
 
@@ -56,11 +56,15 @@ describe('MUI Button component', () => {
     startIcon.textContent = 'S';
     const endIcon = document.createElement('span');
     endIcon.textContent = 'E';
-    const button = Button({
-      children: 'Button',
-      startIcon,
-      endIcon,
-    }) as HTMLButtonElement;
+    const button = (
+      <Button
+        {...{
+          children: 'Button',
+          startIcon,
+          endIcon,
+        }}
+      />
+    );
     expect(button.querySelector('.mui-button-start-icon')).toBeTruthy();
     expect(button.querySelector('.mui-button-end-icon')).toBeTruthy();
     expect(button.querySelector('.mui-button-label')?.textContent).toBe('Button');
@@ -68,7 +72,7 @@ describe('MUI Button component', () => {
 
   it('should handle click events with ripple effect', () => {
     const onClick = vi.fn();
-    const button = Button({ children: 'Click', 'on:click': onClick }) as HTMLButtonElement;
+    const button = <Button {...{ children: 'Click', 'on:click': onClick }} />;
     const rippleContainer = button.querySelector('.mui-button-ripple');
     expect(rippleContainer).toBeTruthy();
     button.click();
@@ -78,7 +82,7 @@ describe('MUI Button component', () => {
 
   it('should prevent click when disabled', () => {
     const onClick = vi.fn();
-    const button = Button({ children: 'Click', disabled: true, 'on:click': onClick }) as HTMLButtonElement;
+    const button = <Button {...{ children: 'Click', disabled: true, 'on:click': onClick }} />;
     const event = new MouseEvent('click', { cancelable: true });
     const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
     button.dispatchEvent(event);
@@ -87,11 +91,15 @@ describe('MUI Button component', () => {
   });
 
   it('should apply custom class and style', () => {
-    const button = Button({
-      children: 'Test',
-      class: 'custom-class',
-      style: { color: 'red', fontSize: '16px' },
-    }) as HTMLButtonElement;
+    const button = (
+      <Button
+        {...{
+          children: 'Test',
+          class: 'custom-class',
+          style: { color: 'red', fontSize: '16px' },
+        }}
+      />
+    );
     expect(button.className).toContain('custom-class');
     expect(button.style.color).toBe('red');
     expect(button.style.fontSize).toBe('16px');

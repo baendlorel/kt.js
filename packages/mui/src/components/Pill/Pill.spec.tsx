@@ -9,12 +9,16 @@ describe('MUI Pill component reactivity', () => {
     const disabled = ref(false);
     const onClick = vi.fn();
 
-    const pill = Pill({
-      label,
-      clickable,
-      disabled,
-      'on:click': onClick,
-    }) as HTMLElement;
+    const pill = (
+      <Pill
+        {...{
+          label,
+          clickable,
+          disabled,
+          'on:click': onClick,
+        }}
+      />
+    );
 
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).not.toHaveBeenCalled();
@@ -35,11 +39,15 @@ describe('MUI Pill component reactivity', () => {
     const autoRemoveOnDelete = ref(false);
     const onDelete = vi.fn();
 
-    const pill = Pill({
-      label: 'Removable',
-      autoRemoveOnDelete,
-      'on:delete': onDelete,
-    }) as HTMLElement;
+    const pill = (
+      <Pill
+        {...{
+          label: 'Removable',
+          autoRemoveOnDelete,
+          'on:delete': onDelete,
+        }}
+      />
+    );
     document.body.appendChild(pill);
 
     const deleteButton = pill.querySelector('.mui-pill-delete') as HTMLButtonElement;

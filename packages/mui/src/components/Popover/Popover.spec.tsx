@@ -26,7 +26,7 @@ describe('MUI Popover component reactivity', () => {
     const anchor = createAnchor();
     const open = ref(false);
 
-    const popover = Popover({ open, anchorEl: anchor, children: 'Body' }) as HTMLElement;
+    const popover = <Popover {...{ open, anchorEl: anchor, children: 'Body' }} />;
     document.body.appendChild(popover);
 
     expect(popover.style.display).toBe('none');
@@ -50,15 +50,19 @@ describe('MUI Popover component reactivity', () => {
     const elevationSeed = ref(2);
     const elevation = computed(() => elevationSeed.value, [elevationSeed]);
 
-    const popover = Popover({
-      open: true,
-      anchorEl: anchor,
-      elevation,
-      children: 'Body',
-    }) as HTMLElement;
+    const popover = (
+      <Popover
+        {...{
+          open: true,
+          anchorEl: anchor,
+          elevation,
+          children: 'Body',
+        }}
+      />
+    );
     document.body.appendChild(popover);
 
-    const paper = popover.querySelector('.mui-popover-paper') as HTMLElement;
+    const paper = popover.querySelector('.mui-popover-paper');
     const previousShadow = paper.style.boxShadow;
 
     elevationSeed.value = 20;

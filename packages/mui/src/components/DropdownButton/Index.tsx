@@ -6,6 +6,7 @@ import { ExpandMoreIcon } from '@ktjs/mui-icon';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import '../Button/Button.css';
 import './DropdownButton.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export interface KTMuiDropdownButtonOption {
   value: string;
@@ -14,13 +15,41 @@ export interface KTMuiDropdownButtonOption {
 }
 
 export interface KTMuiDropdownButtonProps extends KTMuiProps {
+  /**
+   * The label for the dropdown button - can be a string or a JSX element
+   */
   label?: KTMaybeReactive<string | JSX.Element>;
+
+  /**
+   * The options for the dropdown menu - array of objects with `value`, `label` and optional `disabled`
+   */
   options: KTMaybeReactive<KTMuiDropdownButtonOption[]>;
+
+  /**
+   * The variant to use - 'contained', 'outlined' or 'text'
+   */
   variant?: KTMaybeReactive<'contained' | 'outlined' | 'text'>;
+
+  /**
+   * The color to use - 'primary', 'secondary', 'error', 'warning', 'info' or 'success'
+   */
   color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+
+  /**
+   * The size of the button - 'small', 'medium' or 'large'
+   */
   size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+
+  /**
+   * Whether the button is disabled
+   */
   disabled?: KTMaybeReactive<boolean>;
+
+  /**
+   * Whether the button should take the full width of its container
+   */
   fullWidth?: KTMaybeReactive<boolean>;
+
   'on:click'?: (event: MouseEvent) => void;
   'on:select'?: (value: string, option: KTMuiDropdownButtonOption) => void;
 }
@@ -176,5 +205,6 @@ export function DropdownButton(props: KTMuiDropdownButtonProps): KTMuiDropdownBu
     return originalRemove.call(container);
   };
 
+  registerPrefixedEvents(container, props, ['on:click', 'on:select']);
   return container;
 }

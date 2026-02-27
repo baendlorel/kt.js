@@ -17,18 +17,22 @@ export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undef
 
 // todo 也要给别的组件注册事件
 // todo 正规化组件
-export const registerPrefixedEvents = (element: HTMLElement, props: { [key: string]: any }) => {
-  for (const key in props) {
-    if (key.startsWith('on:')) {
-      element.addEventListener(key.slice(3), props[key]);
+export const registerPrefixedEvents = (
+  element: HTMLElement,
+  props: { [key: string]: any },
+  exclude?: `on:${string}`[],
+) => {
+  if (exclude) {
+    for (const key in props) {
+      if (key.startsWith('on:') && !exclude.includes(key as `on:${string}`)) {
+        element.addEventListener(key.slice(3), props[key]);
+      }
     }
-  }
-};
-
-export const registerPrefixedEventsForButton = (element: HTMLElement, props: { [key: string]: any }) => {
-  for (const key in props) {
-    if (key.startsWith('on:') && key !== 'on:click' && key !== 'on:dblclick') {
-      element.addEventListener(key.slice(3), props[key]);
+  } else {
+    for (const key in props) {
+      if (key.startsWith('on:')) {
+        element.addEventListener(key.slice(3), props[key]);
+      }
     }
   }
 };

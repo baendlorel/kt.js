@@ -5,6 +5,7 @@ import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from 
 
 import './Checkbox.css';
 import { Checkbox } from './Checkbox.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export { Checkbox };
 
@@ -74,5 +75,6 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   // # init selection
   model.notify();
 
+  registerPrefixedEvents(container, props, ['on:change']);
   return container;
 }

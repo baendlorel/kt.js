@@ -3,7 +3,7 @@ import { computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import { registerPrefixedEventsForButton } from '../../common/attribute.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 import './Button.css';
 
 interface KTMuiButtonProps extends KTMuiProps {
@@ -121,6 +121,6 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
     });
   }
 
-  registerPrefixedEventsForButton(container, props);
+  registerPrefixedEvents(container, props, ['on:dblclick', 'on:click']);
   return container;
 }

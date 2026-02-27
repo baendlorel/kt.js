@@ -80,10 +80,8 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMu
    */
   size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
 
-  'on:input'?: ChangeHandler<T extends 'number' ? number : string>;
-  'on-trim:input'?: ChangeHandler<T extends 'number' ? number : string>;
-  'on:change'?: ChangeHandler<T extends 'number' ? number : string>;
-  'on-trim:change'?: ChangeHandler<T extends 'number' ? number : string>;
+  'on:input'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
+  'on:change'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;
   'on:focus'?: () => void;
 }

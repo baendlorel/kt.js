@@ -8,9 +8,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
   const onInput = props['on:input'] ?? $emptyFn;
-  const onInputTrim = props['on-trim:input'] ?? $emptyFn;
   const onChange = props['on:change'] ?? $emptyFn;
-  const onChangeTrim = props['on-trim:change'] ?? $emptyFn;
   const onBlur = props['on:blur'] ?? $emptyFn;
   const onFocus = props['on:focus'] ?? $emptyFn;
 
@@ -19,31 +17,17 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
 
   // # methods
 
-  const handleInput = () => {
-    if (inputType === 'number') {
-      const v = Number(inputEl.value);
-      modelRef.value = v;
-      onInput(v);
-      onInputTrim(v);
-    } else {
-      modelRef.value = inputEl.value;
-      onInput(inputEl.value);
-      onInputTrim(inputEl.value.trim());
-    }
-  };
+  /**
+   * ! This would work only when model is registered before this3
+   * ! which is determined by `core/src/h/index.ts`
+   */
+  const handleInput = () => onInput(modelRef.value);
 
-  const handleChange = () => {
-    if (inputType === 'number') {
-      const v = Number(inputEl.value);
-      modelRef.value = v;
-      onChange(v);
-      onChangeTrim(v);
-    } else {
-      modelRef.value = inputEl.value;
-      onChange(inputEl.value);
-      onChangeTrim(inputEl.value.trim());
-    }
-  };
+  /**
+   * ! This would work only when model is registered before this3
+   * ! which is determined by `core/src/h/index.ts`
+   */
+  const handleChange = () => onChange(modelRef.value);
 
   const handleFocus = () => {
     isFocused.value = true;
@@ -92,9 +76,9 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const inputEl = multiline
     ? ((
         <textarea
+          k-model={modelRef}
           class="mui-textfield-input"
           placeholder={placeholder}
-          value={modelRef.value}
           disabled={disabled}
           readOnly={readOnly}
           required={required}
@@ -107,10 +91,10 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       ) as HTMLTextAreaElement)
     : ((
         <input
+          k-model={modelRef}
           type={inputType}
           class="mui-textfield-input"
           placeholder={placeholder}
-          value={modelRef.value}
           disabled={disabled}
           readOnly={readOnly}
           required={required}
@@ -181,14 +165,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     </div>
   ) as KTMuiTextField;
 
-  registerPrefixedEvents(container, props, [
-    'on:input',
-    'on:change',
-    'on:focus',
-    'on:blur',
-    'on-trim:input',
-    'on-trim:change',
-  ]);
+  registerPrefixedEvents(container, props, ['on:input', 'on:change', 'on:focus', 'on:blur']);
 
   return container;
 }

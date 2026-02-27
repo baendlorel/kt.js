@@ -9,9 +9,20 @@ export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], val
   if (element.tagName === 'INPUT') {
     if (element.type === 'radio' || element.type === 'checkbox') {
       $applyModel(element, valueRef, 'checked', 'change');
-    } else {
-      $applyModel(element, valueRef, 'value', 'input');
+      return;
     }
+
+    if (element.type === 'number') {
+      $applyModel(element, valueRef, 'checked', 'change', Number);
+      return;
+    }
+
+    if (element.type === 'date') {
+      $applyModel(element, valueRef, 'checked', 'change', (v: any) => new Date(v));
+      return;
+    }
+
+    $applyModel(element, valueRef, 'value', 'input');
   } else if (element.tagName === 'SELECT') {
     $applyModel(element, valueRef, 'value', 'change');
   } else if (element.tagName === 'TEXTAREA') {

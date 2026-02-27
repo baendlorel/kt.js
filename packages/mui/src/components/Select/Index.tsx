@@ -1,27 +1,32 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Select.css';
 
-export type KTMuiSelectOption =
-  | {
-      value: string;
-      label: string | JSX.Element | HTMLElement;
-    }
-  | JSX.Element
-  | HTMLElement
-  | string;
+export interface KTMuiSelectOption {
+  value: string;
+  label: string | JSX.Element;
+}
+
+export type KTMuiSelectContent = KTMuiSelectOption | JSX.Element | HTMLElement | string;
 
 export interface KTMuiSelectProps extends KTMuiProps {
-  size?: 'small' | 'medium';
-  value?: string;
-  options: KTMuiSelectOption[] | KTReactive<KTMuiSelectOption[]>;
-  label?: string | KTReactive<string>;
-  placeholder?: string;
+  size?: KTMaybeReactive<'small' | 'medium'>;
+
+  value?: KTMaybeReactive<string>;
+
+  options: KTMaybeReactive<KTMuiSelectOption[]>;
+
+  label?: KTMaybeReactive<string>;
+
+  placeholder?: KTMaybeReactive<string>;
+
+  fullWidth?: KTMaybeReactive<boolean>;
+
+  disabled?: KTMaybeReactive<boolean>;
+
   'on:change'?: (value: string) => void;
-  fullWidth?: boolean;
-  disabled?: boolean | KTReactive<boolean>;
 }
 
 export type KTMuiSelect = JSX.Element & {};
@@ -152,7 +157,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
         tabIndex={disabledRef.value ? -1 : 0}
       >
         {displayedValue}
-        <input type="hidden" value={modelRef} />
+        <input type="hidden" k-model={modelRef} />
         <fieldset class="mui-select-fieldset">
           <legend class="mui-select-legend">
             <span>{labelRef}</span>

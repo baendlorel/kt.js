@@ -25,14 +25,13 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
 
   // * start creating the element
   const element = document.createElement(tag) as HTML<T>;
+  if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
+    applyKModel(element as any, attr['k-model'] as any);
+  }
 
   // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
-
-  if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
-    applyKModel(element as any, attr['k-model'] as any);
-  }
 
   return element;
 };

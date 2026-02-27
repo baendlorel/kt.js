@@ -14,5 +14,9 @@ export const $define = Object.defineProperty;
 export const $entries = Object.entries as <T>(o: T) => Array<[keyof T, T[keyof T]]>;
 
 export const $random = Math.random;
+export const $max = Math.max;
+export const $min = Math.min;
+export const $round = Math.round;
+export const $clamp = (value: number, min: number, max: number) => $max(min, $min(max, value));
 
 export const $isThenable = (o: any): o is Promise<any> => typeof o?.then === 'function';

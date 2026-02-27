@@ -30,19 +30,23 @@ export type KTMuiLinearProgress = JSX.Element & {
 };
 
 export function LinearProgress(props: LinearProgressProps) {
-  const value = toReactive(props.value ?? 0);
-  const customClass = toReactive(props.class ?? '');
-  const color = toReactive(props.color ?? 'primary');
-  const variant = toReactive(props.variant ?? 'indeterminate');
-  const className = computed(() => {
-    return `mui-linear-progress mui-linear-progress-${variant.value} mui-linear-progress-${color.value} ${customClass.value}`;
-  }, [customClass, color, variant]);
-
+  const customClassRef = toReactive(props.class ?? '');
   const style = toReactive($parseStyle(props.style));
-  const barLength = computed(() => (variant.value === 'determinate' ? `width: ${value.value}%` : ''), [variant, value]);
+
+  const valueRef = toReactive(props.value ?? 0);
+  const colorRef = toReactive(props.color ?? 'primary');
+  const variantRef = toReactive(props.variant ?? 'indeterminate');
+  const className = computed(() => {
+    return `mui-linear-progress mui-linear-progress-${variantRef.value} mui-linear-progress-${colorRef.value} ${customClassRef.value}`;
+  }, [customClassRef, colorRef, variantRef]);
+
+  const barLength = computed(
+    () => (variantRef.value === 'determinate' ? `width: ${valueRef.value}%` : ''),
+    [variantRef, valueRef],
+  );
 
   const container = (
-    <div class={className} style={style} role="progressbar" aria-valuenow={value}>
+    <div class={className} style={style} role="progressbar" aria-valuenow={valueRef}>
       <div class="mui-linear-progress-bar" style={barLength}></div>
     </div>
   ) as KTMuiLinearProgress;
@@ -50,10 +54,10 @@ export function LinearProgress(props: LinearProgressProps) {
   $defines(container, {
     value: {
       get() {
-        return value.value;
+        return valueRef.value;
       },
       set(v: number) {
-        value.value = v;
+        valueRef.value = v;
       },
     },
   });

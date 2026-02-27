@@ -33,27 +33,28 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const rippleContainerRef = ref<HTMLSpanElement>();
 
   // # ref props
-  const variant = toReactive(props.variant ?? 'text');
-  const color = toReactive(props.color ?? 'primary');
-  const size = toReactive(props.size ?? 'medium');
-  const fullWidth = toReactive(props.fullWidth ?? false);
-  const iconOnly = toReactive(props.iconOnly ?? false);
-  const disabled = toReactive(props.disabled ?? false);
-  const style = toReactive($parseStyle(props.style));
-  const customClass = toReactive(props.class ?? '');
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const variantRef = toReactive(props.variant ?? 'text');
+  const colorRef = toReactive(props.color ?? 'primary');
+  const sizeRef = toReactive(props.size ?? 'medium');
+  const fullWidthRef = toReactive(props.fullWidth ?? false);
+  const iconOnlyRef = toReactive(props.iconOnly ?? false);
+  const disabledRef = toReactive(props.disabled ?? false);
 
   const className = computed(() => {
     return [
       'mui-button',
-      `mui-button-${variant.value}`,
-      `mui-button-${variant.value}-${color.value}`,
-      `mui-button-size-${size.value}`,
-      fullWidth.value ? 'mui-button-fullwidth' : '',
-      iconOnly.value ? 'mui-button-icon-only' : '',
-      disabled.value ? 'mui-button-disabled' : '',
-      customClass.value,
+      `mui-button-${variantRef.value}`,
+      `mui-button-${variantRef.value}-${colorRef.value}`,
+      `mui-button-size-${sizeRef.value}`,
+      fullWidthRef.value ? 'mui-button-fullwidth' : '',
+      iconOnlyRef.value ? 'mui-button-icon-only' : '',
+      disabledRef.value ? 'mui-button-disabled' : '',
+      customClassRef.value,
     ].join(' ');
-  }, [variant, color, size, fullWidth, iconOnly, disabled, customClass]);
+  }, [variantRef, colorRef, sizeRef, fullWidthRef, iconOnlyRef, disabledRef, customClassRef]);
 
   const createRippleEffect = (mouseX: number, mouseY: number) => {
     const buttonEl = buttonRef.value;
@@ -79,7 +80,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   };
 
   const handleClick = (e: MouseEvent) => {
-    if (disabled.value) {
+    if (disabledRef.value) {
       e.preventDefault();
       return;
     }
@@ -92,9 +93,9 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
     <button
       ref={buttonRef}
       class={className}
-      style={style}
+      style={styleRef}
       type={toReactive<'button' | 'submit' | 'reset'>(props.type ?? 'button')}
-      disabled={disabled}
+      disabled={disabledRef}
       on:click={handleClick}
     >
       <span k-if={props.startIcon} class="mui-button-start-icon">
@@ -111,7 +112,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const onDblclick = props['on:dblclick'];
   if (onDblclick) {
     container.addEventListener('dblclick', (e) => {
-      if (disabled.value) {
+      if (disabledRef.value) {
         e.preventDefault();
         return;
       }

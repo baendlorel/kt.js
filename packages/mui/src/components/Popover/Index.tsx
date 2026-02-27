@@ -121,7 +121,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
 
   let positionTimer = 0;
   const scheduleUpdatePosition = () => {
-    if (!open.value) {
+    if (!openRef.value) {
       return;
     }
     if (positionTimer) {
@@ -142,7 +142,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       container.classList.add('mui-popover-rendered');
       openTransitionTimer = window.setTimeout(() => {
         openTransitionTimer = 0;
-        if (!open.value) {
+        if (!openRef.value) {
           return;
         }
         container.classList.add('mui-popover-open');
@@ -153,7 +153,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     container.classList.remove('mui-popover-open');
     hideTransitionTimer = window.setTimeout(() => {
       hideTransitionTimer = 0;
-      if (open.value) {
+      if (openRef.value) {
         return;
       }
       container.style.display = 'none';
@@ -161,7 +161,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     }, EXIT_TRANSITION_MS);
   };
 
-  const open = toReactive(props.open ?? false, (isOpen) => {
+  const openRef = toReactive(props.open ?? false, (isOpen) => {
     syncOpenState(isOpen);
     if (isOpen) {
       scheduleUpdatePosition();
@@ -187,7 +187,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   }, [style, elevation]);
 
   const updatePosition = () => {
-    if (!open.value) {
+    if (!openRef.value) {
       return;
     }
 
@@ -225,15 +225,15 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   };
 
   const close = (reason: KTMuiPopoverCloseReason) => {
-    if (!open.value) {
+    if (!openRef.value) {
       return;
     }
-    open.value = false;
+    openRef.value = false;
     onClose(reason);
   };
 
   const handleDocumentMouseDown = (e: MouseEvent) => {
-    if (!open.value) {
+    if (!openRef.value) {
       return;
     }
     const target = e.target as Node | null;
@@ -257,7 +257,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   };
 
   const paper = (
-    <div class={paperClassName} style={paperStyle} role="dialog" aria-hidden={!open.value}>
+    <div class={paperClassName} style={paperStyle} role="dialog" aria-hidden={!openRef.value}>
       {props.children}
     </div>
   ) as HTMLDivElement;
@@ -265,8 +265,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   // ?? 这里计算的class和style会和函数里的冲突吗
   const container = (
     <div
-      class={open.toComputed((v) => `mui-popover-root ${v ? 'mui-popover-open mui-popover-rendered' : ''}`)}
-      style={open.toComputed<string>((v) => (v ? 'display: block;' : 'display: none;'))}
+      class={openRef.toComputed((v) => `mui-popover-root ${v ? 'mui-popover-open mui-popover-rendered' : ''}`)}
+      style={openRef.toComputed<string>((v) => (v ? 'display: block;' : 'display: none;'))}
     >
       {paper}
     </div>
@@ -277,8 +277,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   window.addEventListener('resize', scheduleUpdatePosition);
   window.addEventListener('scroll', scheduleUpdatePosition, true);
 
-  syncOpenState(open.value);
-  if (open.value) {
+  syncOpenState(openRef.value);
+  if (openRef.value) {
     scheduleUpdatePosition();
   }
 

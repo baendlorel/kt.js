@@ -12,7 +12,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const onBlur = props['on:blur'] ?? $emptyFn;
   const onFocus = props['on:focus'] ?? $emptyFn;
 
-  const isFocused = ref(false);
+  const isFocusedRef = ref(false);
   const hasInputValue = (value: unknown) => value !== '' && value !== null && value !== undefined;
 
   // # methods
@@ -30,17 +30,17 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const handleChange = () => onChange(modelRef.value);
 
   const handleFocus = () => {
-    isFocused.value = true;
+    isFocusedRef.value = true;
     onFocus(inputEl.value);
   };
 
   const handleBlur = () => {
-    isFocused.value = false;
+    isFocusedRef.value = false;
     onBlur(inputEl.value);
   };
 
   const handleWrapperMouseDown = (e: MouseEvent) => {
-    if (disabled.value) {
+    if (disabledRef.value) {
       return;
     }
     const target = e.target as Node | null;
@@ -59,19 +59,20 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const modelRef = $modelOrRef(props, props.value ?? '');
 
   // Create refs for all reactive properties
-  const label = toReactive(props.label ?? '');
+  const labelRef = toReactive(props.label ?? '');
+  const disabledRef = toReactive(props.disabled ?? false);
+  const readOnlyRef = toReactive(props.readOnly ?? false);
+  const requiredRef = toReactive(props.required ?? false);
+  const errorRef = toReactive(props.error ?? false);
+  const helperTextRef = toReactive(props.helperText ?? '');
+  const fullWidthRef = toReactive(props.fullWidth ?? false);
+  const rowsRef = toReactive(props.rows ?? 3);
+  const sizeRef = toReactive(props.size ?? 'medium');
+
   const placeholder = toReactive(props.placeholder ?? '').toComputed(
-    (v) => (label.value && !isFocused.value && !hasInputValue(modelRef.value) ? '' : v),
-    [label, isFocused, modelRef],
+    (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
+    [labelRef, isFocusedRef, modelRef],
   );
-  const disabled = toReactive(props.disabled ?? false);
-  const readOnly = toReactive(props.readOnly ?? false);
-  const required = toReactive(props.required ?? false);
-  const error = toReactive(props.error ?? false);
-  const helperText = toReactive(props.helperText ?? '');
-  const fullWidth = toReactive(props.fullWidth ?? false);
-  const rows = toReactive(props.rows ?? 3);
-  const size = toReactive(props.size ?? 'medium');
 
   const inputEl = multiline
     ? ((
@@ -79,10 +80,10 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           k-model={modelRef}
           class="mui-textfield-input"
           placeholder={placeholder}
-          disabled={disabled}
-          readOnly={readOnly}
-          required={required}
-          rows={rows}
+          disabled={disabledRef}
+          readOnly={readOnlyRef}
+          required={requiredRef}
+          rows={rowsRef}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
@@ -95,9 +96,9 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
           type={inputType}
           class="mui-textfield-input"
           placeholder={placeholder}
-          disabled={disabled}
-          readOnly={readOnly}
-          required={required}
+          disabled={disabledRef}
+          readOnly={readOnlyRef}
+          required={requiredRef}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
@@ -112,47 +113,47 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     () =>
       [
         'mui-textfield-root',
-        `mui-textfield-size-${size.value}`,
-        isFocused.value ? 'mui-textfield-focused' : '',
-        error.value ? 'mui-textfield-error' : '',
-        disabled.value ? 'mui-textfield-disabled' : '',
-        fullWidth.value ? 'mui-textfield-fullwidth' : '',
-        label.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
-        label.value ? '' : 'mui-textfield-no-label',
+        `mui-textfield-size-${sizeRef.value}`,
+        isFocusedRef.value ? 'mui-textfield-focused' : '',
+        errorRef.value ? 'mui-textfield-error' : '',
+        disabledRef.value ? 'mui-textfield-disabled' : '',
+        fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
+        labelRef.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
+        labelRef.value ? '' : 'mui-textfield-no-label',
         customClass.value ? customClass.value : '',
       ].join(' '),
-    [size, error, disabled, fullWidth, label, isFocused, modelRef, customClass],
+    [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, modelRef, customClass],
   );
 
   const labelElement = computed(() => {
-    if (!label.value) {
+    if (!labelRef.value) {
       return '';
     }
 
     return (
       <label class="mui-textfield-label">
-        {label}
-        <span k-if={required} class="mui-textfield-required">
+        {labelRef}
+        <span k-if={requiredRef} class="mui-textfield-required">
           *
         </span>
       </label>
     );
-  }, [label, required]);
+  }, [labelRef, requiredRef]);
 
   const legendElement = computed(() => {
-    if (!label.value) {
+    if (!labelRef.value) {
       return '';
     }
 
     return (
       <legend class="mui-textfield-legend">
         <span>
-          {label}
-          <span k-if={required}>*</span>
+          {labelRef}
+          <span k-if={requiredRef}>*</span>
         </span>
       </legend>
     );
-  }, [label, required]);
+  }, [labelRef, requiredRef]);
 
   const container = (
     <div class={className} style={style}>
@@ -161,7 +162,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
         <div class="mui-textfield-input-wrapper">{inputEl}</div>
         <fieldset class="mui-textfield-fieldset">{legendElement}</fieldset>
       </div>
-      <p class="mui-textfield-helper-text">{helperText}</p>
+      <p class="mui-textfield-helper-text">{helperTextRef}</p>
     </div>
   ) as KTMuiTextField;
 

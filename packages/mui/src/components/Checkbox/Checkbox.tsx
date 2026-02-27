@@ -16,22 +16,22 @@ export function Checkbox(
 ): KTMuiCheckbox {
   // Handle change
   const handleChange = () => {
-    if (disabled.value) {
+    if (disabledRef.value) {
       return;
     }
     model.value = inputEl.checked;
-    interminate.value = false;
+    interminateRef.value = false;
   };
 
-  const customClass = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style));
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
 
-  const label = toReactive(props.label ?? '');
-  const value = toReactive(props.value ?? '');
-  const interminate = toReactive(props.indeterminate ?? false);
-  const color = toReactive(props.color ?? 'primary');
-  const size = toReactive(props.size ?? 'medium');
-  const disabled = toReactive(props.disabled ?? false);
+  const labelRef = toReactive(props.label ?? '');
+  const valueRef = toReactive(props.value ?? '');
+  const interminateRef = toReactive(props.indeterminate ?? false);
+  const colorRef = toReactive(props.color ?? 'primary');
+  const sizeRef = toReactive(props.size ?? 'medium');
+  const disabledRef = toReactive(props.disabled ?? false);
   const model = $modelOrRef(props, false);
 
   const inputEl = (
@@ -39,8 +39,8 @@ export function Checkbox(
       type="checkbox"
       class="mui-checkbox-input"
       checked={model}
-      value={value}
-      disabled={disabled}
+      value={valueRef}
+      disabled={disabledRef}
       on:change={handleChange}
     />
   ) as HTMLInputElement;
@@ -48,10 +48,10 @@ export function Checkbox(
   // # events
   const onChange = props['on:change'];
   if (onChange) {
-    inputEl.addEventListener('change', () => onChange(inputEl.checked, value.value));
+    inputEl.addEventListener('change', () => onChange(inputEl.checked, valueRef.value));
   }
   if (onChangeForGroup) {
-    inputEl.addEventListener('change', () => onChangeForGroup(inputEl.checked, value.value));
+    inputEl.addEventListener('change', () => onChangeForGroup(inputEl.checked, valueRef.value));
   }
 
   const uncheckedIcon = createUnchecked();
@@ -59,25 +59,25 @@ export function Checkbox(
   const indeterminateIcon = createIndeterminate();
 
   const className = computed(() => {
-    return `mui-checkbox-wrapper mui-checkbox-size-${size.value} ${disabled.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${color.value} ${customClass.value}`;
-  }, [color, disabled, size, customClass]);
+    return `mui-checkbox-wrapper mui-checkbox-size-${sizeRef.value} ${disabledRef.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.value} ${customClassRef.value}`;
+  }, [colorRef, disabledRef, sizeRef, customClassRef]);
 
   const container = (
-    <label class={className} style={style}>
+    <label class={className} style={styleRef}>
       {inputEl}
       <span class="mui-checkbox-icon">
         {uncheckedIcon}
         {checkedIcon}
         {indeterminateIcon}
       </span>
-      <span k-if={label} class="mui-checkbox-label">
-        {label}
+      <span k-if={labelRef} class="mui-checkbox-label">
+        {labelRef}
       </span>
     </label>
   ) as KTMuiCheckbox;
 
   effect(() => {
-    if (interminate.value) {
+    if (interminateRef.value) {
       uncheckedIcon.style.display = 'none';
       checkedIcon.style.display = 'none';
       indeterminateIcon.style.display = '';
@@ -86,7 +86,7 @@ export function Checkbox(
       checkedIcon.style.display = model.value ? '' : 'none';
       indeterminateIcon.style.display = 'none';
     }
-  }, [model, interminate]);
+  }, [model, interminateRef]);
 
   $defines(container, {
     checked: {
@@ -99,18 +99,18 @@ export function Checkbox(
     },
     value: {
       get() {
-        return value.value;
+        return valueRef.value;
       },
       set(v: string) {
-        value.value = v;
+        valueRef.value = v;
       },
     },
     disabled: {
       get() {
-        return disabled.value;
+        return disabledRef.value;
       },
       set(v: boolean) {
-        disabled.value = v;
+        disabledRef.value = v;
       },
     },
   });

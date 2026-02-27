@@ -15,8 +15,12 @@ export { Checkbox };
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   let { 'on:change': onChange = $emptyFn } = props;
 
-  const row = toReactive(props.row ?? true);
-  const size = toReactive(props.size ?? 'medium');
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const optionsRef = toReactive(props.options);
+  const rowRef = toReactive(props.row ?? true);
+  const sizeRef = toReactive(props.size ?? 'medium');
   const model = $modelOrRef(props, [] as string[]);
   let internalChange = false;
   model.addOnChange((newValues) => {
@@ -30,13 +34,10 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
     }
   });
 
-  const customClass = toReactive(props.class ?? '');
   const className = computed(() => {
-    return `mui-checkbox-group ${row.value ? 'mui-checkbox-group-row' : ''} ${customClass.value}`;
-  }, [row, customClass]);
-  const style = toReactive($parseStyle(props.style));
+    return `mui-checkbox-group ${rowRef.value ? 'mui-checkbox-group-row' : ''} ${customClassRef.value}`;
+  }, [rowRef, customClassRef]);
 
-  const options = toReactive(props.options);
   const checkboxes: KTMuiCheckbox[] = [];
   const checkboxOnChangeForGroup = (checked: boolean, value: string) => {
     const old = model.value.slice();
@@ -55,19 +56,19 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
    */
   const members = computed<Array<KTMuiCheckbox | JSX.Element>>(() => {
     checkboxes.length = 0;
-    return options.value.map((o) => {
+    return optionsRef.value.map((o) => {
       if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
-        const checkboxProps = { ...o, size: size.value };
+        const checkboxProps = { ...o, size: sizeRef.value };
         const checkbox = Checkbox(checkboxProps, checkboxOnChangeForGroup);
         checkboxes.push(checkbox);
         return checkbox;
       }
       return o as JSX.Element;
     });
-  }, [options, size]);
+  }, [optionsRef, sizeRef]);
 
   const container = (
-    <div class={className} style={style} role="group">
+    <div class={className} style={styleRef} role="group">
       <KTFor list={members}></KTFor>
     </div>
   ) as KTMuiCheckboxGroup;

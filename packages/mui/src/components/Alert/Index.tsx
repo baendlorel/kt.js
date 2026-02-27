@@ -80,39 +80,40 @@ const severityToIcon = {
 };
 
 export function Alert(props: KTMuiAlertProps): JSX.Element {
-  const customClass = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style));
-  const children = toReactive(props.children);
-  const severity = toReactive(props.severity ?? 'info');
-  const variant = toReactive(props.variant ?? 'standard');
-  const icon = toReactive(props.icon ?? true);
-  const iconSize = toReactive(props.iconSize ?? '22px');
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const childrenRef = toReactive(props.children);
+  const severityRef = toReactive(props.severity ?? 'info');
+  const variantRef = toReactive(props.variant ?? 'standard');
+  const iconRef = toReactive(props.icon ?? true);
+  const iconSizeRef = toReactive(props.iconSize ?? '22px');
   const onClose = props['on:close'];
 
   const className = computed(
     () =>
-      `mui-alert mui-alert-${severity.value} mui-alert-${variant.value} ${customClass.value ? customClass.value : ''}`,
-    [severity, variant, customClass],
+      `mui-alert mui-alert-${severityRef.value} mui-alert-${variantRef.value} ${customClassRef.value ? customClassRef.value : ''}`,
+    [severityRef, variantRef, customClassRef],
   );
 
   const alertIcon = computed(() => {
-    if (icon.value === false) {
+    if (iconRef.value === false) {
       return null;
     }
 
     // if icon is a custom element, use it directly
-    if (icon.value === true) {
-      const creator = severityToIcon[severity.value] || severityToIcon['info'];
-      return creator(iconSize.value, 'mui-alert-icon');
+    if (iconRef.value === true) {
+      const creator = severityToIcon[severityRef.value] || severityToIcon['info'];
+      return creator(iconSizeRef.value, 'mui-alert-icon');
     }
 
-    return icon;
-  }, [icon, iconSize, severity]);
+    return iconRef;
+  }, [iconRef, iconSizeRef, severityRef]);
 
   const container = (
-    <div class={className} style={style} role="alert">
+    <div class={className} style={styleRef} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
-      <div class="mui-alert-message">{children}</div>
+      <div class="mui-alert-message">{childrenRef}</div>
       <button k-if={onClose} class="mui-alert-close" on:click={onClose!} aria-label="Close">
         <svg viewBox="0 0 24 24" width="18px" height="18px">
           <path

@@ -44,45 +44,45 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
  * FormLabel component - mimics MUI FormLabel appearance and behavior
  */
 export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
-  const required = toReactive(props.required ?? false);
-  const error = toReactive(props.error ?? false);
-  const disabled = toReactive(props.disabled ?? false);
-  const focused = toReactive(props.focused ?? false);
-  const filled = toReactive(props.filled ?? false);
-  const htmlFor = toReactive(props.htmlFor ?? '');
+  const requiredRef = toReactive(props.required ?? false);
+  const errorRef = toReactive(props.error ?? false);
+  const disabledRef = toReactive(props.disabled ?? false);
+  const focusedRef = toReactive(props.focused ?? false);
+  const filledRef = toReactive(props.filled ?? false);
+  const htmlForRef = toReactive(props.htmlFor ?? '');
 
   const classes = computed(
     () =>
       [
         'mui-form-label',
-        error.value ? 'mui-form-label-error' : '',
-        disabled.value ? 'mui-form-label-disabled' : '',
-        focused.value ? 'mui-form-label-focused' : '',
-        filled.value ? 'mui-form-label-filled' : '',
+        errorRef.value ? 'mui-form-label-error' : '',
+        disabledRef.value ? 'mui-form-label-disabled' : '',
+        focusedRef.value ? 'mui-form-label-focused' : '',
+        filledRef.value ? 'mui-form-label-filled' : '',
       ].join(' '),
-    [error, disabled, focused, filled],
+    [errorRef, disabledRef, focusedRef, filledRef],
   );
 
   const labelProps: any = {
     class: classes,
   };
 
-  if (htmlFor) {
-    labelProps.for = htmlFor;
+  if (htmlForRef) {
+    labelProps.for = htmlForRef;
   }
 
   const container =
     props.component === 'legend' ? (
       <legend {...labelProps}>
         {props.children}
-        <span k-if={required} class="mui-form-label-asterisk">
+        <span k-if={requiredRef} class="mui-form-label-asterisk">
           *
         </span>
       </legend>
     ) : (
       <label {...labelProps}>
         {props.children}
-        <span k-if={required} class="mui-form-label-asterisk">
+        <span k-if={requiredRef} class="mui-form-label-asterisk">
           *
         </span>
       </label>

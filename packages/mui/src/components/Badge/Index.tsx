@@ -38,61 +38,59 @@ const DEFAULT_ANCHOR_ORIGIN: KTMuiBadgeAnchorOrigin = {
  * Badge component - mimics MUI Badge appearance and behavior
  */
 export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
-  const customClass = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style));
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+  const rootClassRef = customClassRef.toComputed((v) => 'mui-badge-root ' + v);
 
-  const rawContent = props.badgeContent as BadgeContent | KTReactive<BadgeContent> | undefined;
-  const content = toReactive<BadgeContent>(rawContent ?? '');
-  const max = toReactive(props.max ?? 99);
-  const showZero = toReactive(props.showZero ?? false);
-  const invisible = toReactive(props.invisible ?? false);
-  const color = toReactive(props.color ?? 'default');
-  const variant = toReactive(props.variant ?? 'standard');
-  const overlap = toReactive(props.overlap ?? 'rectangular');
-  const anchorOrigin = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
-
-  const rootClass = customClass.toComputed((v) => 'mui-badge-root ' + v);
+  const contentRef = toReactive<BadgeContent>((props.badgeContent as BadgeContent | KTReactive<BadgeContent>) ?? '');
+  const maxRef = toReactive(props.max ?? 99);
+  const showZeroRef = toReactive(props.showZero ?? false);
+  const invisibleRef = toReactive(props.invisible ?? false);
+  const colorRef = toReactive(props.color ?? 'default');
+  const variantRef = toReactive(props.variant ?? 'standard');
+  const overlapRef = toReactive(props.overlap ?? 'rectangular');
+  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
 
   const contentText = computed(() => {
-    if (variant.value === 'dot') {
+    if (variantRef.value === 'dot') {
       return '';
     }
 
-    const v = content.value;
+    const v = contentRef.value;
     if (typeof v === 'number') {
-      return v > max.value ? `${max.value}+` : `${v}`;
+      return v > maxRef.value ? `${maxRef.value}+` : `${v}`;
     }
     return v ?? '';
-  }, [content, max, variant]);
+  }, [contentRef, maxRef, variantRef]);
 
   const isInvisible = computed(() => {
-    if (invisible.value) {
+    if (invisibleRef.value) {
       return true;
     }
-    if (variant.value === 'dot') {
+    if (variantRef.value === 'dot') {
       return false;
     }
-    const v = content.value;
+    const v = contentRef.value;
     const isEmpty = v === '' || v === null || v === undefined;
     const isZero = v === 0 || v === '0';
-    return isEmpty || (isZero && !showZero.value);
-  }, [invisible, variant, content, showZero]);
+    return isEmpty || (isZero && !showZeroRef.value);
+  }, [invisibleRef, variantRef, contentRef, showZeroRef]);
 
   const badgeClass = computed(() => {
-    const vertical = anchorOrigin.value?.vertical ?? DEFAULT_ANCHOR_ORIGIN.vertical;
-    const horizontal = anchorOrigin.value?.horizontal ?? DEFAULT_ANCHOR_ORIGIN.horizontal;
+    const vertical = anchorOriginRef.value?.vertical ?? DEFAULT_ANCHOR_ORIGIN.vertical;
+    const horizontal = anchorOriginRef.value?.horizontal ?? DEFAULT_ANCHOR_ORIGIN.horizontal;
     return [
       'mui-badge-badge',
-      `mui-badge-${variant.value}`,
-      `mui-badge-color-${color.value}`,
-      `mui-badge-overlap-${overlap.value}`,
+      `mui-badge-${variantRef.value}`,
+      `mui-badge-color-${colorRef.value}`,
+      `mui-badge-overlap-${overlapRef.value}`,
       `mui-badge-anchor-${vertical}-${horizontal}`,
       isInvisible.value ? 'mui-badge-invisible' : '',
     ].join(' ');
-  }, [variant, color, overlap, anchorOrigin, isInvisible]);
+  }, [variantRef, colorRef, overlapRef, anchorOriginRef, isInvisible]);
 
   const container = (
-    <span class={rootClass} style={style}>
+    <span class={rootClassRef} style={styleRef}>
       <span class="mui-badge-content">{props.children}</span>
       <span class={badgeClass} aria-hidden={isInvisible}>
         {contentText}

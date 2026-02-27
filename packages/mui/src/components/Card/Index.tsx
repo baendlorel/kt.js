@@ -21,26 +21,27 @@ export type KTMuiCard = JSX.Element & {};
  */
 export function Card(props: KTMuiCardProps): KTMuiCard {
   // # ref props
-  const variant = toReactive(props.variant ?? 'elevation');
-  const elevation = toReactive(props.elevation ?? 1);
-  const square = toReactive(props.square ?? false);
-  const raised = toReactive(props.raised ?? false);
-  const style = toReactive($parseStyle(props.style));
   const customClass = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const variantRef = toReactive(props.variant ?? 'elevation');
+  const elevationRef = toReactive(props.elevation ?? 1);
+  const squareRef = toReactive(props.square ?? false);
+  const raisedRef = toReactive(props.raised ?? false);
 
   const className = computed(() => {
     return [
       `mui-card`,
-      `mui-card-${variant.value}`,
-      variant.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevation.value))}` : '',
-      square.value ? 'mui-card-square' : '',
-      raised.value ? 'mui-card-raised' : '',
+      `mui-card-${variantRef.value}`,
+      variantRef.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.value))}` : '',
+      squareRef.value ? 'mui-card-square' : '',
+      raisedRef.value ? 'mui-card-raised' : '',
       customClass.value,
     ].join(' ');
-  }, [variant, elevation, square, raised, customClass]);
+  }, [variantRef, elevationRef, squareRef, raisedRef, customClass]);
 
   const container = (
-    <div class={className} style={style} on:click={props['on:click']}>
+    <div class={className} style={styleRef} on:click={props['on:click']}>
       {props.children}
     </div>
   ) as KTMuiCard;

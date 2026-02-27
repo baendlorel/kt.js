@@ -37,8 +37,11 @@ export type KTMuiDialog = JSX.Element;
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let { 'on:close': onClose = $emptyFn, children, actions } = props;
 
-  const title = toReactive(props.title ?? '');
-  const open = toReactive(props.open ?? false, (isOpen) => {
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const titleRef = toReactive(props.title ?? '');
+  const openRef = toReactive(props.open ?? false, (isOpen) => {
     if (isOpen) {
       // Opening: set display first, then add class with double RAF for animation
       container.style.display = 'flex';
@@ -46,29 +49,27 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     } else {
       container.classList.remove('kt-dialog-backdrop-open');
       setTimeout(() => {
-        if (!open.value) {
+        if (!openRef.value) {
           container.style.display = 'none';
         }
       }, 225);
     }
   });
-  const size = toReactive(props.size ?? 'sm');
-  const fullWidth = toReactive(props.fullWidth ?? false);
+  const sizeRef = toReactive(props.size ?? 'sm');
+  const fullWidthRef = toReactive(props.fullWidth ?? false);
 
-  const style = toReactive($parseStyle(props.style));
-  const customClass = toReactive(props.class ?? '');
   const className = computed(
     () =>
-      `kt-dialog-paper ${size.value ? `kt-dialog-maxWidth-${size.value}` : ''} ${fullWidth.value ? 'kt-dialog-fullWidth' : ''} ${customClass.value}`,
-    [size, fullWidth, customClass],
+      `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''} ${customClassRef.value}`,
+    [sizeRef, fullWidthRef, customClassRef],
   );
-  const backdropClass = open.toComputed((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
-  const backdropStyle = open.toComputed<string>((v) => (v ? 'display:flex' : 'display:none'));
+  const backdropClass = openRef.toComputed((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
+  const backdropStyle = openRef.toComputed<string>((v) => (v ? 'display:flex' : 'display:none'));
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      open.value = false;
+      openRef.value = false;
       onClose();
     }
   };
@@ -83,9 +84,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // todo 这里的children是否能做到响应式，需要吗？
   const container = (
     <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
-      <div class={className} style={style} on:click={(e: MouseEvent) => e.stopPropagation()}>
-        <div k-if={title} class="kt-dialog-title">
-          <h2>{title}</h2>
+      <div class={className} style={styleRef} on:click={(e: MouseEvent) => e.stopPropagation()}>
+        <div k-if={titleRef} class="kt-dialog-title">
+          <h2>{titleRef}</h2>
         </div>
 
         <div k-if={children} class="kt-dialog-content">

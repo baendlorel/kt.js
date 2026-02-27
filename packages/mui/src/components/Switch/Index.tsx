@@ -1,16 +1,20 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './Switch.css';
 
 export interface KTMuiSwitchProps extends KTMuiProps {
-  checked?: boolean;
-  value?: string;
-  label?: string;
-  disabled?: boolean;
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-  size?: 'small' | 'medium' | 'large';
+  value?: KTMaybeReactive<string>;
+
+  label?: KTMaybeReactive<string>;
+
+  disabled?: KTMaybeReactive<boolean>;
+
+  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+
+  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+
   'on:change'?: (checked: boolean, value?: string) => void;
 }
 
@@ -31,7 +35,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });
-  const modelRef = $modelOrRef(props, props.checked ?? false);
+  const modelRef = $modelOrRef(props, false);
   modelRef.addOnChange((newValue) => {
     inputEl.checked = newValue;
     track.classList.toggle('mui-switch-track-checked', newValue);

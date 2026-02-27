@@ -1,8 +1,9 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { type KTReactive, $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
+import { $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Select.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export interface KTMuiSelectOption {
   value: string;
@@ -180,5 +181,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     document.addEventListener('click', handleClickOutside);
   }, 0);
 
+  registerPrefixedEvents(container, props);
   return container;
 }

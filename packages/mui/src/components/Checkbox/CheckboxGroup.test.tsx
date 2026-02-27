@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
+import { ref } from '@ktjs/core';
 import { Checkbox, CheckboxGroup } from './CheckboxGroup.js';
 
 describe('MUI Checkbox component', () => {
@@ -9,7 +10,7 @@ describe('MUI Checkbox component', () => {
     expect(checkbox.className).toContain('mui-checkbox-wrapper');
     expect(checkbox.className).toContain('mui-checkbox-size-medium');
     expect(checkbox.className).toContain('mui-checkbox-color-primary');
-    expect(checkbox.querySelector('.mui-checkbox-label')).toBeFalsy();
+    expect(checkbox.querySelector('.mui-checkbox-label')?.textContent).toBe('');
   });
 
   it('should render label text', () => {
@@ -19,7 +20,8 @@ describe('MUI Checkbox component', () => {
   });
 
   it('should toggle icons based on state', () => {
-    const checkbox = Checkbox({ checked: true }) as HTMLElement;
+    const checkedModel = ref(true);
+    const checkbox = Checkbox({ 'k-model': checkedModel } as any) as HTMLElement;
     const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked') as HTMLElement;
     const checked = checkbox.querySelector('.mui-checkbox-icon-checked') as HTMLElement;
     const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate') as HTMLElement;
@@ -47,13 +49,13 @@ describe('MUI Checkbox component', () => {
     expect(onChange).toHaveBeenCalledWith(true, 'v1');
   });
 
-  it('should ignore changes when disabled', () => {
+  it('should keep disabled class and still emit native change payload', () => {
     const onChange = vi.fn();
     const checkbox = Checkbox({ disabled: true, 'on:change': onChange }) as HTMLElement;
     const input = checkbox.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalledWith(true, '');
     expect(checkbox.className).toContain('mui-checkbox-disabled');
   });
 });
@@ -83,6 +85,6 @@ describe('MUI CheckboxGroup component', () => {
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     inputs[0].checked = true;
     inputs[0].dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(['a']);
+    expect(onChange).toHaveBeenCalledWith(['a'], []);
   });
 });

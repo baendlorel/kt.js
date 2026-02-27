@@ -84,7 +84,7 @@ describe('MUI TextField component', () => {
 
   it('should handle value binding with ref', () => {
     const valueRef = ref('initial');
-    const textfield = TextField({ value: valueRef }) as HTMLElement;
+    const textfield = TextField({ 'k-model': valueRef } as any) as HTMLElement;
     const input = textfield.querySelector('input') as HTMLInputElement;
     expect(input.value).toBe('initial');
     valueRef.value = 'updated';
@@ -102,9 +102,11 @@ describe('MUI TextField component', () => {
 
   it('should handle change events', () => {
     const onChange = vi.fn();
-    const textfield = TextField({ 'on:change': onChange }) as HTMLElement;
+    const model = ref('');
+    const textfield = TextField({ 'k-model': model, 'on:change': onChange } as any) as HTMLElement;
     const input = textfield.querySelector('input') as HTMLInputElement;
     input.value = 'changed';
+    input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('change'));
     expect(onChange).toHaveBeenCalledWith('changed');
   });

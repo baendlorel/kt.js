@@ -6,8 +6,22 @@ import './LinearProgress.css';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 interface LinearProgressProps extends KTMuiProps {
+  /**
+   * The variant to use.
+   * - `determinate` - Use when the progress is a specific value.
+   * - `indeterminate` - Use when the progress is unknown.
+   * Default is `indeterminate`.
+   */
   variant?: KTMaybeReactive<'determinate' | 'indeterminate'>;
+
+  /**
+   * The value of the progress indicator for the determinate variant. Value between 0 and 100.
+   */
   value?: KTMaybeReactive<number>;
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
   color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
 }
 
@@ -25,7 +39,6 @@ export function LinearProgress(props: LinearProgressProps) {
   }, [customClass, color, variant]);
 
   const style = toReactive($parseStyle(props.style));
-
   const barLength = computed(() => (variant.value === 'determinate' ? `width: ${value.value}%` : ''), [variant, value]);
 
   const container = (

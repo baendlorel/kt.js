@@ -104,9 +104,11 @@ const getElevationShadow = (level: number) => {
  */
 export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const onClose = props['on:close'] ?? $emptyFn;
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
   let openTransitionTimer = 0;
   let hideTransitionTimer = 0;
-
   const clearTransitionTimers = () => {
     if (openTransitionTimer) {
       clearTimeout(openTransitionTimer);
@@ -171,20 +173,18 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const anchorElRef = toReactive<HTMLElement | null>(props.anchorEl ?? null, scheduleUpdatePosition);
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN, scheduleUpdatePosition);
   const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN, scheduleUpdatePosition);
-  const marginThreshold = toReactive(props.marginThreshold ?? 16, scheduleUpdatePosition);
-  const elevation = toReactive(props.elevation ?? 8);
-  const customClass = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style));
+  const marginThresholdRef = toReactive(props.marginThreshold ?? 16, scheduleUpdatePosition);
+  const elevationRef = toReactive(props.elevation ?? 8);
 
   const paperClassName = computed(() => {
-    return ['mui-popover-paper', customClass.value].join(' ').trim();
-  }, [customClass]);
+    return ['mui-popover-paper', customClassRef.value].join(' ').trim();
+  }, [customClassRef]);
 
   const paperStyle = computed(() => {
-    const custom = style.value;
-    const shadow = getElevationShadow(elevation.value);
+    const custom = styleRef.value;
+    const shadow = getElevationShadow(elevationRef.value);
     return `${custom}${custom ? ';' : ''}box-shadow:${shadow}`;
-  }, [style, elevation]);
+  }, [styleRef, elevationRef]);
 
   const updatePosition = () => {
     if (!openRef.value) {
@@ -216,7 +216,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       getOffsetFromHorizontal(anchorRect.width, anchorOrigin.horizontal) -
       getOffsetFromHorizontal(paperRect.width, transformOrigin.horizontal);
 
-    const margin = $max(0, marginThreshold.value);
+    const margin = $max(0, marginThresholdRef.value);
     top = $clamp(top, margin, window.innerHeight - paperRect.height - margin);
     left = $clamp(left, margin, window.innerWidth - paperRect.width - margin);
 

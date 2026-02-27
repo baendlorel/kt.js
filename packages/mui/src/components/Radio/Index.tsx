@@ -1,8 +1,9 @@
-import { toReactive } from '@ktjs/core';
+import { computed, toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
 import './Radio.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 /**
  * Radio component - mimics MUI Radio appearance and behavior
@@ -91,6 +92,8 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     },
   });
 
+  registerPrefixedEvents(container, props);
+
   return container;
 }
 
@@ -98,7 +101,17 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
  * RadioGroup component - groups multiple radios together
  */
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
-  let { value = '', size = 'small', row = false } = props;
+  const customClassRef = toReactive(props.class ?? '');
+  const styleRef = toReactive($parseStyle(props.style));
+
+  const valueRef = toReactive(props.value ?? '');
+  const sizeRef = toReactive(props.size ?? 'small');
+  const rowRef = toReactive(props.row ?? false);
+
+  const className = computed(
+    () => `mui-radio-group ${rowRef.value ? 'mui-radio-group-row' : ''} ${customClassRef.value}`,
+    [customClassRef, rowRef],
+  );
 
   const onChange = props['on:change'] ?? $emptyFn;
 
@@ -106,31 +119,29 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     if (checked) {
       onChange(value);
     }
-    radios.forEach((radio) => (radio.checked = radio.value === value));
+    radios.value.forEach((radio) => (radio.checked = radio.value === value));
   };
 
-  const radios = props.options.map((o) => {
-    o.size = size;
-    o.checked = value === o.value;
+  const radios = toReactive(props.options).toComputed((options) =>
+    options.map((o) => {
+      o.size = sizeRef.value;
+      o.checked = valueRef.value === o.value;
 
-    const originalChange = o['on:change'];
-    if (originalChange) {
-      o['on:change'] = (checked: boolean, newValue: string) => {
-        originalChange(checked, newValue);
-        changeHandler(checked, newValue);
-      };
-    } else {
-      o['on:change'] = changeHandler;
-    }
-    return Radio(o);
-  });
+      const originalChange = o['on:change'];
+      if (originalChange) {
+        o['on:change'] = (checked: boolean, newValue: string) => {
+          originalChange(checked, newValue);
+          changeHandler(checked, newValue);
+        };
+      } else {
+        o['on:change'] = changeHandler;
+      }
+      return Radio(o);
+    }),
+  );
 
   const container = (
-    <div
-      class={`mui-radio-group ${row ? 'mui-radio-group-row' : ''} ${props.class ?? ''}`}
-      style={$parseStyle(props.style)}
-      role="radiogroup"
-    >
+    <div class={className} style={styleRef} role="radiogroup">
       {radios}
     </div>
   ) as KTMuiRadioGroup;
@@ -138,14 +149,15 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   $defines(container, {
     value: {
       get() {
-        return value;
+        return valueRef.value;
       },
       set(newValue: string) {
-        value = newValue;
-        radios.forEach((radio) => (radio.checked = radio.value === value));
+        valueRef.value = newValue;
+        radios.value.forEach((radio) => (radio.checked = radio.value === valueRef.value));
       },
     },
   });
 
+  registerPrefixedEvents(container, props);
   return container;
 }

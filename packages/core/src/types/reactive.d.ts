@@ -56,7 +56,7 @@ export class KTReactive<T> {
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.
 /**
- * `KTReactify<'a' | 'b'> -> KTReactive<'a'> | KTReactive<'b'>`
+ * Makes `KTReactify<'a' | 'b'> to be KTReactive<'a'> | KTReactive<'b'>`
  */
 export type KTReactifySplit<T> = T extends boolean ? KTReactive<boolean> : T extends any ? KTReactive<T> : never;
 
@@ -69,6 +69,10 @@ export type KTReactifyProps<T extends object> = {
 };
 
 /**
- * Unlike the split version, this makes `KTReactify<'a' | 'b'>` to be `KTReactive<'a' | 'b'>`
+ * Makes `KTReactify<'a' | 'b'>` to be `KTReactive<'a' | 'b'>`
  */
 export type KTReactify<T> = [T] extends [KTReactive<infer U>] ? KTReactive<U> : KTReactive<T>;
+export type KTMaybeReactive<T> = T | KTReactify<T>;
+export type KTMaybeReactiveProps<T extends object> = {
+  [K in keyof T]: K extends `on:${string}` ? T[K] : KTMaybeReactive<Exclude<T[K], undefined>> | T[K];
+};

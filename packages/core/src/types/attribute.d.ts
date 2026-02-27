@@ -1,12 +1,6 @@
 import type { otherstring } from '@ktjs/shared';
 import type { KTPrefixedEventAttribute } from './h.js';
-import type { KTReactify } from './reactive.js';
-
-type KTMaybeReactive<T> = T | KTReactify<T>;
-
-type KTMaybeReactiveProps<T extends object> = {
-  [K in keyof T]: K extends 'id' | 'name' | `on:${string}` ? T[K] : KTMaybeReactive<Exclude<T[K], undefined>> | T[K];
-};
+import type { KTMaybeReactive, KTMaybeReactiveProps, KTReactify } from './reactive.js';
 
 // Base events available to all HTML elements
 type BaseAttr = KTPrefixedEventAttribute & {

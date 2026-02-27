@@ -1,78 +1,118 @@
-import type { JSX } from '@ktjs/core';
+import { computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css';
 
 interface KTMuiAlertProps extends KTMuiProps {
   children: NonNullable<KTMuiProps['children']>;
-  severity?: 'error' | 'warning' | 'info' | 'success';
-  variant?: 'standard' | 'filled' | 'outlined';
-  icon?: HTMLElement | false;
+
+  /**
+   * The severity of the alert. It defines the color and icon used in the alert.
+   * - 'error': Red color, error icon.
+   * - 'warning': Orange color, warning icon.
+   * - 'info': Blue color, info icon.
+   * - 'success': Green color, success icon.
+   * @default 'info'
+   */
+  severity?: KTMaybeReactive<'error' | 'warning' | 'info' | 'success'>;
+
+  /**
+   * The variant to use. It defines the style of the alert.
+   * - 'standard': The default style of the alert.
+   * - 'filled': A filled version of the alert with a background color.
+   * - 'outlined': An outlined version of the alert with a border.
+   * @default 'standard'
+   */
+  variant?: KTMaybeReactive<'standard' | 'filled' | 'outlined'>;
+
+  /**
+   * The icon to display in the alert. It can be a custom icon or a boolean value.
+   * - If `true`, the default icon based on the severity will be displayed.
+   * - If `false`, no icon will be displayed.
+   * - If a custom JSX element is provided, it will be used as the icon.
+   * @default true
+   */
+  icon?: KTMaybeReactive<JSX.Element | boolean>;
+
+  /**
+   * The size of the icon. It can be any valid CSS size value (e.g., '24px', '1.5em', '2rem').
+   * - This prop is **only** applicable when the `icon` prop is set to `true`.
+   */
+  iconSize?: KTMaybeReactive<string>;
+
+  /**
+   * Callback fired when the component requests to be closed. If provided, a close icon button will be displayed.
+   */
   'on:close'?: () => void;
 }
 
+const severityToIcon = {
+  success: (className: string, size: string) => (
+    <svg class={className} viewBox="0 0 24 24" width={size} height={size}>
+      <path
+        fill="currentColor"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+      />
+    </svg>
+  ),
+  error: (className: string, size: string) => (
+    <svg class={className} viewBox="0 0 24 24" width={size} height={size}>
+      <path
+        fill="currentColor"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+      />
+    </svg>
+  ),
+  warning: (className: string, size: string) => (
+    <svg class={className} viewBox="0 0 24 24" width={size} height={size}>
+      <path fill="currentColor" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
+    </svg>
+  ),
+  info: (className: string, size: string) => (
+    <svg class={className} viewBox="0 0 24 24" width={size} height={size}>
+      <path
+        fill="currentColor"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+      />
+    </svg>
+  ),
+};
+
 export function Alert(props: KTMuiAlertProps): JSX.Element {
-  const { children, severity = 'info', variant = 'standard', icon, 'on:close': onClose } = props;
+  const customClass = toReactive(props.class ?? '');
+  const style = toReactive($parseStyle(props.style ?? ''));
+  const children = toReactive(props.children);
+  const severity = toReactive(props.severity ?? 'info');
+  const variant = toReactive(props.variant ?? 'standard');
+  const icon = toReactive(props.icon ?? true);
+  const iconSize = toReactive(props.iconSize ?? '22px');
+  const onClose = props['on:close'];
 
-  const classes = `mui-alert mui-alert-${severity} mui-alert-${variant} ${props.class ? props.class : ''}`;
+  const className = computed(
+    () =>
+      `mui-alert mui-alert-${severity.value} mui-alert-${variant.value} ${customClass.value ? customClass.value : ''}`,
+    [severity, variant, customClass],
+  );
 
-  // Icon SVG paths for different severities
-  const getIcon = () => {
-    if (icon === false) {
+  const alertIcon = computed(() => {
+    if (icon.value === false) {
       return null;
     }
-    if (icon) {
-      return icon;
+
+    // if icon is a custom element, use it directly
+    if (icon.value === true) {
+      const creator = severityToIcon[severity.value] || severityToIcon['info'];
+      return creator(iconSize.value, 'mui-alert-icon');
     }
 
-    const iconSize = '22px';
-    const iconClass = 'mui-alert-icon';
-
-    switch (severity) {
-      case 'success':
-        return (
-          <svg class={iconClass} viewBox="0 0 24 24" width={iconSize} height={iconSize}>
-            <path
-              fill="currentColor"
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            />
-          </svg>
-        );
-      case 'error':
-        return (
-          <svg class={iconClass} viewBox="0 0 24 24" width={iconSize} height={iconSize}>
-            <path
-              fill="currentColor"
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
-            />
-          </svg>
-        );
-      case 'warning':
-        return (
-          <svg class={iconClass} viewBox="0 0 24 24" width={iconSize} height={iconSize}>
-            <path fill="currentColor" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
-          </svg>
-        );
-      case 'info':
-      default:
-        return (
-          <svg class={iconClass} viewBox="0 0 24 24" width={iconSize} height={iconSize}>
-            <path
-              fill="currentColor"
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
-            />
-          </svg>
-        );
-    }
-  };
-
-  const alertIcon = getIcon();
+    return icon;
+  }, [icon, iconSize, severity]);
 
   const alert = (
-    <div class={classes} style={$parseStyle(props.style)} role="alert">
+    <div class={className} style={style} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{children}</div>
-      <button k-if={onClose} class="mui-alert-close" on:click={onClose} aria-label="Close">
+      <button k-if={onClose} class="mui-alert-close" on:click={onClose!} aria-label="Close">
         <svg viewBox="0 0 24 24" width="18px" height="18px">
           <path
             fill="currentColor"

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Card } from './Index.js';
+import { Card } from './Card.js';
 
 describe('MUI Card component', () => {
   it('should render default card classes', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Radio, RadioGroup } from './Index.js';
+import { Radio, RadioGroup } from './Radio.js';
 
 describe('MUI Radio component', () => {
   it('should render with defaults', () => {

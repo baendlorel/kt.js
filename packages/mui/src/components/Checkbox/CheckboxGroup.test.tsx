@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Checkbox, CheckboxGroup } from './Index.js';
+import { Checkbox, CheckboxGroup } from './CheckboxGroup.js';
 
 describe('MUI Checkbox component', () => {
   it('should render with defaults', () => {

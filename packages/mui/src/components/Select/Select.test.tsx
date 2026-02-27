@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Select } from './Index.js';
+import { Select } from './Select.js';
 
 describe('MUI Select component', () => {
   it('should render placeholder and label', () => {

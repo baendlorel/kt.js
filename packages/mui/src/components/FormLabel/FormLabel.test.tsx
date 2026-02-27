@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { FormLabel } from './Index.js';
+import { FormLabel } from './FormLabel.js';
 
 describe('MUI FormLabel component', () => {
   it('should render label by default', () => {

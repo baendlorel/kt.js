@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { DropdownButton } from './Index.js';
+import { DropdownButton } from './DropdownButton.js';
 
 describe('MUI DropdownButton component', () => {
   it('should render trigger with label and options', () => {

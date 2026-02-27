@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Button } from './Index.js';
+import { Button } from './Button.js';
 
 describe('MUI Button component', () => {
   it('should render button with default props', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { LinearProgress } from './Index.js';
+import { LinearProgress } from './LinearProgress.js';
 
 describe('MUI LinearProgress component', () => {
   it('should render with default props', () => {

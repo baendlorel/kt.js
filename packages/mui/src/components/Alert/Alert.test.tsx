@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Alert } from './Index.js';
+import { Alert } from './Alert.js';
 
 describe('MUI Alert component', () => {
   it('should render alert with default props', () => {

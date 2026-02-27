@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ref } from '@ktjs/core';
-import { Badge } from './Index.js';
+import { Badge } from './Badge.js';
 
 describe('MUI Badge component', () => {
   it('should render badge content and max overflow', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { TextField } from './Index.js';
+import { TextField } from './Input.js';
 import { ref } from '@ktjs/core';
 
 describe('MUI TextField component', () => {

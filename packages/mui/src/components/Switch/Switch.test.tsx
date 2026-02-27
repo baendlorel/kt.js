@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ref } from '@ktjs/core';
-import { Switch } from './Index.js';
+import { Switch } from './Switch.js';
 
 describe('MUI Switch component', () => {
   it('should render with defaults', () => {

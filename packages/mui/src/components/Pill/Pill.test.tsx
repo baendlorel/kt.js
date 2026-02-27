@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ref } from '@ktjs/core';
-import { Pill } from './Index.js';
+import { Pill } from './Pill.js';
 
 describe('MUI Pill component', () => {
   it('should render with default classes and label', () => {

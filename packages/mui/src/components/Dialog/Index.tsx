@@ -1,23 +1,31 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { computed, toReactive, type KTReactive } from '@ktjs/core';
-import { $emptyFn } from '@ktjs/shared';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import './Dialog.css';
 import { registerPrefixedEvents } from '../../common/attribute';
+import { KTMuiProps } from '../../types/component';
 
 type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
-// todo 此处不一样
-interface KTMuiDialogProps {
+
+interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
   /**
    * Controls whether the dialog is open or closed
    * - Provide a `KTReactive` to make it reactive
    */
-  open?: boolean | KTReactive<boolean>;
-  'on:close'?: () => void;
+  open?: KTMaybeReactive<boolean>;
   title?: string;
-  children?: HTMLElement | HTMLElement[] | JSX.Element | JSX.Element[] | string;
-  actions?: HTMLElement | HTMLElement[];
-  size?: DialogSize | KTReactive<DialogSize>;
-  fullWidth?: boolean | KTReactive<boolean>;
+  children?:
+    | JSX.Element
+    | JSX.Element[]
+    | string
+    | KTMaybeReactive<string>
+    | KTMaybeReactive<JSX.Element>
+    | KTMaybeReactive<JSX.Element[]>;
+  actions?: KTMaybeReactive<HTMLElement | HTMLElement[]>;
+  size?: KTMaybeReactive<DialogSize>;
+  fullWidth?: KTMaybeReactive<boolean>;
+
+  'on:close'?: () => void;
 }
 
 export type KTMuiDialog = JSX.Element;
@@ -46,11 +54,16 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   });
   const size = toReactive(props.size ?? 'sm');
   const fullWidth = toReactive(props.fullWidth ?? false);
+
+  const style = toReactive($parseStyle(props.style));
+  const customClass = toReactive(props.class ?? '');
   const className = computed(
     () =>
-      `kt-dialog-paper ${size.value ? `kt-dialog-maxWidth-${size.value}` : ''} ${fullWidth.value ? 'kt-dialog-fullWidth' : ''}`,
-    [size, fullWidth],
+      `kt-dialog-paper ${size.value ? `kt-dialog-maxWidth-${size.value}` : ''} ${fullWidth.value ? 'kt-dialog-fullWidth' : ''} ${customClass.value}`,
+    [size, fullWidth, customClass],
   );
+  const backdropClass = open.toComputed((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
+  const backdropStyle = open.toComputed<string>((v) => (v ? 'display:flex' : 'display:none'));
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
@@ -67,13 +80,10 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   // Backdrop element
+  // todo 这里的children是否能做到响应式，需要吗？
   const container = (
-    <div
-      class={`kt-dialog-backdrop ${open.value ? 'kt-dialog-backdrop-open' : ''}`}
-      style={{ display: open.value ? 'flex' : 'none' }}
-      on:click={handleBackdropClick}
-    >
-      <div class={className} on:click={(e: MouseEvent) => e.stopPropagation()}>
+    <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
+      <div class={className} style={style} on:click={(e: MouseEvent) => e.stopPropagation()}>
         <div k-if={title} class="kt-dialog-title">
           <h2>{title}</h2>
         </div>

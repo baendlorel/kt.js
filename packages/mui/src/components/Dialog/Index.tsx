@@ -2,6 +2,7 @@ import type { JSX } from '@ktjs/core';
 import { computed, toReactive, type KTReactive } from '@ktjs/core';
 import { $emptyFn } from '@ktjs/shared';
 import './Dialog.css';
+import { registerPrefixedEvents } from '../../common/attribute';
 
 type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 // todo 此处不一样
@@ -28,8 +29,8 @@ export type KTMuiDialog = JSX.Element;
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let { 'on:close': onClose = $emptyFn, children, actions } = props;
 
-  const titleRef = toReactive(props.title ?? '');
-  const openRef = toReactive(props.open ?? false, (isOpen) => {
+  const title = toReactive(props.title ?? '');
+  const open = toReactive(props.open ?? false, (isOpen) => {
     if (isOpen) {
       // Opening: set display first, then add class with double RAF for animation
       container.style.display = 'flex';
@@ -37,24 +38,24 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     } else {
       container.classList.remove('kt-dialog-backdrop-open');
       setTimeout(() => {
-        if (!openRef.value) {
+        if (!open.value) {
           container.style.display = 'none';
         }
       }, 225);
     }
   });
-  const sizeRef = toReactive(props.size ?? 'sm');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const classNameRef = computed(
+  const size = toReactive(props.size ?? 'sm');
+  const fullWidth = toReactive(props.fullWidth ?? false);
+  const className = computed(
     () =>
-      `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''}`,
-    [sizeRef, fullWidthRef],
+      `kt-dialog-paper ${size.value ? `kt-dialog-maxWidth-${size.value}` : ''} ${fullWidth.value ? 'kt-dialog-fullWidth' : ''}`,
+    [size, fullWidth],
   );
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      openRef.value = false;
+      open.value = false;
       onClose();
     }
   };
@@ -68,13 +69,13 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // Backdrop element
   const container = (
     <div
-      class={`kt-dialog-backdrop ${openRef.value ? 'kt-dialog-backdrop-open' : ''}`}
-      style={{ display: openRef.value ? 'flex' : 'none' }}
+      class={`kt-dialog-backdrop ${open.value ? 'kt-dialog-backdrop-open' : ''}`}
+      style={{ display: open.value ? 'flex' : 'none' }}
       on:click={handleBackdropClick}
     >
-      <div class={classNameRef} on:click={(e: MouseEvent) => e.stopPropagation()}>
-        <div k-if={titleRef} class="kt-dialog-title">
-          <h2>{titleRef}</h2>
+      <div class={className} on:click={(e: MouseEvent) => e.stopPropagation()}>
+        <div k-if={title} class="kt-dialog-title">
+          <h2>{title}</h2>
         </div>
 
         <div k-if={children} class="kt-dialog-content">
@@ -99,5 +100,6 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     return originalRemove.call(container);
   };
 
+  registerPrefixedEvents(container, props, ['on:close']);
   return container;
 }

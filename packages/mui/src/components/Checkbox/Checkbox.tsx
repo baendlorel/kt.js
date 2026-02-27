@@ -1,8 +1,9 @@
-import { $defines } from '@ktjs/shared';
+import { $defines, $parseStyle } from '@ktjs/shared';
 import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 
 import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 /**
  * Create a checkbox component.
@@ -22,13 +23,16 @@ export function Checkbox(
     interminate.value = false;
   };
 
+  const customClass = toReactive(props.class ?? '');
+  const style = toReactive($parseStyle(props.style));
+
   const label = toReactive(props.label ?? '');
   const value = toReactive(props.value ?? '');
   const interminate = toReactive(props.indeterminate ?? false);
   const color = toReactive(props.color ?? 'primary');
   const size = toReactive(props.size ?? 'medium');
   const disabled = toReactive(props.disabled ?? false);
-  const model = $modelOrRef(props, props.checked ?? false);
+  const model = $modelOrRef(props, false);
 
   const inputEl = (
     <input
@@ -55,11 +59,11 @@ export function Checkbox(
   const indeterminateIcon = createIndeterminate();
 
   const className = computed(() => {
-    return `mui-checkbox-wrapper mui-checkbox-size-${size.value} ${disabled.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${color.value}`;
-  }, [color, disabled, size]);
+    return `mui-checkbox-wrapper mui-checkbox-size-${size.value} ${disabled.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${color.value} ${customClass.value}`;
+  }, [color, disabled, size, customClass]);
 
   const container = (
-    <label class={className}>
+    <label class={className} style={style}>
       {inputEl}
       <span class="mui-checkbox-icon">
         {uncheckedIcon}
@@ -111,5 +115,6 @@ export function Checkbox(
     },
   });
 
+  registerPrefixedEvents(container, props, ['on:change']);
   return container;
 }

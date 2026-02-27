@@ -1,9 +1,36 @@
 import { $modelOrRef, computed, dereactive, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import type { JSX, KTReactive } from '@ktjs/core';
 
-import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
+import type { ChangeHandler } from '../../common/handler.js';
+import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './Input.css';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+
+export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+
+export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMuiProps {
+  'k-model'?: T extends 'number' ? KTReactive<number> : KTReactive<string>;
+  label?: KTMaybeReactive<string>;
+  placeholder?: KTMaybeReactive<string>;
+  value?: any;
+  type?: KTMaybeReactive<T>;
+  disabled?: KTMaybeReactive<boolean>;
+  readOnly?: KTMaybeReactive<boolean>;
+  required?: KTMaybeReactive<boolean>;
+  error?: KTMaybeReactive<boolean>;
+  helperText?: KTMaybeReactive<string>;
+  fullWidth?: KTMaybeReactive<boolean>;
+  multiline?: boolean;
+  rows?: KTMaybeReactive<number>;
+  size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
+  'on:input'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
+  'on:change'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
+  'on:blur'?: () => void;
+  'on:focus'?: () => void;
+}
+
+export type KTMuiTextField = JSX.Element;
 
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events

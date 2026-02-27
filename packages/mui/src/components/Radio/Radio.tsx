@@ -1,9 +1,39 @@
 import { computed, toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
+import type { JSX, KTReactive } from '@ktjs/core';
 
-import type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup, KTMuiRadioGroupProps } from './radio.js';
+import type { KTMuiProps } from '../../types/component.js';
 import './Radio.css';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+
+export interface KTMuiRadioProps extends KTMuiProps {
+  value: string;
+  label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
+  checked?: boolean;
+  size?: 'small' | 'medium';
+  'on:change'?: (checked: boolean, value: string) => void;
+  disabled?: boolean;
+  color?: 'primary' | 'secondary' | 'default';
+}
+
+export interface KTMuiRadioGroupProps extends KTMuiProps {
+  value?: string;
+  name?: string;
+  size?: 'small' | 'medium';
+  options: KTMuiRadioProps[];
+  'on:change'?: (value: string) => void;
+  'on:click'?: (checked: boolean) => void;
+  row?: boolean;
+}
+
+export type KTMuiRadio = JSX.Element & {
+  readonly value: string;
+  checked: boolean;
+};
+
+export type KTMuiRadioGroup = JSX.Element & {
+  value: string;
+};
 
 /**
  * Radio component - mimics MUI Radio appearance and behavior

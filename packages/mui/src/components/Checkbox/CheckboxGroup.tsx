@@ -1,13 +1,23 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
-import type { KTMuiCheckbox, KTMuiCheckboxGroup, KTMuiCheckboxGroupProps } from './checkbox.js';
+import type { KTMuiProps } from '../../types/component.js';
+import type { KTMuiCheckbox, KTMuiCheckboxProps } from './Checkbox.js';
 
 import './Checkbox.css';
 import { Checkbox } from './Checkbox.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export { Checkbox };
+
+export interface KTMuiCheckboxGroupProps extends Omit<KTMuiProps, 'children'> {
+  size?: KTMaybeReactive<'small' | 'medium'>;
+  options: KTMaybeReactive<Array<Omit<KTMuiCheckboxProps, 'value'> & { value: string }>>;
+  row?: KTMaybeReactive<boolean>;
+  'on:change'?: (values: string[]) => void;
+}
+
+export type KTMuiCheckboxGroup = JSX.Element & {};
 
 /**
  * CheckboxGroup component - groups multiple checkboxes together

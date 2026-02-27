@@ -18,8 +18,10 @@ export { Pill } from './components/Pill/Pill.js';
 export { Badge } from './components/Badge/Badge.js';
 export { Popover } from './components/Popover/Popover.js';
 
-export type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup } from './components/Radio/radio.js';
-export type { KTMuiTextField, KTMuiTextFieldProps } from './components/Input/input.js';
+export type { KTMuiRadioProps, KTMuiRadio, KTMuiRadioGroup } from './components/Radio/Radio.js';
+export type { KTMuiTextField, KTMuiTextFieldProps } from './components/Input/Input.js';
+export type { KTMuiCheckboxProps, KTMuiCheckbox } from './components/Checkbox/Checkbox.js';
+export type { KTMuiCheckboxGroupProps, KTMuiCheckboxGroup } from './components/Checkbox/CheckboxGroup.js';
 export type { KTMuiSelectProps, KTMuiSelect, KTMuiSelectOption } from './components/Select/Select.js';
 export type { KTMuiDialog } from './components/Dialog/Dialog.js';
 export type { KTMuiLinearProgress } from './components/LinearProgress/LinearProgress.js';

@@ -1,9 +1,26 @@
 import { $defines, $parseStyle } from '@ktjs/shared';
 import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
-import type { KTMuiCheckboxProps, KTMuiCheckbox } from './checkbox.js';
+import type { KTMuiProps } from '../../types/component.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+
+export interface KTMuiCheckboxProps extends Omit<KTMuiProps, 'children'> {
+  value?: KTMaybeReactive<string>;
+  label?: KTMaybeReactive<string | JSX.Element | HTMLElement>;
+  size?: KTMaybeReactive<'small' | 'medium'>;
+  disabled?: KTMaybeReactive<boolean>;
+  color?: KTMaybeReactive<'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning'>;
+  indeterminate?: KTMaybeReactive<boolean>;
+  'on:change'?: (checked: boolean, value: string) => void;
+}
+
+export type KTMuiCheckbox = JSX.Element & {
+  checked: boolean;
+  value: string;
+  disabled: boolean;
+};
 
 /**
  * Create a checkbox component.
@@ -12,7 +29,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
  */
 export function Checkbox(
   props: KTMuiCheckboxProps,
-  onChangeForGroup?: (checked: boolean, value: any) => void,
+  onChangeForGroup?: (checked: boolean, value: string) => void,
 ): KTMuiCheckbox {
   // Handle change
   const handleChange = () => {

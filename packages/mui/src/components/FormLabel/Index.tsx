@@ -5,12 +5,38 @@ import { registerPrefixedEvents } from '../../common/attribute';
 
 interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
   children: string | HTMLElement | JSX.Element;
+
+  /**
+   * If `true`, the label will indicate that the input is required by displaying an asterisk (*).
+   */
   required?: KTMaybeReactive<boolean>;
+
+  /**
+   * If `true`, the label will be displayed in an error state.
+   */
   error?: KTMaybeReactive<boolean>;
+
+  /**
+   * If `true`, the label will be displayed in a disabled state.
+   */
   disabled?: KTMaybeReactive<boolean>;
+
+  /**
+   * If `true`, the label will be displayed in a focused state.
+   */
   focused?: KTMaybeReactive<boolean>;
+
+  /**
+   * If `true`, the label will be displayed in a filled state (used when the associated input has a value).
+   */
   filled?: KTMaybeReactive<boolean>;
+
+  /**
+   * The component used for the root node. Either 'label' or 'legend'.
+   * - Not reactive
+   */
   component?: 'label' | 'legend';
+
   htmlFor?: KTMaybeReactive<string>;
 }
 

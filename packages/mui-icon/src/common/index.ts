@@ -4,6 +4,16 @@ export function svg(props: { children: SVGElement[] }, title?: string): SVGEleme
 export function svg(tag: string, attrs: Record<string, string | SVGElement[] | SVGElement>, title?: string): SVGElement;
 export function svg(...args: any[]) {
   const [a0, a1, a2] = args;
+  if (a0 instanceof SVGElement) {
+    const s = create();
+
+    s.appendChild(a0);
+    if (typeof a1 === 'string') {
+      s.setAttribute('title', a1);
+    }
+    return s;
+  }
+
   if (typeof a0 === 'object' && a0 !== null && a0.children) {
     return svg(a0.children, a1);
   }
@@ -34,16 +44,6 @@ export function svg(...args: any[]) {
     const s = create();
 
     a0.forEach((e) => s.appendChild(e));
-    if (typeof a1 === 'string') {
-      s.setAttribute('title', a1);
-    }
-    return s;
-  }
-
-  if (a0 instanceof SVGElement) {
-    const s = create();
-
-    s.appendChild(a0);
     if (typeof a1 === 'string') {
       s.setAttribute('title', a1);
     }

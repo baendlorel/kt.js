@@ -10,7 +10,7 @@ export function build(who: string | undefined) {
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
-  if (['@ktjs/ts-plugin', '@ktjs/example'].includes(info.name)) {
+  if (['@ktjs/ts-plugin', '@ktjs/example', '@ktjs/mui'].includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
     return;
   }

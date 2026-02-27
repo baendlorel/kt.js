@@ -3,6 +3,7 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiTextField, InputTypes, KTMuiTextFieldProps } from './input.js';
 import './Input.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
@@ -13,7 +14,7 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   const onBlur = props['on:blur'] ?? $emptyFn;
   const onFocus = props['on:focus'] ?? $emptyFn;
 
-  const isFocusedRef = ref(false);
+  const isFocused = ref(false);
   const hasInputValue = (value: unknown) => value !== '' && value !== null && value !== undefined;
 
   // # methods
@@ -45,17 +46,17 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
   };
 
   const handleFocus = () => {
-    isFocusedRef.value = true;
+    isFocused.value = true;
     onFocus(inputEl.value);
   };
 
   const handleBlur = () => {
-    isFocusedRef.value = false;
+    isFocused.value = false;
     onBlur(inputEl.value);
   };
 
   const handleWrapperMouseDown = (e: MouseEvent) => {
-    if (disabledRef.value) {
+    if (disabled.value) {
       return;
     }
     const target = e.target as Node | null;
@@ -65,46 +66,39 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
     setTimeout(() => inputEl.focus(), 0);
   };
 
-  const getPlaceholder = () =>
-    labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : placeholderRef.value;
-
   // # non-refs
   const inputType = dereactive(props.type ?? ('text' as T));
   const multiline = props.multiline;
 
   // # refs
-  // Create refs for all reactive properties
-  const labelRef = toReactive(props.label ?? '');
-  const placeholderRef = toReactive(props.placeholder ?? '', () => (inputEl.placeholder = getPlaceholder()));
-  const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = toReactive(props.readOnly ?? false);
-  const requiredRef = toReactive(props.required ?? false);
-  const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = toReactive(props.helperText ?? '');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const rowsRef = toReactive(props.rows ?? 3);
-  const sizeRef = toReactive(props.size ?? 'medium');
-
   // k-model takes precedence over value prop for two-way binding
   const modelRef = $modelOrRef(props, props.value ?? '');
 
-  // Add change listeners for reactive properties
-  // `k-if` changing triggers redrawing, no need to do this again
-  // // labelRef.addOnChange(() => {
-  // //   wrapperRef.redraw();
-  // //   updateContainerClass();
-  // // });
+  // Create refs for all reactive properties
+  const label = toReactive(props.label ?? '');
+  const placeholder = toReactive(props.placeholder ?? '').toComputed(
+    (v) => (label.value && !isFocused.value && !hasInputValue(modelRef.value) ? '' : v),
+    [label, isFocused, modelRef],
+  );
+  const disabled = toReactive(props.disabled ?? false);
+  const readOnly = toReactive(props.readOnly ?? false);
+  const required = toReactive(props.required ?? false);
+  const error = toReactive(props.error ?? false);
+  const helperText = toReactive(props.helperText ?? '');
+  const fullWidth = toReactive(props.fullWidth ?? false);
+  const rows = toReactive(props.rows ?? 3);
+  const size = toReactive(props.size ?? 'medium');
 
   const inputEl = multiline
     ? ((
         <textarea
           class="mui-textfield-input"
-          placeholder={getPlaceholder()}
+          placeholder={placeholder}
           value={modelRef.value}
-          disabled={disabledRef}
-          readOnly={readOnlyRef}
-          required={requiredRef}
-          rows={rowsRef}
+          disabled={disabled}
+          readOnly={readOnly}
+          required={required}
+          rows={rows}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
@@ -115,11 +109,11 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
         <input
           type={inputType}
           class="mui-textfield-input"
-          placeholder={getPlaceholder()}
+          placeholder={placeholder}
           value={modelRef.value}
-          disabled={disabledRef}
-          readOnly={readOnlyRef}
-          required={requiredRef}
+          disabled={disabled}
+          readOnly={readOnly}
+          required={required}
           on:input={handleInput}
           on:change={handleChange}
           on:focus={handleFocus}
@@ -128,65 +122,73 @@ export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldPr
       ) as HTMLInputElement);
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  const styleRef = toReactive($parseStyle(props.style));
-  const customClassRef = toReactive(props.class ?? '');
-  const classRef = computed(() => {
-    const className = [
-      'mui-textfield-root',
-      `mui-textfield-size-${sizeRef.value}`,
-      isFocusedRef.value ? 'mui-textfield-focused' : '',
-      errorRef.value ? 'mui-textfield-error' : '',
-      disabledRef.value ? 'mui-textfield-disabled' : '',
-      fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
-      labelRef.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
-      labelRef.value ? '' : 'mui-textfield-no-label',
-      customClassRef.value ? customClassRef.value : '',
-    ].join(' ');
-    return className;
-  }, [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, modelRef, customClassRef]);
+  const style = toReactive($parseStyle(props.style));
+  const customClass = toReactive(props.class ?? '');
+  const className = computed(
+    () =>
+      [
+        'mui-textfield-root',
+        `mui-textfield-size-${size.value}`,
+        isFocused.value ? 'mui-textfield-focused' : '',
+        error.value ? 'mui-textfield-error' : '',
+        disabled.value ? 'mui-textfield-disabled' : '',
+        fullWidth.value ? 'mui-textfield-fullwidth' : '',
+        label.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
+        label.value ? '' : 'mui-textfield-no-label',
+        customClass.value ? customClass.value : '',
+      ].join(' '),
+    [size, error, disabled, fullWidth, label, isFocused, modelRef, customClass],
+  );
 
   const labelElement = computed(() => {
-    if (!labelRef.value) {
+    if (!label.value) {
       return '';
     }
 
     return (
       <label class="mui-textfield-label">
-        {labelRef}
-        {requiredRef.value ? <span class="mui-textfield-required">*</span> : ''}
+        {label}
+        <span k-if={required} class="mui-textfield-required">
+          *
+        </span>
       </label>
     );
-  }, [labelRef, requiredRef]);
+  }, [label, required]);
 
   const legendElement = computed(() => {
-    if (!labelRef.value) {
+    if (!label.value) {
       return '';
     }
 
     return (
       <legend class="mui-textfield-legend">
         <span>
-          {labelRef}
-          {requiredRef.value ? <span>*</span> : ''}
+          {label}
+          <span k-if={required}>*</span>
         </span>
       </legend>
     );
-  }, [labelRef, requiredRef]);
-
-  // if (multiline) {
-  //   rowsRef.addOnChange((newRows) => ((inputEl as HTMLTextAreaElement).rows = newRows));
-  // }
+  }, [label, required]);
 
   const container = (
-    <div class={classRef} style={styleRef}>
+    <div class={className} style={style}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
         {labelElement}
         <div class="mui-textfield-input-wrapper">{inputEl}</div>
         <fieldset class="mui-textfield-fieldset">{legendElement}</fieldset>
       </div>
-      <p class="mui-textfield-helper-text">{helperTextRef}</p>
+      <p class="mui-textfield-helper-text">{helperText}</p>
     </div>
   ) as KTMuiTextField;
+
+  registerPrefixedEvents(container, props, [
+    'on:input',
+    'on:change',
+    'on:focus',
+    'on:blur',
+    'on-trim:input',
+    'on-trim:change',
+  ]);
 
   return container;
 }

@@ -543,9 +543,10 @@ export interface AttributesMap {
       placeholder?: string;
       readonly?: boolean;
       required?: boolean;
-      rows?: number | string;
       wrap?: 'hard' | 'soft' | 'off';
-    }>;
+    }> & {
+      rows?: KTMaybeReactive<number> | KTMaybeReactive<string>;
+    };
 
   // Time element
   time: BaseAttr &

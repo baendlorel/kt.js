@@ -15,16 +15,10 @@ export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undef
   return '';
 };
 
-// todo 也要给别的组件注册事件
-// todo 正规化组件
-export const registerPrefixedEvents = (
-  element: HTMLElement,
-  props: { [key: string]: any },
-  exclude?: `on:${string}`[],
-) => {
+export const registerPrefixedEvents = (element: HTMLElement, props: { [key: string]: any }, exclude?: string[]) => {
   if (exclude) {
     for (const key in props) {
-      if (key.startsWith('on:') && !exclude.includes(key as `on:${string}`)) {
+      if (key.startsWith('on:') && !exclude.includes(key)) {
         element.addEventListener(key.slice(3), props[key]);
       }
     }

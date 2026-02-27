@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Button } from '../src/components/Button/Index.js';
+import { Button } from './Index.js';
 
 describe('MUI Button component', () => {
   it('should render button with default props', () => {
@@ -71,10 +71,8 @@ describe('MUI Button component', () => {
     const button = Button({ children: 'Click', 'on:click': onClick }) as HTMLButtonElement;
     const rippleContainer = button.querySelector('.mui-button-ripple');
     expect(rippleContainer).toBeTruthy();
-    // Simulate click
     button.click();
     expect(onClick).toHaveBeenCalledTimes(1);
-    // Should have created a ripple element
     expect(rippleContainer?.children.length).toBeGreaterThan(0);
   });
 

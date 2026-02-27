@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ref } from '@ktjs/core';
-import { Dialog } from '../src/components/Dialog/Index.js';
+import { Dialog } from './Index.js';
 
 describe('MUI Dialog component', () => {
   it('should render closed by default', () => {

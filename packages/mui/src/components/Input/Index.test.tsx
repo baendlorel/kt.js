@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { TextField } from '../src/components/Input/Index.js';
+import { TextField } from './Index.js';
 import { ref } from '@ktjs/core';
 
 describe('MUI TextField component', () => {
@@ -15,7 +15,7 @@ describe('MUI TextField component', () => {
     const textfield = TextField({ multiline: true }) as HTMLElement;
     const textarea = textfield.querySelector('textarea');
     expect(textarea).toBeTruthy();
-    expect(textarea?.rows).toBe(3); // default rows
+    expect(textarea?.rows).toBe(3);
   });
 
   it('should apply label', () => {
@@ -88,8 +88,6 @@ describe('MUI TextField component', () => {
     const input = textfield.querySelector('input') as HTMLInputElement;
     expect(input.value).toBe('initial');
     valueRef.value = 'updated';
-    // Need to trigger change? The ref should update input via addOnChange
-    // For now just verify the binding exists
     expect(input.value).toBe('updated');
   });
 

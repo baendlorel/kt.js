@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ref } from '@ktjs/core';
-import { Popover } from '../src/components/Popover/Index.js';
+import { Popover } from './Index.js';
 
 const createAnchor = () => {
   const anchor = document.createElement('button');

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Checkbox, CheckboxGroup } from '../src/components/Checkbox/Index.js';
+import { Checkbox, CheckboxGroup } from './Index.js';
 
 describe('MUI Checkbox component', () => {
   it('should render with defaults', () => {
@@ -67,7 +67,6 @@ describe('MUI CheckboxGroup component', () => {
       ],
     }) as HTMLElement;
     expect(group.getAttribute('role')).toBe('group');
-    console.log('group.innerHTML', group.innerHTML);
     expect(group.querySelectorAll('input[type="checkbox"]').length).toBe(2);
   });
 

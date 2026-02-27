@@ -81,7 +81,6 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   // Backdrop element
-  // todo 这里的children是否能做到响应式，需要吗？
   const container = (
     <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
       <div class={className} style={styleRef} on:click={(e: MouseEvent) => e.stopPropagation()}>

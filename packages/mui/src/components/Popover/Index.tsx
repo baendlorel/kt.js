@@ -3,6 +3,7 @@ import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Popover.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 type PopoverVerticalOrigin = 'top' | 'center' | 'bottom';
 type PopoverHorizontalOrigin = 'left' | 'center' | 'right';
@@ -243,8 +244,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     if (paper.contains(target)) {
       return;
     }
-    const anchor = anchorElRef.value;
-    if (anchor?.contains(target)) {
+    if (anchorElRef.value?.contains(target)) {
       return;
     }
     close('backdropClick');
@@ -265,8 +265,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   // ?? 这里计算的class和style会和函数里的冲突吗
   const container = (
     <div
-      class={openRef.toComputed((v) => `mui-popover-root ${v ? 'mui-popover-open mui-popover-rendered' : ''}`)}
-      style={openRef.toComputed<string>((v) => (v ? 'display: block;' : 'display: none;'))}
+      class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}
+      style={openRef.value ? 'display: block;' : 'display: none;'}
     >
       {paper}
     </div>
@@ -296,5 +296,6 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     return originalRemove.call(container);
   };
 
+  registerPrefixedEvents(container, props, ['on:close']);
   return container;
 }

@@ -1,6822 +1,1051 @@
-import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js';
+import { applyAttr, type KTRawAttr, type JSX } from '@ktjs/core';
+import { svg } from '../common/index.js'  
 
-export const LabelIcon = (props?: KTRawAttr) => {
-  const s = _LabelIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelIcon = svg(
-  svg('path', {
-    d: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12z',
-  }),
-  'Label',
-);
-export const LabelImportantIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantIcon = svg(
-  svg('path', {
-    d: 'm3.5 18.99 11 .01c.67 0 1.27-.33 1.63-.84L20.5 12l-4.37-6.16c-.36-.51-.96-.84-1.63-.84l-11 .01L8.34 12z',
-  }),
-  'LabelImportant',
-);
-export const LabelImportantOutlineIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantOutlineIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantOutlineIcon = svg(
-  svg('path', {
-    d: 'M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z',
-  }),
-  'LabelImportantOutline',
-);
-export const LabelImportantOutlineRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantOutlineRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantOutlineRoundedIcon = svg(
-  svg('path', {
-    d: 'M15 19H4.83c-.79 0-1.27-.88-.84-1.54L7.5 12 3.99 6.54C3.56 5.88 4.04 5 4.83 5H15c.65 0 1.26.31 1.63.84l3.96 5.58c.25.35.25.81 0 1.16l-3.96 5.58c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z',
-  }),
-  'LabelImportantOutlineRounded',
-);
-export const LabelImportantOutlineSharpIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantOutlineSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantOutlineSharpIcon = svg(
-  svg('path', { d: 'M16.03 19H3l4.5-7L3 5h13.03L21 12zM6.5 17H15l3.5-5L15 7H6.5l3.5 5z' }),
-  'LabelImportantOutlineSharp',
-);
-export const LabelImportantOutlineTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantOutlineTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantOutlineTwoToneIcon = svg(
-  svg('path', {
-    d: 'M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z',
-  }),
-  'LabelImportantOutlineTwoTone',
-);
-export const LabelImportantOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantOutlinedIcon = svg(
-  svg('path', {
-    d: 'M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z',
-  }),
-  'LabelImportantOutlined',
-);
-export const LabelImportantRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantRoundedIcon = svg(
-  svg('path', {
-    d: 'M5.94 18.99H15c.65 0 1.26-.31 1.63-.84l3.95-5.57c.25-.35.25-.81 0-1.16l-3.96-5.58C16.26 5.31 15.65 5 15 5H5.94c-.81 0-1.28.93-.81 1.59L9 12l-3.87 5.41c-.47.66 0 1.58.81 1.58',
-  }),
-  'LabelImportantRounded',
-);
-export const LabelImportantSharpIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantSharpIcon = svg(
-  svg('path', { d: 'M4 18.99h12.04L21 12l-4.97-7H4l5 7z' }),
-  'LabelImportantSharp',
-);
-export const LabelImportantTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LabelImportantTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelImportantTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M15 7H7.89l3.57 5-3.57 5H15l3.55-5z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.63 5.84C16.27 5.33 15.67 5 15 5H4l5 7-5 6.99h11c.67 0 1.27-.32 1.63-.83L21 12zM15 17H7.89l3.57-5-3.57-5H15l3.55 5z',
-      },
-      '1',
-    ),
-  ],
-  'LabelImportantTwoTone',
-);
-export const LabelOffIcon = (props?: KTRawAttr) => {
-  const s = _LabelOffIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOffIcon = svg(
-  svg('path', {
-    d: 'm3.25 2.75 17 17L19 21l-2-2H5c-1.1 0-2-.9-2-2V7c0-.55.23-1.05.59-1.41L2 4zM22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5H8l11 11z',
-  }),
-  'LabelOff',
-);
-export const LabelOffOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LabelOffOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOffOutlinedIcon = svg(
-  svg('path', {
-    d: 'm16 7 3.55 5-1.63 2.29 1.43 1.43L22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5l-7.37.01 2 1.99zM2 4.03l1.58 1.58C3.22 5.96 3 6.46 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.28 0 .55-.07.79-.18L18.97 21l1.41-1.41L3.41 2.62zM14.97 17H5V7.03z',
-  }),
-  'LabelOffOutlined',
-);
-export const LabelOffRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LabelOffRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOffRoundedIcon = svg(
-  svg('path', {
-    d: 'M21.59 12.58c.25-.35.25-.81 0-1.16l-3.96-5.58C17.27 5.33 16.67 5 16 5H8.66l10.7 10.73zM2.72 4.72l.87.87C3.23 5.95 3 6.45 3 7v10c0 1.1.9 2 2 2h12l1.29 1.29c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L4.14 3.31c-.38-.38-1.01-.39-1.4-.01-.41.38-.41 1.03-.02 1.42',
-  }),
-  'LabelOffRounded',
-);
-export const LabelOffSharpIcon = (props?: KTRawAttr) => {
-  const s = _LabelOffSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOffSharpIcon = svg(
-  svg('path', { d: 'm22 12-4.97-7H8.66l10.7 10.73zM2 4l1 1v14h14l2 2 1.41-1.41L3.44 2.62z' }),
-  'LabelOffSharp',
-);
-export const LabelOffTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LabelOffTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOffTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M5 7.03V17h9.97zM16 7h-5.37l7.29 7.29L19.55 12z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'm16 7 3.55 5-1.63 2.29 1.43 1.43L22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5l-7.37.01 2 1.99zM2 4.03l1.58 1.58C3.22 5.96 3 6.46 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.28 0 .55-.07.79-.18L18.97 21l1.41-1.41L3.41 2.62zm3 3L14.97 17H5z',
-      },
-      '1',
-    ),
-  ],
-  'LabelOffTwoTone',
-);
-export const LabelOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LabelOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelOutlinedIcon = svg(
-  svg('path', {
-    d: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12zM16 17H5V7h11l3.55 5z',
-  }),
-  'LabelOutlined',
-);
-export const LabelRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LabelRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelRoundedIcon = svg(
-  svg('path', {
-    d: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84l3.96-5.58c.25-.35.25-.81 0-1.16z',
-  }),
-  'LabelRounded',
-);
-export const LabelSharpIcon = (props?: KTRawAttr) => {
-  const s = _LabelSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelSharpIcon = svg(svg('path', { d: 'M17.03 5 3 5.01v13.98l14.03.01L22 12z' }), 'LabelSharp');
-export const LabelTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LabelTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LabelTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M16 7H5v10h11l3.55-5z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12zM16 17H5V7h11l3.55 5z',
-      },
-      '1',
-    ),
-  ],
-  'LabelTwoTone',
-);
-export const LanIcon = (props?: KTRawAttr) => {
-  const s = _LanIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanIcon = svg(svg('path', { d: 'M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z' }), 'Lan');
-export const LanOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LanOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanOutlinedIcon = svg(
-  svg('path', {
-    d: 'M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3zM10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z',
-  }),
-  'LanOutlined',
-);
-export const LanRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LanRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanRoundedIcon = svg(
-  svg('path', {
-    d: 'M15 22h4c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2h-1v-2c0-1.1-.9-2-2-2h-3V9h1c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h1v2H8c-1.1 0-2 .9-2 2v2H5c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2H8v-2h8v2h-1c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2',
-  }),
-  'LanRounded',
-);
-export const LanSharpIcon = (props?: KTRawAttr) => {
-  const s = _LanSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanSharpIcon = svg(
-  svg('path', { d: 'M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z' }),
-  'LanSharp',
-);
-export const LanTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LanTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      { d: 'M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3zM10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z' },
-      '1',
-    ),
-  ],
-  'LanTwoTone',
-);
-export const LandscapeIcon = (props?: KTRawAttr) => {
-  const s = _LandscapeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandscapeIcon = svg(
-  svg('path', { d: 'm14 6-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22z' }),
-  'Landscape',
-);
-export const LandscapeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LandscapeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandscapeOutlinedIcon = svg(
-  svg('path', { d: 'm14 6-4.22 5.63 1.25 1.67L14 9.33 19 16h-8.46l-4.01-5.37L1 18h22zM5 16l1.52-2.03L8.04 16z' }),
-  'LandscapeOutlined',
-);
-export const LandscapeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LandscapeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandscapeRoundedIcon = svg(
-  svg('path', {
-    d: 'M13.2 7.07 10.25 11l2.25 3c.33.44.24 1.07-.2 1.4s-1.07.25-1.4-.2c-1.05-1.4-2.31-3.07-3.1-4.14-.4-.53-1.2-.53-1.6 0l-4 5.33c-.49.67-.02 1.61.8 1.61h18c.82 0 1.29-.94.8-1.6l-7-9.33c-.4-.54-1.2-.54-1.6 0',
-  }),
-  'LandscapeRounded',
-);
-export const LandscapeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LandscapeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandscapeSharpIcon = svg(
-  svg('path', { d: 'm14 6-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22z' }),
-  'LandscapeSharp',
-);
-export const LandscapeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LandscapeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandscapeTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M5 16h3.04l-1.52-2.03z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      { d: 'm9.78 11.63 1.25 1.67L14 9.33 19 16h-8.46l-4.01-5.37L1 18h22L14 6zM5 16l1.52-2.03L8.04 16z' },
-      '1',
-    ),
-  ],
-  'LandscapeTwoTone',
-);
-export const LandslideIcon = (props?: KTRawAttr) => {
-  const s = _LandslideIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandslideIcon = svg(
-  svg('path', {
-    d: 'm15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8 8H2v3.61l4 1.34zM6 19.05l-4-1.33V22h20l-4.97-6.62zM17 6V1l-5-1-3 2v4l3 2zm1.5 1L16 9v3l2.5 2 4.5-2V8z',
-  }),
-  'Landslide',
-);
-export const LandslideOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LandslideOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandslideOutlinedIcon = svg(
-  svg('path', {
-    d: 'M11 12 8 8H2v14h20l-6-8zm1.53 2.77L6 16.95l-2-.67v-1.89l2 .67 3.95-1.32zM7 10l1.57 2.09-2.57.86-2-.67V10zM4 20v-1.61l2 .67 9.03-3.01L18 20zM17 6V1l-5-1-3 2v4l3 2zm-6-2.93 1.42-.95 2.58.52v2.01l-2.77 1.11L11 4.93zM18.5 7 16 9v3l2.5 2 4.5-2V8zm2.5 3.7-2.2.98-.8-.64V9.96l1-.8 2 .44z',
-  }),
-  'LandslideOutlined',
-);
-export const LandslideRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LandslideRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandslideRoundedIcon = svg(
-  svg('path', {
-    d: 'm15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8.6 8.8C8.22 8.3 7.63 8 7 8H4c-1.1 0-2 .9-2 2v1.61l4 1.33zM6 19.05l-4-1.33V20c0 1.1.9 2 2 2h14c1.65 0 2.59-1.88 1.6-3.2l-2.57-3.42zm11-14.4V2.64c0-.95-.67-1.77-1.61-1.96L12.81.16c-.52-.1-1.06 0-1.5.3l-1.42.95C9.33 1.78 9 2.4 9 3.07v1.86c0 .67.33 1.29.89 1.66l1.23.82c.55.37 1.24.44 1.85.19l2.77-1.11C16.5 6.2 17 5.46 17 4.65m.75 2.95-1 .8c-.47.38-.75.95-.75 1.56v1.08c0 .61.28 1.18.75 1.56l.8.64c.58.47 1.38.57 2.06.27l2.2-.98c.72-.32 1.19-1.04 1.19-1.83V9.6c0-.94-.65-1.75-1.57-1.95l-2-.44c-.59-.13-1.21.01-1.68.39',
-  }),
-  'LandslideRounded',
-);
-export const LandslideSharpIcon = (props?: KTRawAttr) => {
-  const s = _LandslideSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandslideSharpIcon = svg(
-  svg('path', {
-    d: 'm15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8 8H2v3.61l4 1.34zM6 19.05l-4-1.33V22h20l-4.97-6.62zM17 6V1l-5-1-3 2v4l3 2zm1.5 1L16 9v3l2.5 2 4.5-2V8z',
-  }),
-  'LandslideSharp',
-);
-export const LandslideTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LandslideTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LandslideTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M8.57 12.09 7 10H4v2.28l2 .67zm3.96 2.68-2.58-1.03L6 15.05l-2-.66v1.89l2 .67zM15 4.65V2.64l-2.58-.52-1.42.95v1.86l1.23.82zm-9 14.4-2-.66V20h14l-2.97-3.96zm12-9.09v1.08l.8.64 2.2-.98V9.6l-2-.44z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M11 12 8 8H2v14h20l-6-8zm-7-2h3l1.57 2.09-2.57.86-2-.67zm0 4.39 2 .67 3.95-1.32 2.58 1.03L6 16.95l-2-.67zM4 20v-1.61l2 .67 9.03-3.01L18 20zM17 6V1l-5-1-3 2v4l3 2zm-6-2.93 1.42-.95 2.58.52v2.01l-2.77 1.11L11 4.93zM18.5 7 16 9v3l2.5 2 4.5-2V8zm2.5 3.7-2.2.98-.8-.64V9.96l1-.8 2 .44z',
-      },
-      '1',
-    ),
-  ],
-  'LandslideTwoTone',
-);
-export const LanguageIcon = (props?: KTRawAttr) => {
-  const s = _LanguageIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanguageIcon = svg(
-  svg('path', {
-    d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z',
-  }),
-  'Language',
-);
-export const LanguageOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LanguageOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanguageOutlinedIcon = svg(
-  svg('path', {
-    d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z',
-  }),
-  'LanguageOutlined',
-);
-export const LanguageRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LanguageRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanguageRoundedIcon = svg(
-  svg('path', {
-    d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z',
-  }),
-  'LanguageRounded',
-);
-export const LanguageSharpIcon = (props?: KTRawAttr) => {
-  const s = _LanguageSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanguageSharpIcon = svg(
-  svg('path', {
-    d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z',
-  }),
-  'LanguageSharp',
-);
-export const LanguageTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LanguageTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LanguageTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5.08 8h2.95c.32-1.25.78-2.45 1.38-3.56-1.84.63-3.37 1.9-4.33 3.56m2.42 4c0-.68.06-1.34.14-2H4.26c-.16.64-.26 1.31-.26 2s.1 1.36.26 2h3.38c-.08-.66-.14-1.32-.14-2m-2.42 4c.96 1.66 2.49 2.93 4.33 3.56-.6-1.11-1.06-2.31-1.38-3.56zM12 4.04c-.83 1.2-1.48 2.53-1.91 3.96h3.82c-.43-1.43-1.08-2.76-1.91-3.96M18.92 8c-.96-1.65-2.49-2.93-4.33-3.56.6 1.11 1.06 2.31 1.38 3.56zM12 19.96c.83-1.2 1.48-2.53 1.91-3.96h-3.82c.43 1.43 1.08 2.76 1.91 3.96m2.59-.4c1.84-.63 3.37-1.91 4.33-3.56h-2.95c-.32 1.25-.78 2.45-1.38 3.56M19.74 10h-3.38c.08.66.14 1.32.14 2s-.06 1.34-.14 2h3.38c.16-.64.26-1.31.26-2s-.1-1.36-.26-2M9.66 10c-.09.65-.16 1.32-.16 2s.07 1.34.16 2h4.68c.09-.66.16-1.32.16-2s-.07-1.35-.16-2z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z',
-      },
-      '1',
-    ),
-  ],
-  'LanguageTwoTone',
-);
-export const LaptopIcon = (props?: KTRawAttr) => {
-  const s = _LaptopIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z',
-  }),
-  'Laptop',
-);
-export const LaptopChromebookIcon = (props?: KTRawAttr) => {
-  const s = _LaptopChromebookIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopChromebookIcon = svg(
-  svg('path', { d: 'M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z' }),
-  'LaptopChromebook',
-);
-export const LaptopChromebookOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopChromebookOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopChromebookOutlinedIcon = svg(
-  svg('path', { d: 'M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z' }),
-  'LaptopChromebookOutlined',
-);
-export const LaptopChromebookRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopChromebookRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopChromebookRoundedIcon = svg(
-  svg('path', {
-    d: 'M23 18h-1V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v13H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1m-9.5 0h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5m6.5-3H4V6c0-.55.45-1 1-1h14c.55 0 1 .45 1 1z',
-  }),
-  'LaptopChromebookRounded',
-);
-export const LaptopChromebookSharpIcon = (props?: KTRawAttr) => {
-  const s = _LaptopChromebookSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopChromebookSharpIcon = svg(
-  svg('path', { d: 'M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z' }),
-  'LaptopChromebookSharp',
-);
-export const LaptopChromebookTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LaptopChromebookTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopChromebookTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M4 5h16v10H4z', opacity: '.3' }, '0'),
-    svg('path', { d: 'M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z' }, '1'),
-  ],
-  'LaptopChromebookTwoTone',
-);
-export const LaptopMacIcon = (props?: KTRawAttr) => {
-  const s = _LaptopMacIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopMacIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LaptopMac',
-);
-export const LaptopMacOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopMacOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopMacOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LaptopMacOutlined',
-);
-export const LaptopMacRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopMacRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopMacRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM5 5h14c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1m7 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LaptopMacRounded',
-);
-export const LaptopMacSharpIcon = (props?: KTRawAttr) => {
-  const s = _LaptopMacSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopMacSharpIcon = svg(
-  svg('path', {
-    d: 'm20 18 1.99-2L22 3H2v13l2 2H0v2h24v-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LaptopMacSharp',
-);
-export const LaptopMacTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LaptopMacTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopMacTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M4 5h16v11H4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-      },
-      '1',
-    ),
-  ],
-  'LaptopMacTwoTone',
-);
-export const LaptopOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z',
-  }),
-  'LaptopOutlined',
-);
-export const LaptopRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1zM5 6h14c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1',
-  }),
-  'LaptopRounded',
-);
-export const LaptopSharpIcon = (props?: KTRawAttr) => {
-  const s = _LaptopSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopSharpIcon = svg(svg('path', { d: 'm20 18 2-2V4H2v12l2 2H0v2h24v-2zM4 6h16v10H4z' }), 'LaptopSharp');
-export const LaptopTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LaptopTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M4 6h16v10H4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      { d: 'M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z' },
-      '1',
-    ),
-  ],
-  'LaptopTwoTone',
-);
-export const LaptopWindowsIcon = (props?: KTRawAttr) => {
-  const s = _LaptopWindowsIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopWindowsIcon = svg(
-  svg('path', {
-    d: 'M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z',
-  }),
-  'LaptopWindows',
-);
-export const LaptopWindowsOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopWindowsOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopWindowsOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z',
-  }),
-  'LaptopWindowsOutlined',
-);
-export const LaptopWindowsRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LaptopWindowsRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopWindowsRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1zM5 5h14c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1',
-  }),
-  'LaptopWindowsRounded',
-);
-export const LaptopWindowsSharpIcon = (props?: KTRawAttr) => {
-  const s = _LaptopWindowsSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopWindowsSharpIcon = svg(
-  svg('path', { d: 'M20 18v-1h1.99L22 3H2v14h2v1H0v2h24v-2zM4 5h16v10H4z' }),
-  'LaptopWindowsSharp',
-);
-export const LaptopWindowsTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LaptopWindowsTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaptopWindowsTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M4 5h16v10H4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z',
-      },
-      '1',
-    ),
-  ],
-  'LaptopWindowsTwoTone',
-);
-export const LastPageIcon = (props?: KTRawAttr) => {
-  const s = _LastPageIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LastPageIcon = svg(
-  svg('path', { d: 'M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z' }),
-  'LastPage',
-);
-export const LastPageOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LastPageOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LastPageOutlinedIcon = svg(
-  svg('path', { d: 'M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z' }),
-  'LastPageOutlined',
-);
-export const LastPageRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LastPageRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LastPageRoundedIcon = svg(
-  svg('path', {
-    d: 'M6.29 8.11 10.18 12l-3.89 3.89c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L7.7 6.7a.996.996 0 0 0-1.41 0c-.38.39-.38 1.03 0 1.41M17 6c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1',
-  }),
-  'LastPageRounded',
-);
-export const LastPageSharpIcon = (props?: KTRawAttr) => {
-  const s = _LastPageSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LastPageSharpIcon = svg(
-  svg('path', { d: 'M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z' }),
-  'LastPageSharp',
-);
-export const LastPageTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LastPageTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LastPageTwoToneIcon = svg(
-  svg('path', { d: 'M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z' }),
-  'LastPageTwoTone',
-);
-export const LaunchIcon = (props?: KTRawAttr) => {
-  const s = _LaunchIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaunchIcon = svg(
-  svg('path', {
-    d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z',
-  }),
-  'Launch',
-);
-export const LaunchOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LaunchOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaunchOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z',
-  }),
-  'LaunchOutlined',
-);
-export const LaunchRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LaunchRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaunchRoundedIcon = svg(
-  svg('path', {
-    d: 'M18 19H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h5c.55 0 1-.45 1-1s-.45-1-1-1H5c-1.11 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6c0-.55-.45-1-1-1s-1 .45-1 1v5c0 .55-.45 1-1 1M14 4c0 .55.45 1 1 1h2.59l-9.13 9.13c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0L19 6.41V9c0 .55.45 1 1 1s1-.45 1-1V3h-6c-.55 0-1 .45-1 1',
-  }),
-  'LaunchRounded',
-);
-export const LaunchSharpIcon = (props?: KTRawAttr) => {
-  const s = _LaunchSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaunchSharpIcon = svg(
-  svg('path', { d: 'M19 19H5V5h7V3H3v18h18v-9h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z' }),
-  'LaunchSharp',
-);
-export const LaunchTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LaunchTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LaunchTwoToneIcon = svg(
-  svg('path', {
-    d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z',
-  }),
-  'LaunchTwoTone',
-);
-export const LayersIcon = (props?: KTRawAttr) => {
-  const s = _LayersIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersIcon = svg(
-  svg('path', { d: 'm11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27z' }),
-  'Layers',
-);
-export const LayersClearIcon = (props?: KTRawAttr) => {
-  const s = _LayersClearIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersClearIcon = svg(
-  svg('path', {
-    d: 'm19.81 14.99 1.19-.92-1.43-1.43-1.19.92zm-.45-4.72L21 9l-9-7-2.91 2.27 7.87 7.88zM3.27 1 2 2.27l4.22 4.22L3 9l1.63 1.27L12 16l2.1-1.63 1.43 1.43L12 18.54l-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21 22 19.73z',
-  }),
-  'LayersClear',
-);
-export const LayersClearOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LayersClearOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersClearOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 4.53 17.74 9l-1.89 1.47 1.43 1.42L21 9l-9-7-2.59 2.02 1.42 1.42zm9 9.54-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41zM12 13.47 6.26 9l1.39-1.08 5.02 5.02z',
-  }),
-  'LayersClearOutlined',
-);
-export const LayersClearRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LayersClearRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersClearRoundedIcon = svg(
-  svg('path', {
-    d: 'M19.99 9.79c.51-.4.51-1.18 0-1.58l-6.76-5.26c-.72-.56-1.73-.56-2.46 0L9.41 4.02l7.88 7.88zm0 3.49-.01-.01a.991.991 0 0 0-1.22 0l-.05.04 1.4 1.4c.37-.41.34-1.07-.12-1.43m1.45 5.6L4.12 1.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l3.52 3.52-2.22 1.72c-.51.4-.51 1.18 0 1.58l6.76 5.26c.72.56 1.73.56 2.46 0l.87-.68 1.42 1.42-2.92 2.27c-.36.28-.87.28-1.23 0l-6.15-4.78a.991.991 0 0 0-1.22 0c-.51.4-.51 1.17 0 1.57l6.76 5.26c.72.56 1.73.56 2.46 0l3.72-2.89 3.07 3.07c.39.39 1.02.39 1.41 0 .41-.39.41-1.02.02-1.41',
-  }),
-  'LayersClearRounded',
-);
-export const LayersClearSharpIcon = (props?: KTRawAttr) => {
-  const s = _LayersClearSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersClearSharpIcon = svg(
-  svg('path', {
-    d: 'm21 9-9-7-2.59 2.02 7.87 7.87zm0 5.07-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41z',
-  }),
-  'LayersClearSharp',
-);
-export const LayersClearTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LayersClearTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersClearTwoToneIcon = svg(
-  [
-    svg('path', { d: 'm12 13.47.67-.53-5.02-5.02L6.26 9zm0-8.94-1.17.91 5.02 5.03L17.74 9z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M12 4.53 17.74 9l-1.89 1.47 1.43 1.42L21 9l-9-7-2.59 2.02 1.42 1.42zm9 9.54-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41zM12 13.47 6.26 9l1.39-1.08 5.02 5.02z',
-      },
-      '1',
-    ),
-  ],
-  'LayersClearTwoTone',
-);
-export const LayersOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LayersOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersOutlinedIcon = svg(
-  svg('path', {
-    d: 'm11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27zm0-11.47L17.74 9 12 13.47 6.26 9z',
-  }),
-  'LayersOutlined',
-);
-export const LayersRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LayersRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersRoundedIcon = svg(
-  svg('path', {
-    d: 'M12.6 18.06c-.36.28-.87.28-1.23 0l-6.15-4.78a.991.991 0 0 0-1.22 0c-.51.4-.51 1.17 0 1.57l6.76 5.26c.72.56 1.73.56 2.46 0l6.76-5.26c.51-.4.51-1.17 0-1.57l-.01-.01a.991.991 0 0 0-1.22 0zm.63-3.02 6.76-5.26c.51-.4.51-1.18 0-1.58l-6.76-5.26c-.72-.56-1.73-.56-2.46 0L4.01 8.21c-.51.4-.51 1.18 0 1.58l6.76 5.26c.72.56 1.74.56 2.46-.01',
-  }),
-  'LayersRounded',
-);
-export const LayersSharpIcon = (props?: KTRawAttr) => {
-  const s = _LayersSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersSharpIcon = svg(
-  svg('path', { d: 'm11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27z' }),
-  'LayersSharp',
-);
-export const LayersTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LayersTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LayersTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M6.26 9 12 13.47 17.74 9 12 4.53z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'm19.37 12.8-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2 3 9l1.63 1.27L12 16l7.36-5.73L21 9zm0 11.47L6.26 9 12 4.53 17.74 9z',
-      },
-      '1',
-    ),
-  ],
-  'LayersTwoTone',
-);
-export const LeaderboardIcon = (props?: KTRawAttr) => {
-  const s = _LeaderboardIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeaderboardIcon = svg(
-  svg('path', { d: 'M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z' }),
-  'Leaderboard',
-);
-export const LeaderboardOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LeaderboardOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeaderboardOutlinedIcon = svg(
-  svg('path', { d: 'M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z' }),
-  'LeaderboardOutlined',
-);
-export const LeaderboardRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LeaderboardRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeaderboardRoundedIcon = svg(
-  svg('path', {
-    d: 'M6.5 21H3c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1m7.25-18h-3.5c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h3.5c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1M21 11h-3.5c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1H21c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1',
-  }),
-  'LeaderboardRounded',
-);
-export const LeaderboardSharpIcon = (props?: KTRawAttr) => {
-  const s = _LeaderboardSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeaderboardSharpIcon = svg(
-  svg('path', { d: 'M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z' }),
-  'LeaderboardSharp',
-);
-export const LeaderboardTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LeaderboardTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeaderboardTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M10 5h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z', opacity: '.3' }, '0'),
-    svg('path', { d: 'M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z' }, '1'),
-  ],
-  'LeaderboardTwoTone',
-);
-export const LeakAddIcon = (props?: KTRawAttr) => {
-  const s = _LeakAddIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakAddIcon = svg(
-  svg('path', {
-    d: 'M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7',
-  }),
-  'LeakAdd',
-);
-export const LeakAddOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LeakAddOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakAddOutlinedIcon = svg(
-  svg('path', {
-    d: 'M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7',
-  }),
-  'LeakAddOutlined',
-);
-export const LeakAddRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LeakAddRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakAddRoundedIcon = svg(
-  svg('path', {
-    d: 'M11.05 21c.5 0 .94-.37.99-.87.41-4.27 3.81-7.67 8.08-8.08.5-.05.88-.48.88-.99 0-.59-.51-1.06-1.1-1-5.19.52-9.32 4.65-9.84 9.83-.06.59.4 1.11.99 1.11M18 21h3v-3c-1.66 0-3 1.34-3 3m-2.91 0c.49 0 .9-.36.98-.85.36-2.08 2-3.72 4.08-4.08.49-.08.85-.49.85-.98 0-.61-.54-1.09-1.14-1-2.96.48-5.29 2.81-5.77 5.77-.1.6.39 1.14 1 1.14M12.97 3.02c-.5 0-.94.37-.99.87-.41 4.27-3.81 7.67-8.08 8.08-.5.05-.88.48-.88.99 0 .59.51 1.06 1.1 1 5.19-.52 9.32-4.65 9.84-9.83.07-.58-.39-1.11-.99-1.11m-6.94 0h-3v3c1.66 0 3-1.34 3-3m2.91 0c-.49 0-.9.36-.98.85-.36 2.08-2 3.72-4.08 4.08-.49.09-.85.49-.85.99 0 .61.54 1.09 1.14 1 2.96-.48 5.29-2.81 5.77-5.77.09-.61-.4-1.15-1-1.15',
-  }),
-  'LeakAddRounded',
-);
-export const LeakAddSharpIcon = (props?: KTRawAttr) => {
-  const s = _LeakAddSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakAddSharpIcon = svg(
-  svg('path', {
-    d: 'M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7',
-  }),
-  'LeakAddSharp',
-);
-export const LeakAddTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LeakAddTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakAddTwoToneIcon = svg(
-  svg('path', {
-    d: 'M18 21h3v-3c-1.66 0-3 1.34-3 3M3 14c6.08 0 11-4.93 11-11h-2c0 4.97-4.03 9-9 9zm11 7h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7M3 10c3.87 0 7-3.13 7-7H8c0 2.76-2.24 5-5 5zm7 11h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11M3 3v3c1.66 0 3-1.34 3-3z',
-  }),
-  'LeakAddTwoTone',
-);
-export const LeakRemoveIcon = (props?: KTRawAttr) => {
-  const s = _LeakRemoveIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakRemoveIcon = svg(
-  svg('path', {
-    d: 'M10 3H8c0 .37-.04.72-.12 1.06l1.59 1.59C9.81 4.84 10 3.94 10 3M3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.71 0 5.19-.99 7.11-2.62l2.5 2.5C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.69l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21 21 19.73 4.27 3zM14 3h-2c0 1.5-.37 2.91-1.02 4.16l1.46 1.46C13.42 6.98 14 5.06 14 3m5.94 13.12c.34-.08.69-.12 1.06-.12v-2c-.94 0-1.84.19-2.66.52zm-4.56-4.56 1.46 1.46C18.09 12.37 19.5 12 21 12v-2c-2.06 0-3.98.58-5.62 1.56',
-  }),
-  'LeakRemove',
-);
-export const LeakRemoveOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LeakRemoveOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakRemoveOutlinedIcon = svg(
-  svg('path', {
-    d: 'M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z',
-  }),
-  'LeakRemoveOutlined',
-);
-export const LeakRemoveRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LeakRemoveRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakRemoveRoundedIcon = svg(
-  svg('path', {
-    d: 'M20.12 12.04c.5-.05.88-.48.88-.99 0-.59-.51-1.06-1.1-1-1.5.15-2.9.61-4.16 1.3l1.48 1.48c.9-.41 1.87-.69 2.9-.79m.88 3.05c0-.61-.54-1.09-1.14-1-.38.06-.75.16-1.11.28l1.62 1.62c.37-.15.63-.49.63-.9M13.97 4.14c.06-.59-.4-1.11-1-1.11-.5 0-.94.37-.99.87-.1 1.03-.38 2.01-.79 2.91l1.48 1.48c.69-1.26 1.15-2.66 1.3-4.15m-4.04.02c.1-.6-.39-1.14-1-1.14-.41 0-.75.26-.9.62l1.62 1.62c.13-.35.22-.72.28-1.1m10.51 14.72L5.12 3.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.15 2.15c-.59.41-1.26.7-1.99.82-.48.1-.84.5-.84 1 0 .61.54 1.09 1.14 1 1.17-.19 2.23-.68 3.13-1.37L8.73 10c-1.34 1.1-3 1.82-4.81 1.99-.5.05-.88.48-.88.99 0 .59.51 1.06 1.1 1 2.28-.23 4.36-1.15 6.01-2.56l2.48 2.48c-1.4 1.65-2.33 3.72-2.56 6-.06.59.4 1.11 1 1.11.5 0 .94-.37.99-.87.18-1.82.9-3.48 1.99-4.82l1.43 1.43c-.69.9-1.18 1.96-1.37 3.13-.1.6.39 1.14 1 1.14.49 0 .9-.36.98-.85.12-.73.42-1.4.82-1.99l2.13 2.13c.39.39 1.02.39 1.41 0 .38-.41.38-1.04-.01-1.43',
-  }),
-  'LeakRemoveRounded',
-);
-export const LeakRemoveSharpIcon = (props?: KTRawAttr) => {
-  const s = _LeakRemoveSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakRemoveSharpIcon = svg(
-  svg('path', {
-    d: 'M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z',
-  }),
-  'LeakRemoveSharp',
-);
-export const LeakRemoveTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LeakRemoveTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LeakRemoveTwoToneIcon = svg(
-  svg('path', {
-    d: 'M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z',
-  }),
-  'LeakRemoveTwoTone',
-);
-export const LegendToggleIcon = (props?: KTRawAttr) => {
-  const s = _LegendToggleIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LegendToggleIcon = svg(
-  svg('path', { d: 'M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z' }),
-  'LegendToggle',
-);
-export const LegendToggleOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LegendToggleOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LegendToggleOutlinedIcon = svg(
-  svg('path', { d: 'M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z' }),
-  'LegendToggleOutlined',
-);
-export const LegendToggleRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LegendToggleRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LegendToggleRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 15H5c-.55 0-1-.45-1-1s.45-1 1-1h14c.55 0 1 .45 1 1s-.45 1-1 1m0 2H5c-.55 0-1 .45-1 1s.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1m-4-6 4.58-3.25c.26-.19.42-.49.42-.81 0-.81-.92-1.29-1.58-.82L15 8.55 10 5 4.48 8.36c-.3.19-.48.51-.48.86 0 .78.85 1.26 1.52.85l4.4-2.68z',
-  }),
-  'LegendToggleRounded',
-);
-export const LegendToggleSharpIcon = (props?: KTRawAttr) => {
-  const s = _LegendToggleSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LegendToggleSharpIcon = svg(
-  svg('path', { d: 'M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z' }),
-  'LegendToggleSharp',
-);
-export const LegendToggleTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LegendToggleTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LegendToggleTwoToneIcon = svg(
-  svg('path', { d: 'M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z' }),
-  'LegendToggleTwoTone',
-);
-export const LensIcon = (props?: KTRawAttr) => {
-  const s = _LensIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensIcon = svg(
-  svg('path', { d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2' }),
-  'Lens',
-);
-export const LensBlurIcon = (props?: KTRawAttr) => {
-  const s = _LensBlurIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensBlurIcon = svg(
-  svg('path', {
-    d: 'M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5',
-  }),
-  'LensBlur',
-);
-export const LensBlurOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LensBlurOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensBlurOutlinedIcon = svg(
-  svg('path', {
-    d: 'M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5',
-  }),
-  'LensBlurOutlined',
-);
-export const LensBlurRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LensBlurRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensBlurRoundedIcon = svg(
-  svg('path', {
-    d: 'M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5',
-  }),
-  'LensBlurRounded',
-);
-export const LensBlurSharpIcon = (props?: KTRawAttr) => {
-  const s = _LensBlurSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensBlurSharpIcon = svg(
-  svg('path', {
-    d: 'M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5',
-  }),
-  'LensBlurSharp',
-);
-export const LensBlurTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LensBlurTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensBlurTwoToneIcon = svg(
-  svg('path', {
-    d: 'M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5',
-  }),
-  'LensBlurTwoTone',
-);
-export const LensOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LensOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2',
-  }),
-  'LensOutlined',
-);
-export const LensRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LensRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensRoundedIcon = svg(
-  svg('path', { d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2' }),
-  'LensRounded',
-);
-export const LensSharpIcon = (props?: KTRawAttr) => {
-  const s = _LensSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensSharpIcon = svg(
-  svg('path', { d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2' }),
-  'LensSharp',
-);
-export const LensTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LensTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LensTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-      },
-      '1',
-    ),
-  ],
-  'LensTwoTone',
-);
-export const LibraryAddIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddIcon = svg(
-  svg('path', {
-    d: 'M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 9h-4v4h-2v-4H9V9h4V5h2v4h4z',
-  }),
-  'LibraryAdd',
-);
-export const LibraryAddCheckIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddCheckIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddCheckIcon = svg(
-  svg('path', {
-    d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z',
-  }),
-  'LibraryAddCheck',
-);
-export const LibraryAddCheckOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddCheckOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddCheckOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 4v12H8V4zm0-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z',
-  }),
-  'LibraryAddCheckOutlined',
-);
-export const LibraryAddCheckRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddCheckRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddCheckRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-8.24 11.28L9.69 11.2c-.38-.39-.38-1.01 0-1.4.39-.39 1.02-.39 1.41 0l1.36 1.37 4.42-4.46c.39-.39 1.02-.39 1.41 0 .38.39.38 1.01 0 1.4l-5.13 5.17c-.37.4-1.01.4-1.4 0M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1',
-  }),
-  'LibraryAddCheckRounded',
-);
-export const LibraryAddCheckSharpIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddCheckSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddCheckSharpIcon = svg(
-  svg('path', { d: 'M22 2H6v16h16zm-9.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v16h16v-2H4z' }),
-  'LibraryAddCheckSharp',
-);
-export const LibraryAddCheckTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddCheckTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddCheckTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M8 16h12V4H8zm2.4-6.91 2.07 2.08L17.6 6 19 7.41 12.47 14 9 10.5z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.53-2L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 20h14v2H4c-1.1 0-2-.9-2-2V6h2z',
-      },
-      '1',
-    ),
-  ],
-  'LibraryAddCheckTwoTone',
-);
-export const LibraryAddOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddOutlinedIcon = svg(
-  svg('path', {
-    d: 'M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z',
-  }),
-  'LibraryAddOutlined',
-);
-export const LibraryAddRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddRoundedIcon = svg(
-  svg('path', {
-    d: 'M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1m17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 9h-3v3c0 .55-.45 1-1 1s-1-.45-1-1v-3h-3c-.55 0-1-.45-1-1s.45-1 1-1h3V6c0-.55.45-1 1-1s1 .45 1 1v3h3c.55 0 1 .45 1 1s-.45 1-1 1',
-  }),
-  'LibraryAddRounded',
-);
-export const LibraryAddSharpIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddSharpIcon = svg(
-  svg('path', { d: 'M4 6H2v16h16v-2H4zm18-4H6v16h16zm-3 9h-4v4h-2v-4H9V9h4V5h2v4h4z' }),
-  'LibraryAddSharp',
-);
-export const LibraryAddTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LibraryAddTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryAddTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M8 16h12V4H8zm2-7h3V6h2v3h3v2h-3v3h-2v-3h-3z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M4 22h14v-2H4V6H2v14c0 1.1.9 2 2 2M8 2c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm12 14H8V4h12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z',
-      },
-      '1',
-    ),
-  ],
-  'LibraryAddTwoTone',
-);
-export const LibraryBooksIcon = (props?: KTRawAttr) => {
-  const s = _LibraryBooksIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryBooksIcon = svg(
-  svg('path', {
-    d: 'M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 9H9V9h10zm-4 4H9v-2h6zm4-8H9V5h10z',
-  }),
-  'LibraryBooks',
-);
-export const LibraryBooksOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryBooksOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryBooksOutlinedIcon = svg(
-  svg('path', {
-    d: 'M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z',
-  }),
-  'LibraryBooksOutlined',
-);
-export const LibraryBooksRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryBooksRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryBooksRoundedIcon = svg(
-  svg('path', {
-    d: 'M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1m17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 9h-8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1m-4 4h-4c-.55 0-1-.45-1-1s.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1m4-8h-8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1',
-  }),
-  'LibraryBooksRounded',
-);
-export const LibraryBooksSharpIcon = (props?: KTRawAttr) => {
-  const s = _LibraryBooksSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryBooksSharpIcon = svg(
-  svg('path', { d: 'M4 6H2v16h16v-2H4zm18-4H6v16h16zm-3 9H9V9h10zm-4 4H9v-2h6zm4-8H9V5h10z' }),
-  'LibraryBooksSharp',
-);
-export const LibraryBooksTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LibraryBooksTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryBooksTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M8 16h12V4H8zm2-10h8v2h-8zm0 3h8v2h-8zm0 3h4v2h-4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M4 22h14v-2H4V6H2v14c0 1.1.9 2 2 2M6 4v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2m14 12H8V4h12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z',
-      },
-      '1',
-    ),
-  ],
-  'LibraryBooksTwoTone',
-);
-export const LibraryMusicIcon = (props?: KTRawAttr) => {
-  const s = _LibraryMusicIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryMusicIcon = svg(
-  svg('path', {
-    d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z',
-  }),
-  'LibraryMusic',
-);
-export const LibraryMusicOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryMusicOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryMusicOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.5-1c1.38 0 2.5-1.12 2.5-2.5V7h3V5h-4v5.51c-.42-.32-.93-.51-1.5-.51-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5M4 6H2v14c0 1.1.9 2 2 2h14v-2H4z',
-  }),
-  'LibraryMusicOutlined',
-);
-export const LibraryMusicRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LibraryMusicRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryMusicRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-3 5h-2v5.37c0 1.27-.9 2.44-2.16 2.6-1.69.23-3.11-1.25-2.8-2.95.2-1.1 1.18-1.95 2.3-2.02.63-.04 1.2.16 1.66.51V6c0-.55.45-1 1-1h2c.55 0 1 .45 1 1s-.45 1-1 1M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1',
-  }),
-  'LibraryMusicRounded',
-);
-export const LibraryMusicSharpIcon = (props?: KTRawAttr) => {
-  const s = _LibraryMusicSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryMusicSharpIcon = svg(
-  svg('path', {
-    d: 'M22 2H6v16h16zm-4 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v16h16v-2H4z',
-  }),
-  'LibraryMusicSharp',
-);
-export const LibraryMusicTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LibraryMusicTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LibraryMusicTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M8 16h12V4H8zm4.5-6c.57 0 1.08.19 1.5.51V5h4v2h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.5-1c1.38 0 2.5-1.12 2.5-2.5V7h3V5h-4v5.51c-.42-.32-.93-.51-1.5-.51-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5M2 6v14c0 1.1.9 2 2 2h14v-2H4V6z',
-      },
-      '1',
-    ),
-  ],
-  'LibraryMusicTwoTone',
-);
-export const LightIcon = (props?: KTRawAttr) => {
-  const s = _LightIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightIcon = svg(
-  svg('path', {
-    d: 'M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z',
-  }),
-  'Light',
-);
-export const LightModeIcon = (props?: KTRawAttr) => {
-  const s = _LightModeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightModeIcon = svg(
-  svg('path', {
-    d: 'M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z',
-  }),
-  'LightMode',
-);
-export const LightModeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LightModeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightModeOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z',
-  }),
-  'LightModeOutlined',
-);
-export const LightModeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LightModeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightModeRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z',
-  }),
-  'LightModeRounded',
-);
-export const LightModeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LightModeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightModeSharpIcon = svg(
-  svg('path', {
-    d: 'M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m-1-6v4h2V1zm0 18v4h2v-4zm12-8h-4v2h4zM5 11H1v2h4zm11.24 6.66 2.47 2.47 1.41-1.41-2.47-2.47zM3.87 5.28l2.47 2.47 1.41-1.41-2.47-2.47zm2.47 10.96-2.47 2.47 1.41 1.41 2.47-2.47zM18.72 3.87l-2.47 2.47 1.41 1.41 2.47-2.47z',
-  }),
-  'LightModeSharp',
-);
-export const LightModeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LightModeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightModeTwoToneIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '12', r: '3', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z',
-      },
-      '1',
-    ),
-  ],
-  'LightModeTwoTone',
-);
-export const LightOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LightOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightOutlinedIcon = svg(
-  svg('path', {
-    d: 'M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 19c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2m0-4H5c0-3.86 3.14-7 7-7s7 3.14 7 7z',
-  }),
-  'LightOutlined',
-);
-export const LightRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LightRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightRoundedIcon = svg(
-  svg('path', {
-    d: 'M13 6.06V4c0-.55-.45-1-1-1s-1 .45-1 1v2.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z',
-  }),
-  'LightRounded',
-);
-export const LightSharpIcon = (props?: KTRawAttr) => {
-  const s = _LightSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightSharpIcon = svg(
-  svg('path', {
-    d: 'M13 6.06V3h-2v3.06C5.87 6.63 2.03 11.51 3.22 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h4.78A9.0056 9.0056 0 0 0 13 6.06M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z',
-  }),
-  'LightSharp',
-);
-export const LightTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LightTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M10 17c0 1.1.9 2 2 2s2-.9 2-2z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 19c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2m0-4H5c0-3.86 3.14-7 7-7s7 3.14 7 7z',
-      },
-      '1',
-    ),
-  ],
-  'LightTwoTone',
-);
-export const LightbulbIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbIcon = svg(
-  svg('path', {
-    d: 'M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7',
-  }),
-  'Lightbulb',
-);
-export const LightbulbCircleIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbCircleIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbCircleIcon = svg(
-  svg('path', {
-    d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4',
-  }),
-  'LightbulbCircle',
-);
-export const LightbulbCircleOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbCircleOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbCircleOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 19c.83 0 1.5-.67 1.5-1.5h-3c0 .83.67 1.5 1.5 1.5m-3-4h6v1.5H9zm3-10c-2.76 0-5 2.24-5 5 0 1.64.8 3.09 2.03 4h5.95c1.22-.91 2.02-2.36 2.02-4 0-2.76-2.24-5-5-5m2.43 7.5H9.57c-.68-.66-1.07-1.55-1.07-2.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 .95-.39 1.84-1.07 2.5',
-      },
-      '1',
-    ),
-  ],
-  'LightbulbCircleOutlined',
-);
-export const LightbulbCircleRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbCircleRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbCircleRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m2.25-2.5h-4.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4.5c.41 0 .75.34.75.75s-.34.75-.75.75m.72-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4',
-  }),
-  'LightbulbCircleRounded',
-);
-export const LightbulbCircleSharpIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbCircleSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbCircleSharpIcon = svg(
-  svg('path', {
-    d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4',
-  }),
-  'LightbulbCircleSharp',
-);
-export const LightbulbCircleTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbCircleTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbCircleTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8m0 15c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 19c.83 0 1.5-.67 1.5-1.5h-3c0 .83.67 1.5 1.5 1.5m-3-4h6v1.5H9zm3-10c-2.76 0-5 2.24-5 5 0 1.64.8 3.09 2.03 4h5.95c1.22-.91 2.02-2.36 2.02-4 0-2.76-2.24-5-5-5m2.43 7.5H9.57c-.68-.66-1.07-1.55-1.07-2.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 .95-.39 1.84-1.07 2.5',
-      },
-      '2',
-    ),
-  ],
-  'LightbulbCircleTwoTone',
-);
-export const LightbulbOutlineIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbOutlineIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbOutlineIcon = svg(
-  svg('path', {
-    d: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2 11.7V16h-4v-2.3C8.48 12.63 7 11.53 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.49-1.51 3.65-3 4.7',
-  }),
-  'LightbulbOutline',
-);
-export const LightbulbOutlineRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbOutlineRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbOutlineRoundedIcon = svg(
-  svg('path', {
-    d: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1',
-  }),
-  'LightbulbOutlineRounded',
-);
-export const LightbulbOutlineSharpIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbOutlineSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbOutlineSharpIcon = svg(
-  svg('path', {
-    d: 'M9 22h6v-2H9zm1.54-19.85c-2.75.56-4.94 2.81-5.43 5.58-.51 2.89.76 5.52 2.89 7.01V18h8v-3.26c1.81-1.27 3-3.36 3-5.74 0-4.34-3.97-7.77-8.46-6.85m4.31 10.95-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1',
-  }),
-  'LightbulbOutlineSharp',
-);
-export const LightbulbOutlineTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbOutlineTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbOutlineTwoToneIcon = svg(
-  svg('path', {
-    d: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1',
-  }),
-  'LightbulbOutlineTwoTone',
-);
-export const LightbulbOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbOutlinedIcon = svg(
-  svg('path', {
-    d: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1',
-  }),
-  'LightbulbOutlined',
-);
-export const LightbulbRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-3-3h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1s.45 1 1 1m3-17C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2',
-  }),
-  'LightbulbRounded',
-);
-export const LightbulbSharpIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbSharpIcon = svg(
-  svg('path', {
-    d: 'M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-4-5h8v2H8zm4-15C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2',
-  }),
-  'LightbulbSharp',
-);
-export const LightbulbTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LightbulbTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LightbulbTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 4C8.97 4 6.5 6.47 6.5 9.5c0 2.47 1.49 3.89 2.35 4.5h6.3c.86-.61 2.35-2.03 2.35-4.5C17.5 6.47 15.03 4 12 4',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-4-5h8v2H8zm4-15C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2m3.15 12h-6.3c-.86-.61-2.35-2.03-2.35-4.5C6.5 6.47 8.97 4 12 4s5.5 2.47 5.5 5.5c0 2.47-1.49 3.89-2.35 4.5',
-      },
-      '1',
-    ),
-  ],
-  'LightbulbTwoTone',
-);
-export const LineAxisIcon = (props?: KTRawAttr) => {
-  const s = _LineAxisIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineAxisIcon = svg(
-  svg('path', {
-    d: 'm22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z',
-  }),
-  'LineAxis',
-);
-export const LineAxisOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LineAxisOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineAxisOutlinedIcon = svg(
-  svg('path', {
-    d: 'm22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z',
-  }),
-  'LineAxisOutlined',
-);
-export const LineAxisRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LineAxisRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineAxisRoundedIcon = svg(
-  svg('path', {
-    d: 'M21.34 6.77c-.4-.4-1.07-.39-1.45.04l-3.33 3.74-5.65-5.24c-.79-.73-2.01-.71-2.77.05L2.7 10.81c-.39.39-.39 1.02 0 1.41l.09.09c.39.39 1.02.39 1.41 0l5.44-5.45 5.59 5.19L13.5 14l-2.58-2.58c-.78-.78-2.05-.78-2.83 0L2.7 16.8c-.39.39-.39 1.02 0 1.41l.1.09c.39.39 1.02.39 1.41 0l5.3-5.3 2.5 2.5c.81.81 2.14.77 2.91-.09l1.78-2.01 3.19 2.96c.39.36 1 .35 1.38-.03l.01-.01c.4-.4.39-1.05-.03-1.43l-3.22-2.99 3.35-3.77c.35-.39.33-.99-.04-1.36',
-  }),
-  'LineAxisRounded',
-);
-export const LineAxisSharpIcon = (props?: KTRawAttr) => {
-  const s = _LineAxisSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineAxisSharpIcon = svg(
-  svg('path', {
-    d: 'm22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z',
-  }),
-  'LineAxisSharp',
-);
-export const LineAxisTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LineAxisTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineAxisTwoToneIcon = svg(
-  svg('path', {
-    d: 'm22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z',
-  }),
-  'LineAxisTwoTone',
-);
-export const LineStyleIcon = (props?: KTRawAttr) => {
-  const s = _LineStyleIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineStyleIcon = svg(
-  svg('path', {
-    d: 'M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z',
-  }),
-  'LineStyle',
-);
-export const LineStyleOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LineStyleOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineStyleOutlinedIcon = svg(
-  svg('path', {
-    d: 'M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z',
-  }),
-  'LineStyleOutlined',
-);
-export const LineStyleRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LineStyleRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineStyleRoundedIcon = svg(
-  svg('path', {
-    d: 'M4 16h3c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m6.5 0h3c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1s.45 1 1 1m6.5 0h3c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1s.45 1 1 1M4 20c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1M4 12h6c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m10 0h6c.55 0 1-.45 1-1s-.45-1-1-1h-6c-.55 0-1 .45-1 1s.45 1 1 1M3 5v2c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1',
-  }),
-  'LineStyleRounded',
-);
-export const LineStyleSharpIcon = (props?: KTRawAttr) => {
-  const s = _LineStyleSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineStyleSharpIcon = svg(
-  svg('path', {
-    d: 'M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z',
-  }),
-  'LineStyleSharp',
-);
-export const LineStyleTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LineStyleTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineStyleTwoToneIcon = svg(
-  svg('path', {
-    d: 'M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z',
-  }),
-  'LineStyleTwoTone',
-);
-export const LineWeightIcon = (props?: KTRawAttr) => {
-  const s = _LineWeightIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineWeightIcon = svg(
-  svg('path', { d: 'M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z' }),
-  'LineWeight',
-);
-export const LineWeightOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LineWeightOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineWeightOutlinedIcon = svg(
-  svg('path', { d: 'M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z' }),
-  'LineWeightOutlined',
-);
-export const LineWeightRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LineWeightRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineWeightRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 15H4c-.55 0-1 .45-1 1s.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1m0-5H4c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1m0-6H4c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1m.5 15h-17c-.28 0-.5.22-.5.5s.22.5.5.5h17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5',
-  }),
-  'LineWeightRounded',
-);
-export const LineWeightSharpIcon = (props?: KTRawAttr) => {
-  const s = _LineWeightSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineWeightSharpIcon = svg(
-  svg('path', { d: 'M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z' }),
-  'LineWeightSharp',
-);
-export const LineWeightTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LineWeightTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LineWeightTwoToneIcon = svg(
-  svg('path', { d: 'M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z' }),
-  'LineWeightTwoTone',
-);
-export const LinearScaleIcon = (props?: KTRawAttr) => {
-  const s = _LinearScaleIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinearScaleIcon = svg(
-  svg('path', {
-    d: 'M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5',
-  }),
-  'LinearScale',
-);
-export const LinearScaleOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LinearScaleOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinearScaleOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5',
-  }),
-  'LinearScaleOutlined',
-);
-export const LinearScaleRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LinearScaleRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinearScaleRoundedIcon = svg(
-  svg('path', {
-    d: 'M17 7c-2.41 0-4.43 1.72-4.9 4H6.79c-.39-.88-1.27-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.02 0 1.9-.62 2.29-1.5h5.31c.46 2.28 2.48 4 4.9 4 2.76 0 5-2.24 5-5s-2.24-5-5-5m0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3',
-  }),
-  'LinearScaleRounded',
-);
-export const LinearScaleSharpIcon = (props?: KTRawAttr) => {
-  const s = _LinearScaleSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinearScaleSharpIcon = svg(
-  svg('path', {
-    d: 'M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5',
-  }),
-  'LinearScaleSharp',
-);
-export const LinearScaleTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LinearScaleTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinearScaleTwoToneIcon = svg(
-  svg('path', {
-    d: 'M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5',
-  }),
-  'LinearScaleTwoTone',
-);
-export const LinkIcon = (props?: KTRawAttr) => {
-  const s = _LinkIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkIcon = svg(
-  svg('path', {
-    d: 'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5',
-  }),
-  'Link',
-);
-export const LinkOffIcon = (props?: KTRawAttr) => {
-  const s = _LinkOffIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOffIcon = svg(
-  svg('path', {
-    d: 'M17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.43-.98 2.63-2.31 2.98l1.46 1.46C20.88 15.61 22 13.95 22 12c0-2.76-2.24-5-5-5m-1 4h-2.19l2 2H16zM2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4L20 19.74 3.27 3z',
-  }),
-  'LinkOff',
-);
-export const LinkOffOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LinkOffOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOffOutlinedIcon = svg(
-  svg('path', {
-    d: 'M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z',
-  }),
-  'LinkOffOutlined',
-);
-export const LinkOffRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LinkOffRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOffRoundedIcon = svg(
-  svg('path', {
-    d: 'M14 9h2.87c1.46 0 2.8.98 3.08 2.42.31 1.64-.74 3.11-2.22 3.48l1.53 1.53c1.77-.91 2.95-2.82 2.7-5.01C21.68 8.86 19.37 7 16.79 7H14c-.55 0-1 .45-1 1s.45 1 1 1M3.51 3.51a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.64 2.64c-1.77.91-2.95 2.82-2.7 5.01C2.32 15.14 4.63 17 7.21 17H10c.55 0 1-.45 1-1s-.45-1-1-1H7.13c-1.46 0-2.8-.98-3.08-2.42-.31-1.64.75-3.11 2.22-3.48l2.12 2.12c-.23.19-.39.46-.39.78 0 .55.45 1 1 1h1.17l8.9 8.9c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41zM14 11l1.71 1.71c.18-.18.29-.43.29-.71 0-.55-.45-1-1-1z',
-  }),
-  'LinkOffRounded',
-);
-export const LinkOffSharpIcon = (props?: KTRawAttr) => {
-  const s = _LinkOffSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOffSharpIcon = svg(
-  svg('path', {
-    d: 'M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z',
-  }),
-  'LinkOffSharp',
-);
-export const LinkOffTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LinkOffTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOffTwoToneIcon = svg(
-  svg('path', {
-    d: 'M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z',
-  }),
-  'LinkOffTwoTone',
-);
-export const LinkOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LinkOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkOutlinedIcon = svg(
-  svg('path', {
-    d: 'M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z',
-  }),
-  'LinkOutlined',
-);
-export const LinkRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LinkRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkRoundedIcon = svg(
-  svg('path', {
-    d: 'M17 7h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c1.65 0 3 1.35 3 3s-1.35 3-3 3h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c2.76 0 5-2.24 5-5s-2.24-5-5-5m-9 5c0 .55.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1m2 3H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h3c.55 0 1-.45 1-1s-.45-1-1-1H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h3c.55 0 1-.45 1-1s-.45-1-1-1',
-  }),
-  'LinkRounded',
-);
-export const LinkSharpIcon = (props?: KTRawAttr) => {
-  const s = _LinkSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkSharpIcon = svg(
-  svg('path', {
-    d: 'M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8zm9-4h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z',
-  }),
-  'LinkSharp',
-);
-export const LinkTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LinkTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkTwoToneIcon = svg(
-  svg('path', {
-    d: 'M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z',
-    opacity: '.87',
-  }),
-  'LinkTwoTone',
-);
-export const LinkedCameraIcon = (props?: KTRawAttr) => {
-  const s = _LinkedCameraIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedCameraIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '14', r: '3.2' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16 3.33c2.58 0 4.67 2.09 4.67 4.67H22c0-3.31-2.69-6-6-6zM16 6c1.11 0 2 .89 2 2h1.33c0-1.84-1.49-3.33-3.33-3.33z',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M17 9c0-1.11-.89-2-2-2V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9zm-5 10c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-      },
-      '2',
-    ),
-  ],
-  'LinkedCamera',
-);
-export const LinkedCameraOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LinkedCameraOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedCameraOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 9v11H4V8h4.05l1.83-2H15V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9zm.67-1.01H22C21.99 4.68 19.31 2 16 2v1.33c2.58 0 4.66 2.08 4.67 4.66m-2.67 0h1.33c-.01-1.84-1.49-3.32-3.33-3.32V6c1.11 0 1.99.89 2 1.99M7 14c0 2.76 2.24 5 5 5s5-2.24 5-5-2.24-5-5-5-5 2.24-5 5m8 0c0 1.65-1.35 3-3 3s-3-1.35-3-3 1.35-3 3-3 3 1.34 3 3',
-  }),
-  'LinkedCameraOutlined',
-);
-export const LinkedCameraRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LinkedCameraRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedCameraRoundedIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '13', r: '2.5' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.6 2.37c2.1.27 3.77 1.93 4.03 4.03.04.34.32.6.66.6.39 0 .71-.34.66-.73-.33-2.72-2.5-4.89-5.22-5.22-.39-.05-.73.27-.73.66 0 .34.26.62.6.66m2.63 3.82a3.338 3.338 0 0 0-2.42-2.42c-.41-.1-.81.22-.81.65 0 .29.19.57.48.64.72.18 1.29.74 1.46 1.46.07.29.34.48.64.48.43 0 .75-.4.65-.81',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M17 8c0-1.1-.9-2-2-2V4c0-.55-.45-1-1-1H9.88c-.56 0-1.1.24-1.48.65L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-5 9.5c-2.48 0-4.5-2.02-4.5-4.5S9.52 8.5 12 8.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5',
-      },
-      '2',
-    ),
-  ],
-  'LinkedCameraRounded',
-);
-export const LinkedCameraSharpIcon = (props?: KTRawAttr) => {
-  const s = _LinkedCameraSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedCameraSharpIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '14', r: '3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M18 8h1.33c0-1.84-1.49-3.33-3.33-3.33V6c1.11 0 2 .89 2 2m2.67 0H22c0-3.31-2.69-6-6-6v1.33c2.58 0 4.67 2.09 4.67 4.67M15 7V4H9L7.17 6H2v16h20V9h-5c0-1.1-.9-2-2-2m-3 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-      },
-      '1',
-    ),
-  ],
-  'LinkedCameraSharp',
-);
-export const LinkedCameraTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LinkedCameraTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedCameraTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M20 20H4V8h4.05l1.83-2H15V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9h-2zM16 2v1.33c2.58 0 4.66 2.09 4.67 4.66H22C21.99 4.68 19.31 2 16 2m0 2.67V6c1.11 0 1.99.89 2 1.99h1.33c-.01-1.84-1.49-3.32-3.33-3.32',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M14.98 10.01c-.13-.09-.26-.18-.39-.26.14.08.27.17.39.26M17 9c0-.37-.11-.71-.28-1.01-.18-.3-.43-.55-.73-.72C15.7 7.1 15.36 7 15 7V6H9.88L8.05 8H4v12h16V9zm-5 10c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-        opacity: '.3',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 9c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3',
-      },
-      '2',
-    ),
-  ],
-  'LinkedCameraTwoTone',
-);
-export const LinkedInIcon = (props?: KTRawAttr) => {
-  const s = _LinkedInIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LinkedInIcon = svg(
-  svg('path', {
-    d: 'M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z',
-  }),
-  'LinkedIn',
-);
-export const LiquorIcon = (props?: KTRawAttr) => {
-  const s = _LiquorIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiquorIcon = svg(
-  svg('path', {
-    d: 'M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm15.63.54-.95-.32c-.4-.13-.68-.51-.68-.94V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.28.81-.68.95l-.95.32c-.82.27-1.37 1.03-1.37 1.89V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.37-1.9M16 4h1v1h-1zm-3 6.44.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31V12h-7zM20 20h-7v-2h7z',
-  }),
-  'Liquor',
-);
-export const LiquorOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LiquorOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiquorOutlinedIcon = svg(
-  svg('path', {
-    d: 'M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm0 5h2v1c0 .55-.45 1-1 1s-1-.45-1-1zm15.64-4.46-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm4 16h-7v-2h7zm0-4h-7v-2h7zm0-4h-7v-1.56l.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31z',
-  }),
-  'LiquorOutlined',
-);
-export const LiquorRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LiquorRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiquorRoundedIcon = svg(
-  svg('path', {
-    d: 'M3 14c0 1.3.84 2.4 2 2.82V20H4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1s-.45-1-1-1H7v-3.18C8.16 16.4 9 15.3 9 14V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1zm2-6h2v3H5zm15.64.54-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm-3 6.44.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31V12h-7zM20 20h-7v-2h7z',
-  }),
-  'LiquorRounded',
-);
-export const LiquorSharpIcon = (props?: KTRawAttr) => {
-  const s = _LiquorSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiquorSharpIcon = svg(
-  svg('path', {
-    d: 'M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm17 1-3-1.01V2h-5v6l-3 1.01V22h11zm-6-5h1v1h-1zm-3 6.44 3-.98V7h1v2.46l3 .98V12h-7zM20 20h-7v-2h7z',
-  }),
-  'LiquorSharp',
-);
-export const LiquorTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LiquorTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiquorTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M16 4h1v1h-1zM6 15c.55 0 1-.45 1-1v-1H5v1c0 .55.45 1 1 1m7-1h7v2h-7z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm0 5h2v1c0 .55-.45 1-1 1s-1-.45-1-1zm15.64-4.46-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm4 16h-7v-2h7zm0-4h-7v-2h7zm0-4h-7v-1.56l.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31z',
-      },
-      '1',
-    ),
-  ],
-  'LiquorTwoTone',
-);
-export const ListIcon = (props?: KTRawAttr) => {
-  const s = _ListIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListIcon = svg(
-  svg('path', { d: 'M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z' }),
-  'List',
-);
-export const ListAltIcon = (props?: KTRawAttr) => {
-  const s = _ListAltIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListAltIcon = svg(
-  svg('path', {
-    d: 'M19 5v14H5V5zm1.1-2H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z',
-  }),
-  'ListAlt',
-);
-export const ListAltOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _ListAltOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListAltOutlinedIcon = svg(
-  svg('path', {
-    d: 'M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M19 19H5V5h14z',
-  }),
-  'ListAltOutlined',
-);
-export const ListAltRoundedIcon = (props?: KTRawAttr) => {
-  const s = _ListAltRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListAltRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 9h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m0 4h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m0 4h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1M7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20 3H4c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1m-1 16H5V5h14z',
-  }),
-  'ListAltRounded',
-);
-export const ListAltSharpIcon = (props?: KTRawAttr) => {
-  const s = _ListAltSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListAltSharpIcon = svg(
-  svg('path', {
-    d: 'M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM3 3v18h18V3zm16 16H5V5h14z',
-  }),
-  'ListAltSharp',
-);
-export const ListAltTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _ListAltTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListAltTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M5 19h14V5H5zm6-12h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M19 19H5V5h14z',
-      },
-      '1',
-    ),
-  ],
-  'ListAltTwoTone',
-);
-export const ListOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _ListOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListOutlinedIcon = svg(
-  svg('path', {
-    d: 'M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z',
-  }),
-  'ListOutlined',
-);
-export const ListRoundedIcon = (props?: KTRawAttr) => {
-  const s = _ListRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListRoundedIcon = svg(
-  svg('path', {
-    d: 'M4 13c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1m0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1M7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1m-3 5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1m0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1M7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1',
-  }),
-  'ListRounded',
-);
-export const ListSharpIcon = (props?: KTRawAttr) => {
-  const s = _ListSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListSharpIcon = svg(
-  svg('path', {
-    d: 'M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z',
-  }),
-  'ListSharp',
-);
-export const ListTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _ListTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _ListTwoToneIcon = svg(
-  svg('path', {
-    d: 'M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z',
-  }),
-  'ListTwoTone',
-);
-export const LiveHelpIcon = (props?: KTRawAttr) => {
-  const s = _LiveHelpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveHelpIcon = svg(
-  svg('path', {
-    d: 'M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 16h-2v-2h2zm2.07-7.75-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25',
-  }),
-  'LiveHelp',
-);
-export const LiveHelpOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LiveHelpOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveHelpOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 16h-4.83l-.59.59L12 20.17l-1.59-1.59-.58-.58H5V4h14zm-8-3h2v2h-2zm1-8c1.1 0 2 .9 2 2 0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4S8 6.79 8 9h2c0-1.1.9-2 2-2',
-  }),
-  'LiveHelpOutlined',
-);
-export const LiveHelpRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LiveHelpRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveHelpRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.9 2 2 2h4l2.29 2.29c.39.39 1.02.39 1.41 0L15 20h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 16h-2v-2h2zm2.07-7.75-.9.92c-.58.59-.99 1.1-1.12 2.06-.06.43-.41.76-.85.76h-.31c-.52 0-.92-.46-.85-.98.11-.91.53-1.72 1.14-2.34l1.24-1.26c.36-.36.58-.86.58-1.41 0-1.1-.9-2-2-2-.87 0-1.62.57-1.89 1.35-.13.37-.44.64-.83.64h-.3c-.58 0-.98-.56-.82-1.12C8.65 5.21 10.18 4 12 4c2.21 0 4 1.79 4 4 0 .88-.36 1.68-.93 2.25',
-  }),
-  'LiveHelpRounded',
-);
-export const LiveHelpSharpIcon = (props?: KTRawAttr) => {
-  const s = _LiveHelpSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveHelpSharpIcon = svg(
-  svg('path', {
-    d: 'M21 2H3v18h6l3 3 3-3h6zm-8 16h-2v-2h2zm2.07-7.75-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25',
-  }),
-  'LiveHelpSharp',
-);
-export const LiveHelpTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LiveHelpTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveHelpTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5 18h4.83l.59.59L12 20.17l1.59-1.59.58-.58H19V4H5zm8-1h-2v-2h2zM12 5c2.21 0 4 1.79 4 4 0 2.5-3 2.75-3 5h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M21 4c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2zm-2 14h-4.83l-.59.59L12 20.17l-1.59-1.59-.58-.58H5V4h14zm-8-3h2v2h-2zm1-8c1.1 0 2 .9 2 2 0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4S8 6.79 8 9h2c0-1.1.9-2 2-2',
-      },
-      '1',
-    ),
-  ],
-  'LiveHelpTwoTone',
-);
-export const LiveTvIcon = (props?: KTRawAttr) => {
-  const s = _LiveTvIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveTvIcon = svg(
-  svg('path', {
-    d: 'M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2m0 14H3V8h18zM9 10v8l7-4z',
-  }),
-  'LiveTv',
-);
-export const LiveTvOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LiveTvOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveTvOutlinedIcon = svg(
-  svg('path', {
-    d: 'M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z',
-  }),
-  'LiveTvOutlined',
-);
-export const LiveTvRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LiveTvRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveTvRoundedIcon = svg(
-  svg('path', {
-    d: 'm10.5 17.15 3.98-2.28c.67-.38.67-1.35 0-1.74l-3.98-2.28c-.67-.38-1.5.11-1.5.87v4.55c0 .77.83 1.26 1.5.88M21 6h-7.59l2.94-2.94c.2-.2.2-.51 0-.71s-.51-.2-.71 0L12 5.99 8.36 2.35c-.2-.2-.51-.2-.71 0s-.2.51 0 .71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2m-1 14H4c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1',
-  }),
-  'LiveTvRounded',
-);
-export const LiveTvSharpIcon = (props?: KTRawAttr) => {
-  const s = _LiveTvSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveTvSharpIcon = svg(
-  svg('path', { d: 'M23 6h-9.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H1v16h22zm-2 14H3V8h18zM9 10v8l7-4z' }),
-  'LiveTvSharp',
-);
-export const LiveTvTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LiveTvTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LiveTvTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M3 20h18V8H3zm6-10 7 4-7 4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z',
-      },
-      '1',
-    ),
-  ],
-  'LiveTvTwoTone',
-);
-export const LivingIcon = (props?: KTRawAttr) => {
-  const s = _LivingIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LivingIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M16.5 11.5c-.55 0-1 .45-1 1v2h-7v-2c0-.55-.45-1-1-1s-1 .45-1 1V16c0 .28.22.5.5.5h10c.28 0 .5-.22.5-.5v-3.5c0-.55-.45-1-1-1',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M10 12.5v.5h4v-.5c0-1.3.99-2.35 2.25-2.47V9c0-.83-.67-1.5-1.5-1.5h-5.5c-.83 0-1.5.67-1.5 1.5v1.03C9.01 10.15 10 11.2 10 12.5',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-3.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15z',
-      },
-      '2',
-    ),
-  ],
-  'Living',
-);
-export const LivingOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LivingOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LivingOutlinedIcon = svg(
-  svg('path', {
-    d: 'M17.75 10.35V9c0-1.66-1.34-3-3-3h-5.5c-1.66 0-3 1.34-3 3v1.35C5.51 10.78 5 11.58 5 12.5V16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3.5c0-.92-.51-1.72-1.25-2.15M9.25 7.5h5.5c.83 0 1.5.67 1.5 1.5v1.03C14.99 10.15 14 11.2 14 12.5v.5h-4v-.5c0-1.3-.99-2.35-2.25-2.47V9c0-.83.67-1.5 1.5-1.5M17.5 16c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5v-3.5c0-.55.45-1 1-1s1 .45 1 1v2h7v-2c0-.55.45-1 1-1s1 .45 1 1zM20 4v16H4V4zm0-2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2',
-  }),
-  'LivingOutlined',
-);
-export const LivingRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LivingRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LivingRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M16.5 11.5c-.55 0-1 .45-1 1v2h-7v-2c0-.55-.45-1-1-1s-1 .45-1 1V16c0 .28.22.5.5.5h10c.28 0 .5-.22.5-.5v-3.5c0-.55-.45-1-1-1',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M10 12.5v.5h4v-.5c0-1.3.99-2.35 2.25-2.47V9c0-.83-.67-1.5-1.5-1.5h-5.5c-.83 0-1.5.67-1.5 1.5v1.03C9.01 10.15 10 11.2 10 12.5',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-3.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15z',
-      },
-      '2',
-    ),
-  ],
-  'LivingRounded',
-);
-export const LivingSharpIcon = (props?: KTRawAttr) => {
-  const s = _LivingSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LivingSharpIcon = svg(
-  [
-    svg('path', { d: 'M15.5 12v2.5h-7V12h-2v4.5h11V12z' }, '0'),
-    svg('path', { d: 'M10 10v3h4v-3l2.25-.01V7.5h-8.5v2.49z' }, '1'),
-    svg('path', { d: 'M22 2H2v20h20zm-3 7.99V18H5v-8l1.25-.01V6h11.5v3.99z' }, '2'),
-  ],
-  'LivingSharp',
-);
-export const LivingTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LivingTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LivingTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M4 20h16V4H4zm1-7.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15V16c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H4V4h16zM7 18h10c1.1 0 2-.9 2-2v-3.5c0-.92-.51-1.72-1.25-2.15V9c0-1.66-1.34-3-3-3h-5.5c-1.66 0-3 1.34-3 3v1.35C5.51 10.78 5 11.58 5 12.5V16c0 1.1.9 2 2 2m.75-9c0-.83.67-1.5 1.5-1.5h5.5c.83 0 1.5.67 1.5 1.5v1.03C14.99 10.15 14 11.2 14 12.5v.5h-4v-.5c0-1.3-.99-2.35-2.25-2.47zM6.5 12.5c0-.55.45-1 1-1s1 .45 1 1v2h7v-2c0-.55.45-1 1-1s1 .45 1 1V16c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5z',
-      },
-      '1',
-    ),
-  ],
-  'LivingTwoTone',
-);
-export const LocalActivityIcon = (props?: KTRawAttr) => {
-  const s = _LocalActivityIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalActivityIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z',
-  }),
-  'LocalActivity',
-);
-export const LocalActivityOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalActivityOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalActivityOutlinedIcon = svg(
-  svg('path', {
-    d: 'M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2m-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z',
-  }),
-  'LocalActivityOutlined',
-);
-export const LocalActivityRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalActivityRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalActivityRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-.76.43-1.42 1.06-1.76.6-.33.94-1.01.94-1.7V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.89-1.99 1.99v2.55c0 .69.33 1.37.94 1.69C3.58 10.58 4 11.24 4 12s-.43 1.43-1.06 1.76c-.6.33-.94 1.01-.94 1.7V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2.54c0-.69-.34-1.37-.94-1.7-.63-.34-1.06-1-1.06-1.76m-5.5 4.1L12 14.5l-2.5 1.61c-.38.24-.87-.11-.75-.55l.75-2.88-2.3-1.88c-.35-.29-.17-.86.29-.89l2.96-.17 1.08-2.75c.17-.42.77-.42.93 0l1.08 2.76 2.96.17c.45.03.64.6.29.89l-2.3 1.88.76 2.86c.12.45-.37.8-.75.55',
-  }),
-  'LocalActivityRounded',
-);
-export const LocalActivitySharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalActivitySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalActivitySharpIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-1.1.9-2 2-2V4H2.01v6c1.1 0 1.99.9 1.99 2s-.89 2-2 2v6h20v-6c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z',
-  }),
-  'LocalActivitySharp',
-);
-export const LocalActivityTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalActivityTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalActivityTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M4.01 8.54C5.2 9.23 6 10.52 6 12s-.81 2.77-2 3.46V18h16v-2.54c-1.19-.69-2-1.99-2-3.46s.81-2.77 2-3.46V6H4zm6.72 1.68L12 7l1.26 3.23 3.47.2-2.69 2.2.89 3.37L12 14.12 9.07 16l.88-3.37-2.69-2.2z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 4H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2V6c0-1.1-.9-2-2-2m0 4.54c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalActivityTwoTone',
-);
-export const LocalAirportIcon = (props?: KTRawAttr) => {
-  const s = _LocalAirportIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAirportIcon = svg(
-  svg('path', {
-    d: 'M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z',
-  }),
-  'LocalAirport',
-);
-export const LocalAirportOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalAirportOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAirportOutlinedIcon = svg(
-  svg('path', {
-    d: 'M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z',
-  }),
-  'LocalAirportOutlined',
-);
-export const LocalAirportRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalAirportRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAirportRoundedIcon = svg(
-  svg('path', {
-    d: 'M21.48 13.7 13.5 9V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9l-7.98 4.7c-.32.18-.52.53-.52.9 0 .7.67 1.2 1.34 1.01l7.16-2.1V19l-2.26 1.35c-.15.09-.24.26-.24.43v.58c0 .33.31.57.62.49l2.92-.73L12 21l.38.09.42.11 1.9.48.67.17c.32.08.62-.16.62-.49v-.58c0-.18-.09-.34-.24-.43L13.5 19v-5.5l7.16 2.1c.67.2 1.34-.3 1.34-1 0-.37-.2-.72-.52-.9',
-  }),
-  'LocalAirportRounded',
-);
-export const LocalAirportSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalAirportSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAirportSharpIcon = svg(
-  svg('path', {
-    d: 'M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z',
-  }),
-  'LocalAirportSharp',
-);
-export const LocalAirportTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalAirportTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAirportTwoToneIcon = svg(
-  svg('path', {
-    d: 'M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z',
-  }),
-  'LocalAirportTwoTone',
-);
-export const LocalAtmIcon = (props?: KTRawAttr) => {
-  const s = _LocalAtmIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAtmIcon = svg(
-  svg('path', {
-    d: 'M11 17h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2zm9-13H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16z',
-  }),
-  'LocalAtm',
-);
-export const LocalAtmOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalAtmOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAtmOutlinedIcon = svg(
-  svg('path', {
-    d: 'M11 17h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2zm9-13H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16z',
-  }),
-  'LocalAtmOutlined',
-);
-export const LocalAtmRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalAtmRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAtmRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 13c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h14c.55 0 1 .45 1 1zm-6-7c.55 0 1-.45 1-1s-.45-1-1-1h-1v-.01c0-.55-.45-1-1-1s-1 .45-1 1V8h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1h-3c-.55 0-1 .45-1 1s.45 1 1 1h1c0 .55.45 1 1 1s1-.45 1-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1z',
-  }),
-  'LocalAtmRounded',
-);
-export const LocalAtmSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalAtmSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAtmSharpIcon = svg(
-  svg('path', { d: 'M11 17h2v-1h2v-5h-4v-1h4V8h-2V7h-2v1H9v5h4v1H9v2h2zM22 4H2.01L2 20h20zm-2 14H4V6h16z' }),
-  'LocalAtmSharp',
-);
-export const LocalAtmTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalAtmTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalAtmTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M4 18h16V6H4zm5-4h4v-1h-3c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h1V7h2v1h2v2h-4v1h3c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1h-1v1h-2v-1H9z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16zm-9-1h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalAtmTwoTone',
-);
-export const LocalBarIcon = (props?: KTRawAttr) => {
-  const s = _LocalBarIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalBarIcon = svg(
-  svg('path', { d: 'M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM7.43 7 5.66 5h12.69l-1.78 2z' }),
-  'LocalBar',
-);
-export const LocalBarOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalBarOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalBarOutlinedIcon = svg(
-  svg('path', { d: 'M14.77 9 12 12.11 9.23 9zM21 3H3v2l8 9v5H6v2h12v-2h-5v-5l8-9zM7.43 7 5.66 5h12.69l-1.78 2z' }),
-  'LocalBarOutlined',
-);
-export const LocalBarRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalBarRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalBarRoundedIcon = svg(
-  svg('path', {
-    d: 'M21 4.45c0-.8-.65-1.45-1.45-1.45H4.45C3.65 3 3 3.65 3 4.45c0 .35.13.7.37.96L11 14v5H7c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1h-4v-5l7.63-8.59c.24-.26.37-.61.37-.96M7.43 7 5.66 5h12.69l-1.78 2z',
-  }),
-  'LocalBarRounded',
-);
-export const LocalBarSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalBarSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalBarSharpIcon = svg(
-  svg('path', { d: 'M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM7.43 7 5.66 5h12.69l-1.78 2z' }),
-  'LocalBarSharp',
-);
-export const LocalBarTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalBarTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalBarTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M9.23 9 12 12.11 14.77 9z', opacity: '.3' }, '0'),
-    svg('path', { d: 'M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM5.66 5h12.69l-1.78 2H7.43zM12 12.11 9.23 9h5.54z' }, '1'),
-  ],
-  'LocalBarTwoTone',
-);
-export const LocalCafeIcon = (props?: KTRawAttr) => {
-  const s = _LocalCafeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCafeIcon = svg(
-  svg('path', {
-    d: 'M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2m0 5h-2V5h2zM4 19h16v2H4z',
-  }),
-  'LocalCafe',
-);
-export const LocalCafeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalCafeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCafeOutlinedIcon = svg(
-  svg('path', {
-    d: 'M16 5v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V5zm4-2H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2m-2 5V5h2v3zm2 11H2v2h18z',
-  }),
-  'LocalCafeOutlined',
-);
-export const LocalCafeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalCafeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCafeRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 3H6c-1.1 0-2 .9-2 2v8c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 5h-2V5h2zM3 21h16c.55 0 1-.45 1-1s-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1',
-  }),
-  'LocalCafeRounded',
-);
-export const LocalCafeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalCafeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCafeSharpIcon = svg(
-  svg('path', { d: 'M20 3H4v14h14v-7h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 5h-2V5h2zM2 21h18v-2H2z' }),
-  'LocalCafeSharp',
-);
-export const LocalCafeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalCafeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCafeTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M8 15h6c1.1 0 2-.9 2-2V5H6v8c0 1.1.9 2 2 2', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M2 19h18v2H2zm2-6c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2H4zm14-8h2v3h-2zM6 5h10v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalCafeTwoTone',
-);
-export const LocalCarWashIcon = (props?: KTRawAttr) => {
-  const s = _LocalCarWashIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCarWashIcon = svg(
-  svg('path', {
-    d: 'M17 5c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.5-4.5h11L19 13z',
-  }),
-  'LocalCarWash',
-);
-export const LocalCarWashOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalCarWashOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCarWashOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M17 5c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.85 9h10.29l1.04 3H5.81zM19 19H5v-4.66l.12-.34h13.77l.11.34z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '7.5', cy: '16.5', r: '1.5' }, '1'),
-    svg('circle', { cx: '16.5', cy: '16.5', r: '1.5' }, '2'),
-  ],
-  'LocalCarWashOutlined',
-);
-export const LocalCarWashRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalCarWashRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCarWashRoundedIcon = svg(
-  svg('path', {
-    d: 'M17 5c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22 0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22 0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01l-1.97 5.67c-.07.21-.11.43-.11.66v7.16c0 .83.67 1.5 1.5 1.5S6 22.33 6 21.5V21h12v.5c0 .82.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5v-7.16c0-.22-.04-.45-.11-.66zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.27-3.82c.14-.4.52-.68.95-.68h9.56c.43 0 .81.28.95.68L19 13z',
-  }),
-  'LocalCarWashRounded',
-);
-export const LocalCarWashSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalCarWashSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCarWashSharpIcon = svg(
-  svg('path', {
-    d: 'M18.58 7H5.43L3 14v9h3v-2h12v2h3v-9zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.5-4.5h11L19 13zm12-8c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5',
-  }),
-  'LocalCarWashSharp',
-);
-export const LocalCarWashTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalCarWashTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalCarWashTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm5.12 14-.12.34V19h14v-4.66l-.12-.34zm2.38 4c-.83 0-1.5-.67-1.5-1.5S6.67 15 7.5 15s1.5.67 1.5 1.5S8.33 18 7.5 18m9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M15.5 3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7m-2 0c0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5m-5 0C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5s1.5-.67 1.5-1.5M21 14l-2.08-5.99C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1zM6.85 9h10.29l1.04 3H5.81zM19 19H5v-4.66l.12-.34h13.77l.11.34z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '7.5', cy: '16.5', r: '1.5' }, '2'),
-    svg('circle', { cx: '16.5', cy: '16.5', r: '1.5' }, '3'),
-  ],
-  'LocalCarWashTwoTone',
-);
-export const LocalConvenienceStoreIcon = (props?: KTRawAttr) => {
-  const s = _LocalConvenienceStoreIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalConvenienceStoreIcon = svg(
-  svg('path', { d: 'M19 7V4H5v3H2v13h8v-4h4v4h8V7zm-8 3H9v1h2v1H8V9h2V8H8V7h3zm5 2h-1v-2h-2V7h1v2h1V7h1z' }),
-  'LocalConvenienceStore',
-);
-export const LocalConvenienceStoreOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalConvenienceStoreOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalConvenienceStoreOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 7V4H5v3H2v13h8v-4h4v4h8V7zm1 11h-4v-4H8v4H4V9h3V6h10v3h3zM8 8h2v1H8v3h3v-1H9v-1h2V7H8zm7 1h-1V7h-1v3h2v2h1V7h-1z',
-  }),
-  'LocalConvenienceStoreOutlined',
-);
-export const LocalConvenienceStoreRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalConvenienceStoreRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalConvenienceStoreRoundedIcon = svg(
-  svg('path', {
-    d: 'm21.9 7.89-1.05-3.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 7.89c-.46 1.97.85 3.11.9 3.17V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7.94c1.12-1.12 1.09-2.41.9-3.17M13 5h1.96l.54 3.52c.09.71-.39 1.48-1.28 1.48-.67 0-1.22-.59-1.22-1.31zM6.44 8.86c-.08.65-.6 1.14-1.21 1.14-.93 0-1.35-.97-1.19-1.64L5.05 5h1.97zM10.5 16H9v1h1.5c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5H10v-1H8.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h2c.28 0 .5.22.5.5v2c0 .28-.22.5-.5.5m.5-7.31c0 .72-.55 1.31-1.29 1.31-.75 0-1.3-.7-1.22-1.48L9.04 5H11zM15.5 18c-.28 0-.5-.22-.5-.5V16h-1.5c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5s.5.22.5.5V15h1v-1.5c0-.28.22-.5.5-.5s.5.22.5.5v4c0 .28-.22.5-.5.5m3.27-8c-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01 1.05 3.37c.16.67-.25 1.64-1.19 1.64',
-  }),
-  'LocalConvenienceStoreRounded',
-);
-export const LocalConvenienceStoreSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalConvenienceStoreSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalConvenienceStoreSharpIcon = svg(
-  svg('path', { d: 'M19 7V4H5v3H2v13h8v-4h4v4h8V7zm-8 3H9v1h2v1H8V9h2V8H8V7h3zm5 2h-1v-2h-2V7h1v2h1V7h1z' }),
-  'LocalConvenienceStoreSharp',
-);
-export const LocalConvenienceStoreTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalConvenienceStoreTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalConvenienceStoreTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M14 14h2v4h4V9h-3V6H7v3H4v9h4v-4zm-1-7h1v2h1V7h1v5h-1v-2h-2zM8 9h2V8H8V7h3v3H9v1h2v1H8z', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M10 16h4v4h8V7h-3V4H5v3H2v13h8zm-2 0v2H4V9h3V6h10v3h3v9h-4v-4H8zm3-5H9v-1h2V7H8v1h2v1H8v3h3zm4 1h1V7h-1v2h-1V7h-1v3h2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalConvenienceStoreTwoTone',
-);
-export const LocalDiningIcon = (props?: KTRawAttr) => {
-  const s = _LocalDiningIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDiningIcon = svg(
-  svg('path', {
-    d: 'm8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z',
-  }),
-  'LocalDining',
-);
-export const LocalDiningOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalDiningOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDiningOutlinedIcon = svg(
-  svg('path', {
-    d: 'm8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z',
-  }),
-  'LocalDiningOutlined',
-);
-export const LocalDiningRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalDiningRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDiningRoundedIcon = svg(
-  svg('path', {
-    d: 'm8.1 13.34 2.83-2.83-6.19-6.18c-.48-.48-1.31-.35-1.61.27-.71 1.49-.45 3.32.78 4.56zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27l-9.05 9.05c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0L12 14.41l6.18 6.18c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L13.41 13z',
-  }),
-  'LocalDiningRounded',
-);
-export const LocalDiningSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalDiningSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDiningSharpIcon = svg(
-  svg('path', {
-    d: 'm8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z',
-  }),
-  'LocalDiningSharp',
-);
-export const LocalDiningTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalDiningTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDiningTwoToneIcon = svg(
-  svg('path', {
-    d: 'M5.11 21.28 12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87zM3.91 9.16l4.19 4.18 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66',
-  }),
-  'LocalDiningTwoTone',
-);
-export const LocalDrinkIcon = (props?: KTRawAttr) => {
-  const s = _LocalDrinkIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDrinkIcon = svg(
-  svg('path', {
-    d: 'm3 2 2.01 18.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2zm9 17c-1.66 0-3-1.34-3-3 0-2 3-5.4 3-5.4s3 3.4 3 5.4c0 1.66-1.34 3-3 3m6.33-11H5.67l-.44-4h13.53z',
-  }),
-  'LocalDrink',
-);
-export const LocalDrinkOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalDrinkOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDrinkOutlinedIcon = svg(
-  svg('path', {
-    d: 'm3 2 2.01 18.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2zm14 18-10 .01L5.89 10H18.1zm1.33-12H5.67l-.44-4h13.53zM12 19c1.66 0 3-1.34 3-3 0-2-3-5.4-3-5.4S9 14 9 16c0 1.66 1.34 3 3 3m0-5.09c.59.91 1 1.73 1 2.09 0 .55-.45 1-1 1s-1-.45-1-1c0-.37.41-1.19 1-2.09',
-  }),
-  'LocalDrinkOutlined',
-);
-export const LocalDrinkRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalDrinkRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDrinkRoundedIcon = svg(
-  svg('path', {
-    d: 'M5.23 2C4.04 2 3.11 3.04 3.24 4.22l1.77 16.01C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77l1.77-16.01c.13-1.18-.8-2.22-1.99-2.22zM12 19c-1.66 0-3-1.34-3-3 0-1.55 1.81-3.95 2.62-4.94.2-.25.57-.25.77 0 .81 1 2.62 3.39 2.62 4.94-.01 1.66-1.35 3-3.01 3m6.33-11H5.67l-.32-2.89c-.06-.59.4-1.11 1-1.11h11.3c.59 0 1.06.52.99 1.11z',
-  }),
-  'LocalDrinkRounded',
-);
-export const LocalDrinkSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalDrinkSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDrinkSharpIcon = svg(
-  svg('path', {
-    d: 'm3 2 2.21 20H18.8L21 2zm9 17c-1.66 0-3-1.34-3-3 0-2 3-5.4 3-5.4s3 3.4 3 5.4c0 1.66-1.34 3-3 3m6.33-11H5.67l-.44-4h13.53z',
-  }),
-  'LocalDrinkSharp',
-);
-export const LocalDrinkTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalDrinkTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalDrinkTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M7 20.01 17 20l1.1-10H5.89zm5-9.41s3 3.4 3 5.4c0 1.66-1.34 3-3 3s-3-1.34-3-3c0-2 3-5.4 3-5.4',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M5.01 20.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2H3zM17 20l-10 .01L5.89 10H18.1zm1.76-16-.43 4H5.67l-.44-4zM12 19c1.66 0 3-1.34 3-3 0-2-3-5.4-3-5.4S9 14 9 16c0 1.66 1.34 3 3 3m0-5.09c.59.91 1 1.73 1 2.09 0 .55-.45 1-1 1s-1-.45-1-1c0-.37.41-1.19 1-2.09',
-      },
-      '1',
-    ),
-  ],
-  'LocalDrinkTwoTone',
-);
-export const LocalFireDepartmentIcon = (props?: KTRawAttr) => {
-  const s = _LocalFireDepartmentIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFireDepartmentIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm12 12.9-2.13 2.09c-.56.56-.87 1.29-.87 2.07C9 18.68 10.35 20 12 20s3-1.32 3-2.94c0-.78-.31-1.52-.87-2.07z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm16 6-.44.55C14.38 8.02 12 7.19 12 5.3V2S4 6 4 13c0 2.92 1.56 5.47 3.89 6.86-.56-.79-.89-1.76-.89-2.8 0-1.32.52-2.56 1.47-3.5L12 10.1l3.53 3.47c.95.93 1.47 2.17 1.47 3.5 0 1.02-.31 1.96-.85 2.75 1.89-1.15 3.29-3.06 3.71-5.3.66-3.55-1.07-6.9-3.86-8.52',
-      },
-      '1',
-    ),
-  ],
-  'LocalFireDepartment',
-);
-export const LocalFireDepartmentOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalFireDepartmentOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFireDepartmentOutlinedIcon = svg(
-  svg('path', {
-    d: 'm16 6-.44.55c-.42.52-.98.75-1.54.75C13 7.3 12 6.52 12 5.3V2S4 6 4 13c0 4.42 3.58 8 8 8s8-3.58 8-8c0-2.96-1.61-5.62-4-7m-4 13c-1.1 0-2-.87-2-1.94 0-.51.2-.99.58-1.36L12 14.3l1.43 1.4c.37.37.57.85.57 1.36 0 1.07-.9 1.94-2 1.94m3.96-1.5c.04-.36.22-1.89-1.13-3.22L12 11.5l-2.83 2.78C7.81 15.62 8 17.16 8.04 17.5 6.79 16.4 6 14.79 6 13c0-3.16 2.13-5.65 4.03-7.25.23 1.99 1.93 3.55 3.99 3.55.78 0 1.54-.23 2.18-.66C17.34 9.78 18 11.35 18 13c0 1.79-.79 3.4-2.04 4.5',
-  }),
-  'LocalFireDepartmentOutlined',
-);
-export const LocalFireDepartmentRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalFireDepartmentRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFireDepartmentRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm12 12.9-2.03 2c-.46.46-.82 1.03-.93 1.67C8.74 18.41 10.18 20 12 20s3.26-1.59 2.96-3.42c-.11-.64-.46-1.22-.93-1.67z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M15.56 6.55C14.38 8.02 12 7.19 12 5.3V3.77c0-.8-.89-1.28-1.55-.84C8.12 4.49 4 7.97 4 13c0 2.92 1.56 5.47 3.89 6.86-.71-1.02-1.06-2.31-.81-3.68.19-1.04.75-1.98 1.51-2.72l2.71-2.67c.39-.38 1.01-.38 1.4 0l2.73 2.69c.74.73 1.3 1.65 1.48 2.68.25 1.36-.07 2.64-.77 3.66 1.89-1.15 3.29-3.06 3.71-5.3.61-3.27-.81-6.37-3.22-8.1-.33-.25-.8-.2-1.07.13',
-      },
-      '1',
-    ),
-  ],
-  'LocalFireDepartmentRounded',
-);
-export const LocalFireDepartmentSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalFireDepartmentSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFireDepartmentSharpIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm12 12.9-2.13 2.09c-.56.56-.87 1.29-.87 2.07C9 18.68 10.35 20 12 20s3-1.32 3-2.94c0-.78-.31-1.52-.87-2.07z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm16 6-.44.55C14.38 8.02 12 7.19 12 5.3V2S4 6 4 13c0 2.92 1.56 5.47 3.89 6.86-.56-.79-.89-1.76-.89-2.8 0-1.32.52-2.56 1.47-3.5L12 10.1l3.53 3.47c.95.93 1.47 2.17 1.47 3.5 0 1.02-.31 1.96-.85 2.75 1.89-1.15 3.29-3.06 3.71-5.3.66-3.55-1.07-6.9-3.86-8.52',
-      },
-      '1',
-    ),
-  ],
-  'LocalFireDepartmentSharp',
-);
-export const LocalFireDepartmentTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalFireDepartmentTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFireDepartmentTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M16.2 8.65c-.64.42-1.4.65-2.18.65-2.06 0-3.77-1.55-3.99-3.55C8.13 7.35 6 9.84 6 13c0 1.79.79 3.4 2.04 4.5-.04-.34-.23-1.88 1.13-3.22L12 11.5l2.83 2.78c1.35 1.33 1.17 2.86 1.13 3.21v.01C17.21 16.4 18 14.79 18 13c0-1.65-.66-3.22-1.8-4.35',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm12 14.31-1.42 1.4c-.38.36-.58.84-.58 1.35 0 1.07.9 1.94 2 1.94s2-.87 2-1.94c0-.51-.2-.99-.57-1.36z',
-        opacity: '.3',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm16 6-.44.55c-.42.52-.98.75-1.54.75C13 7.3 12 6.52 12 5.3V2S4 6 4 13c0 4.42 3.58 8 8 8s8-3.58 8-8c0-2.96-1.61-5.62-4-7m-4 13c-1.1 0-2-.87-2-1.94 0-.51.2-.99.58-1.36L12 14.3l1.43 1.4c.37.37.57.85.57 1.36 0 1.07-.9 1.94-2 1.94m3.96-1.5c.04-.36.22-1.89-1.13-3.22L12 11.5l-2.83 2.78C7.81 15.62 8 17.16 8.04 17.5 6.79 16.4 6 14.79 6 13c0-3.16 2.13-5.65 4.03-7.25.23 1.99 1.93 3.55 3.99 3.55.78 0 1.54-.23 2.18-.66C17.34 9.78 18 11.35 18 13c0 1.79-.79 3.4-2.04 4.5',
-      },
-      '2',
-    ),
-  ],
-  'LocalFireDepartmentTwoTone',
-);
-export const LocalFloristIcon = (props?: KTRawAttr) => {
-  const s = _LocalFloristIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFloristIcon = svg(
-  svg('path', {
-    d: 'M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9',
-  }),
-  'LocalFlorist',
-);
-export const LocalFloristOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalFloristOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFloristOutlinedIcon = svg(
-  svg('path', {
-    d: 'M8.66 13.07c.15 0 .29-.01.43-.03C9.56 14.19 10.69 15 12 15s2.44-.81 2.91-1.96c.14.02.29.03.43.03 1.73 0 3.14-1.41 3.14-3.14 0-.71-.25-1.39-.67-1.93.43-.54.67-1.22.67-1.93 0-1.73-1.41-3.14-3.14-3.14-.15 0-.29.01-.43.03C14.44 1.81 13.31 1 12 1s-2.44.81-2.91 1.96c-.14-.02-.29-.03-.43-.03-1.73 0-3.14 1.41-3.14 3.14 0 .71.25 1.39.67 1.93-.43.54-.68 1.22-.68 1.93 0 1.73 1.41 3.14 3.15 3.14M12 13c-.62 0-1.12-.49-1.14-1.1l.12-1.09c.32.12.66.19 1.02.19s.71-.07 1.03-.19l.11 1.09c-.02.61-.52 1.1-1.14 1.1m3.34-1.93c-.24 0-.46-.07-.64-.2l-.81-.57c.55-.45.94-1.09 1.06-1.83l.88.42c.4.19.66.59.66 1.03 0 .64-.52 1.15-1.15 1.15m-.65-5.94c.2-.13.42-.2.65-.2.63 0 1.14.51 1.14 1.14 0 .44-.25.83-.66 1.03l-.88.42c-.12-.74-.51-1.38-1.07-1.83zM12 3c.62 0 1.12.49 1.14 1.1l-.11 1.09C12.71 5.07 12.36 5 12 5s-.7.07-1.02.19l-.12-1.09c.02-.61.52-1.1 1.14-1.1M8.66 4.93c.24 0 .46.07.64.2l.81.56c-.55.45-.94 1.09-1.06 1.83l-.88-.42c-.4-.2-.66-.59-.66-1.03 0-.63.52-1.14 1.15-1.14M8.17 8.9l.88-.42c.12.74.51 1.38 1.07 1.83l-.81.55c-.2.13-.42.2-.65.2-.63 0-1.14-.51-1.14-1.14-.01-.43.25-.82.65-1.02M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9m2.44-2.44c.71-1.9 2.22-3.42 4.12-4.12-.71 1.9-2.22 3.41-4.12 4.12M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9m2.44 2.44c1.9.71 3.42 2.22 4.12 4.12-1.9-.71-3.41-2.22-4.12-4.12',
-  }),
-  'LocalFloristOutlined',
-);
-export const LocalFloristRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalFloristRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFloristRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 22c4.56 0 8.33-3.4 8.92-7.8.09-.64-.48-1.21-1.12-1.12-4.4.59-7.8 4.36-7.8 8.92M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5m-8.92 8.7C3.67 18.6 7.44 22 12 22c0-4.56-3.4-8.33-7.8-8.92-.64-.09-1.21.48-1.12 1.12',
-  }),
-  'LocalFloristRounded',
-);
-export const LocalFloristSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalFloristSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFloristSharpIcon = svg(
-  svg('path', {
-    d: 'M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9',
-  }),
-  'LocalFloristSharp',
-);
-export const LocalFloristTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalFloristTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalFloristTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 13c.62 0 1.12-.49 1.14-1.1l-.11-1.09c-.32.12-.67.19-1.03.19s-.7-.07-1.02-.19l-.12 1.09c.02.61.52 1.1 1.14 1.1M8.17 7.1l.88.42c.12-.73.51-1.37 1.06-1.83l-.81-.56c-.18-.13-.41-.2-.64-.2-.63 0-1.14.51-1.14 1.14-.01.44.25.83.65 1.03m7.66 1.8-.88-.42c-.12.73-.51 1.37-1.06 1.83l.81.57c.18.13.41.2.64.2.63 0 1.14-.51 1.14-1.14.01-.45-.25-.84-.65-1.04m-.88-1.38.88-.42c.4-.19.66-.59.66-1.03 0-.63-.51-1.14-1.14-1.14-.24 0-.46.07-.65.2l-.81.55c.55.46.94 1.1 1.06 1.84M12 5c.36 0 .71.07 1.03.19l.11-1.09C13.12 3.49 12.62 3 12 3s-1.12.49-1.14 1.1l.12 1.09C11.3 5.07 11.64 5 12 5m-3.34 6.07c.24 0 .46-.07.65-.2l.81-.55c-.56-.46-.95-1.1-1.07-1.84l-.88.42c-.4.2-.66.59-.66 1.03 0 .63.52 1.14 1.15 1.14m9.9 4.37c-1.9.71-3.42 2.22-4.12 4.12 1.9-.71 3.41-2.22 4.12-4.12m-13.12 0c.71 1.9 2.22 3.42 4.12 4.12-.71-1.9-2.22-3.41-4.12-4.12',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M8.66 13.07c.15 0 .29-.01.43-.03C9.56 14.19 10.69 15 12 15s2.44-.81 2.91-1.96c.14.02.29.03.43.03 1.73 0 3.14-1.41 3.14-3.14 0-.71-.25-1.39-.67-1.93.43-.54.67-1.22.67-1.93 0-1.73-1.41-3.14-3.14-3.14-.15 0-.29.01-.43.03C14.44 1.81 13.31 1 12 1s-2.44.81-2.91 1.96c-.14-.02-.29-.03-.43-.03-1.73 0-3.14 1.41-3.14 3.14 0 .71.25 1.39.67 1.93-.43.54-.68 1.22-.68 1.93 0 1.73 1.41 3.14 3.15 3.14m6.68-2c-.24 0-.46-.07-.64-.2l-.81-.57c.55-.45.94-1.09 1.06-1.83l.88.42c.4.19.66.59.66 1.03 0 .64-.52 1.15-1.15 1.15m-.65-5.94c.2-.13.42-.2.65-.2.63 0 1.14.51 1.14 1.14 0 .44-.25.83-.66 1.03l-.88.42c-.12-.74-.51-1.38-1.07-1.83zM12 3c.62 0 1.12.49 1.14 1.1l-.11 1.09C12.71 5.07 12.36 5 12 5s-.7.07-1.02.19l-.12-1.09c.02-.61.52-1.1 1.14-1.1m1 5c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1m-2.02 2.81c.32.12.66.19 1.02.19s.71-.07 1.03-.19l.11 1.09c-.02.61-.52 1.1-1.14 1.1s-1.12-.49-1.14-1.1zM8.66 4.93c.24 0 .46.07.64.2l.81.56c-.55.45-.94 1.09-1.06 1.83l-.88-.42c-.4-.2-.66-.59-.66-1.03 0-.63.52-1.14 1.15-1.14M8.17 8.9l.88-.42c.12.74.51 1.38 1.07 1.83l-.81.55c-.2.13-.42.2-.65.2-.63 0-1.14-.51-1.14-1.14-.01-.43.25-.82.65-1.02M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9m6.56-6.56c-.71 1.9-2.22 3.42-4.12 4.12.71-1.9 2.22-3.41 4.12-4.12M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9m2.44 2.44c1.9.71 3.42 2.22 4.12 4.12-1.9-.71-3.41-2.22-4.12-4.12',
-      },
-      '1',
-    ),
-  ],
-  'LocalFloristTwoTone',
-);
-export const LocalGasStationIcon = (props?: KTRawAttr) => {
-  const s = _LocalGasStationIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGasStationIcon = svg(
-  svg('path', {
-    d: 'm19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M12 10H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalGasStation',
-);
-export const LocalGasStationOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalGasStationOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGasStationOutlinedIcon = svg(
-  svg('path', {
-    d: 'm19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M12 13.5V19H6v-7h6zm0-3.5H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalGasStationOutlined',
-);
-export const LocalGasStationRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalGasStationRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGasStationRoundedIcon = svg(
-  svg('path', {
-    d: 'm19.77 7.23.01-.01-3.19-3.19c-.29-.29-.77-.29-1.06 0s-.29.77 0 1.06l1.58 1.58c-1.05.4-1.76 1.47-1.58 2.71.16 1.1 1.1 1.99 2.2 2.11.47.05.88-.03 1.27-.2v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v15c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-6.5h1.5v4.86c0 1.31.94 2.5 2.24 2.63 1.5.15 2.76-1.02 2.76-2.49V9c0-.69-.28-1.32-.73-1.77M12 10H6V6c0-.55.45-1 1-1h4c.55 0 1 .45 1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalGasStationRounded',
-);
-export const LocalGasStationSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalGasStationSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGasStationSharpIcon = svg(
-  svg('path', {
-    d: 'm19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-1.05.4-1.76 1.47-1.58 2.71.16 1.1 1.1 1.99 2.2 2.11.47.05.88-.03 1.27-.2v8.21h-2V12h-3V3H4v18h10v-7.5h1.5v7.49h5V9c0-.69-.28-1.32-.73-1.77M12 10H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalGasStationSharp',
-);
-export const LocalGasStationTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalGasStationTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGasStationTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M6 19h6v-7H6z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M12 3H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2m0 10.5V19H6v-7h6zm0-3.5H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-      },
-      '1',
-    ),
-  ],
-  'LocalGasStationTwoTone',
-);
-export const LocalGroceryStoreIcon = (props?: KTRawAttr) => {
-  const s = _LocalGroceryStoreIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGroceryStoreIcon = svg(
-  svg('path', {
-    d: 'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2',
-  }),
-  'LocalGroceryStore',
-);
-export const LocalGroceryStoreOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalGroceryStoreOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGroceryStoreOutlinedIcon = svg(
-  svg('path', {
-    d: 'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2m-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2zM6.16 6h12.15l-2.76 5H8.53z',
-  }),
-  'LocalGroceryStoreOutlined',
-);
-export const LocalGroceryStoreRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalGroceryStoreRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGroceryStoreRoundedIcon = svg(
-  svg('path', {
-    d: 'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M2 4h1l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h11c.55 0 1-.45 1-1s-.45-1-1-1H7l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.67-1.43c-.16-.35-.52-.57-.9-.57H2c-.55 0-1 .45-1 1s.45 1 1 1m15 14c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2',
-  }),
-  'LocalGroceryStoreRounded',
-);
-export const LocalGroceryStoreSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalGroceryStoreSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGroceryStoreSharpIcon = svg(
-  svg('path', {
-    d: 'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M1 4h2l3.6 7.59L3.62 17H19v-2H7l1.1-2h8.64l4.97-9H5.21l-.94-2H1zm16 14c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2',
-  }),
-  'LocalGroceryStoreSharp',
-);
-export const LocalGroceryStoreTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalGroceryStoreTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalGroceryStoreTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M8.53 11h7.02l2.76-5H6.16z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2m-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2zM6.16 6h12.15l-2.76 5H8.53z',
-      },
-      '1',
-    ),
-  ],
-  'LocalGroceryStoreTwoTone',
-);
-export const LocalHospitalIcon = (props?: KTRawAttr) => {
-  const s = _LocalHospitalIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHospitalIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4z',
-  }),
-  'LocalHospital',
-);
-export const LocalHospitalOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalHospitalOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHospitalOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-8.5-2h3v-3.5H17v-3h-3.5V7h-3v3.5H7v3h3.5z',
-  }),
-  'LocalHospitalOutlined',
-);
-export const LocalHospitalRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalHospitalRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHospitalRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-2 11h-3v3c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-3H7c-.55 0-1-.45-1-1v-2c0-.55.45-1 1-1h3V7c0-.55.45-1 1-1h2c.55 0 1 .45 1 1v3h3c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1',
-  }),
-  'LocalHospitalRounded',
-);
-export const LocalHospitalSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalHospitalSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHospitalSharpIcon = svg(
-  svg('path', { d: 'M21 3H3.01L3 21h18zm-3 11h-4v4h-4v-4H6v-4h4V6h4v4h4z' }),
-  'LocalHospitalSharp',
-);
-export const LocalHospitalTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalHospitalTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHospitalTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M5 19h14V5H5zm2-8.5h3.5V7h3v3.5H17v3h-3.5V17h-3v-3.5H7z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M21 5c0-1.1-.9-2-2-2H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-2 14H5V5h14zm-8.5-2h3v-3.5H17v-3h-3.5V7h-3v3.5H7v3h3.5z',
-      },
-      '1',
-    ),
-  ],
-  'LocalHospitalTwoTone',
-);
-export const LocalHotelIcon = (props?: KTRawAttr) => {
-  const s = _LocalHotelIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHotelIcon = svg(
-  svg('path', {
-    d: 'M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4',
-  }),
-  'LocalHotel',
-);
-export const LocalHotelOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalHotelOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHotelOutlinedIcon = svg(
-  svg('path', {
-    d: 'M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3m0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m12-3h-8v8H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4m2 8h-8V9h6c1.1 0 2 .9 2 2z',
-  }),
-  'LocalHotelOutlined',
-);
-export const LocalHotelRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalHotelRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHotelRoundedIcon = svg(
-  svg('path', {
-    d: 'M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m12-6h-6c-1.1 0-2 .9-2 2v5H3V6c0-.55-.45-1-1-1s-1 .45-1 1v13c0 .55.45 1 1 1s1-.45 1-1v-2h18v2c0 .55.45 1 1 1s1-.45 1-1v-8c0-2.21-1.79-4-4-4',
-  }),
-  'LocalHotelRounded',
-);
-export const LocalHotelSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalHotelSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHotelSharpIcon = svg(
-  svg('path', { d: 'M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m16-6H11v7H3V5H1v15h2v-3h18v3h2z' }),
-  'LocalHotelSharp',
-);
-export const LocalHotelTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalHotelTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalHotelTwoToneIcon = svg(
-  [
-    svg('circle', { cx: '7', cy: '11', r: '1', opacity: '.3' }, '0'),
-    svg('path', { d: 'M19 9h-6v6h8v-4c0-1.1-.9-2-2-2', opacity: '.3' }, '1'),
-    svg(
-      'path',
-      {
-        d: 'M4 11c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3m4 0c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1m11-4h-8v8H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4m2 8h-8V9h6c1.1 0 2 .9 2 2z',
-      },
-      '2',
-    ),
-  ],
-  'LocalHotelTwoTone',
-);
-export const LocalLaundryServiceIcon = (props?: KTRawAttr) => {
-  const s = _LocalLaundryServiceIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLaundryServiceIcon = svg(
-  svg('path', {
-    d: 'M9.17 16.83c1.56 1.56 4.1 1.56 5.66 0s1.56-4.1 0-5.66zM18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M10 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M7 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m5 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6',
-  }),
-  'LocalLaundryService',
-);
-export const LocalLaundryServiceOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalLaundryServiceOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLaundryServiceOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M18 20H6L5.99 4H18z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '8', cy: '6', r: '1' }, '1'),
-    svg('circle', { cx: '11', cy: '6', r: '1' }, '2'),
-    svg(
-      'path',
-      {
-        d: 'M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5m2.36-7.36c1.3 1.3 1.3 3.42 0 4.72s-3.42 1.3-4.72 0z',
-      },
-      '3',
-    ),
-  ],
-  'LocalLaundryServiceOutlined',
-);
-export const LocalLaundryServiceRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalLaundryServiceRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLaundryServiceRoundedIcon = svg(
-  svg('path', {
-    d: 'M9.64 16.36c1.3 1.3 3.42 1.3 4.72 0s1.3-3.42 0-4.72zM18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M11 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M8 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m4 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-  }),
-  'LocalLaundryServiceRounded',
-);
-export const LocalLaundryServiceSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalLaundryServiceSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLaundryServiceSharpIcon = svg(
-  svg('path', {
-    d: 'M9.17 16.83c1.56 1.56 4.1 1.56 5.66 0s1.56-4.1 0-5.66zM20 2.01 4 2v20h16zM10 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M7 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m5 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6',
-  }),
-  'LocalLaundryServiceSharp',
-);
-export const LocalLaundryServiceTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalLaundryServiceTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLaundryServiceTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5.99 4 6 20h12V4zc.01 0 0 0 0 0M11 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M8 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m4 4c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M18 20H6L5.99 4H18z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '8', cy: '6', r: '1' }, '2'),
-    svg('circle', { cx: '11', cy: '6', r: '1' }, '3'),
-    svg(
-      'path',
-      {
-        d: 'M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5m2.36-7.36c1.3 1.3 1.3 3.42 0 4.72s-3.42 1.3-4.72 0z',
-      },
-      '4',
-    ),
-  ],
-  'LocalLaundryServiceTwoTone',
-);
-export const LocalLibraryIcon = (props?: KTRawAttr) => {
-  const s = _LocalLibraryIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLibraryIcon = svg(
-  svg('path', {
-    d: 'M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3',
-  }),
-  'LocalLibrary',
-);
-export const LocalLibraryOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalLibraryOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLibraryOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 9c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 8.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55m7 5.58c-2.53.34-4.93 1.3-7 2.82-2.06-1.52-4.47-2.49-7-2.83v-6.95c2.1.38 4.05 1.35 5.64 2.83L12 14.28l1.36-1.27c1.59-1.48 3.54-2.45 5.64-2.83z',
-  }),
-  'LocalLibraryOutlined',
-);
-export const LocalLibraryRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalLibraryRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLibraryRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 11.55c-1.82-1.7-4.12-2.89-6.68-3.35C4.11 7.99 3 8.95 3 10.18v6.24c0 1.68.72 2.56 1.71 2.69 2.5.32 4.77 1.35 6.63 2.87.35.29.92.32 1.27.04 1.87-1.53 4.16-2.58 6.68-2.9.94-.13 1.71-1.06 1.71-2.02v-6.92c0-1.23-1.11-2.19-2.32-1.98-2.56.46-4.86 1.65-6.68 3.35M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3',
-  }),
-  'LocalLibraryRounded',
-);
-export const LocalLibrarySharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalLibrarySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLibrarySharpIcon = svg(
-  svg('path', {
-    d: 'M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3',
-  }),
-  'LocalLibrarySharp',
-);
-export const LocalLibraryTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalLibraryTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalLibraryTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 17.13v-6.95c-2.1.38-4.05 1.35-5.64 2.83L12 14.28l-1.36-1.27C9.05 11.53 7.1 10.56 5 10.18v6.95c2.53.34 4.94 1.3 7 2.83 2.07-1.52 4.47-2.49 7-2.83',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '12', cy: '5', r: '2', opacity: '.3' }, '1'),
-    svg(
-      'path',
-      {
-        d: 'M16 5c0-2.21-1.79-4-4-4S8 2.79 8 5s1.79 4 4 4 4-1.79 4-4m-6 0c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2M3 19c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55C9.64 9.35 6.48 8 3 8zm2-8.82c2.1.38 4.05 1.35 5.64 2.83L12 14.28l1.36-1.27c1.59-1.48 3.54-2.45 5.64-2.83v6.95c-2.53.34-4.93 1.3-7 2.82-2.06-1.52-4.47-2.49-7-2.83z',
-      },
-      '2',
-    ),
-  ],
-  'LocalLibraryTwoTone',
-);
-export const LocalMallIcon = (props?: KTRawAttr) => {
-  const s = _LocalMallIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMallIcon = svg(
-  svg('path', {
-    d: 'M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5',
-  }),
-  'LocalMall',
-);
-export const LocalMallOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalMallOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMallOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m7 17H5V8h14zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3',
-  }),
-  'LocalMallOutlined',
-);
-export const LocalMallRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalMallRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMallRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.33 0-4.29-1.59-4.84-3.75-.17-.63.32-1.25.97-1.25.47 0 .85.34.98.8.35 1.27 1.51 2.2 2.89 2.2s2.54-.93 2.89-2.2c.13-.46.51-.8.98-.8.65 0 1.13.62.97 1.25C16.29 11.41 14.33 13 12 13',
-  }),
-  'LocalMallRounded',
-);
-export const LocalMallSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalMallSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMallSharpIcon = svg(
-  svg('path', {
-    d: 'M21 6h-4c0-2.76-2.24-5-5-5S7 3.24 7 6H3v16h18zm-9-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5',
-  }),
-  'LocalMallSharp',
-);
-export const LocalMallTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalMallTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMallTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M5 8v12h14V8zm7 6c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M17 6c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m7 17H5V8h14zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3',
-      },
-      '1',
-    ),
-  ],
-  'LocalMallTwoTone',
-);
-export const LocalMoviesIcon = (props?: KTRawAttr) => {
-  const s = _LocalMoviesIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMoviesIcon = svg(
-  svg('path', {
-    d: 'M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z',
-  }),
-  'LocalMovies',
-);
-export const LocalMoviesOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalMoviesOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMoviesOutlinedIcon = svg(
-  svg('path', {
-    d: 'M14 5v14h-4V5zm6-2h-2v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2zm-4 6V7h2v2zM6 9V7h2v2zm10 4v-2h2v2zM6 13v-2h2v2zm10 4v-2h2v2zM6 17v-2h2v2z',
-  }),
-  'LocalMoviesOutlined',
-);
-export const LocalMoviesRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalMoviesRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMoviesRoundedIcon = svg(
-  svg('path', {
-    d: 'M18 4v1h-2V4c0-.55-.45-1-1-1H9c-.55 0-1 .45-1 1v1H6V4c0-.55-.45-1-1-1s-1 .45-1 1v16c0 .55.45 1 1 1s1-.45 1-1v-1h2v1c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-1h2v1c0 .55.45 1 1 1s1-.45 1-1V4c0-.55-.45-1-1-1s-1 .45-1 1M8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z',
-  }),
-  'LocalMoviesRounded',
-);
-export const LocalMoviesSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalMoviesSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMoviesSharpIcon = svg(
-  svg('path', {
-    d: 'M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z',
-  }),
-  'LocalMoviesSharp',
-);
-export const LocalMoviesTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalMoviesTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalMoviesTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M10 5h4v14h-4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M20 21V3h-2v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm6 10h-4V5h4zm2-12h2v2h-2zm0 4h2v2h-2zm0 6v-2h2v2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalMoviesTwoTone',
-);
-export const LocalOfferIcon = (props?: KTRawAttr) => {
-  const s = _LocalOfferIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalOfferIcon = svg(
-  svg('path', {
-    d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7',
-  }),
-  'LocalOffer',
-);
-export const LocalOfferOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalOfferOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalOfferOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '6.5', cy: '6.5', r: '1.5' }, '1'),
-  ],
-  'LocalOfferOutlined',
-);
-export const LocalOfferRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalOfferRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalOfferRoundedIcon = svg(
-  svg('path', {
-    d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7',
-  }),
-  'LocalOfferRounded',
-);
-export const LocalOfferSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalOfferSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalOfferSharpIcon = svg(
-  svg('path', {
-    d: 'M22.83 12.99 11.83 2H2v9.83l10.99 10.99zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7',
-  }),
-  'LocalOfferSharp',
-);
-export const LocalOfferTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalOfferTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalOfferTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M11 4H4v7l9 9.01L20 13zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5 7.33 8 6.5 8', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12.41 2.58C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM13 20.01 4 11V4h7v-.01l9 9z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '6.5', cy: '6.5', r: '1.5' }, '2'),
-  ],
-  'LocalOfferTwoTone',
-);
-export const LocalParkingIcon = (props?: KTRawAttr) => {
-  const s = _LocalParkingIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalParkingIcon = svg(
-  svg('path', { d: 'M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2' }),
-  'LocalParking',
-);
-export const LocalParkingOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalParkingOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalParkingOutlinedIcon = svg(
-  svg('path', { d: 'M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2' }),
-  'LocalParkingOutlined',
-);
-export const LocalParkingRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalParkingRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalParkingRoundedIcon = svg(
-  svg('path', {
-    d: 'M12.79 3H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2v-4h3c3.57 0 6.42-3.13 5.95-6.79C18.56 5.19 15.84 3 12.79 3m.41 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2',
-  }),
-  'LocalParkingRounded',
-);
-export const LocalParkingSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalParkingSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalParkingSharpIcon = svg(
-  svg('path', { d: 'M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2' }),
-  'LocalParkingSharp',
-);
-export const LocalParkingTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalParkingTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalParkingTwoToneIcon = svg(
-  svg('path', { d: 'M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2' }),
-  'LocalParkingTwoTone',
-);
-export const LocalPharmacyIcon = (props?: KTRawAttr) => {
-  const s = _LocalPharmacyIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPharmacyIcon = svg(
-  svg('path', {
-    d: 'M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-5 9h-3v3h-2v-3H8v-2h3V9h2v3h3z',
-  }),
-  'LocalPharmacy',
-);
-export const LocalPharmacyOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPharmacyOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPharmacyOutlinedIcon = svg(
-  svg('path', {
-    d: 'M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-3.9 8.63L18.89 19H5.11l1.79-5.37.21-.63-.21-.63L5.11 7h13.78l-1.79 5.37-.21.63zM13 9h-2v3H8v2h3v3h2v-3h3v-2h-3z',
-  }),
-  'LocalPharmacyOutlined',
-);
-export const LocalPharmacyRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPharmacyRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPharmacyRoundedIcon = svg(
-  svg('path', {
-    d: 'M18.89 5h-.53l.71-1.97c.24-.65-.1-1.37-.75-1.6-.65-.24-1.37.1-1.61.75L15.69 5H5.1C3.73 5 2.77 6.34 3.2 7.63L5 13l-1.79 5.37C2.77 19.66 3.74 21 5.1 21h13.78c1.36 0 2.33-1.34 1.9-2.63L19 13l1.78-5.37C21.21 6.34 20.25 5 18.89 5M15 14h-2v2c0 .55-.45 1-1 1s-1-.45-1-1v-2H9c-.55 0-1-.45-1-1s.45-1 1-1h2v-2c0-.55.45-1 1-1s1 .45 1 1v2h2c.55 0 1 .45 1 1s-.45 1-1 1',
-  }),
-  'LocalPharmacyRounded',
-);
-export const LocalPharmacySharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPharmacySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPharmacySharpIcon = svg(
-  svg('path', {
-    d: 'M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-5 9h-3v3h-2v-3H8v-2h3V9h2v3h3z',
-  }),
-  'LocalPharmacySharp',
-);
-export const LocalPharmacyTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPharmacyTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPharmacyTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5.11 19h13.78l-1.79-5.37-.21-.63.21-.63L18.89 7H5.11l1.79 5.37.21.63-.21.63zM8 12h3V9h2v3h3v2h-3v3h-2v-3H8z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M3 21h18v-2l-2-6 2-6V5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6zm3.9-8.63L5.11 7h13.78l-1.79 5.37-.21.63.21.63L18.89 19H5.11l1.79-5.37.21-.63zM11 17h2v-3h3v-2h-3V9h-2v3H8v2h3z',
-      },
-      '1',
-    ),
-  ],
-  'LocalPharmacyTwoTone',
-);
-export const LocalPhoneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPhoneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPhoneIcon = svg(
-  svg('path', {
-    d: 'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02z',
-  }),
-  'LocalPhone',
-);
-export const LocalPhoneOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPhoneOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPhoneOutlinedIcon = svg(
-  svg('path', {
-    d: 'M6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79zm9.86 12.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM7.5 3H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1-1.24 0-2.45-.2-3.57-.57-.1-.04-.21-.05-.31-.05-.26 0-.51.1-.71.29l-2.2 2.2c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1',
-  }),
-  'LocalPhoneOutlined',
-);
-export const LocalPhoneRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPhoneRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPhoneRoundedIcon = svg(
-  svg('path', {
-    d: 'm19.23 15.26-2.54-.29c-.61-.07-1.21.14-1.64.57l-1.84 1.84c-2.83-1.44-5.15-3.75-6.59-6.59l1.85-1.85c.43-.43.64-1.03.57-1.64l-.29-2.52c-.12-1.01-.97-1.77-1.99-1.77H5.03c-1.13 0-2.07.94-2 2.07.53 8.54 7.36 15.36 15.89 15.89 1.13.07 2.07-.87 2.07-2v-1.73c.01-1.01-.75-1.86-1.76-1.98',
-  }),
-  'LocalPhoneRounded',
-);
-export const LocalPhoneSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPhoneSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPhoneSharpIcon = svg(
-  svg('path', {
-    d: 'm21 15.46-5.27-.61-2.52 2.52c-2.83-1.44-5.15-3.75-6.59-6.59l2.53-2.53L8.54 3H3.03C2.45 13.18 10.82 21.55 21 20.97z',
-  }),
-  'LocalPhoneSharp',
-);
-export const LocalPhoneTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPhoneTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPhoneTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 17.47c-.88-.07-1.75-.22-2.6-.45l-1.19 1.19c1.2.41 2.48.67 3.8.75v-1.49zM6.99 7.59c-.24-.83-.39-1.7-.45-2.59h-1.5c.09 1.32.35 2.59.75 3.8z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M3 4c0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1-1.24 0-2.45-.2-3.57-.57-.1-.04-.21-.05-.31-.05-.26 0-.51.1-.71.29l-2.2 2.2c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1m13.4 13.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79z',
-      },
-      '1',
-    ),
-  ],
-  'LocalPhoneTwoTone',
-);
-export const LocalPizzaIcon = (props?: KTRawAttr) => {
-  const s = _LocalPizzaIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPizzaIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2',
-  }),
-  'LocalPizza',
-);
-export const LocalPizzaOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPizzaOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPizzaOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2m0 15.92L5.51 6.36C7.32 4.85 9.62 4 12 4s4.68.85 6.49 2.36zM9 5.5c-.83 0-1.5.67-1.5 1.5S8.17 8.5 9 8.5s1.5-.67 1.5-1.5S9.82 5.5 9 5.5m1.5 7.5c0 .83.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5s-.68-1.5-1.5-1.5-1.5.67-1.5 1.5',
-  }),
-  'LocalPizzaOutlined',
-);
-export const LocalPizzaRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPizzaRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPizzaRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 2C9.01 2 6.28 3.08 4.17 4.88c-.71.61-.86 1.65-.4 2.46l7.36 13.11c.38.68 1.36.68 1.74 0l7.36-13.11c.46-.81.31-1.86-.4-2.46C17.73 3.09 14.99 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2',
-  }),
-  'LocalPizzaRounded',
-);
-export const LocalPizzaSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPizzaSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPizzaSharpIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2',
-  }),
-  'LocalPizzaSharp',
-);
-export const LocalPizzaTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPizzaTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPizzaTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5.51 6.36 12 17.92l6.49-11.55C16.68 4.85 14.38 4 12 4s-4.68.85-6.49 2.36M9 8.5c-.83 0-1.5-.67-1.5-1.5S8.17 5.5 9 5.5s1.5.67 1.5 1.5S9.82 8.5 9 8.5m4.5 4.5c0 .83-.68 1.5-1.5 1.5-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2m0 15.92L5.51 6.36C7.32 4.85 9.62 4 12 4s4.68.85 6.49 2.36zM9 5.5c-.83 0-1.5.67-1.5 1.5S8.17 8.5 9 8.5s1.5-.67 1.5-1.5S9.82 5.5 9 5.5m1.5 7.5c0 .83.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5s-.68-1.5-1.5-1.5-1.5.67-1.5 1.5',
-      },
-      '1',
-    ),
-  ],
-  'LocalPizzaTwoTone',
-);
-export const LocalPlayIcon = (props?: KTRawAttr) => {
-  const s = _LocalPlayIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPlayIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z',
-  }),
-  'LocalPlay',
-);
-export const LocalPlayOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPlayOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPlayOutlinedIcon = svg(
-  svg('path', {
-    d: 'M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2m-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z',
-  }),
-  'LocalPlayOutlined',
-);
-export const LocalPlayRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPlayRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPlayRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-.76.43-1.42 1.06-1.76.6-.33.94-1.01.94-1.7V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.89-1.99 1.99v2.55c0 .69.33 1.37.94 1.69C3.58 10.58 4 11.24 4 12s-.43 1.43-1.06 1.76c-.6.33-.94 1.01-.94 1.7v2.25C2 19.1 2.9 20 4 20h16c1.1 0 2-.9 2-2v-2.54c0-.69-.34-1.37-.94-1.7-.63-.34-1.06-1-1.06-1.76m-5.5 4.1L12 14.5l-2.5 1.61c-.38.24-.87-.11-.75-.55l.75-2.88-2.3-1.88c-.35-.29-.17-.86.29-.89l2.96-.17 1.08-2.75c.17-.42.77-.42.93 0l1.08 2.76 2.96.17c.45.03.64.6.29.89l-2.3 1.88.76 2.86c.12.45-.37.8-.75.55',
-  }),
-  'LocalPlayRounded',
-);
-export const LocalPlaySharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPlaySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPlaySharpIcon = svg(
-  svg('path', {
-    d: 'M20 12c0-1.1.9-2 2-2V4H2.01v6c1.1 0 1.99.9 1.99 2s-.89 2-2 2v6h20v-6c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z',
-  }),
-  'LocalPlaySharp',
-);
-export const LocalPlayTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPlayTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPlayTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M4.01 8.54C5.2 9.23 6 10.52 6 12s-.81 2.77-2 3.46V18h16v-2.54c-1.19-.69-2-1.99-2-3.46s.81-2.77 2-3.46V6H4zm6.72 1.68L12 7l1.26 3.23 3.47.2-2.69 2.2.89 3.37L12 14.12 9.07 16l.88-3.37-2.69-2.2z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M20 4H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2V6c0-1.1-.9-2-2-2m0 4.54c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z',
-      },
-      '1',
-    ),
-  ],
-  'LocalPlayTwoTone',
-);
-export const LocalPoliceIcon = (props?: KTRawAttr) => {
-  const s = _LocalPoliceIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPoliceIcon = svg(
-  svg('path', {
-    d: 'M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5zm2.5 11.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34z',
-  }),
-  'LocalPolice',
-);
-export const LocalPoliceOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPoliceOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPoliceOutlinedIcon = svg(
-  svg('path', {
-    d: 'm14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM12 3.19l7 3.11V11c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3zM12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z',
-  }),
-  'LocalPoliceOutlined',
-);
-export const LocalPoliceRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPoliceRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPoliceRoundedIcon = svg(
-  svg('path', {
-    d: 'm14.5 12.59.63 2.73c.1.43-.37.77-.75.54L12 14.42l-2.39 1.44c-.38.23-.85-.11-.75-.54l.64-2.72-2.1-1.81c-.34-.29-.16-.84.28-.88l2.78-.24 1.08-2.56c.17-.41.75-.41.92 0l1.08 2.55 2.78.24c.44.04.62.59.28.88zM4.19 4.47C3.47 4.79 3 5.51 3 6.3V11c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6.3c0-.79-.47-1.51-1.19-1.83l-7-3.11c-.52-.23-1.11-.23-1.62 0z',
-  }),
-  'LocalPoliceRounded',
-);
-export const LocalPoliceSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPoliceSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPoliceSharpIcon = svg(
-  svg('path', {
-    d: 'm14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
-  }),
-  'LocalPoliceSharp',
-);
-export const LocalPoliceTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPoliceTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPoliceTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 3.19 5 6.3V11c0 4.52 2.98 8.69 7 9.93 4.02-1.23 7-5.41 7-9.93V6.3zm2.5 9.4.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM12 3.19l7 3.11V11c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3zM12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z',
-      },
-      '1',
-    ),
-  ],
-  'LocalPoliceTwoTone',
-);
-export const LocalPostOfficeIcon = (props?: KTRawAttr) => {
-  const s = _LocalPostOfficeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPostOfficeIcon = svg(
-  svg('path', {
-    d: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z',
-  }),
-  'LocalPostOffice',
-);
-export const LocalPostOfficeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPostOfficeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPostOfficeOutlinedIcon = svg(
-  svg('path', {
-    d: 'M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z',
-  }),
-  'LocalPostOfficeOutlined',
-);
-export const LocalPostOfficeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPostOfficeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPostOfficeRoundedIcon = svg(
-  svg('path', {
-    d: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-.4 4.25-6.54 4.09c-.65.41-1.47.41-2.12 0L4.4 8.25c-.25-.16-.4-.43-.4-.72 0-.67.73-1.07 1.3-.72L12 11l6.7-4.19c.57-.35 1.3.05 1.3.72 0 .29-.15.56-.4.72',
-  }),
-  'LocalPostOfficeRounded',
-);
-export const LocalPostOfficeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPostOfficeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPostOfficeSharpIcon = svg(
-  svg('path', { d: 'M22 4H2.01v16H22zm-2 4-8 5-8-5V6l8 5 8-5z' }),
-  'LocalPostOfficeSharp',
-);
-export const LocalPostOfficeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPostOfficeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPostOfficeTwoToneIcon = svg(
-  [
-    svg('path', { d: 'm12 11 8-5H4zM4 8v10h16V8l-8 5z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V8l8 5 8-5zm-8-7L4 6h16z',
-      },
-      '1',
-    ),
-  ],
-  'LocalPostOfficeTwoTone',
-);
-export const LocalPrintshopIcon = (props?: KTRawAttr) => {
-  const s = _LocalPrintshopIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPrintshopIcon = svg(
-  svg('path', {
-    d: 'M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3m-3 11H8v-5h8zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-9H6v4h12z',
-  }),
-  'LocalPrintshop',
-);
-export const LocalPrintshopOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPrintshopOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPrintshopOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3M8 5h8v3H8zm8 14H8v-4h8zm2-4v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v4z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '18', cy: '11.5', r: '1' }, '1'),
-  ],
-  'LocalPrintshopOutlined',
-);
-export const LocalPrintshopRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalPrintshopRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPrintshopRoundedIcon = svg(
-  svg('path', {
-    d: 'M18 7V4c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v3zm1 1H5c-1.66 0-3 1.34-3 3v5c0 .55.45 1 1 1h3v2c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-2h3c.55 0 1-.45 1-1v-5c0-1.66-1.34-3-3-3m-3 11H8v-4h8zm2-6.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalPrintshopRounded',
-);
-export const LocalPrintshopSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalPrintshopSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPrintshopSharpIcon = svg(
-  svg('path', {
-    d: 'M2 8v9h4v4h12v-4h4V8zm14 11H8v-5h8zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-9H6v4h12z',
-  }),
-  'LocalPrintshopSharp',
-);
-export const LocalPrintshopTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalPrintshopTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalPrintshopTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M8 5h8v3H8zm11 5H5c-.55 0-1 .45-1 1v4h2v-2h12v2h2v-4c0-.55-.45-1-1-1m-1 2.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3M8 5h8v3H8zm8 14H8v-4h8zm4-4h-2v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '18', cy: '11.5', r: '1' }, '2'),
-  ],
-  'LocalPrintshopTwoTone',
-);
-export const LocalSeeIcon = (props?: KTRawAttr) => {
-  const s = _LocalSeeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalSeeIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '12', r: '3.2' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-      },
-      '1',
-    ),
-  ],
-  'LocalSee',
-);
-export const LocalSeeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalSeeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalSeeOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V6h4.05l.59-.65L9.88 4h4.24l1.24 1.35.59.65H20zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8.2c-1.77 0-3.2-1.43-3.2-3.2s1.43-3.2 3.2-3.2 3.2 1.43 3.2 3.2-1.43 3.2-3.2 3.2',
-  }),
-  'LocalSeeOutlined',
-);
-export const LocalSeeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalSeeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalSeeRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M9.5 14c0 1.38 1.12 2.5 2.5 2.5 1.23 0 2.25-.9 2.46-2.07-1-1.01-1.83-1.98-2.48-2.93-1.37.02-2.48 1.13-2.48 2.5',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18.65 17.08c-.37.32-.92.32-1.3 0-1.26-1.08-.7-.61-1.3-1.14-.83 1.74-2.73 2.87-4.85 2.5-1.83-.32-3.31-1.8-3.63-3.63-.42-2.44 1.13-4.58 3.31-5.14C10.3 8.45 10 7.28 10 6.15c0-.75.1-1.47.28-2.15h-.4c-.56 0-1.1.24-1.48.65L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-6.03c-1.41 1.49-2.65 2.51-3.35 3.11',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M17.34 14.42c.37.33.95.33 1.33 0C22.22 11.25 24 8.5 24 6.15 24 2.42 21.15 0 18 0s-6 2.42-6 6.15c0 2.35 1.78 5.1 5.34 8.27m-.07-9.17L18 3l.73 2.25H21l-1.85 1.47.7 2.28L18 7.59 16.15 9l.7-2.28L15 5.25z',
-      },
-      '2',
-    ),
-  ],
-  'LocalSeeRounded',
-);
-export const LocalSeeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalSeeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalSeeSharpIcon = svg(
-  [
-    svg('circle', { cx: '12', cy: '12', r: '3.2' }, '0'),
-    svg(
-      'path',
-      { d: 'M22 4h-5.17L15 2H9L7.17 4H2v16h20zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5' },
-      '1',
-    ),
-  ],
-  'LocalSeeSharp',
-);
-export const LocalSeeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalSeeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalSeeTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M20 6h-4.05l-.59-.65L14.12 4H9.88L8.65 5.35l-.6.65H4v12h16zm-8 11c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2M4 6h4.05l.59-.65L9.88 4h4.24l1.24 1.35.59.65H20v12H4zm8 1c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8.2c-1.77 0-3.2-1.43-3.2-3.2s1.43-3.2 3.2-3.2 3.2 1.43 3.2 3.2-1.43 3.2-3.2 3.2',
-      },
-      '1',
-    ),
-  ],
-  'LocalSeeTwoTone',
-);
-export const LocalShippingIcon = (props?: KTRawAttr) => {
-  const s = _LocalShippingIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalShippingIcon = svg(
-  svg('path', {
-    d: 'M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5m13.5-9 1.96 2.5H17V9.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5',
-  }),
-  'LocalShipping',
-);
-export const LocalShippingOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalShippingOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalShippingOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zm-.5 1.5 1.96 2.5H17V9.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m2.22-3c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12v9zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalShippingOutlined',
-);
-export const LocalShippingRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalShippingRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalShippingRoundedIcon = svg(
-  svg('path', {
-    d: 'M19.5 8H17V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2 0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h1c.55 0 1-.45 1-1v-3.33c0-.43-.14-.85-.4-1.2L20.3 8.4c-.19-.25-.49-.4-.8-.4M6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m13.5-8.5 1.96 2.5H17V9.5zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalShippingRounded',
-);
-export const LocalShippingSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalShippingSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalShippingSharpIcon = svg(
-  svg('path', {
-    d: 'M20 8h-3V4H1v13h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m13.5-8.5 1.96 2.5H17V9.5zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1',
-  }),
-  'LocalShippingSharp',
-);
-export const LocalShippingTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalShippingTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalShippingTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M3 15h.78c.55-.61 1.34-1 2.22-1s1.67.39 2.22 1H15V6H3z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M17 8V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m9-3H8.22c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12zm3 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-6V9.5h2.5l1.96 2.5z',
-      },
-      '1',
-    ),
-  ],
-  'LocalShippingTwoTone',
-);
-export const LocalTaxiIcon = (props?: KTRawAttr) => {
-  const s = _LocalTaxiIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalTaxiIcon = svg(
-  svg('path', {
-    d: 'M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z',
-  }),
-  'LocalTaxi',
-);
-export const LocalTaxiOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocalTaxiOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalTaxiOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.85 7h10.29l1.04 3H5.81zM19 17H5v-4.66l.12-.34h13.77l.11.34z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '7.5', cy: '14.5', r: '1.5' }, '1'),
-    svg('circle', { cx: '16.5', cy: '14.5', r: '1.5' }, '2'),
-  ],
-  'LocalTaxiOutlined',
-);
-export const LocalTaxiRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocalTaxiRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalTaxiRoundedIcon = svg(
-  svg('path', {
-    d: 'M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v1H6.5c-.66 0-1.21.42-1.42 1.01l-1.97 5.67c-.07.21-.11.43-.11.66v7.16c0 .83.67 1.5 1.5 1.5S6 20.33 6 19.5V19h12v.5c0 .82.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5v-7.16c0-.22-.04-.45-.11-.66zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z',
-  }),
-  'LocalTaxiRounded',
-);
-export const LocalTaxiSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocalTaxiSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalTaxiSharpIcon = svg(
-  svg('path', {
-    d: 'M18.58 5H15V3H9v2H5.43L3 12v9h3v-2h12v2h3v-9zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z',
-  }),
-  'LocalTaxiSharp',
-);
-export const LocalTaxiTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocalTaxiTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocalTaxiTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm5.12 12-.12.34V17h14v-4.66l-.12-.34zm2.38 4c-.83 0-1.5-.67-1.5-1.5S6.67 13 7.5 13s1.5.67 1.5 1.5S8.33 16 7.5 16m9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99C18.72 5.42 18.16 5 17.5 5M6.85 7h10.29l1.04 3H5.81zM19 17H5v-4.66l.12-.34h13.77l.11.34z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '7.5', cy: '14.5', r: '1.5' }, '2'),
-    svg('circle', { cx: '16.5', cy: '14.5', r: '1.5' }, '3'),
-  ],
-  'LocalTaxiTwoTone',
-);
-export const LocationCityIcon = (props?: KTRawAttr) => {
-  const s = _LocationCityIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationCityIcon = svg(
-  svg('path', {
-    d: 'M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z',
-  }),
-  'LocationCity',
-);
-export const LocationCityOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocationCityOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationCityOutlinedIcon = svg(
-  svg('path', {
-    d: 'M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z',
-  }),
-  'LocationCityOutlined',
-);
-export const LocationCityRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocationCityRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationCityRoundedIcon = svg(
-  svg('path', {
-    d: 'M15 11V5.83c0-.53-.21-1.04-.59-1.41L12.7 2.71a.996.996 0 0 0-1.41 0l-1.7 1.7C9.21 4.79 9 5.3 9 5.83V7H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z',
-  }),
-  'LocationCityRounded',
-);
-export const LocationCitySharpIcon = (props?: KTRawAttr) => {
-  const s = _LocationCitySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationCitySharpIcon = svg(
-  svg('path', {
-    d: 'M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z',
-  }),
-  'LocationCitySharp',
-);
-export const LocationCityTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocationCityTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationCityTwoToneIcon = svg(
-  svg('path', {
-    d: 'M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z',
-  }),
-  'LocationCityTwoTone',
-);
-export const LocationDisabledIcon = (props?: KTRawAttr) => {
-  const s = _LocationDisabledIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationDisabledIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-1.13.12-2.19.46-3.16.97l1.5 1.5C10.16 5.19 11.06 5 12 5c3.87 0 7 3.13 7 7 0 .94-.19 1.84-.52 2.65l1.5 1.5c.5-.96.84-2.02.97-3.15H23v-2zM3 4.27l2.04 2.04C3.97 7.62 3.25 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21 21 19.73 4.27 3zm13.27 13.27C15.09 18.45 13.61 19 12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27z',
-  }),
-  'LocationDisabled',
-);
-export const LocationDisabledOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocationDisabledOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationDisabledOutlinedIcon = svg(
-  svg('path', {
-    d: 'M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19',
-  }),
-  'LocationDisabledOutlined',
-);
-export const LocationDisabledRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocationDisabledRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationDisabledRoundedIcon = svg(
-  svg('path', {
-    d: 'M22 13c.55 0 1-.45 1-1s-.45-1-1-1h-1.06c-.46-4.17-3.77-7.48-7.94-7.94V2c0-.55-.45-1-1-1s-1 .45-1 1v1.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zm-1.56 5.88L5.12 3.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41L5.04 6.3C3.97 7.62 3.26 9.23 3.06 11H2c-.55 0-1 .45-1 1s.45 1 1 1h1.06c.46 4.17 3.77 7.48 7.94 7.94V22c0 .55.45 1 1 1s1-.45 1-1v-1.06c1.77-.2 3.38-.91 4.69-1.98l1.33 1.33c.39.39 1.02.39 1.41 0 .4-.39.4-1.02.01-1.41M12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19',
-  }),
-  'LocationDisabledRounded',
-);
-export const LocationDisabledSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocationDisabledSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationDisabledSharpIcon = svg(
-  svg('path', {
-    d: 'M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19',
-  }),
-  'LocationDisabledSharp',
-);
-export const LocationDisabledTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocationDisabledTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationDisabledTwoToneIcon = svg(
-  svg('path', {
-    d: 'M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19',
-  }),
-  'LocationDisabledTwoTone',
-);
-export const LocationOffIcon = (props?: KTRawAttr) => {
-  const s = _LocationOffIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOffIcon = svg(
-  svg('path', {
-    d: 'M12 6.5c1.38 0 2.5 1.12 2.5 2.5 0 .74-.33 1.39-.83 1.85l3.63 3.63c.98-1.86 1.7-3.8 1.7-5.48 0-3.87-3.13-7-7-7-1.98 0-3.76.83-5.04 2.15l3.19 3.19c.46-.52 1.11-.84 1.85-.84m4.37 9.6-4.63-4.63-.11-.11L3.27 3 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21 20 19.73z',
-  }),
-  'LocationOff',
-);
-export const LocationOffOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocationOffOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOffOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 4c2.76 0 5 2.24 5 5 0 1.06-.39 2.32-1 3.62l1.49 1.49C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7-1.84 0-3.5.71-4.75 1.86l1.43 1.43C9.56 4.5 10.72 4 12 4m0 2.5c-.59 0-1.13.21-1.56.56l3.5 3.5c.35-.43.56-.97.56-1.56 0-1.38-1.12-2.5-2.5-2.5M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 18.88c-2.01-2.58-4.8-6.74-4.98-9.59l6.92 6.92c-.65.98-1.33 1.89-1.94 2.67',
-  }),
-  'LocationOffOutlined',
-);
-export const LocationOffRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocationOffRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOffRoundedIcon = svg(
-  svg('path', {
-    d: 'M2.71 3.56c-.39.39-.39 1.02 0 1.41l2.47 2.47C5.07 7.95 5 8.47 5 9c0 4.17 4.42 9.92 6.23 12.11.4.48 1.13.48 1.53 0 .65-.78 1.62-2.01 2.61-3.46l2.65 2.65c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L4.12 3.56a.996.996 0 0 0-1.41 0M12 2c-1.84 0-3.5.71-4.75 1.86l3.19 3.19c.43-.34.97-.55 1.56-.55 1.38 0 2.5 1.12 2.5 2.5 0 .59-.21 1.13-.56 1.56l3.55 3.55C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7',
-  }),
-  'LocationOffRounded',
-);
-export const LocationOffSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocationOffSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOffSharpIcon = svg(
-  svg('path', {
-    d: 'M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 2c-1.84 0-3.5.71-4.75 1.86l3.19 3.19c.43-.34.97-.55 1.56-.55 1.38 0 2.5 1.12 2.5 2.5 0 .59-.21 1.13-.56 1.56l3.55 3.55C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7',
-  }),
-  'LocationOffSharp',
-);
-export const LocationOffTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocationOffTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOffTwoToneIcon = svg(
-  svg('path', {
-    d: 'M17 9c0 1.06-.39 2.32-1 3.62l1.49 1.49C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7-1.84 0-3.5.71-4.75 1.86l1.43 1.43C9.56 4.5 10.72 4 12 4c2.76 0 5 2.24 5 5m-5-2.5c-.59 0-1.13.21-1.56.56l3.5 3.5c.35-.43.56-.97.56-1.56 0-1.38-1.12-2.5-2.5-2.5M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 18.88c-2.01-2.58-4.8-6.74-4.98-9.59l6.92 6.92c-.65.98-1.33 1.89-1.94 2.67',
-  }),
-  'LocationOffTwoTone',
-);
-export const LocationOnIcon = (props?: KTRawAttr) => {
-  const s = _LocationOnIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOnIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5',
-  }),
-  'LocationOn',
-);
-export const LocationOnOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocationOnOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOnOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '12', cy: '9', r: '2.5' }, '1'),
-  ],
-  'LocationOnOutlined',
-);
-export const LocationOnRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocationOnRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOnRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 2c-4.2 0-8 3.22-8 8.2 0 3.18 2.45 6.92 7.34 11.23.38.33.95.33 1.33 0C17.55 17.12 20 13.38 20 10.2 20 5.22 16.2 2 12 2m0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2',
-  }),
-  'LocationOnRounded',
-);
-export const LocationOnSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocationOnSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOnSharpIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5',
-  }),
-  'LocationOnSharp',
-);
-export const LocationOnTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocationOnTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationOnTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88 2.11-2.69 5-7 5-9.88 0-2.76-2.24-5-5-5m0 7.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '12', cy: '9', r: '2.5' }, '2'),
-  ],
-  'LocationOnTwoTone',
-);
-export const LocationPinIcon = (props?: KTRawAttr) => {
-  const s = _LocationPinIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationPinIcon = svg(
-  svg('path', {
-    d: 'M12 2C8.13 2 5 5.13 5 9c0 1.74.5 3.37 1.41 4.84.95 1.54 2.2 2.86 3.16 4.4.47.75.81 1.45 1.17 2.26.26.55.47 1.5 1.26 1.5s1-.95 1.25-1.5c.37-.81.7-1.51 1.17-2.26.96-1.53 2.21-2.85 3.16-4.4C18.5 12.37 19 10.74 19 9c0-3.87-3.13-7-7-7m0 9.75c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5',
-  }),
-  'LocationPin',
-);
-export const LocationSearchingIcon = (props?: KTRawAttr) => {
-  const s = _LocationSearchingIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationSearchingIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7',
-  }),
-  'LocationSearching',
-);
-export const LocationSearchingOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LocationSearchingOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationSearchingOutlinedIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7',
-  }),
-  'LocationSearchingOutlined',
-);
-export const LocationSearchingRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LocationSearchingRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationSearchingRoundedIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V2c0-.55-.45-1-1-1s-1 .45-1 1v1.06C6.83 3.52 3.52 6.83 3.06 11H2c-.55 0-1 .45-1 1s.45 1 1 1h1.06c.46 4.17 3.77 7.48 7.94 7.94V22c0 .55.45 1 1 1s1-.45 1-1v-1.06c4.17-.46 7.48-3.77 7.94-7.94H22c.55 0 1-.45 1-1s-.45-1-1-1zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7',
-  }),
-  'LocationSearchingRounded',
-);
-export const LocationSearchingSharpIcon = (props?: KTRawAttr) => {
-  const s = _LocationSearchingSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationSearchingSharpIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7',
-  }),
-  'LocationSearchingSharp',
-);
-export const LocationSearchingTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LocationSearchingTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LocationSearchingTwoToneIcon = svg(
-  svg('path', {
-    d: 'M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7',
-  }),
-  'LocationSearchingTwoTone',
-);
-export const LockIcon = (props?: KTRawAttr) => {
-  const s = _LockIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2m3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1z',
-  }),
-  'Lock',
-);
-export const LockClockIcon = (props?: KTRawAttr) => {
-  const s = _LockClockIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockClockIcon = svg(
-  svg('path', {
-    d: 'm14.5 14.2 2.9 1.7-.8 1.3L13 15v-5h1.5zM22 14c0 4.41-3.59 8-8 8-2.02 0-3.86-.76-5.27-2H4c-1.15 0-2-.85-2-2V9c0-1.12.89-1.96 2-2v-.5C4 4.01 6.01 2 8.5 2c2.34 0 4.24 1.79 4.46 4.08.34-.05.69-.08 1.04-.08 4.41 0 8 3.59 8 8M6 7h5v-.74C10.88 4.99 9.8 4 8.5 4 7.12 4 6 5.12 6 6.5zm14 7c0-3.31-2.69-6-6-6s-6 2.69-6 6 2.69 6 6 6 6-2.69 6-6',
-  }),
-  'LockClock',
-);
-export const LockClockOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LockClockOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockClockOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      { d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z' },
-      '1',
-    ),
-  ],
-  'LockClockOutlined',
-);
-export const LockClockRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockClockRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockClockRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m2 7c-.2.2-.51.2-.71 0l-1.65-1.65c-.09-.09-.15-.22-.15-.35v-2.5c0-.28.22-.5.5-.5s.5.22.5.5v2.29l1.5 1.5c.21.2.21.51.01.71',
-      },
-      '1',
-    ),
-  ],
-  'LockClockRounded',
-);
-export const LockClockSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockClockSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockClockSharpIcon = svg(
-  svg('path', {
-    d: 'M18 11c.7 0 1.37.1 2 .29V8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h8.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z',
-  }),
-  'LockClockSharp',
-);
-export const LockClockTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockClockTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockClockTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M11.29 20H6V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z',
-      },
-      '0',
-    ),
-    svg('path', { d: 'M11 18c0-3.87 3.13-7 7-7v-1H6v10h5.29c-.19-.63-.29-1.3-.29-2', opacity: '.3' }, '1'),
-    svg(
-      'path',
-      { d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z' },
-      '2',
-    ),
-  ],
-  'LockClockTwoTone',
-);
-export const LockOpenIcon = (props?: KTRawAttr) => {
-  const s = _LockOpenIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOpenIcon = svg(
-  svg('path', {
-    d: 'M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12z',
-  }),
-  'LockOpen',
-);
-export const LockOpenOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LockOpenOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOpenOutlinedIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOpenOutlined',
-);
-export const LockOpenRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockOpenRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOpenRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m6-5h-1V6c0-2.76-2.24-5-5-5-2.28 0-4.27 1.54-4.84 3.75-.14.54.18 1.08.72 1.22.53.14 1.08-.18 1.22-.72C9.44 3.93 10.63 3 12 3c1.65 0 3 1.35 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 11c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1h10c.55 0 1 .45 1 1z',
-  }),
-  'LockOpenRounded',
-);
-export const LockOpenSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockOpenSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOpenSharpIcon = svg(
-  svg('path', {
-    d: 'M20 8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6h2c0-1.13.6-2.24 1.64-2.7C12.85 2.31 15 3.9 15 6v2H4v14h16zm-2 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOpenSharp',
-);
-export const LockOpenTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockOpenTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOpenTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M6 20h12V10H6zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-      },
-      '1',
-    ),
-  ],
-  'LockOpenTwoTone',
-);
-export const LockOutlineIcon = (props?: KTRawAttr) => {
-  const s = _LockOutlineIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOutlineIcon = svg(
-  svg('path', {
-    d: 'M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9zM18 20H6V10h12z',
-  }),
-  'LockOutline',
-);
-export const LockOutlineRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockOutlineRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOutlineRoundedIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm8 14H7c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1m-5-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOutlineRounded',
-);
-export const LockOutlineSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockOutlineSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOutlineSharpIcon = svg(
-  svg('path', {
-    d: 'M17 8V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H4v14h16V8zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOutlineSharp',
-);
-export const LockOutlineTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockOutlineTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOutlineTwoToneIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOutlineTwoTone',
-);
-export const LockOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LockOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockOutlinedIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-  }),
-  'LockOutlined',
-);
-export const LockPersonIcon = (props?: KTRawAttr) => {
-  const s = _LockPersonIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockPersonIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32',
-      },
-      '1',
-    ),
-  ],
-  'LockPerson',
-);
-export const LockPersonOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LockPersonOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockPersonOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32',
-      },
-      '1',
-    ),
-  ],
-  'LockPersonOutlined',
-);
-export const LockPersonRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockPersonRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockPersonRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32',
-      },
-      '1',
-    ),
-  ],
-  'LockPersonRounded',
-);
-export const LockPersonSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockPersonSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockPersonSharpIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M16.43 11.18c1.26-.29 2.47-.21 3.57.12V8h-3V6.22c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h8.26c-1.01-1.45-1.5-3.3-1.15-5.27.49-2.73 2.63-4.94 5.32-5.55M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32',
-      },
-      '1',
-    ),
-  ],
-  'LockPersonSharp',
-);
-export const LockPersonTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockPersonTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockPersonTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M6 10v10h5.29c-.19-.63-.29-1.3-.29-2 0-3.87 3.13-7 7-7v-1z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32',
-      },
-      '2',
-    ),
-  ],
-  'LockPersonTwoTone',
-);
-export const LockResetIcon = (props?: KTRawAttr) => {
-  const s = _LockResetIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockResetIcon = svg(
-  svg('path', {
-    d: 'M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z',
-  }),
-  'LockReset',
-);
-export const LockResetOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LockResetOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockResetOutlinedIcon = svg(
-  svg('path', {
-    d: 'M13 3c-4.97 0-9 4.03-9 9 0 .06.01.12.01.19l-1.84-1.84-1.41 1.41L5 16l4.24-4.24-1.41-1.41-1.82 1.82c0-.06-.01-.11-.01-.17 0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z',
-  }),
-  'LockResetOutlined',
-);
-export const LockResetRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockResetRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockResetRoundedIcon = svg(
-  svg('path', {
-    d: 'M13.26 3C8.17 2.86 4 6.94 4 12H2.21c-.45 0-.67.54-.35.85l2.79 2.79c.2.2.51.2.71 0l2.8-2.79c.3-.31.08-.85-.37-.85H6c0-3.89 3.2-7.06 7.1-7 3.71.05 6.84 3.18 6.9 6.9.06 3.91-3.1 7.1-7 7.1-1.59 0-3.05-.53-4.23-1.43-.4-.3-.96-.27-1.31.09-.43.43-.39 1.14.09 1.5C9.06 20.31 10.95 21 13 21c5.06 0 9.14-4.17 9-9.25-.13-4.7-4.05-8.62-8.74-8.75M15 11v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z',
-  }),
-  'LockResetRounded',
-);
-export const LockResetSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockResetSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockResetSharpIcon = svg(
-  svg('path', {
-    d: 'M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1h-1v5h6v-5zm-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z',
-  }),
-  'LockResetSharp',
-);
-export const LockResetTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockResetTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockResetTwoToneIcon = svg(
-  svg('path', {
-    d: 'M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z',
-  }),
-  'LockResetTwoTone',
-);
-export const LockRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LockRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockRoundedIcon = svg(
-  svg('path', {
-    d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z',
-  }),
-  'LockRounded',
-);
-export const LockSharpIcon = (props?: KTRawAttr) => {
-  const s = _LockSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockSharpIcon = svg(
-  svg('path', {
-    d: 'M20 8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h16zm-8 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z',
-  }),
-  'LockSharp',
-);
-export const LockTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LockTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LockTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M6 20h12V10H6zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2',
-      },
-      '1',
-    ),
-  ],
-  'LockTwoTone',
-);
-export const LoginIcon = (props?: KTRawAttr) => {
-  const s = _LoginIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoginIcon = svg(
-  svg('path', {
-    d: 'M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z',
-  }),
-  'Login',
-);
-export const LoginOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LoginOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoginOutlinedIcon = svg(
-  svg('path', {
-    d: 'M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z',
-  }),
-  'LoginOutlined',
-);
-export const LoginRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LoginRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoginRoundedIcon = svg(
-  svg('path', {
-    d: 'M10.3 7.7c-.39.39-.39 1.01 0 1.4l1.9 1.9H3c-.55 0-1 .45-1 1s.45 1 1 1h9.2l-1.9 1.9c-.39.39-.39 1.01 0 1.4s1.01.39 1.4 0l3.59-3.59c.39-.39.39-1.02 0-1.41L11.7 7.7a.984.984 0 0 0-1.4 0M20 19h-7c-.55 0-1 .45-1 1s.45 1 1 1h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-7c-.55 0-1 .45-1 1s.45 1 1 1h7z',
-  }),
-  'LoginRounded',
-);
-export const LoginSharpIcon = (props?: KTRawAttr) => {
-  const s = _LoginSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoginSharpIcon = svg(
-  svg('path', { d: 'M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h10V3H12v2h8z' }),
-  'LoginSharp',
-);
-export const LoginTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LoginTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoginTwoToneIcon = svg(
-  svg('path', {
-    d: 'M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z',
-  }),
-  'LoginTwoTone',
-);
-export const LogoDevIcon = (props?: KTRawAttr) => {
-  const s = _LogoDevIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoDevIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15',
-      },
-      '1',
-    ),
-  ],
-  'LogoDev',
-);
-export const LogoDevOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LogoDevOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoDevOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15',
-      },
-      '1',
-    ),
-  ],
-  'LogoDevOutlined',
-);
-export const LogoDevRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LogoDevRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoDevRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15',
-      },
-      '1',
-    ),
-  ],
-  'LogoDevRounded',
-);
-export const LogoDevSharpIcon = (props?: KTRawAttr) => {
-  const s = _LogoDevSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoDevSharpIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15',
-      },
-      '1',
-    ),
-  ],
-  'LogoDevSharp',
-);
-export const LogoDevTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LogoDevTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoDevTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15',
-      },
-      '1',
-    ),
-  ],
-  'LogoDevTwoTone',
-);
-export const LogoutIcon = (props?: KTRawAttr) => {
-  const s = _LogoutIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoutIcon = svg(
-  svg('path', {
-    d: 'm17 7-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z',
-  }),
-  'Logout',
-);
-export const LogoutOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LogoutOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoutOutlinedIcon = svg(
-  svg('path', {
-    d: 'm17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z',
-  }),
-  'LogoutOutlined',
-);
-export const LogoutRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LogoutRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoutRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M5 5h6c.55 0 1-.45 1-1s-.45-1-1-1H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h6c.55 0 1-.45 1-1s-.45-1-1-1H5z' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm20.65 11.65-2.79-2.79c-.32-.32-.86-.1-.86.35V11h-7c-.55 0-1 .45-1 1s.45 1 1 1h7v1.79c0 .45.54.67.85.35l2.79-2.79c.2-.19.2-.51.01-.7',
-      },
-      '1',
-    ),
-  ],
-  'LogoutRounded',
-);
-export const LogoutSharpIcon = (props?: KTRawAttr) => {
-  const s = _LogoutSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoutSharpIcon = svg(
-  [svg('path', { d: 'M5 5h7V3H3v18h9v-2H5z' }, '0'), svg('path', { d: 'm21 12-4-4v3H9v2h8v3z' }, '1')],
-  'LogoutSharp',
-);
-export const LogoutTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LogoutTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LogoutTwoToneIcon = svg(
-  svg('path', { d: 'M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5zm16 7-4-4v3H9v2h8v3z' }),
-  'LogoutTwoTone',
-);
-export const LooksIcon = (props?: KTRawAttr) => {
-  const s = _LooksIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksIcon = svg(
-  svg('path', {
-    d: 'M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11',
-  }),
-  'Looks',
-);
-export const Looks3Icon = (props?: KTRawAttr) => {
-  const s = _Looks3Icon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks3Icon = svg(
-  svg('path', {
-    d: 'M19.01 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 7.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2h-4v-2h4v-2h-2v-2h2V9h-4V7h4c1.1 0 2 .89 2 2z',
-  }),
-  'Looks3',
-);
-export const Looks3OutlinedIcon = (props?: KTRawAttr) => {
-  const s = _Looks3OutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks3OutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-1.5c0-.83-.67-1.5-1.5-1.5.83 0 1.5-.67 1.5-1.5V9c0-1.11-.9-2-2-2H9v2h4v2h-2v2h2v2H9v2h4c1.1 0 2-.89 2-2',
-  }),
-  'Looks3Outlined',
-);
-export const Looks3RoundedIcon = (props?: KTRawAttr) => {
-  const s = _Looks3RoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks3RoundedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5.01c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-3.99 7.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2H10c-.55 0-1-.45-1-1s.45-1 1-1h3.01L13 13h-1c-.55 0-1-.45-1-1s.45-1 1-1h1l.01-2H10c-.55 0-.99-.45-.99-1s.44-1 .99-1h3.01c1.1 0 2 .9 2 2z',
-  }),
-  'Looks3Rounded',
-);
-export const Looks3SharpIcon = (props?: KTRawAttr) => {
-  const s = _Looks3SharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks3SharpIcon = svg(
-  svg('path', { d: 'M21 3H3.01v18H21zm-5.99 14H9v-2h4v-2h-2v-2h2V9H9V7h6.01z' }),
-  'Looks3Sharp',
-);
-export const Looks3TwoToneIcon = (props?: KTRawAttr) => {
-  const s = _Looks3TwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks3TwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M5 19h14V5H5zm4-4h4v-2h-2v-2h2V9H9V7h4c1.1 0 2 .89 2 2v1.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2H9z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-1.5c0-.83-.67-1.5-1.5-1.5.83 0 1.5-.67 1.5-1.5V9c0-1.11-.9-2-2-2H9v2h4v2h-2v2h2v2H9v2h4c1.1 0 2-.89 2-2',
-      },
-      '1',
-    ),
-  ],
-  'Looks3TwoTone',
-);
-export const Looks4Icon = (props?: KTRawAttr) => {
-  const s = _Looks4Icon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks4Icon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 14h-2v-4H9V7h2v4h2V7h2z',
-  }),
-  'Looks4',
-);
-export const Looks4OutlinedIcon = (props?: KTRawAttr) => {
-  const s = _Looks4OutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks4OutlinedIcon = svg(
-  svg('path', {
-    d: 'M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16h-14V5h14zm-6-2h2V7h-2v4h-2V7h-2v6h4z',
-  }),
-  'Looks4Outlined',
-);
-export const Looks4RoundedIcon = (props?: KTRawAttr) => {
-  const s = _Looks4RoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks4RoundedIcon = svg(
-  svg('path', {
-    d: 'M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14c-.55 0-1-.45-1-1v-3h-3c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1s1 .45 1 1v3h2V8c0-.55.45-1 1-1s1 .45 1 1v8c0 .55-.45 1-1 1',
-  }),
-  'Looks4Rounded',
-);
-export const Looks4SharpIcon = (props?: KTRawAttr) => {
-  const s = _Looks4SharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks4SharpIcon = svg(
-  svg('path', { d: 'M21.04 3h-18v18h18zm-6 14h-2v-4h-4V7h2v4h2V7h2z' }),
-  'Looks4Sharp',
-);
-export const Looks4TwoToneIcon = (props?: KTRawAttr) => {
-  const s = _Looks4TwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks4TwoToneIcon = svg(
-  [
-    svg('path', { d: 'M5.04 19h14V5h-14zm4-12h2v4h2V7h2v10h-2v-4h-4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16h-14V5h14zm-6-2h2V7h-2v4h-2V7h-2v6h4z',
-      },
-      '1',
-    ),
-  ],
-  'Looks4TwoTone',
-);
-export const Looks5Icon = (props?: KTRawAttr) => {
-  const s = _Looks5Icon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks5Icon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 6h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2H9v-2h4v-2H9V7h6z',
-  }),
-  'Looks5',
-);
-export const Looks5OutlinedIcon = (props?: KTRawAttr) => {
-  const s = _Looks5OutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks5OutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-2c0-1.11-.9-2-2-2h-2V9h4V7H9v6h4v2H9v2h4c1.1 0 2-.89 2-2',
-  }),
-  'Looks5Outlined',
-);
-export const Looks5RoundedIcon = (props?: KTRawAttr) => {
-  const s = _Looks5RoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks5RoundedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 6h-3v2h2c1.1 0 2 .9 2 2v2c0 1.11-.9 2-2 2h-3c-.55 0-1-.45-1-1s.45-1 1-1h3v-2h-3c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1',
-  }),
-  'Looks5Rounded',
-);
-export const Looks5SharpIcon = (props?: KTRawAttr) => {
-  const s = _Looks5SharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks5SharpIcon = svg(svg('path', { d: 'M21 3H3v18h18zm-6 6h-4v2h4v6H9v-2h4v-2H9V7h6z' }), 'Looks5Sharp');
-export const Looks5TwoToneIcon = (props?: KTRawAttr) => {
-  const s = _Looks5TwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks5TwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M19 5H5v14h14zm-4 4h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2H9v-2h4v-2H9V7h6z', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm4 8h4v2H9v2h4c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7H9z',
-      },
-      '1',
-    ),
-  ],
-  'Looks5TwoTone',
-);
-export const Looks6Icon = (props?: KTRawAttr) => {
-  const s = _Looks6Icon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks6Icon = svg(
-  svg('path', {
-    d: 'M11 15h2v-2h-2zm8-12H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 6h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.11.9-2 2-2h4z',
-  }),
-  'Looks6',
-);
-export const Looks6OutlinedIcon = (props?: KTRawAttr) => {
-  const s = _Looks6OutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks6OutlinedIcon = svg(
-  svg('path', {
-    d: 'M11 17h2c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7h-4c-1.1 0-2 .89-2 2v6c0 1.11.9 2 2 2m0-4h2v2h-2zm8-10H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14z',
-  }),
-  'Looks6Outlined',
-);
-export const Looks6RoundedIcon = (props?: KTRawAttr) => {
-  const s = _Looks6RoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks6RoundedIcon = svg(
-  svg('path', {
-    d: 'M11 15h2v-2h-2zm8-12H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 6h-3v2h2c1.1 0 2 .9 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.1.9-2 2-2h3c.55 0 1 .45 1 1s-.45 1-1 1',
-  }),
-  'Looks6Rounded',
-);
-export const Looks6SharpIcon = (props?: KTRawAttr) => {
-  const s = _Looks6SharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks6SharpIcon = svg(
-  svg('path', { d: 'M11 15h2v-2h-2zM21 3H3v18h18zm-6 6h-4v2h4v6H9V7h6z' }),
-  'Looks6Sharp',
-);
-export const Looks6TwoToneIcon = (props?: KTRawAttr) => {
-  const s = _Looks6TwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _Looks6TwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M11 13h2v2h-2zm8-8H5v14h14zm-4 4h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.11.9-2 2-2h4z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M9 9v6c0 1.11.9 2 2 2h2c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7h-4c-1.1 0-2 .89-2 2m4 4v2h-2v-2zm-8 8h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5z',
-      },
-      '1',
-    ),
-  ],
-  'Looks6TwoTone',
-);
-export const LooksOneIcon = (props?: KTRawAttr) => {
-  const s = _LooksOneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOneIcon = svg(
-  svg('path', { d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14h-2V9h-2V7h4z' }),
-  'LooksOne',
-);
-export const LooksOneOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LooksOneOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOneOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-7-2h2V7h-4v2h2z',
-  }),
-  'LooksOneOutlined',
-);
-export const LooksOneRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LooksOneRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOneRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-6 14c-.55 0-1-.45-1-1V9h-1c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1',
-  }),
-  'LooksOneRounded',
-);
-export const LooksOneSharpIcon = (props?: KTRawAttr) => {
-  const s = _LooksOneSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOneSharpIcon = svg(svg('path', { d: 'M21 3H3v18h18zm-7 14h-2V9h-2V7h4z' }), 'LooksOneSharp');
-export const LooksOneTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LooksOneTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOneTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M19 5H5v14h14zm-5 12h-2V9h-2V7h4z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      { d: 'M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm5 4h2v8h2V7h-4z' },
-      '1',
-    ),
-  ],
-  'LooksOneTwoTone',
-);
-export const LooksOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LooksOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11',
-  }),
-  'LooksOutlined',
-);
-export const LooksRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LooksRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 10c-3.47 0-6.36 2.54-6.91 5.86-.1.6.39 1.14 1 1.14.49 0 .9-.36.98-.85C7.48 13.79 9.53 12 12 12s4.52 1.79 4.93 4.15c.08.49.49.85.98.85.61 0 1.09-.54.99-1.14C18.36 12.54 15.47 10 12 10m0-4C6.3 6 1.61 10.34 1.05 15.9c-.05.59.41 1.1 1.01 1.1.51 0 .94-.38.99-.88C3.49 11.57 7.34 8 12 8s8.51 3.57 8.96 8.12c.05.5.48.88.99.88.59 0 1.06-.51 1-1.1C22.39 10.34 17.7 6 12 6',
-  }),
-  'LooksRounded',
-);
-export const LooksSharpIcon = (props?: KTRawAttr) => {
-  const s = _LooksSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksSharpIcon = svg(
-  svg('path', {
-    d: 'M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11',
-  }),
-  'LooksSharp',
-);
-export const LooksTwoIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 8c0 1.11-.9 2-2 2h-2v2h4v2H9v-4c0-1.11.9-2 2-2h2V9H9V7h4c1.1 0 2 .89 2 2z',
-  }),
-  'LooksTwo',
-);
-export const LooksTwoOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoOutlinedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4h-4v-2h2c1.1 0 2-.89 2-2V9c0-1.11-.9-2-2-2H9v2h4v2h-2c-1.1 0-2 .89-2 2v4h6z',
-  }),
-  'LooksTwoOutlined',
-);
-export const LooksTwoRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoRoundedIcon = svg(
-  svg('path', {
-    d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 8c0 1.1-.9 2-2 2h-2v2h3c.55 0 1 .45 1 1s-.45 1-1 1h-4c-.55 0-1-.45-1-1v-3c0-1.1.9-2 2-2h2V9h-3c-.55 0-1-.45-1-1s.45-1 1-1h3c1.1 0 2 .9 2 2z',
-  }),
-  'LooksTwoRounded',
-);
-export const LooksTwoSharpIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoSharpIcon = svg(
-  svg('path', { d: 'M21 3H3v18h18zm-6 10h-4v2h4v2H9v-6h4V9H9V7h6z' }),
-  'LooksTwoSharp',
-);
-export const LooksTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoToneIcon = svg(
-  svg('path', {
-    d: 'M12 6C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11m0 6c2.76 0 5 2.24 5 5h2c0-3.86-3.14-7-7-7s-7 3.14-7 7h2c0-2.76 2.24-5 5-5',
-  }),
-  'LooksTwoTone',
-);
-export const LooksTwoTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LooksTwoTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LooksTwoTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M19 5H5v14h14zm-4 6c0 1.11-.9 2-2 2h-2v2h4v2H9v-4c0-1.11.9-2 2-2h2V9H9V7h4c1.1 0 2 .89 2 2z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm8 2H9v2h4v2h-2c-1.1 0-2 .89-2 2v4h6v-2h-4v-2h2c1.1 0 2-.89 2-2V9c0-1.11-.9-2-2-2',
-      },
-      '1',
-    ),
-  ],
-  'LooksTwoTwoTone',
-);
-export const LoopIcon = (props?: KTRawAttr) => {
-  const s = _LoopIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoopIcon = svg(
-  svg('path', {
-    d: 'M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z',
-  }),
-  'Loop',
-);
-export const LoopOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LoopOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoopOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z',
-  }),
-  'LoopOutlined',
-);
-export const LoopRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LoopRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoopRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 4V2.21c0-.45-.54-.67-.85-.35l-2.8 2.79c-.2.2-.2.51 0 .71l2.79 2.79c.32.31.86.09.86-.36V6c3.31 0 6 2.69 6 6 0 .79-.15 1.56-.44 2.25-.15.36-.04.77.23 1.04.51.51 1.37.33 1.64-.34.37-.91.57-1.91.57-2.95 0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-.79.15-1.56.44-2.25.15-.36.04-.77-.23-1.04-.51-.51-1.37-.33-1.64.34C4.2 9.96 4 10.96 4 12c0 4.42 3.58 8 8 8v1.79c0 .45.54.67.85.35l2.79-2.79c.2-.2.2-.51 0-.71l-2.79-2.79c-.31-.31-.85-.09-.85.36z',
-  }),
-  'LoopRounded',
-);
-export const LoopSharpIcon = (props?: KTRawAttr) => {
-  const s = _LoopSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoopSharpIcon = svg(
-  svg('path', {
-    d: 'M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z',
-  }),
-  'LoopSharp',
-);
-export const LoopTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LoopTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoopTwoToneIcon = svg(
-  svg('path', {
-    d: 'M12 18c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4zm0-14V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8',
-  }),
-  'LoopTwoTone',
-);
-export const LoupeIcon = (props?: KTRawAttr) => {
-  const s = _LoupeIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoupeIcon = svg(
-  svg('path', {
-    d: 'M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-  }),
-  'Loupe',
-);
-export const LoupeOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LoupeOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoupeOutlinedIcon = svg(
-  svg('path', {
-    d: 'M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-  }),
-  'LoupeOutlined',
-);
-export const LoupeRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LoupeRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoupeRoundedIcon = svg(
-  svg('path', {
-    d: 'M12 7c-.55 0-1 .45-1 1v3H8c-.55 0-1 .45-1 1s.45 1 1 1h3v3c0 .55.45 1 1 1s1-.45 1-1v-3h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V8c0-.55-.45-1-1-1m0-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-  }),
-  'LoupeRounded',
-);
-export const LoupeSharpIcon = (props?: KTRawAttr) => {
-  const s = _LoupeSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoupeSharpIcon = svg(
-  svg('path', {
-    d: 'M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-.27-4.97c-6.08-.44-11.14 4.62-10.7 10.7.38 5.28 5 9.27 10.29 9.27H22v-9.68c0-5.3-3.98-9.91-9.27-10.29M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8',
-  }),
-  'LoupeSharp',
-);
-export const LoupeTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LoupeTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoupeTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      { d: 'M12 20c4.41 0 8-3.59 8-8s-3.59-8-8-8-8 3.59-8 8 3.59 8 8 8m-5-9h4V7h2v4h4v2h-4v4h-2v-4H7z', opacity: '.3' },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M11 17h2v-4h4v-2h-4V7h-2v4H7v2h4zm1 5h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10S2 6.49 2 12s4.49 10 10 10m0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8',
-      },
-      '1',
-    ),
-  ],
-  'LoupeTwoTone',
-);
-export const LowPriorityIcon = (props?: KTRawAttr) => {
-  const s = _LowPriorityIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LowPriorityIcon = svg(
-  svg('path', {
-    d: 'M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5',
-  }),
-  'LowPriority',
-);
-export const LowPriorityOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LowPriorityOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LowPriorityOutlinedIcon = svg(
-  svg('path', {
-    d: 'M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5',
-  }),
-  'LowPriorityOutlined',
-);
-export const LowPriorityRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LowPriorityRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LowPriorityRoundedIcon = svg(
-  svg('path', {
-    d: 'M15 5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m0 5.5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m0 5.5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m-5.15 3.15 1.79-1.79c.2-.2.2-.51 0-.71l-1.79-1.79c-.31-.32-.85-.1-.85.35v3.59c0 .44.54.66.85.35M9 16h-.3c-2.35 0-4.45-1.71-4.68-4.05C3.76 9.27 5.87 7 8.5 7H11c.55 0 1-.45 1-1s-.45-1-1-1H8.5c-3.86 0-6.96 3.4-6.44 7.36C2.48 15.64 5.43 18 8.73 18H9',
-  }),
-  'LowPriorityRounded',
-);
-export const LowPrioritySharpIcon = (props?: KTRawAttr) => {
-  const s = _LowPrioritySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LowPrioritySharpIcon = svg(
-  svg('path', {
-    d: 'M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5',
-  }),
-  'LowPrioritySharp',
-);
-export const LowPriorityTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LowPriorityTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LowPriorityTwoToneIcon = svg(
-  svg('path', {
-    d: 'M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5',
-  }),
-  'LowPriorityTwoTone',
-);
-export const LoyaltyIcon = (props?: KTRawAttr) => {
-  const s = _LoyaltyIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoyaltyIcon = svg(
-  svg('path', {
-    d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7m11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77',
-  }),
-  'Loyalty',
-);
-export const LoyaltyOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LoyaltyOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoyaltyOutlinedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z',
-      },
-      '0',
-    ),
-    svg('circle', { cx: '6.5', cy: '6.5', r: '1.5' }, '1'),
-    svg(
-      'path',
-      {
-        d: 'M8.9 12.55c0 .57.23 1.07.6 1.45l3.5 3.5 3.5-3.5c.37-.37.6-.89.6-1.45 0-1.13-.92-2.05-2.05-2.05-.57 0-1.08.23-1.45.6l-.6.6-.6-.59c-.37-.38-.89-.61-1.45-.61-1.13 0-2.05.92-2.05 2.05',
-      },
-      '2',
-    ),
-  ],
-  'LoyaltyOutlined',
-);
-export const LoyaltyRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LoyaltyRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoyaltyRoundedIcon = svg(
-  svg('path', {
-    d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7m11.77 8.27-3.92 3.92c-.2.2-.51.2-.71 0l-3.92-3.92c-.57-.58-.87-1.43-.67-2.34.19-.88.89-1.61 1.76-1.84.94-.25 1.85.04 2.44.65l.75.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77',
-  }),
-  'LoyaltyRounded',
-);
-export const LoyaltySharpIcon = (props?: KTRawAttr) => {
-  const s = _LoyaltySharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoyaltySharpIcon = svg(
-  svg('path', {
-    d: 'M11.83 2H2v9.83l10.99 11s1.05-1.05 1.41-1.42L22.82 13zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7M13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z',
-  }),
-  'LoyaltySharp',
-);
-export const LoyaltyTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LoyaltyTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LoyaltyTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M11 4H4v7l9 9.01L20 13zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5 7.33 8 6.5 8m6.5 3.7.6-.6c.37-.37.89-.6 1.45-.6 1.13 0 2.05.92 2.05 2.05 0 .57-.23 1.08-.6 1.45L13 17.5 9.5 14c-.37-.38-.6-.89-.6-1.45 0-1.13.92-2.05 2.05-2.05.57 0 1.08.23 1.45.61z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'm21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z',
-      },
-      '1',
-    ),
-    svg('circle', { cx: '6.5', cy: '6.5', r: '1.5' }, '2'),
-    svg(
-      'path',
-      {
-        d: 'M8.9 12.55c0 .57.23 1.07.6 1.45l3.5 3.5 3.5-3.5c.37-.37.6-.89.6-1.45 0-1.13-.92-2.05-2.05-2.05-.57 0-1.08.23-1.45.6l-.6.6-.6-.59c-.37-.38-.89-.61-1.45-.61-1.13 0-2.05.92-2.05 2.05',
-      },
-      '3',
-    ),
-  ],
-  'LoyaltyTwoTone',
-);
-export const LteMobiledataIcon = (props?: KTRawAttr) => {
-  const s = _LteMobiledataIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LteMobiledataIcon = svg(
-  svg('path', { d: 'M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z' }),
-  'LteMobiledata',
-);
-export const LteMobiledataOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LteMobiledataOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LteMobiledataOutlinedIcon = svg(
-  svg('path', { d: 'M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z' }),
-  'LteMobiledataOutlined',
-);
-export const LteMobiledataRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LteMobiledataRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LteMobiledataRoundedIcon = svg(
-  svg('path', {
-    d: 'M6 14h2c.55 0 1 .45 1 1s-.45 1-1 1H5c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1s1 .45 1 1zm4-4h1v5c0 .55.45 1 1 1s1-.45 1-1v-5h1c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m11-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1',
-  }),
-  'LteMobiledataRounded',
-);
-export const LteMobiledataSharpIcon = (props?: KTRawAttr) => {
-  const s = _LteMobiledataSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LteMobiledataSharpIcon = svg(
-  svg('path', { d: 'M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z' }),
-  'LteMobiledataSharp',
-);
-export const LteMobiledataTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LteMobiledataTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LteMobiledataTwoToneIcon = svg(
-  svg('path', { d: 'M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z' }),
-  'LteMobiledataTwoTone',
-);
-export const LtePlusMobiledataIcon = (props?: KTRawAttr) => {
-  const s = _LtePlusMobiledataIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LtePlusMobiledataIcon = svg(
-  svg('path', {
-    d: 'M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z',
-  }),
-  'LtePlusMobiledata',
-);
-export const LtePlusMobiledataOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LtePlusMobiledataOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LtePlusMobiledataOutlinedIcon = svg(
-  svg('path', {
-    d: 'M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z',
-  }),
-  'LtePlusMobiledataOutlined',
-);
-export const LtePlusMobiledataRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LtePlusMobiledataRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LtePlusMobiledataRoundedIcon = svg(
-  svg('path', {
-    d: 'M3 14h2c.55 0 1 .45 1 1s-.45 1-1 1H2c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1s1 .45 1 1zm3-4h1v5c0 .55.45 1 1 1s1-.45 1-1v-5h1c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1m7 6h3c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1m10-5h-1v-1c0-.55-.45-1-1-1s-1 .45-1 1v1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1v1c0 .55.45 1 1 1s1-.45 1-1v-1h1c.55 0 1-.45 1-1s-.45-1-1-1',
-  }),
-  'LtePlusMobiledataRounded',
-);
-export const LtePlusMobiledataSharpIcon = (props?: KTRawAttr) => {
-  const s = _LtePlusMobiledataSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LtePlusMobiledataSharpIcon = svg(
-  svg('path', {
-    d: 'M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z',
-  }),
-  'LtePlusMobiledataSharp',
-);
-export const LtePlusMobiledataTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LtePlusMobiledataTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LtePlusMobiledataTwoToneIcon = svg(
-  svg('path', {
-    d: 'M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z',
-  }),
-  'LtePlusMobiledataTwoTone',
-);
-export const LuggageIcon = (props?: KTRawAttr) => {
-  const s = _LuggageIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LuggageIcon = svg(
-  svg('path', {
-    d: 'M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zm.75-12h-3V3.5h3zM16 18h-1.5V9H16z',
-  }),
-  'Luggage',
-);
-export const LuggageOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LuggageOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LuggageOutlinedIcon = svg(
-  svg('path', {
-    d: 'M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16zm1-12h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-6.5-2.5h3V6h-3zM17 19H7V8h10z',
-  }),
-  'LuggageOutlined',
-);
-export const LuggageRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LuggageRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LuggageRoundedIcon = svg(
-  svg('path', {
-    d: 'M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2M8.75 18c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75M12 18c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75m1.5-12h-3V3.5h3zm1.75 12c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75',
-  }),
-  'LuggageRounded',
-);
-export const LuggageSharpIcon = (props?: KTRawAttr) => {
-  const s = _LuggageSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LuggageSharpIcon = svg(
-  svg('path', {
-    d: 'M19 6h-4V2H9v4H5v15h2c0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1h2zM9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zm.75-12h-3V3.5h3zM16 18h-1.5V9H16z',
-  }),
-  'LuggageSharp',
-);
-export const LuggageTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LuggageTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LuggageTwoToneIcon = svg(
-  [
-    svg('path', { d: 'M7 8v11h10V8zm2.5 10H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16z', opacity: '.3' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16zm1-12h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-6.5-2.5h3V6h-3zM17 19H7V8h10z',
-      },
-      '1',
-    ),
-  ],
-  'LuggageTwoTone',
-);
-export const LunchDiningIcon = (props?: KTRawAttr) => {
-  const s = _LunchDiningIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LunchDiningIcon = svg(
-  svg('path', {
-    fillRule: 'evenodd',
-    d: 'M22 10c.32-3.28-4.28-6-9.99-6S1.7 6.72 2.02 10zM5.35 13.5c.55 0 .78.14 1.15.36.45.27 1.07.64 2.18.64s1.73-.37 2.18-.64c.37-.23.59-.36 1.15-.36.55 0 .78.14 1.15.36.45.27 1.07.64 2.18.64s1.73-.37 2.18-.64c.37-.23.59-.36 1.15-.36.55 0 .78.14 1.15.36.45.27 1.07.63 2.17.64v-1.98s-.79-.16-1.16-.38c-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.6.36-1.15.36s-.78-.14-1.15-.36c-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.59.36-1.15.36-.55 0-.78-.14-1.15-.36-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.59.36-1.15.36v2c1.11 0 1.73-.37 2.21-.64.37-.23.59-.36 1.14-.36M2 16v2c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2z',
-  }),
-  'LunchDining',
-);
-export const LunchDiningOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LunchDiningOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LunchDiningOutlinedIcon = svg(
-  svg('path', {
-    d: 'M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3H2zm2-1h16v1H4zm14.66-6.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20zM4.18 8C5.01 5.81 8.61 5 12 5c3.31 0 5.93.73 7.19 1.99.3.31.52.64.65 1.01z',
-  }),
-  'LunchDiningOutlined',
-);
-export const LunchDiningRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LunchDiningRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LunchDiningRoundedIcon = svg(
-  svg('path', {
-    d: 'M3.37 14.28c.79-.29 1.17-.78 1.99-.78 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 .81 0 1.17.46 1.93.76.67.26 1.39-.25 1.39-.96 0-.43-.28-.81-.69-.96-.97-.35-1.22-.83-2.65-.83-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.55 0-1.96.63-2.68.89-.39.14-.65.52-.65.94 0 .69.7 1.18 1.36.94M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-1c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zM22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9c0 .55.45 1 1 1h18c.55 0 1-.45 1-1',
-  }),
-  'LunchDiningRounded',
-);
-export const LunchDiningSharpIcon = (props?: KTRawAttr) => {
-  const s = _LunchDiningSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LunchDiningSharpIcon = svg(
-  svg('path', {
-    d: 'M2 16h20v5H2zm16.66-4.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20z',
-  }),
-  'LunchDiningSharp',
-);
-export const LunchDiningTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LunchDiningTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LunchDiningTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        fillOpacity: '.3',
-        d: 'M4 18h16v1H4zm8-13c-3.39 0-6.99.81-7.82 3h15.66c-.13-.37-.35-.7-.66-1.01C17.93 5.73 15.31 5 12 5',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3H2zm2-1h16v1H4zm14.66-6.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20zM4.18 8C5.01 5.81 8.61 5 12 5c3.31 0 5.93.73 7.19 1.99.3.31.52.64.65 1.01z',
-      },
-      '1',
-    ),
-  ],
-  'LunchDiningTwoTone',
-);
-export const LyricsIcon = (props?: KTRawAttr) => {
-  const s = _LyricsIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LyricsIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z',
-      },
-      '0',
-    ),
-    svg('path', { d: 'M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z' }, '1'),
-  ],
-  'Lyrics',
-);
-export const LyricsOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _LyricsOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LyricsOutlinedIcon = svg(
-  [
-    svg('path', { d: 'M6 6h7v2H6zm0 6h4v2H6z' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M15 11.97V16H6l-2 2V4h11v2.03c.52-.69 1.2-1.25 2-1.6V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-.8-.36-1.48-.92-2-1.61',
-      },
-      '1',
-    ),
-    svg(
-      'path',
-      { d: 'M6 9h7v2H6zm14-2.82c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z' },
-      '2',
-    ),
-  ],
-  'LyricsOutlined',
-);
-export const LyricsRoundedIcon = (props?: KTRawAttr) => {
-  const s = _LyricsRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LyricsRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z',
-      },
-      '0',
-    ),
-    svg('path', { d: 'M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z' }, '1'),
-  ],
-  'LyricsRounded',
-);
-export const LyricsSharpIcon = (props?: KTRawAttr) => {
-  const s = _LyricsSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LyricsSharpIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z',
-      },
-      '0',
-    ),
-    svg('path', { d: 'M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z' }, '1'),
-  ],
-  'LyricsSharp',
-);
-export const LyricsTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _LyricsTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _LyricsTwoToneIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M4 4v14l2-2h9v-4.03c-.62-.83-1-1.85-1-2.97s.38-2.14 1-2.97V4zm6 10H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z',
-        opacity: '.3',
-      },
-      '0',
-    ),
-    svg('path', { d: 'M6 12h4v2H6zm0-6h7v2H6z' }, '1'),
-    svg(
-      'path',
-      {
-        d: 'M15 11.97V16H6l-2 2V4h11v2.03c.52-.69 1.2-1.25 2-1.6V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-.8-.36-1.48-.92-2-1.61',
-      },
-      '2',
-    ),
-    svg(
-      'path',
-      { d: 'M6 9h7v2H6zm14-2.82c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z' },
-      '3',
-    ),
-  ],
-  'LyricsTwoTone',
-);
+export const LabelIcon = (props?: KTRawAttr)=> {const s = _LabelIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelIcon = svg(svg("path", {  d: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12z"}), 'Label');
+export const LabelImportantIcon = (props?: KTRawAttr)=> {const s = _LabelImportantIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantIcon = svg(svg("path", {  d: "m3.5 18.99 11 .01c.67 0 1.27-.33 1.63-.84L20.5 12l-4.37-6.16c-.36-.51-.96-.84-1.63-.84l-11 .01L8.34 12z"}), 'LabelImportant');
+export const LabelImportantOutlineIcon = (props?: KTRawAttr)=> {const s = _LabelImportantOutlineIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantOutlineIcon = svg(svg("path", {  d: "M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutline');
+export const LabelImportantOutlineRoundedIcon = (props?: KTRawAttr)=> {const s = _LabelImportantOutlineRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantOutlineRoundedIcon = svg(svg("path", {  d: "M15 19H4.83c-.79 0-1.27-.88-.84-1.54L7.5 12 3.99 6.54C3.56 5.88 4.04 5 4.83 5H15c.65 0 1.26.31 1.63.84l3.96 5.58c.25.35.25.81 0 1.16l-3.96 5.58c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutlineRounded');
+export const LabelImportantOutlineSharpIcon = (props?: KTRawAttr)=> {const s = _LabelImportantOutlineSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantOutlineSharpIcon = svg(svg("path", {  d: "M16.03 19H3l4.5-7L3 5h13.03L21 12zM6.5 17H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutlineSharp');
+export const LabelImportantOutlineTwoToneIcon = (props?: KTRawAttr)=> {const s = _LabelImportantOutlineTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantOutlineTwoToneIcon = svg(svg("path", {  d: "M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutlineTwoTone');
+export const LabelImportantOutlinedIcon = (props?: KTRawAttr)=> {const s = _LabelImportantOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantOutlinedIcon = svg(svg("path", {  d: "M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutlined');
+export const LabelImportantRoundedIcon = (props?: KTRawAttr)=> {const s = _LabelImportantRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantRoundedIcon = svg(svg("path", {  d: "M5.94 18.99H15c.65 0 1.26-.31 1.63-.84l3.95-5.57c.25-.35.25-.81 0-1.16l-3.96-5.58C16.26 5.31 15.65 5 15 5H5.94c-.81 0-1.28.93-.81 1.59L9 12l-3.87 5.41c-.47.66 0 1.58.81 1.58"}), 'LabelImportantRounded');
+export const LabelImportantSharpIcon = (props?: KTRawAttr)=> {const s = _LabelImportantSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantSharpIcon = svg(svg("path", {  d: "M4 18.99h12.04L21 12l-4.97-7H4l5 7z"}), 'LabelImportantSharp');
+export const LabelImportantTwoToneIcon = (props?: KTRawAttr)=> {const s = _LabelImportantTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelImportantTwoToneIcon = svg([svg("path", {  d: "M15 7H7.89l3.57 5-3.57 5H15l3.55-5z",  opacity: ".3"}, "0"), svg("path", {  d: "M16.63 5.84C16.27 5.33 15.67 5 15 5H4l5 7-5 6.99h11c.67 0 1.27-.32 1.63-.83L21 12zM15 17H7.89l3.57-5-3.57-5H15l3.55 5z"}, "1")], 'LabelImportantTwoTone');
+export const LabelOffIcon = (props?: KTRawAttr)=> {const s = _LabelOffIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOffIcon = svg(svg("path", {  d: "m3.25 2.75 17 17L19 21l-2-2H5c-1.1 0-2-.9-2-2V7c0-.55.23-1.05.59-1.41L2 4zM22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5H8l11 11z"}), 'LabelOff');
+export const LabelOffOutlinedIcon = (props?: KTRawAttr)=> {const s = _LabelOffOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOffOutlinedIcon = svg(svg("path", {  d: "m16 7 3.55 5-1.63 2.29 1.43 1.43L22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5l-7.37.01 2 1.99zM2 4.03l1.58 1.58C3.22 5.96 3 6.46 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.28 0 .55-.07.79-.18L18.97 21l1.41-1.41L3.41 2.62zM14.97 17H5V7.03z"}), 'LabelOffOutlined');
+export const LabelOffRoundedIcon = (props?: KTRawAttr)=> {const s = _LabelOffRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOffRoundedIcon = svg(svg("path", {  d: "M21.59 12.58c.25-.35.25-.81 0-1.16l-3.96-5.58C17.27 5.33 16.67 5 16 5H8.66l10.7 10.73zM2.72 4.72l.87.87C3.23 5.95 3 6.45 3 7v10c0 1.1.9 2 2 2h12l1.29 1.29c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L4.14 3.31c-.38-.38-1.01-.39-1.4-.01-.41.38-.41 1.03-.02 1.42"}), 'LabelOffRounded');
+export const LabelOffSharpIcon = (props?: KTRawAttr)=> {const s = _LabelOffSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOffSharpIcon = svg(svg("path", {  d: "m22 12-4.97-7H8.66l10.7 10.73zM2 4l1 1v14h14l2 2 1.41-1.41L3.44 2.62z"}), 'LabelOffSharp');
+export const LabelOffTwoToneIcon = (props?: KTRawAttr)=> {const s = _LabelOffTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOffTwoToneIcon = svg([svg("path", {  d: "M5 7.03V17h9.97zM16 7h-5.37l7.29 7.29L19.55 12z",  opacity: ".3"}, "0"), svg("path", {  d: "m16 7 3.55 5-1.63 2.29 1.43 1.43L22 12l-4.37-6.16C17.27 5.33 16.67 5 16 5l-7.37.01 2 1.99zM2 4.03l1.58 1.58C3.22 5.96 3 6.46 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.28 0 .55-.07.79-.18L18.97 21l1.41-1.41L3.41 2.62zm3 3L14.97 17H5z"}, "1")], 'LabelOffTwoTone');
+export const LabelOutlinedIcon = (props?: KTRawAttr)=> {const s = _LabelOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelOutlinedIcon = svg(svg("path", {  d: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12zM16 17H5V7h11l3.55 5z"}), 'LabelOutlined');
+export const LabelRoundedIcon = (props?: KTRawAttr)=> {const s = _LabelRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelRoundedIcon = svg(svg("path", {  d: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84l3.96-5.58c.25-.35.25-.81 0-1.16z"}), 'LabelRounded');
+export const LabelSharpIcon = (props?: KTRawAttr)=> {const s = _LabelSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelSharpIcon = svg(svg("path", {  d: "M17.03 5 3 5.01v13.98l14.03.01L22 12z"}), 'LabelSharp');
+export const LabelTwoToneIcon = (props?: KTRawAttr)=> {const s = _LabelTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LabelTwoToneIcon = svg([svg("path", {  d: "M16 7H5v10h11l3.55-5z",  opacity: ".3"}, "0"), svg("path", {  d: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12zM16 17H5V7h11l3.55 5z"}, "1")], 'LabelTwoTone');
+export const LanIcon = (props?: KTRawAttr)=> {const s = _LanIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanIcon = svg(svg("path", {  d: "M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z"}), 'Lan');
+export const LanOutlinedIcon = (props?: KTRawAttr)=> {const s = _LanOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanOutlinedIcon = svg(svg("path", {  d: "M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3zM10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z"}), 'LanOutlined');
+export const LanRoundedIcon = (props?: KTRawAttr)=> {const s = _LanRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanRoundedIcon = svg(svg("path", {  d: "M15 22h4c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2h-1v-2c0-1.1-.9-2-2-2h-3V9h1c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h1v2H8c-1.1 0-2 .9-2 2v2H5c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2H8v-2h8v2h-1c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2"}), 'LanRounded');
+export const LanSharpIcon = (props?: KTRawAttr)=> {const s = _LanSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanSharpIcon = svg(svg("path", {  d: "M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z"}), 'LanSharp');
+export const LanTwoToneIcon = (props?: KTRawAttr)=> {const s = _LanTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanTwoToneIcon = svg([svg("path", {  d: "M10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z",  opacity: ".3"}, "0"), svg("path", {  d: "M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3zM10 7V4h4v3zM9 17v3H5v-3zm10 0v3h-4v-3z"}, "1")], 'LanTwoTone');
+export const LandscapeIcon = (props?: KTRawAttr)=> {const s = _LandscapeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandscapeIcon = svg(svg("path", {  d: "m14 6-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22z"}), 'Landscape');
+export const LandscapeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LandscapeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandscapeOutlinedIcon = svg(svg("path", {  d: "m14 6-4.22 5.63 1.25 1.67L14 9.33 19 16h-8.46l-4.01-5.37L1 18h22zM5 16l1.52-2.03L8.04 16z"}), 'LandscapeOutlined');
+export const LandscapeRoundedIcon = (props?: KTRawAttr)=> {const s = _LandscapeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandscapeRoundedIcon = svg(svg("path", {  d: "M13.2 7.07 10.25 11l2.25 3c.33.44.24 1.07-.2 1.4s-1.07.25-1.4-.2c-1.05-1.4-2.31-3.07-3.1-4.14-.4-.53-1.2-.53-1.6 0l-4 5.33c-.49.67-.02 1.61.8 1.61h18c.82 0 1.29-.94.8-1.6l-7-9.33c-.4-.54-1.2-.54-1.6 0"}), 'LandscapeRounded');
+export const LandscapeSharpIcon = (props?: KTRawAttr)=> {const s = _LandscapeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandscapeSharpIcon = svg(svg("path", {  d: "m14 6-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22z"}), 'LandscapeSharp');
+export const LandscapeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LandscapeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandscapeTwoToneIcon = svg([svg("path", {  d: "M5 16h3.04l-1.52-2.03z",  opacity: ".3"}, "0"), svg("path", {  d: "m9.78 11.63 1.25 1.67L14 9.33 19 16h-8.46l-4.01-5.37L1 18h22L14 6zM5 16l1.52-2.03L8.04 16z"}, "1")], 'LandscapeTwoTone');
+export const LandslideIcon = (props?: KTRawAttr)=> {const s = _LandslideIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandslideIcon = svg(svg("path", {  d: "m15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8 8H2v3.61l4 1.34zM6 19.05l-4-1.33V22h20l-4.97-6.62zM17 6V1l-5-1-3 2v4l3 2zm1.5 1L16 9v3l2.5 2 4.5-2V8z"}), 'Landslide');
+export const LandslideOutlinedIcon = (props?: KTRawAttr)=> {const s = _LandslideOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandslideOutlinedIcon = svg(svg("path", {  d: "M11 12 8 8H2v14h20l-6-8zm1.53 2.77L6 16.95l-2-.67v-1.89l2 .67 3.95-1.32zM7 10l1.57 2.09-2.57.86-2-.67V10zM4 20v-1.61l2 .67 9.03-3.01L18 20zM17 6V1l-5-1-3 2v4l3 2zm-6-2.93 1.42-.95 2.58.52v2.01l-2.77 1.11L11 4.93zM18.5 7 16 9v3l2.5 2 4.5-2V8zm2.5 3.7-2.2.98-.8-.64V9.96l1-.8 2 .44z"}), 'LandslideOutlined');
+export const LandslideRoundedIcon = (props?: KTRawAttr)=> {const s = _LandslideRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandslideRoundedIcon = svg(svg("path", {  d: "m15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8.6 8.8C8.22 8.3 7.63 8 7 8H4c-1.1 0-2 .9-2 2v1.61l4 1.33zM6 19.05l-4-1.33V20c0 1.1.9 2 2 2h14c1.65 0 2.59-1.88 1.6-3.2l-2.57-3.42zm11-14.4V2.64c0-.95-.67-1.77-1.61-1.96L12.81.16c-.52-.1-1.06 0-1.5.3l-1.42.95C9.33 1.78 9 2.4 9 3.07v1.86c0 .67.33 1.29.89 1.66l1.23.82c.55.37 1.24.44 1.85.19l2.77-1.11C16.5 6.2 17 5.46 17 4.65m.75 2.95-1 .8c-.47.38-.75.95-.75 1.56v1.08c0 .61.28 1.18.75 1.56l.8.64c.58.47 1.38.57 2.06.27l2.2-.98c.72-.32 1.19-1.04 1.19-1.83V9.6c0-.94-.65-1.75-1.57-1.95l-2-.44c-.59-.13-1.21.01-1.68.39"}), 'LandslideRounded');
+export const LandslideSharpIcon = (props?: KTRawAttr)=> {const s = _LandslideSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandslideSharpIcon = svg(svg("path", {  d: "m15.47 13.79-2.58-1.03L6 15.05l-4-1.54v2.1l4 1.34zm-4.9-2.37L8 8H2v3.61l4 1.34zM6 19.05l-4-1.33V22h20l-4.97-6.62zM17 6V1l-5-1-3 2v4l3 2zm1.5 1L16 9v3l2.5 2 4.5-2V8z"}), 'LandslideSharp');
+export const LandslideTwoToneIcon = (props?: KTRawAttr)=> {const s = _LandslideTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LandslideTwoToneIcon = svg([svg("path", {  d: "M8.57 12.09 7 10H4v2.28l2 .67zm3.96 2.68-2.58-1.03L6 15.05l-2-.66v1.89l2 .67zM15 4.65V2.64l-2.58-.52-1.42.95v1.86l1.23.82zm-9 14.4-2-.66V20h14l-2.97-3.96zm12-9.09v1.08l.8.64 2.2-.98V9.6l-2-.44z",  opacity: ".3"}, "0"), svg("path", {  d: "M11 12 8 8H2v14h20l-6-8zm-7-2h3l1.57 2.09-2.57.86-2-.67zm0 4.39 2 .67 3.95-1.32 2.58 1.03L6 16.95l-2-.67zM4 20v-1.61l2 .67 9.03-3.01L18 20zM17 6V1l-5-1-3 2v4l3 2zm-6-2.93 1.42-.95 2.58.52v2.01l-2.77 1.11L11 4.93zM18.5 7 16 9v3l2.5 2 4.5-2V8zm2.5 3.7-2.2.98-.8-.64V9.96l1-.8 2 .44z"}, "1")], 'LandslideTwoTone');
+export const LanguageIcon = (props?: KTRawAttr)=> {const s = _LanguageIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanguageIcon = svg(svg("path", {  d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"}), 'Language');
+export const LanguageOutlinedIcon = (props?: KTRawAttr)=> {const s = _LanguageOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanguageOutlinedIcon = svg(svg("path", {  d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"}), 'LanguageOutlined');
+export const LanguageRoundedIcon = (props?: KTRawAttr)=> {const s = _LanguageRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanguageRoundedIcon = svg(svg("path", {  d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"}), 'LanguageRounded');
+export const LanguageSharpIcon = (props?: KTRawAttr)=> {const s = _LanguageSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanguageSharpIcon = svg(svg("path", {  d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"}), 'LanguageSharp');
+export const LanguageTwoToneIcon = (props?: KTRawAttr)=> {const s = _LanguageTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LanguageTwoToneIcon = svg([svg("path", {  d: "M5.08 8h2.95c.32-1.25.78-2.45 1.38-3.56-1.84.63-3.37 1.9-4.33 3.56m2.42 4c0-.68.06-1.34.14-2H4.26c-.16.64-.26 1.31-.26 2s.1 1.36.26 2h3.38c-.08-.66-.14-1.32-.14-2m-2.42 4c.96 1.66 2.49 2.93 4.33 3.56-.6-1.11-1.06-2.31-1.38-3.56zM12 4.04c-.83 1.2-1.48 2.53-1.91 3.96h3.82c-.43-1.43-1.08-2.76-1.91-3.96M18.92 8c-.96-1.65-2.49-2.93-4.33-3.56.6 1.11 1.06 2.31 1.38 3.56zM12 19.96c.83-1.2 1.48-2.53 1.91-3.96h-3.82c.43 1.43 1.08 2.76 1.91 3.96m2.59-.4c1.84-.63 3.37-1.91 4.33-3.56h-2.95c-.32 1.25-.78 2.45-1.38 3.56M19.74 10h-3.38c.08.66.14 1.32.14 2s-.06 1.34-.14 2h3.38c.16-.64.26-1.31.26-2s-.1-1.36-.26-2M9.66 10c-.09.65-.16 1.32-.16 2s.07 1.34.16 2h4.68c.09-.66.16-1.32.16-2s-.07-1.35-.16-2z",  opacity: ".3"}, "0"), svg("path", {  d: "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56m2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"}, "1")], 'LanguageTwoTone');
+export const LaptopIcon = (props?: KTRawAttr)=> {const s = _LaptopIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopIcon = svg(svg("path", {  d: "M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"}), 'Laptop');
+export const LaptopChromebookIcon = (props?: KTRawAttr)=> {const s = _LaptopChromebookIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopChromebookIcon = svg(svg("path", {  d: "M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"}), 'LaptopChromebook');
+export const LaptopChromebookOutlinedIcon = (props?: KTRawAttr)=> {const s = _LaptopChromebookOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopChromebookOutlinedIcon = svg(svg("path", {  d: "M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"}), 'LaptopChromebookOutlined');
+export const LaptopChromebookRoundedIcon = (props?: KTRawAttr)=> {const s = _LaptopChromebookRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopChromebookRoundedIcon = svg(svg("path", {  d: "M23 18h-1V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v13H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1m-9.5 0h-3c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h3c.28 0 .5.22.5.5s-.22.5-.5.5m6.5-3H4V6c0-.55.45-1 1-1h14c.55 0 1 .45 1 1z"}), 'LaptopChromebookRounded');
+export const LaptopChromebookSharpIcon = (props?: KTRawAttr)=> {const s = _LaptopChromebookSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopChromebookSharpIcon = svg(svg("path", {  d: "M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"}), 'LaptopChromebookSharp');
+export const LaptopChromebookTwoToneIcon = (props?: KTRawAttr)=> {const s = _LaptopChromebookTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopChromebookTwoToneIcon = svg([svg("path", {  d: "M4 5h16v10H4z",  opacity: ".3"}, "0"), svg("path", {  d: "M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"}, "1")], 'LaptopChromebookTwoTone');
+export const LaptopMacIcon = (props?: KTRawAttr)=> {const s = _LaptopMacIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopMacIcon = svg(svg("path", {  d: "M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LaptopMac');
+export const LaptopMacOutlinedIcon = (props?: KTRawAttr)=> {const s = _LaptopMacOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopMacOutlinedIcon = svg(svg("path", {  d: "M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LaptopMacOutlined');
+export const LaptopMacRoundedIcon = (props?: KTRawAttr)=> {const s = _LaptopMacRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopMacRoundedIcon = svg(svg("path", {  d: "M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM5 5h14c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1m7 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LaptopMacRounded');
+export const LaptopMacSharpIcon = (props?: KTRawAttr)=> {const s = _LaptopMacSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopMacSharpIcon = svg(svg("path", {  d: "m20 18 1.99-2L22 3H2v13l2 2H0v2h24v-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LaptopMacSharp');
+export const LaptopMacTwoToneIcon = (props?: KTRawAttr)=> {const s = _LaptopMacTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopMacTwoToneIcon = svg([svg("path", {  d: "M4 5h16v11H4z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2zM4 5h16v11H4zm8 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}, "1")], 'LaptopMacTwoTone');
+export const LaptopOutlinedIcon = (props?: KTRawAttr)=> {const s = _LaptopOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopOutlinedIcon = svg(svg("path", {  d: "M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"}), 'LaptopOutlined');
+export const LaptopRoundedIcon = (props?: KTRawAttr)=> {const s = _LaptopRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopRoundedIcon = svg(svg("path", {  d: "M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1zM5 6h14c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1"}), 'LaptopRounded');
+export const LaptopSharpIcon = (props?: KTRawAttr)=> {const s = _LaptopSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopSharpIcon = svg(svg("path", {  d: "m20 18 2-2V4H2v12l2 2H0v2h24v-2zM4 6h16v10H4z"}), 'LaptopSharp');
+export const LaptopTwoToneIcon = (props?: KTRawAttr)=> {const s = _LaptopTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopTwoToneIcon = svg([svg("path", {  d: "M4 6h16v10H4z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"}, "1")], 'LaptopTwoTone');
+export const LaptopWindowsIcon = (props?: KTRawAttr)=> {const s = _LaptopWindowsIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopWindowsIcon = svg(svg("path", {  d: "M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z"}), 'LaptopWindows');
+export const LaptopWindowsOutlinedIcon = (props?: KTRawAttr)=> {const s = _LaptopWindowsOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopWindowsOutlinedIcon = svg(svg("path", {  d: "M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z"}), 'LaptopWindowsOutlined');
+export const LaptopWindowsRoundedIcon = (props?: KTRawAttr)=> {const s = _LaptopWindowsRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopWindowsRoundedIcon = svg(svg("path", {  d: "M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1zM5 5h14c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1"}), 'LaptopWindowsRounded');
+export const LaptopWindowsSharpIcon = (props?: KTRawAttr)=> {const s = _LaptopWindowsSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopWindowsSharpIcon = svg(svg("path", {  d: "M20 18v-1h1.99L22 3H2v14h2v1H0v2h24v-2zM4 5h16v10H4z"}), 'LaptopWindowsSharp');
+export const LaptopWindowsTwoToneIcon = (props?: KTRawAttr)=> {const s = _LaptopWindowsTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaptopWindowsTwoToneIcon = svg([svg("path", {  d: "M4 5h16v10H4z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 18v-1c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2v1H0v2h24v-2zM4 5h16v10H4z"}, "1")], 'LaptopWindowsTwoTone');
+export const LastPageIcon = (props?: KTRawAttr)=> {const s = _LastPageIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LastPageIcon = svg(svg("path", {  d: "M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}), 'LastPage');
+export const LastPageOutlinedIcon = (props?: KTRawAttr)=> {const s = _LastPageOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LastPageOutlinedIcon = svg(svg("path", {  d: "M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}), 'LastPageOutlined');
+export const LastPageRoundedIcon = (props?: KTRawAttr)=> {const s = _LastPageRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LastPageRoundedIcon = svg(svg("path", {  d: "M6.29 8.11 10.18 12l-3.89 3.89c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L7.7 6.7a.996.996 0 0 0-1.41 0c-.38.39-.38 1.03 0 1.41M17 6c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1"}), 'LastPageRounded');
+export const LastPageSharpIcon = (props?: KTRawAttr)=> {const s = _LastPageSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LastPageSharpIcon = svg(svg("path", {  d: "M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}), 'LastPageSharp');
+export const LastPageTwoToneIcon = (props?: KTRawAttr)=> {const s = _LastPageTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LastPageTwoToneIcon = svg(svg("path", {  d: "M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}), 'LastPageTwoTone');
+export const LaunchIcon = (props?: KTRawAttr)=> {const s = _LaunchIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaunchIcon = svg(svg("path", {  d: "M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"}), 'Launch');
+export const LaunchOutlinedIcon = (props?: KTRawAttr)=> {const s = _LaunchOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaunchOutlinedIcon = svg(svg("path", {  d: "M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"}), 'LaunchOutlined');
+export const LaunchRoundedIcon = (props?: KTRawAttr)=> {const s = _LaunchRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaunchRoundedIcon = svg(svg("path", {  d: "M18 19H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h5c.55 0 1-.45 1-1s-.45-1-1-1H5c-1.11 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6c0-.55-.45-1-1-1s-1 .45-1 1v5c0 .55-.45 1-1 1M14 4c0 .55.45 1 1 1h2.59l-9.13 9.13c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0L19 6.41V9c0 .55.45 1 1 1s1-.45 1-1V3h-6c-.55 0-1 .45-1 1"}), 'LaunchRounded');
+export const LaunchSharpIcon = (props?: KTRawAttr)=> {const s = _LaunchSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaunchSharpIcon = svg(svg("path", {  d: "M19 19H5V5h7V3H3v18h18v-9h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"}), 'LaunchSharp');
+export const LaunchTwoToneIcon = (props?: KTRawAttr)=> {const s = _LaunchTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LaunchTwoToneIcon = svg(svg("path", {  d: "M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"}), 'LaunchTwoTone');
+export const LayersIcon = (props?: KTRawAttr)=> {const s = _LayersIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersIcon = svg(svg("path", {  d: "m11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27z"}), 'Layers');
+export const LayersClearIcon = (props?: KTRawAttr)=> {const s = _LayersClearIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersClearIcon = svg(svg("path", {  d: "m19.81 14.99 1.19-.92-1.43-1.43-1.19.92zm-.45-4.72L21 9l-9-7-2.91 2.27 7.87 7.88zM3.27 1 2 2.27l4.22 4.22L3 9l1.63 1.27L12 16l2.1-1.63 1.43 1.43L12 18.54l-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21 22 19.73z"}), 'LayersClear');
+export const LayersClearOutlinedIcon = (props?: KTRawAttr)=> {const s = _LayersClearOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersClearOutlinedIcon = svg(svg("path", {  d: "M12 4.53 17.74 9l-1.89 1.47 1.43 1.42L21 9l-9-7-2.59 2.02 1.42 1.42zm9 9.54-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41zM12 13.47 6.26 9l1.39-1.08 5.02 5.02z"}), 'LayersClearOutlined');
+export const LayersClearRoundedIcon = (props?: KTRawAttr)=> {const s = _LayersClearRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersClearRoundedIcon = svg(svg("path", {  d: "M19.99 9.79c.51-.4.51-1.18 0-1.58l-6.76-5.26c-.72-.56-1.73-.56-2.46 0L9.41 4.02l7.88 7.88zm0 3.49-.01-.01a.991.991 0 0 0-1.22 0l-.05.04 1.4 1.4c.37-.41.34-1.07-.12-1.43m1.45 5.6L4.12 1.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l3.52 3.52-2.22 1.72c-.51.4-.51 1.18 0 1.58l6.76 5.26c.72.56 1.73.56 2.46 0l.87-.68 1.42 1.42-2.92 2.27c-.36.28-.87.28-1.23 0l-6.15-4.78a.991.991 0 0 0-1.22 0c-.51.4-.51 1.17 0 1.57l6.76 5.26c.72.56 1.73.56 2.46 0l3.72-2.89 3.07 3.07c.39.39 1.02.39 1.41 0 .41-.39.41-1.02.02-1.41"}), 'LayersClearRounded');
+export const LayersClearSharpIcon = (props?: KTRawAttr)=> {const s = _LayersClearSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersClearSharpIcon = svg(svg("path", {  d: "m21 9-9-7-2.59 2.02 7.87 7.87zm0 5.07-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41z"}), 'LayersClearSharp');
+export const LayersClearTwoToneIcon = (props?: KTRawAttr)=> {const s = _LayersClearTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersClearTwoToneIcon = svg([svg("path", {  d: "m12 13.47.67-.53-5.02-5.02L6.26 9zm0-8.94-1.17.91 5.02 5.03L17.74 9z",  opacity: ".3"}, "0"), svg("path", {  d: "M12 4.53 17.74 9l-1.89 1.47 1.43 1.42L21 9l-9-7-2.59 2.02 1.42 1.42zm9 9.54-1.63-1.27-.67.52 1.43 1.43zM3.41.86 2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41zM12 13.47 6.26 9l1.39-1.08 5.02 5.02z"}, "1")], 'LayersClearTwoTone');
+export const LayersOutlinedIcon = (props?: KTRawAttr)=> {const s = _LayersOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersOutlinedIcon = svg(svg("path", {  d: "m11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27zm0-11.47L17.74 9 12 13.47 6.26 9z"}), 'LayersOutlined');
+export const LayersRoundedIcon = (props?: KTRawAttr)=> {const s = _LayersRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersRoundedIcon = svg(svg("path", {  d: "M12.6 18.06c-.36.28-.87.28-1.23 0l-6.15-4.78a.991.991 0 0 0-1.22 0c-.51.4-.51 1.17 0 1.57l6.76 5.26c.72.56 1.73.56 2.46 0l6.76-5.26c.51-.4.51-1.17 0-1.57l-.01-.01a.991.991 0 0 0-1.22 0zm.63-3.02 6.76-5.26c.51-.4.51-1.18 0-1.58l-6.76-5.26c-.72-.56-1.73-.56-2.46 0L4.01 8.21c-.51.4-.51 1.18 0 1.58l6.76 5.26c.72.56 1.74.56 2.46-.01"}), 'LayersRounded');
+export const LayersSharpIcon = (props?: KTRawAttr)=> {const s = _LayersSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersSharpIcon = svg(svg("path", {  d: "m11.99 18.54-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27z"}), 'LayersSharp');
+export const LayersTwoToneIcon = (props?: KTRawAttr)=> {const s = _LayersTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LayersTwoToneIcon = svg([svg("path", {  d: "M6.26 9 12 13.47 17.74 9 12 4.53z",  opacity: ".3"}, "0"), svg("path", {  d: "m19.37 12.8-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2 3 9l1.63 1.27L12 16l7.36-5.73L21 9zm0 11.47L6.26 9 12 4.53 17.74 9z"}, "1")], 'LayersTwoTone');
+export const LeaderboardIcon = (props?: KTRawAttr)=> {const s = _LeaderboardIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeaderboardIcon = svg(svg("path", {  d: "M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z"}), 'Leaderboard');
+export const LeaderboardOutlinedIcon = (props?: KTRawAttr)=> {const s = _LeaderboardOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeaderboardOutlinedIcon = svg(svg("path", {  d: "M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z"}), 'LeaderboardOutlined');
+export const LeaderboardRoundedIcon = (props?: KTRawAttr)=> {const s = _LeaderboardRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeaderboardRoundedIcon = svg(svg("path", {  d: "M6.5 21H3c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1m7.25-18h-3.5c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h3.5c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1M21 11h-3.5c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1H21c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1"}), 'LeaderboardRounded');
+export const LeaderboardSharpIcon = (props?: KTRawAttr)=> {const s = _LeaderboardSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeaderboardSharpIcon = svg(svg("path", {  d: "M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z"}), 'LeaderboardSharp');
+export const LeaderboardTwoToneIcon = (props?: KTRawAttr)=> {const s = _LeaderboardTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeaderboardTwoToneIcon = svg([svg("path", {  d: "M10 5h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z",  opacity: ".3"}, "0"), svg("path", {  d: "M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z"}, "1")], 'LeaderboardTwoTone');
+export const LeakAddIcon = (props?: KTRawAttr)=> {const s = _LeakAddIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakAddIcon = svg(svg("path", {  d: "M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7"}), 'LeakAdd');
+export const LeakAddOutlinedIcon = (props?: KTRawAttr)=> {const s = _LeakAddOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakAddOutlinedIcon = svg(svg("path", {  d: "M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7"}), 'LeakAddOutlined');
+export const LeakAddRoundedIcon = (props?: KTRawAttr)=> {const s = _LeakAddRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakAddRoundedIcon = svg(svg("path", {  d: "M11.05 21c.5 0 .94-.37.99-.87.41-4.27 3.81-7.67 8.08-8.08.5-.05.88-.48.88-.99 0-.59-.51-1.06-1.1-1-5.19.52-9.32 4.65-9.84 9.83-.06.59.4 1.11.99 1.11M18 21h3v-3c-1.66 0-3 1.34-3 3m-2.91 0c.49 0 .9-.36.98-.85.36-2.08 2-3.72 4.08-4.08.49-.08.85-.49.85-.98 0-.61-.54-1.09-1.14-1-2.96.48-5.29 2.81-5.77 5.77-.1.6.39 1.14 1 1.14M12.97 3.02c-.5 0-.94.37-.99.87-.41 4.27-3.81 7.67-8.08 8.08-.5.05-.88.48-.88.99 0 .59.51 1.06 1.1 1 5.19-.52 9.32-4.65 9.84-9.83.07-.58-.39-1.11-.99-1.11m-6.94 0h-3v3c1.66 0 3-1.34 3-3m2.91 0c-.49 0-.9.36-.98.85-.36 2.08-2 3.72-4.08 4.08-.49.09-.85.49-.85.99 0 .61.54 1.09 1.14 1 2.96-.48 5.29-2.81 5.77-5.77.09-.61-.4-1.15-1-1.15"}), 'LeakAddRounded');
+export const LeakAddSharpIcon = (props?: KTRawAttr)=> {const s = _LeakAddSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakAddSharpIcon = svg(svg("path", {  d: "M6 3H3v3c1.66 0 3-1.34 3-3m8 0h-2c0 4.97-4.03 9-9 9v2c6.08 0 11-4.93 11-11m-4 0H8c0 2.76-2.24 5-5 5v2c3.87 0 7-3.13 7-7m0 18h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11m8 0h3v-3c-1.66 0-3 1.34-3 3m-4 0h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7"}), 'LeakAddSharp');
+export const LeakAddTwoToneIcon = (props?: KTRawAttr)=> {const s = _LeakAddTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakAddTwoToneIcon = svg(svg("path", {  d: "M18 21h3v-3c-1.66 0-3 1.34-3 3M3 14c6.08 0 11-4.93 11-11h-2c0 4.97-4.03 9-9 9zm11 7h2c0-2.76 2.24-5 5-5v-2c-3.87 0-7 3.13-7 7M3 10c3.87 0 7-3.13 7-7H8c0 2.76-2.24 5-5 5zm7 11h2c0-4.97 4.03-9 9-9v-2c-6.07 0-11 4.93-11 11M3 3v3c1.66 0 3-1.34 3-3z"}), 'LeakAddTwoTone');
+export const LeakRemoveIcon = (props?: KTRawAttr)=> {const s = _LeakRemoveIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakRemoveIcon = svg(svg("path", {  d: "M10 3H8c0 .37-.04.72-.12 1.06l1.59 1.59C9.81 4.84 10 3.94 10 3M3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.71 0 5.19-.99 7.11-2.62l2.5 2.5C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.69l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21 21 19.73 4.27 3zM14 3h-2c0 1.5-.37 2.91-1.02 4.16l1.46 1.46C13.42 6.98 14 5.06 14 3m5.94 13.12c.34-.08.69-.12 1.06-.12v-2c-.94 0-1.84.19-2.66.52zm-4.56-4.56 1.46 1.46C18.09 12.37 19.5 12 21 12v-2c-2.06 0-3.98.58-5.62 1.56"}), 'LeakRemove');
+export const LeakRemoveOutlinedIcon = (props?: KTRawAttr)=> {const s = _LeakRemoveOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakRemoveOutlinedIcon = svg(svg("path", {  d: "M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z"}), 'LeakRemoveOutlined');
+export const LeakRemoveRoundedIcon = (props?: KTRawAttr)=> {const s = _LeakRemoveRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakRemoveRoundedIcon = svg(svg("path", {  d: "M20.12 12.04c.5-.05.88-.48.88-.99 0-.59-.51-1.06-1.1-1-1.5.15-2.9.61-4.16 1.3l1.48 1.48c.9-.41 1.87-.69 2.9-.79m.88 3.05c0-.61-.54-1.09-1.14-1-.38.06-.75.16-1.11.28l1.62 1.62c.37-.15.63-.49.63-.9M13.97 4.14c.06-.59-.4-1.11-1-1.11-.5 0-.94.37-.99.87-.1 1.03-.38 2.01-.79 2.91l1.48 1.48c.69-1.26 1.15-2.66 1.3-4.15m-4.04.02c.1-.6-.39-1.14-1-1.14-.41 0-.75.26-.9.62l1.62 1.62c.13-.35.22-.72.28-1.1m10.51 14.72L5.12 3.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.15 2.15c-.59.41-1.26.7-1.99.82-.48.1-.84.5-.84 1 0 .61.54 1.09 1.14 1 1.17-.19 2.23-.68 3.13-1.37L8.73 10c-1.34 1.1-3 1.82-4.81 1.99-.5.05-.88.48-.88.99 0 .59.51 1.06 1.1 1 2.28-.23 4.36-1.15 6.01-2.56l2.48 2.48c-1.4 1.65-2.33 3.72-2.56 6-.06.59.4 1.11 1 1.11.5 0 .94-.37.99-.87.18-1.82.9-3.48 1.99-4.82l1.43 1.43c-.69.9-1.18 1.96-1.37 3.13-.1.6.39 1.14 1 1.14.49 0 .9-.36.98-.85.12-.73.42-1.4.82-1.99l2.13 2.13c.39.39 1.02.39 1.41 0 .38-.41.38-1.04-.01-1.43"}), 'LeakRemoveRounded');
+export const LeakRemoveSharpIcon = (props?: KTRawAttr)=> {const s = _LeakRemoveSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakRemoveSharpIcon = svg(svg("path", {  d: "M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z"}), 'LeakRemoveSharp');
+export const LeakRemoveTwoToneIcon = (props?: KTRawAttr)=> {const s = _LeakRemoveTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LeakRemoveTwoToneIcon = svg(svg("path", {  d: "M14 3h-2c0 1.35-.31 2.63-.84 3.77l1.49 1.49C13.51 6.7 14 4.91 14 3m7 9v-2c-1.91 0-3.7.49-5.27 1.35l1.49 1.49c1.15-.53 2.43-.84 3.78-.84m0 4v-2c-.79 0-1.54.13-2.24.37l1.68 1.68c.19-.01.37-.05.56-.05M10 3H8c0 .19-.04.37-.06.56l1.68 1.68c.25-.7.38-1.46.38-2.24m-5.59-.14L3 4.27l2.84 2.84C5.03 7.67 4.06 8 3 8v2c1.61 0 3.09-.55 4.27-1.46L8.7 9.97C7.14 11.24 5.16 12 3 12v2c2.72 0 5.2-.99 7.11-2.62l2.51 2.51C10.99 15.81 10 18.29 10 21h2c0-2.16.76-4.14 2.03-5.7l1.43 1.43C14.55 17.91 14 19.39 14 21h2c0-1.06.33-2.03.89-2.84L19.73 21l1.41-1.41z"}), 'LeakRemoveTwoTone');
+export const LegendToggleIcon = (props?: KTRawAttr)=> {const s = _LegendToggleIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LegendToggleIcon = svg(svg("path", {  d: "M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}), 'LegendToggle');
+export const LegendToggleOutlinedIcon = (props?: KTRawAttr)=> {const s = _LegendToggleOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LegendToggleOutlinedIcon = svg(svg("path", {  d: "M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}), 'LegendToggleOutlined');
+export const LegendToggleRoundedIcon = (props?: KTRawAttr)=> {const s = _LegendToggleRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LegendToggleRoundedIcon = svg(svg("path", {  d: "M19 15H5c-.55 0-1-.45-1-1s.45-1 1-1h14c.55 0 1 .45 1 1s-.45 1-1 1m0 2H5c-.55 0-1 .45-1 1s.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1m-4-6 4.58-3.25c.26-.19.42-.49.42-.81 0-.81-.92-1.29-1.58-.82L15 8.55 10 5 4.48 8.36c-.3.19-.48.51-.48.86 0 .78.85 1.26 1.52.85l4.4-2.68z"}), 'LegendToggleRounded');
+export const LegendToggleSharpIcon = (props?: KTRawAttr)=> {const s = _LegendToggleSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LegendToggleSharpIcon = svg(svg("path", {  d: "M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}), 'LegendToggleSharp');
+export const LegendToggleTwoToneIcon = (props?: KTRawAttr)=> {const s = _LegendToggleTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LegendToggleTwoToneIcon = svg(svg("path", {  d: "M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}), 'LegendToggleTwoTone');
+export const LensIcon = (props?: KTRawAttr)=> {const s = _LensIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}), 'Lens');
+export const LensBlurIcon = (props?: KTRawAttr)=> {const s = _LensBlurIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensBlurIcon = svg(svg("path", {  d: "M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5"}), 'LensBlur');
+export const LensBlurOutlinedIcon = (props?: KTRawAttr)=> {const s = _LensBlurOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensBlurOutlinedIcon = svg(svg("path", {  d: "M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5"}), 'LensBlurOutlined');
+export const LensBlurRoundedIcon = (props?: KTRawAttr)=> {const s = _LensBlurRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensBlurRoundedIcon = svg(svg("path", {  d: "M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5"}), 'LensBlurRounded');
+export const LensBlurSharpIcon = (props?: KTRawAttr)=> {const s = _LensBlurSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensBlurSharpIcon = svg(svg("path", {  d: "M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5"}), 'LensBlurSharp');
+export const LensBlurTwoToneIcon = (props?: KTRawAttr)=> {const s = _LensBlurTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensBlurTwoToneIcon = svg(svg("path", {  d: "M6 13c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m-3 .5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M6 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m15 5.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M14 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-3.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5m-11 10c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m7 7c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m0-17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5M10 7c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 5.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m8 .5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-8c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m3 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5M14 17c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m0 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5m-4-12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0 8.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1m4-4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5m0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5"}), 'LensBlurTwoTone');
+export const LensOutlinedIcon = (props?: KTRawAttr)=> {const s = _LensOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensOutlinedIcon = svg(svg("path", {  d: "M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}), 'LensOutlined');
+export const LensRoundedIcon = (props?: KTRawAttr)=> {const s = _LensRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensRoundedIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}), 'LensRounded');
+export const LensSharpIcon = (props?: KTRawAttr)=> {const s = _LensSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensSharpIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}), 'LensSharp');
+export const LensTwoToneIcon = (props?: KTRawAttr)=> {const s = _LensTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LensTwoToneIcon = svg([svg("path", {  d: "M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8",  opacity: ".3"}, "0"), svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}, "1")], 'LensTwoTone');
+export const LibraryAddIcon = (props?: KTRawAttr)=> {const s = _LibraryAddIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddIcon = svg(svg("path", {  d: "M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 9h-4v4h-2v-4H9V9h4V5h2v4h4z"}), 'LibraryAdd');
+export const LibraryAddCheckIcon = (props?: KTRawAttr)=> {const s = _LibraryAddCheckIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddCheckIcon = svg(svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"}), 'LibraryAddCheck');
+export const LibraryAddCheckOutlinedIcon = (props?: KTRawAttr)=> {const s = _LibraryAddCheckOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddCheckOutlinedIcon = svg(svg("path", {  d: "M20 4v12H8V4zm0-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"}), 'LibraryAddCheckOutlined');
+export const LibraryAddCheckRoundedIcon = (props?: KTRawAttr)=> {const s = _LibraryAddCheckRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddCheckRoundedIcon = svg(svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-8.24 11.28L9.69 11.2c-.38-.39-.38-1.01 0-1.4.39-.39 1.02-.39 1.41 0l1.36 1.37 4.42-4.46c.39-.39 1.02-.39 1.41 0 .38.39.38 1.01 0 1.4l-5.13 5.17c-.37.4-1.01.4-1.4 0M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1"}), 'LibraryAddCheckRounded');
+export const LibraryAddCheckSharpIcon = (props?: KTRawAttr)=> {const s = _LibraryAddCheckSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddCheckSharpIcon = svg(svg("path", {  d: "M22 2H6v16h16zm-9.53 12L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 6H2v16h16v-2H4z"}), 'LibraryAddCheckSharp');
+export const LibraryAddCheckTwoToneIcon = (props?: KTRawAttr)=> {const s = _LibraryAddCheckTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddCheckTwoToneIcon = svg([svg("path", {  d: "M8 16h12V4H8zm2.4-6.91 2.07 2.08L17.6 6 19 7.41 12.47 14 9 10.5z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.53-2L9 10.5l1.4-1.41 2.07 2.08L17.6 6 19 7.41zM4 20h14v2H4c-1.1 0-2-.9-2-2V6h2z"}, "1")], 'LibraryAddCheckTwoTone');
+export const LibraryAddOutlinedIcon = (props?: KTRawAttr)=> {const s = _LibraryAddOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddOutlinedIcon = svg(svg("path", {  d: "M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z"}), 'LibraryAddOutlined');
+export const LibraryAddRoundedIcon = (props?: KTRawAttr)=> {const s = _LibraryAddRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddRoundedIcon = svg(svg("path", {  d: "M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1m17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 9h-3v3c0 .55-.45 1-1 1s-1-.45-1-1v-3h-3c-.55 0-1-.45-1-1s.45-1 1-1h3V6c0-.55.45-1 1-1s1 .45 1 1v3h3c.55 0 1 .45 1 1s-.45 1-1 1"}), 'LibraryAddRounded');
+export const LibraryAddSharpIcon = (props?: KTRawAttr)=> {const s = _LibraryAddSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddSharpIcon = svg(svg("path", {  d: "M4 6H2v16h16v-2H4zm18-4H6v16h16zm-3 9h-4v4h-2v-4H9V9h4V5h2v4h4z"}), 'LibraryAddSharp');
+export const LibraryAddTwoToneIcon = (props?: KTRawAttr)=> {const s = _LibraryAddTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryAddTwoToneIcon = svg([svg("path", {  d: "M8 16h12V4H8zm2-7h3V6h2v3h3v2h-3v3h-2v-3h-3z",  opacity: ".3"}, "0"), svg("path", {  d: "M4 22h14v-2H4V6H2v14c0 1.1.9 2 2 2M8 2c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm12 14H8V4h12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z"}, "1")], 'LibraryAddTwoTone');
+export const LibraryBooksIcon = (props?: KTRawAttr)=> {const s = _LibraryBooksIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryBooksIcon = svg(svg("path", {  d: "M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 9H9V9h10zm-4 4H9v-2h6zm4-8H9V5h10z"}), 'LibraryBooks');
+export const LibraryBooksOutlinedIcon = (props?: KTRawAttr)=> {const s = _LibraryBooksOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryBooksOutlinedIcon = svg(svg("path", {  d: "M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z"}), 'LibraryBooksOutlined');
+export const LibraryBooksRoundedIcon = (props?: KTRawAttr)=> {const s = _LibraryBooksRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryBooksRoundedIcon = svg(svg("path", {  d: "M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1m17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 9h-8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1m-4 4h-4c-.55 0-1-.45-1-1s.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1m4-8h-8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1"}), 'LibraryBooksRounded');
+export const LibraryBooksSharpIcon = (props?: KTRawAttr)=> {const s = _LibraryBooksSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryBooksSharpIcon = svg(svg("path", {  d: "M4 6H2v16h16v-2H4zm18-4H6v16h16zm-3 9H9V9h10zm-4 4H9v-2h6zm4-8H9V5h10z"}), 'LibraryBooksSharp');
+export const LibraryBooksTwoToneIcon = (props?: KTRawAttr)=> {const s = _LibraryBooksTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryBooksTwoToneIcon = svg([svg("path", {  d: "M8 16h12V4H8zm2-10h8v2h-8zm0 3h8v2h-8zm0 3h4v2h-4z",  opacity: ".3"}, "0"), svg("path", {  d: "M4 22h14v-2H4V6H2v14c0 1.1.9 2 2 2M6 4v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2m14 12H8V4h12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z"}, "1")], 'LibraryBooksTwoTone');
+export const LibraryMusicIcon = (props?: KTRawAttr)=> {const s = _LibraryMusicIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryMusicIcon = svg(svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-2 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"}), 'LibraryMusic');
+export const LibraryMusicOutlinedIcon = (props?: KTRawAttr)=> {const s = _LibraryMusicOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryMusicOutlinedIcon = svg(svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.5-1c1.38 0 2.5-1.12 2.5-2.5V7h3V5h-4v5.51c-.42-.32-.93-.51-1.5-.51-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5M4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"}), 'LibraryMusicOutlined');
+export const LibraryMusicRoundedIcon = (props?: KTRawAttr)=> {const s = _LibraryMusicRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryMusicRoundedIcon = svg(svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-3 5h-2v5.37c0 1.27-.9 2.44-2.16 2.6-1.69.23-3.11-1.25-2.8-2.95.2-1.1 1.18-1.95 2.3-2.02.63-.04 1.2.16 1.66.51V6c0-.55.45-1 1-1h2c.55 0 1 .45 1 1s-.45 1-1 1M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1"}), 'LibraryMusicRounded');
+export const LibraryMusicSharpIcon = (props?: KTRawAttr)=> {const s = _LibraryMusicSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryMusicSharpIcon = svg(svg("path", {  d: "M22 2H6v16h16zm-4 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4zM4 6H2v16h16v-2H4z"}), 'LibraryMusicSharp');
+export const LibraryMusicTwoToneIcon = (props?: KTRawAttr)=> {const s = _LibraryMusicTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LibraryMusicTwoToneIcon = svg([svg("path", {  d: "M8 16h12V4H8zm4.5-6c.57 0 1.08.19 1.5.51V5h4v2h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5",  opacity: ".3"}, "0"), svg("path", {  d: "M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H8V4h12zm-7.5-1c1.38 0 2.5-1.12 2.5-2.5V7h3V5h-4v5.51c-.42-.32-.93-.51-1.5-.51-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5M2 6v14c0 1.1.9 2 2 2h14v-2H4V6z"}, "1")], 'LibraryMusicTwoTone');
+export const LightIcon = (props?: KTRawAttr)=> {const s = _LightIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightIcon = svg(svg("path", {  d: "M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z"}), 'Light');
+export const LightModeIcon = (props?: KTRawAttr)=> {const s = _LightModeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightModeIcon = svg(svg("path", {  d: "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z"}), 'LightMode');
+export const LightModeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LightModeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightModeOutlinedIcon = svg(svg("path", {  d: "M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z"}), 'LightModeOutlined');
+export const LightModeRoundedIcon = (props?: KTRawAttr)=> {const s = _LightModeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightModeRoundedIcon = svg(svg("path", {  d: "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z"}), 'LightModeRounded');
+export const LightModeSharpIcon = (props?: KTRawAttr)=> {const s = _LightModeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightModeSharpIcon = svg(svg("path", {  d: "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m-1-6v4h2V1zm0 18v4h2v-4zm12-8h-4v2h4zM5 11H1v2h4zm11.24 6.66 2.47 2.47 1.41-1.41-2.47-2.47zM3.87 5.28l2.47 2.47 1.41-1.41-2.47-2.47zm2.47 10.96-2.47 2.47 1.41 1.41 2.47-2.47zM18.72 3.87l-2.47 2.47 1.41 1.41 2.47-2.47z"}), 'LightModeSharp');
+export const LightModeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LightModeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightModeTwoToneIcon = svg([svg("circle", {  cx: "12",  cy: "12",  r: "3",  opacity: ".3"}, "0"), svg("path", {  d: "M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5M2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1m18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1M11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1m0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1M5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0z"}, "1")], 'LightModeTwoTone');
+export const LightOutlinedIcon = (props?: KTRawAttr)=> {const s = _LightOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightOutlinedIcon = svg(svg("path", {  d: "M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 19c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2m0-4H5c0-3.86 3.14-7 7-7s7 3.14 7 7z"}), 'LightOutlined');
+export const LightRoundedIcon = (props?: KTRawAttr)=> {const s = _LightRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightRoundedIcon = svg(svg("path", {  d: "M13 6.06V4c0-.55-.45-1-1-1s-1 .45-1 1v2.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z"}), 'LightRounded');
+export const LightSharpIcon = (props?: KTRawAttr)=> {const s = _LightSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightSharpIcon = svg(svg("path", {  d: "M13 6.06V3h-2v3.06C5.87 6.63 2.03 11.51 3.22 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h4.78A9.0056 9.0056 0 0 0 13 6.06M12 15H5c0-3.86 3.14-7 7-7s7 3.14 7 7z"}), 'LightSharp');
+export const LightTwoToneIcon = (props?: KTRawAttr)=> {const s = _LightTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightTwoToneIcon = svg([svg("path", {  d: "M10 17c0 1.1.9 2 2 2s2-.9 2-2z",  opacity: ".3"}, "0"), svg("path", {  d: "M13 6.06V3h-2v3.06c-4.5.5-8 4.31-8 8.93C3 16.1 3.9 17 5.01 17H8c0 2.21 1.79 4 4 4s4-1.79 4-4h2.99c1.11 0 2.01-.9 2.01-2.01 0-4.62-3.5-8.43-8-8.93M12 19c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2m0-4H5c0-3.86 3.14-7 7-7s7 3.14 7 7z"}, "1")], 'LightTwoTone');
+export const LightbulbIcon = (props?: KTRawAttr)=> {const s = _LightbulbIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbIcon = svg(svg("path", {  d: "M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7"}), 'Lightbulb');
+export const LightbulbCircleIcon = (props?: KTRawAttr)=> {const s = _LightbulbCircleIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbCircleIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4"}), 'LightbulbCircle');
+export const LightbulbCircleOutlinedIcon = (props?: KTRawAttr)=> {const s = _LightbulbCircleOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbCircleOutlinedIcon = svg([svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}, "0"), svg("path", {  d: "M12 19c.83 0 1.5-.67 1.5-1.5h-3c0 .83.67 1.5 1.5 1.5m-3-4h6v1.5H9zm3-10c-2.76 0-5 2.24-5 5 0 1.64.8 3.09 2.03 4h5.95c1.22-.91 2.02-2.36 2.02-4 0-2.76-2.24-5-5-5m2.43 7.5H9.57c-.68-.66-1.07-1.55-1.07-2.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 .95-.39 1.84-1.07 2.5"}, "1")], 'LightbulbCircleOutlined');
+export const LightbulbCircleRoundedIcon = (props?: KTRawAttr)=> {const s = _LightbulbCircleRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbCircleRoundedIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m2.25-2.5h-4.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4.5c.41 0 .75.34.75.75s-.34.75-.75.75m.72-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4"}), 'LightbulbCircleRounded');
+export const LightbulbCircleSharpIcon = (props?: KTRawAttr)=> {const s = _LightbulbCircleSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbCircleSharpIcon = svg(svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 17c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4"}), 'LightbulbCircleSharp');
+export const LightbulbCircleTwoToneIcon = (props?: KTRawAttr)=> {const s = _LightbulbCircleTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbCircleTwoToneIcon = svg([svg("path", {  d: "M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8m0 15c-.83 0-1.5-.67-1.5-1.5h3c0 .83-.67 1.5-1.5 1.5m3-2.5H9V15h6zm-.03-2.5H9.03C7.8 13.09 7 11.64 7 10c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.64-.8 3.09-2.03 4",  opacity: ".3"}, "0"), svg("path", {  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}, "1"), svg("path", {  d: "M12 19c.83 0 1.5-.67 1.5-1.5h-3c0 .83.67 1.5 1.5 1.5m-3-4h6v1.5H9zm3-10c-2.76 0-5 2.24-5 5 0 1.64.8 3.09 2.03 4h5.95c1.22-.91 2.02-2.36 2.02-4 0-2.76-2.24-5-5-5m2.43 7.5H9.57c-.68-.66-1.07-1.55-1.07-2.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 .95-.39 1.84-1.07 2.5"}, "2")], 'LightbulbCircleTwoTone');
+export const LightbulbOutlineIcon = (props?: KTRawAttr)=> {const s = _LightbulbOutlineIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbOutlineIcon = svg(svg("path", {  d: "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2 11.7V16h-4v-2.3C8.48 12.63 7 11.53 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.49-1.51 3.65-3 4.7"}), 'LightbulbOutline');
+export const LightbulbOutlineRoundedIcon = (props?: KTRawAttr)=> {const s = _LightbulbOutlineRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbOutlineRoundedIcon = svg(svg("path", {  d: "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1"}), 'LightbulbOutlineRounded');
+export const LightbulbOutlineSharpIcon = (props?: KTRawAttr)=> {const s = _LightbulbOutlineSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbOutlineSharpIcon = svg(svg("path", {  d: "M9 22h6v-2H9zm1.54-19.85c-2.75.56-4.94 2.81-5.43 5.58-.51 2.89.76 5.52 2.89 7.01V18h8v-3.26c1.81-1.27 3-3.36 3-5.74 0-4.34-3.97-7.77-8.46-6.85m4.31 10.95-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1"}), 'LightbulbOutlineSharp');
+export const LightbulbOutlineTwoToneIcon = (props?: KTRawAttr)=> {const s = _LightbulbOutlineTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbOutlineTwoToneIcon = svg(svg("path", {  d: "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1"}), 'LightbulbOutlineTwoTone');
+export const LightbulbOutlinedIcon = (props?: KTRawAttr)=> {const s = _LightbulbOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbOutlinedIcon = svg(svg("path", {  d: "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7m2.85 11.1-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1"}), 'LightbulbOutlined');
+export const LightbulbRoundedIcon = (props?: KTRawAttr)=> {const s = _LightbulbRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbRoundedIcon = svg(svg("path", {  d: "M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-3-3h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1s.45 1 1 1m3-17C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2"}), 'LightbulbRounded');
+export const LightbulbSharpIcon = (props?: KTRawAttr)=> {const s = _LightbulbSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbSharpIcon = svg(svg("path", {  d: "M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-4-5h8v2H8zm4-15C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2"}), 'LightbulbSharp');
+export const LightbulbTwoToneIcon = (props?: KTRawAttr)=> {const s = _LightbulbTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LightbulbTwoToneIcon = svg([svg("path", {  d: "M12 4C8.97 4 6.5 6.47 6.5 9.5c0 2.47 1.49 3.89 2.35 4.5h6.3c.86-.61 2.35-2.03 2.35-4.5C17.5 6.47 15.03 4 12 4",  opacity: ".3"}, "0"), svg("path", {  d: "M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2m-4-5h8v2H8zm4-15C7.86 2 4.5 5.36 4.5 9.5c0 3.82 2.66 5.86 3.77 6.5h7.46c1.11-.64 3.77-2.68 3.77-6.5C19.5 5.36 16.14 2 12 2m3.15 12h-6.3c-.86-.61-2.35-2.03-2.35-4.5C6.5 6.47 8.97 4 12 4s5.5 2.47 5.5 5.5c0 2.47-1.49 3.89-2.35 4.5"}, "1")], 'LightbulbTwoTone');
+export const LineAxisIcon = (props?: KTRawAttr)=> {const s = _LineAxisIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineAxisIcon = svg(svg("path", {  d: "m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"}), 'LineAxis');
+export const LineAxisOutlinedIcon = (props?: KTRawAttr)=> {const s = _LineAxisOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineAxisOutlinedIcon = svg(svg("path", {  d: "m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"}), 'LineAxisOutlined');
+export const LineAxisRoundedIcon = (props?: KTRawAttr)=> {const s = _LineAxisRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineAxisRoundedIcon = svg(svg("path", {  d: "M21.34 6.77c-.4-.4-1.07-.39-1.45.04l-3.33 3.74-5.65-5.24c-.79-.73-2.01-.71-2.77.05L2.7 10.81c-.39.39-.39 1.02 0 1.41l.09.09c.39.39 1.02.39 1.41 0l5.44-5.45 5.59 5.19L13.5 14l-2.58-2.58c-.78-.78-2.05-.78-2.83 0L2.7 16.8c-.39.39-.39 1.02 0 1.41l.1.09c.39.39 1.02.39 1.41 0l5.3-5.3 2.5 2.5c.81.81 2.14.77 2.91-.09l1.78-2.01 3.19 2.96c.39.36 1 .35 1.38-.03l.01-.01c.4-.4.39-1.05-.03-1.43l-3.22-2.99 3.35-3.77c.35-.39.33-.99-.04-1.36"}), 'LineAxisRounded');
+export const LineAxisSharpIcon = (props?: KTRawAttr)=> {const s = _LineAxisSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineAxisSharpIcon = svg(svg("path", {  d: "m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"}), 'LineAxisSharp');
+export const LineAxisTwoToneIcon = (props?: KTRawAttr)=> {const s = _LineAxisTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineAxisTwoToneIcon = svg(svg("path", {  d: "m22 7.43-1.41-1.41-4.03 4.53L9.5 4 2 11.51l1.5 1.5 6.14-6.15 5.59 5.18-1.73 1.95-4-4L2 17.5 3.5 19l6-6.01 4 4 3.19-3.59 3.9 3.61L22 15.6l-3.98-3.7z"}), 'LineAxisTwoTone');
+export const LineStyleIcon = (props?: KTRawAttr)=> {const s = _LineStyleIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineStyleIcon = svg(svg("path", {  d: "M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z"}), 'LineStyle');
+export const LineStyleOutlinedIcon = (props?: KTRawAttr)=> {const s = _LineStyleOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineStyleOutlinedIcon = svg(svg("path", {  d: "M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z"}), 'LineStyleOutlined');
+export const LineStyleRoundedIcon = (props?: KTRawAttr)=> {const s = _LineStyleRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineStyleRoundedIcon = svg(svg("path", {  d: "M4 16h3c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m6.5 0h3c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1s.45 1 1 1m6.5 0h3c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1s.45 1 1 1M4 20c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1M4 12h6c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m10 0h6c.55 0 1-.45 1-1s-.45-1-1-1h-6c-.55 0-1 .45-1 1s.45 1 1 1M3 5v2c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1"}), 'LineStyleRounded');
+export const LineStyleSharpIcon = (props?: KTRawAttr)=> {const s = _LineStyleSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineStyleSharpIcon = svg(svg("path", {  d: "M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z"}), 'LineStyleSharp');
+export const LineStyleTwoToneIcon = (props?: KTRawAttr)=> {const s = _LineStyleTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineStyleTwoToneIcon = svg(svg("path", {  d: "M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z"}), 'LineStyleTwoTone');
+export const LineWeightIcon = (props?: KTRawAttr)=> {const s = _LineWeightIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineWeightIcon = svg(svg("path", {  d: "M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z"}), 'LineWeight');
+export const LineWeightOutlinedIcon = (props?: KTRawAttr)=> {const s = _LineWeightOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineWeightOutlinedIcon = svg(svg("path", {  d: "M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z"}), 'LineWeightOutlined');
+export const LineWeightRoundedIcon = (props?: KTRawAttr)=> {const s = _LineWeightRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineWeightRoundedIcon = svg(svg("path", {  d: "M20 15H4c-.55 0-1 .45-1 1s.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1m0-5H4c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1m0-6H4c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1m.5 15h-17c-.28 0-.5.22-.5.5s.22.5.5.5h17c.28 0 .5-.22.5-.5s-.22-.5-.5-.5"}), 'LineWeightRounded');
+export const LineWeightSharpIcon = (props?: KTRawAttr)=> {const s = _LineWeightSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineWeightSharpIcon = svg(svg("path", {  d: "M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z"}), 'LineWeightSharp');
+export const LineWeightTwoToneIcon = (props?: KTRawAttr)=> {const s = _LineWeightTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LineWeightTwoToneIcon = svg(svg("path", {  d: "M3 17h18v-2H3zm0 3h18v-1H3zm0-7h18v-3H3zm0-9v4h18V4z"}), 'LineWeightTwoTone');
+export const LinearScaleIcon = (props?: KTRawAttr)=> {const s = _LinearScaleIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinearScaleIcon = svg(svg("path", {  d: "M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5"}), 'LinearScale');
+export const LinearScaleOutlinedIcon = (props?: KTRawAttr)=> {const s = _LinearScaleOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinearScaleOutlinedIcon = svg(svg("path", {  d: "M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5"}), 'LinearScaleOutlined');
+export const LinearScaleRoundedIcon = (props?: KTRawAttr)=> {const s = _LinearScaleRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinearScaleRoundedIcon = svg(svg("path", {  d: "M17 7c-2.41 0-4.43 1.72-4.9 4H6.79c-.39-.88-1.27-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.02 0 1.9-.62 2.29-1.5h5.31c.46 2.28 2.48 4 4.9 4 2.76 0 5-2.24 5-5s-2.24-5-5-5m0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"}), 'LinearScaleRounded');
+export const LinearScaleSharpIcon = (props?: KTRawAttr)=> {const s = _LinearScaleSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinearScaleSharpIcon = svg(svg("path", {  d: "M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5"}), 'LinearScaleSharp');
+export const LinearScaleTwoToneIcon = (props?: KTRawAttr)=> {const s = _LinearScaleTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinearScaleTwoToneIcon = svg(svg("path", {  d: "M19.5 9.5c-1.03 0-1.9.62-2.29 1.5h-2.92c-.39-.88-1.26-1.5-2.29-1.5s-1.9.62-2.29 1.5H6.79c-.39-.88-1.26-1.5-2.29-1.5C3.12 9.5 2 10.62 2 12s1.12 2.5 2.5 2.5c1.03 0 1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5s1.9-.62 2.29-1.5h2.92c.39.88 1.26 1.5 2.29 1.5 1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5"}), 'LinearScaleTwoTone');
+export const LinkIcon = (props?: KTRawAttr)=> {const s = _LinkIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkIcon = svg(svg("path", {  d: "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"}), 'Link');
+export const LinkOffIcon = (props?: KTRawAttr)=> {const s = _LinkOffIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOffIcon = svg(svg("path", {  d: "M17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.43-.98 2.63-2.31 2.98l1.46 1.46C20.88 15.61 22 13.95 22 12c0-2.76-2.24-5-5-5m-1 4h-2.19l2 2H16zM2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4L20 19.74 3.27 3z"}), 'LinkOff');
+export const LinkOffOutlinedIcon = (props?: KTRawAttr)=> {const s = _LinkOffOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOffOutlinedIcon = svg(svg("path", {  d: "M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z"}), 'LinkOffOutlined');
+export const LinkOffRoundedIcon = (props?: KTRawAttr)=> {const s = _LinkOffRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOffRoundedIcon = svg(svg("path", {  d: "M14 9h2.87c1.46 0 2.8.98 3.08 2.42.31 1.64-.74 3.11-2.22 3.48l1.53 1.53c1.77-.91 2.95-2.82 2.7-5.01C21.68 8.86 19.37 7 16.79 7H14c-.55 0-1 .45-1 1s.45 1 1 1M3.51 3.51a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l2.64 2.64c-1.77.91-2.95 2.82-2.7 5.01C2.32 15.14 4.63 17 7.21 17H10c.55 0 1-.45 1-1s-.45-1-1-1H7.13c-1.46 0-2.8-.98-3.08-2.42-.31-1.64.75-3.11 2.22-3.48l2.12 2.12c-.23.19-.39.46-.39.78 0 .55.45 1 1 1h1.17l8.9 8.9c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41zM14 11l1.71 1.71c.18-.18.29-.43.29-.71 0-.55-.45-1-1-1z"}), 'LinkOffRounded');
+export const LinkOffSharpIcon = (props?: KTRawAttr)=> {const s = _LinkOffSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOffSharpIcon = svg(svg("path", {  d: "M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z"}), 'LinkOffSharp');
+export const LinkOffTwoToneIcon = (props?: KTRawAttr)=> {const s = _LinkOffTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOffTwoToneIcon = svg(svg("path", {  d: "M14.39 11 16 12.61V11zM17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.27-.77 2.37-1.87 2.84l1.4 1.4C21.05 15.36 22 13.79 22 12c0-2.76-2.24-5-5-5M2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4.01 1.41-1.41L3.41 2.86z"}), 'LinkOffTwoTone');
+export const LinkOutlinedIcon = (props?: KTRawAttr)=> {const s = _LinkOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkOutlinedIcon = svg(svg("path", {  d: "M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z"}), 'LinkOutlined');
+export const LinkRoundedIcon = (props?: KTRawAttr)=> {const s = _LinkRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkRoundedIcon = svg(svg("path", {  d: "M17 7h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c1.65 0 3 1.35 3 3s-1.35 3-3 3h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c2.76 0 5-2.24 5-5s-2.24-5-5-5m-9 5c0 .55.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1H9c-.55 0-1 .45-1 1m2 3H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h3c.55 0 1-.45 1-1s-.45-1-1-1H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h3c.55 0 1-.45 1-1s-.45-1-1-1"}), 'LinkRounded');
+export const LinkSharpIcon = (props?: KTRawAttr)=> {const s = _LinkSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkSharpIcon = svg(svg("path", {  d: "M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8zm9-4h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z"}), 'LinkSharp');
+export const LinkTwoToneIcon = (props?: KTRawAttr)=> {const s = _LinkTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkTwoToneIcon = svg(svg("path", {  d: "M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5m-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4zm-3-4h8v2H8z",  opacity: ".87"}), 'LinkTwoTone');
+export const LinkedCameraIcon = (props?: KTRawAttr)=> {const s = _LinkedCameraIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedCameraIcon = svg([svg("circle", {  cx: "12",  cy: "14",  r: "3.2"}, "0"), svg("path", {  d: "M16 3.33c2.58 0 4.67 2.09 4.67 4.67H22c0-3.31-2.69-6-6-6zM16 6c1.11 0 2 .89 2 2h1.33c0-1.84-1.49-3.33-3.33-3.33z"}, "1"), svg("path", {  d: "M17 9c0-1.11-.89-2-2-2V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9zm-5 10c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"}, "2")], 'LinkedCamera');
+export const LinkedCameraOutlinedIcon = (props?: KTRawAttr)=> {const s = _LinkedCameraOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedCameraOutlinedIcon = svg(svg("path", {  d: "M20 9v11H4V8h4.05l1.83-2H15V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9zm.67-1.01H22C21.99 4.68 19.31 2 16 2v1.33c2.58 0 4.66 2.08 4.67 4.66m-2.67 0h1.33c-.01-1.84-1.49-3.32-3.33-3.32V6c1.11 0 1.99.89 2 1.99M7 14c0 2.76 2.24 5 5 5s5-2.24 5-5-2.24-5-5-5-5 2.24-5 5m8 0c0 1.65-1.35 3-3 3s-3-1.35-3-3 1.35-3 3-3 3 1.34 3 3"}), 'LinkedCameraOutlined');
+export const LinkedCameraRoundedIcon = (props?: KTRawAttr)=> {const s = _LinkedCameraRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedCameraRoundedIcon = svg([svg("circle", {  cx: "12",  cy: "13",  r: "2.5"}, "0"), svg("path", {  d: "M16.6 2.37c2.1.27 3.77 1.93 4.03 4.03.04.34.32.6.66.6.39 0 .71-.34.66-.73-.33-2.72-2.5-4.89-5.22-5.22-.39-.05-.73.27-.73.66 0 .34.26.62.6.66m2.63 3.82a3.338 3.338 0 0 0-2.42-2.42c-.41-.1-.81.22-.81.65 0 .29.19.57.48.64.72.18 1.29.74 1.46 1.46.07.29.34.48.64.48.43 0 .75-.4.65-.81"}, "1"), svg("path", {  d: "M17 8c0-1.1-.9-2-2-2V4c0-.55-.45-1-1-1H9.88c-.56 0-1.1.24-1.48.65L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-5 9.5c-2.48 0-4.5-2.02-4.5-4.5S9.52 8.5 12 8.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5"}, "2")], 'LinkedCameraRounded');
+export const LinkedCameraSharpIcon = (props?: KTRawAttr)=> {const s = _LinkedCameraSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedCameraSharpIcon = svg([svg("circle", {  cx: "12",  cy: "14",  r: "3"}, "0"), svg("path", {  d: "M18 8h1.33c0-1.84-1.49-3.33-3.33-3.33V6c1.11 0 2 .89 2 2m2.67 0H22c0-3.31-2.69-6-6-6v1.33c2.58 0 4.67 2.09 4.67 4.67M15 7V4H9L7.17 6H2v16h20V9h-5c0-1.1-.9-2-2-2m-3 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"}, "1")], 'LinkedCameraSharp');
+export const LinkedCameraTwoToneIcon = (props?: KTRawAttr)=> {const s = _LinkedCameraTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedCameraTwoToneIcon = svg([svg("path", {  d: "M20 20H4V8h4.05l1.83-2H15V4H9L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9h-2zM16 2v1.33c2.58 0 4.66 2.09 4.67 4.66H22C21.99 4.68 19.31 2 16 2m0 2.67V6c1.11 0 1.99.89 2 1.99h1.33c-.01-1.84-1.49-3.32-3.33-3.32"}, "0"), svg("path", {  d: "M14.98 10.01c-.13-.09-.26-.18-.39-.26.14.08.27.17.39.26M17 9c0-.37-.11-.71-.28-1.01-.18-.3-.43-.55-.73-.72C15.7 7.1 15.36 7 15 7V6H9.88L8.05 8H4v12h16V9zm-5 10c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5",  opacity: ".3"}, "1"), svg("path", {  d: "M12 9c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3"}, "2")], 'LinkedCameraTwoTone');
+export const LinkedInIcon = (props?: KTRawAttr)=> {const s = _LinkedInIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LinkedInIcon = svg(svg("path", {  d: "M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"}), 'LinkedIn');
+export const LiquorIcon = (props?: KTRawAttr)=> {const s = _LiquorIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiquorIcon = svg(svg("path", {  d: "M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm15.63.54-.95-.32c-.4-.13-.68-.51-.68-.94V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.28.81-.68.95l-.95.32c-.82.27-1.37 1.03-1.37 1.89V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.37-1.9M16 4h1v1h-1zm-3 6.44.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31V12h-7zM20 20h-7v-2h7z"}), 'Liquor');
+export const LiquorOutlinedIcon = (props?: KTRawAttr)=> {const s = _LiquorOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiquorOutlinedIcon = svg(svg("path", {  d: "M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm0 5h2v1c0 .55-.45 1-1 1s-1-.45-1-1zm15.64-4.46-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm4 16h-7v-2h7zm0-4h-7v-2h7zm0-4h-7v-1.56l.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31z"}), 'LiquorOutlined');
+export const LiquorRoundedIcon = (props?: KTRawAttr)=> {const s = _LiquorRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiquorRoundedIcon = svg(svg("path", {  d: "M3 14c0 1.3.84 2.4 2 2.82V20H4c-.55 0-1 .45-1 1s.45 1 1 1h4c.55 0 1-.45 1-1s-.45-1-1-1H7v-3.18C8.16 16.4 9 15.3 9 14V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1zm2-6h2v3H5zm15.64.54-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm-3 6.44.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31V12h-7zM20 20h-7v-2h7z"}), 'LiquorRounded');
+export const LiquorSharpIcon = (props?: KTRawAttr)=> {const s = _LiquorSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiquorSharpIcon = svg(svg("path", {  d: "M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm17 1-3-1.01V2h-5v6l-3 1.01V22h11zm-6-5h1v1h-1zm-3 6.44 3-.98V7h1v2.46l3 .98V12h-7zM20 20h-7v-2h7z"}), 'LiquorSharp');
+export const LiquorTwoToneIcon = (props?: KTRawAttr)=> {const s = _LiquorTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiquorTwoToneIcon = svg([svg("path", {  d: "M16 4h1v1h-1zM6 15c.55 0 1-.45 1-1v-1H5v1c0 .55.45 1 1 1m7-1h7v2h-7z",  opacity: ".3"}, "0"), svg("path", {  d: "M3 14c0 1.3.84 2.4 2 2.82V20H3v2h6v-2H7v-3.18C8.16 16.4 9 15.3 9 14V6H3zm2-6h2v3H5zm0 5h2v1c0 .55-.45 1-1 1s-1-.45-1-1zm15.64-4.46-.96-.32c-.41-.14-.68-.52-.68-.95V3c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4.28c0 .43-.27.81-.68.95l-.96.32c-.81.28-1.36 1.04-1.36 1.9V20c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-9.56c0-.86-.55-1.62-1.36-1.9M16 4h1v1h-1zm4 16h-7v-2h7zm0-4h-7v-2h7zm0-4h-7v-1.56l.95-.32C15.18 9.72 16 8.57 16 7.28V7h1v.28c0 1.29.82 2.44 2.05 2.85l.95.31z"}, "1")], 'LiquorTwoTone');
+export const ListIcon = (props?: KTRawAttr)=> {const s = _ListIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListIcon = svg(svg("path", {  d: "M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"}), 'List');
+export const ListAltIcon = (props?: KTRawAttr)=> {const s = _ListAltIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListAltIcon = svg(svg("path", {  d: "M19 5v14H5V5zm1.1-2H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z"}), 'ListAlt');
+export const ListAltOutlinedIcon = (props?: KTRawAttr)=> {const s = _ListAltOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListAltOutlinedIcon = svg(svg("path", {  d: "M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M19 19H5V5h14z"}), 'ListAltOutlined');
+export const ListAltRoundedIcon = (props?: KTRawAttr)=> {const s = _ListAltRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListAltRoundedIcon = svg(svg("path", {  d: "M12 9h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m0 4h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m0 4h4c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1M7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20 3H4c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1m-1 16H5V5h14z"}), 'ListAltRounded');
+export const ListAltSharpIcon = (props?: KTRawAttr)=> {const s = _ListAltSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListAltSharpIcon = svg(svg("path", {  d: "M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM3 3v18h18V3zm16 16H5V5h14z"}), 'ListAltSharp');
+export const ListAltTwoToneIcon = (props?: KTRawAttr)=> {const s = _ListAltTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListAltTwoToneIcon = svg([svg("path", {  d: "M5 19h14V5H5zm6-12h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z",  opacity: ".3"}, "0"), svg("path", {  d: "M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9M19 19H5V5h14z"}, "1")], 'ListAltTwoTone');
+export const ListOutlinedIcon = (props?: KTRawAttr)=> {const s = _ListOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListOutlinedIcon = svg(svg("path", {  d: "M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"}), 'ListOutlined');
+export const ListRoundedIcon = (props?: KTRawAttr)=> {const s = _ListRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListRoundedIcon = svg(svg("path", {  d: "M4 13c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1m0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1M7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1m-3 5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0 4c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m0-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1m4 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1m0 4h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1s.45 1 1 1M7 8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H8c-.55 0-1 .45-1 1"}), 'ListRounded');
+export const ListSharpIcon = (props?: KTRawAttr)=> {const s = _ListSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListSharpIcon = svg(svg("path", {  d: "M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"}), 'ListSharp');
+export const ListTwoToneIcon = (props?: KTRawAttr)=> {const s = _ListTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _ListTwoToneIcon = svg(svg("path", {  d: "M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"}), 'ListTwoTone');
+export const LiveHelpIcon = (props?: KTRawAttr)=> {const s = _LiveHelpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveHelpIcon = svg(svg("path", {  d: "M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 16h-2v-2h2zm2.07-7.75-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"}), 'LiveHelp');
+export const LiveHelpOutlinedIcon = (props?: KTRawAttr)=> {const s = _LiveHelpOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveHelpOutlinedIcon = svg(svg("path", {  d: "M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 16h-4.83l-.59.59L12 20.17l-1.59-1.59-.58-.58H5V4h14zm-8-3h2v2h-2zm1-8c1.1 0 2 .9 2 2 0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4S8 6.79 8 9h2c0-1.1.9-2 2-2"}), 'LiveHelpOutlined');
+export const LiveHelpRoundedIcon = (props?: KTRawAttr)=> {const s = _LiveHelpRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveHelpRoundedIcon = svg(svg("path", {  d: "M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.9 2 2 2h4l2.29 2.29c.39.39 1.02.39 1.41 0L15 20h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 16h-2v-2h2zm2.07-7.75-.9.92c-.58.59-.99 1.1-1.12 2.06-.06.43-.41.76-.85.76h-.31c-.52 0-.92-.46-.85-.98.11-.91.53-1.72 1.14-2.34l1.24-1.26c.36-.36.58-.86.58-1.41 0-1.1-.9-2-2-2-.87 0-1.62.57-1.89 1.35-.13.37-.44.64-.83.64h-.3c-.58 0-.98-.56-.82-1.12C8.65 5.21 10.18 4 12 4c2.21 0 4 1.79 4 4 0 .88-.36 1.68-.93 2.25"}), 'LiveHelpRounded');
+export const LiveHelpSharpIcon = (props?: KTRawAttr)=> {const s = _LiveHelpSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveHelpSharpIcon = svg(svg("path", {  d: "M21 2H3v18h6l3 3 3-3h6zm-8 16h-2v-2h2zm2.07-7.75-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"}), 'LiveHelpSharp');
+export const LiveHelpTwoToneIcon = (props?: KTRawAttr)=> {const s = _LiveHelpTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveHelpTwoToneIcon = svg([svg("path", {  d: "M5 18h4.83l.59.59L12 20.17l1.59-1.59.58-.58H19V4H5zm8-1h-2v-2h2zM12 5c2.21 0 4 1.79 4 4 0 2.5-3 2.75-3 5h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4",  opacity: ".3"}, "0"), svg("path", {  d: "M21 4c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2zm-2 14h-4.83l-.59.59L12 20.17l-1.59-1.59-.58-.58H5V4h14zm-8-3h2v2h-2zm1-8c1.1 0 2 .9 2 2 0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4S8 6.79 8 9h2c0-1.1.9-2 2-2"}, "1")], 'LiveHelpTwoTone');
+export const LiveTvIcon = (props?: KTRawAttr)=> {const s = _LiveTvIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveTvIcon = svg(svg("path", {  d: "M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2m0 14H3V8h18zM9 10v8l7-4z"}), 'LiveTv');
+export const LiveTvOutlinedIcon = (props?: KTRawAttr)=> {const s = _LiveTvOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveTvOutlinedIcon = svg(svg("path", {  d: "M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z"}), 'LiveTvOutlined');
+export const LiveTvRoundedIcon = (props?: KTRawAttr)=> {const s = _LiveTvRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveTvRoundedIcon = svg(svg("path", {  d: "m10.5 17.15 3.98-2.28c.67-.38.67-1.35 0-1.74l-3.98-2.28c-.67-.38-1.5.11-1.5.87v4.55c0 .77.83 1.26 1.5.88M21 6h-7.59l2.94-2.94c.2-.2.2-.51 0-.71s-.51-.2-.71 0L12 5.99 8.36 2.35c-.2-.2-.51-.2-.71 0s-.2.51 0 .71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2m-1 14H4c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1"}), 'LiveTvRounded');
+export const LiveTvSharpIcon = (props?: KTRawAttr)=> {const s = _LiveTvSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveTvSharpIcon = svg(svg("path", {  d: "M23 6h-9.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H1v16h22zm-2 14H3V8h18zM9 10v8l7-4z"}), 'LiveTvSharp');
+export const LiveTvTwoToneIcon = (props?: KTRawAttr)=> {const s = _LiveTvTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LiveTvTwoToneIcon = svg([svg("path", {  d: "M3 20h18V8H3zm6-10 7 4-7 4z",  opacity: ".3"}, "0"), svg("path", {  d: "M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z"}, "1")], 'LiveTvTwoTone');
+export const LivingIcon = (props?: KTRawAttr)=> {const s = _LivingIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LivingIcon = svg([svg("path", {  d: "M16.5 11.5c-.55 0-1 .45-1 1v2h-7v-2c0-.55-.45-1-1-1s-1 .45-1 1V16c0 .28.22.5.5.5h10c.28 0 .5-.22.5-.5v-3.5c0-.55-.45-1-1-1"}, "0"), svg("path", {  d: "M10 12.5v.5h4v-.5c0-1.3.99-2.35 2.25-2.47V9c0-.83-.67-1.5-1.5-1.5h-5.5c-.83 0-1.5.67-1.5 1.5v1.03C9.01 10.15 10 11.2 10 12.5"}, "1"), svg("path", {  d: "M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-3.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15z"}, "2")], 'Living');
+export const LivingOutlinedIcon = (props?: KTRawAttr)=> {const s = _LivingOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LivingOutlinedIcon = svg(svg("path", {  d: "M17.75 10.35V9c0-1.66-1.34-3-3-3h-5.5c-1.66 0-3 1.34-3 3v1.35C5.51 10.78 5 11.58 5 12.5V16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3.5c0-.92-.51-1.72-1.25-2.15M9.25 7.5h5.5c.83 0 1.5.67 1.5 1.5v1.03C14.99 10.15 14 11.2 14 12.5v.5h-4v-.5c0-1.3-.99-2.35-2.25-2.47V9c0-.83.67-1.5 1.5-1.5M17.5 16c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5v-3.5c0-.55.45-1 1-1s1 .45 1 1v2h7v-2c0-.55.45-1 1-1s1 .45 1 1zM20 4v16H4V4zm0-2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2"}), 'LivingOutlined');
+export const LivingRoundedIcon = (props?: KTRawAttr)=> {const s = _LivingRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LivingRoundedIcon = svg([svg("path", {  d: "M16.5 11.5c-.55 0-1 .45-1 1v2h-7v-2c0-.55-.45-1-1-1s-1 .45-1 1V16c0 .28.22.5.5.5h10c.28 0 .5-.22.5-.5v-3.5c0-.55-.45-1-1-1"}, "0"), svg("path", {  d: "M10 12.5v.5h4v-.5c0-1.3.99-2.35 2.25-2.47V9c0-.83-.67-1.5-1.5-1.5h-5.5c-.83 0-1.5.67-1.5 1.5v1.03C9.01 10.15 10 11.2 10 12.5"}, "1"), svg("path", {  d: "M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-3.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15z"}, "2")], 'LivingRounded');
+export const LivingSharpIcon = (props?: KTRawAttr)=> {const s = _LivingSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LivingSharpIcon = svg([svg("path", {  d: "M15.5 12v2.5h-7V12h-2v4.5h11V12z"}, "0"), svg("path", {  d: "M10 10v3h4v-3l2.25-.01V7.5h-8.5v2.49z"}, "1"), svg("path", {  d: "M22 2H2v20h20zm-3 7.99V18H5v-8l1.25-.01V6h11.5v3.99z"}, "2")], 'LivingSharp');
+export const LivingTwoToneIcon = (props?: KTRawAttr)=> {const s = _LivingTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LivingTwoToneIcon = svg([svg("path", {  d: "M4 20h16V4H4zm1-7.5c0-.92.51-1.72 1.25-2.15V9c0-1.66 1.34-3 3-3h5.5c1.66 0 3 1.34 3 3v1.35c.74.43 1.25 1.23 1.25 2.15V16c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H4V4h16zM7 18h10c1.1 0 2-.9 2-2v-3.5c0-.92-.51-1.72-1.25-2.15V9c0-1.66-1.34-3-3-3h-5.5c-1.66 0-3 1.34-3 3v1.35C5.51 10.78 5 11.58 5 12.5V16c0 1.1.9 2 2 2m.75-9c0-.83.67-1.5 1.5-1.5h5.5c.83 0 1.5.67 1.5 1.5v1.03C14.99 10.15 14 11.2 14 12.5v.5h-4v-.5c0-1.3-.99-2.35-2.25-2.47zM6.5 12.5c0-.55.45-1 1-1s1 .45 1 1v2h7v-2c0-.55.45-1 1-1s1 .45 1 1V16c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5z"}, "1")], 'LivingTwoTone');
+export const LocalActivityIcon = (props?: KTRawAttr)=> {const s = _LocalActivityIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalActivityIcon = svg(svg("path", {  d: "M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z"}), 'LocalActivity');
+export const LocalActivityOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalActivityOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalActivityOutlinedIcon = svg(svg("path", {  d: "M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2m-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z"}), 'LocalActivityOutlined');
+export const LocalActivityRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalActivityRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalActivityRoundedIcon = svg(svg("path", {  d: "M20 12c0-.76.43-1.42 1.06-1.76.6-.33.94-1.01.94-1.7V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.89-1.99 1.99v2.55c0 .69.33 1.37.94 1.69C3.58 10.58 4 11.24 4 12s-.43 1.43-1.06 1.76c-.6.33-.94 1.01-.94 1.7V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2.54c0-.69-.34-1.37-.94-1.7-.63-.34-1.06-1-1.06-1.76m-5.5 4.1L12 14.5l-2.5 1.61c-.38.24-.87-.11-.75-.55l.75-2.88-2.3-1.88c-.35-.29-.17-.86.29-.89l2.96-.17 1.08-2.75c.17-.42.77-.42.93 0l1.08 2.76 2.96.17c.45.03.64.6.29.89l-2.3 1.88.76 2.86c.12.45-.37.8-.75.55"}), 'LocalActivityRounded');
+export const LocalActivitySharpIcon = (props?: KTRawAttr)=> {const s = _LocalActivitySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalActivitySharpIcon = svg(svg("path", {  d: "M20 12c0-1.1.9-2 2-2V4H2.01v6c1.1 0 1.99.9 1.99 2s-.89 2-2 2v6h20v-6c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z"}), 'LocalActivitySharp');
+export const LocalActivityTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalActivityTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalActivityTwoToneIcon = svg([svg("path", {  d: "M4.01 8.54C5.2 9.23 6 10.52 6 12s-.81 2.77-2 3.46V18h16v-2.54c-1.19-.69-2-1.99-2-3.46s.81-2.77 2-3.46V6H4zm6.72 1.68L12 7l1.26 3.23 3.47.2-2.69 2.2.89 3.37L12 14.12 9.07 16l.88-3.37-2.69-2.2z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 4H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2V6c0-1.1-.9-2-2-2m0 4.54c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z"}, "1")], 'LocalActivityTwoTone');
+export const LocalAirportIcon = (props?: KTRawAttr)=> {const s = _LocalAirportIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAirportIcon = svg(svg("path", {  d: "M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z"}), 'LocalAirport');
+export const LocalAirportOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalAirportOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAirportOutlinedIcon = svg(svg("path", {  d: "M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z"}), 'LocalAirportOutlined');
+export const LocalAirportRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalAirportRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAirportRoundedIcon = svg(svg("path", {  d: "M21.48 13.7 13.5 9V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9l-7.98 4.7c-.32.18-.52.53-.52.9 0 .7.67 1.2 1.34 1.01l7.16-2.1V19l-2.26 1.35c-.15.09-.24.26-.24.43v.58c0 .33.31.57.62.49l2.92-.73L12 21l.38.09.42.11 1.9.48.67.17c.32.08.62-.16.62-.49v-.58c0-.18-.09-.34-.24-.43L13.5 19v-5.5l7.16 2.1c.67.2 1.34-.3 1.34-1 0-.37-.2-.72-.52-.9"}), 'LocalAirportRounded');
+export const LocalAirportSharpIcon = (props?: KTRawAttr)=> {const s = _LocalAirportSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAirportSharpIcon = svg(svg("path", {  d: "M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z"}), 'LocalAirportSharp');
+export const LocalAirportTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalAirportTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAirportTwoToneIcon = svg(svg("path", {  d: "M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z"}), 'LocalAirportTwoTone');
+export const LocalAtmIcon = (props?: KTRawAttr)=> {const s = _LocalAtmIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAtmIcon = svg(svg("path", {  d: "M11 17h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2zm9-13H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16z"}), 'LocalAtm');
+export const LocalAtmOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalAtmOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAtmOutlinedIcon = svg(svg("path", {  d: "M11 17h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2zm9-13H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16z"}), 'LocalAtmOutlined');
+export const LocalAtmRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalAtmRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAtmRoundedIcon = svg(svg("path", {  d: "M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 13c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h14c.55 0 1 .45 1 1zm-6-7c.55 0 1-.45 1-1s-.45-1-1-1h-1v-.01c0-.55-.45-1-1-1s-1 .45-1 1V8h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1h-3c-.55 0-1 .45-1 1s.45 1 1 1h1c0 .55.45 1 1 1s1-.45 1-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1z"}), 'LocalAtmRounded');
+export const LocalAtmSharpIcon = (props?: KTRawAttr)=> {const s = _LocalAtmSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAtmSharpIcon = svg(svg("path", {  d: "M11 17h2v-1h2v-5h-4v-1h4V8h-2V7h-2v1H9v5h4v1H9v2h2zM22 4H2.01L2 20h20zm-2 14H4V6h16z"}), 'LocalAtmSharp');
+export const LocalAtmTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalAtmTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalAtmTwoToneIcon = svg([svg("path", {  d: "M4 18h16V6H4zm5-4h4v-1h-3c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h1V7h2v1h2v2h-4v1h3c.55 0 1 .45 1 1v3c0 .55-.45 1-1 1h-1v1h-2v-1H9z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4V6h16zm-9-1h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2z"}, "1")], 'LocalAtmTwoTone');
+export const LocalBarIcon = (props?: KTRawAttr)=> {const s = _LocalBarIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalBarIcon = svg(svg("path", {  d: "M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM7.43 7 5.66 5h12.69l-1.78 2z"}), 'LocalBar');
+export const LocalBarOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalBarOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalBarOutlinedIcon = svg(svg("path", {  d: "M14.77 9 12 12.11 9.23 9zM21 3H3v2l8 9v5H6v2h12v-2h-5v-5l8-9zM7.43 7 5.66 5h12.69l-1.78 2z"}), 'LocalBarOutlined');
+export const LocalBarRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalBarRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalBarRoundedIcon = svg(svg("path", {  d: "M21 4.45c0-.8-.65-1.45-1.45-1.45H4.45C3.65 3 3 3.65 3 4.45c0 .35.13.7.37.96L11 14v5H7c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1h-4v-5l7.63-8.59c.24-.26.37-.61.37-.96M7.43 7 5.66 5h12.69l-1.78 2z"}), 'LocalBarRounded');
+export const LocalBarSharpIcon = (props?: KTRawAttr)=> {const s = _LocalBarSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalBarSharpIcon = svg(svg("path", {  d: "M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM7.43 7 5.66 5h12.69l-1.78 2z"}), 'LocalBarSharp');
+export const LocalBarTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalBarTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalBarTwoToneIcon = svg([svg("path", {  d: "M9.23 9 12 12.11 14.77 9z",  opacity: ".3"}, "0"), svg("path", {  d: "M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM5.66 5h12.69l-1.78 2H7.43zM12 12.11 9.23 9h5.54z"}, "1")], 'LocalBarTwoTone');
+export const LocalCafeIcon = (props?: KTRawAttr)=> {const s = _LocalCafeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCafeIcon = svg(svg("path", {  d: "M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2m0 5h-2V5h2zM4 19h16v2H4z"}), 'LocalCafe');
+export const LocalCafeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalCafeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCafeOutlinedIcon = svg(svg("path", {  d: "M16 5v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V5zm4-2H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2m-2 5V5h2v3zm2 11H2v2h18z"}), 'LocalCafeOutlined');
+export const LocalCafeRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalCafeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCafeRoundedIcon = svg(svg("path", {  d: "M20 3H6c-1.1 0-2 .9-2 2v8c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 5h-2V5h2zM3 21h16c.55 0 1-.45 1-1s-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1"}), 'LocalCafeRounded');
+export const LocalCafeSharpIcon = (props?: KTRawAttr)=> {const s = _LocalCafeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCafeSharpIcon = svg(svg("path", {  d: "M20 3H4v14h14v-7h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 5h-2V5h2zM2 21h18v-2H2z"}), 'LocalCafeSharp');
+export const LocalCafeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalCafeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCafeTwoToneIcon = svg([svg("path", {  d: "M8 15h6c1.1 0 2-.9 2-2V5H6v8c0 1.1.9 2 2 2",  opacity: ".3"}, "0"), svg("path", {  d: "M2 19h18v2H2zm2-6c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2H4zm14-8h2v3h-2zM6 5h10v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2z"}, "1")], 'LocalCafeTwoTone');
+export const LocalCarWashIcon = (props?: KTRawAttr)=> {const s = _LocalCarWashIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCarWashIcon = svg(svg("path", {  d: "M17 5c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.5-4.5h11L19 13z"}), 'LocalCarWash');
+export const LocalCarWashOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalCarWashOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCarWashOutlinedIcon = svg([svg("path", {  d: "M17 5c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.85 9h10.29l1.04 3H5.81zM19 19H5v-4.66l.12-.34h13.77l.11.34z"}, "0"), svg("circle", {  cx: "7.5",  cy: "16.5",  r: "1.5"}, "1"), svg("circle", {  cx: "16.5",  cy: "16.5",  r: "1.5"}, "2")], 'LocalCarWashOutlined');
+export const LocalCarWashRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalCarWashRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCarWashRoundedIcon = svg(svg("path", {  d: "M17 5c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22 0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22 0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5 0-.66-.66-1.64-1.11-2.22-.2-.26-.59-.26-.79 0-.44.58-1.1 1.56-1.1 2.22C5.5 4.33 6.17 5 7 5m11.92 3.01C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01l-1.97 5.67c-.07.21-.11.43-.11.66v7.16c0 .83.67 1.5 1.5 1.5S6 22.33 6 21.5V21h12v.5c0 .82.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5v-7.16c0-.22-.04-.45-.11-.66zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.27-3.82c.14-.4.52-.68.95-.68h9.56c.43 0 .81.28.95.68L19 13z"}), 'LocalCarWashRounded');
+export const LocalCarWashSharpIcon = (props?: KTRawAttr)=> {const s = _LocalCarWashSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCarWashSharpIcon = svg(svg("path", {  d: "M18.58 7H5.43L3 14v9h3v-2h12v2h3v-9zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 13l1.5-4.5h11L19 13zm12-8c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5m-5 0c.83 0 1.5-.67 1.5-1.5 0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5M7 5c.83 0 1.5-.67 1.5-1.5C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5"}), 'LocalCarWashSharp');
+export const LocalCarWashTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalCarWashTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalCarWashTwoToneIcon = svg([svg("path", {  d: "m5.12 14-.12.34V19h14v-4.66l-.12-.34zm2.38 4c-.83 0-1.5-.67-1.5-1.5S6.67 15 7.5 15s1.5.67 1.5 1.5S8.33 18 7.5 18m9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5",  opacity: ".3"}, "0"), svg("path", {  d: "M15.5 3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7m-2 0c0-1-1.5-2.7-1.5-2.7s-1.5 1.7-1.5 2.7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5m-5 0C8.5 2.5 7 .8 7 .8S5.5 2.5 5.5 3.5C5.5 4.33 6.17 5 7 5s1.5-.67 1.5-1.5M21 14l-2.08-5.99C18.72 7.42 18.16 7 17.5 7h-11c-.66 0-1.21.42-1.42 1.01L3 14v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1zM6.85 9h10.29l1.04 3H5.81zM19 19H5v-4.66l.12-.34h13.77l.11.34z"}, "1"), svg("circle", {  cx: "7.5",  cy: "16.5",  r: "1.5"}, "2"), svg("circle", {  cx: "16.5",  cy: "16.5",  r: "1.5"}, "3")], 'LocalCarWashTwoTone');
+export const LocalConvenienceStoreIcon = (props?: KTRawAttr)=> {const s = _LocalConvenienceStoreIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalConvenienceStoreIcon = svg(svg("path", {  d: "M19 7V4H5v3H2v13h8v-4h4v4h8V7zm-8 3H9v1h2v1H8V9h2V8H8V7h3zm5 2h-1v-2h-2V7h1v2h1V7h1z"}), 'LocalConvenienceStore');
+export const LocalConvenienceStoreOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalConvenienceStoreOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalConvenienceStoreOutlinedIcon = svg(svg("path", {  d: "M19 7V4H5v3H2v13h8v-4h4v4h8V7zm1 11h-4v-4H8v4H4V9h3V6h10v3h3zM8 8h2v1H8v3h3v-1H9v-1h2V7H8zm7 1h-1V7h-1v3h2v2h1V7h-1z"}), 'LocalConvenienceStoreOutlined');
+export const LocalConvenienceStoreRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalConvenienceStoreRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalConvenienceStoreRoundedIcon = svg(svg("path", {  d: "m21.9 7.89-1.05-3.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 7.89c-.46 1.97.85 3.11.9 3.17V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7.94c1.12-1.12 1.09-2.41.9-3.17M13 5h1.96l.54 3.52c.09.71-.39 1.48-1.28 1.48-.67 0-1.22-.59-1.22-1.31zM6.44 8.86c-.08.65-.6 1.14-1.21 1.14-.93 0-1.35-.97-1.19-1.64L5.05 5h1.97zM10.5 16H9v1h1.5c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5H10v-1H8.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h2c.28 0 .5.22.5.5v2c0 .28-.22.5-.5.5m.5-7.31c0 .72-.55 1.31-1.29 1.31-.75 0-1.3-.7-1.22-1.48L9.04 5H11zM15.5 18c-.28 0-.5-.22-.5-.5V16h-1.5c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5s.5.22.5.5V15h1v-1.5c0-.28.22-.5.5-.5s.5.22.5.5v4c0 .28-.22.5-.5.5m3.27-8c-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01 1.05 3.37c.16.67-.25 1.64-1.19 1.64"}), 'LocalConvenienceStoreRounded');
+export const LocalConvenienceStoreSharpIcon = (props?: KTRawAttr)=> {const s = _LocalConvenienceStoreSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalConvenienceStoreSharpIcon = svg(svg("path", {  d: "M19 7V4H5v3H2v13h8v-4h4v4h8V7zm-8 3H9v1h2v1H8V9h2V8H8V7h3zm5 2h-1v-2h-2V7h1v2h1V7h1z"}), 'LocalConvenienceStoreSharp');
+export const LocalConvenienceStoreTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalConvenienceStoreTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalConvenienceStoreTwoToneIcon = svg([svg("path", {  d: "M14 14h2v4h4V9h-3V6H7v3H4v9h4v-4zm-1-7h1v2h1V7h1v5h-1v-2h-2zM8 9h2V8H8V7h3v3H9v1h2v1H8z",  opacity: ".3"}, "0"), svg("path", {  d: "M10 16h4v4h8V7h-3V4H5v3H2v13h8zm-2 0v2H4V9h3V6h10v3h3v9h-4v-4H8zm3-5H9v-1h2V7H8v1h2v1H8v3h3zm4 1h1V7h-1v2h-1V7h-1v3h2z"}, "1")], 'LocalConvenienceStoreTwoTone');
+export const LocalDiningIcon = (props?: KTRawAttr)=> {const s = _LocalDiningIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDiningIcon = svg(svg("path", {  d: "m8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z"}), 'LocalDining');
+export const LocalDiningOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalDiningOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDiningOutlinedIcon = svg(svg("path", {  d: "m8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z"}), 'LocalDiningOutlined');
+export const LocalDiningRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalDiningRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDiningRoundedIcon = svg(svg("path", {  d: "m8.1 13.34 2.83-2.83-6.19-6.18c-.48-.48-1.31-.35-1.61.27-.71 1.49-.45 3.32.78 4.56zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27l-9.05 9.05c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0L12 14.41l6.18 6.18c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L13.41 13z"}), 'LocalDiningRounded');
+export const LocalDiningSharpIcon = (props?: KTRawAttr)=> {const s = _LocalDiningSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDiningSharpIcon = svg(svg("path", {  d: "m8.1 13.34 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13z"}), 'LocalDiningSharp');
+export const LocalDiningTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalDiningTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDiningTwoToneIcon = svg(svg("path", {  d: "M5.11 21.28 12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87zM3.91 9.16l4.19 4.18 2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66"}), 'LocalDiningTwoTone');
+export const LocalDrinkIcon = (props?: KTRawAttr)=> {const s = _LocalDrinkIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDrinkIcon = svg(svg("path", {  d: "m3 2 2.01 18.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2zm9 17c-1.66 0-3-1.34-3-3 0-2 3-5.4 3-5.4s3 3.4 3 5.4c0 1.66-1.34 3-3 3m6.33-11H5.67l-.44-4h13.53z"}), 'LocalDrink');
+export const LocalDrinkOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalDrinkOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDrinkOutlinedIcon = svg(svg("path", {  d: "m3 2 2.01 18.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2zm14 18-10 .01L5.89 10H18.1zm1.33-12H5.67l-.44-4h13.53zM12 19c1.66 0 3-1.34 3-3 0-2-3-5.4-3-5.4S9 14 9 16c0 1.66 1.34 3 3 3m0-5.09c.59.91 1 1.73 1 2.09 0 .55-.45 1-1 1s-1-.45-1-1c0-.37.41-1.19 1-2.09"}), 'LocalDrinkOutlined');
+export const LocalDrinkRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalDrinkRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDrinkRoundedIcon = svg(svg("path", {  d: "M5.23 2C4.04 2 3.11 3.04 3.24 4.22l1.77 16.01C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77l1.77-16.01c.13-1.18-.8-2.22-1.99-2.22zM12 19c-1.66 0-3-1.34-3-3 0-1.55 1.81-3.95 2.62-4.94.2-.25.57-.25.77 0 .81 1 2.62 3.39 2.62 4.94-.01 1.66-1.35 3-3.01 3m6.33-11H5.67l-.32-2.89c-.06-.59.4-1.11 1-1.11h11.3c.59 0 1.06.52.99 1.11z"}), 'LocalDrinkRounded');
+export const LocalDrinkSharpIcon = (props?: KTRawAttr)=> {const s = _LocalDrinkSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDrinkSharpIcon = svg(svg("path", {  d: "m3 2 2.21 20H18.8L21 2zm9 17c-1.66 0-3-1.34-3-3 0-2 3-5.4 3-5.4s3 3.4 3 5.4c0 1.66-1.34 3-3 3m6.33-11H5.67l-.44-4h13.53z"}), 'LocalDrinkSharp');
+export const LocalDrinkTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalDrinkTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalDrinkTwoToneIcon = svg([svg("path", {  d: "M7 20.01 17 20l1.1-10H5.89zm5-9.41s3 3.4 3 5.4c0 1.66-1.34 3-3 3s-3-1.34-3-3c0-2 3-5.4 3-5.4",  opacity: ".3"}, "0"), svg("path", {  d: "M5.01 20.23C5.13 21.23 5.97 22 7 22h10c1.03 0 1.87-.77 1.99-1.77L21 2H3zM17 20l-10 .01L5.89 10H18.1zm1.76-16-.43 4H5.67l-.44-4zM12 19c1.66 0 3-1.34 3-3 0-2-3-5.4-3-5.4S9 14 9 16c0 1.66 1.34 3 3 3m0-5.09c.59.91 1 1.73 1 2.09 0 .55-.45 1-1 1s-1-.45-1-1c0-.37.41-1.19 1-2.09"}, "1")], 'LocalDrinkTwoTone');
+export const LocalFireDepartmentIcon = (props?: KTRawAttr)=> {const s = _LocalFireDepartmentIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFireDepartmentIcon = svg([svg("path", {  d: "m12 12.9-2.13 2.09c-.56.56-.87 1.29-.87 2.07C9 18.68 10.35 20 12 20s3-1.32 3-2.94c0-.78-.31-1.52-.87-2.07z"}, "0"), svg("path", {  d: "m16 6-.44.55C14.38 8.02 12 7.19 12 5.3V2S4 6 4 13c0 2.92 1.56 5.47 3.89 6.86-.56-.79-.89-1.76-.89-2.8 0-1.32.52-2.56 1.47-3.5L12 10.1l3.53 3.47c.95.93 1.47 2.17 1.47 3.5 0 1.02-.31 1.96-.85 2.75 1.89-1.15 3.29-3.06 3.71-5.3.66-3.55-1.07-6.9-3.86-8.52"}, "1")], 'LocalFireDepartment');
+export const LocalFireDepartmentOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalFireDepartmentOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFireDepartmentOutlinedIcon = svg(svg("path", {  d: "m16 6-.44.55c-.42.52-.98.75-1.54.75C13 7.3 12 6.52 12 5.3V2S4 6 4 13c0 4.42 3.58 8 8 8s8-3.58 8-8c0-2.96-1.61-5.62-4-7m-4 13c-1.1 0-2-.87-2-1.94 0-.51.2-.99.58-1.36L12 14.3l1.43 1.4c.37.37.57.85.57 1.36 0 1.07-.9 1.94-2 1.94m3.96-1.5c.04-.36.22-1.89-1.13-3.22L12 11.5l-2.83 2.78C7.81 15.62 8 17.16 8.04 17.5 6.79 16.4 6 14.79 6 13c0-3.16 2.13-5.65 4.03-7.25.23 1.99 1.93 3.55 3.99 3.55.78 0 1.54-.23 2.18-.66C17.34 9.78 18 11.35 18 13c0 1.79-.79 3.4-2.04 4.5"}), 'LocalFireDepartmentOutlined');
+export const LocalFireDepartmentRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalFireDepartmentRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFireDepartmentRoundedIcon = svg([svg("path", {  d: "m12 12.9-2.03 2c-.46.46-.82 1.03-.93 1.67C8.74 18.41 10.18 20 12 20s3.26-1.59 2.96-3.42c-.11-.64-.46-1.22-.93-1.67z"}, "0"), svg("path", {  d: "M15.56 6.55C14.38 8.02 12 7.19 12 5.3V3.77c0-.8-.89-1.28-1.55-.84C8.12 4.49 4 7.97 4 13c0 2.92 1.56 5.47 3.89 6.86-.71-1.02-1.06-2.31-.81-3.68.19-1.04.75-1.98 1.51-2.72l2.71-2.67c.39-.38 1.01-.38 1.4 0l2.73 2.69c.74.73 1.3 1.65 1.48 2.68.25 1.36-.07 2.64-.77 3.66 1.89-1.15 3.29-3.06 3.71-5.3.61-3.27-.81-6.37-3.22-8.1-.33-.25-.8-.2-1.07.13"}, "1")], 'LocalFireDepartmentRounded');
+export const LocalFireDepartmentSharpIcon = (props?: KTRawAttr)=> {const s = _LocalFireDepartmentSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFireDepartmentSharpIcon = svg([svg("path", {  d: "m12 12.9-2.13 2.09c-.56.56-.87 1.29-.87 2.07C9 18.68 10.35 20 12 20s3-1.32 3-2.94c0-.78-.31-1.52-.87-2.07z"}, "0"), svg("path", {  d: "m16 6-.44.55C14.38 8.02 12 7.19 12 5.3V2S4 6 4 13c0 2.92 1.56 5.47 3.89 6.86-.56-.79-.89-1.76-.89-2.8 0-1.32.52-2.56 1.47-3.5L12 10.1l3.53 3.47c.95.93 1.47 2.17 1.47 3.5 0 1.02-.31 1.96-.85 2.75 1.89-1.15 3.29-3.06 3.71-5.3.66-3.55-1.07-6.9-3.86-8.52"}, "1")], 'LocalFireDepartmentSharp');
+export const LocalFireDepartmentTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalFireDepartmentTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFireDepartmentTwoToneIcon = svg([svg("path", {  d: "M16.2 8.65c-.64.42-1.4.65-2.18.65-2.06 0-3.77-1.55-3.99-3.55C8.13 7.35 6 9.84 6 13c0 1.79.79 3.4 2.04 4.5-.04-.34-.23-1.88 1.13-3.22L12 11.5l2.83 2.78c1.35 1.33 1.17 2.86 1.13 3.21v.01C17.21 16.4 18 14.79 18 13c0-1.65-.66-3.22-1.8-4.35",  opacity: ".3"}, "0"), svg("path", {  d: "m12 14.31-1.42 1.4c-.38.36-.58.84-.58 1.35 0 1.07.9 1.94 2 1.94s2-.87 2-1.94c0-.51-.2-.99-.57-1.36z",  opacity: ".3"}, "1"), svg("path", {  d: "m16 6-.44.55c-.42.52-.98.75-1.54.75C13 7.3 12 6.52 12 5.3V2S4 6 4 13c0 4.42 3.58 8 8 8s8-3.58 8-8c0-2.96-1.61-5.62-4-7m-4 13c-1.1 0-2-.87-2-1.94 0-.51.2-.99.58-1.36L12 14.3l1.43 1.4c.37.37.57.85.57 1.36 0 1.07-.9 1.94-2 1.94m3.96-1.5c.04-.36.22-1.89-1.13-3.22L12 11.5l-2.83 2.78C7.81 15.62 8 17.16 8.04 17.5 6.79 16.4 6 14.79 6 13c0-3.16 2.13-5.65 4.03-7.25.23 1.99 1.93 3.55 3.99 3.55.78 0 1.54-.23 2.18-.66C17.34 9.78 18 11.35 18 13c0 1.79-.79 3.4-2.04 4.5"}, "2")], 'LocalFireDepartmentTwoTone');
+export const LocalFloristIcon = (props?: KTRawAttr)=> {const s = _LocalFloristIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFloristIcon = svg(svg("path", {  d: "M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9"}), 'LocalFlorist');
+export const LocalFloristOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalFloristOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFloristOutlinedIcon = svg(svg("path", {  d: "M8.66 13.07c.15 0 .29-.01.43-.03C9.56 14.19 10.69 15 12 15s2.44-.81 2.91-1.96c.14.02.29.03.43.03 1.73 0 3.14-1.41 3.14-3.14 0-.71-.25-1.39-.67-1.93.43-.54.67-1.22.67-1.93 0-1.73-1.41-3.14-3.14-3.14-.15 0-.29.01-.43.03C14.44 1.81 13.31 1 12 1s-2.44.81-2.91 1.96c-.14-.02-.29-.03-.43-.03-1.73 0-3.14 1.41-3.14 3.14 0 .71.25 1.39.67 1.93-.43.54-.68 1.22-.68 1.93 0 1.73 1.41 3.14 3.15 3.14M12 13c-.62 0-1.12-.49-1.14-1.1l.12-1.09c.32.12.66.19 1.02.19s.71-.07 1.03-.19l.11 1.09c-.02.61-.52 1.1-1.14 1.1m3.34-1.93c-.24 0-.46-.07-.64-.2l-.81-.57c.55-.45.94-1.09 1.06-1.83l.88.42c.4.19.66.59.66 1.03 0 .64-.52 1.15-1.15 1.15m-.65-5.94c.2-.13.42-.2.65-.2.63 0 1.14.51 1.14 1.14 0 .44-.25.83-.66 1.03l-.88.42c-.12-.74-.51-1.38-1.07-1.83zM12 3c.62 0 1.12.49 1.14 1.1l-.11 1.09C12.71 5.07 12.36 5 12 5s-.7.07-1.02.19l-.12-1.09c.02-.61.52-1.1 1.14-1.1M8.66 4.93c.24 0 .46.07.64.2l.81.56c-.55.45-.94 1.09-1.06 1.83l-.88-.42c-.4-.2-.66-.59-.66-1.03 0-.63.52-1.14 1.15-1.14M8.17 8.9l.88-.42c.12.74.51 1.38 1.07 1.83l-.81.55c-.2.13-.42.2-.65.2-.63 0-1.14-.51-1.14-1.14-.01-.43.25-.82.65-1.02M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9m2.44-2.44c.71-1.9 2.22-3.42 4.12-4.12-.71 1.9-2.22 3.41-4.12 4.12M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9m2.44 2.44c1.9.71 3.42 2.22 4.12 4.12-1.9-.71-3.41-2.22-4.12-4.12"}), 'LocalFloristOutlined');
+export const LocalFloristRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalFloristRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFloristRoundedIcon = svg(svg("path", {  d: "M12 22c4.56 0 8.33-3.4 8.92-7.8.09-.64-.48-1.21-1.12-1.12-4.4.59-7.8 4.36-7.8 8.92M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5m-8.92 8.7C3.67 18.6 7.44 22 12 22c0-4.56-3.4-8.33-7.8-8.92-.64-.09-1.21.48-1.12 1.12"}), 'LocalFloristRounded');
+export const LocalFloristSharpIcon = (props?: KTRawAttr)=> {const s = _LocalFloristSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFloristSharpIcon = svg(svg("path", {  d: "M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9M5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25M12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9"}), 'LocalFloristSharp');
+export const LocalFloristTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalFloristTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalFloristTwoToneIcon = svg([svg("path", {  d: "M12 13c.62 0 1.12-.49 1.14-1.1l-.11-1.09c-.32.12-.67.19-1.03.19s-.7-.07-1.02-.19l-.12 1.09c.02.61.52 1.1 1.14 1.1M8.17 7.1l.88.42c.12-.73.51-1.37 1.06-1.83l-.81-.56c-.18-.13-.41-.2-.64-.2-.63 0-1.14.51-1.14 1.14-.01.44.25.83.65 1.03m7.66 1.8-.88-.42c-.12.73-.51 1.37-1.06 1.83l.81.57c.18.13.41.2.64.2.63 0 1.14-.51 1.14-1.14.01-.45-.25-.84-.65-1.04m-.88-1.38.88-.42c.4-.19.66-.59.66-1.03 0-.63-.51-1.14-1.14-1.14-.24 0-.46.07-.65.2l-.81.55c.55.46.94 1.1 1.06 1.84M12 5c.36 0 .71.07 1.03.19l.11-1.09C13.12 3.49 12.62 3 12 3s-1.12.49-1.14 1.1l.12 1.09C11.3 5.07 11.64 5 12 5m-3.34 6.07c.24 0 .46-.07.65-.2l.81-.55c-.56-.46-.95-1.1-1.07-1.84l-.88.42c-.4.2-.66.59-.66 1.03 0 .63.52 1.14 1.15 1.14m9.9 4.37c-1.9.71-3.42 2.22-4.12 4.12 1.9-.71 3.41-2.22 4.12-4.12m-13.12 0c.71 1.9 2.22 3.42 4.12 4.12-.71-1.9-2.22-3.41-4.12-4.12",  opacity: ".3"}, "0"), svg("path", {  d: "M8.66 13.07c.15 0 .29-.01.43-.03C9.56 14.19 10.69 15 12 15s2.44-.81 2.91-1.96c.14.02.29.03.43.03 1.73 0 3.14-1.41 3.14-3.14 0-.71-.25-1.39-.67-1.93.43-.54.67-1.22.67-1.93 0-1.73-1.41-3.14-3.14-3.14-.15 0-.29.01-.43.03C14.44 1.81 13.31 1 12 1s-2.44.81-2.91 1.96c-.14-.02-.29-.03-.43-.03-1.73 0-3.14 1.41-3.14 3.14 0 .71.25 1.39.67 1.93-.43.54-.68 1.22-.68 1.93 0 1.73 1.41 3.14 3.15 3.14m6.68-2c-.24 0-.46-.07-.64-.2l-.81-.57c.55-.45.94-1.09 1.06-1.83l.88.42c.4.19.66.59.66 1.03 0 .64-.52 1.15-1.15 1.15m-.65-5.94c.2-.13.42-.2.65-.2.63 0 1.14.51 1.14 1.14 0 .44-.25.83-.66 1.03l-.88.42c-.12-.74-.51-1.38-1.07-1.83zM12 3c.62 0 1.12.49 1.14 1.1l-.11 1.09C12.71 5.07 12.36 5 12 5s-.7.07-1.02.19l-.12-1.09c.02-.61.52-1.1 1.14-1.1m1 5c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1m-2.02 2.81c.32.12.66.19 1.02.19s.71-.07 1.03-.19l.11 1.09c-.02.61-.52 1.1-1.14 1.1s-1.12-.49-1.14-1.1zM8.66 4.93c.24 0 .46.07.64.2l.81.56c-.55.45-.94 1.09-1.06 1.83l-.88-.42c-.4-.2-.66-.59-.66-1.03 0-.63.52-1.14 1.15-1.14M8.17 8.9l.88-.42c.12.74.51 1.38 1.07 1.83l-.81.55c-.2.13-.42.2-.65.2-.63 0-1.14-.51-1.14-1.14-.01-.43.25-.82.65-1.02M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9m6.56-6.56c-.71 1.9-2.22 3.42-4.12 4.12.71-1.9 2.22-3.41 4.12-4.12M3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9m2.44 2.44c1.9.71 3.42 2.22 4.12 4.12-1.9-.71-3.41-2.22-4.12-4.12"}, "1")], 'LocalFloristTwoTone');
+export const LocalGasStationIcon = (props?: KTRawAttr)=> {const s = _LocalGasStationIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGasStationIcon = svg(svg("path", {  d: "m19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M12 10H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalGasStation');
+export const LocalGasStationOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalGasStationOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGasStationOutlinedIcon = svg(svg("path", {  d: "m19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77M12 13.5V19H6v-7h6zm0-3.5H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalGasStationOutlined');
+export const LocalGasStationRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalGasStationRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGasStationRoundedIcon = svg(svg("path", {  d: "m19.77 7.23.01-.01-3.19-3.19c-.29-.29-.77-.29-1.06 0s-.29.77 0 1.06l1.58 1.58c-1.05.4-1.76 1.47-1.58 2.71.16 1.1 1.1 1.99 2.2 2.11.47.05.88-.03 1.27-.2v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v15c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-6.5h1.5v4.86c0 1.31.94 2.5 2.24 2.63 1.5.15 2.76-1.02 2.76-2.49V9c0-.69-.28-1.32-.73-1.77M12 10H6V6c0-.55.45-1 1-1h4c.55 0 1 .45 1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalGasStationRounded');
+export const LocalGasStationSharpIcon = (props?: KTRawAttr)=> {const s = _LocalGasStationSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGasStationSharpIcon = svg(svg("path", {  d: "m19.77 7.23.01-.01-3.72-3.72L15 4.56l2.11 2.11c-1.05.4-1.76 1.47-1.58 2.71.16 1.1 1.1 1.99 2.2 2.11.47.05.88-.03 1.27-.2v8.21h-2V12h-3V3H4v18h10v-7.5h1.5v7.49h5V9c0-.69-.28-1.32-.73-1.77M12 10H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalGasStationSharp');
+export const LocalGasStationTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalGasStationTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGasStationTwoToneIcon = svg([svg("path", {  d: "M6 19h6v-7H6z",  opacity: ".3"}, "0"), svg("path", {  d: "M12 3H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2m0 10.5V19H6v-7h6zm0-3.5H6V5h6zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}, "1")], 'LocalGasStationTwoTone');
+export const LocalGroceryStoreIcon = (props?: KTRawAttr)=> {const s = _LocalGroceryStoreIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGroceryStoreIcon = svg(svg("path", {  d: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2"}), 'LocalGroceryStore');
+export const LocalGroceryStoreOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalGroceryStoreOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGroceryStoreOutlinedIcon = svg(svg("path", {  d: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2m-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2zM6.16 6h12.15l-2.76 5H8.53z"}), 'LocalGroceryStoreOutlined');
+export const LocalGroceryStoreRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalGroceryStoreRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGroceryStoreRoundedIcon = svg(svg("path", {  d: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M2 4h1l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h11c.55 0 1-.45 1-1s-.45-1-1-1H7l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.67-1.43c-.16-.35-.52-.57-.9-.57H2c-.55 0-1 .45-1 1s.45 1 1 1m15 14c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2"}), 'LocalGroceryStoreRounded');
+export const LocalGroceryStoreSharpIcon = (props?: KTRawAttr)=> {const s = _LocalGroceryStoreSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGroceryStoreSharpIcon = svg(svg("path", {  d: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2M1 4h2l3.6 7.59L3.62 17H19v-2H7l1.1-2h8.64l4.97-9H5.21l-.94-2H1zm16 14c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2"}), 'LocalGroceryStoreSharp');
+export const LocalGroceryStoreTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalGroceryStoreTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalGroceryStoreTwoToneIcon = svg([svg("path", {  d: "M8.53 11h7.02l2.76-5H6.16z",  opacity: ".3"}, "0"), svg("path", {  d: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2m-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2zM6.16 6h12.15l-2.76 5H8.53z"}, "1")], 'LocalGroceryStoreTwoTone');
+export const LocalHospitalIcon = (props?: KTRawAttr)=> {const s = _LocalHospitalIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHospitalIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4z"}), 'LocalHospital');
+export const LocalHospitalOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalHospitalOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHospitalOutlinedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-8.5-2h3v-3.5H17v-3h-3.5V7h-3v3.5H7v3h3.5z"}), 'LocalHospitalOutlined');
+export const LocalHospitalRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalHospitalRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHospitalRoundedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-2 11h-3v3c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-3H7c-.55 0-1-.45-1-1v-2c0-.55.45-1 1-1h3V7c0-.55.45-1 1-1h2c.55 0 1 .45 1 1v3h3c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1"}), 'LocalHospitalRounded');
+export const LocalHospitalSharpIcon = (props?: KTRawAttr)=> {const s = _LocalHospitalSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHospitalSharpIcon = svg(svg("path", {  d: "M21 3H3.01L3 21h18zm-3 11h-4v4h-4v-4H6v-4h4V6h4v4h4z"}), 'LocalHospitalSharp');
+export const LocalHospitalTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalHospitalTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHospitalTwoToneIcon = svg([svg("path", {  d: "M5 19h14V5H5zm2-8.5h3.5V7h3v3.5H17v3h-3.5V17h-3v-3.5H7z",  opacity: ".3"}, "0"), svg("path", {  d: "M21 5c0-1.1-.9-2-2-2H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-2 14H5V5h14zm-8.5-2h3v-3.5H17v-3h-3.5V7h-3v3.5H7v3h3.5z"}, "1")], 'LocalHospitalTwoTone');
+export const LocalHotelIcon = (props?: KTRawAttr)=> {const s = _LocalHotelIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHotelIcon = svg(svg("path", {  d: "M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4"}), 'LocalHotel');
+export const LocalHotelOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalHotelOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHotelOutlinedIcon = svg(svg("path", {  d: "M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3m0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m12-3h-8v8H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4m2 8h-8V9h6c1.1 0 2 .9 2 2z"}), 'LocalHotelOutlined');
+export const LocalHotelRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalHotelRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHotelRoundedIcon = svg(svg("path", {  d: "M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m12-6h-6c-1.1 0-2 .9-2 2v5H3V6c0-.55-.45-1-1-1s-1 .45-1 1v13c0 .55.45 1 1 1s1-.45 1-1v-2h18v2c0 .55.45 1 1 1s1-.45 1-1v-8c0-2.21-1.79-4-4-4"}), 'LocalHotelRounded');
+export const LocalHotelSharpIcon = (props?: KTRawAttr)=> {const s = _LocalHotelSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHotelSharpIcon = svg(svg("path", {  d: "M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m16-6H11v7H3V5H1v15h2v-3h18v3h2z"}), 'LocalHotelSharp');
+export const LocalHotelTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalHotelTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalHotelTwoToneIcon = svg([svg("circle", {  cx: "7",  cy: "11",  r: "1",  opacity: ".3"}, "0"), svg("path", {  d: "M19 9h-6v6h8v-4c0-1.1-.9-2-2-2",  opacity: ".3"}, "1"), svg("path", {  d: "M4 11c0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3-3 1.34-3 3m4 0c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1m11-4h-8v8H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4m2 8h-8V9h6c1.1 0 2 .9 2 2z"}, "2")], 'LocalHotelTwoTone');
+export const LocalLaundryServiceIcon = (props?: KTRawAttr)=> {const s = _LocalLaundryServiceIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLaundryServiceIcon = svg(svg("path", {  d: "M9.17 16.83c1.56 1.56 4.1 1.56 5.66 0s1.56-4.1 0-5.66zM18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M10 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M7 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m5 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6"}), 'LocalLaundryService');
+export const LocalLaundryServiceOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalLaundryServiceOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLaundryServiceOutlinedIcon = svg([svg("path", {  d: "M18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M18 20H6L5.99 4H18z"}, "0"), svg("circle", {  cx: "8",  cy: "6",  r: "1"}, "1"), svg("circle", {  cx: "11",  cy: "6",  r: "1"}, "2"), svg("path", {  d: "M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5m2.36-7.36c1.3 1.3 1.3 3.42 0 4.72s-3.42 1.3-4.72 0z"}, "3")], 'LocalLaundryServiceOutlined');
+export const LocalLaundryServiceRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalLaundryServiceRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLaundryServiceRoundedIcon = svg(svg("path", {  d: "M9.64 16.36c1.3 1.3 3.42 1.3 4.72 0s1.3-3.42 0-4.72zM18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M11 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M8 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m4 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"}), 'LocalLaundryServiceRounded');
+export const LocalLaundryServiceSharpIcon = (props?: KTRawAttr)=> {const s = _LocalLaundryServiceSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLaundryServiceSharpIcon = svg(svg("path", {  d: "M9.17 16.83c1.56 1.56 4.1 1.56 5.66 0s1.56-4.1 0-5.66zM20 2.01 4 2v20h16zM10 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M7 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m5 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6"}), 'LocalLaundryServiceSharp');
+export const LocalLaundryServiceTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalLaundryServiceTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLaundryServiceTwoToneIcon = svg([svg("path", {  d: "M5.99 4 6 20h12V4zc.01 0 0 0 0 0M11 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1M8 5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m4 4c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5",  opacity: ".3"}, "0"), svg("path", {  d: "M18 2.01 6 2c-1.11 0-2 .89-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-1.99-2-1.99M18 20H6L5.99 4H18z"}, "1"), svg("circle", {  cx: "8",  cy: "6",  r: "1"}, "2"), svg("circle", {  cx: "11",  cy: "6",  r: "1"}, "3"), svg("path", {  d: "M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5m2.36-7.36c1.3 1.3 1.3 3.42 0 4.72s-3.42 1.3-4.72 0z"}, "4")], 'LocalLaundryServiceTwoTone');
+export const LocalLibraryIcon = (props?: KTRawAttr)=> {const s = _LocalLibraryIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLibraryIcon = svg(svg("path", {  d: "M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3"}), 'LocalLibrary');
+export const LocalLibraryOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalLibraryOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLibraryOutlinedIcon = svg(svg("path", {  d: "M12 9c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 8.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55m7 5.58c-2.53.34-4.93 1.3-7 2.82-2.06-1.52-4.47-2.49-7-2.83v-6.95c2.1.38 4.05 1.35 5.64 2.83L12 14.28l1.36-1.27c1.59-1.48 3.54-2.45 5.64-2.83z"}), 'LocalLibraryOutlined');
+export const LocalLibraryRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalLibraryRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLibraryRoundedIcon = svg(svg("path", {  d: "M12 11.55c-1.82-1.7-4.12-2.89-6.68-3.35C4.11 7.99 3 8.95 3 10.18v6.24c0 1.68.72 2.56 1.71 2.69 2.5.32 4.77 1.35 6.63 2.87.35.29.92.32 1.27.04 1.87-1.53 4.16-2.58 6.68-2.9.94-.13 1.71-1.06 1.71-2.02v-6.92c0-1.23-1.11-2.19-2.32-1.98-2.56.46-4.86 1.65-6.68 3.35M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3"}), 'LocalLibraryRounded');
+export const LocalLibrarySharpIcon = (props?: KTRawAttr)=> {const s = _LocalLibrarySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLibrarySharpIcon = svg(svg("path", {  d: "M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55M12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3"}), 'LocalLibrarySharp');
+export const LocalLibraryTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalLibraryTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalLibraryTwoToneIcon = svg([svg("path", {  d: "M19 17.13v-6.95c-2.1.38-4.05 1.35-5.64 2.83L12 14.28l-1.36-1.27C9.05 11.53 7.1 10.56 5 10.18v6.95c2.53.34 4.94 1.3 7 2.83 2.07-1.52 4.47-2.49 7-2.83",  opacity: ".3"}, "0"), svg("circle", {  cx: "12",  cy: "5",  r: "2",  opacity: ".3"}, "1"), svg("path", {  d: "M16 5c0-2.21-1.79-4-4-4S8 2.79 8 5s1.79 4 4 4 4-1.79 4-4m-6 0c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2M3 19c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55C9.64 9.35 6.48 8 3 8zm2-8.82c2.1.38 4.05 1.35 5.64 2.83L12 14.28l1.36-1.27c1.59-1.48 3.54-2.45 5.64-2.83v6.95c-2.53.34-4.93 1.3-7 2.82-2.06-1.52-4.47-2.49-7-2.83z"}, "2")], 'LocalLibraryTwoTone');
+export const LocalMallIcon = (props?: KTRawAttr)=> {const s = _LocalMallIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMallIcon = svg(svg("path", {  d: "M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5"}), 'LocalMall');
+export const LocalMallOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalMallOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMallOutlinedIcon = svg(svg("path", {  d: "M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m7 17H5V8h14zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3"}), 'LocalMallOutlined');
+export const LocalMallRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalMallRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMallRoundedIcon = svg(svg("path", {  d: "M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.33 0-4.29-1.59-4.84-3.75-.17-.63.32-1.25.97-1.25.47 0 .85.34.98.8.35 1.27 1.51 2.2 2.89 2.2s2.54-.93 2.89-2.2c.13-.46.51-.8.98-.8.65 0 1.13.62.97 1.25C16.29 11.41 14.33 13 12 13"}), 'LocalMallRounded');
+export const LocalMallSharpIcon = (props?: KTRawAttr)=> {const s = _LocalMallSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMallSharpIcon = svg(svg("path", {  d: "M21 6h-4c0-2.76-2.24-5-5-5S7 3.24 7 6H3v16h18zm-9-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5"}), 'LocalMallSharp');
+export const LocalMallTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalMallTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMallTwoToneIcon = svg([svg("path", {  d: "M5 8v12h14V8zm7 6c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5",  opacity: ".3"}, "0"), svg("path", {  d: "M17 6c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3m7 17H5V8h14zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3"}, "1")], 'LocalMallTwoTone');
+export const LocalMoviesIcon = (props?: KTRawAttr)=> {const s = _LocalMoviesIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMoviesIcon = svg(svg("path", {  d: "M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z"}), 'LocalMovies');
+export const LocalMoviesOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalMoviesOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMoviesOutlinedIcon = svg(svg("path", {  d: "M14 5v14h-4V5zm6-2h-2v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2zm-4 6V7h2v2zM6 9V7h2v2zm10 4v-2h2v2zM6 13v-2h2v2zm10 4v-2h2v2zM6 17v-2h2v2z"}), 'LocalMoviesOutlined');
+export const LocalMoviesRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalMoviesRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMoviesRoundedIcon = svg(svg("path", {  d: "M18 4v1h-2V4c0-.55-.45-1-1-1H9c-.55 0-1 .45-1 1v1H6V4c0-.55-.45-1-1-1s-1 .45-1 1v16c0 .55.45 1 1 1s1-.45 1-1v-1h2v1c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-1h2v1c0 .55.45 1 1 1s1-.45 1-1V4c0-.55-.45-1-1-1s-1 .45-1 1M8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z"}), 'LocalMoviesRounded');
+export const LocalMoviesSharpIcon = (props?: KTRawAttr)=> {const s = _LocalMoviesSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMoviesSharpIcon = svg(svg("path", {  d: "M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z"}), 'LocalMoviesSharp');
+export const LocalMoviesTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalMoviesTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalMoviesTwoToneIcon = svg([svg("path", {  d: "M10 5h4v14h-4z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 21V3h-2v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2zM8 17H6v-2h2zm0-4H6v-2h2zm0-4H6V7h2zm6 10h-4V5h4zm2-12h2v2h-2zm0 4h2v2h-2zm0 6v-2h2v2z"}, "1")], 'LocalMoviesTwoTone');
+export const LocalOfferIcon = (props?: KTRawAttr)=> {const s = _LocalOfferIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalOfferIcon = svg(svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7"}), 'LocalOffer');
+export const LocalOfferOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalOfferOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalOfferOutlinedIcon = svg([svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z"}, "0"), svg("circle", {  cx: "6.5",  cy: "6.5",  r: "1.5"}, "1")], 'LocalOfferOutlined');
+export const LocalOfferRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalOfferRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalOfferRoundedIcon = svg(svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7"}), 'LocalOfferRounded');
+export const LocalOfferSharpIcon = (props?: KTRawAttr)=> {const s = _LocalOfferSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalOfferSharpIcon = svg(svg("path", {  d: "M22.83 12.99 11.83 2H2v9.83l10.99 10.99zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7"}), 'LocalOfferSharp');
+export const LocalOfferTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalOfferTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalOfferTwoToneIcon = svg([svg("path", {  d: "M11 4H4v7l9 9.01L20 13zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5 7.33 8 6.5 8",  opacity: ".3"}, "0"), svg("path", {  d: "M12.41 2.58C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM13 20.01 4 11V4h7v-.01l9 9z"}, "1"), svg("circle", {  cx: "6.5",  cy: "6.5",  r: "1.5"}, "2")], 'LocalOfferTwoTone');
+export const LocalParkingIcon = (props?: KTRawAttr)=> {const s = _LocalParkingIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalParkingIcon = svg(svg("path", {  d: "M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}), 'LocalParking');
+export const LocalParkingOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalParkingOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalParkingOutlinedIcon = svg(svg("path", {  d: "M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}), 'LocalParkingOutlined');
+export const LocalParkingRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalParkingRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalParkingRoundedIcon = svg(svg("path", {  d: "M12.79 3H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2s2-.9 2-2v-4h3c3.57 0 6.42-3.13 5.95-6.79C18.56 5.19 15.84 3 12.79 3m.41 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}), 'LocalParkingRounded');
+export const LocalParkingSharpIcon = (props?: KTRawAttr)=> {const s = _LocalParkingSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalParkingSharpIcon = svg(svg("path", {  d: "M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}), 'LocalParkingSharp');
+export const LocalParkingTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalParkingTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalParkingTwoToneIcon = svg(svg("path", {  d: "M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}), 'LocalParkingTwoTone');
+export const LocalPharmacyIcon = (props?: KTRawAttr)=> {const s = _LocalPharmacyIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPharmacyIcon = svg(svg("path", {  d: "M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-5 9h-3v3h-2v-3H8v-2h3V9h2v3h3z"}), 'LocalPharmacy');
+export const LocalPharmacyOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPharmacyOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPharmacyOutlinedIcon = svg(svg("path", {  d: "M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-3.9 8.63L18.89 19H5.11l1.79-5.37.21-.63-.21-.63L5.11 7h13.78l-1.79 5.37-.21.63zM13 9h-2v3H8v2h3v3h2v-3h3v-2h-3z"}), 'LocalPharmacyOutlined');
+export const LocalPharmacyRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPharmacyRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPharmacyRoundedIcon = svg(svg("path", {  d: "M18.89 5h-.53l.71-1.97c.24-.65-.1-1.37-.75-1.6-.65-.24-1.37.1-1.61.75L15.69 5H5.1C3.73 5 2.77 6.34 3.2 7.63L5 13l-1.79 5.37C2.77 19.66 3.74 21 5.1 21h13.78c1.36 0 2.33-1.34 1.9-2.63L19 13l1.78-5.37C21.21 6.34 20.25 5 18.89 5M15 14h-2v2c0 .55-.45 1-1 1s-1-.45-1-1v-2H9c-.55 0-1-.45-1-1s.45-1 1-1h2v-2c0-.55.45-1 1-1s1 .45 1 1v2h2c.55 0 1 .45 1 1s-.45 1-1 1"}), 'LocalPharmacyRounded');
+export const LocalPharmacySharpIcon = (props?: KTRawAttr)=> {const s = _LocalPharmacySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPharmacySharpIcon = svg(svg("path", {  d: "M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-5 9h-3v3h-2v-3H8v-2h3V9h2v3h3z"}), 'LocalPharmacySharp');
+export const LocalPharmacyTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPharmacyTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPharmacyTwoToneIcon = svg([svg("path", {  d: "M5.11 19h13.78l-1.79-5.37-.21-.63.21-.63L18.89 7H5.11l1.79 5.37.21.63-.21.63zM8 12h3V9h2v3h3v2h-3v3h-2v-3H8z",  opacity: ".3"}, "0"), svg("path", {  d: "M3 21h18v-2l-2-6 2-6V5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6zm3.9-8.63L5.11 7h13.78l-1.79 5.37-.21.63.21.63L18.89 19H5.11l1.79-5.37.21-.63zM11 17h2v-3h3v-2h-3V9h-2v3H8v2h3z"}, "1")], 'LocalPharmacyTwoTone');
+export const LocalPhoneIcon = (props?: KTRawAttr)=> {const s = _LocalPhoneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPhoneIcon = svg(svg("path", {  d: "M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02z"}), 'LocalPhone');
+export const LocalPhoneOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPhoneOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPhoneOutlinedIcon = svg(svg("path", {  d: "M6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79zm9.86 12.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM7.5 3H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1-1.24 0-2.45-.2-3.57-.57-.1-.04-.21-.05-.31-.05-.26 0-.51.1-.71.29l-2.2 2.2c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1"}), 'LocalPhoneOutlined');
+export const LocalPhoneRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPhoneRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPhoneRoundedIcon = svg(svg("path", {  d: "m19.23 15.26-2.54-.29c-.61-.07-1.21.14-1.64.57l-1.84 1.84c-2.83-1.44-5.15-3.75-6.59-6.59l1.85-1.85c.43-.43.64-1.03.57-1.64l-.29-2.52c-.12-1.01-.97-1.77-1.99-1.77H5.03c-1.13 0-2.07.94-2 2.07.53 8.54 7.36 15.36 15.89 15.89 1.13.07 2.07-.87 2.07-2v-1.73c.01-1.01-.75-1.86-1.76-1.98"}), 'LocalPhoneRounded');
+export const LocalPhoneSharpIcon = (props?: KTRawAttr)=> {const s = _LocalPhoneSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPhoneSharpIcon = svg(svg("path", {  d: "m21 15.46-5.27-.61-2.52 2.52c-2.83-1.44-5.15-3.75-6.59-6.59l2.53-2.53L8.54 3H3.03C2.45 13.18 10.82 21.55 21 20.97z"}), 'LocalPhoneSharp');
+export const LocalPhoneTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPhoneTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPhoneTwoToneIcon = svg([svg("path", {  d: "M19 17.47c-.88-.07-1.75-.22-2.6-.45l-1.19 1.19c1.2.41 2.48.67 3.8.75v-1.49zM6.99 7.59c-.24-.83-.39-1.7-.45-2.59h-1.5c.09 1.32.35 2.59.75 3.8z",  opacity: ".3"}, "0"), svg("path", {  d: "M3 4c0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1-1.24 0-2.45-.2-3.57-.57-.1-.04-.21-.05-.31-.05-.26 0-.51.1-.71.29l-2.2 2.2c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1m13.4 13.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79z"}, "1")], 'LocalPhoneTwoTone');
+export const LocalPizzaIcon = (props?: KTRawAttr)=> {const s = _LocalPizzaIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPizzaIcon = svg(svg("path", {  d: "M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}), 'LocalPizza');
+export const LocalPizzaOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPizzaOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPizzaOutlinedIcon = svg(svg("path", {  d: "M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2m0 15.92L5.51 6.36C7.32 4.85 9.62 4 12 4s4.68.85 6.49 2.36zM9 5.5c-.83 0-1.5.67-1.5 1.5S8.17 8.5 9 8.5s1.5-.67 1.5-1.5S9.82 5.5 9 5.5m1.5 7.5c0 .83.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5s-.68-1.5-1.5-1.5-1.5.67-1.5 1.5"}), 'LocalPizzaOutlined');
+export const LocalPizzaRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPizzaRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPizzaRoundedIcon = svg(svg("path", {  d: "M12 2C9.01 2 6.28 3.08 4.17 4.88c-.71.61-.86 1.65-.4 2.46l7.36 13.11c.38.68 1.36.68 1.74 0l7.36-13.11c.46-.81.31-1.86-.4-2.46C17.73 3.09 14.99 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}), 'LocalPizzaRounded');
+export const LocalPizzaSharpIcon = (props?: KTRawAttr)=> {const s = _LocalPizzaSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPizzaSharpIcon = svg(svg("path", {  d: "M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2M7 7c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m5 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}), 'LocalPizzaSharp');
+export const LocalPizzaTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPizzaTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPizzaTwoToneIcon = svg([svg("path", {  d: "M5.51 6.36 12 17.92l6.49-11.55C16.68 4.85 14.38 4 12 4s-4.68.85-6.49 2.36M9 8.5c-.83 0-1.5-.67-1.5-1.5S8.17 5.5 9 5.5s1.5.67 1.5 1.5S9.82 8.5 9 8.5m4.5 4.5c0 .83-.68 1.5-1.5 1.5-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5",  opacity: ".3"}, "0"), svg("path", {  d: "M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.78 3.55 15.57 2 12 2m0 15.92L5.51 6.36C7.32 4.85 9.62 4 12 4s4.68.85 6.49 2.36zM9 5.5c-.83 0-1.5.67-1.5 1.5S8.17 8.5 9 8.5s1.5-.67 1.5-1.5S9.82 5.5 9 5.5m1.5 7.5c0 .83.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5s-.68-1.5-1.5-1.5-1.5.67-1.5 1.5"}, "1")], 'LocalPizzaTwoTone');
+export const LocalPlayIcon = (props?: KTRawAttr)=> {const s = _LocalPlayIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPlayIcon = svg(svg("path", {  d: "M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z"}), 'LocalPlay');
+export const LocalPlayOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPlayOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPlayOutlinedIcon = svg(svg("path", {  d: "M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2m-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z"}), 'LocalPlayOutlined');
+export const LocalPlayRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPlayRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPlayRoundedIcon = svg(svg("path", {  d: "M20 12c0-.76.43-1.42 1.06-1.76.6-.33.94-1.01.94-1.7V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.89-1.99 1.99v2.55c0 .69.33 1.37.94 1.69C3.58 10.58 4 11.24 4 12s-.43 1.43-1.06 1.76c-.6.33-.94 1.01-.94 1.7v2.25C2 19.1 2.9 20 4 20h16c1.1 0 2-.9 2-2v-2.54c0-.69-.34-1.37-.94-1.7-.63-.34-1.06-1-1.06-1.76m-5.5 4.1L12 14.5l-2.5 1.61c-.38.24-.87-.11-.75-.55l.75-2.88-2.3-1.88c-.35-.29-.17-.86.29-.89l2.96-.17 1.08-2.75c.17-.42.77-.42.93 0l1.08 2.76 2.96.17c.45.03.64.6.29.89l-2.3 1.88.76 2.86c.12.45-.37.8-.75.55"}), 'LocalPlayRounded');
+export const LocalPlaySharpIcon = (props?: KTRawAttr)=> {const s = _LocalPlaySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPlaySharpIcon = svg(svg("path", {  d: "M20 12c0-1.1.9-2 2-2V4H2.01v6c1.1 0 1.99.9 1.99 2s-.89 2-2 2v6h20v-6c-1.1 0-2-.9-2-2m-4.42 4.8L12 14.5l-3.58 2.3 1.08-4.12-3.29-2.69 4.24-.25L12 5.8l1.54 3.95 4.24.25-3.29 2.69z"}), 'LocalPlaySharp');
+export const LocalPlayTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPlayTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPlayTwoToneIcon = svg([svg("path", {  d: "M4.01 8.54C5.2 9.23 6 10.52 6 12s-.81 2.77-2 3.46V18h16v-2.54c-1.19-.69-2-1.99-2-3.46s.81-2.77 2-3.46V6H4zm6.72 1.68L12 7l1.26 3.23 3.47.2-2.69 2.2.89 3.37L12 14.12 9.07 16l.88-3.37-2.69-2.2z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 4H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2V6c0-1.1-.9-2-2-2m0 4.54c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-1.99-3.46L4 6h16zM9.07 16 12 14.12 14.93 16l-.89-3.36 2.69-2.2-3.47-.21L12 7l-1.27 3.22-3.47.21 2.69 2.2z"}, "1")], 'LocalPlayTwoTone');
+export const LocalPoliceIcon = (props?: KTRawAttr)=> {const s = _LocalPoliceIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPoliceIcon = svg(svg("path", {  d: "M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5zm2.5 11.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34z"}), 'LocalPolice');
+export const LocalPoliceOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPoliceOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPoliceOutlinedIcon = svg(svg("path", {  d: "m14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM12 3.19l7 3.11V11c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3zM12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z"}), 'LocalPoliceOutlined');
+export const LocalPoliceRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPoliceRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPoliceRoundedIcon = svg(svg("path", {  d: "m14.5 12.59.63 2.73c.1.43-.37.77-.75.54L12 14.42l-2.39 1.44c-.38.23-.85-.11-.75-.54l.64-2.72-2.1-1.81c-.34-.29-.16-.84.28-.88l2.78-.24 1.08-2.56c.17-.41.75-.41.92 0l1.08 2.55 2.78.24c.44.04.62.59.28.88zM4.19 4.47C3.47 4.79 3 5.51 3 6.3V11c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6.3c0-.79-.47-1.51-1.19-1.83l-7-3.11c-.52-.23-1.11-.23-1.62 0z"}), 'LocalPoliceRounded');
+export const LocalPoliceSharpIcon = (props?: KTRawAttr)=> {const s = _LocalPoliceSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPoliceSharpIcon = svg(svg("path", {  d: "m14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"}), 'LocalPoliceSharp');
+export const LocalPoliceTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPoliceTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPoliceTwoToneIcon = svg([svg("path", {  d: "M12 3.19 5 6.3V11c0 4.52 2.98 8.69 7 9.93 4.02-1.23 7-5.41 7-9.93V6.3zm2.5 9.4.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34z",  opacity: ".3"}, "0"), svg("path", {  d: "m14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM12 3.19l7 3.11V11c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3zM12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z"}, "1")], 'LocalPoliceTwoTone');
+export const LocalPostOfficeIcon = (props?: KTRawAttr)=> {const s = _LocalPostOfficeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPostOfficeIcon = svg(svg("path", {  d: "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z"}), 'LocalPostOffice');
+export const LocalPostOfficeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPostOfficeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPostOfficeOutlinedIcon = svg(svg("path", {  d: "M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"}), 'LocalPostOfficeOutlined');
+export const LocalPostOfficeRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPostOfficeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPostOfficeRoundedIcon = svg(svg("path", {  d: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-.4 4.25-6.54 4.09c-.65.41-1.47.41-2.12 0L4.4 8.25c-.25-.16-.4-.43-.4-.72 0-.67.73-1.07 1.3-.72L12 11l6.7-4.19c.57-.35 1.3.05 1.3.72 0 .29-.15.56-.4.72"}), 'LocalPostOfficeRounded');
+export const LocalPostOfficeSharpIcon = (props?: KTRawAttr)=> {const s = _LocalPostOfficeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPostOfficeSharpIcon = svg(svg("path", {  d: "M22 4H2.01v16H22zm-2 4-8 5-8-5V6l8 5 8-5z"}), 'LocalPostOfficeSharp');
+export const LocalPostOfficeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPostOfficeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPostOfficeTwoToneIcon = svg([svg("path", {  d: "m12 11 8-5H4zM4 8v10h16V8l-8 5z",  opacity: ".3"}, "0"), svg("path", {  d: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V8l8 5 8-5zm-8-7L4 6h16z"}, "1")], 'LocalPostOfficeTwoTone');
+export const LocalPrintshopIcon = (props?: KTRawAttr)=> {const s = _LocalPrintshopIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPrintshopIcon = svg(svg("path", {  d: "M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3m-3 11H8v-5h8zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-9H6v4h12z"}), 'LocalPrintshop');
+export const LocalPrintshopOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalPrintshopOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPrintshopOutlinedIcon = svg([svg("path", {  d: "M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3M8 5h8v3H8zm8 14H8v-4h8zm2-4v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v4z"}, "0"), svg("circle", {  cx: "18",  cy: "11.5",  r: "1"}, "1")], 'LocalPrintshopOutlined');
+export const LocalPrintshopRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalPrintshopRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPrintshopRoundedIcon = svg(svg("path", {  d: "M18 7V4c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v3zm1 1H5c-1.66 0-3 1.34-3 3v5c0 .55.45 1 1 1h3v2c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-2h3c.55 0 1-.45 1-1v-5c0-1.66-1.34-3-3-3m-3 11H8v-4h8zm2-6.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalPrintshopRounded');
+export const LocalPrintshopSharpIcon = (props?: KTRawAttr)=> {const s = _LocalPrintshopSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPrintshopSharpIcon = svg(svg("path", {  d: "M2 8v9h4v4h12v-4h4V8zm14 11H8v-5h8zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-9H6v4h12z"}), 'LocalPrintshopSharp');
+export const LocalPrintshopTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalPrintshopTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalPrintshopTwoToneIcon = svg([svg("path", {  d: "M8 5h8v3H8zm11 5H5c-.55 0-1 .45-1 1v4h2v-2h12v2h2v-4c0-.55-.45-1-1-1m-1 2.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1",  opacity: ".3"}, "0"), svg("path", {  d: "M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3M8 5h8v3H8zm8 14H8v-4h8zm4-4h-2v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1z"}, "1"), svg("circle", {  cx: "18",  cy: "11.5",  r: "1"}, "2")], 'LocalPrintshopTwoTone');
+export const LocalSeeIcon = (props?: KTRawAttr)=> {const s = _LocalSeeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalSeeIcon = svg([svg("circle", {  cx: "12",  cy: "12",  r: "3.2"}, "0"), svg("path", {  d: "M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"}, "1")], 'LocalSee');
+export const LocalSeeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalSeeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalSeeOutlinedIcon = svg(svg("path", {  d: "M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V6h4.05l.59-.65L9.88 4h4.24l1.24 1.35.59.65H20zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8.2c-1.77 0-3.2-1.43-3.2-3.2s1.43-3.2 3.2-3.2 3.2 1.43 3.2 3.2-1.43 3.2-3.2 3.2"}), 'LocalSeeOutlined');
+export const LocalSeeRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalSeeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalSeeRoundedIcon = svg([svg("path", {  d: "M9.5 14c0 1.38 1.12 2.5 2.5 2.5 1.23 0 2.25-.9 2.46-2.07-1-1.01-1.83-1.98-2.48-2.93-1.37.02-2.48 1.13-2.48 2.5"}, "0"), svg("path", {  d: "M18.65 17.08c-.37.32-.92.32-1.3 0-1.26-1.08-.7-.61-1.3-1.14-.83 1.74-2.73 2.87-4.85 2.5-1.83-.32-3.31-1.8-3.63-3.63-.42-2.44 1.13-4.58 3.31-5.14C10.3 8.45 10 7.28 10 6.15c0-.75.1-1.47.28-2.15h-.4c-.56 0-1.1.24-1.48.65L7.17 6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-6.03c-1.41 1.49-2.65 2.51-3.35 3.11"}, "1"), svg("path", {  d: "M17.34 14.42c.37.33.95.33 1.33 0C22.22 11.25 24 8.5 24 6.15 24 2.42 21.15 0 18 0s-6 2.42-6 6.15c0 2.35 1.78 5.1 5.34 8.27m-.07-9.17L18 3l.73 2.25H21l-1.85 1.47.7 2.28L18 7.59 16.15 9l.7-2.28L15 5.25z"}, "2")], 'LocalSeeRounded');
+export const LocalSeeSharpIcon = (props?: KTRawAttr)=> {const s = _LocalSeeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalSeeSharpIcon = svg([svg("circle", {  cx: "12",  cy: "12",  r: "3.2"}, "0"), svg("path", {  d: "M22 4h-5.17L15 2H9L7.17 4H2v16h20zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"}, "1")], 'LocalSeeSharp');
+export const LocalSeeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalSeeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalSeeTwoToneIcon = svg([svg("path", {  d: "M20 6h-4.05l-.59-.65L14.12 4H9.88L8.65 5.35l-.6.65H4v12h16zm-8 11c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5",  opacity: ".3"}, "0"), svg("path", {  d: "M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2M4 6h4.05l.59-.65L9.88 4h4.24l1.24 1.35.59.65H20v12H4zm8 1c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 8.2c-1.77 0-3.2-1.43-3.2-3.2s1.43-3.2 3.2-3.2 3.2 1.43 3.2 3.2-1.43 3.2-3.2 3.2"}, "1")], 'LocalSeeTwoTone');
+export const LocalShippingIcon = (props?: KTRawAttr)=> {const s = _LocalShippingIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalShippingIcon = svg(svg("path", {  d: "M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5m13.5-9 1.96 2.5H17V9.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"}), 'LocalShipping');
+export const LocalShippingOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalShippingOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalShippingOutlinedIcon = svg(svg("path", {  d: "M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zm-.5 1.5 1.96 2.5H17V9.5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m2.22-3c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12v9zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalShippingOutlined');
+export const LocalShippingRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalShippingRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalShippingRoundedIcon = svg(svg("path", {  d: "M19.5 8H17V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2 0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h1c.55 0 1-.45 1-1v-3.33c0-.43-.14-.85-.4-1.2L20.3 8.4c-.19-.25-.49-.4-.8-.4M6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m13.5-8.5 1.96 2.5H17V9.5zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalShippingRounded');
+export const LocalShippingSharpIcon = (props?: KTRawAttr)=> {const s = _LocalShippingSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalShippingSharpIcon = svg(svg("path", {  d: "M20 8h-3V4H1v13h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m13.5-8.5 1.96 2.5H17V9.5zM18 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}), 'LocalShippingSharp');
+export const LocalShippingTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalShippingTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalShippingTwoToneIcon = svg([svg("path", {  d: "M3 15h.78c.55-.61 1.34-1 2.22-1s1.67.39 2.22 1H15V6H3z",  opacity: ".3"}, "0"), svg("path", {  d: "M17 8V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m9-3H8.22c-.55-.61-1.33-1-2.22-1s-1.67.39-2.22 1H3V6h12zm3 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-6V9.5h2.5l1.96 2.5z"}, "1")], 'LocalShippingTwoTone');
+export const LocalTaxiIcon = (props?: KTRawAttr)=> {const s = _LocalTaxiIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalTaxiIcon = svg(svg("path", {  d: "M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z"}), 'LocalTaxi');
+export const LocalTaxiOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocalTaxiOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalTaxiOutlinedIcon = svg([svg("path", {  d: "M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8zM6.85 7h10.29l1.04 3H5.81zM19 17H5v-4.66l.12-.34h13.77l.11.34z"}, "0"), svg("circle", {  cx: "7.5",  cy: "14.5",  r: "1.5"}, "1"), svg("circle", {  cx: "16.5",  cy: "14.5",  r: "1.5"}, "2")], 'LocalTaxiOutlined');
+export const LocalTaxiRoundedIcon = (props?: KTRawAttr)=> {const s = _LocalTaxiRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalTaxiRoundedIcon = svg(svg("path", {  d: "M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v1H6.5c-.66 0-1.21.42-1.42 1.01l-1.97 5.67c-.07.21-.11.43-.11.66v7.16c0 .83.67 1.5 1.5 1.5S6 20.33 6 19.5V19h12v.5c0 .82.67 1.5 1.5 1.5.82 0 1.5-.67 1.5-1.5v-7.16c0-.22-.04-.45-.11-.66zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z"}), 'LocalTaxiRounded');
+export const LocalTaxiSharpIcon = (props?: KTRawAttr)=> {const s = _LocalTaxiSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalTaxiSharpIcon = svg(svg("path", {  d: "M18.58 5H15V3H9v2H5.43L3 12v9h3v-2h12v2h3v-9zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16m11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5M5 11l1.5-4.5h11L19 11z"}), 'LocalTaxiSharp');
+export const LocalTaxiTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocalTaxiTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocalTaxiTwoToneIcon = svg([svg("path", {  d: "m5.12 12-.12.34V17h14v-4.66l-.12-.34zm2.38 4c-.83 0-1.5-.67-1.5-1.5S6.67 13 7.5 13s1.5.67 1.5 1.5S8.33 16 7.5 16m9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5",  opacity: ".3"}, "0"), svg("path", {  d: "M17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99C18.72 5.42 18.16 5 17.5 5M6.85 7h10.29l1.04 3H5.81zM19 17H5v-4.66l.12-.34h13.77l.11.34z"}, "1"), svg("circle", {  cx: "7.5",  cy: "14.5",  r: "1.5"}, "2"), svg("circle", {  cx: "16.5",  cy: "14.5",  r: "1.5"}, "3")], 'LocalTaxiTwoTone');
+export const LocationCityIcon = (props?: KTRawAttr)=> {const s = _LocationCityIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationCityIcon = svg(svg("path", {  d: "M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"}), 'LocationCity');
+export const LocationCityOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocationCityOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationCityOutlinedIcon = svg(svg("path", {  d: "M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"}), 'LocationCityOutlined');
+export const LocationCityRoundedIcon = (props?: KTRawAttr)=> {const s = _LocationCityRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationCityRoundedIcon = svg(svg("path", {  d: "M15 11V5.83c0-.53-.21-1.04-.59-1.41L12.7 2.71a.996.996 0 0 0-1.41 0l-1.7 1.7C9.21 4.79 9 5.3 9 5.83V7H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"}), 'LocationCityRounded');
+export const LocationCitySharpIcon = (props?: KTRawAttr)=> {const s = _LocationCitySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationCitySharpIcon = svg(svg("path", {  d: "M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"}), 'LocationCitySharp');
+export const LocationCityTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocationCityTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationCityTwoToneIcon = svg(svg("path", {  d: "M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"}), 'LocationCityTwoTone');
+export const LocationDisabledIcon = (props?: KTRawAttr)=> {const s = _LocationDisabledIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationDisabledIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-1.13.12-2.19.46-3.16.97l1.5 1.5C10.16 5.19 11.06 5 12 5c3.87 0 7 3.13 7 7 0 .94-.19 1.84-.52 2.65l1.5 1.5c.5-.96.84-2.02.97-3.15H23v-2zM3 4.27l2.04 2.04C3.97 7.62 3.25 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21 21 19.73 4.27 3zm13.27 13.27C15.09 18.45 13.61 19 12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27z"}), 'LocationDisabled');
+export const LocationDisabledOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocationDisabledOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationDisabledOutlinedIcon = svg(svg("path", {  d: "M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19"}), 'LocationDisabledOutlined');
+export const LocationDisabledRoundedIcon = (props?: KTRawAttr)=> {const s = _LocationDisabledRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationDisabledRoundedIcon = svg(svg("path", {  d: "M22 13c.55 0 1-.45 1-1s-.45-1-1-1h-1.06c-.46-4.17-3.77-7.48-7.94-7.94V2c0-.55-.45-1-1-1s-1 .45-1 1v1.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zm-1.56 5.88L5.12 3.56a.996.996 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41L5.04 6.3C3.97 7.62 3.26 9.23 3.06 11H2c-.55 0-1 .45-1 1s.45 1 1 1h1.06c.46 4.17 3.77 7.48 7.94 7.94V22c0 .55.45 1 1 1s1-.45 1-1v-1.06c1.77-.2 3.38-.91 4.69-1.98l1.33 1.33c.39.39 1.02.39 1.41 0 .4-.39.4-1.02.01-1.41M12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19"}), 'LocationDisabledRounded');
+export const LocationDisabledSharpIcon = (props?: KTRawAttr)=> {const s = _LocationDisabledSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationDisabledSharpIcon = svg(svg("path", {  d: "M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19"}), 'LocationDisabledSharp');
+export const LocationDisabledTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocationDisabledTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationDisabledTwoToneIcon = svg(svg("path", {  d: "M23 13v-2h-2.06c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06c-.98.11-1.91.38-2.77.78l1.53 1.53C10.46 5.13 11.22 5 12 5c3.87 0 7 3.13 7 7 0 .79-.13 1.54-.37 2.24l1.53 1.53c.4-.86.67-1.79.78-2.77zM4.41 2.86 3 4.27l2.04 2.04C3.97 7.62 3.26 9.23 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c1.77-.2 3.38-.91 4.69-1.98L19.73 21l1.41-1.41zM12 19c-3.87 0-7-3.13-7-7 0-1.61.55-3.09 1.46-4.27l9.81 9.81C15.09 18.45 13.61 19 12 19"}), 'LocationDisabledTwoTone');
+export const LocationOffIcon = (props?: KTRawAttr)=> {const s = _LocationOffIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOffIcon = svg(svg("path", {  d: "M12 6.5c1.38 0 2.5 1.12 2.5 2.5 0 .74-.33 1.39-.83 1.85l3.63 3.63c.98-1.86 1.7-3.8 1.7-5.48 0-3.87-3.13-7-7-7-1.98 0-3.76.83-5.04 2.15l3.19 3.19c.46-.52 1.11-.84 1.85-.84m4.37 9.6-4.63-4.63-.11-.11L3.27 3 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21 20 19.73z"}), 'LocationOff');
+export const LocationOffOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocationOffOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOffOutlinedIcon = svg(svg("path", {  d: "M12 4c2.76 0 5 2.24 5 5 0 1.06-.39 2.32-1 3.62l1.49 1.49C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7-1.84 0-3.5.71-4.75 1.86l1.43 1.43C9.56 4.5 10.72 4 12 4m0 2.5c-.59 0-1.13.21-1.56.56l3.5 3.5c.35-.43.56-.97.56-1.56 0-1.38-1.12-2.5-2.5-2.5M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 18.88c-2.01-2.58-4.8-6.74-4.98-9.59l6.92 6.92c-.65.98-1.33 1.89-1.94 2.67"}), 'LocationOffOutlined');
+export const LocationOffRoundedIcon = (props?: KTRawAttr)=> {const s = _LocationOffRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOffRoundedIcon = svg(svg("path", {  d: "M2.71 3.56c-.39.39-.39 1.02 0 1.41l2.47 2.47C5.07 7.95 5 8.47 5 9c0 4.17 4.42 9.92 6.23 12.11.4.48 1.13.48 1.53 0 .65-.78 1.62-2.01 2.61-3.46l2.65 2.65c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L4.12 3.56a.996.996 0 0 0-1.41 0M12 2c-1.84 0-3.5.71-4.75 1.86l3.19 3.19c.43-.34.97-.55 1.56-.55 1.38 0 2.5 1.12 2.5 2.5 0 .59-.21 1.13-.56 1.56l3.55 3.55C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7"}), 'LocationOffRounded');
+export const LocationOffSharpIcon = (props?: KTRawAttr)=> {const s = _LocationOffSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOffSharpIcon = svg(svg("path", {  d: "M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 2c-1.84 0-3.5.71-4.75 1.86l3.19 3.19c.43-.34.97-.55 1.56-.55 1.38 0 2.5 1.12 2.5 2.5 0 .59-.21 1.13-.56 1.56l3.55 3.55C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7"}), 'LocationOffSharp');
+export const LocationOffTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocationOffTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOffTwoToneIcon = svg(svg("path", {  d: "M17 9c0 1.06-.39 2.32-1 3.62l1.49 1.49C18.37 12.36 19 10.57 19 9c0-3.87-3.13-7-7-7-1.84 0-3.5.71-4.75 1.86l1.43 1.43C9.56 4.5 10.72 4 12 4c2.76 0 5 2.24 5 5m-5-2.5c-.59 0-1.13.21-1.56.56l3.5 3.5c.35-.43.56-.97.56-1.56 0-1.38-1.12-2.5-2.5-2.5M3.41 2.86 2 4.27l3.18 3.18C5.07 7.95 5 8.47 5 9c0 5.25 7 13 7 13s1.67-1.85 3.38-4.35L18.73 21l1.41-1.41zM12 18.88c-2.01-2.58-4.8-6.74-4.98-9.59l6.92 6.92c-.65.98-1.33 1.89-1.94 2.67"}), 'LocationOffTwoTone');
+export const LocationOnIcon = (props?: KTRawAttr)=> {const s = _LocationOnIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOnIcon = svg(svg("path", {  d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5"}), 'LocationOn');
+export const LocationOnOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocationOnOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOnOutlinedIcon = svg([svg("path", {  d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9"}, "0"), svg("circle", {  cx: "12",  cy: "9",  r: "2.5"}, "1")], 'LocationOnOutlined');
+export const LocationOnRoundedIcon = (props?: KTRawAttr)=> {const s = _LocationOnRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOnRoundedIcon = svg(svg("path", {  d: "M12 2c-4.2 0-8 3.22-8 8.2 0 3.18 2.45 6.92 7.34 11.23.38.33.95.33 1.33 0C17.55 17.12 20 13.38 20 10.2 20 5.22 16.2 2 12 2m0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}), 'LocationOnRounded');
+export const LocationOnSharpIcon = (props?: KTRawAttr)=> {const s = _LocationOnSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOnSharpIcon = svg(svg("path", {  d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5"}), 'LocationOnSharp');
+export const LocationOnTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocationOnTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationOnTwoToneIcon = svg([svg("path", {  d: "M12 4C9.24 4 7 6.24 7 9c0 2.85 2.92 7.21 5 9.88 2.11-2.69 5-7 5-9.88 0-2.76-2.24-5-5-5m0 7.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5",  opacity: ".3"}, "0"), svg("path", {  d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7M7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9"}, "1"), svg("circle", {  cx: "12",  cy: "9",  r: "2.5"}, "2")], 'LocationOnTwoTone');
+export const LocationPinIcon = (props?: KTRawAttr)=> {const s = _LocationPinIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationPinIcon = svg(svg("path", {  d: "M12 2C8.13 2 5 5.13 5 9c0 1.74.5 3.37 1.41 4.84.95 1.54 2.2 2.86 3.16 4.4.47.75.81 1.45 1.17 2.26.26.55.47 1.5 1.26 1.5s1-.95 1.25-1.5c.37-.81.7-1.51 1.17-2.26.96-1.53 2.21-2.85 3.16-4.4C18.5 12.37 19 10.74 19 9c0-3.87-3.13-7-7-7m0 9.75c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5"}), 'LocationPin');
+export const LocationSearchingIcon = (props?: KTRawAttr)=> {const s = _LocationSearchingIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationSearchingIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7"}), 'LocationSearching');
+export const LocationSearchingOutlinedIcon = (props?: KTRawAttr)=> {const s = _LocationSearchingOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationSearchingOutlinedIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7"}), 'LocationSearchingOutlined');
+export const LocationSearchingRoundedIcon = (props?: KTRawAttr)=> {const s = _LocationSearchingRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationSearchingRoundedIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V2c0-.55-.45-1-1-1s-1 .45-1 1v1.06C6.83 3.52 3.52 6.83 3.06 11H2c-.55 0-1 .45-1 1s.45 1 1 1h1.06c.46 4.17 3.77 7.48 7.94 7.94V22c0 .55.45 1 1 1s1-.45 1-1v-1.06c4.17-.46 7.48-3.77 7.94-7.94H22c.55 0 1-.45 1-1s-.45-1-1-1zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7"}), 'LocationSearchingRounded');
+export const LocationSearchingSharpIcon = (props?: KTRawAttr)=> {const s = _LocationSearchingSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationSearchingSharpIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7"}), 'LocationSearchingSharp');
+export const LocationSearchingTwoToneIcon = (props?: KTRawAttr)=> {const s = _LocationSearchingTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LocationSearchingTwoToneIcon = svg(svg("path", {  d: "M20.94 11c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7"}), 'LocationSearchingTwoTone');
+export const LockIcon = (props?: KTRawAttr)=> {const s = _LockIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2m3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1z"}), 'Lock');
+export const LockClockIcon = (props?: KTRawAttr)=> {const s = _LockClockIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockClockIcon = svg(svg("path", {  d: "m14.5 14.2 2.9 1.7-.8 1.3L13 15v-5h1.5zM22 14c0 4.41-3.59 8-8 8-2.02 0-3.86-.76-5.27-2H4c-1.15 0-2-.85-2-2V9c0-1.12.89-1.96 2-2v-.5C4 4.01 6.01 2 8.5 2c2.34 0 4.24 1.79 4.46 4.08.34-.05.69-.08 1.04-.08 4.41 0 8 3.59 8 8M6 7h5v-.74C10.88 4.99 9.8 4 8.5 4 7.12 4 6 5.12 6 6.5zm14 7c0-3.31-2.69-6-6-6s-6 2.69-6 6 2.69 6 6 6 6-2.69 6-6"}), 'LockClock');
+export const LockClockOutlinedIcon = (props?: KTRawAttr)=> {const s = _LockClockOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockClockOutlinedIcon = svg([svg("path", {  d: "M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z"}, "1")], 'LockClockOutlined');
+export const LockClockRoundedIcon = (props?: KTRawAttr)=> {const s = _LockClockRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockClockRoundedIcon = svg([svg("path", {  d: "M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m2 7c-.2.2-.51.2-.71 0l-1.65-1.65c-.09-.09-.15-.22-.15-.35v-2.5c0-.28.22-.5.5-.5s.5.22.5.5v2.29l1.5 1.5c.21.2.21.51.01.71"}, "1")], 'LockClockRounded');
+export const LockClockSharpIcon = (props?: KTRawAttr)=> {const s = _LockClockSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockClockSharpIcon = svg(svg("path", {  d: "M18 11c.7 0 1.37.1 2 .29V8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h8.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z"}), 'LockClockSharp');
+export const LockClockTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockClockTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockClockTwoToneIcon = svg([svg("path", {  d: "M11.29 20H6V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"}, "0"), svg("path", {  d: "M11 18c0-3.87 3.13-7 7-7v-1H6v10h5.29c-.19-.63-.29-1.3-.29-2",  opacity: ".3"}, "1"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m1.65 7.35L17.5 18.2V15h1v2.79l1.85 1.85z"}, "2")], 'LockClockTwoTone');
+export const LockOpenIcon = (props?: KTRawAttr)=> {const s = _LockOpenIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOpenIcon = svg(svg("path", {  d: "M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12z"}), 'LockOpen');
+export const LockOpenOutlinedIcon = (props?: KTRawAttr)=> {const s = _LockOpenOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOpenOutlinedIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOpenOutlined');
+export const LockOpenRoundedIcon = (props?: KTRawAttr)=> {const s = _LockOpenRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOpenRoundedIcon = svg(svg("path", {  d: "M12 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m6-5h-1V6c0-2.76-2.24-5-5-5-2.28 0-4.27 1.54-4.84 3.75-.14.54.18 1.08.72 1.22.53.14 1.08-.18 1.22-.72C9.44 3.93 10.63 3 12 3c1.65 0 3 1.35 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 11c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1h10c.55 0 1 .45 1 1z"}), 'LockOpenRounded');
+export const LockOpenSharpIcon = (props?: KTRawAttr)=> {const s = _LockOpenSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOpenSharpIcon = svg(svg("path", {  d: "M20 8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6h2c0-1.13.6-2.24 1.64-2.7C12.85 2.31 15 3.9 15 6v2H4v14h16zm-2 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOpenSharp');
+export const LockOpenTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockOpenTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOpenTwoToneIcon = svg([svg("path", {  d: "M6 20h12V10H6zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2",  opacity: ".3"}, "0"), svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m0 12H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}, "1")], 'LockOpenTwoTone');
+export const LockOutlineIcon = (props?: KTRawAttr)=> {const s = _LockOutlineIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOutlineIcon = svg(svg("path", {  d: "M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9zM18 20H6V10h12z"}), 'LockOutline');
+export const LockOutlineRoundedIcon = (props?: KTRawAttr)=> {const s = _LockOutlineRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOutlineRoundedIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm8 14H7c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1m-5-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOutlineRounded');
+export const LockOutlineSharpIcon = (props?: KTRawAttr)=> {const s = _LockOutlineSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOutlineSharpIcon = svg(svg("path", {  d: "M17 8V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H4v14h16V8zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOutlineSharp');
+export const LockOutlineTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockOutlineTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOutlineTwoToneIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOutlineTwoTone');
+export const LockOutlinedIcon = (props?: KTRawAttr)=> {const s = _LockOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockOutlinedIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}), 'LockOutlined');
+export const LockPersonIcon = (props?: KTRawAttr)=> {const s = _LockPersonIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockPersonIcon = svg([svg("path", {  d: "M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32"}, "1")], 'LockPerson');
+export const LockPersonOutlinedIcon = (props?: KTRawAttr)=> {const s = _LockPersonOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockPersonOutlinedIcon = svg([svg("path", {  d: "M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32"}, "1")], 'LockPersonOutlined');
+export const LockPersonRoundedIcon = (props?: KTRawAttr)=> {const s = _LockPersonRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockPersonRoundedIcon = svg([svg("path", {  d: "M18 11c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.79-1.13-1.26-2.51-1.26-4 0-3.87 3.13-7 7-7M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32"}, "1")], 'LockPersonRounded');
+export const LockPersonSharpIcon = (props?: KTRawAttr)=> {const s = _LockPersonSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockPersonSharpIcon = svg([svg("path", {  d: "M16.43 11.18c1.26-.29 2.47-.21 3.57.12V8h-3V6.22c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h8.26c-1.01-1.45-1.5-3.3-1.15-5.27.49-2.73 2.63-4.94 5.32-5.55M8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9z"}, "0"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32"}, "1")], 'LockPersonSharp');
+export const LockPersonTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockPersonTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockPersonTwoToneIcon = svg([svg("path", {  d: "M6 10v10h5.29c-.19-.63-.29-1.3-.29-2 0-3.87 3.13-7 7-7v-1z",  opacity: ".3"}, "0"), svg("path", {  d: "M6 20V10h12v1c.7 0 1.37.1 2 .29V10c0-1.1-.9-2-2-2h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6.26c-.42-.6-.75-1.28-.97-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"}, "1"), svg("path", {  d: "M18 13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5m0 2c.83 0 1.5.67 1.5 1.5S18.83 18 18 18s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0 6c-1.03 0-1.94-.52-2.48-1.32.73-.42 1.57-.68 2.48-.68s1.75.26 2.48.68c-.54.8-1.45 1.32-2.48 1.32"}, "2")], 'LockPersonTwoTone');
+export const LockResetIcon = (props?: KTRawAttr)=> {const s = _LockResetIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockResetIcon = svg(svg("path", {  d: "M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z"}), 'LockReset');
+export const LockResetOutlinedIcon = (props?: KTRawAttr)=> {const s = _LockResetOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockResetOutlinedIcon = svg(svg("path", {  d: "M13 3c-4.97 0-9 4.03-9 9 0 .06.01.12.01.19l-1.84-1.84-1.41 1.41L5 16l4.24-4.24-1.41-1.41-1.82 1.82c0-.06-.01-.11-.01-.17 0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z"}), 'LockResetOutlined');
+export const LockResetRoundedIcon = (props?: KTRawAttr)=> {const s = _LockResetRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockResetRoundedIcon = svg(svg("path", {  d: "M13.26 3C8.17 2.86 4 6.94 4 12H2.21c-.45 0-.67.54-.35.85l2.79 2.79c.2.2.51.2.71 0l2.8-2.79c.3-.31.08-.85-.37-.85H6c0-3.89 3.2-7.06 7.1-7 3.71.05 6.84 3.18 6.9 6.9.06 3.91-3.1 7.1-7 7.1-1.59 0-3.05-.53-4.23-1.43-.4-.3-.96-.27-1.31.09-.43.43-.39 1.14.09 1.5C9.06 20.31 10.95 21 13 21c5.06 0 9.14-4.17 9-9.25-.13-4.7-4.05-8.62-8.74-8.75M15 11v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z"}), 'LockResetRounded');
+export const LockResetSharpIcon = (props?: KTRawAttr)=> {const s = _LockResetSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockResetSharpIcon = svg(svg("path", {  d: "M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1h-1v5h6v-5zm-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z"}), 'LockResetSharp');
+export const LockResetTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockResetTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockResetTwoToneIcon = svg(svg("path", {  d: "M13 3c-4.97 0-9 4.03-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42C8.32 20.01 10.55 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9m2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1z"}), 'LockResetTwoTone');
+export const LockRoundedIcon = (props?: KTRawAttr)=> {const s = _LockRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockRoundedIcon = svg(svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2m-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"}), 'LockRounded');
+export const LockSharpIcon = (props?: KTRawAttr)=> {const s = _LockSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockSharpIcon = svg(svg("path", {  d: "M20 8h-3V6.21c0-2.61-1.91-4.94-4.51-5.19C9.51.74 7 3.08 7 6v2H4v14h16zm-8 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"}), 'LockSharp');
+export const LockTwoToneIcon = (props?: KTRawAttr)=> {const s = _LockTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LockTwoToneIcon = svg([svg("path", {  d: "M6 20h12V10H6zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2",  opacity: ".3"}, "0"), svg("path", {  d: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2M9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9zm9 14H6V10h12zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2"}, "1")], 'LockTwoTone');
+export const LoginIcon = (props?: KTRawAttr)=> {const s = _LoginIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoginIcon = svg(svg("path", {  d: "M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z"}), 'Login');
+export const LoginOutlinedIcon = (props?: KTRawAttr)=> {const s = _LoginOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoginOutlinedIcon = svg(svg("path", {  d: "M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z"}), 'LoginOutlined');
+export const LoginRoundedIcon = (props?: KTRawAttr)=> {const s = _LoginRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoginRoundedIcon = svg(svg("path", {  d: "M10.3 7.7c-.39.39-.39 1.01 0 1.4l1.9 1.9H3c-.55 0-1 .45-1 1s.45 1 1 1h9.2l-1.9 1.9c-.39.39-.39 1.01 0 1.4s1.01.39 1.4 0l3.59-3.59c.39-.39.39-1.02 0-1.41L11.7 7.7a.984.984 0 0 0-1.4 0M20 19h-7c-.55 0-1 .45-1 1s.45 1 1 1h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-7c-.55 0-1 .45-1 1s.45 1 1 1h7z"}), 'LoginRounded');
+export const LoginSharpIcon = (props?: KTRawAttr)=> {const s = _LoginSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoginSharpIcon = svg(svg("path", {  d: "M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h10V3H12v2h8z"}), 'LoginSharp');
+export const LoginTwoToneIcon = (props?: KTRawAttr)=> {const s = _LoginTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoginTwoToneIcon = svg(svg("path", {  d: "M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z"}), 'LoginTwoTone');
+export const LogoDevIcon = (props?: KTRawAttr)=> {const s = _LogoDevIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoDevIcon = svg([svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z"}, "0"), svg("path", {  d: "M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15"}, "1")], 'LogoDev');
+export const LogoDevOutlinedIcon = (props?: KTRawAttr)=> {const s = _LogoDevOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoDevOutlinedIcon = svg([svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z"}, "0"), svg("path", {  d: "M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15"}, "1")], 'LogoDevOutlined');
+export const LogoDevRoundedIcon = (props?: KTRawAttr)=> {const s = _LogoDevRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoDevRoundedIcon = svg([svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z"}, "0"), svg("path", {  d: "M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15"}, "1")], 'LogoDevRounded');
+export const LogoDevSharpIcon = (props?: KTRawAttr)=> {const s = _LogoDevSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoDevSharpIcon = svg([svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z"}, "0"), svg("path", {  d: "M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15"}, "1")], 'LogoDevSharp');
+export const LogoDevTwoToneIcon = (props?: KTRawAttr)=> {const s = _LogoDevTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoDevTwoToneIcon = svg([svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M7.68 14.98H6V9h1.71c1.28 0 1.71 1.03 1.71 1.71v2.56c0 .68-.42 1.71-1.74 1.71m4.7-3.52v1.07H11.2v1.39h1.93v1.07h-2.25c-.4.01-.74-.31-.75-.71V9.75c-.01-.4.31-.74.71-.75h2.28v1.07H11.2v1.39zm4.5 2.77c-.48 1.11-1.33.89-1.71 0L13.77 9h1.18l1.07 4.11L17.09 9h1.18z"}, "0"), svg("path", {  d: "M7.77 10.12h-.63v3.77h.63c.14 0 .28-.05.42-.16.14-.1.21-.26.21-.47v-2.52c0-.21-.07-.37-.21-.47q-.21-.15-.42-.15"}, "1")], 'LogoDevTwoTone');
+export const LogoutIcon = (props?: KTRawAttr)=> {const s = _LogoutIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoutIcon = svg(svg("path", {  d: "m17 7-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z"}), 'Logout');
+export const LogoutOutlinedIcon = (props?: KTRawAttr)=> {const s = _LogoutOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoutOutlinedIcon = svg(svg("path", {  d: "m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z"}), 'LogoutOutlined');
+export const LogoutRoundedIcon = (props?: KTRawAttr)=> {const s = _LogoutRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoutRoundedIcon = svg([svg("path", {  d: "M5 5h6c.55 0 1-.45 1-1s-.45-1-1-1H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h6c.55 0 1-.45 1-1s-.45-1-1-1H5z"}, "0"), svg("path", {  d: "m20.65 11.65-2.79-2.79c-.32-.32-.86-.1-.86.35V11h-7c-.55 0-1 .45-1 1s.45 1 1 1h7v1.79c0 .45.54.67.85.35l2.79-2.79c.2-.19.2-.51.01-.7"}, "1")], 'LogoutRounded');
+export const LogoutSharpIcon = (props?: KTRawAttr)=> {const s = _LogoutSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoutSharpIcon = svg([svg("path", {  d: "M5 5h7V3H3v18h9v-2H5z"}, "0"), svg("path", {  d: "m21 12-4-4v3H9v2h8v3z"}, "1")], 'LogoutSharp');
+export const LogoutTwoToneIcon = (props?: KTRawAttr)=> {const s = _LogoutTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LogoutTwoToneIcon = svg(svg("path", {  d: "M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5zm16 7-4-4v3H9v2h8v3z"}), 'LogoutTwoTone');
+export const LooksIcon = (props?: KTRawAttr)=> {const s = _LooksIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksIcon = svg(svg("path", {  d: "M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11"}), 'Looks');
+export const Looks3Icon = (props?: KTRawAttr)=> {const s = _Looks3Icon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks3Icon = svg(svg("path", {  d: "M19.01 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 7.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2h-4v-2h4v-2h-2v-2h2V9h-4V7h4c1.1 0 2 .89 2 2z"}), 'Looks3');
+export const Looks3OutlinedIcon = (props?: KTRawAttr)=> {const s = _Looks3OutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks3OutlinedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-1.5c0-.83-.67-1.5-1.5-1.5.83 0 1.5-.67 1.5-1.5V9c0-1.11-.9-2-2-2H9v2h4v2h-2v2h2v2H9v2h4c1.1 0 2-.89 2-2"}), 'Looks3Outlined');
+export const Looks3RoundedIcon = (props?: KTRawAttr)=> {const s = _Looks3RoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks3RoundedIcon = svg(svg("path", {  d: "M19 3H5.01c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-3.99 7.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2H10c-.55 0-1-.45-1-1s.45-1 1-1h3.01L13 13h-1c-.55 0-1-.45-1-1s.45-1 1-1h1l.01-2H10c-.55 0-.99-.45-.99-1s.44-1 .99-1h3.01c1.1 0 2 .9 2 2z"}), 'Looks3Rounded');
+export const Looks3SharpIcon = (props?: KTRawAttr)=> {const s = _Looks3SharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks3SharpIcon = svg(svg("path", {  d: "M21 3H3.01v18H21zm-5.99 14H9v-2h4v-2h-2v-2h2V9H9V7h6.01z"}), 'Looks3Sharp');
+export const Looks3TwoToneIcon = (props?: KTRawAttr)=> {const s = _Looks3TwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks3TwoToneIcon = svg([svg("path", {  d: "M5 19h14V5H5zm4-4h4v-2h-2v-2h2V9H9V7h4c1.1 0 2 .89 2 2v1.5c0 .83-.67 1.5-1.5 1.5.83 0 1.5.67 1.5 1.5V15c0 1.11-.9 2-2 2H9z",  opacity: ".3"}, "0"), svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-1.5c0-.83-.67-1.5-1.5-1.5.83 0 1.5-.67 1.5-1.5V9c0-1.11-.9-2-2-2H9v2h4v2h-2v2h2v2H9v2h4c1.1 0 2-.89 2-2"}, "1")], 'Looks3TwoTone');
+export const Looks4Icon = (props?: KTRawAttr)=> {const s = _Looks4Icon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks4Icon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 14h-2v-4H9V7h2v4h2V7h2z"}), 'Looks4');
+export const Looks4OutlinedIcon = (props?: KTRawAttr)=> {const s = _Looks4OutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks4OutlinedIcon = svg(svg("path", {  d: "M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16h-14V5h14zm-6-2h2V7h-2v4h-2V7h-2v6h4z"}), 'Looks4Outlined');
+export const Looks4RoundedIcon = (props?: KTRawAttr)=> {const s = _Looks4RoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks4RoundedIcon = svg(svg("path", {  d: "M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14c-.55 0-1-.45-1-1v-3h-3c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1s1 .45 1 1v3h2V8c0-.55.45-1 1-1s1 .45 1 1v8c0 .55-.45 1-1 1"}), 'Looks4Rounded');
+export const Looks4SharpIcon = (props?: KTRawAttr)=> {const s = _Looks4SharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks4SharpIcon = svg(svg("path", {  d: "M21.04 3h-18v18h18zm-6 14h-2v-4h-4V7h2v4h2V7h2z"}), 'Looks4Sharp');
+export const Looks4TwoToneIcon = (props?: KTRawAttr)=> {const s = _Looks4TwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks4TwoToneIcon = svg([svg("path", {  d: "M5.04 19h14V5h-14zm4-12h2v4h2V7h2v10h-2v-4h-4z",  opacity: ".3"}, "0"), svg("path", {  d: "M19.04 3h-14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16h-14V5h14zm-6-2h2V7h-2v4h-2V7h-2v6h4z"}, "1")], 'Looks4TwoTone');
+export const Looks5Icon = (props?: KTRawAttr)=> {const s = _Looks5Icon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks5Icon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 6h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2H9v-2h4v-2H9V7h6z"}), 'Looks5');
+export const Looks5OutlinedIcon = (props?: KTRawAttr)=> {const s = _Looks5OutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks5OutlinedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4v-2c0-1.11-.9-2-2-2h-2V9h4V7H9v6h4v2H9v2h4c1.1 0 2-.89 2-2"}), 'Looks5Outlined');
+export const Looks5RoundedIcon = (props?: KTRawAttr)=> {const s = _Looks5RoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks5RoundedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 6h-3v2h2c1.1 0 2 .9 2 2v2c0 1.11-.9 2-2 2h-3c-.55 0-1-.45-1-1s.45-1 1-1h3v-2h-3c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1"}), 'Looks5Rounded');
+export const Looks5SharpIcon = (props?: KTRawAttr)=> {const s = _Looks5SharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks5SharpIcon = svg(svg("path", {  d: "M21 3H3v18h18zm-6 6h-4v2h4v6H9v-2h4v-2H9V7h6z"}), 'Looks5Sharp');
+export const Looks5TwoToneIcon = (props?: KTRawAttr)=> {const s = _Looks5TwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks5TwoToneIcon = svg([svg("path", {  d: "M19 5H5v14h14zm-4 4h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2H9v-2h4v-2H9V7h6z",  opacity: ".3"}, "0"), svg("path", {  d: "M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm4 8h4v2H9v2h4c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7H9z"}, "1")], 'Looks5TwoTone');
+export const Looks6Icon = (props?: KTRawAttr)=> {const s = _Looks6Icon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks6Icon = svg(svg("path", {  d: "M11 15h2v-2h-2zm8-12H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 6h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.11.9-2 2-2h4z"}), 'Looks6');
+export const Looks6OutlinedIcon = (props?: KTRawAttr)=> {const s = _Looks6OutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks6OutlinedIcon = svg(svg("path", {  d: "M11 17h2c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7h-4c-1.1 0-2 .89-2 2v6c0 1.11.9 2 2 2m0-4h2v2h-2zm8-10H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14z"}), 'Looks6Outlined');
+export const Looks6RoundedIcon = (props?: KTRawAttr)=> {const s = _Looks6RoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks6RoundedIcon = svg(svg("path", {  d: "M11 15h2v-2h-2zm8-12H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 6h-3v2h2c1.1 0 2 .9 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.1.9-2 2-2h3c.55 0 1 .45 1 1s-.45 1-1 1"}), 'Looks6Rounded');
+export const Looks6SharpIcon = (props?: KTRawAttr)=> {const s = _Looks6SharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks6SharpIcon = svg(svg("path", {  d: "M11 15h2v-2h-2zM21 3H3v18h18zm-6 6h-4v2h4v6H9V7h6z"}), 'Looks6Sharp');
+export const Looks6TwoToneIcon = (props?: KTRawAttr)=> {const s = _Looks6TwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _Looks6TwoToneIcon = svg([svg("path", {  d: "M11 13h2v2h-2zm8-8H5v14h14zm-4 4h-4v2h2c1.1 0 2 .89 2 2v2c0 1.11-.9 2-2 2h-2c-1.1 0-2-.89-2-2V9c0-1.11.9-2 2-2h4z",  opacity: ".3"}, "0"), svg("path", {  d: "M9 9v6c0 1.11.9 2 2 2h2c1.1 0 2-.89 2-2v-2c0-1.11-.9-2-2-2h-2V9h4V7h-4c-1.1 0-2 .89-2 2m4 4v2h-2v-2zm-8 8h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5z"}, "1")], 'Looks6TwoTone');
+export const LooksOneIcon = (props?: KTRawAttr)=> {const s = _LooksOneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOneIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14h-2V9h-2V7h4z"}), 'LooksOne');
+export const LooksOneOutlinedIcon = (props?: KTRawAttr)=> {const s = _LooksOneOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOneOutlinedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-7-2h2V7h-4v2h2z"}), 'LooksOneOutlined');
+export const LooksOneRoundedIcon = (props?: KTRawAttr)=> {const s = _LooksOneRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOneRoundedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-6 14c-.55 0-1-.45-1-1V9h-1c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1"}), 'LooksOneRounded');
+export const LooksOneSharpIcon = (props?: KTRawAttr)=> {const s = _LooksOneSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOneSharpIcon = svg(svg("path", {  d: "M21 3H3v18h18zm-7 14h-2V9h-2V7h4z"}), 'LooksOneSharp');
+export const LooksOneTwoToneIcon = (props?: KTRawAttr)=> {const s = _LooksOneTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOneTwoToneIcon = svg([svg("path", {  d: "M19 5H5v14h14zm-5 12h-2V9h-2V7h4z",  opacity: ".3"}, "0"), svg("path", {  d: "M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm5 4h2v8h2V7h-4z"}, "1")], 'LooksOneTwoTone');
+export const LooksOutlinedIcon = (props?: KTRawAttr)=> {const s = _LooksOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksOutlinedIcon = svg(svg("path", {  d: "M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11"}), 'LooksOutlined');
+export const LooksRoundedIcon = (props?: KTRawAttr)=> {const s = _LooksRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksRoundedIcon = svg(svg("path", {  d: "M12 10c-3.47 0-6.36 2.54-6.91 5.86-.1.6.39 1.14 1 1.14.49 0 .9-.36.98-.85C7.48 13.79 9.53 12 12 12s4.52 1.79 4.93 4.15c.08.49.49.85.98.85.61 0 1.09-.54.99-1.14C18.36 12.54 15.47 10 12 10m0-4C6.3 6 1.61 10.34 1.05 15.9c-.05.59.41 1.1 1.01 1.1.51 0 .94-.38.99-.88C3.49 11.57 7.34 8 12 8s8.51 3.57 8.96 8.12c.05.5.48.88.99.88.59 0 1.06-.51 1-1.1C22.39 10.34 17.7 6 12 6"}), 'LooksRounded');
+export const LooksSharpIcon = (props?: KTRawAttr)=> {const s = _LooksSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksSharpIcon = svg(svg("path", {  d: "M12 10c-3.86 0-7 3.14-7 7h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.86-3.14-7-7-7m0-4C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11"}), 'LooksSharp');
+export const LooksTwoIcon = (props?: KTRawAttr)=> {const s = _LooksTwoIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 8c0 1.11-.9 2-2 2h-2v2h4v2H9v-4c0-1.11.9-2 2-2h2V9H9V7h4c1.1 0 2 .89 2 2z"}), 'LooksTwo');
+export const LooksTwoOutlinedIcon = (props?: KTRawAttr)=> {const s = _LooksTwoOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoOutlinedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14zm-4-4h-4v-2h2c1.1 0 2-.89 2-2V9c0-1.11-.9-2-2-2H9v2h4v2h-2c-1.1 0-2 .89-2 2v4h6z"}), 'LooksTwoOutlined');
+export const LooksTwoRoundedIcon = (props?: KTRawAttr)=> {const s = _LooksTwoRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoRoundedIcon = svg(svg("path", {  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4 8c0 1.1-.9 2-2 2h-2v2h3c.55 0 1 .45 1 1s-.45 1-1 1h-4c-.55 0-1-.45-1-1v-3c0-1.1.9-2 2-2h2V9h-3c-.55 0-1-.45-1-1s.45-1 1-1h3c1.1 0 2 .9 2 2z"}), 'LooksTwoRounded');
+export const LooksTwoSharpIcon = (props?: KTRawAttr)=> {const s = _LooksTwoSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoSharpIcon = svg(svg("path", {  d: "M21 3H3v18h18zm-6 10h-4v2h4v2H9v-6h4V9H9V7h6z"}), 'LooksTwoSharp');
+export const LooksTwoToneIcon = (props?: KTRawAttr)=> {const s = _LooksTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoToneIcon = svg(svg("path", {  d: "M12 6C5.93 6 1 10.93 1 17h2c0-4.96 4.04-9 9-9s9 4.04 9 9h2c0-6.07-4.93-11-11-11m0 6c2.76 0 5 2.24 5 5h2c0-3.86-3.14-7-7-7s-7 3.14-7 7h2c0-2.76 2.24-5 5-5"}), 'LooksTwoTone');
+export const LooksTwoTwoToneIcon = (props?: KTRawAttr)=> {const s = _LooksTwoTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LooksTwoTwoToneIcon = svg([svg("path", {  d: "M19 5H5v14h14zm-4 6c0 1.11-.9 2-2 2h-2v2h4v2H9v-4c0-1.11.9-2 2-2h2V9H9V7h4c1.1 0 2 .89 2 2z",  opacity: ".3"}, "0"), svg("path", {  d: "M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M5 5h14v14H5zm8 2H9v2h4v2h-2c-1.1 0-2 .89-2 2v4h6v-2h-4v-2h2c1.1 0 2-.89 2-2V9c0-1.11-.9-2-2-2"}, "1")], 'LooksTwoTwoTone');
+export const LoopIcon = (props?: KTRawAttr)=> {const s = _LoopIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoopIcon = svg(svg("path", {  d: "M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"}), 'Loop');
+export const LoopOutlinedIcon = (props?: KTRawAttr)=> {const s = _LoopOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoopOutlinedIcon = svg(svg("path", {  d: "M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"}), 'LoopOutlined');
+export const LoopRoundedIcon = (props?: KTRawAttr)=> {const s = _LoopRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoopRoundedIcon = svg(svg("path", {  d: "M12 4V2.21c0-.45-.54-.67-.85-.35l-2.8 2.79c-.2.2-.2.51 0 .71l2.79 2.79c.32.31.86.09.86-.36V6c3.31 0 6 2.69 6 6 0 .79-.15 1.56-.44 2.25-.15.36-.04.77.23 1.04.51.51 1.37.33 1.64-.34.37-.91.57-1.91.57-2.95 0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-.79.15-1.56.44-2.25.15-.36.04-.77-.23-1.04-.51-.51-1.37-.33-1.64.34C4.2 9.96 4 10.96 4 12c0 4.42 3.58 8 8 8v1.79c0 .45.54.67.85.35l2.79-2.79c.2-.2.2-.51 0-.71l-2.79-2.79c-.31-.31-.85-.09-.85.36z"}), 'LoopRounded');
+export const LoopSharpIcon = (props?: KTRawAttr)=> {const s = _LoopSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoopSharpIcon = svg(svg("path", {  d: "M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"}), 'LoopSharp');
+export const LoopTwoToneIcon = (props?: KTRawAttr)=> {const s = _LoopTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoopTwoToneIcon = svg(svg("path", {  d: "M12 18c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4zm0-14V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8"}), 'LoopTwoTone');
+export const LoupeIcon = (props?: KTRawAttr)=> {const s = _LoupeIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoupeIcon = svg(svg("path", {  d: "M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}), 'Loupe');
+export const LoupeOutlinedIcon = (props?: KTRawAttr)=> {const s = _LoupeOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoupeOutlinedIcon = svg(svg("path", {  d: "M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}), 'LoupeOutlined');
+export const LoupeRoundedIcon = (props?: KTRawAttr)=> {const s = _LoupeRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoupeRoundedIcon = svg(svg("path", {  d: "M12 7c-.55 0-1 .45-1 1v3H8c-.55 0-1 .45-1 1s.45 1 1 1h3v3c0 .55.45 1 1 1s1-.45 1-1v-3h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V8c0-.55-.45-1-1-1m0-5C6.49 2 2 6.49 2 12s4.49 10 10 10h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}), 'LoupeRounded');
+export const LoupeSharpIcon = (props?: KTRawAttr)=> {const s = _LoupeSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoupeSharpIcon = svg(svg("path", {  d: "M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-.27-4.97c-6.08-.44-11.14 4.62-10.7 10.7.38 5.28 5 9.27 10.29 9.27H22v-9.68c0-5.3-3.98-9.91-9.27-10.29M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"}), 'LoupeSharp');
+export const LoupeTwoToneIcon = (props?: KTRawAttr)=> {const s = _LoupeTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoupeTwoToneIcon = svg([svg("path", {  d: "M12 20c4.41 0 8-3.59 8-8s-3.59-8-8-8-8 3.59-8 8 3.59 8 8 8m-5-9h4V7h2v4h4v2h-4v4h-2v-4H7z",  opacity: ".3"}, "0"), svg("path", {  d: "M11 17h2v-4h4v-2h-4V7h-2v4H7v2h4zm1 5h8c1.1 0 2-.9 2-2v-8c0-5.51-4.49-10-10-10S2 6.49 2 12s4.49 10 10 10m0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8"}, "1")], 'LoupeTwoTone');
+export const LowPriorityIcon = (props?: KTRawAttr)=> {const s = _LowPriorityIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LowPriorityIcon = svg(svg("path", {  d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5"}), 'LowPriority');
+export const LowPriorityOutlinedIcon = (props?: KTRawAttr)=> {const s = _LowPriorityOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LowPriorityOutlinedIcon = svg(svg("path", {  d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5"}), 'LowPriorityOutlined');
+export const LowPriorityRoundedIcon = (props?: KTRawAttr)=> {const s = _LowPriorityRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LowPriorityRoundedIcon = svg(svg("path", {  d: "M15 5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m0 5.5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m0 5.5h6c.55 0 1 .45 1 1s-.45 1-1 1h-6c-.55 0-1-.45-1-1s.45-1 1-1m-5.15 3.15 1.79-1.79c.2-.2.2-.51 0-.71l-1.79-1.79c-.31-.32-.85-.1-.85.35v3.59c0 .44.54.66.85.35M9 16h-.3c-2.35 0-4.45-1.71-4.68-4.05C3.76 9.27 5.87 7 8.5 7H11c.55 0 1-.45 1-1s-.45-1-1-1H8.5c-3.86 0-6.96 3.4-6.44 7.36C2.48 15.64 5.43 18 8.73 18H9"}), 'LowPriorityRounded');
+export const LowPrioritySharpIcon = (props?: KTRawAttr)=> {const s = _LowPrioritySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LowPrioritySharpIcon = svg(svg("path", {  d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5"}), 'LowPrioritySharp');
+export const LowPriorityTwoToneIcon = (props?: KTRawAttr)=> {const s = _LowPriorityTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LowPriorityTwoToneIcon = svg(svg("path", {  d: "M14 5h8v2h-8zm0 5.5h8v2h-8zm0 5.5h8v2h-8zM2 11.5C2 15.08 4.92 18 8.5 18H9v2l3-3-3-3v2h-.5C6.02 16 4 13.98 4 11.5S6.02 7 8.5 7H12V5H8.5C4.92 5 2 7.92 2 11.5"}), 'LowPriorityTwoTone');
+export const LoyaltyIcon = (props?: KTRawAttr)=> {const s = _LoyaltyIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoyaltyIcon = svg(svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7m11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77"}), 'Loyalty');
+export const LoyaltyOutlinedIcon = (props?: KTRawAttr)=> {const s = _LoyaltyOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoyaltyOutlinedIcon = svg([svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z"}, "0"), svg("circle", {  cx: "6.5",  cy: "6.5",  r: "1.5"}, "1"), svg("path", {  d: "M8.9 12.55c0 .57.23 1.07.6 1.45l3.5 3.5 3.5-3.5c.37-.37.6-.89.6-1.45 0-1.13-.92-2.05-2.05-2.05-.57 0-1.08.23-1.45.6l-.6.6-.6-.59c-.37-.38-.89-.61-1.45-.61-1.13 0-2.05.92-2.05 2.05"}, "2")], 'LoyaltyOutlined');
+export const LoyaltyRoundedIcon = (props?: KTRawAttr)=> {const s = _LoyaltyRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoyaltyRoundedIcon = svg(svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7m11.77 8.27-3.92 3.92c-.2.2-.51.2-.71 0l-3.92-3.92c-.57-.58-.87-1.43-.67-2.34.19-.88.89-1.61 1.76-1.84.94-.25 1.85.04 2.44.65l.75.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77"}), 'LoyaltyRounded');
+export const LoyaltySharpIcon = (props?: KTRawAttr)=> {const s = _LoyaltySharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoyaltySharpIcon = svg(svg("path", {  d: "M11.83 2H2v9.83l10.99 11s1.05-1.05 1.41-1.42L22.82 13zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7M13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z"}), 'LoyaltySharp');
+export const LoyaltyTwoToneIcon = (props?: KTRawAttr)=> {const s = _LoyaltyTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LoyaltyTwoToneIcon = svg([svg("path", {  d: "M11 4H4v7l9 9.01L20 13zM6.5 8C5.67 8 5 7.33 5 6.5S5.67 5 6.5 5 8 5.67 8 6.5 7.33 8 6.5 8m6.5 3.7.6-.6c.37-.37.89-.6 1.45-.6 1.13 0 2.05.92 2.05 2.05 0 .57-.23 1.08-.6 1.45L13 17.5 9.5 14c-.37-.38-.6-.89-.6-1.45 0-1.13.92-2.05 2.05-2.05.57 0 1.08.23 1.45.61z",  opacity: ".3"}, "0"), svg("path", {  d: "m21.41 11.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01 4 11V4h7v-.01l9 9z"}, "1"), svg("circle", {  cx: "6.5",  cy: "6.5",  r: "1.5"}, "2"), svg("path", {  d: "M8.9 12.55c0 .57.23 1.07.6 1.45l3.5 3.5 3.5-3.5c.37-.37.6-.89.6-1.45 0-1.13-.92-2.05-2.05-2.05-.57 0-1.08.23-1.45.6l-.6.6-.6-.59c-.37-.38-.89-.61-1.45-.61-1.13 0-2.05.92-2.05 2.05"}, "3")], 'LoyaltyTwoTone');
+export const LteMobiledataIcon = (props?: KTRawAttr)=> {const s = _LteMobiledataIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LteMobiledataIcon = svg(svg("path", {  d: "M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z"}), 'LteMobiledata');
+export const LteMobiledataOutlinedIcon = (props?: KTRawAttr)=> {const s = _LteMobiledataOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LteMobiledataOutlinedIcon = svg(svg("path", {  d: "M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z"}), 'LteMobiledataOutlined');
+export const LteMobiledataRoundedIcon = (props?: KTRawAttr)=> {const s = _LteMobiledataRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LteMobiledataRoundedIcon = svg(svg("path", {  d: "M6 14h2c.55 0 1 .45 1 1s-.45 1-1 1H5c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1s1 .45 1 1zm4-4h1v5c0 .55.45 1 1 1s1-.45 1-1v-5h1c.55 0 1-.45 1-1s-.45-1-1-1h-4c-.55 0-1 .45-1 1s.45 1 1 1m11-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1"}), 'LteMobiledataRounded');
+export const LteMobiledataSharpIcon = (props?: KTRawAttr)=> {const s = _LteMobiledataSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LteMobiledataSharpIcon = svg(svg("path", {  d: "M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z"}), 'LteMobiledataSharp');
+export const LteMobiledataTwoToneIcon = (props?: KTRawAttr)=> {const s = _LteMobiledataTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LteMobiledataTwoToneIcon = svg(svg("path", {  d: "M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z"}), 'LteMobiledataTwoTone');
+export const LtePlusMobiledataIcon = (props?: KTRawAttr)=> {const s = _LtePlusMobiledataIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LtePlusMobiledataIcon = svg(svg("path", {  d: "M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z"}), 'LtePlusMobiledata');
+export const LtePlusMobiledataOutlinedIcon = (props?: KTRawAttr)=> {const s = _LtePlusMobiledataOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LtePlusMobiledataOutlinedIcon = svg(svg("path", {  d: "M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z"}), 'LtePlusMobiledataOutlined');
+export const LtePlusMobiledataRoundedIcon = (props?: KTRawAttr)=> {const s = _LtePlusMobiledataRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LtePlusMobiledataRoundedIcon = svg(svg("path", {  d: "M3 14h2c.55 0 1 .45 1 1s-.45 1-1 1H2c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1s1 .45 1 1zm3-4h1v5c0 .55.45 1 1 1s1-.45 1-1v-5h1c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1m7 6h3c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-2v-1h2c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1m10-5h-1v-1c0-.55-.45-1-1-1s-1 .45-1 1v1h-1c-.55 0-1 .45-1 1s.45 1 1 1h1v1c0 .55.45 1 1 1s1-.45 1-1v-1h1c.55 0 1-.45 1-1s-.45-1-1-1"}), 'LtePlusMobiledataRounded');
+export const LtePlusMobiledataSharpIcon = (props?: KTRawAttr)=> {const s = _LtePlusMobiledataSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LtePlusMobiledataSharpIcon = svg(svg("path", {  d: "M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z"}), 'LtePlusMobiledataSharp');
+export const LtePlusMobiledataTwoToneIcon = (props?: KTRawAttr)=> {const s = _LtePlusMobiledataTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LtePlusMobiledataTwoToneIcon = svg(svg("path", {  d: "M3 14h3v2H1V8h2zm2-4h2v6h2v-6h2V8H5zm7 6h5v-2h-3v-1h3v-2h-3v-1h3V8h-5zm12-5h-2V9h-2v2h-2v2h2v2h2v-2h2z"}), 'LtePlusMobiledataTwoTone');
+export const LuggageIcon = (props?: KTRawAttr)=> {const s = _LuggageIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LuggageIcon = svg(svg("path", {  d: "M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zm.75-12h-3V3.5h3zM16 18h-1.5V9H16z"}), 'Luggage');
+export const LuggageOutlinedIcon = (props?: KTRawAttr)=> {const s = _LuggageOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LuggageOutlinedIcon = svg(svg("path", {  d: "M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16zm1-12h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-6.5-2.5h3V6h-3zM17 19H7V8h10z"}), 'LuggageOutlined');
+export const LuggageRoundedIcon = (props?: KTRawAttr)=> {const s = _LuggageRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LuggageRoundedIcon = svg(svg("path", {  d: "M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2M8.75 18c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75M12 18c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75m1.5-12h-3V3.5h3zm1.75 12c-.41 0-.75-.34-.75-.75v-7.5c0-.41.34-.75.75-.75s.75.34.75.75v7.5c0 .41-.34.75-.75.75"}), 'LuggageRounded');
+export const LuggageSharpIcon = (props?: KTRawAttr)=> {const s = _LuggageSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LuggageSharpIcon = svg(svg("path", {  d: "M19 6h-4V2H9v4H5v15h2c0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1h2zM9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zm.75-12h-3V3.5h3zM16 18h-1.5V9H16z"}), 'LuggageSharp');
+export const LuggageTwoToneIcon = (props?: KTRawAttr)=> {const s = _LuggageTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LuggageTwoToneIcon = svg([svg("path", {  d: "M7 8v11h10V8zm2.5 10H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16z",  opacity: ".3"}, "0"), svg("path", {  d: "M9.5 18H8V9h1.5zm3.25 0h-1.5V9h1.5zM16 18h-1.5V9H16zm1-12h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-6.5-2.5h3V6h-3zM17 19H7V8h10z"}, "1")], 'LuggageTwoTone');
+export const LunchDiningIcon = (props?: KTRawAttr)=> {const s = _LunchDiningIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LunchDiningIcon = svg(svg("path", {  fillRule: "evenodd",  d: "M22 10c.32-3.28-4.28-6-9.99-6S1.7 6.72 2.02 10zM5.35 13.5c.55 0 .78.14 1.15.36.45.27 1.07.64 2.18.64s1.73-.37 2.18-.64c.37-.23.59-.36 1.15-.36.55 0 .78.14 1.15.36.45.27 1.07.64 2.18.64s1.73-.37 2.18-.64c.37-.23.59-.36 1.15-.36.55 0 .78.14 1.15.36.45.27 1.07.63 2.17.64v-1.98s-.79-.16-1.16-.38c-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.6.36-1.15.36s-.78-.14-1.15-.36c-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.59.36-1.15.36-.55 0-.78-.14-1.15-.36-.45-.27-1.07-.64-2.18-.64s-1.73.37-2.18.64c-.37.23-.59.36-1.15.36v2c1.11 0 1.73-.37 2.21-.64.37-.23.59-.36 1.14-.36M2 16v2c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-2z"}), 'LunchDining');
+export const LunchDiningOutlinedIcon = (props?: KTRawAttr)=> {const s = _LunchDiningOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LunchDiningOutlinedIcon = svg(svg("path", {  d: "M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3H2zm2-1h16v1H4zm14.66-6.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20zM4.18 8C5.01 5.81 8.61 5 12 5c3.31 0 5.93.73 7.19 1.99.3.31.52.64.65 1.01z"}), 'LunchDiningOutlined');
+export const LunchDiningRoundedIcon = (props?: KTRawAttr)=> {const s = _LunchDiningRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LunchDiningRoundedIcon = svg(svg("path", {  d: "M3.37 14.28c.79-.29 1.17-.78 1.99-.78 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 .81 0 1.17.46 1.93.76.67.26 1.39-.25 1.39-.96 0-.43-.28-.81-.69-.96-.97-.35-1.22-.83-2.65-.83-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.55 0-1.96.63-2.68.89-.39.14-.65.52-.65.94 0 .69.7 1.18 1.36.94M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-1c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zM22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9c0 .55.45 1 1 1h18c.55 0 1-.45 1-1"}), 'LunchDiningRounded');
+export const LunchDiningSharpIcon = (props?: KTRawAttr)=> {const s = _LunchDiningSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LunchDiningSharpIcon = svg(svg("path", {  d: "M2 16h20v5H2zm16.66-4.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20z"}), 'LunchDiningSharp');
+export const LunchDiningTwoToneIcon = (props?: KTRawAttr)=> {const s = _LunchDiningTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LunchDiningTwoToneIcon = svg([svg("path", {  fillOpacity: ".3",  d: "M4 18h16v1H4zm8-13c-3.39 0-6.99.81-7.82 3h15.66c-.13-.37-.35-.7-.66-1.01C17.93 5.73 15.31 5 12 5"}, "0"), svg("path", {  d: "M2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3H2zm2-1h16v1H4zm14.66-6.5c-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1-1.19 0-1.42-1-3.33-1-1.95 0-2.09 1-3.33 1v2c1.9 0 2.17-1 3.35-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.42 1 3.33 1 1.95 0 2.09-1 3.33-1 1.19 0 1.4.98 3.32 1l-.01-1.98c-1.61-.33-1.62-1.02-3.33-1.02M22 9c.02-4-4.28-6-10-6C6.29 3 2 5 2 9v1h20zM4.18 8C5.01 5.81 8.61 5 12 5c3.31 0 5.93.73 7.19 1.99.3.31.52.64.65 1.01z"}, "1")], 'LunchDiningTwoTone');
+export const LyricsIcon = (props?: KTRawAttr)=> {const s = _LyricsIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LyricsIcon = svg([svg("path", {  d: "M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z"}, "0"), svg("path", {  d: "M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z"}, "1")], 'Lyrics');
+export const LyricsOutlinedIcon = (props?: KTRawAttr)=> {const s = _LyricsOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LyricsOutlinedIcon = svg([svg("path", {  d: "M6 6h7v2H6zm0 6h4v2H6z"}, "0"), svg("path", {  d: "M15 11.97V16H6l-2 2V4h11v2.03c.52-.69 1.2-1.25 2-1.6V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-.8-.36-1.48-.92-2-1.61"}, "1"), svg("path", {  d: "M6 9h7v2H6zm14-2.82c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z"}, "2")], 'LyricsOutlined');
+export const LyricsRoundedIcon = (props?: KTRawAttr)=> {const s = _LyricsRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LyricsRoundedIcon = svg([svg("path", {  d: "M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z"}, "0"), svg("path", {  d: "M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z"}, "1")], 'LyricsRounded');
+export const LyricsSharpIcon = (props?: KTRawAttr)=> {const s = _LyricsSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LyricsSharpIcon = svg([svg("path", {  d: "M14 9c0-2.04 1.24-3.79 3-4.57V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-1.76-.78-3-2.53-3-4.58m-4 5H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z"}, "0"), svg("path", {  d: "M20 6.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z"}, "1")], 'LyricsSharp');
+export const LyricsTwoToneIcon = (props?: KTRawAttr)=> {const s = _LyricsTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _LyricsTwoToneIcon = svg([svg("path", {  d: "M4 4v14l2-2h9v-4.03c-.62-.83-1-1.85-1-2.97s.38-2.14 1-2.97V4zm6 10H6v-2h4zm3-3H6V9h7zm0-3H6V6h7z",  opacity: ".3"}, "0"), svg("path", {  d: "M6 12h4v2H6zm0-6h7v2H6z"}, "1"), svg("path", {  d: "M15 11.97V16H6l-2 2V4h11v2.03c.52-.69 1.2-1.25 2-1.6V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9c1.1 0 2-.9 2-2v-2.42c-.8-.36-1.48-.92-2-1.61"}, "2"), svg("path", {  d: "M6 9h7v2H6zm14-2.82c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V3h2V1h-4z"}, "3")], 'LyricsTwoTone');

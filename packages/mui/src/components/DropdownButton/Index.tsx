@@ -1,8 +1,9 @@
 import type { JSX } from '@ktjs/core';
 import { computed, KTFor, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { ExpandMoreIcon } from '@ktjs/mui-icon';
+
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import { ExpandMoreIcon } from '../../Icons/ExpandMore.js';
 import '../Button/Button.css';
 import './DropdownButton.css';
 

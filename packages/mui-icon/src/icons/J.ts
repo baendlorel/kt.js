@@ -1,440 +1,53 @@
-import { applyAttr, type KTRawAttr } from '@ktjs/core';
-import { svg } from '../common/index.js';
+import { applyAttr, type KTRawAttr, type JSX } from '@ktjs/core';
+import { svg } from '../common/index.js'  
 
-export const JavascriptIcon = (props?: KTRawAttr) => {
-  const s = _JavascriptIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JavascriptIcon = svg(
-  svg('path', {
-    d: 'M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z',
-  }),
-  'Javascript',
-);
-export const JavascriptOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _JavascriptOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JavascriptOutlinedIcon = svg(
-  svg('path', {
-    d: 'M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z',
-  }),
-  'JavascriptOutlined',
-);
-export const JavascriptRoundedIcon = (props?: KTRawAttr) => {
-  const s = _JavascriptRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JavascriptRoundedIcon = svg(
-  svg('path', {
-    d: 'M15.54 10.5c.1.29.38.5.71.5.41 0 .75-.34.75-.75V10c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v1.5c0 .55.45 1 1 1h2.5v1h-2.04c-.1-.29-.38-.5-.71-.5-.41 0-.75.34-.75.75V14c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-1.5c0-.55-.45-1-1-1h-2.5v-1zm-8.04 3H9V9.75c0-.41.34-.75.75-.75s.75.34.75.75v3.75c0 .83-.67 1.5-1.5 1.5H7.5c-.83 0-1.5-.67-1.5-1.5v-.25c0-.41.34-.75.75-.75s.75.34.75.75z',
-  }),
-  'JavascriptRounded',
-);
-export const JavascriptSharpIcon = (props?: KTRawAttr) => {
-  const s = _JavascriptSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JavascriptSharpIcon = svg(
-  svg('path', { d: 'M12 15v-2h1.5v.5h2v-1H12V9h5v2h-1.5v-.5h-2v1H17V15zM9 9v4.5H7.5v-1H6V15h4.5V9z' }),
-  'JavascriptSharp',
-);
-export const JavascriptTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _JavascriptTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JavascriptTwoToneIcon = svg(
-  svg('path', {
-    d: 'M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z',
-  }),
-  'JavascriptTwoTone',
-);
-export const JoinFullIcon = (props?: KTRawAttr) => {
-  const s = _JoinFullIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinFullIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinFull',
-);
-export const JoinFullOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _JoinFullOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinFullOutlinedIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinFullOutlined',
-);
-export const JoinFullRoundedIcon = (props?: KTRawAttr) => {
-  const s = _JoinFullRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinFullRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinFullRounded',
-);
-export const JoinFullSharpIcon = (props?: KTRawAttr) => {
-  const s = _JoinFullSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinFullSharpIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinFullSharp',
-);
-export const JoinFullTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _JoinFullTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinFullTwoToneIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinFullTwoTone',
-);
-export const JoinInnerIcon = (props?: KTRawAttr) => {
-  const s = _JoinInnerIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinInnerIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinInner',
-);
-export const JoinInnerOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _JoinInnerOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinInnerOutlinedIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinInnerOutlined',
-);
-export const JoinInnerRoundedIcon = (props?: KTRawAttr) => {
-  const s = _JoinInnerRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinInnerRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinInnerRounded',
-);
-export const JoinInnerSharpIcon = (props?: KTRawAttr) => {
-  const s = _JoinInnerSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinInnerSharpIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinInnerSharp',
-);
-export const JoinInnerTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _JoinInnerTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinInnerTwoToneIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinInnerTwoTone',
-);
-export const JoinLeftIcon = (props?: KTRawAttr) => {
-  const s = _JoinLeftIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinLeftIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinLeft',
-);
-export const JoinLeftOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _JoinLeftOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinLeftOutlinedIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinLeftOutlined',
-);
-export const JoinLeftRoundedIcon = (props?: KTRawAttr) => {
-  const s = _JoinLeftRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinLeftRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinLeftRounded',
-);
-export const JoinLeftSharpIcon = (props?: KTRawAttr) => {
-  const s = _JoinLeftSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinLeftSharpIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinLeftSharp',
-);
-export const JoinLeftTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _JoinLeftTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinLeftTwoToneIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7',
-      },
-      '1',
-    ),
-  ],
-  'JoinLeftTwoTone',
-);
-export const JoinRightIcon = (props?: KTRawAttr) => {
-  const s = _JoinRightIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinRightIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7',
-      },
-      '1',
-    ),
-  ],
-  'JoinRight',
-);
-export const JoinRightOutlinedIcon = (props?: KTRawAttr) => {
-  const s = _JoinRightOutlinedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinRightOutlinedIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7',
-      },
-      '1',
-    ),
-  ],
-  'JoinRightOutlined',
-);
-export const JoinRightRoundedIcon = (props?: KTRawAttr) => {
-  const s = _JoinRightRoundedIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinRightRoundedIcon = svg(
-  [
-    svg(
-      'path',
-      {
-        d: 'M11.32 17.2c.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2',
-      },
-      '0',
-    ),
-    svg(
-      'path',
-      {
-        d: 'M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7',
-      },
-      '1',
-    ),
-  ],
-  'JoinRightRounded',
-);
-export const JoinRightSharpIcon = (props?: KTRawAttr) => {
-  const s = _JoinRightSharpIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinRightSharpIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7',
-      },
-      '1',
-    ),
-  ],
-  'JoinRightSharp',
-);
-export const JoinRightTwoToneIcon = (props?: KTRawAttr) => {
-  const s = _JoinRightTwoToneIcon.cloneNode() as SVGElement;
-  applyAttr(s, props);
-  return s;
-};
-export const _JoinRightTwoToneIcon = svg(
-  [
-    svg('ellipse', { cx: '12', cy: '12', rx: '3', ry: '5.74' }, '0'),
-    svg(
-      'path',
-      {
-        d: 'M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7',
-      },
-      '1',
-    ),
-  ],
-  'JoinRightTwoTone',
-);
+export const JavascriptIcon = (props?: KTRawAttr)=> {const s = _JavascriptIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JavascriptIcon = svg(svg("path", {  d: "M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z"}), 'Javascript');
+export const JavascriptOutlinedIcon = (props?: KTRawAttr)=> {const s = _JavascriptOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JavascriptOutlinedIcon = svg(svg("path", {  d: "M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z"}), 'JavascriptOutlined');
+export const JavascriptRoundedIcon = (props?: KTRawAttr)=> {const s = _JavascriptRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JavascriptRoundedIcon = svg(svg("path", {  d: "M15.54 10.5c.1.29.38.5.71.5.41 0 .75-.34.75-.75V10c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v1.5c0 .55.45 1 1 1h2.5v1h-2.04c-.1-.29-.38-.5-.71-.5-.41 0-.75.34-.75.75V14c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-1.5c0-.55-.45-1-1-1h-2.5v-1zm-8.04 3H9V9.75c0-.41.34-.75.75-.75s.75.34.75.75v3.75c0 .83-.67 1.5-1.5 1.5H7.5c-.83 0-1.5-.67-1.5-1.5v-.25c0-.41.34-.75.75-.75s.75.34.75.75z"}), 'JavascriptRounded');
+export const JavascriptSharpIcon = (props?: KTRawAttr)=> {const s = _JavascriptSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JavascriptSharpIcon = svg(svg("path", {  d: "M12 15v-2h1.5v.5h2v-1H12V9h5v2h-1.5v-.5h-2v1H17V15zM9 9v4.5H7.5v-1H6V15h4.5V9z"}), 'JavascriptSharp');
+export const JavascriptTwoToneIcon = (props?: KTRawAttr)=> {const s = _JavascriptTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JavascriptTwoToneIcon = svg(svg("path", {  d: "M12 14v-1h1.5v.5h2v-1H13c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h3c.55 0 1 .45 1 1v1h-1.5v-.5h-2v1H16c.55 0 1 .45 1 1V14c0 .55-.45 1-1 1h-3c-.55 0-1-.45-1-1M9 9v4.5H7.5v-1H6v1c0 .83.67 1.5 1.5 1.5H9c.83 0 1.5-.67 1.5-1.5V9z"}), 'JavascriptTwoTone');
+export const JoinFullIcon = (props?: KTRawAttr)=> {const s = _JoinFullIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinFullIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinFull');
+export const JoinFullOutlinedIcon = (props?: KTRawAttr)=> {const s = _JoinFullOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinFullOutlinedIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinFullOutlined');
+export const JoinFullRoundedIcon = (props?: KTRawAttr)=> {const s = _JoinFullRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinFullRoundedIcon = svg([svg("path", {  d: "M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinFullRounded');
+export const JoinFullSharpIcon = (props?: KTRawAttr)=> {const s = _JoinFullSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinFullSharpIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinFullSharp');
+export const JoinFullTwoToneIcon = (props?: KTRawAttr)=> {const s = _JoinFullTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinFullTwoToneIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5s-.23 4.16-3.03 6.5c.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinFullTwoTone');
+export const JoinInnerIcon = (props?: KTRawAttr)=> {const s = _JoinInnerIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinInnerIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinInner');
+export const JoinInnerOutlinedIcon = (props?: KTRawAttr)=> {const s = _JoinInnerOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinInnerOutlinedIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinInnerOutlined');
+export const JoinInnerRoundedIcon = (props?: KTRawAttr)=> {const s = _JoinInnerRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinInnerRoundedIcon = svg([svg("path", {  d: "M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2"}, "0"), svg("path", {  d: "M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinInnerRounded');
+export const JoinInnerSharpIcon = (props?: KTRawAttr)=> {const s = _JoinInnerSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinInnerSharpIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinInnerSharp');
+export const JoinInnerTwoToneIcon = (props?: KTRawAttr)=> {const s = _JoinInnerTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinInnerTwoToneIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M9.04 16.87c-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinInnerTwoTone');
+export const JoinLeftIcon = (props?: KTRawAttr)=> {const s = _JoinLeftIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinLeftIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinLeft');
+export const JoinLeftOutlinedIcon = (props?: KTRawAttr)=> {const s = _JoinLeftOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinLeftOutlinedIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinLeftOutlined');
+export const JoinLeftRoundedIcon = (props?: KTRawAttr)=> {const s = _JoinLeftRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinLeftRoundedIcon = svg([svg("path", {  d: "M12.68 6.8c-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinLeftRounded');
+export const JoinLeftSharpIcon = (props?: KTRawAttr)=> {const s = _JoinLeftSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinLeftSharpIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinLeftSharp');
+export const JoinLeftTwoToneIcon = (props?: KTRawAttr)=> {const s = _JoinLeftTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinLeftTwoToneIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M7.5 12c0-.97.23-4.16 3.03-6.5C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7c.9 0 1.75-.19 2.53-.5-2.8-2.34-3.03-5.53-3.03-6.5M16 5c-.9 0-1.75.19-2.53.5.61.51 1.1 1.07 1.49 1.63.33-.08.68-.13 1.04-.13 2.76 0 5 2.24 5 5s-2.24 5-5 5c-.36 0-.71-.05-1.04-.13-.39.56-.88 1.12-1.49 1.63.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7"}, "1")], 'JoinLeftTwoTone');
+export const JoinRightIcon = (props?: KTRawAttr)=> {const s = _JoinRightIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinRightIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7"}, "1")], 'JoinRight');
+export const JoinRightOutlinedIcon = (props?: KTRawAttr)=> {const s = _JoinRightOutlinedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinRightOutlinedIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7"}, "1")], 'JoinRightOutlined');
+export const JoinRightRoundedIcon = (props?: KTRawAttr)=> {const s = _JoinRightRoundedIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinRightRoundedIcon = svg([svg("path", {  d: "M11.32 17.2c.39.35.98.35 1.37 0C14.65 15.44 15 13.16 15 12c0-1.15-.35-3.44-2.32-5.2-.39-.35-.98-.35-1.37 0C9.35 8.56 9 10.84 9 12c0 1.15.35 3.44 2.32 5.2"}, "0"), svg("path", {  d: "M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7"}, "1")], 'JoinRightRounded');
+export const JoinRightSharpIcon = (props?: KTRawAttr)=> {const s = _JoinRightSharpIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinRightSharpIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7"}, "1")], 'JoinRightSharp');
+export const JoinRightTwoToneIcon = (props?: KTRawAttr)=> {const s = _JoinRightTwoToneIcon.cloneNode() as SVGElement; applyAttr(s, props); return s as unknown as JSX.Element;} 
+export const _JoinRightTwoToneIcon = svg([svg("ellipse", {  cx: "12",  cy: "12",  rx: "3",  ry: "5.74"}, "0"), svg("path", {  d: "M16.5 12c0 .97-.23 4.16-3.03 6.5.78.31 1.63.5 2.53.5 3.86 0 7-3.14 7-7s-3.14-7-7-7c-.9 0-1.75.19-2.53.5 2.8 2.34 3.03 5.53 3.03 6.5M8 19c.9 0 1.75-.19 2.53-.5-.61-.51-1.1-1.07-1.49-1.63-.33.08-.68.13-1.04.13-2.76 0-5-2.24-5-5s2.24-5 5-5c.36 0 .71.05 1.04.13.39-.56.88-1.12 1.49-1.63C9.75 5.19 8.9 5 8 5c-3.86 0-7 3.14-7 7s3.14 7 7 7"}, "1")], 'JoinRightTwoTone');

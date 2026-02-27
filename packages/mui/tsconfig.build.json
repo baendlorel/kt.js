@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/core"
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": ["./**/*.test.tsx", "./**/*.test.ts", "./**/*.spec.tsx", "./**/*.spec.ts"]
+}

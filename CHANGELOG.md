@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.32.x - 2026-02-27
+
+### New Features
+
+- **MUI component normalization pass (`@ktjs/mui`)**:
+  - Continued normalization across `Input`, `Select`, `Switch`, `Radio`, `Popover`, `Dialog`, `DropdownButton`, and `FormLabel`.
+  - Unified internal reactive variable naming to `xxxRef` in multiple components for consistency.
+- **`k-model` value transform extension (core/shared)**:
+  - Added optional transformer support in `applyModel`, enabling conversion workflows for values such as `number` and `date`.
+  - Improved related `onChange` type hints in the same update.
+- **Shared utility expansion**:
+  - Added math-related helpers in `@ktjs/shared` utility layer.
+
+### Bug Fixes
+
+- **`@ktjs/mui-icon` SVG generation fix**:
+  - Fixed incorrect SVG output behavior and added/updated corresponding tests.
+
+### Refactors
+
+- **MUI file/test layout alignment**:
+  - Adjusted component file naming and colocated test file structure (near-component layout).
+  - Merged declaration file placement for selected components (`Checkbox`, `Input`, `Radio`) and updated exports accordingly.
+- **Core attr/model cleanup**:
+  - Removed unneeded logic in attribute helper paths and streamlined related model wiring.
+
+### Tests
+
+- Expanded and optimized MUI component test coverage organization across major components (`Alert`, `Badge`, `Button`, `Card`, `Checkbox`, `Dialog`, `DropdownButton`, `FormLabel`, `Input`, `LinearProgress`, `Pill`, `Popover`, `Radio`, `Select`, `Switch`).
+
+### Releases
+
+- Published `@ktjs/shared@0.31.5`.
+- Published `@ktjs/mui-icon@0.1.2` and `@ktjs/mui-icon@0.1.3`.
+
+### Documentation
+
+- Removed obsolete draft documentation related to core/shared ES compatibility.
+
 ## 0.31.x - 2026-02-25 ~ 2026-02-26
 
 ### New Features

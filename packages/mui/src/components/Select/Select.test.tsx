@@ -32,8 +32,8 @@ describe('MUI Select component', () => {
       />
     );
     document.body.appendChild(select);
-    const control = select.querySelector('.mui-select-control');
-    const menu = select.querySelector('.mui-select-menu');
+    const control = select.querySelector('.mui-select-control')!;
+    const menu = select.querySelector('.mui-select-menu')!;
     control.click();
     expect(menu.style.display).toBe('block');
     expect(menu.classList.contains('mui-select-menu-open')).toBe(true);

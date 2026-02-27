@@ -5,7 +5,7 @@ import type { KTMaybeReactive, KTMaybeReactiveProps, KTReactify } from './reacti
 // Base events available to all HTML elements
 type BaseAttr = KTPrefixedEventAttribute & {
   [k: string]: KTMaybeReactive<any>;
-  [k: `on:${string}`]: (...args: any[]) => any;
+  [k: `on:${string}`]: ((...args: any[]) => any) | undefined;
 } & KTMaybeReactiveProps<{
     // # base attributes
     id?: string;

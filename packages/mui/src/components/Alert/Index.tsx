@@ -2,6 +2,7 @@ import { computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 interface KTMuiAlertProps extends KTMuiProps {
   children: NonNullable<KTMuiProps['children']>;
@@ -108,7 +109,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
     return icon;
   }, [icon, iconSize, severity]);
 
-  const alert = (
+  const container = (
     <div class={className} style={style} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{children}</div>
@@ -123,5 +124,6 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
     </div>
   );
 
-  return alert;
+  registerPrefixedEvents(container, props);
+  return container;
 }

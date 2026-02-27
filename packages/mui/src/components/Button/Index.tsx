@@ -39,7 +39,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const fullWidth = toReactive(props.fullWidth ?? false);
   const iconOnly = toReactive(props.iconOnly ?? false);
   const disabled = toReactive(props.disabled ?? false);
-  const styleRef = toReactive($parseStyle(props.style ?? ''));
+  const style = toReactive($parseStyle(props.style ?? ''));
   const customClass = toReactive(props.class ?? '');
 
   const className = computed(() => {
@@ -92,7 +92,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
     <button
       ref={buttonRef}
       class={className}
-      style={styleRef}
+      style={style}
       type={toReactive<'button' | 'submit' | 'reset'>(props.type ?? 'button')}
       disabled={disabled}
       on:click={handleClick}

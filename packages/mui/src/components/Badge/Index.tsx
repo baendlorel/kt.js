@@ -1,8 +1,10 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
-import type { KTMuiProps } from '../../types/component.js';
+
 import './Badge.css';
+import type { KTMuiProps } from '../../types/component.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 type BadgeColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 type BadgeVariant = 'standard' | 'dot';
@@ -98,5 +100,6 @@ export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
     </span>
   ) as KTMuiBadge;
 
+  registerPrefixedEvents(container, props);
   return container;
 }

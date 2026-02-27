@@ -65,5 +65,3 @@ const create = () => {
   Object.entries(commonAttr).forEach(([k, v]) => s.setAttribute(k, v));
   return s;
 };
-
-// todo 应该吧不同的创建函数分开处理

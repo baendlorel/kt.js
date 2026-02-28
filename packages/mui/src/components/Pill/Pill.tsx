@@ -1,23 +1,24 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Pill.css.ts';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 type PillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 type PillVariant = 'filled' | 'outlined';
 type PillSize = 'small' | 'medium';
 
 export interface KTMuiPillProps extends KTMuiProps {
-  label?: string | KTReactive<string>;
-  icon?: HTMLElement | JSX.Element;
-  deleteIcon?: HTMLElement | JSX.Element;
-  color?: PillColor | KTReactive<PillColor>;
-  variant?: PillVariant | KTReactive<PillVariant>;
-  size?: PillSize | KTReactive<PillSize>;
-  clickable?: boolean | KTReactive<boolean>;
-  disabled?: boolean | KTReactive<boolean>;
-  autoRemoveOnDelete?: boolean | KTReactive<boolean>;
+  label?: KTMaybeReactive<string>;
+  icon?: KTMaybeReactive<HTMLElement | JSX.Element>;
+  deleteIcon?: KTMaybeReactive<HTMLElement | JSX.Element>;
+  color?: KTMaybeReactive<PillColor>;
+  variant?: KTMaybeReactive<PillVariant>;
+  size?: KTMaybeReactive<PillSize>;
+  clickable?: KTMaybeReactive<boolean>;
+  disabled?: KTMaybeReactive<boolean>;
+  autoRemoveOnDelete?: KTMaybeReactive<boolean>;
   'on:click'?: (event: MouseEvent) => void;
   'on:delete'?: (event: MouseEvent) => void | boolean;
 }
@@ -46,7 +47,6 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const autoRemoveOnDeleteRef = toReactive(props.autoRemoveOnDelete ?? true);
   const classRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
-  let container: KTMuiPill;
 
   const className = computed(() => {
     return [
@@ -57,10 +57,7 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
       clickableRef.value ? 'mui-pill-clickable' : '',
       disabledRef.value ? 'mui-pill-disabled' : '',
       classRef.value,
-    ]
-      .join(' ')
-      .trim()
-      .replace(/\s+/g, ' ');
+    ].join(' ');
   }, [colorRef, variantRef, sizeRef, clickableRef, disabledRef, classRef]);
 
   const handleClick = (e: MouseEvent) => {
@@ -97,12 +94,12 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
     container.remove();
   };
 
-  container = (
+  const container: KTMuiPill = (
     <span
       class={className}
       style={styleRef}
-      role={clickableRef.value ? 'button' : 'presentation'}
-      tabIndex={clickableRef.value && !disabledRef.value ? 0 : undefined}
+      role={clickableRef.toComputed((v) => (v ? 'button' : 'presentation'))}
+      tabIndex={computed(() => (clickableRef.value && !disabledRef.value ? 0 : undefined), [clickableRef, disabledRef])}
       on:click={handleClick}
       on:keydown={handleKeydown}
     >
@@ -123,5 +120,6 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
     </span>
   ) as KTMuiPill;
 
+  registerPrefixedEvents(container, props, ['on:click', 'on:delete']);
   return container;
 }

@@ -403,20 +403,25 @@ a:hover {
 .npm-badge-label,
 .npm-badge-value {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
   height: 20px;
-  padding: 0 8px;
+  padding: 3.5px 8px;
   letter-spacing: 0.01em;
 }
 
 .npm-badge-label {
-  background: linear-gradient(var(--nav-subtle-color), var(--text-secondary));
+  background: linear-gradient(#5f5f5f, #505050);
   color: var(--surface-bg);
 }
 
 .npm-badge-value {
   background: linear-gradient(var(--accent-color), var(--accent-strong));
+  color: var(--surface-bg);
+}
+
+.npm-badge-value[variant='purple'] {
+  background: linear-gradient(#b46fe2, #a042df);
   color: var(--surface-bg);
 }
 
@@ -588,11 +593,6 @@ a:hover {
 
   .content-header h2 {
     font-size: 1.4rem;
-  }
-
-  .content-stats {
-    margin-top: 8px;
-    gap: 6px;
   }
 
   .content-description {

@@ -22,6 +22,24 @@ export function Home() {
           <a href="https://www.npmjs.com/package/kt.js" aria-label="kt.js npm license badge">
             <img src="https://img.shields.io/npm/l/kt.js?label=license" alt="npm license" />
           </a>
+          <span class="npm-badge" title="Site page views">
+            <span class="npm-badge-label">Visits</span>
+            <span id="busuanzi_value_site_pv" class="npm-badge-value">
+              --
+            </span>
+          </span>
+          {/* <span class="npm-badge" title="Current page views">
+            <span class="npm-badge-label">Page PV</span>
+            <span id="busuanzi_value_page_pv" class="npm-badge-value">
+              --
+            </span>
+          </span> */}
+          <span class="npm-badge" title="Site unique visitors">
+            <span class="npm-badge-label">Unique Visitors</span>
+            <span id="busuanzi_value_site_uv" class="npm-badge-value" variant="purple">
+              --
+            </span>
+          </span>
         </div>
         <p class="home-community">
           <span k-html={t('home.discussion.label')}>:</span> <code k-html={t('home.discussion.qq')}></code>

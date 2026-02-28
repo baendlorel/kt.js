@@ -49,15 +49,15 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 
   // Handle change
   const handleChange = () => {
-    if (disabled) {
+    if (disabledRef.value) {
       return;
     }
     checked = input.checked;
     toggleIcon(checked);
-    onChange(checked, value);
+    onChange(checked, valueRef.value);
   };
 
-  let { checked = false, value = '', label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
+  let { checked = false, label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
 
   const valueRef = toReactive(props.value ?? '');
   const disabledRef = toReactive(props.disabled ?? false);
@@ -96,7 +96,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   $defines(container, {
     value: {
       get() {
-        return value;
+        return valueRef.value;
       },
     },
     checked: {
@@ -111,7 +111,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     },
   });
 
-  registerPrefixedEvents(container, props);
+  registerPrefixedEvents(container, props, ['on:change']);
 
   return container;
 }
@@ -178,8 +178,6 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     },
   });
 
-  // fixme 点击没有特效
-  //fixme switch组件很丑
-  registerPrefixedEvents(container, props);
+  registerPrefixedEvents(container, props, ['on:change']);
   return container;
 }

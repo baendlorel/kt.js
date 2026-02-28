@@ -65,6 +65,31 @@ describe('MUI RadioGroup component', () => {
     expect(group.textContent).not.toContain('[object HTMLLabelElement]');
   });
 
+  it('should call group on:change with selected value (not Event)', () => {
+    const onChange = vi.fn();
+    const group = (
+      <RadioGroup
+        {...{
+          value: 'a',
+          'on:change': onChange,
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        }}
+      />
+    );
+
+    const inputs = group.querySelectorAll('input');
+    const second = inputs[1] as HTMLInputElement;
+    second.checked = true;
+    second.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith('b');
+    expect((group as any).value).toBe('b');
+  });
+
   it('should expose value property updates', () => {
     const group = (
       <RadioGroup

@@ -4,13 +4,19 @@ injectGlobal`
 /* Switch Component Styles - MUI-like */
 
 .mui-switch-wrapper {
+  --mui-switch-track-off: rgba(0, 0, 0, 0.38);
+  --mui-switch-track-on: rgb(25, 118, 210);
+  --mui-switch-track-disabled: rgba(0, 0, 0, 0.12);
+  --mui-switch-thumb-disabled: #f5f5f5;
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   position: relative;
   cursor: pointer;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   user-select: none;
   vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mui-switch-input {
@@ -22,7 +28,6 @@ injectGlobal`
   padding: 0;
 }
 
-/* Switch base container */
 .mui-switch-base {
   position: relative;
   display: inline-block;
@@ -30,151 +35,176 @@ injectGlobal`
   vertical-align: middle;
 }
 
-/* Track (background) */
 .mui-switch-track {
-  display: block;
-  border-radius: 7px;
-  background-color: #b0b0b0;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background-color: var(--mui-switch-track-off);
+  transition:
+    background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Thumb (circle) */
 .mui-switch-thumb {
   position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(0, -50%);
-  background-color: #ffffff;
+  top: 2px;
+  left: 2px;
   border-radius: 50%;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-              0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-              0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #ffffff;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.4),
+    0 1px 1px rgba(0, 0, 0, 0.24);
+  transition:
+    transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
-/* Size variants */
-.mui-switch-size-small .mui-switch-track {
+.mui-switch-size-small .mui-switch-base {
   width: 34px;
-  height: 14px;
+  height: 20px;
 }
+
 .mui-switch-size-small .mui-switch-thumb {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
+
 .mui-switch-size-small .mui-switch-thumb-checked {
-  transform: translate(14px, -50%);
+  transform: translateX(14px);
 }
 
-.mui-switch-size-medium .mui-switch-track {
-  width: 40px;
-  height: 20px;
+.mui-switch-size-medium .mui-switch-base {
+  width: 42px;
+  height: 26px;
 }
+
 .mui-switch-size-medium .mui-switch-thumb {
-  width: 24px;
-  height: 24px;
-}
-.mui-switch-size-medium .mui-switch-thumb-checked {
-  transform: translate(16px, -50%);
+  width: 22px;
+  height: 22px;
 }
 
-.mui-switch-size-large .mui-switch-track {
-  width: 50px;
-  height: 24px;
+.mui-switch-size-medium .mui-switch-thumb-checked {
+  transform: translateX(16px);
 }
-.mui-switch-size-large .mui-switch-thumb {
-  width: 30px;
+
+.mui-switch-size-large .mui-switch-base {
+  width: 50px;
   height: 30px;
 }
+
+.mui-switch-size-large .mui-switch-thumb {
+  width: 26px;
+  height: 26px;
+}
+
 .mui-switch-size-large .mui-switch-thumb-checked {
-  transform: translate(20px, -50%);
+  transform: translateX(20px);
 }
 
-/* Checked state */
 .mui-switch-track-checked {
-  background-color: #1976d2; /* primary default */
+  background-color: var(--mui-switch-track-on);
 }
 
-/* Color variants */
-.mui-switch-color-primary .mui-switch-track-checked {
-  background-color: #1976d2;
-}
-.mui-switch-color-secondary .mui-switch-track-checked {
-  background-color: #dc004e;
-}
-.mui-switch-color-error .mui-switch-track-checked {
-  background-color: #d32f2f;
-}
-.mui-switch-color-warning .mui-switch-track-checked {
-  background-color: #ed6c02;
-}
-.mui-switch-color-info .mui-switch-track-checked {
-  background-color: #0288d1;
-}
-.mui-switch-color-success .mui-switch-track-checked {
-  background-color: #2e7d32;
+.mui-switch-color-primary {
+  --mui-switch-track-on: rgb(25, 118, 210);
 }
 
-/* Disabled state */
+.mui-switch-color-secondary {
+  --mui-switch-track-on: rgb(220, 0, 78);
+}
+
+.mui-switch-color-error {
+  --mui-switch-track-on: rgb(211, 47, 47);
+}
+
+.mui-switch-color-warning {
+  --mui-switch-track-on: rgb(237, 108, 2);
+}
+
+.mui-switch-color-info {
+  --mui-switch-track-on: rgb(2, 136, 209);
+}
+
+.mui-switch-color-success {
+  --mui-switch-track-on: rgb(46, 125, 50);
+}
+
+.mui-switch-wrapper:not(.mui-switch-disabled):hover .mui-switch-track {
+  opacity: 0.75;
+}
+
+.mui-switch-wrapper:not(.mui-switch-disabled):hover .mui-switch-track-checked {
+  opacity: 0.9;
+}
+
+.mui-switch-input:focus-visible + .mui-switch-base .mui-switch-thumb {
+  box-shadow:
+    0 0 0 8px rgba(25, 118, 210, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.4),
+    0 1px 1px rgba(0, 0, 0, 0.24);
+}
+
 .mui-switch-disabled {
-  opacity: 0.5;
   cursor: not-allowed;
 }
-.mui-switch-disabled .mui-switch-track {
-  background-color: #e0e0e0;
-}
+
+.mui-switch-disabled .mui-switch-track,
 .mui-switch-disabled .mui-switch-track-checked {
-  background-color: #b0b0b0;
+  background-color: var(--mui-switch-track-disabled);
+  opacity: 1;
 }
 
-/* Label */
+.mui-switch-disabled .mui-switch-thumb {
+  background-color: var(--mui-switch-thumb-disabled);
+  box-shadow: none;
+}
+
 .mui-switch-label {
-  margin-left: 8px;
+  margin-left: 2px;
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
   color: rgba(0, 0, 0, 0.87);
 }
 
-/* Focus visible */
-.mui-switch-input:focus-visible ~ .mui-switch-base .mui-switch-thumb {
-  outline: 2px solid #1976d2;
-  outline-offset: 2px;
-}
-
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
-  .mui-switch-track {
-    background-color: #5a5a5a;
+  .mui-switch-wrapper {
+    --mui-switch-track-off: rgba(255, 255, 255, 0.3);
+    --mui-switch-track-disabled: rgba(255, 255, 255, 0.2);
+    --mui-switch-thumb-disabled: #bdbdbd;
   }
 
-  .mui-switch-track-checked {
-    background-color: #90caf9; /* primary dark */
+  .mui-switch-color-primary {
+    --mui-switch-track-on: rgb(144, 202, 249);
   }
 
-  .mui-switch-color-primary .mui-switch-track-checked {
-    background-color: #90caf9;
-  }
-  .mui-switch-color-secondary .mui-switch-track-checked {
-    background-color: #f48fb1;
-  }
-  .mui-switch-color-error .mui-switch-track-checked {
-    background-color: #f44336;
-  }
-  .mui-switch-color-warning .mui-switch-track-checked {
-    background-color: #ff9800;
-  }
-  .mui-switch-color-info .mui-switch-track-checked {
-    background-color: #29b6f6;
-  }
-  .mui-switch-color-success .mui-switch-track-checked {
-    background-color: #66bb6a;
+  .mui-switch-color-secondary {
+    --mui-switch-track-on: rgb(244, 143, 177);
   }
 
-  .mui-switch-disabled .mui-switch-track {
-    background-color: #424242;
+  .mui-switch-color-error {
+    --mui-switch-track-on: rgb(244, 67, 54);
   }
-  .mui-switch-disabled .mui-switch-track-checked {
-    background-color: #5a5a5a;
+
+  .mui-switch-color-warning {
+    --mui-switch-track-on: rgb(255, 152, 0);
+  }
+
+  .mui-switch-color-info {
+    --mui-switch-track-on: rgb(41, 182, 246);
+  }
+
+  .mui-switch-color-success {
+    --mui-switch-track-on: rgb(102, 187, 106);
+  }
+
+  .mui-switch-input:focus-visible + .mui-switch-base .mui-switch-thumb {
+    box-shadow:
+      0 0 0 8px rgba(144, 202, 249, 0.25),
+      0 1px 3px rgba(0, 0, 0, 0.5),
+      0 1px 1px rgba(0, 0, 0, 0.35);
   }
 
   .mui-switch-label {

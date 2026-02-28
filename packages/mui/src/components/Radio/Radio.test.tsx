@@ -49,6 +49,22 @@ describe('MUI RadioGroup component', () => {
     expect(group.className).toContain('mui-radio-group');
   });
 
+  it('should render options as radio elements instead of stringified nodes', () => {
+    const group = (
+      <RadioGroup
+        {...{
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        }}
+      />
+    );
+
+    expect(group.querySelectorAll('.mui-radio-wrapper')).toHaveLength(2);
+    expect(group.textContent).not.toContain('[object HTMLLabelElement]');
+  });
+
   it('should expose value property updates', () => {
     const group = (
       <RadioGroup

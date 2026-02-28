@@ -1,4 +1,4 @@
-import { computed, toReactive } from '@ktjs/core';
+import { computed, KTFor, toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactive } from '@ktjs/core';
 
@@ -147,6 +147,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
 
   const changeHandler = (checked: boolean, value: string) => {
     if (checked) {
+      valueRef.value = value;
       onChange(value);
     }
     radios.value.forEach((radio) => (radio.checked = radio.value === value));
@@ -172,7 +173,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
 
   const container = (
     <div class={className} style={styleRef} role="radiogroup">
-      {radios}
+      <KTFor list={radios}></KTFor>
     </div>
   ) as KTMuiRadioGroup;
 

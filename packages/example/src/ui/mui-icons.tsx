@@ -1,5 +1,5 @@
 import '@ktjs/core/jsx';
-import { HomeIcon, DeleteIcon, ContentCopyIcon, DownloadIcon, MenuIcon } from '@ktjs/mui';
+import { HomeIcon, DeleteIcon, ContentCopyIcon, DownloadIcon, MenuIcon } from '@ktjs/mui-icon';
 
 export function MuiIconsDemo() {
   return (

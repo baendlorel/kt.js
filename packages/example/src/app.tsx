@@ -155,6 +155,26 @@ function createApp() {
           <div class="content-header">
             <p class="content-eyebrow">{currentSection}</p>
             <h2>{headerTitleRef}</h2>
+            <div class="content-stats" aria-label="Page statistics">
+              <span class="npm-badge" title="Site page views">
+                <span class="npm-badge-label">Site PV</span>
+                <span id="busuanzi_value_site_pv" class="npm-badge-value">
+                  --
+                </span>
+              </span>
+              <span class="npm-badge" title="Current page views">
+                <span class="npm-badge-label">Page PV</span>
+                <span id="busuanzi_value_page_pv" class="npm-badge-value">
+                  --
+                </span>
+              </span>
+              <span class="npm-badge" title="Site unique visitors">
+                <span class="npm-badge-label">Site UV</span>
+                <span id="busuanzi_value_site_uv" class="npm-badge-value">
+                  --
+                </span>
+              </span>
+            </div>
             <p class="content-description">{headerDescRef}</p>
           </div>
           {view}

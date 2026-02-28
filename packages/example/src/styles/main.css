@@ -12,7 +12,7 @@
   --nav-active-color: #53c1fd;
   --border-color: #e5e7eb82;
   --accent-color: #4cb3ff;
-  --accent-strong: #0369a1;
+  --accent-strong: #048cd5;
   --accent-soft: #eef8ff;
   --control-bg: #ffffff;
   --control-border: #d4deea;
@@ -380,6 +380,46 @@ a:hover {
   color: var(--text-primary);
 }
 
+.content-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.npm-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--control-border);
+  background: var(--surface-muted);
+  box-shadow: var(--control-shadow);
+  text-shadow: 0px 1px 1px #111827;
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.npm-badge-label,
+.npm-badge-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding: 0 8px;
+  letter-spacing: 0.01em;
+}
+
+.npm-badge-label {
+  background: linear-gradient(var(--nav-subtle-color), var(--text-secondary));
+  color: var(--surface-bg);
+}
+
+.npm-badge-value {
+  background: linear-gradient(var(--accent-color), var(--accent-strong));
+  color: var(--surface-bg);
+}
+
 .content-description {
   margin: 10px 0 0;
   max-width: 820px;
@@ -548,6 +588,11 @@ a:hover {
 
   .content-header h2 {
     font-size: 1.4rem;
+  }
+
+  .content-stats {
+    margin-top: 8px;
+    gap: 6px;
   }
 
   .content-description {

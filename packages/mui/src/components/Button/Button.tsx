@@ -16,8 +16,8 @@ interface KTMuiButtonProps extends KTMuiProps {
   startIcon?: KTMaybeReactive<JSX.Element>;
   endIcon?: KTMaybeReactive<JSX.Element>;
   type?: KTMaybeReactive<'button' | 'submit' | 'reset'>;
-  'on:click': (e: MouseEvent) => void;
-  'on:dblclick': (e: MouseEvent) => void;
+  'on:click'?: (e: MouseEvent) => void;
+  'on:dblclick'?: (e: MouseEvent) => void;
 }
 
 export type KTMuiButton = JSX.Element;

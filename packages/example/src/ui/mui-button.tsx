@@ -1,6 +1,7 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { Button, HomeIcon, DeleteIcon, DownloadIcon, MenuIcon } from '@ktjs/mui';
+import { Button } from '@ktjs/mui';
+import { DeleteIcon, DownloadIcon, HomeIcon, MenuIcon } from '@ktjs/mui-icon';
 
 export function MuiButtonDemo() {
   const clickCount = ref<number>(0);

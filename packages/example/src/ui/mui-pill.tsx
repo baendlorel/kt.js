@@ -1,6 +1,7 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { HomeIcon, Pill } from '@ktjs/mui';
+import { Pill } from '@ktjs/mui';
+import { HomeIcon } from '@ktjs/mui-icon';
 import { Code } from '../components/Code.js';
 
 import muiPillCode from '../code/ui/mui-pill.tsx?raw';

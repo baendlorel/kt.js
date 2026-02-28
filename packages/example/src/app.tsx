@@ -1,6 +1,5 @@
 import './styles/main.css';
 import './styles/demo.css';
-import '@ktjs/mui/styles';
 
 import { ref } from '@ktjs/core';
 import type { Nav, NavItem } from './types/router.js';

@@ -14,7 +14,6 @@
       "@ktjs/router": ["packages/router/src/index.ts"],
       "@ktjs/shortcuts": ["packages/shortcuts/src/index.ts"],
       "@ktjs/mui": ["packages/mui/src/index.ts"],
-      "@ktjs/mui/styles": ["packages/mui/dist/index.css"],
       "@ktjs/mui-icon": ["packages/mui-icon/src/index.ts"],
       "@ktjs/shared": ["packages/shared/src/index.ts"],
 

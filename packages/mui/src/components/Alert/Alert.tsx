@@ -1,7 +1,7 @@
 import { computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
-import './Alert.css';
+import './Alert.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 interface KTMuiAlertProps extends KTMuiProps {

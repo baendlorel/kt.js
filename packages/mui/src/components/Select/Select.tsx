@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
-import './Select.css';
+import './Select.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export interface KTMuiSelectOption {

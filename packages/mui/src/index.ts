@@ -1,5 +1,5 @@
 import '@ktjs/shared';
-import './main.css';
+import './main.css.ts';
 
 // UI Components
 export { Alert } from './components/Alert/Alert.js';

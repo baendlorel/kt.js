@@ -90,8 +90,6 @@ export const getAliases = () => {
       aliasMap[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'jsx.ts');
       aliasMap[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
       aliasMap[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
-    } else if (json.name === '@ktjs/mui') {
-      aliasMap[json.name + '/styles'] = path.join(packagesDir, dir, 'dist', 'index.css');
     }
   }
 

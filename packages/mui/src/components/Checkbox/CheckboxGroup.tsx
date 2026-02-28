@@ -4,7 +4,7 @@ import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import type { KTMuiCheckbox, KTMuiCheckboxProps } from './Checkbox.js';
 
-import './Checkbox.css';
+import './Checkbox.css.ts';
 import { Checkbox } from './Checkbox.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 

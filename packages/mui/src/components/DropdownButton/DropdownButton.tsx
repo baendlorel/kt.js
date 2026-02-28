@@ -4,8 +4,8 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { ExpandMoreIcon } from '@ktjs/mui-icon';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import '../Button/Button.css';
-import './DropdownButton.css';
+import '../Button/Button.css.ts';
+import './DropdownButton.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export interface KTMuiDropdownButtonOption {

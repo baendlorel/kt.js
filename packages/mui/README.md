@@ -20,7 +20,6 @@ pnpm add @ktjs/mui
 
 ```tsx
 import { Button, Alert, Dialog, Pill, Badge, Popover } from '@ktjs/mui';
-import '@ktjs/mui/styles.css';
 
 // Create a button
 const myButton = (
@@ -29,6 +28,8 @@ const myButton = (
   </Button>
 );
 ```
+
+Styles are injected automatically through Emotion when components are imported.
 
 ## Available Components
 

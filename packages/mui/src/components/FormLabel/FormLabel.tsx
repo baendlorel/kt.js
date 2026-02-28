@@ -1,5 +1,5 @@
 import { computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
-import './FormLabel.css';
+import './FormLabel.css.ts';
 import { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute';
 

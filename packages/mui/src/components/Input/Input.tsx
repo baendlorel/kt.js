@@ -4,7 +4,7 @@ import type { JSX, KTReactive } from '@ktjs/core';
 
 import type { ChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './Input.css';
+import './Input.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';

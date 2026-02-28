@@ -32,6 +32,14 @@ export interface KTMuiSelectProps extends KTMuiProps {
 
 export type KTMuiSelect = JSX.Element & {};
 
+const selectIcon = (() => {
+  const wrapper = <div></div>;
+  wrapper.innerHTML = `<svg class="mui-select-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M7 10l5 5 5-5Z" fill="currentColor"></path>
+        </svg>`;
+  return wrapper.firstElementChild as JSX.Element;
+})();
+
 /**
  * Select component - mimics MUI Select appearance and behavior
  */
@@ -165,9 +173,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
           </legend>
         </fieldset>
 
-        <svg class="mui-select-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
-          <path d="M7 10l5 5 5-5Z" fill="currentColor"></path>
-        </svg>
+        {selectIcon.cloneNode(true)}
       </div>
       {menu}
     </div>

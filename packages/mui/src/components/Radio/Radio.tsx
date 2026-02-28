@@ -5,6 +5,7 @@ import type { JSX, KTReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './Radio.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { createChecked, createUnchecked } from './Icon.js';
 
 export interface KTMuiRadioProps extends KTMuiProps {
   value: string;
@@ -72,20 +73,8 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     />
   ) as HTMLInputElement;
 
-  const uncheckedIcon = (
-    <span class="mui-radio-icon-unchecked">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
-      </svg>
-    </span>
-  );
-  const checkedIcon = (
-    <span class="mui-radio-icon-checked">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
-      </svg>
-    </span>
-  );
+  const uncheckedIcon = createUnchecked();
+  const checkedIcon = createChecked();
 
   // initialize icon state
   toggleIcon(checked);

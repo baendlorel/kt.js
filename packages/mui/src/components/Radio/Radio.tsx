@@ -178,6 +178,8 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     },
   });
 
+  // fixme 点击没有特效
+  //fixme switch组件很丑
   registerPrefixedEvents(container, props);
   return container;
 }

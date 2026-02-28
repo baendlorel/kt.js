@@ -3,18 +3,19 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import typescript from '@rollup/plugin-typescript';
-import postcss from 'rollup-plugin-postcss';
 import dts from 'rollup-plugin-dts';
 import terser from '@rollup/plugin-terser';
 import { rimraf } from 'rimraf';
 
+import { aggregateCss, ignoreCssImports } from './aggregate-css.mjs';
+
 const pkgDir = path.resolve(import.meta.dirname);
 const srcEntry = path.join(pkgDir, 'src', 'index.ts');
-// const cssEntry = path.join(pkgDir, 'src', 'main.css');
 const distDir = path.join(pkgDir, 'dist');
 
 export default async () => {
   await rimraf(distDir);
+  await aggregateCss();
   return [
     {
       input: srcEntry,
@@ -33,12 +34,7 @@ export default async () => {
           declarationMap: false,
           sourceMap: true,
         }),
-        postcss({
-          // fixme 样式打包问题，能否通过emotioncss解决？
-          extract: path.join(distDir, 'index.css'),
-          minimize: false,
-          sourceMap: true,
-        }),
+        ignoreCssImports(),
         terser(),
       ],
       external: [/^@ktjs\//],
@@ -49,7 +45,7 @@ export default async () => {
         file: path.join(distDir, 'index.d.ts'),
         format: 'es',
       },
-      plugins: [dts()],
+      plugins: [ignoreCssImports(), dts()],
       external: [/^@ktjs\//],
     },
   ];

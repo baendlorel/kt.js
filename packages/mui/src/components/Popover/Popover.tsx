@@ -262,7 +262,6 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     </div>
   ) as HTMLDivElement;
 
-  // ?? 这里计算的class和style会和函数里的冲突吗
   const container = (
     <div
       class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}

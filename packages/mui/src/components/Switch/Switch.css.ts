@@ -1,0 +1,184 @@
+import { injectGlobal } from '@emotion/css';
+
+injectGlobal`
+/* Switch Component Styles - MUI-like */
+
+.mui-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.mui-switch-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Switch base container */
+.mui-switch-base {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Track (background) */
+.mui-switch-track {
+  display: block;
+  border-radius: 7px;
+  background-color: #b0b0b0;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+/* Thumb (circle) */
+.mui-switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+              0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+              0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+/* Size variants */
+.mui-switch-size-small .mui-switch-track {
+  width: 34px;
+  height: 14px;
+}
+.mui-switch-size-small .mui-switch-thumb {
+  width: 20px;
+  height: 20px;
+}
+.mui-switch-size-small .mui-switch-thumb-checked {
+  transform: translate(14px, -50%);
+}
+
+.mui-switch-size-medium .mui-switch-track {
+  width: 40px;
+  height: 20px;
+}
+.mui-switch-size-medium .mui-switch-thumb {
+  width: 24px;
+  height: 24px;
+}
+.mui-switch-size-medium .mui-switch-thumb-checked {
+  transform: translate(16px, -50%);
+}
+
+.mui-switch-size-large .mui-switch-track {
+  width: 50px;
+  height: 24px;
+}
+.mui-switch-size-large .mui-switch-thumb {
+  width: 30px;
+  height: 30px;
+}
+.mui-switch-size-large .mui-switch-thumb-checked {
+  transform: translate(20px, -50%);
+}
+
+/* Checked state */
+.mui-switch-track-checked {
+  background-color: #1976d2; /* primary default */
+}
+
+/* Color variants */
+.mui-switch-color-primary .mui-switch-track-checked {
+  background-color: #1976d2;
+}
+.mui-switch-color-secondary .mui-switch-track-checked {
+  background-color: #dc004e;
+}
+.mui-switch-color-error .mui-switch-track-checked {
+  background-color: #d32f2f;
+}
+.mui-switch-color-warning .mui-switch-track-checked {
+  background-color: #ed6c02;
+}
+.mui-switch-color-info .mui-switch-track-checked {
+  background-color: #0288d1;
+}
+.mui-switch-color-success .mui-switch-track-checked {
+  background-color: #2e7d32;
+}
+
+/* Disabled state */
+.mui-switch-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mui-switch-disabled .mui-switch-track {
+  background-color: #e0e0e0;
+}
+.mui-switch-disabled .mui-switch-track-checked {
+  background-color: #b0b0b0;
+}
+
+/* Label */
+.mui-switch-label {
+  margin-left: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Focus visible */
+.mui-switch-input:focus-visible ~ .mui-switch-base .mui-switch-thumb {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mui-switch-track {
+    background-color: #5a5a5a;
+  }
+
+  .mui-switch-track-checked {
+    background-color: #90caf9; /* primary dark */
+  }
+
+  .mui-switch-color-primary .mui-switch-track-checked {
+    background-color: #90caf9;
+  }
+  .mui-switch-color-secondary .mui-switch-track-checked {
+    background-color: #f48fb1;
+  }
+  .mui-switch-color-error .mui-switch-track-checked {
+    background-color: #f44336;
+  }
+  .mui-switch-color-warning .mui-switch-track-checked {
+    background-color: #ff9800;
+  }
+  .mui-switch-color-info .mui-switch-track-checked {
+    background-color: #29b6f6;
+  }
+  .mui-switch-color-success .mui-switch-track-checked {
+    background-color: #66bb6a;
+  }
+
+  .mui-switch-disabled .mui-switch-track {
+    background-color: #424242;
+  }
+  .mui-switch-disabled .mui-switch-track-checked {
+    background-color: #5a5a5a;
+  }
+
+  .mui-switch-label {
+    color: rgba(255, 255, 255, 0.87);
+  }
+}
+`;

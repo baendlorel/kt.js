@@ -1,0 +1,187 @@
+import { injectGlobal } from '@emotion/css';
+
+injectGlobal`
+.mui-pill {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.mui-pill-size-small {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 0.75rem;
+}
+
+.mui-pill-size-medium {
+  height: 32px;
+  padding: 0 12px;
+}
+
+.mui-pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mui-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mui-pill-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 -4px 0 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  color: inherit;
+  opacity: 0.88;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.mui-pill-delete-mark {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
+.mui-pill-delete:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.mui-pill-clickable {
+  cursor: pointer;
+}
+
+.mui-pill-clickable:hover {
+  filter: brightness(0.96);
+}
+
+.mui-pill-clickable:focus-visible {
+  outline: 2px solid rgba(25, 118, 210, 0.4);
+  outline-offset: 2px;
+}
+
+.mui-pill-disabled {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.mui-pill-variant-filled.mui-pill-color-default {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mui-pill-variant-filled.mui-pill-color-primary {
+  background: var(--kt-color-primary);
+  color: #fff;
+}
+
+.mui-pill-variant-filled.mui-pill-color-secondary {
+  background: var(--kt-color-secondary);
+  color: #fff;
+}
+
+.mui-pill-variant-filled.mui-pill-color-error {
+  background: var(--kt-color-error);
+  color: #fff;
+}
+
+.mui-pill-variant-filled.mui-pill-color-warning {
+  background: var(--kt-color-warning);
+  color: #fff;
+}
+
+.mui-pill-variant-filled.mui-pill-color-info {
+  background: var(--kt-color-info);
+  color: #fff;
+}
+
+.mui-pill-variant-filled.mui-pill-color-success {
+  background: var(--kt-color-success);
+  color: #fff;
+}
+
+.mui-pill-variant-outlined {
+  background: transparent;
+}
+
+.mui-pill-variant-outlined.mui-pill-color-default {
+  border-color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-primary {
+  border-color: var(--kt-color-primary);
+  color: var(--kt-color-primary);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-secondary {
+  border-color: var(--kt-color-secondary);
+  color: var(--kt-color-secondary);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-error {
+  border-color: var(--kt-color-error);
+  color: var(--kt-color-error);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-warning {
+  border-color: var(--kt-color-warning);
+  color: var(--kt-color-warning);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-info {
+  border-color: var(--kt-color-info);
+  color: var(--kt-color-info);
+}
+
+.mui-pill-variant-outlined.mui-pill-color-success {
+  border-color: var(--kt-color-success);
+  color: var(--kt-color-success);
+}
+
+@media (prefers-color-scheme: dark) {
+  .mui-pill-variant-filled.mui-pill-color-default {
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .mui-pill-variant-outlined.mui-pill-color-default {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .mui-pill-delete:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
+`;

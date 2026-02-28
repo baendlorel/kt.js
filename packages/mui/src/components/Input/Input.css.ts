@@ -1,0 +1,301 @@
+import { injectGlobal } from '@emotion/css';
+
+injectGlobal`
+/* TextField Component Styles - MUI-like */
+
+.mui-textfield-root {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  vertical-align: top;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.mui-textfield-fullwidth {
+  width: 100%;
+}
+
+/* Wrapper */
+.mui-textfield-wrapper {
+  font-size: 1rem;
+  line-height: 1.4375em;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  cursor: text;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  border-radius: 4px;
+}
+
+/* Label */
+.mui-textfield-label {
+  display: block;
+  transform-origin: top left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(133% - 32px);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  transform: translate(14px, 16px) scale(1);
+  transition:
+    color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+    max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  z-index: 1;
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mui-textfield-focused .mui-textfield-label,
+.mui-textfield-has-value .mui-textfield-label {
+  transform: translate(14px, -9px) scale(0.75);
+  max-width: calc(133% - 32px);
+}
+
+.mui-textfield-focused .mui-textfield-label {
+  color: #1976d2;
+}
+
+.mui-textfield-error .mui-textfield-label {
+  color: #d32f2f;
+}
+
+.mui-textfield-disabled .mui-textfield-label {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.mui-textfield-required {
+  color: #d32f2f;
+}
+
+/* Size variants */
+.mui-textfield-size-small .mui-textfield-wrapper {
+  font-size: 0.875rem;
+  line-height: 1.4375em;
+}
+
+.mui-textfield-size-small .mui-textfield-label {
+  font-size: 0.875rem;
+  transform: translate(14px, 9px) scale(1);
+}
+
+.mui-textfield-size-small.mui-textfield-focused .mui-textfield-label,
+.mui-textfield-size-small.mui-textfield-has-value .mui-textfield-label {
+  transform: translate(14px, -9px) scale(0.75);
+}
+
+.mui-textfield-size-small .mui-textfield-input-wrapper {
+  padding: 8.5px 14px;
+}
+
+.mui-textfield-size-small .mui-textfield-input {
+  font-size: 0.875rem;
+}
+
+/* Input wrapper */
+.mui-textfield-input-wrapper {
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  padding: 16.5px 14px;
+  border: 0;
+  box-sizing: content-box;
+  background: none;
+  height: auto;
+  margin: 0;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+}
+
+/* Input element */
+.mui-textfield-input {
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  border: 0;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+  outline: none;
+}
+
+/* Textarea specific styles - override height */
+textarea.mui-textfield-input {
+  height: auto !important;
+  resize: none;
+  overflow: auto;
+  min-height: 1.4375em;
+}
+
+.mui-textfield-input::placeholder {
+  color: rgba(0, 0, 0, 0.42);
+  opacity: 1;
+  transition: opacity 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.mui-textfield-focused .mui-textfield-input::placeholder {
+  opacity: 0.42;
+}
+
+.mui-textfield-disabled .mui-textfield-input {
+  color: rgba(0, 0, 0, 0.38);
+  cursor: default;
+}
+
+/* Fieldset (border) */
+.mui-textfield-fieldset {
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: -5px;
+  left: 0;
+  margin: 0;
+  padding: 0 8px;
+  pointer-events: none;
+  border-radius: inherit;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  min-width: 0%;
+  border-color: rgba(0, 0, 0, 0.23);
+  transition: border-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.mui-textfield-wrapper:hover .mui-textfield-fieldset {
+  border-color: rgba(0, 0, 0, 0.87);
+}
+
+.mui-textfield-focused .mui-textfield-fieldset {
+  border-color: #1976d2;
+  border-width: 2px;
+}
+
+.mui-textfield-error .mui-textfield-fieldset {
+  border-color: #d32f2f;
+}
+
+.mui-textfield-error.mui-textfield-focused .mui-textfield-fieldset {
+  border-color: #d32f2f;
+}
+
+.mui-textfield-disabled .mui-textfield-fieldset {
+  border-color: rgba(0, 0, 0, 0.26);
+}
+
+/* No label variant - adjust fieldset position */
+.mui-textfield-no-label .mui-textfield-fieldset {
+  top: 0;
+}
+
+/* Legend (for label space) */
+.mui-textfield-legend {
+  float: unset;
+  width: auto;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  height: 11px;
+  font-size: 0.75em;
+  visibility: hidden;
+  max-width: 0.01px;
+  transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  white-space: nowrap;
+}
+
+.mui-textfield-legend > span {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
+}
+
+.mui-textfield-focused .mui-textfield-legend,
+.mui-textfield-has-value .mui-textfield-legend {
+  max-width: 100%;
+  transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+}
+
+/* Helper text */
+.mui-textfield-helper-text {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin: 3px 14px 0;
+}
+
+.mui-textfield-error .mui-textfield-helper-text {
+  color: #d32f2f;
+}
+
+.mui-textfield-disabled .mui-textfield-helper-text {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mui-textfield-wrapper {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .mui-textfield-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .mui-textfield-focused .mui-textfield-label {
+    color: #90caf9;
+  }
+
+  .mui-textfield-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .mui-textfield-disabled .mui-textfield-input {
+    color: rgba(255, 255, 255, 0.38);
+  }
+
+  .mui-textfield-fieldset {
+    border-color: rgba(255, 255, 255, 0.23);
+  }
+
+  .mui-textfield-wrapper:hover .mui-textfield-fieldset {
+    border-color: rgba(255, 255, 255, 0.87);
+  }
+
+  .mui-textfield-focused .mui-textfield-fieldset {
+    border-color: #90caf9;
+  }
+
+  .mui-textfield-disabled .mui-textfield-fieldset {
+    border-color: rgba(255, 255, 255, 0.26);
+  }
+
+  .mui-textfield-helper-text {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .mui-textfield-disabled .mui-textfield-helper-text {
+    color: rgba(255, 255, 255, 0.38);
+  }
+}
+
+`;

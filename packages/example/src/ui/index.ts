@@ -4,6 +4,7 @@ import { t } from '../i18n/index.js';
 // # Views
 import { MuiAlertDemo } from './mui-alert.js';
 import { MuiBadgeDemo } from './mui-badge.js';
+import { MuiBottomNavigationDemo } from './mui-bottom-navigation.js';
 import { MuiButtonDemo } from './mui-button.js';
 import { MuiCardDemo } from './mui-card.js';
 import { MuiCheckboxDemo } from './mui-checkbox.js';
@@ -11,12 +12,15 @@ import { MuiDialogDemo } from './mui-dialog.js';
 import { MuiDropdownButtonDemo } from './mui-dropdown-button.js';
 import { MuiFormLabelDemo } from './mui-formlabel.js';
 import { MuiIconsDemo } from './mui-icons.js';
+import { MuiMenuDemo } from './mui-menu.js';
+import { MuiModalDemo } from './mui-modal.js';
 import { MuiPillDemo } from './mui-pill.js';
 import { MuiPopoverDemo } from './mui-popover.js';
 import { MuiProgressDemo } from './mui-progress.js';
 import { MuiRadioDemo } from './mui-radio.js';
 import { MuiSelectDemo } from './mui-select.js';
 import { MuiSwitchDemo } from './mui-switch.js';
+import { MuiTabsDemo } from './mui-tabs.js';
 import { MuiTextFieldDemo } from './mui-textfield.js';
 // import { MuiTextFieldRefDemo } from './mui-textfield-ref-demo.js';
 
@@ -44,6 +48,13 @@ export const muiNav: NavGroup = {
       title: t('nav.mui.dropdownButton.title'),
       description: t('nav.mui.dropdownButton.description'),
       component: MuiDropdownButtonDemo,
+    },
+    {
+      id: 'mui-tabs',
+      label: t('nav.mui.tabs.label'),
+      title: t('nav.mui.tabs.title'),
+      description: t('nav.mui.tabs.description'),
+      component: MuiTabsDemo,
     },
     {
       id: 'mui-textfield',
@@ -102,6 +113,13 @@ export const muiNav: NavGroup = {
       component: MuiSelectDemo,
     },
     {
+      id: 'mui-menu',
+      label: t('nav.mui.menu.label'),
+      title: t('nav.mui.menu.title'),
+      description: t('nav.mui.menu.description'),
+      component: MuiMenuDemo,
+    },
+    {
       id: 'mui-formlabel',
       label: t('nav.mui.formlabel.label'),
       title: t('nav.mui.formlabel.title'),
@@ -135,6 +153,20 @@ export const muiNav: NavGroup = {
       title: t('nav.mui.popover.title'),
       description: t('nav.mui.popover.description'),
       component: MuiPopoverDemo,
+    },
+    {
+      id: 'mui-bottom-navigation',
+      label: t('nav.mui.bottomNavigation.label'),
+      title: t('nav.mui.bottomNavigation.title'),
+      description: t('nav.mui.bottomNavigation.description'),
+      component: MuiBottomNavigationDemo,
+    },
+    {
+      id: 'mui-modal',
+      label: t('nav.mui.modal.label'),
+      title: t('nav.mui.modal.title'),
+      description: t('nav.mui.modal.description'),
+      component: MuiModalDemo,
     },
     {
       id: 'mui-icons',

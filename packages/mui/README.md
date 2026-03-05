@@ -37,13 +37,17 @@ Styles are injected automatically through Emotion when components are imported.
 - **Button** - Material-style buttons with variants and colors
 - **Pill** - Chip-like pill labels with variants and colors
 - **Badge** - Numeric and dot badges for status/count overlays
+- **BottomNavigation** - Mobile-first bottom navigation bar
 - **Dialog** - Modal dialogs
+- **Menu** - Context and dropdown menus
+- **Modal Helpers** - Async `alert/confirm/prompt` replacements
 - **Popover** - Anchor-based floating layers
 - **FormLabel** - Form labels for inputs
 - **Input** - Text input fields
 - **LinearProgress** - Progress bars
 - **Radio** - Radio buttons
 - **Select** - Dropdown select components
+- **Tabs** - Tabbed navigation
 - **Icons** - Various SVG icons
 
 ## Development

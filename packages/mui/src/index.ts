@@ -23,7 +23,7 @@ export type { KTMuiTextField, KTMuiTextFieldProps } from './components/Input/Inp
 export type { KTMuiCheckboxProps, KTMuiCheckbox } from './components/Checkbox/Checkbox.js';
 export type { KTMuiCheckboxGroupProps, KTMuiCheckboxGroup } from './components/Checkbox/CheckboxGroup.js';
 export type { KTMuiSelectProps, KTMuiSelect, KTMuiSelectOption } from './components/Select/Select.js';
-export type { KTMuiDialog } from './components/Dialog/Dialog.js';
+export type { KTMuiDialog, KTMuiDialogSize } from './components/Dialog/Dialog.js';
 export type { KTMuiLinearProgress } from './components/LinearProgress/LinearProgress.js';
 export type { KTMuiCardProps, KTMuiCard } from './components/Card/Card.js';
 export type { KTMuiSwitchProps, KTMuiSwitch } from './components/Switch/Switch.js';

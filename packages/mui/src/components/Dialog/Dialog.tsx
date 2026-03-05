@@ -5,7 +5,7 @@ import './Dialog.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute';
 import { KTMuiProps } from '../../types/component';
 
-type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
+export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
 interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
   /**
@@ -13,7 +13,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
    * - Provide a `KTReactive` to make it reactive
    */
   open?: KTMaybeReactive<boolean>;
-  title?: string;
+  title?: KTMaybeReactive<string>;
   children?:
     | JSX.Element
     | JSX.Element[]
@@ -22,7 +22,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
     | KTMaybeReactive<JSX.Element>
     | KTMaybeReactive<JSX.Element[]>;
   actions?: KTMaybeReactive<HTMLElement | HTMLElement[]>;
-  size?: KTMaybeReactive<DialogSize>;
+  size?: KTMaybeReactive<KTMuiDialogSize>;
   fullWidth?: KTMaybeReactive<boolean>;
 
   'on:close'?: () => void;

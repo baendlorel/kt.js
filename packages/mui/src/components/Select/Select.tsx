@@ -10,10 +10,12 @@ export interface KTMuiSelectOption {
   label: string | JSX.Element;
 }
 
+export type KTMuiSelectSize = 'small' | 'medium';
+
 export type KTMuiSelectContent = KTMuiSelectOption | JSX.Element | HTMLElement | string;
 
 export interface KTMuiSelectProps extends KTMuiProps {
-  size?: KTMaybeReactive<'small' | 'medium'>;
+  size?: KTMaybeReactive<KTMuiSelectSize>;
 
   value?: KTMaybeReactive<string>;
 

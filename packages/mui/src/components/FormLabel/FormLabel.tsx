@@ -3,6 +3,8 @@ import './FormLabel.css.ts';
 import { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute';
 
+export type KTMuiFormLabelComponent = 'label' | 'legend';
+
 interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
   children: string | HTMLElement | JSX.Element;
 
@@ -35,7 +37,7 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
    * The component used for the root node. Either 'label' or 'legend'.
    * - Not reactive
    */
-  component?: 'label' | 'legend';
+  component?: KTMuiFormLabelComponent;
 
   htmlFor?: KTMaybeReactive<string>;
 }

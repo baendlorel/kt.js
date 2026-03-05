@@ -6,24 +6,26 @@ import './Badge.css.ts';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
-type BadgeColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-type BadgeVariant = 'standard' | 'dot';
-type BadgeOverlap = 'rectangular' | 'circular';
-type BadgeContent = string | number;
+export type KTMuiBadgeColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+export type KTMuiBadgeVariant = 'standard' | 'dot';
+export type KTMuiBadgeOverlap = 'rectangular' | 'circular';
+export type KTMuiBadgeVerticalOrigin = 'top' | 'bottom';
+export type KTMuiBadgeHorizontalOrigin = 'left' | 'right';
+export type KTMuiBadgeContent = string | number;
 
 export interface KTMuiBadgeAnchorOrigin {
-  vertical: 'top' | 'bottom';
-  horizontal: 'left' | 'right';
+  vertical: KTMuiBadgeVerticalOrigin;
+  horizontal: KTMuiBadgeHorizontalOrigin;
 }
 
 export interface KTMuiBadgeProps extends KTMuiProps {
-  badgeContent?: BadgeContent | KTReactive<number> | KTReactive<string>;
+  badgeContent?: KTMuiBadgeContent | KTReactive<number> | KTReactive<string>;
   max?: KTMaybeReactive<number>;
   showZero?: KTMaybeReactive<boolean>;
   invisible?: KTMaybeReactive<boolean>;
-  color?: KTMaybeReactive<BadgeColor>;
-  variant?: KTMaybeReactive<BadgeVariant>;
-  overlap?: KTMaybeReactive<BadgeOverlap>;
+  color?: KTMaybeReactive<KTMuiBadgeColor>;
+  variant?: KTMaybeReactive<KTMuiBadgeVariant>;
+  overlap?: KTMaybeReactive<KTMuiBadgeOverlap>;
   anchorOrigin?: KTMaybeReactive<KTMuiBadgeAnchorOrigin>;
 }
 
@@ -42,7 +44,9 @@ export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
   const styleRef = toReactive($parseStyle(props.style));
   const rootClassRef = customClassRef.toComputed((v) => 'mui-badge-root ' + v);
 
-  const contentRef = toReactive<BadgeContent>((props.badgeContent as BadgeContent | KTReactive<BadgeContent>) ?? '');
+  const contentRef = toReactive<KTMuiBadgeContent>(
+    (props.badgeContent as KTMuiBadgeContent | KTReactive<KTMuiBadgeContent>) ?? '',
+  );
   const maxRef = toReactive(props.max ?? 99);
   const showZeroRef = toReactive(props.showZero ?? false);
   const invisibleRef = toReactive(props.invisible ?? false);

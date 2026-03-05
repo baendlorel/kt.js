@@ -8,6 +8,10 @@ import '../Button/Button.css.ts';
 import './DropdownButton.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
+export type KTMuiDropdownButtonVariant = 'contained' | 'outlined' | 'text';
+export type KTMuiDropdownButtonColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+export type KTMuiDropdownButtonSize = 'small' | 'medium' | 'large';
+
 export interface KTMuiDropdownButtonOption {
   value: string;
   label: string | JSX.Element;
@@ -28,17 +32,17 @@ export interface KTMuiDropdownButtonProps extends KTMuiProps {
   /**
    * The variant to use - 'contained', 'outlined' or 'text'
    */
-  variant?: KTMaybeReactive<'contained' | 'outlined' | 'text'>;
+  variant?: KTMaybeReactive<KTMuiDropdownButtonVariant>;
 
   /**
    * The color to use - 'primary', 'secondary', 'error', 'warning', 'info' or 'success'
    */
-  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+  color?: KTMaybeReactive<KTMuiDropdownButtonColor>;
 
   /**
    * The size of the button - 'small', 'medium' or 'large'
    */
-  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+  size?: KTMaybeReactive<KTMuiDropdownButtonSize>;
 
   /**
    * Whether the button is disabled

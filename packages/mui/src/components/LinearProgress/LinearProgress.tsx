@@ -5,6 +5,9 @@ import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
+export type KTMuiLinearProgressVariant = 'determinate' | 'indeterminate';
+export type KTMuiLinearProgressColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+
 interface LinearProgressProps extends KTMuiProps {
   /**
    * The variant to use.
@@ -12,7 +15,7 @@ interface LinearProgressProps extends KTMuiProps {
    * - `indeterminate` - Use when the progress is unknown.
    * Default is `indeterminate`.
    */
-  variant?: KTMaybeReactive<'determinate' | 'indeterminate'>;
+  variant?: KTMaybeReactive<KTMuiLinearProgressVariant>;
 
   /**
    * The value of the progress indicator for the determinate variant. Value between 0 and 100.
@@ -22,7 +25,7 @@ interface LinearProgressProps extends KTMuiProps {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+  color?: KTMaybeReactive<KTMuiLinearProgressColor>;
 }
 
 export type KTMuiLinearProgress = JSX.Element & {

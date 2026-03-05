@@ -4,6 +4,9 @@ import { $modelOrRef, computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './Switch.css.ts';
 
+export type KTMuiSwitchColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+export type KTMuiSwitchSize = 'small' | 'medium' | 'large';
+
 export interface KTMuiSwitchProps extends KTMuiProps {
   value?: KTMaybeReactive<string>;
 
@@ -11,9 +14,9 @@ export interface KTMuiSwitchProps extends KTMuiProps {
 
   disabled?: KTMaybeReactive<boolean>;
 
-  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
+  color?: KTMaybeReactive<KTMuiSwitchColor>;
 
-  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+  size?: KTMaybeReactive<KTMuiSwitchSize>;
 
   'on:change'?: (checked: boolean, value?: string) => void;
 }

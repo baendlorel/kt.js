@@ -7,20 +7,23 @@ import './Radio.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { createChecked, createUnchecked } from './Icon.js';
 
+export type KTMuiRadioSize = 'small' | 'medium';
+export type KTMuiRadioColor = 'primary' | 'secondary' | 'default';
+
 export interface KTMuiRadioProps extends KTMuiProps {
   value: string;
   label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
-  size?: 'small' | 'medium';
+  size?: KTMuiRadioSize;
   'on:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
-  color?: 'primary' | 'secondary' | 'default';
+  color?: KTMuiRadioColor;
 }
 
 export interface KTMuiRadioGroupProps extends KTMuiProps {
   value?: string;
   name?: string;
-  size?: 'small' | 'medium';
+  size?: KTMuiRadioSize;
   options: KTMuiRadioProps[];
   'on:change'?: (value: string) => void;
   'on:click'?: (checked: boolean) => void;

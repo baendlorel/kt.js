@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
 import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
-import type { KTMuiCheckbox, KTMuiCheckboxProps } from './Checkbox.js';
+import type { KTMuiCheckbox, KTMuiCheckboxProps, KTMuiCheckboxSize } from './Checkbox.js';
 
 import './Checkbox.css.ts';
 import { Checkbox } from './Checkbox.js';
@@ -11,7 +11,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 export { Checkbox };
 
 export interface KTMuiCheckboxGroupProps extends Omit<KTMuiProps, 'children'> {
-  size?: KTMaybeReactive<'small' | 'medium'>;
+  size?: KTMaybeReactive<KTMuiCheckboxSize>;
   options: KTMaybeReactive<Array<Omit<KTMuiCheckboxProps, 'value'> & { value: string }>>;
   row?: KTMaybeReactive<boolean>;
   'on:change'?: (values: string[]) => void;

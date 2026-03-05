@@ -5,12 +5,12 @@ import type { KTMuiProps } from '../../types/component.js';
 import './Popover.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
-type PopoverVerticalOrigin = 'top' | 'center' | 'bottom';
-type PopoverHorizontalOrigin = 'left' | 'center' | 'right';
+export type KTMuiPopoverVerticalOrigin = 'top' | 'center' | 'bottom';
+export type KTMuiPopoverHorizontalOrigin = 'left' | 'center' | 'right';
 
 export interface KTMuiPopoverOrigin {
-  vertical: PopoverVerticalOrigin;
-  horizontal: PopoverHorizontalOrigin;
+  vertical: KTMuiPopoverVerticalOrigin;
+  horizontal: KTMuiPopoverHorizontalOrigin;
 }
 
 export type KTMuiPopoverCloseReason = 'backdropClick' | 'escapeKeyDown';
@@ -64,7 +64,7 @@ const DEFAULT_TRANSFORM_ORIGIN: KTMuiPopoverOrigin = {
 };
 const EXIT_TRANSITION_MS = 180;
 
-const getOffsetFromVertical = (height: number, vertical: PopoverVerticalOrigin) => {
+const getOffsetFromVertical = (height: number, vertical: KTMuiPopoverVerticalOrigin) => {
   if (vertical === 'center') {
     return height / 2;
   }
@@ -74,7 +74,7 @@ const getOffsetFromVertical = (height: number, vertical: PopoverVerticalOrigin) 
   return 0;
 };
 
-const getOffsetFromHorizontal = (width: number, horizontal: PopoverHorizontalOrigin) => {
+const getOffsetFromHorizontal = (width: number, horizontal: KTMuiPopoverHorizontalOrigin) => {
   if (horizontal === 'center') {
     return width / 2;
   }

@@ -6,16 +6,21 @@ import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import './Button.css.ts';
 
+export type KTMuiButtonVariant = 'contained' | 'outlined' | 'text';
+export type KTMuiButtonColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+export type KTMuiButtonSize = 'small' | 'medium' | 'large';
+export type KTMuiButtonType = 'button' | 'submit' | 'reset';
+
 interface KTMuiButtonProps extends KTMuiProps {
-  variant?: KTMaybeReactive<'contained' | 'outlined' | 'text'>;
-  color?: KTMaybeReactive<'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>;
-  size?: KTMaybeReactive<'small' | 'medium' | 'large'>;
+  variant?: KTMaybeReactive<KTMuiButtonVariant>;
+  color?: KTMaybeReactive<KTMuiButtonColor>;
+  size?: KTMaybeReactive<KTMuiButtonSize>;
   disabled?: KTMaybeReactive<boolean>;
   fullWidth?: KTMaybeReactive<boolean>;
   iconOnly?: KTMaybeReactive<boolean>;
   startIcon?: KTMaybeReactive<JSX.Element>;
   endIcon?: KTMaybeReactive<JSX.Element>;
-  type?: KTMaybeReactive<'button' | 'submit' | 'reset'>;
+  type?: KTMaybeReactive<KTMuiButtonType>;
   'on:click'?: (e: MouseEvent) => void;
   'on:dblclick'?: (e: MouseEvent) => void;
 }
@@ -94,7 +99,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       ref={buttonRef}
       class={className}
       style={styleRef}
-      type={toReactive<'button' | 'submit' | 'reset'>(props.type ?? 'button')}
+      type={toReactive<KTMuiButtonType>(props.type ?? 'button')}
       disabled={disabledRef}
       on:click={handleClick}
     >

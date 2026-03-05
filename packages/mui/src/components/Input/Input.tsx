@@ -7,9 +7,11 @@ import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './Input.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
-export type InputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+export type KTMuiTextFieldType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+export type KTMuiTextFieldSize = 'small' | 'medium';
+export type InputTypes = KTMuiTextFieldType;
 
-export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMuiProps {
+export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> extends KTMuiProps {
   'k-model'?: T extends 'number' ? KTReactive<number> : KTReactive<string>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
@@ -23,7 +25,7 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMu
   fullWidth?: KTMaybeReactive<boolean>;
   multiline?: boolean;
   rows?: KTMaybeReactive<number>;
-  size?: 'small' | 'medium' | KTReactive<'small' | 'medium'>;
+  size?: KTMuiTextFieldSize | KTReactive<KTMuiTextFieldSize>;
   'on:input'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:change'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;
@@ -32,7 +34,7 @@ export interface KTMuiTextFieldProps<T extends InputTypes = 'text'> extends KTMu
 
 export type KTMuiTextField = JSX.Element;
 
-export function TextField<T extends InputTypes = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
+export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
   const onInput = props['on:input'] ?? $emptyFn;
   const onChange = props['on:change'] ?? $emptyFn;

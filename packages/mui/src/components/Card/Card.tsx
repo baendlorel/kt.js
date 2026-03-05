@@ -6,8 +6,10 @@ import './Card.css.ts';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
+export type KTMuiCardVariant = 'elevation' | 'outlined' | 'contained';
+
 export interface KTMuiCardProps extends KTMuiProps {
-  variant?: 'elevation' | 'outlined' | 'contained';
+  variant?: KTMuiCardVariant;
   elevation?: number | KTReactive<number>;
   square?: boolean | KTReactive<boolean>;
   raised?: boolean | KTReactive<boolean>;

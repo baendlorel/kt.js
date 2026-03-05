@@ -6,12 +6,15 @@ import type { KTMuiProps } from '../../types/component.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
+export type KTMuiCheckboxSize = 'small' | 'medium';
+export type KTMuiCheckboxColor = 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
+
 export interface KTMuiCheckboxProps extends Omit<KTMuiProps, 'children'> {
   value?: KTMaybeReactive<string>;
   label?: KTMaybeReactive<string | JSX.Element | HTMLElement>;
-  size?: KTMaybeReactive<'small' | 'medium'>;
+  size?: KTMaybeReactive<KTMuiCheckboxSize>;
   disabled?: KTMaybeReactive<boolean>;
-  color?: KTMaybeReactive<'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning'>;
+  color?: KTMaybeReactive<KTMuiCheckboxColor>;
   indeterminate?: KTMaybeReactive<boolean>;
   'on:change'?: (checked: boolean, value: string) => void;
 }

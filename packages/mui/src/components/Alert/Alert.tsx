@@ -4,6 +4,9 @@ import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
+export type KTMuiAlertSeverity = 'error' | 'warning' | 'info' | 'success';
+export type KTMuiAlertVariant = 'standard' | 'filled' | 'outlined';
+
 interface KTMuiAlertProps extends KTMuiProps {
   children: NonNullable<KTMuiProps['children']>;
 
@@ -15,7 +18,7 @@ interface KTMuiAlertProps extends KTMuiProps {
    * - 'success': Green color, success icon.
    * @default 'info'
    */
-  severity?: KTMaybeReactive<'error' | 'warning' | 'info' | 'success'>;
+  severity?: KTMaybeReactive<KTMuiAlertSeverity>;
 
   /**
    * The variant to use. It defines the style of the alert.
@@ -24,7 +27,7 @@ interface KTMuiAlertProps extends KTMuiProps {
    * - 'outlined': An outlined version of the alert with a border.
    * @default 'standard'
    */
-  variant?: KTMaybeReactive<'standard' | 'filled' | 'outlined'>;
+  variant?: KTMaybeReactive<KTMuiAlertVariant>;
 
   /**
    * The icon to display in the alert. It can be a custom icon or a boolean value.

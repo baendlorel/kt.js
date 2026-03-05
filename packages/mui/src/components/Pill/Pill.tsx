@@ -5,17 +5,17 @@ import type { KTMuiProps } from '../../types/component.js';
 import './Pill.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
-type PillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-type PillVariant = 'filled' | 'outlined';
-type PillSize = 'small' | 'medium';
+export type KTMuiPillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+export type KTMuiPillVariant = 'filled' | 'outlined';
+export type KTMuiPillSize = 'small' | 'medium';
 
 export interface KTMuiPillProps extends KTMuiProps {
   label?: KTMaybeReactive<string>;
   icon?: KTMaybeReactive<HTMLElement | JSX.Element>;
   deleteIcon?: KTMaybeReactive<HTMLElement | JSX.Element>;
-  color?: KTMaybeReactive<PillColor>;
-  variant?: KTMaybeReactive<PillVariant>;
-  size?: KTMaybeReactive<PillSize>;
+  color?: KTMaybeReactive<KTMuiPillColor>;
+  variant?: KTMaybeReactive<KTMuiPillVariant>;
+  size?: KTMaybeReactive<KTMuiPillSize>;
   clickable?: KTMaybeReactive<boolean>;
   disabled?: KTMaybeReactive<boolean>;
   autoRemoveOnDelete?: KTMaybeReactive<boolean>;

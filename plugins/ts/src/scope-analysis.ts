@@ -1,5 +1,5 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
-import { getAttributeExpression, getAttributeText, getJsxAttribute } from './jsx-attributes';
+import { getAttributeText, getJsxAttribute } from './jsx-attributes';
 import { parseKForExpression } from './kfor-parser';
 import { resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
 import type {
@@ -91,20 +91,28 @@ function collectKForScopes(
   const scopes: KForScope[] = [];
 
   const visit = (node: tsModule.Node) => {
+    let opening: JsxOpeningLikeElement | undefined;
+    let bodyScope: { start: number; end: number } | undefined;
+
     if (ts.isJsxElement(node)) {
-      const forAttr = getJsxAttribute(node.openingElement, config.forAttr, ts);
+      opening = node.openingElement;
+      bodyScope = resolveElementBodyScope(node, sourceFile);
+    } else if (ts.isJsxSelfClosingElement(node)) {
+      opening = node;
+    }
+
+    if (opening) {
+      const forAttr = getJsxAttribute(opening, config.forAttr, ts);
       if (forAttr) {
-        const bindings = resolveScopeBindings(node.openingElement, forAttr, checker, config, ts);
+        const bindings = resolveScopeBindings(opening, forAttr, checker, config, ts);
         if (bindings.length > 0) {
-          const bodyStart = node.openingElement.end;
-          const bodyEnd = node.closingElement.getStart(sourceFile);
-          if (bodyStart < bodyEnd) {
-            scopes.push({ start: bodyStart, end: bodyEnd, bindings });
+          if (bodyScope) {
+            scopes.push({ start: bodyScope.start, end: bodyScope.end, bindings });
           }
 
-          const keyScope = resolveKeyAttributeScope(node.openingElement, sourceFile, ts, config);
-          if (keyScope) {
-            scopes.push({ start: keyScope.start, end: keyScope.end, bindings });
+          const attributeScopes = resolveAttributeExpressionScopes(opening, forAttr, sourceFile, ts);
+          for (let i = 0; i < attributeScopes.length; i++) {
+            scopes.push({ start: attributeScopes[i].start, end: attributeScopes[i].end, bindings });
           }
         }
       }
@@ -117,29 +125,54 @@ function collectKForScopes(
   return scopes;
 }
 
-function resolveKeyAttributeScope(
-  opening: JsxOpeningLikeElement,
+function resolveElementBodyScope(
+  node: tsModule.JsxElement,
   sourceFile: tsModule.SourceFile,
-  ts: typeof tsModule,
-  config: ResolvedConfig,
 ): { start: number; end: number } | undefined {
-  const keyAttr = getJsxAttribute(opening, config.keyAttr, ts);
-  if (!keyAttr) {
-    return undefined;
-  }
-
-  const keyExpression = getAttributeExpression(keyAttr, ts);
-  if (!keyExpression || !keyAttr.initializer || !ts.isJsxExpression(keyAttr.initializer)) {
-    return undefined;
-  }
-
-  const start = keyAttr.initializer.getStart(sourceFile);
-  const end = keyAttr.initializer.end;
+  const start = node.openingElement.end;
+  const end = node.closingElement.getStart(sourceFile);
   if (start >= end) {
     return undefined;
   }
-
   return { start, end };
+}
+
+function resolveAttributeExpressionScopes(
+  opening: JsxOpeningLikeElement,
+  forAttr: tsModule.JsxAttribute,
+  sourceFile: tsModule.SourceFile,
+  ts: typeof tsModule,
+): Array<{ start: number; end: number }> {
+  const scopes: Array<{ start: number; end: number }> = [];
+  const attrs = opening.attributes.properties;
+
+  for (let i = 0; i < attrs.length; i++) {
+    const attr = attrs[i];
+    if (ts.isJsxSpreadAttribute(attr)) {
+      const start = attr.getStart(sourceFile);
+      const end = attr.end;
+      if (start < end) {
+        scopes.push({ start, end });
+      }
+      continue;
+    }
+
+    if (!ts.isJsxAttribute(attr) || attr === forAttr || !attr.initializer) {
+      continue;
+    }
+
+    if (!ts.isJsxExpression(attr.initializer) || !attr.initializer.expression) {
+      continue;
+    }
+
+    const start = attr.initializer.getStart(sourceFile);
+    const end = attr.initializer.end;
+    if (start < end) {
+      scopes.push({ start, end });
+    }
+  }
+
+  return scopes;
 }
 
 function resolveScopeBindings(

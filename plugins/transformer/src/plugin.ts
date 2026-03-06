@@ -1,6 +1,6 @@
 import type { PluginObj } from '@babel/core';
 import { addFlagToSvgMathMLElement, transformSvgMathMLCallExpression, transformSvgMathMLJSX } from './svg-mathml-flag.js';
-import { transformConditionalChains } from './if-else.js';
+import { transformConditionalCallChains, transformConditionalChains } from './if-else.js';
 import { transformKFor, transformKForCallExpression, validateDirectiveCombinations } from './k-for.js';
 
 export function transformerKTjsx(): PluginObj {
@@ -21,6 +21,7 @@ export function transformerKTjsx(): PluginObj {
         exit(path) {
           transformSvgMathMLCallExpression(path);
           transformKForCallExpression(path);
+          transformConditionalCallChains(path);
         },
       },
       Program: {

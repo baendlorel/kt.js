@@ -69,6 +69,33 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-if');
   });
 
+  it('compiles lowered jsx-runtime k-if call and strips directive prop', async () => {
+    const result = await runTransform(
+      `import { jsx as _jsx } from '@ktjs/core/jsx-runtime'; const view = _jsx("div", { id: "box", "k-if": ok, children: "A" });`,
+    );
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('id: "box"');
+    expect(code).not.toContain('"k-if"');
+  });
+
+  it('compiles lowered jsx-runtime k-if + k-else chain inside array children', async () => {
+    const result = await runTransform(
+      [
+        "import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from '@ktjs/core/jsx-runtime';",
+        'const view = _jsxs(_Fragment, {',
+        '  children: [_jsx("div", { "k-if": ok, children: "A" }), " ", _jsx("div", { "k-else": true, children: "B" })],',
+        '});',
+      ].join(' '),
+    );
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).not.toContain('"k-if"');
+    expect(code).not.toContain('"k-else"');
+  });
+
   it('warns and skips transform when k-else-if is used', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     try {

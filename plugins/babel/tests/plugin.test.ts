@@ -168,6 +168,32 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).toContain('"data-role": "demo"');
       expect(result).not.toContain('k-if');
     });
+
+    it('should compile lowered jsx-runtime k-if call and remove directive prop', () => {
+      const code = `
+        import { jsx as _jsx } from '@ktjs/core/jsx-runtime';
+        const el = _jsx("div", { id: "box", "k-if": show, children: "A" });
+      `;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(show, "div"');
+      expect(result).toContain('id: "box"');
+      expect(result).not.toContain('"k-if"');
+    });
+
+    it('should compile lowered jsx-runtime k-if + k-else chain in array children', () => {
+      const code = `
+        import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from '@ktjs/core/jsx-runtime';
+        const el = _jsxs(_Fragment, {
+          children: [_jsx("div", { "k-if": show, children: "A" }), " ", _jsx("div", { "k-else": true, children: "B" })]
+        });
+      `;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(show, "div"');
+      expect(result).not.toContain('"k-if"');
+      expect(result).not.toContain('"k-else"');
+    });
   });
 
   describe('k-for transformation', () => {

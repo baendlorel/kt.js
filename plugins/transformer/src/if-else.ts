@@ -19,6 +19,10 @@ interface ConditionalCallArgs {
   props: t.ObjectExpression;
 }
 
+interface ConditionalCallDirective extends ConditionalDirective {
+  propsArgIndex: number;
+}
+
 function hasConditionalDirective(element: t.JSXElement): boolean {
   const attributes = element.openingElement.attributes || [];
   return attributes.some((attr) => {
@@ -58,6 +62,51 @@ function getConditionalDirective(element: t.JSXElement): ConditionalDirective | 
   return null;
 }
 
+function getConditionalCallDirective(callExpression: t.CallExpression): ConditionalCallDirective | null {
+  for (let i = 0; i < callExpression.arguments.length; i++) {
+    const argument = callExpression.arguments[i];
+    if (!t.isObjectExpression(argument)) {
+      continue;
+    }
+
+    for (let j = 0; j < argument.properties.length; j++) {
+      const property = argument.properties[j];
+      if (!t.isObjectProperty(property)) {
+        continue;
+      }
+
+      const directive = getConditionalDirectiveFromObjectProperty(property);
+      if (directive) {
+        return {
+          ...directive,
+          propsArgIndex: i,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+function getConditionalDirectiveFromObjectProperty(property: t.ObjectProperty): ConditionalDirective | null {
+  const propertyName = getObjectPropertyName(property);
+  if (propertyName === 'k-if' || propertyName === 'k-else-if') {
+    return {
+      type: propertyName,
+      condition: t.isExpression(property.value) ? property.value : null,
+    };
+  }
+
+  if (propertyName === 'k-else') {
+    return {
+      type: 'k-else',
+      condition: null,
+    };
+  }
+
+  return null;
+}
+
 function removeConditionalDirectives(attributes: (t.JSXAttribute | t.JSXSpreadAttribute)[]) {
   return attributes.filter((attr) => {
     if (!t.isJSXAttribute(attr)) {
@@ -67,6 +116,23 @@ function removeConditionalDirectives(attributes: (t.JSXAttribute | t.JSXSpreadAt
       return true;
     }
     return !CONDITIONAL_DIRECTIVES.has(attr.name.name);
+  });
+}
+
+function removeConditionalObjectDirectives(
+  properties: Array<t.ObjectMethod | t.ObjectProperty | t.SpreadElement>,
+): Array<t.ObjectMethod | t.ObjectProperty | t.SpreadElement> {
+  return properties.filter((property) => {
+    if (!t.isObjectProperty(property)) {
+      return true;
+    }
+
+    const propertyName = getObjectPropertyName(property);
+    if (!propertyName) {
+      return true;
+    }
+
+    return !CONDITIONAL_DIRECTIVES.has(propertyName);
   });
 }
 
@@ -83,6 +149,29 @@ function buildConditionalCallArgs(element: t.JSXElement): ConditionalCallArgs {
   const tag = jsxTagNameToExpression(openingElement.name);
   const props = buildPropsObject(attributes, element.children);
 
+  return { tag, props };
+}
+
+function buildConditionalCallArgsFromCallExpression(
+  callExpression: t.CallExpression,
+  directive: ConditionalCallDirective,
+): ConditionalCallArgs {
+  const tagArgument = callExpression.arguments[0];
+  const tag =
+    tagArgument && !t.isSpreadElement(tagArgument) && !t.isArgumentPlaceholder(tagArgument) && t.isExpression(tagArgument)
+      ? (t.cloneNode(tagArgument, true) as t.Expression)
+      : t.stringLiteral('div');
+
+  const propsArgument = callExpression.arguments[directive.propsArgIndex];
+  if (!propsArgument || !t.isObjectExpression(propsArgument)) {
+    return {
+      tag,
+      props: t.objectExpression([]),
+    };
+  }
+
+  const props = t.cloneNode(propsArgument, true) as t.ObjectExpression;
+  props.properties = removeConditionalObjectDirectives(props.properties);
   return { tag, props };
 }
 
@@ -230,6 +319,25 @@ function getJSXAttributeName(name: t.JSXIdentifier | t.JSXNamespacedName): strin
   return null;
 }
 
+function getObjectPropertyName(property: t.ObjectProperty): string | null {
+  if (property.computed) {
+    if (t.isStringLiteral(property.key)) {
+      return property.key.value;
+    }
+    return null;
+  }
+
+  if (t.isIdentifier(property.key)) {
+    return property.key.name;
+  }
+
+  if (t.isStringLiteral(property.key)) {
+    return property.key.value;
+  }
+
+  return null;
+}
+
 function jsxTagNameToExpression(name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName): t.Expression {
   if (t.isJSXIdentifier(name)) {
     if (name.name === 'this') {
@@ -274,7 +382,27 @@ function buildKTConditionalCall(
   return t.callExpression(helperIdentifier, callArgs);
 }
 
-function warnUnsupportedElseIf(path: NodePath<t.JSXElement>) {
+function buildKTConditionalCallFromCallExpression(
+  path: NodePath<t.CallExpression>,
+  condition: ConditionalValue,
+  ifCallExpression: t.CallExpression,
+  ifDirective: ConditionalCallDirective,
+  elseCallExpression?: t.CallExpression,
+  elseDirective?: ConditionalCallDirective,
+): t.CallExpression {
+  const helperIdentifier = ensureKTConditionalIdentifier(path);
+  const ifArgs = buildConditionalCallArgsFromCallExpression(ifCallExpression, ifDirective);
+  const callArgs: t.Expression[] = [getConditionExpression(condition), ifArgs.tag, ifArgs.props];
+
+  if (elseCallExpression && elseDirective) {
+    const elseArgs = buildConditionalCallArgsFromCallExpression(elseCallExpression, elseDirective);
+    callArgs.push(elseArgs.tag, elseArgs.props);
+  }
+
+  return t.callExpression(helperIdentifier, callArgs);
+}
+
+function warnUnsupportedElseIf(path: NodePath<t.Node>) {
   const programPath = getProgramPath(path);
   let warningCache = programPath.getData(KTUNSUPPORTED_ELSEIF_WARNING_CACHE_KEY) as Set<string> | undefined;
   if (!warningCache) {
@@ -366,6 +494,87 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
   }
 }
 
+export function transformConditionalCallChains(path: NodePath<t.CallExpression>) {
+  const directive = getConditionalCallDirective(path.node);
+  if (!directive) {
+    return;
+  }
+
+  const prevSibling = getPrevSignificantCallSibling(path);
+  if (prevSibling && getConditionalCallDirective(prevSibling.node)) {
+    return;
+  }
+
+  const chain: Array<{ path: NodePath<t.CallExpression>; directive: ConditionalCallDirective }> = [{ path, directive }];
+  let current: NodePath<t.CallExpression> = path;
+
+  while (true) {
+    const nextSibling = getNextSignificantCallSibling(current);
+    if (!nextSibling) {
+      break;
+    }
+
+    const nextDirective = getConditionalCallDirective(nextSibling.node);
+    if (!nextDirective) {
+      break;
+    }
+
+    chain.push({
+      path: nextSibling,
+      directive: nextDirective,
+    });
+    current = nextSibling;
+  }
+
+  if (chain.length === 1) {
+    const only = chain[0];
+    if (only.directive.type === 'k-if') {
+      const conditionalCall = buildKTConditionalCallFromCallExpression(
+        only.path,
+        only.directive.condition,
+        only.path.node,
+        only.directive,
+      );
+      only.path.replaceWith(conditionalCall);
+      return;
+    }
+
+    if (only.directive.type === 'k-else-if') {
+      warnUnsupportedElseIf(only.path);
+    }
+    return;
+  }
+
+  const first = chain[0];
+  const second = chain[1];
+  if (first.directive.type === 'k-if' && second.directive.type === 'k-else') {
+    const conditionalCall = buildKTConditionalCallFromCallExpression(
+      first.path,
+      first.directive.condition,
+      first.path.node,
+      first.directive,
+      second.path.node,
+      second.directive,
+    );
+    first.path.replaceWith(conditionalCall);
+    second.path.remove();
+
+    for (let i = 2; i < chain.length; i++) {
+      if (chain[i].directive.type === 'k-else-if') {
+        warnUnsupportedElseIf(chain[i].path);
+      }
+    }
+    return;
+  }
+
+  for (let i = 0; i < chain.length; i++) {
+    if (chain[i].directive.type === 'k-else-if') {
+      warnUnsupportedElseIf(chain[i].path);
+      return;
+    }
+  }
+}
+
 function getPrevSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.JSXElement> | null {
   if (!path.inList || typeof path.key !== 'number') {
     return null;
@@ -384,6 +593,26 @@ function getPrevSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.
     }
     if (sibling.isJSXElement()) {
       return sibling as NodePath<t.JSXElement>;
+    }
+    return null;
+  }
+
+  return null;
+}
+
+function getPrevSignificantCallSibling(path: NodePath<t.CallExpression>): NodePath<t.CallExpression> | null {
+  if (!isConditionalCallChainListPath(path)) {
+    return null;
+  }
+  const currentIndex = path.key as number;
+
+  for (let index = currentIndex - 1; index >= 0; index--) {
+    const sibling = path.getSibling(index);
+    if (isIgnorableCallSibling(sibling)) {
+      continue;
+    }
+    if (sibling.isCallExpression()) {
+      return sibling as NodePath<t.CallExpression>;
     }
     return null;
   }
@@ -414,6 +643,53 @@ function getNextSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.
   }
 
   return null;
+}
+
+function getNextSignificantCallSibling(path: NodePath<t.CallExpression>): NodePath<t.CallExpression> | null {
+  if (
+    !isConditionalCallChainListPath(path) ||
+    !path.container ||
+    !Array.isArray(path.container)
+  ) {
+    return null;
+  }
+  const currentIndex = path.key as number;
+
+  for (let index = currentIndex + 1; index < path.container.length; index++) {
+    const sibling = path.getSibling(index);
+    if (isIgnorableCallSibling(sibling)) {
+      continue;
+    }
+    if (sibling.isCallExpression()) {
+      return sibling as NodePath<t.CallExpression>;
+    }
+    return null;
+  }
+
+  return null;
+}
+
+function isConditionalCallChainListPath(path: NodePath<t.CallExpression>): boolean {
+  if (!path.inList || typeof path.key !== 'number' || !path.parentPath) {
+    return false;
+  }
+
+  if (path.parentPath.isArrayExpression()) {
+    return true;
+  }
+
+  if (path.parentPath.isCallExpression() && path.listKey === 'arguments') {
+    return true;
+  }
+
+  return false;
+}
+
+function isIgnorableCallSibling(path: NodePath<t.Node>): boolean {
+  if (path.isStringLiteral()) {
+    return path.node.value.trim() === '';
+  }
+  return false;
 }
 
 function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {

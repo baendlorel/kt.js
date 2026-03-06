@@ -425,152 +425,121 @@ function warnUnsupportedElseIf(path: NodePath<t.Node>) {
 }
 
 export function transformConditionalChains(path: NodePath<t.JSXElement>) {
-  const { node } = path;
-  if (!hasConditionalDirective(node)) {
+  const currentDirective = getConditionalDirective(path.node);
+  if (!currentDirective) {
     return;
   }
 
   const prevSibling = getPrevSignificantJSXSibling(path);
-  if (prevSibling && hasConditionalDirective(prevSibling.node)) {
-    return;
-  }
-
-  const chain: Array<NodePath<t.JSXElement>> = [path];
-  let current: NodePath<t.JSXElement> = path;
-
-  while (true) {
-    const nextSibling = getNextSignificantJSXSibling(current);
-    if (!nextSibling || !hasConditionalDirective(nextSibling.node)) {
-      break;
-    }
-    chain.push(nextSibling);
-    current = nextSibling;
-  }
-
-  if (chain.length === 1) {
-    const onlyDirective = getConditionalDirective(chain[0].node);
-    if (onlyDirective?.type === 'k-if') {
-      const conditionalCall = buildKTConditionalCall(path, onlyDirective.condition, chain[0].node);
-      if (isInsideJSXChildren(path)) {
-        path.replaceWith(t.jsxExpressionContainer(conditionalCall));
-      } else {
-        path.replaceWith(conditionalCall);
-      }
+  if (prevSibling) {
+    const prevDirective = getConditionalDirective(prevSibling.node);
+    if (prevDirective && (currentDirective.type === 'k-else' || currentDirective.type === 'k-else-if')) {
       return;
     }
+  }
 
-    if (onlyDirective?.type === 'k-else-if') {
-      warnUnsupportedElseIf(chain[0]);
-    }
+  if (currentDirective.type === 'k-else-if') {
+    warnUnsupportedElseIf(path);
     return;
   }
 
-  const firstDirective = getConditionalDirective(chain[0].node);
-  const secondDirective = getConditionalDirective(chain[1].node);
-  if (firstDirective?.type === 'k-if' && secondDirective?.type === 'k-else') {
-    const conditionalCall = buildKTConditionalCall(path, firstDirective.condition, chain[0].node, chain[1].node);
+  if (currentDirective.type === 'k-else') {
+    return;
+  }
+
+  const nextSibling = getNextSignificantJSXSibling(path);
+  const nextDirective = nextSibling ? getConditionalDirective(nextSibling.node) : null;
+
+  if (!nextDirective || nextDirective.type === 'k-if') {
+    const conditionalCall = buildKTConditionalCall(path, currentDirective.condition, path.node);
     if (isInsideJSXChildren(path)) {
       path.replaceWith(t.jsxExpressionContainer(conditionalCall));
     } else {
       path.replaceWith(conditionalCall);
     }
-    chain[1].remove();
-
-    for (let i = 2; i < chain.length; i++) {
-      const directive = getConditionalDirective(chain[i].node);
-      if (directive?.type === 'k-else-if') {
-        warnUnsupportedElseIf(chain[i]);
-      }
-    }
     return;
   }
 
-  for (let i = 0; i < chain.length; i++) {
-    const directive = getConditionalDirective(chain[i].node);
-    if (directive?.type === 'k-else-if') {
-      warnUnsupportedElseIf(chain[i]);
-      return;
+  if (nextDirective.type === 'k-else-if') {
+    warnUnsupportedElseIf(nextSibling!);
+    return;
+  }
+
+  const trailingSibling = getNextSignificantJSXSibling(nextSibling!);
+  const conditionalCall = buildKTConditionalCall(path, currentDirective.condition, path.node, nextSibling!.node);
+  if (isInsideJSXChildren(path)) {
+    path.replaceWith(t.jsxExpressionContainer(conditionalCall));
+  } else {
+    path.replaceWith(conditionalCall);
+  }
+  nextSibling!.remove();
+
+  if (trailingSibling) {
+    const trailingDirective = getConditionalDirective(trailingSibling.node);
+    if (trailingDirective?.type === 'k-else-if') {
+      warnUnsupportedElseIf(trailingSibling);
     }
   }
 }
 
 export function transformConditionalCallChains(path: NodePath<t.CallExpression>) {
-  const directive = getConditionalCallDirective(path.node);
-  if (!directive) {
+  const currentDirective = getConditionalCallDirective(path.node);
+  if (!currentDirective) {
     return;
   }
 
   const prevSibling = getPrevSignificantCallSibling(path);
-  if (prevSibling && getConditionalCallDirective(prevSibling.node)) {
-    return;
-  }
-
-  const chain: Array<{ path: NodePath<t.CallExpression>; directive: ConditionalCallDirective }> = [{ path, directive }];
-  let current: NodePath<t.CallExpression> = path;
-
-  while (true) {
-    const nextSibling = getNextSignificantCallSibling(current);
-    if (!nextSibling) {
-      break;
-    }
-
-    const nextDirective = getConditionalCallDirective(nextSibling.node);
-    if (!nextDirective) {
-      break;
-    }
-
-    chain.push({
-      path: nextSibling,
-      directive: nextDirective,
-    });
-    current = nextSibling;
-  }
-
-  if (chain.length === 1) {
-    const only = chain[0];
-    if (only.directive.type === 'k-if') {
-      const conditionalCall = buildKTConditionalCallFromCallExpression(
-        only.path,
-        only.directive.condition,
-        only.path.node,
-        only.directive,
-      );
-      only.path.replaceWith(conditionalCall);
+  if (prevSibling) {
+    const prevDirective = getConditionalCallDirective(prevSibling.node);
+    if (prevDirective && (currentDirective.type === 'k-else' || currentDirective.type === 'k-else-if')) {
       return;
     }
+  }
 
-    if (only.directive.type === 'k-else-if') {
-      warnUnsupportedElseIf(only.path);
-    }
+  if (currentDirective.type === 'k-else-if') {
+    warnUnsupportedElseIf(path);
     return;
   }
 
-  const first = chain[0];
-  const second = chain[1];
-  if (first.directive.type === 'k-if' && second.directive.type === 'k-else') {
+  if (currentDirective.type === 'k-else') {
+    return;
+  }
+
+  const nextSibling = getNextSignificantCallSibling(path);
+  const nextDirective = nextSibling ? getConditionalCallDirective(nextSibling.node) : null;
+
+  if (!nextDirective || nextDirective.type === 'k-if') {
     const conditionalCall = buildKTConditionalCallFromCallExpression(
-      first.path,
-      first.directive.condition,
-      first.path.node,
-      first.directive,
-      second.path.node,
-      second.directive,
+      path,
+      currentDirective.condition,
+      path.node,
+      currentDirective,
     );
-    first.path.replaceWith(conditionalCall);
-    second.path.remove();
-
-    for (let i = 2; i < chain.length; i++) {
-      if (chain[i].directive.type === 'k-else-if') {
-        warnUnsupportedElseIf(chain[i].path);
-      }
-    }
+    path.replaceWith(conditionalCall);
     return;
   }
 
-  for (let i = 0; i < chain.length; i++) {
-    if (chain[i].directive.type === 'k-else-if') {
-      warnUnsupportedElseIf(chain[i].path);
-      return;
+  if (nextDirective.type === 'k-else-if') {
+    warnUnsupportedElseIf(nextSibling!);
+    return;
+  }
+
+  const trailingSibling = getNextSignificantCallSibling(nextSibling!);
+  const conditionalCall = buildKTConditionalCallFromCallExpression(
+    path,
+    currentDirective.condition,
+    path.node,
+    currentDirective,
+    nextSibling!.node,
+    nextDirective,
+  );
+  path.replaceWith(conditionalCall);
+  nextSibling!.remove();
+
+  if (trailingSibling) {
+    const trailingDirective = getConditionalCallDirective(trailingSibling.node);
+    if (trailingDirective?.type === 'k-else-if') {
+      warnUnsupportedElseIf(trailingSibling);
     }
   }
 }

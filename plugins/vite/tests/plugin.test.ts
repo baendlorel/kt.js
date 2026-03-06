@@ -60,6 +60,15 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).not.toContain('k-else');
   });
 
+  it('compiles adjacent standalone k-if siblings independently', async () => {
+    const result = await runTransform('const view = <><div k-if={a}>A</div><div k-if={b}>B</div></>;');
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(a, "div"');
+    expect(code).toContain('_KTConditional(b, "div"');
+    expect(code).not.toContain('k-if');
+  });
+
   it('compiles standalone k-if into KTConditional call', async () => {
     const result = await runTransform('const view = <div id="box" k-if={ok}>A</div>;');
     const code = toCode(result);
@@ -94,6 +103,22 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).toContain('_KTConditional(ok, "div"');
     expect(code).not.toContain('"k-if"');
     expect(code).not.toContain('"k-else"');
+  });
+
+  it('compiles lowered jsx-runtime adjacent standalone k-if calls independently', async () => {
+    const result = await runTransform(
+      [
+        "import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from '@ktjs/core/jsx-runtime';",
+        'const view = _jsxs(_Fragment, {',
+        '  children: [_jsx("div", { "k-if": a, children: "A" }), " ", _jsx("div", { "k-if": b, children: "B" })],',
+        '});',
+      ].join(' '),
+    );
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(a, "div"');
+    expect(code).toContain('_KTConditional(b, "div"');
+    expect(code).not.toContain('"k-if"');
   });
 
   it('warns and skips transform when k-else-if is used', async () => {
@@ -265,5 +290,31 @@ describe('vite-plugin-ktjsx', () => {
       exclude: /icon\.custom$/,
     });
     expect(excluded).toBeNull();
+  });
+
+  it('transforms @ktjs files in node_modules by default', async () => {
+    const result = await runTransform(
+      `import { jsx as _jsx } from '@ktjs/core/jsx-runtime'; const view = _jsx("div", { "k-if": ok, children: "A" });`,
+      '/workspace/node_modules/.pnpm/@ktjs+mui@0.0.0/node_modules/@ktjs/mui/dist/index.mjs',
+    );
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, \"div\"');
+    expect(code).not.toContain('\"k-if\"');
+  });
+
+  it('still skips non-kt packages in node_modules by default', async () => {
+    const result = await runTransform('const view = <div k-if={ok}>A</div>;', '/workspace/node_modules/other-lib/view.tsx');
+    expect(result).toBeNull();
+  });
+
+  it('allows include filter to opt in non-kt node_modules files', async () => {
+    const result = await runTransform('const view = <div k-if={ok}>A</div>;', '/workspace/node_modules/other-lib/view.tsx', {
+      include: /other-lib[\\/]view\.tsx$/,
+    });
+    const code = toCode(result);
+    expect(code).toContain('KTConditional as _KTConditional');
+    expect(code).toContain('_KTConditional(ok, \"div\"');
+    expect(code).not.toContain('k-if');
   });
 });

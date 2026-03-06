@@ -130,6 +130,15 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).not.toContain('k-if');
     });
 
+    it('should compile adjacent standalone k-if siblings independently', () => {
+      const code = `const el = <><div k-if={a}>A</div><div k-if={b}>B</div></>;`;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(a, "div"');
+      expect(result).toContain('_KTConditional(b, "div"');
+      expect(result).not.toContain('k-if');
+    });
+
     it('should warn and skip transform when k-else-if is used', () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       try {
@@ -193,6 +202,20 @@ describe('babel-plugin-ktjsx', () => {
       expect(result).toContain('_KTConditional(show, "div"');
       expect(result).not.toContain('"k-if"');
       expect(result).not.toContain('"k-else"');
+    });
+
+    it('should compile lowered jsx-runtime adjacent standalone k-if calls independently', () => {
+      const code = `
+        import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from '@ktjs/core/jsx-runtime';
+        const el = _jsxs(_Fragment, {
+          children: [_jsx("div", { "k-if": a, children: "A" }), " ", _jsx("div", { "k-if": b, children: "B" })]
+        });
+      `;
+      const result = transform(code);
+      expect(result).toContain('KTConditional as _KTConditional');
+      expect(result).toContain('_KTConditional(a, "div"');
+      expect(result).toContain('_KTConditional(b, "div"');
+      expect(result).not.toContain('"k-if"');
     });
   });
 

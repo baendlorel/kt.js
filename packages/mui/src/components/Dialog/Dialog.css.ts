@@ -110,7 +110,7 @@ injectGlobal`
   align-items: center;
   justify-content: flex-end;
   flex: 0 0 auto;
-  padding: 8px;
+  padding: 8px 24px 24px;
   gap: 8px;
 }
 

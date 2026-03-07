@@ -56,14 +56,13 @@ injectGlobal`
 }
 
 .mui-bottom-navigation-action-label {
+  display: inline-block;
   font-size: 0.75rem;
   line-height: 1;
   letter-spacing: 0.03333em;
-  opacity: 0;
-  transform: scale(0.72) translateY(6px);
-  transition:
-    opacity 160ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.72;
+  transform: scale(0.88) translateY(2px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mui-bottom-navigation-show-labels .mui-bottom-navigation-action-label,

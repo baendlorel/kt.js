@@ -93,8 +93,9 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
       return;
     }
 
-    const index = Number(currentTarget.dataset.index ?? '-1');
-    const action = optionsRef.value[index];
+    const value = currentTarget.dataset.value ?? '';
+    const index = optionsRef.value.findIndex((item) => item.value === value);
+    const action = index >= 0 ? optionsRef.value[index] : undefined;
     if (!action) {
       return;
     }
@@ -102,36 +103,47 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
     selectAction(action, index);
   };
 
-  const members = computed(() => {
-    return optionsRef.value.map((action, index) => {
-      const selected = modelRef.value === action.value;
-      const showLabel = showLabelsRef.value || selected || !!action.showLabel;
-
-      return (
-        <button
-          type="button"
-          role="tab"
-          class={`mui-bottom-navigation-action ${selected ? 'mui-bottom-navigation-action-selected' : ''} ${action.disabled ? 'mui-bottom-navigation-action-disabled' : ''} ${showLabel ? 'mui-bottom-navigation-action-show-label' : ''}`}
-          data-index={String(index)}
-          data-value={action.value}
-          aria-selected={selected}
-          aria-disabled={action.disabled ? 'true' : 'false'}
-          disabled={action.disabled ?? false}
-          tabIndex={selected ? 0 : -1}
-          on:click={handleActionClick}
-        >
-          <span k-if={action.icon} class="mui-bottom-navigation-action-icon">
-            {action.icon}
-          </span>
-          <span class="mui-bottom-navigation-action-label">{action.label}</span>
-        </button>
-      );
-    });
-  }, [optionsRef, modelRef, showLabelsRef]);
-
   const container = (
     <div class={className} style={styleRef} role="tablist" aria-label="Bottom navigation">
-      <KTFor list={members}></KTFor>
+      <KTFor
+        list={optionsRef}
+        key={(action) => action.value}
+        map={(action) => {
+          const actionRef = optionsRef.toComputed(
+            (options) => options.find((item) => item.value === action.value) ?? action,
+          );
+          const selectedRef = modelRef.toComputed((value) => value === action.value);
+          const disabledRef = actionRef.toComputed((current) => current.disabled ?? false);
+          const labelRef = actionRef.toComputed((current) => current.label);
+          const iconRef = actionRef.toComputed((current) => current.icon ?? null);
+          const buttonClass = computed(() => {
+            const current = actionRef.value;
+            const selected = modelRef.value === action.value;
+            const showLabel = showLabelsRef.value || selected || !!current.showLabel;
+
+            return `mui-bottom-navigation-action ${selected ? 'mui-bottom-navigation-action-selected' : ''} ${current.disabled ? 'mui-bottom-navigation-action-disabled' : ''} ${showLabel ? 'mui-bottom-navigation-action-show-label' : ''}`;
+          }, [actionRef, modelRef, showLabelsRef]);
+
+          return (
+            <button
+              type="button"
+              role="tab"
+              class={buttonClass}
+              data-value={action.value}
+              aria-selected={selectedRef.toComputed((selected) => String(selected))}
+              aria-disabled={disabledRef.toComputed((disabled) => (disabled ? 'true' : 'false'))}
+              disabled={disabledRef}
+              tabIndex={selectedRef.toComputed((selected) => (selected ? 0 : -1))}
+              on:click={handleActionClick}
+            >
+              <span k-if={iconRef} class="mui-bottom-navigation-action-icon">
+                {iconRef}
+              </span>
+              <span class="mui-bottom-navigation-action-label">{labelRef}</span>
+            </button>
+          );
+        }}
+      ></KTFor>
     </div>
   ) as KTMuiBottomNavigation;
 

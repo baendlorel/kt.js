@@ -47,6 +47,34 @@ describe('MUI BottomNavigation component', () => {
     expect(onChange).toHaveBeenCalledWith('favorites', 'home', 1, options[1]);
   });
 
+  it('should reuse action nodes when selection changes so transitions can run', () => {
+    const model = ref('home');
+    const navigation = (
+      <BottomNavigation
+        {...({
+          'k-model': model,
+          options: [
+            { value: 'home', label: 'Home' },
+            { value: 'favorites', label: 'Favorites' },
+          ],
+        } as any)}
+      />
+    );
+
+    const homeBefore = navigation.querySelector('[data-value="home"]') as HTMLButtonElement;
+    const favoritesBefore = navigation.querySelector('[data-value="favorites"]') as HTMLButtonElement;
+
+    model.value = 'favorites';
+
+    const homeAfter = navigation.querySelector('[data-value="home"]') as HTMLButtonElement;
+    const favoritesAfter = navigation.querySelector('[data-value="favorites"]') as HTMLButtonElement;
+
+    expect(homeAfter).toBe(homeBefore);
+    expect(favoritesAfter).toBe(favoritesBefore);
+    expect(homeAfter.className).not.toContain('mui-bottom-navigation-action-selected');
+    expect(favoritesAfter.className).toContain('mui-bottom-navigation-action-selected');
+  });
+
   it('should not activate disabled action', () => {
     const model = ref('home');
     const onChange = vi.fn();

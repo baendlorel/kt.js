@@ -62,7 +62,7 @@ injectGlobal`
   letter-spacing: 0.03333em;
   opacity: 0.72;
   transform: scale(0.88) translateY(2px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mui-bottom-navigation-show-labels .mui-bottom-navigation-action-label,

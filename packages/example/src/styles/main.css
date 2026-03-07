@@ -97,6 +97,7 @@ a:hover {
 .sidebar {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   padding: 16px 14px;
   border-right: 1px solid var(--border-color);
   background: var(--sidebar-bg);
@@ -133,6 +134,7 @@ a:hover {
 
 .nav-menu {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
 }

@@ -9,7 +9,6 @@ import { MuiButtonDemo } from './mui-button.js';
 import { MuiCardDemo } from './mui-card.js';
 import { MuiCheckboxDemo } from './mui-checkbox.js';
 import { MuiDialogDemo } from './mui-dialog.js';
-import { MuiDropdownButtonDemo } from './mui-dropdown-button.js';
 import { MuiFormLabelDemo } from './mui-formlabel.js';
 import { MuiIconsDemo } from './mui-icons.js';
 import { MuiMenuDemo } from './mui-menu.js';
@@ -22,7 +21,6 @@ import { MuiSelectDemo } from './mui-select.js';
 import { MuiSwitchDemo } from './mui-switch.js';
 import { MuiTabsDemo } from './mui-tabs.js';
 import { MuiTextFieldDemo } from './mui-textfield.js';
-// import { MuiTextFieldRefDemo } from './mui-textfield-ref-demo.js';
 
 export const muiNav: NavGroup = {
   id: 'mui',
@@ -43,13 +41,6 @@ export const muiNav: NavGroup = {
       component: MuiAlertDemo,
     },
     {
-      id: 'mui-dropdown-button',
-      label: t('nav.mui.dropdownButton.label'),
-      title: t('nav.mui.dropdownButton.title'),
-      description: t('nav.mui.dropdownButton.description'),
-      component: MuiDropdownButtonDemo,
-    },
-    {
       id: 'mui-tabs',
       label: t('nav.mui.tabs.label'),
       title: t('nav.mui.tabs.title'),
@@ -63,13 +54,6 @@ export const muiNav: NavGroup = {
       description: t('nav.mui.textfield.description'),
       component: MuiTextFieldDemo,
     },
-    // {
-    //   id: 'mui-textfield-ref',
-    //   label: t('nav.mui.textfieldRef.label'),
-    //   title: t('nav.mui.textfieldRef.title'),
-    //   description: t('nav.mui.textfieldRef.description'),
-    //   component: MuiTextFieldRefDemo,
-    // },
     {
       id: 'mui-dialog',
       label: t('nav.mui.dialog.label'),

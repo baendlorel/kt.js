@@ -5,7 +5,6 @@ import './main.css.ts';
 export { Alert } from './components/Alert/Alert.js';
 export { Button } from './components/Button/Button.js';
 export { BottomNavigation } from './components/BottomNavigation/BottomNavigation.js';
-export { DropdownButton } from './components/DropdownButton/DropdownButton.js';
 export { Checkbox, CheckboxGroup } from './components/Checkbox/CheckboxGroup.js';
 export { Dialog } from './components/Dialog/Dialog.js';
 export { FormLabel } from './components/FormLabel/FormLabel.js';
@@ -84,14 +83,6 @@ export type {
   KTMuiBadgeHorizontalOrigin,
   KTMuiBadgeContent,
 } from './components/Badge/Badge.js';
-export type {
-  KTMuiDropdownButtonProps,
-  KTMuiDropdownButton,
-  KTMuiDropdownButtonOption,
-  KTMuiDropdownButtonVariant,
-  KTMuiDropdownButtonColor,
-  KTMuiDropdownButtonSize,
-} from './components/DropdownButton/DropdownButton.js';
 export type {
   KTMuiPopoverProps,
   KTMuiPopover,

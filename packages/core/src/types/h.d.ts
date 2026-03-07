@@ -1,6 +1,7 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
 import type { KTRef } from '../reactive/ref.ts';
 import type { JSX } from './jsx.js';
+import type { KTReactive } from './reactive.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
   ? SVGElementTagNameMap[T]
@@ -10,7 +11,7 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
       ? MathMLElementTagNameMap[T]
       : HTMLElement;
 
-type SingleContent = KTRef<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
+type SingleContent = KTReactive<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | null | undefined | '' | false;

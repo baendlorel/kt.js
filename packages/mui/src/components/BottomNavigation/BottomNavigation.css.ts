@@ -50,6 +50,7 @@ injectGlobal`
   align-items: center;
   justify-content: center;
   min-height: 24px;
+  min-width: 20px;
   font-size: 1.5rem;
   line-height: 1;
 }

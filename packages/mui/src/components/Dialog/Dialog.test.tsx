@@ -19,9 +19,35 @@ describe('MUI Dialog component', () => {
   });
 
   it('should open when open is true', () => {
+    vi.useFakeTimers();
     const dialog = <Dialog {...{ open: true }} />;
     expect(dialog.style.display).toBe('flex');
+    expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(false);
+
+    vi.advanceTimersByTime(20);
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(true);
+
+    dialog.remove();
+    vi.useRealTimers();
+  });
+
+  it('should animate out before hiding when closed', () => {
+    vi.useFakeTimers();
+    const openRef = ref(true);
+    const dialog = <Dialog {...{ open: openRef }} />;
+
+    vi.advanceTimersByTime(20);
+    expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(true);
+
+    openRef.value = false;
+    expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(false);
+    expect(dialog.style.display).toBe('flex');
+
+    vi.advanceTimersByTime(225);
+    expect(dialog.style.display).toBe('none');
+
+    dialog.remove();
+    vi.useRealTimers();
   });
 
   it('should call on:close when backdrop clicked', () => {

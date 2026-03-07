@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, toReactive } from '@ktjs/core';
+import { computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import './Dialog.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute';
@@ -30,6 +30,9 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
 
 export type KTMuiDialog = JSX.Element;
 
+const DIALOG_ENTER_MS = 12;
+const DIALOG_EXIT_MS = 225;
+
 /**
  * Dialog component - mimics MUI Dialog appearance and behavior
  * Only handles open/close state, title and content are passed as props
@@ -41,30 +44,78 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const styleRef = toReactive($parseStyle(props.style));
 
   const titleRef = toReactive(props.title ?? '');
+  const visibleRef = ref(false);
+  const activeRef = ref(false);
+  let enterTimer: ReturnType<typeof setTimeout> | undefined;
+  let exitTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const clearTimers = () => {
+    if (enterTimer) {
+      clearTimeout(enterTimer);
+      enterTimer = undefined;
+    }
+    if (exitTimer) {
+      clearTimeout(exitTimer);
+      exitTimer = undefined;
+    }
+  };
+
+  const queueEnter = () => {
+    if (exitTimer) {
+      clearTimeout(exitTimer);
+      exitTimer = undefined;
+    }
+    visibleRef.value = true;
+    if (enterTimer) {
+      clearTimeout(enterTimer);
+    }
+    enterTimer = setTimeout(() => {
+      if (openRef.value) {
+        activeRef.value = true;
+      }
+    }, DIALOG_ENTER_MS);
+  };
+
+  const queueExit = () => {
+    if (enterTimer) {
+      clearTimeout(enterTimer);
+      enterTimer = undefined;
+    }
+    activeRef.value = false;
+    if (exitTimer) {
+      clearTimeout(exitTimer);
+    }
+    exitTimer = setTimeout(() => {
+      if (!openRef.value) {
+        visibleRef.value = false;
+      }
+    }, DIALOG_EXIT_MS);
+  };
+
   const openRef = toReactive(props.open ?? false, (isOpen) => {
     if (isOpen) {
-      // Opening: set display first, then add class with double RAF for animation
-      container.style.display = 'flex';
-      setTimeout(() => container.classList.add('kt-dialog-backdrop-open'), 50);
+      queueEnter();
     } else {
-      container.classList.remove('kt-dialog-backdrop-open');
-      setTimeout(() => {
-        if (!openRef.value) {
-          container.style.display = 'none';
-        }
-      }, 225);
+      queueExit();
     }
   });
   const sizeRef = toReactive(props.size ?? 'sm');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
+
+  if (openRef.value) {
+    queueEnter();
+  }
 
   const className = computed(
     () =>
       `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''} ${customClassRef.value}`,
     [sizeRef, fullWidthRef, customClassRef],
   );
-  const backdropClass = openRef.toComputed((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
-  const backdropStyle = openRef.toComputed<string>((v) => (v ? 'display:flex' : 'display:none'));
+  const backdropClass = computed(
+    () => `kt-dialog-backdrop ${activeRef.value ? 'kt-dialog-backdrop-open' : ''}`,
+    [activeRef],
+  );
+  const backdropStyle = computed(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
@@ -104,6 +155,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   // Store cleanup function
   const originalRemove = container.remove;
   container.remove = () => {
+    clearTimers();
     if (keyDownHandler) {
       document.removeEventListener('keydown', keyDownHandler);
     }

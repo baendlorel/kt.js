@@ -14,6 +14,23 @@ afterEach(() => {
 });
 
 describe('MUI Modal helpers', () => {
+  it('modalAlert should animate in after mounting', async () => {
+    vi.useFakeTimers();
+    const done = modalAlert('Animated');
+
+    const backdrop = document.querySelector('.kt-dialog-backdrop') as HTMLDivElement;
+    expect(backdrop.classList.contains('kt-dialog-backdrop-open')).toBe(false);
+
+    vi.advanceTimersByTime(20);
+    expect(backdrop.classList.contains('kt-dialog-backdrop-open')).toBe(true);
+
+    const confirmButton = document.querySelector('.mui-modal-actions .mui-button') as HTMLButtonElement;
+    confirmButton.click();
+
+    await expect(done).resolves.toBeUndefined();
+    vi.runAllTimers();
+  });
+
   it('modalAlert should resolve when confirm button is clicked', async () => {
     vi.useFakeTimers();
     const done = modalAlert('Done');

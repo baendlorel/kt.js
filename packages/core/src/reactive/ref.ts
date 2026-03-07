@@ -106,7 +106,7 @@ export class KTRef<T> implements KTReactive<T> {
     return k as K extends undefined ? number : K;
   }
 
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<T> | undefined {
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined {
     const callback = this._onChanges.get(key);
     this._onChanges.delete(key);
     return callback;

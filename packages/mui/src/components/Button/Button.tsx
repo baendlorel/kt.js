@@ -36,6 +36,8 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   // # refs
   const buttonRef = ref<HTMLButtonElement>();
   const rippleContainerRef = ref<HTMLSpanElement>();
+  const startIconRef = toReactive(props.startIcon);
+  const endIconRef = toReactive(props.endIcon);
 
   // # ref props
   const customClassRef = toReactive(props.class ?? '');
@@ -103,12 +105,12 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       disabled={disabledRef}
       on:click={handleClick}
     >
-      <span k-if={props.startIcon} class="mui-button-start-icon">
-        {props.startIcon}
+      <span k-if={startIconRef} class="mui-button-start-icon">
+        {startIconRef}
       </span>
       <span class="mui-button-label">{props.children}</span>
-      <span k-if={props.endIcon} class="mui-button-end-icon">
-        {props.endIcon}
+      <span k-if={endIconRef} class="mui-button-end-icon">
+        {endIconRef}
       </span>
       <span ref={rippleContainerRef} class="mui-button-ripple"></span>
     </button>

@@ -124,7 +124,7 @@ export class KTComputed<T> implements KTReactive<T> {
    * Unregister a callback
    * @param key registered listener key
    */
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<T> | undefined {
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined {
     const callback = this._onChanges.get(key);
     this._onChanges.delete(key);
     return callback;

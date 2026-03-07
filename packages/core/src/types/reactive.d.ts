@@ -51,7 +51,7 @@ export class KTReactive<T> {
     callback: ReactiveChangeHandler<T>,
     key?: K,
   ): K extends undefined ? number : K;
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<T> | undefined;
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined;
 }
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.

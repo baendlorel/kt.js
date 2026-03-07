@@ -106,11 +106,11 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       on:click={handleClick}
     >
       <span k-if={startIconRef} class="mui-button-start-icon">
-        {startIconRef.value}
+        {startIconRef}
       </span>
       <span class="mui-button-label">{props.children}</span>
       <span k-if={endIconRef} class="mui-button-end-icon">
-        {endIconRef.value}
+        {endIconRef}
       </span>
       <span ref={rippleContainerRef} class="mui-button-ripple"></span>
     </button>

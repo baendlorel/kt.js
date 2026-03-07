@@ -55,12 +55,14 @@ injectGlobal`
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
+  min-width: 20px;
 }
 
 .mui-button-end-icon {
   display: inherit;
   margin-left: 8px;
   margin-right: -4px;
+  min-width: 20px;
 }
 
 .mui-button-size-small .mui-button-start-icon {

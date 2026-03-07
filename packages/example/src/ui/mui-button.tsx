@@ -77,7 +77,7 @@ export function MuiButtonDemo() {
           Download
         </Button>
         <Button variant="contained" iconOnly>
-          <MenuIcon />
+          <MenuIcon style="width:20px" />
         </Button>
       </div>
 

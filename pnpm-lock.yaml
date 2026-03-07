@@ -12,8 +12,8 @@ importers:
         specifier: ^11.13.5
         version: 11.13.5
       '@ktjs/vite-plugin-ktjsx':
-        specifier: ^0.4.2
-        version: 0.4.2(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))
+        specifier: ^0.4.5
+        version: 0.4.5(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))
       marked:
         specifier: ^17.0.3
         version: 17.0.3
@@ -984,16 +984,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@ktjs/transformer@0.4.1':
-    resolution: {integrity: sha512-Mb8QKVokaWFKzC54rLGFopvBX410ajpc2M+FA083/9UyiwT8oxo3/J9JJ/MZmI23Ez4lzOIYSRvl6hDLnDLw+Q==}
+  '@ktjs/transformer@0.4.5':
+    resolution: {integrity: sha512-UlBCcIsrW2+AzwBHx25GHFnLN+s71IFfmKzLjE4Nge0lDci3APQfStuTqw+tGO2kEn/M7Og6UwiYgeV4lsNOYw==}
 
   '@ktjs/ts-plugin@0.1.13':
     resolution: {integrity: sha512-4aPGCuEN6FInR9njWuKf8UUETBC2HiaFlMTNPzavbbKI9EejJfzNzrnJHahwEMwlElx1Rz/XslIvrrWGTNRiJg==}
     peerDependencies:
       typescript: '>=5.0.0'
 
-  '@ktjs/vite-plugin-ktjsx@0.4.2':
-    resolution: {integrity: sha512-kpLsGBgpzknSkgQ8+RUayb2SakzFHvnrfykkcR9mh57sWhWxMggF2AznYlinX9uXJcyJGAAVJ6/Q2TMxW7pNeg==}
+  '@ktjs/vite-plugin-ktjsx@0.4.5':
+    resolution: {integrity: sha512-TEWzX8Zit1sEnPx+dA8H4drVxK/6OPZnNPkZbvV2PqEwfuDmKxNpFTNLY+xNSrbJIg+nnzzB8TZY+acW3te+dQ==}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
 
@@ -3138,7 +3138,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@ktjs/transformer@0.4.1':
+  '@ktjs/transformer@0.4.5':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/types': 7.29.0
@@ -3149,9 +3149,9 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  '@ktjs/vite-plugin-ktjsx@0.4.2(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))':
+  '@ktjs/vite-plugin-ktjsx@0.4.5(vite@7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0))':
     dependencies:
-      '@ktjs/transformer': 0.4.1
+      '@ktjs/transformer': 0.4.5
       vite: 7.3.1(@types/node@25.3.0)(terser@5.46.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color

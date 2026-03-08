@@ -62,6 +62,13 @@ export const muiNav: NavGroup = {
       component: MuiDialogDemo,
     },
     {
+      id: 'mui-modal',
+      label: t('nav.mui.modal.label'),
+      title: t('nav.mui.modal.title'),
+      description: t('nav.mui.modal.description'),
+      component: MuiModalDemo,
+    },
+    {
       id: 'mui-progress',
       label: t('nav.mui.progress.label'),
       title: t('nav.mui.progress.title'),
@@ -144,13 +151,6 @@ export const muiNav: NavGroup = {
       title: t('nav.mui.bottomNavigation.title'),
       description: t('nav.mui.bottomNavigation.description'),
       component: MuiBottomNavigationDemo,
-    },
-    {
-      id: 'mui-modal',
-      label: t('nav.mui.modal.label'),
-      title: t('nav.mui.modal.title'),
-      description: t('nav.mui.modal.description'),
-      component: MuiModalDemo,
     },
     {
       id: 'mui-icons',

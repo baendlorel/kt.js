@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, ref, toReactive } from '@ktjs/core';
+import { computed, effect, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import './Dialog.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute';
@@ -25,6 +25,14 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
   size?: KTMaybeReactive<KTMuiDialogSize>;
   fullWidth?: KTMaybeReactive<boolean>;
 
+  /**
+   * Dialog rendering mode: 'dialog' (native) or 'div' (fallback)
+   * - 'dialog' uses <dialog> element if supported
+   * - 'div' always uses <div>
+   * - Default: 'dialog'
+   */
+  mode?: KTMaybeReactive<'dialog' | 'div'>;
+
   'on:close'?: () => void;
 }
 
@@ -32,6 +40,7 @@ export type KTMuiDialog = JSX.Element;
 
 const DIALOG_ENTER_MS = 12;
 const DIALOG_EXIT_MS = 225;
+const SUPPORTS_DIALOG = typeof window !== 'undefined' && typeof HTMLDialogElement !== 'undefined';
 
 /**
  * Dialog component - mimics MUI Dialog appearance and behavior
@@ -48,6 +57,10 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const activeRef = ref(false);
   let enterTimer: ReturnType<typeof setTimeout> | undefined;
   let exitTimer: ReturnType<typeof setTimeout> | undefined;
+
+  // Mode selection
+  const modeRef = toReactive(props.mode ?? 'dialog');
+  const useDialog = modeRef.toComputed((v) => v === 'dialog' && SUPPORTS_DIALOG);
 
   const clearTimers = () => {
     if (enterTimer) {
@@ -72,6 +85,14 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     enterTimer = setTimeout(() => {
       if (openRef.value) {
         activeRef.value = true;
+        // Native dialog: show()
+        if (dialogEl.value instanceof HTMLDialogElement) {
+          dialogEl.value.showModal();
+        }
+        // Lock scroll
+        document.body.style.overflow = 'hidden';
+        // Focus
+        setTimeout(() => dialogEl.value.focus(), 0);
       }
     }, DIALOG_ENTER_MS);
   };
@@ -88,6 +109,12 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     exitTimer = setTimeout(() => {
       if (!openRef.value) {
         visibleRef.value = false;
+        // Native dialog: close()
+        if (dialogEl.value instanceof HTMLDialogElement) {
+          dialogEl.value.close();
+        }
+        // Unlock scroll
+        document.body.style.overflow = '';
       }
     }, DIALOG_EXIT_MS);
   };
@@ -101,6 +128,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   });
   const sizeRef = toReactive(props.size ?? 'sm');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
+
+  const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 
   if (openRef.value) {
     queueEnter();
@@ -131,24 +160,57 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }
   };
 
+  const assignContainer = () => {
+    if (modeRef.value === 'dialog' && SUPPORTS_DIALOG) {
+      return (
+        <div class={backdropClass} style={backdropStyle}>
+          <dialog
+            ref={dialogEl}
+            class={className}
+            style={styleRef}
+            tabIndex={-1}
+            on:click={(e: MouseEvent) => e.stopPropagation()}
+          >
+            <div k-if={titleRef} class="kt-dialog-title">
+              <h2>{titleRef}</h2>
+            </div>
+            <div k-if={children} class="kt-dialog-content">
+              {children}
+            </div>
+            <div k-if={actions} class="kt-dialog-actions">
+              {actions}
+            </div>
+          </dialog>
+        </div>
+      ) as KTMuiDialog;
+    } else {
+      return (
+        <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
+          <div
+            ref={dialogEl}
+            class={className}
+            style={styleRef}
+            tabIndex={-1}
+            on:click={(e: MouseEvent) => e.stopPropagation()}
+          >
+            <div k-if={titleRef} class="kt-dialog-title">
+              <h2>{titleRef}</h2>
+            </div>
+            <div k-if={children} class="kt-dialog-content">
+              {children}
+            </div>
+            <div k-if={actions} class="kt-dialog-actions">
+              {actions}
+            </div>
+          </div>
+        </div>
+      ) as KTMuiDialog;
+    }
+  };
+
   // Backdrop element
-  const container = (
-    <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
-      <div class={className} style={styleRef} on:click={(e: MouseEvent) => e.stopPropagation()}>
-        <div k-if={titleRef} class="kt-dialog-title">
-          <h2>{titleRef}</h2>
-        </div>
-
-        <div k-if={children} class="kt-dialog-content">
-          {children}
-        </div>
-
-        <div k-if={actions} class="kt-dialog-actions">
-          {actions}
-        </div>
-      </div>
-    </div>
-  ) as KTMuiDialog;
+  let container: KTMuiDialog = assignContainer();
+  effect(() => (container = assignContainer()), [modeRef]);
 
   document.addEventListener('keydown', keyDownHandler);
 
@@ -159,6 +221,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     if (keyDownHandler) {
       document.removeEventListener('keydown', keyDownHandler);
     }
+    // Unlock scroll
+    document.body.style.overflow = '';
     return originalRemove.call(container);
   };
 

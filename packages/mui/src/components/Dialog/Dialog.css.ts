@@ -32,6 +32,7 @@ injectGlobal`
     0px 24px 38px 3px rgba(0, 0, 0, 0.14),
     0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   display: flex;
+  border: 0;
   flex-direction: column;
   max-height: calc(100% - 64px);
   overflow-y: auto;

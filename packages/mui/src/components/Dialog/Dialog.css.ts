@@ -37,11 +37,13 @@ injectGlobal`
   max-height: calc(100% - 64px);
   overflow-y: auto;
   transform: scale(0.8);
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1), opacity 225ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .kt-dialog-backdrop-open .kt-dialog-paper {
   transform: scale(1);
+  opacity: 1;
 }
 
 /* Max width variants */

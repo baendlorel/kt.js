@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, effect, ref, toReactive } from '@ktjs/core';
+import { computed, effect, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import './Dialog.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute';
@@ -171,15 +171,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             tabIndex={-1}
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
-            <div k-if={titleRef} class="kt-dialog-title">
-              <h2>{titleRef}</h2>
-            </div>
-            <div k-if={children} class="kt-dialog-content">
-              {children}
-            </div>
-            <div k-if={actions} class="kt-dialog-actions">
-              {actions}
-            </div>
+            {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
+            {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
+            {KTConditional(actions, 'div', { class: 'kt-dialog-actions', children: actions })}
           </dialog>
         </div>
       ) as KTMuiDialog;
@@ -193,15 +187,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             tabIndex={-1}
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
-            <div k-if={titleRef} class="kt-dialog-title">
-              <h2>{titleRef}</h2>
-            </div>
-            <div k-if={children} class="kt-dialog-content">
-              {children}
-            </div>
-            <div k-if={actions} class="kt-dialog-actions">
-              {actions}
-            </div>
+            {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
+            {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
+            {KTConditional(actions, 'div', { class: 'kt-dialog-actions', children: actions })}
           </div>
         </div>
       ) as KTMuiDialog;

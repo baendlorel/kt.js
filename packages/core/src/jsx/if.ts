@@ -6,7 +6,7 @@ import { isKT } from '../reactive/index.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(
-  condition: boolean | KTReactive<boolean>,
+  condition: any | KTReactive<any>,
   tagIf: JSXTag,
   propsIf: KTAttribute,
   tagElse?: JSXTag,

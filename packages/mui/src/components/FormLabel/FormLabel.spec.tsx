@@ -20,7 +20,7 @@ describe('MUI FormLabel component reactivity', () => {
     );
 
     expect(label.className).not.toContain('mui-form-label-error');
-    expect(label.querySelector('.mui-form-label-asterisk')?.getAttribute('k-if')).toBe('false');
+    expect(label.querySelector('.mui-form-label-asterisk')).toBeNull();
 
     required.value = true;
     error.value = true;
@@ -28,7 +28,7 @@ describe('MUI FormLabel component reactivity', () => {
 
     expect(label.className).toContain('mui-form-label-error');
     expect(label.className).toContain('mui-form-label-focused');
-    expect(label.querySelector('.mui-form-label-asterisk')?.getAttribute('k-if')).toBe('true');
+    expect(label.querySelector('.mui-form-label-asterisk')?.textContent).toBe('*');
   });
 
   it('reacts to htmlFor ref changes', () => {

@@ -90,7 +90,7 @@ injectGlobal`
   font-size: 1.5rem;
 }
 
-/* Unchecked state - controlled by k-if in JSX */
+/* Unchecked state - controlled by conditional icon rendering in JSX */
 .mui-radio-icon-unchecked {
   display: flex;
 }

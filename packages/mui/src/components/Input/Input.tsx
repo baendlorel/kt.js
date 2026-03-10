@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, dereactive, ref, toReactive } from '@ktjs/core';
+import { $modelOrRef, KTConditional, computed, dereactive, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactive } from '@ktjs/core';
 
@@ -162,9 +162,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
     return (
       <label class="mui-textfield-label">
         {labelRef}
-        <span k-if={requiredRef} class="mui-textfield-required">
-          *
-        </span>
+        {KTConditional(requiredRef, 'span', { class: 'mui-textfield-required', children: '*' })}
       </label>
     );
   }, [labelRef, requiredRef]);
@@ -178,7 +176,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
       <legend class="mui-textfield-legend">
         <span>
           {labelRef}
-          <span k-if={requiredRef}>*</span>
+          {KTConditional(requiredRef, 'span', { children: '*' })}
         </span>
       </legend>
     );

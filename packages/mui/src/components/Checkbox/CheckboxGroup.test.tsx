@@ -10,7 +10,7 @@ describe('MUI Checkbox component', () => {
     expect(checkbox.className).toContain('mui-checkbox-wrapper');
     expect(checkbox.className).toContain('mui-checkbox-size-medium');
     expect(checkbox.className).toContain('mui-checkbox-color-primary');
-    expect(checkbox.querySelector('.mui-checkbox-label')?.textContent).toBe('');
+    expect(checkbox.querySelector('.mui-checkbox-label')).toBeNull();
   });
 
   it('should render label text', () => {

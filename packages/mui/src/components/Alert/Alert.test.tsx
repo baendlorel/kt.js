@@ -11,7 +11,7 @@ describe('MUI Alert component', () => {
     expect(alert.className).toContain('mui-alert-standard');
     expect(alert.querySelector('.mui-alert-message')?.textContent).toBe('Message');
     expect(alert.querySelector('.mui-alert-icon-wrapper')).toBeTruthy();
-    expect(alert.querySelector('.mui-alert-close')).toBeTruthy();
+    expect(alert.querySelector('.mui-alert-close')).toBeFalsy();
   });
 
   it('should apply severity classes', () => {

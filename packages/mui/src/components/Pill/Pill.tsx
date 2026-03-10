@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { type KTReactive, computed, toReactive } from '@ktjs/core';
+import { KTConditional, type KTReactive, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Pill.css.ts';
@@ -103,20 +103,16 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
       on:click={handleClick}
       on:keydown={handleKeydown}
     >
-      <span k-if={props.icon} class="mui-pill-icon">
-        {props.icon}
-      </span>
+      {KTConditional(props.icon, 'span', { class: 'mui-pill-icon', children: props.icon })}
       <span class="mui-pill-label">{props.children ?? labelRef}</span>
-      <button
-        k-if={onDelete}
-        class="mui-pill-delete"
-        type="button"
-        tabIndex={-1}
-        aria-label="Delete"
-        on:click={handleDelete}
-      >
-        {props.deleteIcon ?? defaultDeleteIcon}
-      </button>
+      {KTConditional(onDelete, 'button', {
+        class: 'mui-pill-delete',
+        type: 'button',
+        tabIndex: -1,
+        'aria-label': 'Delete',
+        'on:click': handleDelete,
+        children: props.deleteIcon ?? defaultDeleteIcon,
+      })}
     </span>
   ) as KTMuiPill;
 

@@ -21,7 +21,7 @@ describe('MUI TextField component reactivity', () => {
     );
 
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('Email');
-    expect(textfield.querySelector('.mui-textfield-required')?.getAttribute('k-if')).toBe('false');
+    expect(textfield.querySelector('.mui-textfield-required')).toBeNull();
 
     required.value = true;
     error.value = true;

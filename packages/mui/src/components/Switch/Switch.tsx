@@ -1,6 +1,6 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { $modelOrRef, computed, toReactive } from '@ktjs/core';
+import { $modelOrRef, KTConditional, computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './Switch.css.ts';
 
@@ -82,9 +82,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
         {track}
         {thumb}
       </span>
-      <span k-if={labelRef} class="mui-switch-label">
-        {labelRef}
-      </span>
+      {KTConditional(labelRef, 'span', { class: 'mui-switch-label', children: labelRef })}
     </label>
   ) as KTMuiSwitch;
 

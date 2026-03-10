@@ -1,5 +1,5 @@
 import type { JSX } from '@ktjs/core';
-import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
+import { $modelOrRef, KTConditional, KTFor, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
@@ -136,9 +136,7 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
               tabIndex={selectedRef.toComputed((selected) => (selected ? 0 : -1))}
               on:click={handleActionClick}
             >
-              <span k-if={iconRef} class="mui-bottom-navigation-action-icon">
-                {iconRef}
-              </span>
+              {KTConditional(iconRef, 'span', { class: 'mui-bottom-navigation-action-icon', children: iconRef })}
               <span class="mui-bottom-navigation-action-label">{labelRef}</span>
             </button>
           );

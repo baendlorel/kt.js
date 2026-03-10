@@ -1,5 +1,5 @@
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
+import { KTConditional, toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import type { KTMuiProps } from '../../types/component.js';
@@ -90,9 +90,7 @@ export function Checkbox(
         {checkedIcon}
         {indeterminateIcon}
       </span>
-      <span k-if={labelRef} class="mui-checkbox-label">
-        {labelRef}
-      </span>
+      {KTConditional(labelRef, 'span', { class: 'mui-checkbox-label', children: labelRef })}
     </label>
   ) as KTMuiCheckbox;
 

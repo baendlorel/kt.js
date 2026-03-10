@@ -214,6 +214,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
 
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
+      // fixme
       focused.click();
     }
   };
@@ -247,7 +248,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     });
   }, [optionsRef, modelRef, textColorRef]);
 
-  const indicator = <span class={indicatorClassName}></span> as HTMLSpanElement;
+  const indicator = (<span class={indicatorClassName}></span>) as HTMLSpanElement;
 
   const container = (
     <div class={className} style={styleRef}>

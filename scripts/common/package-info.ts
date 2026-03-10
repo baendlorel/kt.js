@@ -16,8 +16,9 @@ export interface PackageInfo {
 }
 
 const publishGroupMap = new Map<string | undefined, string[]>([
-  [undefined, ['shared', 'core', 'kt.js']],
+  [undefined, ['core', 'kt.js']],
   ['plugin', ['vite', 'babel', 'transformer', 'create']],
+  ['shared', ['shared', 'core', 'kt.js', 'mui', 'router']],
 ]);
 
 const getAbsolutePath = (who: string) => {

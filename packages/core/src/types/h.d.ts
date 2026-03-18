@@ -1,5 +1,5 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
-import type { KTRef } from '../reactive/ref.js';
+import type { KTRef } from '../reactive/refs/ref.js';
 import type { JSX } from './jsx.js';
 import type { KTReactive } from './reactive.js';
 

@@ -126,19 +126,19 @@ export function Reactivity() {
           <p class="demo-desc" k-html={t('reactive.ref.overview')}></p>
           <ul class="reactive-api-method-list">
             <li>
-              <code>ref([]) -&gt; KTArrayRef</code>
+              <code>autoRef([]) -&gt; KTArrayRef</code>
               <p k-html={t('reactive.ref.item.array')}></p>
             </li>
             <li>
-              <code>ref(new Map()) / ref(new Set())</code>
+              <code>autoRef(new Map()) / autoRef(new Set())</code>
               <p k-html={t('reactive.ref.item.mapSet')}></p>
             </li>
             <li>
-              <code>ref(new WeakMap()) / ref(new WeakSet())</code>
+              <code>autoRef(new WeakMap()) / autoRef(new WeakSet())</code>
               <p k-html={t('reactive.ref.item.weak')}></p>
             </li>
             <li>
-              <code>ref(new Date()) -&gt; KTDateRef</code>
+              <code>autoRef(new Date()) -&gt; KTDateRef</code>
               <p k-html={t('reactive.ref.item.date')}></p>
             </li>
           </ul>

@@ -1,4 +1,4 @@
-import { ref } from 'kt.js';
+import { autoRef, ref } from 'kt.js';
 
 const state = ref(1);
 
@@ -6,13 +6,13 @@ const state = ref(1);
 state.value = state.value + 1;
 
 // 2) auto specialized refs for common containers
-const list = ref([1, 2]); // KTArrayRef<number>
+const list = autoRef([1, 2]); // KTArrayRef<number>
 list.push(3);
 
-const mapping = ref(new Map<string, number>()); // KTMapRef<string, number>
+const mapping = autoRef(new Map<string, number>()); // KTMapRef<string, number>
 mapping.set('count', 1);
 
-const clock = ref(new Date()); // KTDateRef
+const clock = autoRef(new Date()); // KTDateRef
 clock.setUTCFullYear(2026);
 
 // Mutating through `.value` is still manual.

@@ -6,7 +6,7 @@ KT.js is a lightweight, manual-control web framework that creates real DOM eleme
 
 - **Real DOM**: JSX creates actual HTMLElements, no virtual DOM
 - **Manual Updates**: You control when DOM updates happen
-- **Reactive State**: Use `ref()` and `computed()` for reactive values
+- **Reactive State**: Use `ref()` for plain reactive values, `autoRef()` for auto-specialized containers, and `computed()` for derived values
 - **No Auto-rendering**: Components don't re-execute automatically
 
 ## Basic Usage
@@ -36,7 +36,7 @@ document.body.appendChild(Counter());
 
 ## Reactive System
 
-### ref() - Reactive References
+### ref() - Plain Reactive References
 ```tsx
 import { ref } from 'kt.js';
 
@@ -53,6 +53,21 @@ count.value = 10;
 count.addOnChange((newVal, oldVal) => {
   console.log(`Changed from ${oldVal} to ${newVal}`);
 });
+```
+
+### autoRef() - Auto-specialized Container Refs
+```tsx
+import { autoRef } from 'kt.js';
+
+const list = autoRef([1, 2]);
+list.push(3); // emits automatically
+
+const mapping = autoRef(new Map<string, number>());
+mapping.set('count', 1); // emits automatically
+
+// Direct mutation inside `.value` is still manual
+list.value.push(4);
+list.notify();
 ```
 
 ### computed() - Computed Values

@@ -50,10 +50,10 @@ export const en: typeof zh = {
     'To make your project fully compatible with IE11, we need to transpile the code with Babel and include necessary polyfills. Below is the Vite configuration used for this purpose:',
   'reactive.section.title': '<code>ref</code> and <code>computed</code>',
   'reactive.section.description':
-    '<code>ref()</code> now auto-specializes arrays, Map, Set, WeakMap, WeakSet, and Date into dedicated refs. <code>computed</code> dependencies still need to be declared manually.',
-  'reactive.ref.title': '<code>ref()</code> auto specialization',
+    '<code>ref()</code> creates a plain <code>KTRef</code>, while <code>autoRef()</code> auto-specializes arrays, Map, Set, WeakMap, WeakSet, and Date into dedicated refs. <code>computed</code> dependencies still need to be declared manually.',
+  'reactive.ref.title': '<code>autoRef()</code> auto specialization',
   'reactive.ref.description':
-    'This is an enhancement, not a replacement: existing <code>value</code> / <code>notify()</code> / <code>mutate()</code> flows still work, while common containers now expose more natural ref-level mutating methods.',
+    '<code>autoRef()</code> is an enhanced creation entry: existing <code>value</code> / <code>notify()</code> / <code>mutate()</code> flows still work, while common containers expose more natural ref-level mutating methods.',
   'reactive.ref.overview': 'Currently auto-specialized built-ins:',
   'reactive.ref.item.array':
     'Call <code>push</code>, <code>splice</code>, <code>sort</code>, and similar methods directly on the ref and emit once automatically.',
@@ -64,7 +64,7 @@ export const en: typeof zh = {
   'reactive.ref.item.date':
     'Calling setters such as <code>setFullYear</code> or <code>setUTCFullYear</code> emits changes automatically.',
   'reactive.ref.tip':
-    'Important: auto emitting happens only when you mutate through the ref methods themselves. If you mutate inside <code>ref.value</code> directly, you still need <code>notify()</code> or <code>mutate()</code>. If you explicitly want a plain <code>KTRef</code>, use <code>createRef()</code>.',
+    'Important: auto emitting happens only when you mutate through specialized ref methods themselves. If you mutate inside <code>ref.value</code> directly, you still need <code>notify()</code> or <code>mutate()</code>. If you explicitly want a plain <code>KTRef</code>, keep using <code>ref()</code>.',
   'reactive.attribute.title': 'Attribute Ref',
   'reactive.attribute.description': 'Make attributes reactive.',
   'reactive.attribute.currentWidth': 'Current Width: {{1}}',

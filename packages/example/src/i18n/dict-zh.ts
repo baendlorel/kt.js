@@ -45,10 +45,10 @@ export const zh = {
     '若要让你的项目完整兼容 IE11，需要使用 Babel 对代码进行转译并引入必要的 polyfill。下面是示例使用的 Vite 配置：',
   'reactive.section.title': '<code>ref</code> 与 <code>computed</code>',
   'reactive.section.description':
-    '<code>ref()</code> 现在会为数组、Map、Set、WeakMap、WeakSet、Date 自动返回对应的特种 ref；<code>computed</code> 的依赖仍需手动声明。',
-  'reactive.ref.title': '<code>ref()</code> 自动特化',
+    '<code>ref()</code> 负责创建普通 <code>KTRef</code>；<code>autoRef()</code> 会为数组、Map、Set、WeakMap、WeakSet、Date 自动返回对应的特种 ref；<code>computed</code> 的依赖仍需手动声明。',
+  'reactive.ref.title': '<code>autoRef()</code> 自动特化',
   'reactive.ref.description':
-    '这是一次“增强”而不是替代：原有 <code>value</code> / <code>notify()</code> / <code>mutate()</code> 写法仍可继续使用，只是常见容器现在多了更自然的 ref 级别方法。',
+    '<code>autoRef()</code> 是增强版创建入口：原有 <code>value</code> / <code>notify()</code> / <code>mutate()</code> 写法仍可继续使用，而常见容器会额外获得更自然的 ref 级别方法。',
   'reactive.ref.overview': '当前会自动特化的常见类型：',
   'reactive.ref.item.array':
     '可直接调用 <code>push</code>、<code>splice</code>、<code>sort</code> 等方法，并自动触发一次更新。',
@@ -58,7 +58,7 @@ export const zh = {
   'reactive.ref.item.date':
     '调用 <code>setFullYear</code>、<code>setUTCFullYear</code> 等 setter 后会自动发出变化通知。',
   'reactive.ref.tip':
-    '注意：只有通过 ref 自身的方法修改时才会自动触发更新；如果你直接修改 <code>ref.value</code> 内部内容，仍然需要 <code>notify()</code> 或 <code>mutate()</code>。若你明确只想要普通 <code>KTRef</code>，可改用 <code>createRef()</code>。',
+    '注意：只有通过特种 ref 自身的方法修改时才会自动触发更新；如果你直接修改 <code>ref.value</code> 内部内容，仍然需要 <code>notify()</code> 或 <code>mutate()</code>。若你明确只想要普通 <code>KTRef</code>，继续使用 <code>ref()</code> 即可。',
   'reactive.attribute.title': '属性 Ref',
   'reactive.attribute.description': '让元素属性具备响应式能力。',
   'reactive.attribute.currentWidth': '当前宽度：{{1}}',

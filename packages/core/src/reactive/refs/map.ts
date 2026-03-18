@@ -1,6 +1,7 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
 import { KTRef, registerRefFactory } from '../ref.js';
+import { apply, applyArgless } from './applier.js';
 
 export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
   constructor(value: Map<K, V>, onChange?: ReactiveChangeHandler<Map<K, V>>) {
@@ -21,20 +22,15 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
   }
 
   set(key: K, value: V): this {
-    this._value.set(key, value);
-    this._forceEmit();
-    return this;
+    return apply(this, this._value.set, [key, value]);
   }
 
   delete(key: K): boolean {
-    const result = this._value.delete(key);
-    this._forceEmit();
-    return result;
+    return apply(this, this._value.delete, [key]);
   }
 
   clear() {
-    this._value.clear();
-    this._forceEmit();
+    return applyArgless(this, this._value.clear);
   }
 }
 

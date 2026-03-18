@@ -1,6 +1,7 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
 import { KTRef, registerRefFactory } from '../ref.js';
+import { apply } from './applier.js';
 
 export class KTWeakMapRef<K extends WeakKey = WeakKey, V = any> extends KTRef<WeakMap<K, V>> {
   constructor(value: WeakMap<K, V>, onChange?: ReactiveChangeHandler<WeakMap<K, V>>) {
@@ -9,23 +10,19 @@ export class KTWeakMapRef<K extends WeakKey = WeakKey, V = any> extends KTRef<We
   }
 
   has(key: K) {
-    return this.value.has(key);
+    return this._value.has(key);
   }
 
   get(key: K) {
-    return this.value.get(key);
+    return this._value.get(key);
   }
 
   set(key: K, value: V): this {
-    this._value.set(key, value);
-    this._forceEmit();
-    return this;
+    return apply(this, this._value.set, [key, value]);
   }
 
   delete(key: K): boolean {
-    const result = this._value.delete(key);
-    this._forceEmit();
-    return result;
+    return apply(this, this._value.delete, [key]);
   }
 }
 

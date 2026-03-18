@@ -4,6 +4,7 @@ import type { JSX } from '../types/jsx.js';
 import { isRef, KTReactiveType } from './core.js';
 import { IdGenerator } from '../common.js';
 import { computed, type KTComputed } from './computed.js';
+import type { KTAutoRef } from './refs/ref.js';
 
 type RefFactoryMatcher = (value: unknown) => boolean;
 type RefFactoryCreator = (value: unknown, onChange?: ReactiveChangeHandler<any>) => KTRef<any>;
@@ -132,17 +133,18 @@ export class KTRef<T> implements KTReactive<T> {
  * - if the value is already a `KTRef`, it will be returned **directly**.
  * @param value mostly an HTMLElement
  */
-export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
+export function ref<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
   for (let i = 0; i < refFactories.length; i++) {
     if (refFactories[i].match(value)) {
-      return refFactories[i].create(value, onChange) as KTRef<T>;
+      return refFactories[i].create(value, onChange) as KTAutoRef<T>;
     }
   }
-
-  return new KTRef<T>(value as any, onChange);
+  return new KTRef<T>(value as any, onChange) as KTAutoRef<T>;
 }
 
-// # asserts
+// todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref
+export const createRef = <T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>) =>
+  new KTRef<T>(value as any, onChange);
 
 /**
  * Assert k-model to be a ref object

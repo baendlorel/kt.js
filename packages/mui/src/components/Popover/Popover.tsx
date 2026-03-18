@@ -24,7 +24,7 @@ export interface KTMuiPopoverProps extends KTMuiProps {
   /**
    * The DOM element used as the anchor of the popover. The popover will appear next to this element.
    */
-  anchorEl?: HTMLElement | null | KTReactive<HTMLElement | null>; // ?? 这对吗
+  anchorEl?: HTMLElement | null | KTReactive<HTMLElement | null>;
 
   /**
    * Defines which part of the anchor element to align the popover with.

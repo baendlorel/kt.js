@@ -1,6 +1,7 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
 import { KTRef, registerRefFactory } from '../ref.js';
+import { apply } from './applier.js';
 
 export class KTDateRef extends KTRef<Date> {
   constructor(value: Date, onChange?: ReactiveChangeHandler<Date>) {
@@ -8,74 +9,74 @@ export class KTDateRef extends KTRef<Date> {
     this.ktType = KTReactiveType.DateRef;
   }
 
-  private _callSetter<R>(setter: (...args: any[]) => R, ...args: unknown[]): R {
-    let argCount = args.length;
-    while (argCount > 0 && args[argCount - 1] === undefined) {
-      argCount--;
-    }
-    const result = setter.apply(this._value, args.slice(0, argCount));
-    this._forceEmit();
-    return result;
-  }
-
   setTime(timeValue: number): number {
-    return this._callSetter(this._value.setTime, timeValue);
+    return apply(this, this._value.setTime, [timeValue]);
   }
 
   setMilliseconds(millisecondsValue: number): number {
-    return this._callSetter(this._value.setMilliseconds, millisecondsValue);
+    return apply(this, this._value.setMilliseconds, [millisecondsValue]);
   }
 
   setUTCMilliseconds(millisecondsValue: number): number {
-    return this._callSetter(this._value.setUTCMilliseconds, millisecondsValue);
+    return apply(this, this._value.setUTCMilliseconds, [millisecondsValue]);
   }
 
-  setSeconds(secondsValue: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setSeconds, secondsValue, millisecondsValue);
+  setSeconds(secondsValue: number, millisecondsValue?: number): number;
+  setSeconds(...args: any[]): number {
+    return apply(this, this._value.setSeconds, args);
   }
 
-  setUTCSeconds(secondsValue: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setUTCSeconds, secondsValue, millisecondsValue);
+  setUTCSeconds(secondsValue: number, millisecondsValue?: number): number;
+  setUTCSeconds(...args: any[]): number {
+    return apply(this, this._value.setUTCSeconds, args);
   }
 
-  setMinutes(minutesValue: number, secondsValue?: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setMinutes, minutesValue, secondsValue, millisecondsValue);
+  setMinutes(minutesValue: number, secondsValue?: number, millisecondsValue?: number): number;
+  setMinutes(...args: any[]): number {
+    return apply(this, this._value.setMinutes, args);
   }
 
-  setUTCMinutes(minutesValue: number, secondsValue?: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setUTCMinutes, minutesValue, secondsValue, millisecondsValue);
+  setUTCMinutes(minutesValue: number, secondsValue?: number, millisecondsValue?: number): number;
+  setUTCMinutes(...args: any[]): number {
+    return apply(this, this._value.setUTCMinutes, args);
   }
 
-  setHours(hoursValue: number, minutesValue?: number, secondsValue?: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setHours, hoursValue, minutesValue, secondsValue, millisecondsValue);
+  setHours(hoursValue: number, minutesValue?: number, secondsValue?: number, millisecondsValue?: number): number;
+  setHours(...args: any[]): number {
+    return apply(this, this._value.setHours, args);
   }
 
-  setUTCHours(hoursValue: number, minutesValue?: number, secondsValue?: number, millisecondsValue?: number): number {
-    return this._callSetter(this._value.setUTCHours, hoursValue, minutesValue, secondsValue, millisecondsValue);
+  setUTCHours(hoursValue: number, minutesValue?: number, secondsValue?: number, millisecondsValue?: number): number;
+  setUTCHours(...args: any[]): number {
+    return apply(this, this._value.setUTCHours, args);
   }
 
   setDate(dateValue: number): number {
-    return this._callSetter(this._value.setDate, dateValue);
+    return apply(this, this._value.setDate, [dateValue]);
   }
 
   setUTCDate(dateValue: number): number {
-    return this._callSetter(this._value.setUTCDate, dateValue);
+    return apply(this, this._value.setUTCDate, [dateValue]);
   }
 
-  setMonth(monthValue: number, dateValue?: number): number {
-    return this._callSetter(this._value.setMonth, monthValue, dateValue);
+  setMonth(monthValue: number, dateValue?: number): number;
+  setMonth(...args: any[]): number {
+    return apply(this, this._value.setMonth, args);
   }
 
-  setUTCMonth(monthValue: number, dateValue?: number): number {
-    return this._callSetter(this._value.setUTCMonth, monthValue, dateValue);
+  setUTCMonth(monthValue: number, dateValue?: number): number;
+  setUTCMonth(...args: any[]): number {
+    return apply(this, this._value.setUTCMonth, args);
   }
 
-  setFullYear(yearValue: number, monthValue?: number, dateValue?: number): number {
-    return this._callSetter(this._value.setFullYear, yearValue, monthValue, dateValue);
+  setFullYear(yearValue: number, monthValue?: number, dateValue?: number): number;
+  setFullYear(...args: any[]): number {
+    return apply(this, this._value.setFullYear, args);
   }
 
-  setUTCFullYear(yearValue: number, monthValue?: number, dateValue?: number): number {
-    return this._callSetter(this._value.setUTCFullYear, yearValue, monthValue, dateValue);
+  setUTCFullYear(yearValue: number, monthValue?: number, dateValue?: number): number;
+  setUTCFullYear(...args: any[]): number {
+    return apply(this, this._value.setUTCFullYear, args);
   }
 }
 

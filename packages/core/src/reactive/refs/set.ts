@@ -30,14 +30,3 @@ export class KTSetRef<T> extends KTRef<Set<T>> {
     return this;
   }
 }
-
-registerRefFactory(
-  (value): value is Set<unknown> => value instanceof Set,
-  (value, onChange) => {
-    const setRef = new KTSetRef(value as Set<unknown>);
-    if (onChange) {
-      setRef.addOnChange(onChange);
-    }
-    return setRef;
-  },
-);

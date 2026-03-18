@@ -22,14 +22,3 @@ export class KTWeakMapRef<K extends WeakKey, V> extends KTRef<WeakMap<K, V>> {
     return this._applyMutation((currentValue) => currentValue.delete(key));
   }
 }
-
-registerRefFactory(
-  (value): value is WeakMap<WeakKey, unknown> => value instanceof WeakMap,
-  (value, onChange) => {
-    const weakMapRef = new KTWeakMapRef(value as WeakMap<WeakKey, unknown>);
-    if (onChange) {
-      weakMapRef.addOnChange(onChange);
-    }
-    return weakMapRef;
-  },
-);

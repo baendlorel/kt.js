@@ -22,14 +22,3 @@ export class KTWeakSetRef<T extends WeakKey> extends KTRef<WeakSet<T>> {
     return this._applyMutation((currentValue) => currentValue.delete(value));
   }
 }
-
-registerRefFactory(
-  (value): value is WeakSet<WeakKey> => value instanceof WeakSet,
-  (value, onChange) => {
-    const weakSetRef = new KTWeakSetRef(value as WeakSet<WeakKey>);
-    if (onChange) {
-      weakSetRef.addOnChange(onChange);
-    }
-    return weakSetRef;
-  },
-);

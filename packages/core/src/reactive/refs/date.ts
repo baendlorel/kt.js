@@ -112,14 +112,3 @@ export class KTDateRef extends KTRef<Date> {
     return this._applyMutation((currentValue) => currentValue.setUTCFullYear(year, month, date));
   }
 }
-
-registerRefFactory(
-  (value): value is Date => value instanceof Date,
-  (value, onChange) => {
-    const dateRef = new KTDateRef(value as Date);
-    if (onChange) {
-      dateRef.addOnChange(onChange);
-    }
-    return dateRef;
-  },
-);

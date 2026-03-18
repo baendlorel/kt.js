@@ -1,4 +1,4 @@
-import { $emptyFn, $entries, $is } from '@ktjs/shared';
+import { $emptyFn, $is } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../../types/reactive.js';
 import type { JSX } from '../../types/jsx.js';
 import { isComputed, isRef, KTReactiveType } from '../core.js';
@@ -46,22 +46,6 @@ export class KTRef<T> implements KTReactive<T> {
       return;
     }
     this._onChanges.forEach((c) => c(newValue, oldValue));
-  }
-
-  /**
-   * @internal
-   */
-  protected _emitSelf(handlerKeys?: ReactiveChangeKey[]) {
-    this._emit(this._value, this._value, handlerKeys);
-  }
-
-  /**
-   * @internal
-   */
-  protected _applyMutation<R>(mutator: (value: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
-    const result = mutator(this._value);
-    this._emitSelf(handlerKeys);
-    return result;
   }
 
   constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {
@@ -180,41 +164,6 @@ export const toRef = <T = any>(o: any): KTRef<T> => {
   } else {
     return ref(o);
   }
-};
-
-export type KTSurfaceRef<T extends object> = {
-  [K in keyof T]: KTRef<T[K]>;
-} & {
-  /**
-   * Get the dereferenced object like the original one
-   */
-  kcollect: () => T;
-};
-
-function kcollect<T extends object>(this: KTSurfaceRef<T>): T {
-  const newObj: any = {};
-  const entries = $entries(this);
-  for (let i = 0; i < entries.length; i++) {
-    const key = entries[i][0];
-    if (key === 'kcollect') {
-      continue;
-    }
-    newObj[key] = entries[i][1].value;
-  }
-  return newObj;
-}
-
-/**
- * Make all first-level properties of the object a `KTRef`.
- * - `obj.a.b` is not reactive
- */
-export const surfaceRef = <T extends object>(obj: T): KTSurfaceRef<T> => {
-  const entries = $entries(obj);
-  const newObj = { kcollect } as KTSurfaceRef<T>;
-  for (let i = 0; i < entries.length; i++) {
-    (newObj[entries[i][0]] as KTReactive<any>) = ref(entries[i][1]);
-  }
-  return newObj;
 };
 
 // # asserts

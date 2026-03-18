@@ -30,14 +30,3 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
     return this;
   }
 }
-
-registerRefFactory(
-  (value): value is Map<unknown, unknown> => value instanceof Map,
-  (value, onChange) => {
-    const mapRef = new KTMapRef(value as Map<unknown, unknown>);
-    if (onChange) {
-      mapRef.addOnChange(onChange);
-    }
-    return mapRef;
-  },
-);

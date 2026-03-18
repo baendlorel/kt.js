@@ -12,19 +12,22 @@ export class KTArrayRef<T> extends KTRef<T[]> {
   }
 
   set length(newLength: number) {
-    this.value.length = newLength;
-    this._emitSelf();
+    this._value.length = newLength;
+    this.notify();
   }
 
   push(...items: T[]) {
-    this._applyMutation((currentValue) => currentValue.push(...items));
+    this._value.push(...items);
+    this.notify();
   }
 
   /**
    * Same as `Array.prototype.pop`, but emits change after calling it
    */
   pop(): T | undefined {
-    return this._applyMutation((currentValue) => currentValue.pop());
+    const result = this._value.pop();
+    this.notify();
+    return result;
   }
 
   /**
@@ -82,11 +85,3 @@ export class KTArrayRef<T> extends KTRef<T[]> {
     return this;
   }
 }
-
-registerRefFactory(Array.isArray, (value, onChange) => {
-  const arrayRef = new KTArrayRef(value as unknown[]);
-  if (onChange) {
-    arrayRef.addOnChange(onChange);
-  }
-  return arrayRef;
-});

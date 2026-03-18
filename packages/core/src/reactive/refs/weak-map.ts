@@ -34,3 +34,6 @@ registerRefFactory(
       onChange as ReactiveChangeHandler<WeakMap<WeakKey, unknown>> | undefined,
     ),
 );
+
+export const weakMapRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
+  new KTWeakMapRef(value as any, onChange);

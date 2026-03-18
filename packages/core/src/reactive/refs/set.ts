@@ -34,3 +34,5 @@ registerRefFactory(
   (value) => value instanceof Set,
   (value, onChange) => new KTSetRef(value as Set<unknown>, onChange as ReactiveChangeHandler<Set<unknown>> | undefined),
 );
+
+export const setRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTSetRef(value as any, onChange);

@@ -1,10 +1,17 @@
 import { $emptyFn, $is } from '@ktjs/shared';
 import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
-import { isRef, KTReactiveType } from './core.js';
 import { IdGenerator } from '../common.js';
-import { computed, type KTComputed } from './computed.js';
+
 import type { KTAutoRef } from './refs/ref.js';
+import { isRef, KTReactiveType } from './core.js';
+import { computed, type KTComputed } from './computed.js';
+import { arrayRef } from './refs/array.js';
+import { dateRef } from './refs/date.js';
+import { mapRef } from './refs/map.js';
+import { setRef } from './refs/set.js';
+import { weakMapRef } from './refs/weak-map.js';
+import { weakSetRef } from './refs/weak-set.js';
 
 type RefFactoryMatcher = (value: unknown) => boolean;
 type RefFactoryCreator = (value: unknown, onChange?: ReactiveChangeHandler<any>) => KTRef<any>;
@@ -127,13 +134,16 @@ export class KTRef<T> implements KTReactive<T> {
 }
 
 /**
- * Reference to the created HTML element.
+ * Reference to the created HTML element or other reactive data.
  * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.
- * - can alse be used to store normal values, but it is not reactive.
- * - if the value is already a `KTRef`, it will be returned **directly**.
- * @param value mostly an HTMLElement
+ * - Automically wrap the value with corresponding ref type based on its type.
+ *   - When wrapped, setter-like methods will be reactive. like `push` for `Array`, `set` for `Map`, `add` for `Set`, etc.
+ *   - Supports: `Array`, `Map`, `Set`, `WeakMap`, `WeakSet`, `Date`.
+ *   - Since there will be some cost for runtime detection, and compilation plugin might not be able to analyze all cases. It is recommended to use specific ref type directly if you already know the type of value, like `ref.array`, `ref.map`, etc.
+ * @param value any data
+ * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  */
-export function ref<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
+export function autoRef<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
   for (let i = 0; i < refFactories.length; i++) {
     if (refFactories[i].match(value)) {
       return refFactories[i].create(value, onChange) as KTAutoRef<T>;
@@ -142,9 +152,34 @@ export function ref<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRe
   return new KTRef<T>(value as any, onChange) as KTAutoRef<T>;
 }
 
+type RefCreator = (<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>) => KTRef<T>) & {
+  array: typeof arrayRef;
+  date: typeof dateRef;
+  map: typeof mapRef;
+  set: typeof setRef;
+  weakMap: typeof weakMapRef;
+  weakSet: typeof weakSetRef;
+};
+
 // todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref
-export const createRef = <T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>) =>
-  new KTRef<T>(value as any, onChange);
+/**
+ * Create a plain `KTRef` object.
+ *
+ * If you want the value to be automatically wrapped with corresponding ref type based on its type, please use `autoRef` instead.
+ *
+ * @param value any data
+ * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
+ * @returns
+ */
+const ref: RefCreator = ((value, onChange) => new KTRef(value as any, onChange)) as RefCreator;
+ref.array = arrayRef;
+ref.date = dateRef;
+ref.map = mapRef;
+ref.set = setRef;
+ref.weakMap = weakMapRef;
+ref.weakSet = weakSetRef;
+
+export { ref };
 
 /**
  * Assert k-model to be a ref object

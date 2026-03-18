@@ -39,3 +39,5 @@ registerRefFactory(
   (value, onChange) =>
     new KTMapRef(value as Map<unknown, unknown>, onChange as ReactiveChangeHandler<Map<unknown, unknown>> | undefined),
 );
+
+export const mapRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTMapRef(value as any, onChange);

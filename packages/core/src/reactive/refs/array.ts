@@ -88,3 +88,6 @@ registerRefFactory(
   Array.isArray,
   (value, onChange) => new KTArrayRef(value as unknown[], onChange as ReactiveChangeHandler<unknown[]> | undefined),
 );
+
+export const arrayRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
+  new KTArrayRef(value as any[], onChange);

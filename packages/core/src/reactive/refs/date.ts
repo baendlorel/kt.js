@@ -84,3 +84,5 @@ registerRefFactory(
   (value) => value instanceof Date,
   (value, onChange) => new KTDateRef(value as Date, onChange as ReactiveChangeHandler<Date> | undefined),
 );
+
+export const dateRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTDateRef(value as any, onChange);

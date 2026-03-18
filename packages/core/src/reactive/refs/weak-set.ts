@@ -27,3 +27,6 @@ registerRefFactory(
   (value, onChange) =>
     new KTWeakSetRef(value as WeakSet<WeakKey>, onChange as ReactiveChangeHandler<WeakSet<WeakKey>> | undefined),
 );
+
+export const weakSetRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
+  new KTWeakSetRef(value as any, onChange);

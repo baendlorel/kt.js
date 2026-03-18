@@ -18,7 +18,7 @@ export class KTArrayRef<T> extends KTRef<T[]> {
 
   push(...items: T[]) {
     this._value.push(...items);
-    this.notify();
+    this._forceEmit();
   }
 
   /**
@@ -26,7 +26,7 @@ export class KTArrayRef<T> extends KTRef<T[]> {
    */
   pop(): T | undefined {
     const result = this._value.pop();
-    this.notify();
+    this._forceEmit();
     return result;
   }
 

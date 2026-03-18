@@ -48,6 +48,14 @@ export class KTRef<T> implements KTReactive<T> {
     this._onChanges.forEach((c) => c(newValue, oldValue));
   }
 
+  /**
+   * Same as `this.notify()`, but does not have values as params nor `if` checks
+   * @internal
+   */
+  protected _forceEmit() {
+    this._onChanges.forEach((c) => c(this._value, this._value));
+  }
+
   constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {
     this._value = _value;
     this._onChanges = new Map();

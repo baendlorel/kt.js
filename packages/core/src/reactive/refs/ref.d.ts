@@ -1,4 +1,4 @@
-import type { KTRef } from '../ref.js';
+import type { KTRef } from './ref.js';
 import type { KTArrayRef } from './array.js';
 import type { KTDateRef } from './date.js';
 import type { KTMapRef } from './map.js';

@@ -1,4 +1,4 @@
-import type { KTRef } from '../ref.js';
+import type { KTRef } from './ref.js';
 
 /**
  * Calls the setter-like function and emit all changes of it

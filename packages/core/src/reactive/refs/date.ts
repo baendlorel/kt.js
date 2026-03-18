@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from '../ref.js';
+import { KTRef } from './ref.js';
 import { apply } from './applier.js';
 
 export class KTDateRef extends KTRef<Date> {
@@ -79,10 +79,5 @@ export class KTDateRef extends KTRef<Date> {
     return apply(this, this._value.setUTCFullYear, args);
   }
 }
-
-registerRefFactory(
-  (value) => value instanceof Date,
-  (value, onChange) => new KTDateRef(value as Date, onChange as ReactiveChangeHandler<Date> | undefined),
-);
 
 export const dateRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTDateRef(value as any, onChange);

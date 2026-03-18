@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from '../ref.js';
+import { KTRef } from './ref.js';
 import { apply } from './applier.js';
 
 export class KTWeakSetRef<T extends WeakKey = WeakKey> extends KTRef<WeakSet<T>> {
@@ -21,12 +21,6 @@ export class KTWeakSetRef<T extends WeakKey = WeakKey> extends KTRef<WeakSet<T>>
     return apply(this, this._value.delete, [value]);
   }
 }
-
-registerRefFactory(
-  (value) => value instanceof WeakSet,
-  (value, onChange) =>
-    new KTWeakSetRef(value as WeakSet<WeakKey>, onChange as ReactiveChangeHandler<WeakSet<WeakKey>> | undefined),
-);
 
 export const weakSetRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
   new KTWeakSetRef(value as any, onChange);

@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from '../ref.js';
+import { KTRef } from './ref.js';
 import { apply, applyArgless } from './applier.js';
 
 export class KTSetRef<T> extends KTRef<Set<T>> {
@@ -29,10 +29,5 @@ export class KTSetRef<T> extends KTRef<Set<T>> {
     return applyArgless(this, this._value.clear);
   }
 }
-
-registerRefFactory(
-  (value) => value instanceof Set,
-  (value, onChange) => new KTSetRef(value as Set<unknown>, onChange as ReactiveChangeHandler<Set<unknown>> | undefined),
-);
 
 export const setRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTSetRef(value as any, onChange);

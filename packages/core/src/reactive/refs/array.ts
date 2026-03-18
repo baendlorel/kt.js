@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from '../ref.js';
+import { KTRef } from './ref.js';
 import { apply, applyArgless } from './applier.js';
 
 export class KTArrayRef<T> extends KTRef<T[]> {
@@ -83,11 +83,5 @@ export class KTArrayRef<T> extends KTRef<T[]> {
     return apply(this, this._value.copyWithin, args);
   }
 }
-
-registerRefFactory(
-  Array.isArray,
-  (value, onChange) => new KTArrayRef(value as unknown[], onChange as ReactiveChangeHandler<unknown[]> | undefined),
-);
-
 export const arrayRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
   new KTArrayRef(value as any[], onChange);

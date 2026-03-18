@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from '../ref.js';
+import { KTRef } from './ref.js';
 import { apply, applyArgless } from './applier.js';
 
 export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
@@ -33,11 +33,5 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
     return applyArgless(this, this._value.clear);
   }
 }
-
-registerRefFactory(
-  (value) => value instanceof Map,
-  (value, onChange) =>
-    new KTMapRef(value as Map<unknown, unknown>, onChange as ReactiveChangeHandler<Map<unknown, unknown>> | undefined),
-);
 
 export const mapRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) => new KTMapRef(value as any, onChange);

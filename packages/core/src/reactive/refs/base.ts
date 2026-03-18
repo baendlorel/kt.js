@@ -141,13 +141,6 @@ export class KTRef<T> implements KTReactive<T> {
  * @param value mostly an HTMLElement
  */
 export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
-  if (isRef(value)) {
-    if (onChange) {
-      value.addOnChange(onChange as ReactiveChangeHandler<any>);
-    }
-    return value as KTRef<T>;
-  }
-
   for (let i = 0; i < refFactories.length; i++) {
     if (refFactories[i].match(value)) {
       return refFactories[i].create(value, onChange) as KTRef<T>;
@@ -156,23 +149,6 @@ export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler
 
   return new KTRef<T>(value as any, onChange);
 }
-
-/**
- * Convert a value to `KTRef`.
- * - Returns the original value if it is already a `KTRef`.
- * - Throws error if the value is a `KTComputed`.
- * - Otherwise wraps the value with `ref()`.
- * @param o value to convert
- */
-export const toRef = <T = any>(o: any): KTRef<T> => {
-  if (isRef(o)) {
-    return o;
-  } else if (isComputed(o)) {
-    $throw('Computed values cannot be used as KTRef.');
-  } else {
-    return ref(o);
-  }
-};
 
 // # asserts
 

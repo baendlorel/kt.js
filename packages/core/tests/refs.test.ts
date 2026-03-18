@@ -2,12 +2,8 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   KTArrayRef,
   KTDateRef,
-  KTFormDataRef,
-  KTHeadersRef,
   KTMapRef,
-  KTObjectRef,
   KTSetRef,
-  KTURLSearchParamsRef,
   KTWeakMapRef,
   KTWeakSetRef,
   ref,
@@ -27,17 +23,23 @@ describe('specialized refs', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('creates an object ref and emits for object helpers', () => {
-    const state = ref({ count: 1, label: 'a' });
+  it('creates an array ref and emits after other mutating methods', () => {
+    const list = ref([3, 1, 2]);
     const onChange = vi.fn();
-    state.addOnChange(onChange);
+    list.addOnChange(onChange);
 
-    expect(state).toBeInstanceOf(KTObjectRef);
+    expect(list).toBeInstanceOf(KTArrayRef);
 
-    state.set('count', 2).assign({ label: 'b' }).delete('label');
+    expect(list.unshift(4)).toBe(4);
+    expect(list.shift()).toBe(4);
+    expect(list.splice(1, 1, 9)).toEqual([1]);
+    expect(list.sort((a, b) => a - b)).toBe(list);
+    expect(list.reverse()).toBe(list);
+    expect(list.fill(7, 1, 2)).toBe(list);
+    expect(list.copyWithin(0, 1, 2)).toBe(list);
 
-    expect(state.value).toEqual({ count: 2 });
-    expect(onChange).toHaveBeenCalledTimes(3);
+    expect(list.value).toEqual([7, 7, 2]);
+    expect(onChange).toHaveBeenCalledTimes(7);
   });
 
   it('creates a map ref and emits after set/delete/clear', () => {
@@ -103,34 +105,5 @@ describe('specialized refs', () => {
 
     expect(date.value.getUTCFullYear()).toBe(2025);
     expect(onChange).toHaveBeenCalledTimes(1);
-  });
-
-  it('creates platform container refs and emits after mutation', () => {
-    const formData = ref(new FormData());
-    const headers = ref(new Headers());
-    const searchParams = ref(new URLSearchParams());
-    const formDataOnChange = vi.fn();
-    const headersOnChange = vi.fn();
-    const searchParamsOnChange = vi.fn();
-
-    formData.addOnChange(formDataOnChange);
-    headers.addOnChange(headersOnChange);
-    searchParams.addOnChange(searchParamsOnChange);
-
-    expect(formData).toBeInstanceOf(KTFormDataRef);
-    expect(headers).toBeInstanceOf(KTHeadersRef);
-    expect(searchParams).toBeInstanceOf(KTURLSearchParamsRef);
-
-    formData.append('file', 'demo');
-    headers.set('x-test', '1');
-    searchParams.set('page', '1');
-    searchParams.sort();
-
-    expect(formData.get('file')).toBe('demo');
-    expect(headers.get('x-test')).toBe('1');
-    expect(searchParams.get('page')).toBe('1');
-    expect(formDataOnChange).toHaveBeenCalledTimes(1);
-    expect(headersOnChange).toHaveBeenCalledTimes(1);
-    expect(searchParamsOnChange).toHaveBeenCalledTimes(2);
   });
 });

@@ -1,9 +1,9 @@
 import { $emptyFn, $entries, $is } from '@ktjs/shared';
-import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../types/reactive.js';
-import type { JSX } from '../types/jsx.js';
-import { isComputed, isRef, KTReactiveType } from './core.js';
-import { IdGenerator } from '../common.js';
-import { computed, type KTComputed } from './computed.js';
+import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../../types/reactive.js';
+import type { JSX } from '../../types/jsx.js';
+import { isComputed, isRef, KTReactiveType } from '../core.js';
+import { IdGenerator } from '../../common.js';
+import { computed, type KTComputed } from '../computed.js';
 
 export class KTRef<T> implements KTReactive<T> {
   /**

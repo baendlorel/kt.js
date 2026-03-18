@@ -1,4 +1,4 @@
-import type { KTRef } from '../reactive/ref.ts';
+import type { KTRef } from '../reactive/refs/base.js';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTRawContent } from './h.js';
 

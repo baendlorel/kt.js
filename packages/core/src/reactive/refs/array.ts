@@ -1,5 +1,5 @@
-import { KTReactiveType } from './core.js';
-import { KTRef } from './refs/base.js';
+import { KTReactiveType } from '../core.js';
+import { KTRef } from './base.js';
 
 export class KTArrayRef<T> extends KTRef<T[]> {
   constructor(value: T[]) {

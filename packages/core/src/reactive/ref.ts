@@ -11,22 +11,22 @@ export class KTRef<T> implements KTReactive<T> {
    */
   isKT = true as const;
 
-  ktType = KTReactiveType.REF;
+  ktType = KTReactiveType.Ref;
 
   /**
    * @internal
    */
-  private _value: T;
+  protected _value: T;
 
   /**
    * @internal
    */
-  private _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>>;
+  protected _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>>;
 
   /**
    * @internal
    */
-  private _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
+  protected _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
     if (handlerKeys) {
       for (let i = 0; i < handlerKeys.length; i++) {
         this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);

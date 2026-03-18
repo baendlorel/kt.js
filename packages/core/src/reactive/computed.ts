@@ -9,7 +9,7 @@ export class KTComputed<T> implements KTReactive<T> {
    */
   isKT = true as const;
 
-  ktType = KTReactiveType.COMPUTED;
+  ktType = KTReactiveType.Computed;
 
   /**
    * @internal

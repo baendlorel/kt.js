@@ -18,7 +18,8 @@ export class KTWeakMapRef<K extends WeakKey = WeakKey, V = any> extends KTRef<We
   }
 
   set(key: K, value: V): this {
-    return apply(this, this._value.set, [key, value]);
+    apply(this, this._value.set, [key, value]);
+    return this;
   }
 
   delete(key: K): boolean {

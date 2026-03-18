@@ -14,7 +14,8 @@ export class KTWeakSetRef<T extends WeakKey = WeakKey> extends KTRef<WeakSet<T>>
   }
 
   add(value: T): this {
-    return apply(this, this._value.add, [value]);
+    apply(this, this._value.add, [value]);
+    return this;
   }
 
   delete(value: T): boolean {

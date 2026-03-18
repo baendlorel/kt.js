@@ -18,7 +18,8 @@ export class KTSetRef<T> extends KTRef<Set<T>> {
   }
 
   add(value: T): this {
-    return apply(this, this._value.add, [value]);
+    apply(this, this._value.add, [value]);
+    return this;
   }
 
   delete(value: T): boolean {

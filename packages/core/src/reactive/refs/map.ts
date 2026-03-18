@@ -22,7 +22,8 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
   }
 
   set(key: K, value: V): this {
-    return apply(this, this._value.set, [key, value]);
+    apply(this, this._value.set, [key, value]);
+    return this;
   }
 
   delete(key: K): boolean {

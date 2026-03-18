@@ -15,7 +15,7 @@ import { weakSetRef } from './refs/weak-set.js';
 /**
  * Reference to the created HTML element or other reactive data.
  * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.
- * - Automically wrap the value with corresponding ref type based on its type.
+ * - Automatically wrap the value with corresponding ref type based on its type.
  *   - When wrapped, setter-like methods will be reactive. like `push` for `Array`, `set` for `Map`, `add` for `Set`, etc.
  *   - Supports: `Array`, `Map`, `Set`, `WeakMap`, `WeakSet`, `Date`.
  *   - Since there will be some cost for runtime detection, and compilation plugin might not be able to analyze all cases. It is recommended to use specific ref type directly if you already know the type of value, like `ref.array`, `ref.map`, etc.
@@ -23,7 +23,24 @@ import { weakSetRef } from './refs/weak-set.js';
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  */
 export function autoRef<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
-  // todo 这里要人工判定了
+  if (Array.isArray(value)) {
+    return arrayRef(value, onChange) as KTAutoRef<T>;
+  }
+  if (value instanceof Map) {
+    return mapRef(value, onChange) as KTAutoRef<T>;
+  }
+  if (value instanceof Set) {
+    return setRef(value, onChange) as KTAutoRef<T>;
+  }
+  if (value instanceof WeakMap) {
+    return weakMapRef(value, onChange) as KTAutoRef<T>;
+  }
+  if (value instanceof WeakSet) {
+    return weakSetRef(value, onChange) as KTAutoRef<T>;
+  }
+  if (value instanceof Date) {
+    return dateRef(value, onChange) as KTAutoRef<T>;
+  }
   return new KTRef<T>(value as any, onChange) as KTAutoRef<T>;
 }
 

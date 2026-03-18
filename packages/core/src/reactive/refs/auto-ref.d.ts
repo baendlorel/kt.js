@@ -8,7 +8,7 @@ import type { KTWeakSetRef } from './weak-set.js';
 
 type KTIsExactlyBoolean<T> = [T] extends [boolean] ? ([boolean] extends [T] ? true : false) : false;
 
-type KTAutoRef<T> =
+export type KTAutoRef<T> =
   KTIsExactlyBoolean<T> extends true
     ? KTRef<boolean>
     : T extends Array<infer A>

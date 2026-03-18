@@ -57,14 +57,16 @@ export class KTArrayRef<T> extends KTRef<T[]> {
    */
   sort(compareFn?: (a: T, b: T) => number): this;
   sort(...args: any[]): this {
-    return apply(this, this._value.sort, args);
+    apply(this, this._value.sort, args);
+    return this;
   }
 
   /**
    * Same as `Array.prototype.reverse`, but emits change after calling it
    */
   reverse(): this {
-    return applyArgless(this, this._value.reverse);
+    applyArgless(this, this._value.reverse);
+    return this;
   }
 
   /**
@@ -72,7 +74,8 @@ export class KTArrayRef<T> extends KTRef<T[]> {
    */
   fill(value: T, start?: number, end?: number): this;
   fill(...args: any[]): this {
-    return apply(this, this._value.fill, args);
+    apply(this, this._value.fill, args);
+    return this;
   }
 
   /**
@@ -80,7 +83,8 @@ export class KTArrayRef<T> extends KTRef<T[]> {
    */
   copyWithin(target: number, start: number, end?: number): this;
   copyWithin(...args: any[]): this {
-    return apply(this, this._value.copyWithin, args);
+    apply(this, this._value.copyWithin, args);
+    return this;
   }
 }
 

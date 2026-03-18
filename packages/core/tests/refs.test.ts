@@ -1,9 +1,16 @@
 import { describe, expect, it, vi } from 'vitest';
-import { KTArrayRef, KTDateRef, KTMapRef, KTSetRef, KTWeakMapRef, KTWeakSetRef, ref } from '../src/reactive/index.js';
+import { KTArrayRef, KTDateRef, KTMapRef, KTSetRef, KTWeakMapRef, KTWeakSetRef, autoRef, ref } from '../src/reactive/index.js';
 
 describe('specialized refs', () => {
-  it('creates an array ref and emits after mutating methods', () => {
+  it('ref should stay plain for containers', () => {
     const list = ref([1, 2]);
+
+    expect(list).not.toBeInstanceOf(KTArrayRef);
+    expect(typeof (list as any).push).toBe('undefined');
+  });
+
+  it('creates an array ref and emits after mutating methods', () => {
+    const list = autoRef([1, 2]);
     const onChange = vi.fn();
     list.addOnChange(onChange);
 
@@ -16,7 +23,7 @@ describe('specialized refs', () => {
   });
 
   it('creates an array ref and emits after other mutating methods', () => {
-    const list = ref([3, 1, 2]);
+    const list = autoRef([3, 1, 2]);
     const onChange = vi.fn();
     list.addOnChange(onChange);
 
@@ -35,7 +42,7 @@ describe('specialized refs', () => {
   });
 
   it('creates a map ref and emits after set/delete/clear', () => {
-    const mapping = ref(new Map<string, number>());
+    const mapping = autoRef(new Map<string, number>());
     const onChange = vi.fn();
     mapping.addOnChange(onChange);
 
@@ -50,7 +57,7 @@ describe('specialized refs', () => {
   });
 
   it('creates a set ref and emits after add/delete/clear', () => {
-    const valueSet = ref(new Set<number>());
+    const valueSet = autoRef(new Set<number>());
     const onChange = vi.fn();
     valueSet.addOnChange(onChange);
 
@@ -65,8 +72,8 @@ describe('specialized refs', () => {
   });
 
   it('creates weak refs and emits after mutation', () => {
-    const weakMap = ref(new WeakMap<object, number>());
-    const weakSet = ref(new WeakSet<object>());
+    const weakMap = autoRef(new WeakMap<object, number>());
+    const weakSet = autoRef(new WeakSet<object>());
     const mapOnChange = vi.fn();
     const setOnChange = vi.fn();
     const key = {};
@@ -87,7 +94,7 @@ describe('specialized refs', () => {
   });
 
   it('creates a date ref and emits after setter calls', () => {
-    const date = ref(new Date('2024-01-01T00:00:00.000Z'));
+    const date = autoRef(new Date('2024-01-01T00:00:00.000Z'));
     const onChange = vi.fn();
     date.addOnChange(onChange);
 

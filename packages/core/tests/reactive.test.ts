@@ -1,7 +1,24 @@
 import { describe, expect, it, vi } from 'vitest';
-import { ref, computed } from '../src/reactive/index.js';
+import { ref, computed, type KTRef } from '../src/reactive/index.js';
+
+type IsEqual<A, B> =
+  (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B ? 1 : 2
+    ? (<T>() => T extends B ? 1 : 2) extends <T>() => T extends A ? 1 : 2
+      ? true
+      : false
+    : false;
+
+type Assert<T extends true> = T;
 
 describe('reactive helpers', () => {
+  it('ref should infer boolean values as KTRef<boolean>', () => {
+    const booleanRef = ref(true as boolean);
+
+    const _: Assert<IsEqual<typeof booleanRef, KTRef<boolean>>> = true;
+
+    expect(booleanRef.value).toBe(true);
+  });
+
   it('notify should trigger listeners for in-place mutation', () => {
     const list = ref<number[]>([1, 2]);
     const onChange = vi.fn();

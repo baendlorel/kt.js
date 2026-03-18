@@ -6,17 +6,21 @@ import type { KTSetRef } from './set.js';
 import type { KTWeakMapRef } from './weak-map.js';
 import type { KTWeakSetRef } from './weak-set.js';
 
+type KTIsExactlyBoolean<T> = [T] extends [boolean] ? ([boolean] extends [T] ? true : false) : false;
+
 type KTAutoRef<T> =
-  T extends Array<any>
-    ? KTArrayRef<T>
-    : T extends Map<infer K, infer V>
-      ? KTMapRef<K, V>
-      : T extends Set<infer U>
-        ? KTSetRef<U>
-        : T extends Date
-          ? KTDateRef
-          : T extends WeakSet<infer U>
-            ? KTWeakSetRef<U>
-            : T extends WeakMap<infer K, infer V>
-              ? KTWeakMapRef<K, V>
-              : KTRef<T>;
+  KTIsExactlyBoolean<T> extends true
+    ? KTRef<boolean>
+    : T extends Array<infer A>
+      ? KTArrayRef<A>
+      : T extends Map<infer K, infer V>
+        ? KTMapRef<K, V>
+        : T extends Set<infer U>
+          ? KTSetRef<U>
+          : T extends Date
+            ? KTDateRef
+            : T extends WeakSet<infer U>
+              ? KTWeakSetRef<U>
+              : T extends WeakMap<infer K, infer V>
+                ? KTWeakMapRef<K, V>
+                : KTRef<T>;

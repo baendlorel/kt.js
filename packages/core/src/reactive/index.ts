@@ -23,5 +23,15 @@ export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
 
 export * from './core.js';
 export * from './refs/base.js';
+export * from './refs/array.js';
+export * from './refs/object.js';
+export * from './refs/map.js';
+export * from './refs/set.js';
+export * from './refs/weak-map.js';
+export * from './refs/weak-set.js';
+export * from './refs/date.js';
+export * from './refs/form-data.js';
+export * from './refs/headers.js';
+export * from './refs/url-search-params.js';
 export * from './computed.js';
 export * from './effect.js';

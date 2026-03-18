@@ -5,6 +5,18 @@ import { isComputed, isRef, KTReactiveType } from '../core.js';
 import { IdGenerator } from '../../common.js';
 import { computed, type KTComputed } from '../computed.js';
 
+type RefFactoryMatcher = (value: unknown) => boolean;
+type RefFactoryCreator = (value: unknown, onChange?: ReactiveChangeHandler<any>) => KTRef<any>;
+
+const refFactories: Array<{
+  match: RefFactoryMatcher;
+  create: RefFactoryCreator;
+}> = [];
+
+export function registerRefFactory(match: RefFactoryMatcher, create: RefFactoryCreator) {
+  refFactories.push({ match, create });
+}
+
 export class KTRef<T> implements KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
@@ -34,6 +46,22 @@ export class KTRef<T> implements KTReactive<T> {
       return;
     }
     this._onChanges.forEach((c) => c(newValue, oldValue));
+  }
+
+  /**
+   * @internal
+   */
+  protected _emitSelf(handlerKeys?: ReactiveChangeKey[]) {
+    this._emit(this._value, this._value, handlerKeys);
+  }
+
+  /**
+   * @internal
+   */
+  protected _applyMutation<R>(mutator: (value: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
+    const result = mutator(this._value);
+    this._emitSelf(handlerKeys);
+    return result;
   }
 
   constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {
@@ -121,6 +149,19 @@ export class KTRef<T> implements KTReactive<T> {
  * @param value mostly an HTMLElement
  */
 export function ref<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>): KTRef<T> {
+  if (isRef(value)) {
+    if (onChange) {
+      value.addOnChange(onChange as ReactiveChangeHandler<any>);
+    }
+    return value as KTRef<T>;
+  }
+
+  for (let i = 0; i < refFactories.length; i++) {
+    if (refFactories[i].match(value)) {
+      return refFactories[i].create(value, onChange) as KTRef<T>;
+    }
+  }
+
   return new KTRef<T>(value as any, onChange);
 }
 

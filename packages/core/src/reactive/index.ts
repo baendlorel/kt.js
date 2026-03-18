@@ -1,7 +1,7 @@
 import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT } from './core.js';
-import { ref } from './refs/base.js';
+import { ref } from './ref.js';
 
 export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> => {
   if (isKT(value)) {
@@ -22,7 +22,7 @@ export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
 }
 
 export * from './core.js';
-export * from './refs/base.js';
+export * from './ref.js';
 export * from './refs/array.js';
 export * from './refs/map.js';
 export * from './refs/set.js';

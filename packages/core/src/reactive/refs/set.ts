@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from './base.js';
+import { KTRef, registerRefFactory } from '../ref.js';
 
 export class KTSetRef<T> extends KTRef<Set<T>> {
   constructor(value: Set<T>, onChange?: ReactiveChangeHandler<Set<T>>) {

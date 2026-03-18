@@ -1,9 +1,9 @@
 import { $emptyFn, $is } from '@ktjs/shared';
-import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../../types/reactive.js';
-import type { JSX } from '../../types/jsx.js';
-import { isComputed, isRef, KTReactiveType } from '../core.js';
-import { IdGenerator } from '../../common.js';
-import { computed, type KTComputed } from '../computed.js';
+import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../types/reactive.js';
+import type { JSX } from '../types/jsx.js';
+import { isRef, KTReactiveType } from './core.js';
+import { IdGenerator } from '../common.js';
+import { computed, type KTComputed } from './computed.js';
 
 type RefFactoryMatcher = (value: unknown) => boolean;
 type RefFactoryCreator = (value: unknown, onChange?: ReactiveChangeHandler<any>) => KTRef<any>;
@@ -46,14 +46,6 @@ export class KTRef<T> implements KTReactive<T> {
       return;
     }
     this._onChanges.forEach((c) => c(newValue, oldValue));
-  }
-
-  /**
-   * Same as `this.notify()`, but does not have values as params nor `if` checks
-   * @internal
-   */
-  protected _forceEmit() {
-    this._onChanges.forEach((c) => c(this._value, this._value));
   }
 
   constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {

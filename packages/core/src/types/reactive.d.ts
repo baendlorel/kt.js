@@ -4,7 +4,7 @@ import type { KTReactiveType } from '../reactive/core.ts';
 export type ReactiveChangeHandler<T> = (newValue: T, oldValue: T) => void;
 export type ReactiveChangeKey = string | number;
 
-export class KTReactive<T> {
+export interface KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */

@@ -1,6 +1,6 @@
 import type { ReactiveChangeHandler } from '../../types/reactive.js';
 import { KTReactiveType } from '../core.js';
-import { KTRef, registerRefFactory } from './base.js';
+import { KTRef, registerRefFactory } from '../ref.js';
 
 export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
   constructor(value: Map<K, V>, onChange?: ReactiveChangeHandler<Map<K, V>>) {
@@ -9,15 +9,15 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
   }
 
   get size() {
-    return this.value.size;
+    return this._value.size;
   }
 
   has(key: K) {
-    return this.value.has(key);
+    return this._value.has(key);
   }
 
   get(key: K) {
-    return this.value.get(key);
+    return this._value.get(key);
   }
 
   set(key: K, value: V): this {
@@ -40,5 +40,6 @@ export class KTMapRef<K, V> extends KTRef<Map<K, V>> {
 
 registerRefFactory(
   (value) => value instanceof Map,
-  (value, onChange) => new KTMapRef(value as Map<unknown, unknown>, onChange as ReactiveChangeHandler<Map<unknown, unknown>> | undefined),
+  (value, onChange) =>
+    new KTMapRef(value as Map<unknown, unknown>, onChange as ReactiveChangeHandler<Map<unknown, unknown>> | undefined),
 );

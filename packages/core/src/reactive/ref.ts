@@ -2,7 +2,7 @@ import { $emptyFn } from '@ktjs/shared';
 import type { ReactiveChangeHandler } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 
-import type { KTAutoRef } from './refs/ref.js';
+import type { KTAutoRef } from './refs/auto-ref.js';
 import { KTRef } from './refs/ref.js';
 import { isRef } from './core.js';
 import { arrayRef } from './refs/array.js';
@@ -23,6 +23,7 @@ import { weakSetRef } from './refs/weak-set.js';
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  */
 export function autoRef<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
+  // todo 这里要人工判定了
   return new KTRef<T>(value as any, onChange) as KTAutoRef<T>;
 }
 

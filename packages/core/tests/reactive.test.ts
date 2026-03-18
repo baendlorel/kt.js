@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { ref, computed, type KTRef } from '../src/reactive/index.js';
+import { ref, computed } from '../src/reactive/index.js';
+import type { KTRef } from '../src/reactive/refs/ref.js';
 
 type IsEqual<A, B> =
   (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B ? 1 : 2

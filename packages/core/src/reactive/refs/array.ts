@@ -83,5 +83,6 @@ export class KTArrayRef<T> extends KTRef<T[]> {
     return apply(this, this._value.copyWithin, args);
   }
 }
+
 export const arrayRef = (value: unknown, onChange?: ReactiveChangeHandler<any>) =>
   new KTArrayRef(value as any[], onChange);

@@ -21,15 +21,21 @@ describe('MUI BottomNavigation component reactivity', () => {
       />
     );
 
-    expect(navigation.querySelector('[data-value="recents"]')?.className).toContain('mui-bottom-navigation-action-selected');
+    expect(navigation.querySelector('[data-value="recents"]')?.className).toContain(
+      'mui-bottom-navigation-action-selected',
+    );
 
     model.value = 'favorites';
-    expect(navigation.querySelector('[data-value="favorites"]')?.className).toContain('mui-bottom-navigation-action-selected');
+    expect(navigation.querySelector('[data-value="favorites"]')?.className).toContain(
+      'mui-bottom-navigation-action-selected',
+    );
 
     options.value = [{ value: 'home', label: 'Home' }];
 
     expect(model.value).toBe('home');
-    expect(navigation.querySelector('[data-value="home"]')?.className).toContain('mui-bottom-navigation-action-selected');
+    expect(navigation.querySelector('[data-value="home"]')?.className).toContain(
+      'mui-bottom-navigation-action-selected',
+    );
     expect(onChange).toHaveBeenLastCalledWith('home', 'favorites', 0, options.value[0]);
   });
 

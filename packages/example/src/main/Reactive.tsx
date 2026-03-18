@@ -1,6 +1,7 @@
 import { computed, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 
+import autoRefCode from '../code/auto-ref.ts?raw';
 import reactiveCode from '../code/reactive.tsx?raw';
 import reactiveApiCode from '../code/ktreactive-methods.ts?raw';
 import { Code } from '../components/Code.js';
@@ -117,6 +118,33 @@ export function Reactivity() {
         <h3 k-html={t('reactive.section.title')}></h3>
         <p k-html={t('reactive.section.description')}></p>
         <Code code={reactiveCode} />
+      </div>
+      <div class="demo-section">
+        <h3 k-html={t('reactive.ref.title')}></h3>
+        <p k-html={t('reactive.ref.description')}></p>
+        <div class="demo-block">
+          <p class="demo-desc" k-html={t('reactive.ref.overview')}></p>
+          <ul class="reactive-api-method-list">
+            <li>
+              <code>ref([]) -&gt; KTArrayRef</code>
+              <p k-html={t('reactive.ref.item.array')}></p>
+            </li>
+            <li>
+              <code>ref(new Map()) / ref(new Set())</code>
+              <p k-html={t('reactive.ref.item.mapSet')}></p>
+            </li>
+            <li>
+              <code>ref(new WeakMap()) / ref(new WeakSet())</code>
+              <p k-html={t('reactive.ref.item.weak')}></p>
+            </li>
+            <li>
+              <code>ref(new Date()) -&gt; KTDateRef</code>
+              <p k-html={t('reactive.ref.item.date')}></p>
+            </li>
+          </ul>
+          <p class="demo-desc" k-html={t('reactive.ref.tip')}></p>
+        </div>
+        <Code code={autoRefCode} lang="ts" />
       </div>
       <div class="demo-section">
         <h3 k-html={t('reactive.attribute.title')}></h3>

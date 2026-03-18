@@ -181,10 +181,10 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   };
 
   const handleListKeyDown = (e: KeyboardEvent) => {
-    const focused = document.activeElement as HTMLButtonElement | null;
+    const focused = document.activeElement as HTMLButtonElement;
     const focusedIndex = tabButtons.findIndex((button) => button === focused);
     if (focusedIndex < 0) {
-      return;
+      return; // & excludes the situation where `focused` is null or not a tab button
     }
 
     const isVertical = orientationRef.value === 'vertical';
@@ -214,7 +214,6 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
 
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      // fixme
       focused.click();
     }
   };

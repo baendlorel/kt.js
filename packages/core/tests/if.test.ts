@@ -27,7 +27,9 @@ describe('KTConditional', () => {
   });
 
   it('returns the else branch when static condition is false', () => {
-    const rendered = KTConditional(false, 'div', { children: 'if-branch' }, 'span', { children: 'else-branch' }) as HTMLElement;
+    const rendered = KTConditional(false, 'div', { children: 'if-branch' }, 'span', {
+      children: 'else-branch',
+    }) as HTMLElement;
 
     expect(rendered.tagName).toBe('SPAN');
     expect(rendered.textContent).toBe('else-branch');
@@ -53,13 +55,10 @@ describe('KTConditional', () => {
 
   it('switches between if/else branches when reactive condition changes', () => {
     const visible = ref(true);
-    const node = KTConditional(
-      visible,
-      'div',
-      { class: 'if-branch', children: 'if-branch' },
-      'div',
-      { class: 'else-branch', children: 'else-branch' },
-    ) as Node;
+    const node = KTConditional(visible, 'div', { class: 'if-branch', children: 'if-branch' }, 'div', {
+      class: 'else-branch',
+      children: 'else-branch',
+    }) as Node;
 
     container.appendChild(node);
     expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');

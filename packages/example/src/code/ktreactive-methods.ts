@@ -5,25 +5,39 @@ const state = ref(1);
 // 1) value: read + write
 state.value = state.value + 1;
 
-// 2) toComputed: derive a computed value
+// 2) auto specialized refs for common containers
+const list = ref([1, 2]); // KTArrayRef<number>
+list.push(3);
+
+const mapping = ref(new Map<string, number>()); // KTMapRef<string, number>
+mapping.set('count', 1);
+
+const clock = ref(new Date()); // KTDateRef
+clock.setUTCFullYear(2026);
+
+// Mutating through `.value` is still manual.
+list.value.push(4);
+list.notify();
+
+// 3) toComputed: derive a computed value
 const doubled = state.toComputed((current) => current * 2);
 
-// 3) addOnChange: subscribe to changes
+// 4) addOnChange: subscribe to changes
 const listenerKey = state.addOnChange((next, prev) => {
   console.log('state changed:', prev, '->', next);
 });
 
-// 4) removeOnChange: unsubscribe by key
+// 5) removeOnChange: unsubscribe by key
 state.removeOnChange(listenerKey);
 
-// 5) mutate: in-place mutation + emit once
+// 6) mutate: in-place mutation + emit once
 const profile = ref({ count: 0, updatedAt: '--:--:--' });
 profile.mutate((current) => {
   current.count += 1;
   current.updatedAt = new Date().toLocaleTimeString();
 });
 
-// 6) notify: force emit after in-place mutation
+// 7) notify: force emit after in-place mutation
 profile.value.count += 1;
 profile.notify();
 

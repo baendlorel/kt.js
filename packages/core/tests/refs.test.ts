@@ -1,13 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import {
-  KTArrayRef,
-  KTDateRef,
-  KTMapRef,
-  KTSetRef,
-  KTWeakMapRef,
-  KTWeakSetRef,
-  ref,
-} from '../src/reactive/index.js';
+import { KTArrayRef, KTDateRef, KTMapRef, KTSetRef, KTWeakMapRef, KTWeakSetRef, ref } from '../src/reactive/index.js';
 
 describe('specialized refs', () => {
   it('creates an array ref and emits after mutating methods', () => {

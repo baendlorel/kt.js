@@ -44,7 +44,21 @@ export const zh = {
   'ie11.description':
     '若要让你的项目完整兼容 IE11，需要使用 Babel 对代码进行转译并引入必要的 polyfill。下面是示例使用的 Vite 配置：',
   'reactive.section.title': '<code>ref</code> 与 <code>computed</code>',
-  'reactive.section.description': '请注意，<code>computed</code> 的依赖需要手动声明。',
+  'reactive.section.description':
+    '<code>ref()</code> 现在会为数组、Map、Set、WeakMap、WeakSet、Date 自动返回对应的特种 ref；<code>computed</code> 的依赖仍需手动声明。',
+  'reactive.ref.title': '<code>ref()</code> 自动特化',
+  'reactive.ref.description':
+    '这是一次“增强”而不是替代：原有 <code>value</code> / <code>notify()</code> / <code>mutate()</code> 写法仍可继续使用，只是常见容器现在多了更自然的 ref 级别方法。',
+  'reactive.ref.overview': '当前会自动特化的常见类型：',
+  'reactive.ref.item.array':
+    '可直接调用 <code>push</code>、<code>splice</code>、<code>sort</code> 等方法，并自动触发一次更新。',
+  'reactive.ref.item.mapSet':
+    '可直接调用 <code>set</code>、<code>add</code>、<code>delete</code>、<code>clear</code>，不必手写 <code>notify()</code>。',
+  'reactive.ref.item.weak': 'Weak 容器同样会自动包装，适合只通过对象引用管理状态的场景。',
+  'reactive.ref.item.date':
+    '调用 <code>setFullYear</code>、<code>setUTCFullYear</code> 等 setter 后会自动发出变化通知。',
+  'reactive.ref.tip':
+    '注意：只有通过 ref 自身的方法修改时才会自动触发更新；如果你直接修改 <code>ref.value</code> 内部内容，仍然需要 <code>notify()</code> 或 <code>mutate()</code>。若你明确只想要普通 <code>KTRef</code>，可改用 <code>createRef()</code>。',
   'reactive.attribute.title': '属性 Ref',
   'reactive.attribute.description': '让元素属性具备响应式能力。',
   'reactive.attribute.currentWidth': '当前宽度：{{1}}',
@@ -57,8 +71,9 @@ export const zh = {
     '下面按方法展示 <code>KTReactive</code> 的常见用法，示例基于 <code>ref</code>，同样适用于 <code>computed</code>。',
   'reactive.api.overview': '核心 API 一览：',
   'reactive.api.method.value': '读取或设置当前响应式值。',
-  'reactive.api.method.notify': '强制触发监听器；适合对象/数组原地修改后手动刷新。',
-  'reactive.api.method.mutate': '在一个回调里原地修改并自动触发一次更新。',
+  'reactive.api.method.notify':
+    '当你直接修改 <code>ref.value</code> 内部内容时，可强制触发监听器；适合普通对象或未走特种 ref 方法的原地更新。',
+  'reactive.api.method.mutate': '在一个回调里原地修改并自动触发一次更新；适合把修改与 emit 合并成一步。',
   'reactive.api.method.toComputed': '基于当前 reactive 派生 <code>computed</code>，可附加额外依赖。',
   'reactive.api.method.addOnChange': '注册值变化监听，可选自定义 key。',
   'reactive.api.method.removeOnChange': '按 key 移除监听器。',
@@ -70,7 +85,7 @@ export const zh = {
   'reactive.api.value.increment': '+1',
   'reactive.api.notifyMutate.title': '<code>notify</code> / <code>mutate</code>',
   'reactive.api.notifyMutate.description':
-    '对象原地修改不会自动刷新；可用 <code>notify()</code> 手动触发，或使用 <code>mutate()</code> 一步完成。',
+    '直接修改 <code>ref.value</code> 的内部内容不会自动刷新；可用 <code>notify()</code> 手动触发，或使用 <code>mutate()</code> 一步完成。',
   'reactive.api.notifyMutate.inline': '仅原地修改',
   'reactive.api.notifyMutate.notify': '调用 notify()',
   'reactive.api.notifyMutate.mutate': '使用 mutate()',

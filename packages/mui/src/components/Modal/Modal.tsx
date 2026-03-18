@@ -56,13 +56,13 @@ const createActions = (children: HTMLElement[]) => {
   for (let i = 0; i < children.length; i++) {
     fragment.appendChild(children[i]);
   }
-  const wrapper = <div class="mui-modal-actions"></div> as HTMLDivElement;
+  const wrapper = (<div class="mui-modal-actions"></div>) as HTMLDivElement;
   wrapper.appendChild(fragment);
   return wrapper;
 };
 
 const createContainer = (content: KTMuiModalContent) => {
-  const body = <div class="mui-modal-content"></div> as HTMLDivElement;
+  const body = (<div class="mui-modal-content"></div>) as HTMLDivElement;
   body.appendChild(resolveContent(content));
   return body;
 };
@@ -170,7 +170,7 @@ export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOpti
         placeholder={options.placeholder ?? ''}
       />
     ) as HTMLInputElement;
-    const error = <p class="mui-modal-prompt-error" style="display:none;"></p> as HTMLParagraphElement;
+    const error = (<p class="mui-modal-prompt-error" style="display:none;"></p>) as HTMLParagraphElement;
 
     const settle = (value: string | null) => {
       if (settled) {

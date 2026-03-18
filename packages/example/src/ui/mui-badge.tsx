@@ -31,9 +31,7 @@ export function MuiBadgeDemo() {
 
       <div class="button-group" style="align-items:center;">
         <Badge variant="dot" color="success" overlap="circular">
-          <span
-            style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:50%; background:#dbeafe; color:#1d4ed8; font-weight:700;"
-          >
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:50%; background:#dbeafe; color:#1d4ed8; font-weight:700;">
             A
           </span>
         </Badge>

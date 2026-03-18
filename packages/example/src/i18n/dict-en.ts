@@ -50,7 +50,21 @@ export const en: typeof zh = {
     'To make your project fully compatible with IE11, we need to transpile the code with Babel and include necessary polyfills. Below is the Vite configuration used for this purpose:',
   'reactive.section.title': '<code>ref</code> and <code>computed</code>',
   'reactive.section.description':
-    'Note that you should manually declare dependencies for a <code>computed</code> value.',
+    '<code>ref()</code> now auto-specializes arrays, Map, Set, WeakMap, WeakSet, and Date into dedicated refs. <code>computed</code> dependencies still need to be declared manually.',
+  'reactive.ref.title': '<code>ref()</code> auto specialization',
+  'reactive.ref.description':
+    'This is an enhancement, not a replacement: existing <code>value</code> / <code>notify()</code> / <code>mutate()</code> flows still work, while common containers now expose more natural ref-level mutating methods.',
+  'reactive.ref.overview': 'Currently auto-specialized built-ins:',
+  'reactive.ref.item.array':
+    'Call <code>push</code>, <code>splice</code>, <code>sort</code>, and similar methods directly on the ref and emit once automatically.',
+  'reactive.ref.item.mapSet':
+    'Call <code>set</code>, <code>add</code>, <code>delete</code>, or <code>clear</code> without writing <code>notify()</code> yourself.',
+  'reactive.ref.item.weak':
+    'Weak containers are wrapped too, which is useful when state is keyed only by object identity.',
+  'reactive.ref.item.date':
+    'Calling setters such as <code>setFullYear</code> or <code>setUTCFullYear</code> emits changes automatically.',
+  'reactive.ref.tip':
+    'Important: auto emitting happens only when you mutate through the ref methods themselves. If you mutate inside <code>ref.value</code> directly, you still need <code>notify()</code> or <code>mutate()</code>. If you explicitly want a plain <code>KTRef</code>, use <code>createRef()</code>.',
   'reactive.attribute.title': 'Attribute Ref',
   'reactive.attribute.description': 'Make attributes reactive.',
   'reactive.attribute.currentWidth': 'Current Width: {{1}}',
@@ -63,8 +77,10 @@ export const en: typeof zh = {
     'The following blocks explain each <code>KTReactive</code> public method in practice. Demos are based on <code>ref</code>, and also apply to <code>computed</code>.',
   'reactive.api.overview': 'Core API overview:',
   'reactive.api.method.value': 'Read or set the current reactive value.',
-  'reactive.api.method.notify': 'Force listeners to run; useful after in-place object/array updates.',
-  'reactive.api.method.mutate': 'Mutate in-place within one callback and emit exactly once.',
+  'reactive.api.method.notify':
+    'Force listeners to run after mutating inside <code>ref.value</code>; useful for plain objects or updates that do not go through specialized ref methods.',
+  'reactive.api.method.mutate':
+    'Mutate in-place within one callback and emit exactly once; useful when you want mutation and emit in one step.',
   'reactive.api.method.toComputed':
     'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
@@ -77,7 +93,7 @@ export const en: typeof zh = {
   'reactive.api.value.increment': '+1',
   'reactive.api.notifyMutate.title': '<code>notify</code> / <code>mutate</code>',
   'reactive.api.notifyMutate.description':
-    'In-place object mutation does not auto refresh. Use <code>notify()</code> to force emit, or <code>mutate()</code> to do both in one step.',
+    'Direct in-place mutation inside <code>ref.value</code> does not auto refresh. Use <code>notify()</code> to force emit, or <code>mutate()</code> to do both in one step.',
   'reactive.api.notifyMutate.inline': 'In-place only',
   'reactive.api.notifyMutate.notify': 'Call notify()',
   'reactive.api.notifyMutate.mutate': 'Use mutate()',

@@ -33,55 +33,35 @@ export class KTArrayRef<T> extends KTRef<T[]> {
   /**
    * Same as `Array.prototype.shift`, but emits change after calling it
    */
-  shift(): T | undefined {
-    return this._applyMutation((currentValue) => currentValue.shift());
-  }
+  shift(): T | undefined {}
 
   /**
    * Same as `Array.prototype.unshift`, but emits change after calling it
    */
-  unshift(...items: T[]): number {
-    return this._applyMutation((currentValue) => currentValue.unshift(...items));
-  }
+  unshift(...items: T[]): number {}
 
   /**
    * Same as `Array.prototype.splice`, but emits change after calling it
    */
-  splice(start: number, deleteCount?: number, ...items: T[]): T[] {
-    return this._applyMutation((currentValue) =>
-      currentValue.splice(start, deleteCount ?? currentValue.length - start, ...items),
-    );
-  }
+  splice(start: number, deleteCount?: number, ...items: T[]): T[] {}
 
   /**
    * Same as `Array.prototype.sort`, but emits change after calling it
    */
-  sort(compareFn?: (a: T, b: T) => number): this {
-    this._applyMutation((currentValue) => currentValue.sort(compareFn));
-    return this;
-  }
+  sort(compareFn?: (a: T, b: T) => number): this {}
 
   /**
    * Same as `Array.prototype.reverse`, but emits change after calling it
    */
-  reverse(): this {
-    this._applyMutation((currentValue) => currentValue.reverse());
-    return this;
-  }
+  reverse(): this {}
 
   /**
    * Same as `Array.prototype.fill`, but emits change after calling it
    */
-  fill(value: T, start?: number, end?: number): this {
-    this._applyMutation((currentValue) => currentValue.fill(value, start, end));
-    return this;
-  }
+  fill(value: T, start?: number, end?: number): this {}
 
   /**
    * Same as `Array.prototype.copyWithin`, but emits change after calling it
    */
-  copyWithin(target: number, start: number, end?: number): this {
-    this._applyMutation((currentValue) => currentValue.copyWithin(target, start, end));
-    return this;
-  }
+  copyWithin(target: number, start: number, end?: number): this {}
 }

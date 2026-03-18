@@ -3,7 +3,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 
 import { h, mathml as _mathml, svg as _svg } from '../h/index.js';
-import { $initRef, isComputed, type KTRef, ref } from '../reactive/index.js';
+import { $initRef, isComputed } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 

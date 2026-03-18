@@ -34,6 +34,7 @@ const normalizeLang = (lang: string) => {
 };
 
 export const highlight = (code: string, lang: string = 'tsx') => {
+  code = code.replace(`// @ts-ignore\n`, '').replace(`// @ts-nocheck\n`, '');
   const o = ref(document.createComment('loading code...') as unknown as Node);
   highlighterPromise
     .then((highlighter) => {
@@ -48,6 +49,7 @@ export const highlight = (code: string, lang: string = 'tsx') => {
 };
 
 export const highlightDark = (code: string, lang: string = 'tsx') => {
+  code = code.replace(`// @ts-ignore\n`, '').replace(`// @ts-nocheck\n`, '');
   const o = ref(document.createComment('loading code...') as unknown as Node);
   highlighterDarkPromise
     .then((highlighter) => {

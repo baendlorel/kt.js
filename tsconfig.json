@@ -38,7 +38,7 @@
     "./packages/**/*.js",
     "./configs/*.ts"
   ],
-  "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts", "**/example/**/code/**"],
+  "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/example" },

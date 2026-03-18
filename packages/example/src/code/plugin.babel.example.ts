@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from 'vite';
 import babel from 'vite-plugin-babel';
 import babelKTjsx from '@ktjs/babel-plugin-ktjsx';

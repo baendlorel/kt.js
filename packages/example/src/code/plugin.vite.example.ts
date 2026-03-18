@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from 'vite';
 import ktjsx from '@ktjs/vite-plugin-ktjsx';
 

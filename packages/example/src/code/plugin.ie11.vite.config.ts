@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from 'vite';
 import babel from 'vite-plugin-babel';
 import legacy from '@vitejs/plugin-legacy';

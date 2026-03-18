@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { autoRef, ref } from 'kt.js';
 
 const list = autoRef([1, 2]);

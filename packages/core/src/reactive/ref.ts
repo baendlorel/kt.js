@@ -27,6 +27,7 @@ export class KTRef<T> extends KTReactive<T> {
 
   get draft() {
     // todo add to microtask queue
+    addReaction;
     return this._value;
   }
 

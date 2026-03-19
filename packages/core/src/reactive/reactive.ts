@@ -53,11 +53,18 @@ export class KTReactive<T> {
   }
 
   /**
+   * If new value and old value are both nodes, the old one will be replaced in the DOM
+   */
+  set value(_value: T) {
+    // & only `KTRef` will take effect when setting.
+  }
+
+  /**
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    * - Is implemented differently in `KTRef` and `KTComputed`
    */
-  notify(...args: unknown[]): this {
+  notify(..._args: unknown[]): this {
     throw new Error('This is meant to be override in ref.ts and computed.ts');
   }
 
@@ -69,7 +76,8 @@ export class KTReactive<T> {
    *
    * @see ./computed.ts implemented in `KTComputed`
    */
-  map<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
+  map<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R>;
+  map<R>(..._args: unknown[]): KTComputed<R> {
     throw new Error('This is meant to be override in computed.ts');
   }
 

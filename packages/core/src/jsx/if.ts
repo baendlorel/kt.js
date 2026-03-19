@@ -1,6 +1,6 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
-import type { KTReactive } from '../types/reactive.js';
+import type { KTReactive } from '../reactive/reactive.js';
 
 import { isKT } from '../reactive/index.js';
 import { jsxh, placeholder } from './common.js';

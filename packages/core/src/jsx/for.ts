@@ -1,5 +1,5 @@
-import type { KTRef } from '../reactive/refs/ref.js';
-import type { KTReactive } from '../types/reactive.js';
+import type { KTRef } from '../reactive/ref.js';
+import type { KTReactive } from '../reactive/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { $initRef, toReactive } from '../reactive/index.js';
 import { $identity } from '@ktjs/shared';

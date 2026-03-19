@@ -1,15 +1,15 @@
 // Use microqueue to schedule the flush of pending reactions
 
-import type { KTReactive } from '../types/reactive.js';
-import type { Publicify } from '../types/type-utils.js';
+import { KTRef } from './ref.js';
 
-const reactiveToOldValue = new Map<KTReactive<any>, any>();
+const reactiveToOldValue = new Map<KTRef<any>, any>();
 
 let scheduled = false;
 
-export const addReaction = (reactive: KTReactive<any>, oldValue: any) => {
+export const addReaction = (reactive: KTRef<any>, oldValue: any) => {
   if (!reactiveToOldValue.has(reactive)) {
     reactiveToOldValue.set(reactive, oldValue);
+    schedule();
   }
 };
 
@@ -18,10 +18,9 @@ const schedule = () => {
     scheduled = true;
     Promise.resolve().then(() => {
       scheduled = false;
-      reactiveToOldValue.forEach((reactive: any, oldValue) => {
-        reactive._onChanges.forEach((handler) => {
-          handler(reactive._value, oldValue);
-        });
+      reactiveToOldValue.forEach((oldValue, reactive) => {
+        // @ts-expect-error accessing protected property
+        reactive._changeHandlers.forEach((handler) => handler(reactive.value, oldValue));
       });
       reactiveToOldValue.clear();
     });

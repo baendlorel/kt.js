@@ -1,58 +1,120 @@
-import { $emptyFn } from '@ktjs/shared';
-import type { ReactiveChangeHandler } from '../types/reactive.js';
+import { $emptyFn, $is } from '@ktjs/shared';
+import type { ChangeHandler, KTReactive } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 
-import type { KTAutoRef } from './refs/auto-ref.js';
-import { KTRef } from './refs/ref.js';
-import { isRef } from './core.js';
-import { arrayRef } from './refs/array.js';
-import { dateRef } from './refs/date.js';
-import { mapRef } from './refs/map.js';
-import { setRef } from './refs/set.js';
-import { weakMapRef } from './refs/weak-map.js';
-import { weakSetRef } from './refs/weak-set.js';
+import { IdGenerator } from '../common.js';
+import { isRef, KTReactiveType } from './core.js';
+import { KTComputed, computed } from './index.js';
 
-/**
- * Reference to the created HTML element or other reactive data.
- * - **Only** respond to `ref.value` changes, not reactive to internal changes of the element.
- * - Automatically wrap the value with corresponding ref type based on its type.
- *   - When wrapped, setter-like methods will be reactive. like `push` for `Array`, `set` for `Map`, `add` for `Set`, etc.
- *   - Supports: `Array`, `Map`, `Set`, `WeakMap`, `WeakSet`, `Date`.
- *   - Since there will be some cost for runtime detection, and compilation plugin might not be able to analyze all cases. It is recommended to use specific ref type directly if you already know the type of value, like `ref.array`, `ref.map`, etc.
- * @param value any data
- * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
- */
-export function autoRef<T>(value?: T, onChange?: ReactiveChangeHandler<T>): KTAutoRef<T> {
-  if (Array.isArray(value)) {
-    return arrayRef(value, onChange) as KTAutoRef<T>;
+export class KTRef<T> implements KTReactive<T> {
+  /**
+   * Indicates that this is a KTRef instance
+   */
+  isKT = true as const;
+
+  ktType = KTReactiveType.Ref;
+
+  /**
+   * @internal
+   */
+  protected _value: T;
+
+  /**
+   * @internal
+   */
+  protected _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>>;
+
+  /**
+   * @internal
+   */
+  protected _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
+    if (handlerKeys) {
+      for (let i = 0; i < handlerKeys.length; i++) {
+        this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
+      }
+      return;
+    }
+    this._onChanges.forEach((c) => c(newValue, oldValue));
   }
-  if (value instanceof Map) {
-    return mapRef(value, onChange) as KTAutoRef<T>;
+
+  constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {
+    this._value = _value;
+    this._onChanges = new Map();
+    if (_onChange) {
+      this._onChanges.set(IdGenerator.refOnChangeId, _onChange);
+    }
   }
-  if (value instanceof Set) {
-    return setRef(value, onChange) as KTAutoRef<T>;
+
+  /**
+   * If new value and old value are both nodes, the old one will be replaced in the DOM
+   */
+  get value() {
+    return this._value;
   }
-  if (value instanceof WeakMap) {
-    return weakMapRef(value, onChange) as KTAutoRef<T>;
+
+  set value(newValue: T) {
+    if ($is(newValue, this._value)) {
+      return;
+    }
+    const oldValue = this._value;
+    this._value = newValue;
+    this._emit(newValue, oldValue);
   }
-  if (value instanceof WeakSet) {
-    return weakSetRef(value, onChange) as KTAutoRef<T>;
+
+  /**
+   * Force all listeners to run even when reference identity has not changed.
+   * Useful for in-place array/object mutations.
+   */
+  notify(handlerKeys?: ReactiveChangeKey[]) {
+    this._emit(this._value, this._value, handlerKeys);
   }
-  if (value instanceof Date) {
-    return dateRef(value, onChange) as KTAutoRef<T>;
+
+  /**
+   * Mutate current value in-place and notify listeners once.
+   *
+   * @example
+   * const items = ref<number[]>([1, 2]);
+   * items.mutate((list) => list.push(3));
+   */
+  mutate<R = void>(mutator: (currentValue: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
+    if (typeof mutator !== 'function') {
+      $throw('KTRef.mutate: mutator must be a function');
+    }
+    const oldValue = this._value;
+    const result = mutator(this._value);
+    this._emit(this._value, oldValue, handlerKeys);
+    return result;
   }
-  return new KTRef<T>(value as any, onChange) as KTAutoRef<T>;
+
+  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
+    return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
+  }
+
+  /**
+   * Register a callback when the value changes
+   * @param callback (newValue, oldValue) => xxx
+   * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
+   */
+  addOnChange<K extends ReactiveChangeKey | undefined>(
+    callback: ReactiveChangeHandler<T>,
+    key?: K,
+  ): K extends undefined ? number : K {
+    if (typeof callback !== 'function') {
+      $throw('KTRef.addOnChange: callback must be a function');
+    }
+    const k = key ?? IdGenerator.refOnChangeId;
+    this._onChanges.set(k, callback);
+    return k as K extends undefined ? number : K;
+  }
+
+  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined {
+    const callback = this._onChanges.get(key);
+    this._onChanges.delete(key);
+    return callback;
+  }
 }
 
-type RefCreator = (<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler<T>) => KTRef<T>) & {
-  array: typeof arrayRef;
-  date: typeof dateRef;
-  map: typeof mapRef;
-  set: typeof setRef;
-  weakMap: typeof weakMapRef;
-  weakSet: typeof weakSetRef;
-};
-
+type RefCreator = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => KTRef<T>;
 // todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref
 /**
  * Create a plain `KTRef` object.
@@ -64,12 +126,6 @@ type RefCreator = (<T = JSX.Element>(value?: T, onChange?: ReactiveChangeHandler
  * @returns
  */
 const ref: RefCreator = ((value, onChange) => new KTRef(value as any, onChange)) as RefCreator;
-ref.array = arrayRef;
-ref.date = dateRef;
-ref.map = mapRef;
-ref.set = setRef;
-ref.weakMap = weakMapRef;
-ref.weakSet = weakSetRef;
 
 export { ref };
 

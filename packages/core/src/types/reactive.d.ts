@@ -1,8 +1,8 @@
 import type { KTComputed } from '../reactive/computed.js';
 import type { KTReactiveType } from '../reactive/core.ts';
 
-export type ReactiveChangeHandler<T> = (newValue: T, oldValue: T) => void;
-export type ReactiveChangeKey = string | number;
+export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
+export type Key = string | number;
 
 export interface KTReactive<T> {
   /**
@@ -19,19 +19,10 @@ export interface KTReactive<T> {
   set value(newValue: T);
 
   /**
-   * Force all listeners to run even when reference identity has not changed.
+   * Force all listeners to run even when reference has not changed.
    * Useful for in-place array/object mutations.
    */
-  notify(handlerKeys?: ReactiveChangeKey[]): void;
-
-  /**
-   * Mutate current value in-place and notify listeners once.
-   *
-   * @example
-   * const items = ref<number[]>([1, 2]);
-   * items.mutate((list) => list.push(3));
-   */
-  mutate<R = void>(mutator: (currentValue: T) => R, handlerKeys?: ReactiveChangeKey[]): R;
+  notify(oldValue?: T, newValue?: T, handlerKeys?: Key[]): void;
 
   /**
    * Ccreate a computed value based on this `KTReactive` instance.
@@ -47,11 +38,8 @@ export interface KTReactive<T> {
    * @param callback (newValue, oldValue) => xxx
    * @param key Optional key to identify this change handler. If not provided, a numeric id will be generated and returned.
    */
-  addOnChange<K extends ReactiveChangeKey | undefined>(
-    callback: ReactiveChangeHandler<T>,
-    key?: K,
-  ): K extends undefined ? number : K;
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined;
+  addOnChange<K extends Key | undefined>(callback: ChangeHandler<T>, key?: K): this;
+  removeOnChange(key: Key): ChangeHandler<any> | undefined;
 }
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.

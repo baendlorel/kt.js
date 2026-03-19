@@ -1,4 +1,4 @@
-import type { KTReactive, ReactiveChangeHandler, ReactiveChangeKey } from '../types/reactive.js';
+import type { KTReactive, ChangeHandler, Key } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT, KTReactiveType } from './core.js';
 import { IdGenerator } from '../common.js';
@@ -24,12 +24,12 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>> = new Map();
+  private _onChanges: Map<Key, ChangeHandler<T>> = new Map();
 
   /**
    * @internal
    */
-  private _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
+  private _emit(newValue: T, oldValue: T, handlerKeys?: Key[]) {
     if (handlerKeys) {
       for (let i = 0; i < handlerKeys.length; i++) {
         this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
@@ -42,7 +42,7 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _recalculate(forceEmit: boolean = false, handlerKeys?: ReactiveChangeKey[]) {
+  private _recalculate(forceEmit: boolean = false, handlerKeys?: Key[]) {
     const oldValue = this._value;
     const newValue = this._calculator();
     if (oldValue === newValue) {
@@ -85,14 +85,14 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * Force listeners to run once with the latest computed result.
    */
-  notify(handlerKeys?: ReactiveChangeKey[]) {
+  notify(handlerKeys?: Key[]) {
     this._recalculate(true, handlerKeys);
   }
 
   /**
    * Computed values are derived from dependencies and should not be mutated manually.
    */
-  mutate<R = void>(_mutator?: (currentValue: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
+  mutate<R = void>(_mutator?: (currentValue: T) => R, handlerKeys?: Key[]): R {
     $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
     if (handlerKeys) {
       this._emit(this._value, this._value, handlerKeys);
@@ -108,10 +108,7 @@ export class KTComputed<T> implements KTReactive<T> {
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
    */
-  addOnChange<K extends ReactiveChangeKey | undefined>(
-    callback: ReactiveChangeHandler<T>,
-    key?: K,
-  ): K extends undefined ? number : K {
+  addOnChange<K extends Key | undefined>(callback: ChangeHandler<T>, key?: K): K extends undefined ? number : K {
     if (typeof callback !== 'function') {
       $throw('KTComputed.addOnChange: callback must be a function');
     }
@@ -124,7 +121,7 @@ export class KTComputed<T> implements KTReactive<T> {
    * Unregister a callback
    * @param key registered listener key
    */
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined {
+  removeOnChange(key: Key): ChangeHandler<any> | undefined {
     const callback = this._onChanges.get(key);
     this._onChanges.delete(key);
     return callback;

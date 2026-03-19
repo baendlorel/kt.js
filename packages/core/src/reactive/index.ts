@@ -1,9 +1,9 @@
-import type { KTReactive, ReactiveChangeHandler } from '../types/reactive.js';
+import type { KTReactive, ChangeHandler } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT } from './core.js';
 import { ref } from './ref.js';
 
-export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ReactiveChangeHandler<T>): KTReactive<T> => {
+export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ChangeHandler<T>): KTReactive<T> => {
   if (isKT(value)) {
     if (onChange) {
       value.addOnChange(onChange);

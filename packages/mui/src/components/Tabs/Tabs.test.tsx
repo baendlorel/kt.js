@@ -32,11 +32,11 @@ describe('MUI Tabs component', () => {
 
     const tabs = (
       <Tabs
-        {...({
+        {...{
           'k-model': model,
           options,
           'on:change': onChange,
-        } as any)}
+        }}
       />
     );
 
@@ -54,14 +54,14 @@ describe('MUI Tabs component', () => {
 
     const tabs = (
       <Tabs
-        {...({
+        {...{
           'k-model': model,
           options: [
             { value: 'overview', label: 'Overview' },
             { value: 'blocked', label: 'Blocked', disabled: true },
           ],
           'on:change': onChange,
-        } as any)}
+        }}
       />
     );
 
@@ -88,5 +88,21 @@ describe('MUI Tabs component', () => {
     expect(tabs.className).toContain('mui-tabs-variant-fullWidth');
     expect(tabs.className).toContain('mui-tabs-orientation-vertical');
     expect(tabs.className).toContain('mui-tabs-centered');
+  });
+
+  it('should ignore value prop and use the internal or k-model state instead', () => {
+    const tabs = (
+      <Tabs
+        {...({
+          value: 'analytics',
+          options: [
+            { value: 'overview', label: 'Overview' },
+            { value: 'analytics', label: 'Analytics' },
+          ],
+        } as any)}
+      />
+    );
+
+    expect(tabs.querySelector('.mui-tab-selected')?.getAttribute('data-value')).toBe('overview');
   });
 });

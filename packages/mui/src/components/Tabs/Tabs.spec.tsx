@@ -13,11 +13,11 @@ describe('MUI Tabs component reactivity', () => {
 
     const tabs = (
       <Tabs
-        {...({
+        {...{
           'k-model': model,
           options,
           'on:change': onChange,
-        } as any)}
+        }}
       />
     );
 

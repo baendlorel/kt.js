@@ -1,4 +1,4 @@
-import type { JSX } from '@ktjs/core';
+import type { JSX, KTReactive } from '@ktjs/core';
 import { $modelOrRef, KTConditional, KTFor, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -16,9 +16,9 @@ export interface KTMuiTabOption {
   icon?: JSX.Element | HTMLElement;
   disabled?: boolean;
 }
-// todo tabs要增加一个k-model，用来实时变化tab
+
 export interface KTMuiTabsProps extends KTMuiProps {
-  value?: KTMaybeReactive<string>;
+  'k-model'?: KTReactive<string>;
   options: KTMaybeReactive<KTMuiTabOption[]>;
   variant?: KTMaybeReactive<KTMuiTabsVariant>;
   textColor?: KTMaybeReactive<KTMuiTabsTextColor>;
@@ -29,15 +29,6 @@ export interface KTMuiTabsProps extends KTMuiProps {
 }
 
 export type KTMuiTabs = JSX.Element & {};
-
-const findFirstEnabled = (options: KTMuiTabOption[]) => {
-  for (let i = 0; i < options.length; i++) {
-    if (!options[i].disabled) {
-      return { option: options[i], index: i };
-    }
-  }
-  return null;
-};
 
 /**
  * Tabs component - mimics MUI Tabs appearance and behavior
@@ -54,9 +45,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const indicatorColorRef = toReactive(props.indicatorColor ?? 'primary');
   const orientationRef = toReactive(props.orientation ?? 'horizontal');
   const centeredRef = toReactive(props.centered ?? false);
-
-  const initialValue = typeof props.value === 'string' ? props.value : '';
-  const modelRef = $modelOrRef<string>(props, initialValue);
+  const modelRef = $modelOrRef<string>(props, optionsRef.value[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();
   const tabButtons: HTMLButtonElement[] = [];
@@ -80,15 +69,16 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
       return;
     }
 
-    const fallback = findFirstEnabled(options);
-    const nextValue = fallback?.option.value ?? '';
+    const fallbackIndex = options.findIndex((option) => !option.disabled);
+    const fallback = fallbackIndex >= 0 ? options[fallbackIndex] : undefined;
+    const nextValue = fallback?.value ?? '';
     if (nextValue === currentValue) {
       return;
     }
 
     modelRef.value = nextValue;
     if (emitChange) {
-      onChange(nextValue, currentValue, fallback?.index ?? -1, fallback?.option);
+      onChange(nextValue, currentValue, fallbackIndex, fallback);
     }
   };
 

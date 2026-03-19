@@ -7,11 +7,15 @@ import { $initRef, isComputed } from '../reactive/index.js';
 import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
 import { jsxh, placeholder } from './common.js';
 
-function create(creator: (tag: any, props: KTAttribute) => JSX.Element, tag: any, props: KTAttribute) {
+function create(
+  creator: (tag: any, props: KTAttribute, content?: KTRawContent) => JSX.Element,
+  tag: any,
+  props: KTAttribute,
+) {
   if (props.ref && isComputed(props.ref)) {
     $throw('Cannot assign a computed value to an element.');
   }
-  const el = creator(tag, props);
+  const el = creator(tag, props, props.children);
   $initRef(props, el);
   return el;
 }

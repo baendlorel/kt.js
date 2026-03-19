@@ -12,10 +12,11 @@
 
 <p align="center"><strong>Visit KT.js: <a href="https://baendlorel.github.io/kt.js/">https://baendlorel.github.io/kt.js/</a></strong></p>
 
+> ! kt.js is still under development, so there might be some breaking changes. Note the Update Log below
+
 ## Recent Updates
 
-1. Special refs for `Array`, `Set`, `Map`, `WeakMap`, `WeakSet`, `Date` to better track mutations.
-   - e.g. `const a = ref.array([1, 2])`, then we can call `a.push(3)` to make a reactive change instead of `a.value.push(3)`.
+1. Refactored `KTReactive` to be more flexible and easier to extend.
 2. Fixed issues of `svg` and `mathml` elements.
 
 ## Community

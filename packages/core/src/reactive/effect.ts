@@ -1,5 +1,5 @@
 import { $emptyFn } from '@ktjs/shared';
-import type { KTReactive } from '../types/reactive.js';
+import type { KTReactive } from './reactive.js';
 
 interface KTEffectOptions {
   lazy: boolean;
@@ -37,7 +37,8 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
 
   // subscribe to dependencies
   for (let i = 0; i < reactives.length; i++) {
-    listenerKeys[i] = reactives[i].addOnChange(run);
+    listenerKeys[i] = i;
+    reactives[i].addOnChange(run, i);
   }
 
   // auto run unless lazy

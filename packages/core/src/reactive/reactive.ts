@@ -55,9 +55,10 @@ export class KTReactive<T> {
   /**
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
+   * - Is implemented differently in `KTRef` and `KTComputed`
    */
-  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
-    return this._emit(newValue, oldValue, handlerKeys);
+  notify(...args: unknown[]): this {
+    throw new Error('This is meant to be override in ref.ts and computed.ts');
   }
 
   /**
@@ -65,9 +66,11 @@ export class KTReactive<T> {
    * @param calculator A function that calculates the computed value based on the current value of this `KTReactive` instance.
    * @param dependencies Optional additional dependencies that the computed value relies on.
    * @returns A `KTComputed` instance
+   *
+   * @see ./computed.ts implemented in `KTComputed`
    */
   toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
-    throw new Error('Cannot use it in KTReactive. Please use it in KTRef or KTComputed.');
+    throw new Error('This is meant to be override in computed.ts');
   }
 
   /**
@@ -75,6 +78,7 @@ export class KTReactive<T> {
    * @param callback (newValue, oldValue) => xxx
    * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
+  // todo 这里返回this了，是不是可以不需要ref后面跟一个onChange了，直接链式调用addOnChange就好了？感觉更自然一些
   addOnChange(callback: ChangeHandler<T>, key?: ChangeHandlerKey): this {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');

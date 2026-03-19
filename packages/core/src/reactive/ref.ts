@@ -1,58 +1,12 @@
-import { $emptyFn, $is } from '@ktjs/shared';
-import type { ChangeHandler, Key, KTReactive } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
+import type { ChangeHandler, ChangeHandlerKey } from './reactive.js';
 
-import { IdGenerator } from '../common.js';
+import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './core.js';
-import { KTComputed, computed } from './index.js';
+import { KTReactive } from './reactive.js';
 
-export class KTRef<T> implements KTReactive<T> {
-  /**
-   * Indicates that this is a KTRef instance
-   */
-  isKT = true as const;
-
+export class KTRef<T> extends KTReactive<T> {
   ktType = KTReactiveType.Ref;
-
-  /**
-   * @internal
-   */
-  protected _value: T;
-
-  /**
-   * @internal
-   */
-  protected _onChanges: Map<Key, ChangeHandler<T>>;
-
-  /**
-   * @internal
-   */
-  protected _emit(newValue: T, oldValue: T, handlerKeys?: Key[]) {
-    if (handlerKeys) {
-      for (let i = 0; i < handlerKeys.length; i++) {
-        this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
-      }
-      return this;
-    }
-
-    this._onChanges.forEach((c) => c(newValue, oldValue));
-    return this;
-  }
-
-  constructor(_value: T, _onChange?: ChangeHandler<T>) {
-    this._value = _value;
-    this._onChanges = new Map();
-    if (_onChange) {
-      this._onChanges.set(IdGenerator.refOnChangeId, _onChange);
-    }
-  }
-
-  /**
-   * If new value and old value are both nodes, the old one will be replaced in the DOM
-   */
-  get value() {
-    return this._value;
-  }
 
   set value(newValue: T) {
     if ($is(newValue, this._value)) {
@@ -67,32 +21,8 @@ export class KTRef<T> implements KTReactive<T> {
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    */
-  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: Key[]): this {
+  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
     return this._emit(newValue, oldValue, handlerKeys);
-  }
-
-  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
-    return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
-  }
-
-  /**
-   * Register a callback when the value changes
-   * @param callback (newValue, oldValue) => xxx
-   * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
-   */
-  addOnChange(callback: ChangeHandler<T>, key?: Key): this {
-    if (typeof callback !== 'function') {
-      $throw('KTRef.addOnChange: callback must be a function');
-    }
-    const k = key ?? IdGenerator.refOnChangeId;
-    this._onChanges.set(k, callback);
-    return this;
-  }
-
-  removeOnChange(key: Key): ChangeHandler<any> | undefined {
-    const callback = this._onChanges.get(key);
-    this._onChanges.delete(key);
-    return callback;
   }
 }
 
@@ -107,9 +37,7 @@ export class KTRef<T> implements KTReactive<T> {
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  * @returns
  */
-const ref = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => new KTRef(value as any, onChange);
-
-export { ref };
+export const ref = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => new KTRef(value as any, onChange);
 
 /**
  * Assert k-model to be a ref object

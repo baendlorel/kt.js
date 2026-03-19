@@ -1,14 +1,10 @@
-import type { KTReactive, ChangeHandler, Key } from '../types/reactive.js';
+import type { ChangeHandlerKey } from './reactive.js';
 import type { JSX } from '../types/jsx.js';
+
 import { isKT, KTReactiveType } from './core.js';
-import { IdGenerator } from '../common.js';
+import { KTReactive } from './reactive.js';
 
-export class KTComputed<T> implements KTReactive<T> {
-  /**
-   * Indicates that this is a KTRef instance
-   */
-  isKT = true as const;
-
+export class KTComputed<T> extends KTReactive<T> {
   ktType = KTReactiveType.Computed;
 
   /**
@@ -19,56 +15,27 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  private _value: T;
-
-  /**
-   * @internal
-   */
-  private _onChanges: Map<Key, ChangeHandler<T>> = new Map();
-
-  /**
-   * @internal
-   */
-  private _emit(newValue: T, oldValue: T, handlerKeys?: Key[]) {
-    if (handlerKeys) {
-      for (let i = 0; i < handlerKeys.length; i++) {
-        this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
-      }
-      return;
-    }
-    this._onChanges.forEach((c) => c(newValue, oldValue));
-  }
-
-  /**
-   * @internal
-   */
-  private _recalculate(forceEmit: boolean = false, handlerKeys?: Key[]) {
+  private _recalculate(forceEmit: boolean = false, handlerKeys?: ChangeHandlerKey[]): this {
     const oldValue = this._value;
     const newValue = this._calculator();
     if (oldValue === newValue) {
       if (forceEmit) {
         this._emit(newValue, oldValue, handlerKeys);
       }
-      return;
+      return this;
     }
     this._value = newValue;
     this._emit(newValue, oldValue, handlerKeys);
-  }
-
-  /**
-   * @internal
-   */
-  private _subscribe(reactives: Array<KTReactive<unknown>>) {
-    for (let i = 0; i < reactives.length; i++) {
-      const reactive = reactives[i];
-      reactive.addOnChange(() => this._recalculate());
-    }
+    return this;
   }
 
   constructor(_calculator: () => T, reactives: Array<KTReactive<unknown>>) {
+    super(_calculator());
     this._calculator = _calculator;
-    this._value = _calculator();
-    this._subscribe(reactives);
+
+    for (let i = 0; i < reactives.length; i++) {
+      reactives[i].addOnChange(() => this._recalculate());
+    }
   }
 
   /**
@@ -85,49 +52,14 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * Force listeners to run once with the latest computed result.
    */
-  notify(handlerKeys?: Key[]) {
-    this._recalculate(true, handlerKeys);
-  }
-
-  /**
-   * Computed values are derived from dependencies and should not be mutated manually.
-   */
-  mutate<R = void>(_mutator?: (currentValue: T) => R, handlerKeys?: Key[]): R {
-    $warn('KTComputed.mutate: computed is derived automatically; manual mutate is ignored. Use notify() instead');
-    if (handlerKeys) {
-      this._emit(this._value, this._value, handlerKeys);
-    }
-    return this._value as unknown as R;
-  }
-
-  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
-    return computed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
-  }
-
-  /**
-   * Register a callback when the value changes
-   * @param callback (newValue, oldValue) => xxx
-   * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
-   */
-  addOnChange(callback: ChangeHandler<T>, key?: Key): this {
-    if (typeof callback !== 'function') {
-      $throw('KTRef.addOnChange: callback must be a function');
-    }
-    const k = key ?? IdGenerator.refOnChangeId;
-    this._onChanges.set(k, callback);
-    return this;
-  }
-
-  /**
-   * Unregister a callback
-   * @param key registered listener key
-   */
-  removeOnChange(key: Key): ChangeHandler<any> | undefined {
-    const callback = this._onChanges.get(key);
-    this._onChanges.delete(key);
-    return callback;
+  notify(handlerKeys?: ChangeHandlerKey[]): this {
+    return this._recalculate(true, handlerKeys);
   }
 }
+
+KTReactive.prototype.toComputed = function <R>(calculator: (v: unknown) => R, dependencies?: KTReactive<any>[]) {
+  return new KTComputed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
+};
 
 /**
  * Create a reactive computed value

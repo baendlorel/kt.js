@@ -16,7 +16,7 @@ export interface KTMuiTabOption {
   icon?: JSX.Element | HTMLElement;
   disabled?: boolean;
 }
-
+// todo tabs要增加一个k-model，用来实时变化tab
 export interface KTMuiTabsProps extends KTMuiProps {
   value?: KTMaybeReactive<string>;
   options: KTMaybeReactive<KTMuiTabOption[]>;

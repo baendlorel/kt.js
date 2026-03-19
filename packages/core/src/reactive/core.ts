@@ -5,6 +5,7 @@ import type { KTRef } from './refs/ref.js';
 export const enum KTReactiveType {
   Computed = 1,
   Ref,
+  ObjectRef,
   ArrayRef,
   MapRef,
   SetRef,

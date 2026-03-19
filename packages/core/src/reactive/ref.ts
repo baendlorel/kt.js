@@ -1,5 +1,5 @@
 import { $emptyFn, $is } from '@ktjs/shared';
-import type { ChangeHandler, KTReactive } from '../types/reactive.js';
+import type { ChangeHandler, Key, KTReactive } from '../types/reactive.js';
 import type { JSX } from '../types/jsx.js';
 
 import { IdGenerator } from '../common.js';
@@ -22,22 +22,24 @@ export class KTRef<T> implements KTReactive<T> {
   /**
    * @internal
    */
-  protected _onChanges: Map<ReactiveChangeKey, ReactiveChangeHandler<T>>;
+  protected _onChanges: Map<Key, ChangeHandler<T>>;
 
   /**
    * @internal
    */
-  protected _emit(newValue: T, oldValue: T, handlerKeys?: ReactiveChangeKey[]) {
+  protected _emit(newValue: T, oldValue: T, handlerKeys?: Key[]) {
     if (handlerKeys) {
       for (let i = 0; i < handlerKeys.length; i++) {
         this._onChanges.get(handlerKeys[i])?.(newValue, oldValue);
       }
-      return;
+      return this;
     }
+
     this._onChanges.forEach((c) => c(newValue, oldValue));
+    return this;
   }
 
-  constructor(_value: T, _onChange?: ReactiveChangeHandler<T>) {
+  constructor(_value: T, _onChange?: ChangeHandler<T>) {
     this._value = _value;
     this._onChanges = new Map();
     if (_onChange) {
@@ -65,25 +67,8 @@ export class KTRef<T> implements KTReactive<T> {
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    */
-  notify(handlerKeys?: ReactiveChangeKey[]) {
-    this._emit(this._value, this._value, handlerKeys);
-  }
-
-  /**
-   * Mutate current value in-place and notify listeners once.
-   *
-   * @example
-   * const items = ref<number[]>([1, 2]);
-   * items.mutate((list) => list.push(3));
-   */
-  mutate<R = void>(mutator: (currentValue: T) => R, handlerKeys?: ReactiveChangeKey[]): R {
-    if (typeof mutator !== 'function') {
-      $throw('KTRef.mutate: mutator must be a function');
-    }
-    const oldValue = this._value;
-    const result = mutator(this._value);
-    this._emit(this._value, oldValue, handlerKeys);
-    return result;
+  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: Key[]): this {
+    return this._emit(newValue, oldValue, handlerKeys);
   }
 
   toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
@@ -95,37 +80,34 @@ export class KTRef<T> implements KTReactive<T> {
    * @param callback (newValue, oldValue) => xxx
    * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
-  addOnChange<K extends ReactiveChangeKey | undefined>(
-    callback: ReactiveChangeHandler<T>,
-    key?: K,
-  ): K extends undefined ? number : K {
+  addOnChange(callback: ChangeHandler<T>, key?: Key): this {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');
     }
     const k = key ?? IdGenerator.refOnChangeId;
     this._onChanges.set(k, callback);
-    return k as K extends undefined ? number : K;
+    return this;
   }
 
-  removeOnChange(key: ReactiveChangeKey): ReactiveChangeHandler<any> | undefined {
+  removeOnChange(key: Key): ChangeHandler<any> | undefined {
     const callback = this._onChanges.get(key);
     this._onChanges.delete(key);
     return callback;
   }
 }
 
-type RefCreator = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => KTRef<T>;
 // todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref
 /**
  * Create a plain `KTRef` object.
- *
- * If you want the value to be automatically wrapped with corresponding ref type based on its type, please use `autoRef` instead.
+ * - use `refObject.value` to get/set plain data
+ * - use `refObject.toComputed(calculator)` to create a computed value based on this ref
+ * - use `refObject.draft` to set too, but it will recalculate in the next microtask. Useful for deep objects, `Map`, `Set` or other custom objects
  *
  * @param value any data
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  * @returns
  */
-const ref: RefCreator = ((value, onChange) => new KTRef(value as any, onChange)) as RefCreator;
+const ref = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => new KTRef(value as any, onChange);
 
 export { ref };
 

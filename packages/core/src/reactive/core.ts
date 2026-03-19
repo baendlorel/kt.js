@@ -1,9 +1,10 @@
-import type { KTReactive } from '../types/reactive.js';
+import type { KTReactive } from './reactive.js';
 import type { KTComputed } from './index.js';
-import type { KTRef } from './refs/ref.js';
+import type { KTRef } from './ref.js';
 
 export const enum KTReactiveType {
-  Computed = 1,
+  Reative = 1,
+  Computed,
   Ref,
   ObjectRef,
   ArrayRef,

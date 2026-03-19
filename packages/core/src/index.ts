@@ -29,6 +29,5 @@ export type {
   HTML,
 } from './types/h.js';
 export type * from './types/jsx.js';
-export type * from './types/reactive.js';
 
 // todo 可以考虑加入SSR服务端渲染

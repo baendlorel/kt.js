@@ -27,11 +27,3 @@ const schedule = () => {
     });
   }
 };
-
- class A{
-  private a :number = 1;
-}
-
-type AA = Publicify<typeof A.prototype>;
-const aa:AA = {} as any
-aa.

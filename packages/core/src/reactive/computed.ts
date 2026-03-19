@@ -107,14 +107,15 @@ export class KTComputed<T> implements KTReactive<T> {
   /**
    * Register a callback when the value changes
    * @param callback (newValue, oldValue) => xxx
+   * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
-  addOnChange<K extends Key | undefined>(callback: ChangeHandler<T>, key?: K): K extends undefined ? number : K {
+  addOnChange(callback: ChangeHandler<T>, key?: Key): this {
     if (typeof callback !== 'function') {
-      $throw('KTComputed.addOnChange: callback must be a function');
+      $throw('KTRef.addOnChange: callback must be a function');
     }
-    const k = key ?? IdGenerator.computedOnChangeId;
+    const k = key ?? IdGenerator.refOnChangeId;
     this._onChanges.set(k, callback);
-    return k as K extends undefined ? number : K;
+    return this;
   }
 
   /**

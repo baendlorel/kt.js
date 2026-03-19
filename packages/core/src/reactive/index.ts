@@ -1,4 +1,4 @@
-import type { KTReactive, ChangeHandler } from '../types/reactive.js';
+import type { KTReactive, ChangeHandler } from './reactive.js';
 import type { JSX } from '../types/jsx.js';
 import { isKT } from './core.js';
 import { ref } from './ref.js';
@@ -23,12 +23,6 @@ export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
 
 export * from './core.js';
 export * from './ref.js';
-export { KTArrayRef } from './refs/array.js';
-export { KTMapRef } from './refs/map.js';
-export { KTSetRef } from './refs/set.js';
-export { KTWeakMapRef } from './refs/weak-map.js';
-export { KTWeakSetRef } from './refs/weak-set.js';
-export { KTDateRef } from './refs/date.js';
-
 export * from './computed.js';
 export * from './effect.js';
+export type * from './reactive.js';

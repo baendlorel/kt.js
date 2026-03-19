@@ -1,92 +1,35 @@
-# @ktjs/ts-plugin
+# KT.js
 
-TypeScript language service plugin for KT.js `k-for` scope variables in TSX.
+[![npm version](https://img.shields.io/npm/v/kt.js.svg)](https://www.npmjs.com/package/kt.js)
+[![npm downloads](https://img.shields.io/npm/dm/kt.js.svg)](https://www.npmjs.com/package/kt.js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## What it does
+<p align="center">
+  <a href="https://baendlorel.github.io/kt.js/">
+    <img src="https://raw.githubusercontent.com/baendlorel/kt.js/refs/heads/main/assets/ktjs-0.0.1.svg" width="240px" alt="KT.js logo" />
+  </a>
+</p>
 
-- Editor-only enhancement (tsserver), no runtime transform.
-- Suppresses TS2304 (`Cannot find name ...`) for aliases declared by `k-for`.
-- Infers alias types from iterable/indexed sources (including `KTReactive<T[]>`; for example `k-for="item in users"` makes `item` resolve to `users[number]`).
-- Provides hover type info and member completions for inferred aliases.
-- Supports hover type info inside `k-for` expression strings (`item in users`) for alias/source identifiers.
-- Adds `k-for` inline semantic highlighting in string expressions (for example alias/keyword/source in `k-for="item in list"`).
-- Highlights directive attribute names (`k-for`, `k-key`, `k-if`, `k-else`, `k-else-if`, `k-model`, `k-html`) with semantic token colors.
-- Supports Vue-like syntax:
-  - `k-for="item in list"`
-  - `k-for="(item, i) in list"`
+## Document
 
-## Install
+<p align="center"><strong>Visit KT.js: <a href="https://baendlorel.github.io/kt.js/">https://baendlorel.github.io/kt.js/</a></strong></p>
+
+## Community
+
+- QQ Group: `1070434849`
+- Telegram: https://t.me/kt_js
+
+## Introduction
+
+kt.js is a simple framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
+
+KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
+
+## Quick Start
 
 ```bash
-pnpm add -D @ktjs/ts-plugin typescript
+pnpm create kt.js my-app
+cd my-app
+pnpm install
+pnpm dev
 ```
-
-Then open a `.tsx` or `.ts` file in your editor, press `Ctrl+Shift+P` and select "TypeScript: Select TypeScript Version", then choose "Use workspace version" to make sure your editor uses the version of TypeScript where the plugin is installed.
-
-## Where to install it
-
-Install it in the same project/workspace that owns the `tsconfig.json` where you enable the plugin.
-
-- Single-package app: install in that app.
-- Monorepo: install in each package that has its own TSX `tsconfig` and needs this behavior, or install at repo root if your package manager hoists and the editor can resolve it.
-
-If VS Code still does not load the plugin, make sure it uses your workspace TypeScript version.
-
-## tsconfig usage
-
-```json
-{
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "@ktjs/ts-plugin"
-      }
-    ]
-  }
-}
-```
-
-## Optional config
-
-```json
-{
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "@ktjs/ts-plugin",
-        "forAttr": "k-for",
-        "keyAttr": "k-key",
-        "ifAttr": "k-if",
-        "elseAttr": "k-else",
-        "elseIfAttr": "k-else-if",
-        "modelAttr": "k-model",
-        "htmlAttr": "k-html",
-        "allowOfKeyword": true
-      }
-    ]
-  }
-}
-```
-
-## Example
-
-```tsx
-const users = [{ id: 1, name: 'A' }];
-
-const view = (
-  <li k-for="(user, i) in users" k-key="user.id">
-    {i + 1}. {user.name}
-  </li>
-);
-```
-
-Without this plugin, `user` / `i` are often reported as undefined by the TypeScript language service in TSX.
-
-## Official docs
-
-This package itself currently has no standalone official website doc page. The canonical usage guide is this README.
-
-For TypeScript plugin mechanics, see official docs:
-
-- TSConfig `plugins`: https://www.typescriptlang.org/tsconfig/#plugins
-- Writing a language service plugin: https://github.com/microsoft/TypeScript/wiki/Writing-a-Language-Service-Plugin

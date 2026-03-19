@@ -21,7 +21,7 @@ export const isRef = <T = any>(obj: any): obj is KTRef<T> => {
   if (obj.ktType === undefined) {
     return false;
   }
-  return obj.ktType >= KTReactiveType.Ref && obj.ktType <= KTReactiveType.DateRef;
+  return obj.ktType >= KTReactiveType.Ref;
 };
 
 export const isArrayRef = <T = any>(obj: any): obj is KTRef<T[]> => obj?.ktType === KTReactiveType.ArrayRef;

@@ -3,6 +3,7 @@ import { writeFileSync } from 'node:fs';
 
 import { ask, getPackageInfo, PackageInfo, Version } from './common/index.js';
 import { buildWithInfo } from './build.js';
+import { syncReadme } from './readme.js';
 
 export async function publish(who: string | undefined) {
   const group = getPackageInfo(who);
@@ -29,6 +30,8 @@ export async function publish(who: string | undefined) {
     return;
   }
 
+  const readmePaths = syncReadme();
+
   // * Here we modify group's json data, bump the versions
   group.forEach((info) => {
     info.json.version = newVer;
@@ -40,7 +43,8 @@ export async function publish(who: string | undefined) {
   group.forEach(gitTag);
 
   const releaseInfo = group.map((info, i) => `${i}.${info.name}@${info.json.version}`).join('\n');
-  execSync(`git add ${group.map((info) => `"${info.jsonPath}"`).join(' ')}`, { stdio: 'inherit' });
+  const changedPaths = [...new Set([...group.map((info) => info.jsonPath), ...readmePaths])];
+  execSync(`git add ${changedPaths.map((item) => JSON.stringify(item)).join(' ')}`, { stdio: 'inherit' });
   execSync(`git commit -m "release: \n${releaseInfo}"`, { stdio: 'inherit' });
   console.log('Committed :', releaseInfo);
 }

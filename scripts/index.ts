@@ -3,6 +3,7 @@
 import { build } from './build.js';
 import { check } from './check.js';
 import { publish } from './publish.js';
+import { syncReadme } from './readme.js';
 import { test } from './test.js';
 
 const taskHandler = {
@@ -10,6 +11,7 @@ const taskHandler = {
   '--build': build,
   '--test': test,
   '--check': check,
+  '--readme': syncReadme,
 };
 
 async function main() {

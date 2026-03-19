@@ -98,7 +98,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   const rowsRef = toReactive(props.rows ?? 3);
   const sizeRef = toReactive(props.size ?? 'medium');
 
-  const placeholder = toReactive(props.placeholder ?? '').toComputed(
+  const placeholder = toReactive(props.placeholder ?? '').map(
     (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
     [labelRef, isFocusedRef, modelRef],
   );

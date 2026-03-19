@@ -12,7 +12,7 @@
 
 <p align="center"><strong>Visit KT.js: <a href="https://baendlorel.github.io/kt.js/">https://baendlorel.github.io/kt.js/</a></strong></p>
 
-> ! kt.js is still under development, so there might be some breaking changes. Note the Update Log below
+> kt.js is still under development, so there might be some breaking changes. Note the Update Log below
 
 ## Recent Updates
 

@@ -56,18 +56,18 @@ function createApp() {
       openedGroup.value = groupId;
     }
   };
-  const navIndex = page.toComputed((v) => navs.findIndex((entry) => entry.id === v));
-  const prev = navIndex.toComputed((i) => (i <= 0 ? null : navs[i - 1]));
-  const next = navIndex.toComputed((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
+  const navIndex = page.map((v) => navs.findIndex((entry) => entry.id === v));
+  const prev = navIndex.map((i) => (i <= 0 ? null : navs[i - 1]));
+  const next = navIndex.map((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
 
-  const themeLabel = state.theme.toComputed((v) => t(('app.theme.' + v) as any));
-  const themeIcon = state.theme.toComputed((v) => (v === 'dark' ? '🌙' : '☀️'));
+  const themeLabel = state.theme.map((v) => t(('app.theme.' + v) as any));
+  const themeIcon = state.theme.map((v) => (v === 'dark' ? '🌙' : '☀️'));
   const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
       <div class="floating-controls" aria-label={t('app.controls.ariaLabel')}>
-        <button type="button" class={state.theme.toComputed((v) => `theme-toggle-btn ${v}`)} on:click={toggleTheme}>
+        <button type="button" class={state.theme.map((v) => `theme-toggle-btn ${v}`)} on:click={toggleTheme}>
           <span class="theme-toggle-icon">{themeIcon}</span>
           <span class="theme-toggle-text">{themeLabel}</span>
         </button>
@@ -111,20 +111,18 @@ function createApp() {
                 <div class="nav-section">
                   <button
                     type="button"
-                    class={openedGroup.toComputed((v) => `nav-group-toggle ${v === nav.id ? 'open' : ''}`)}
+                    class={openedGroup.map((v) => `nav-group-toggle ${v === nav.id ? 'open' : ''}`)}
                     on:click={() => toggleGroup(nav.id)}
                   >
                     <span>{nav.label}</span>
-                    <span class={openedGroup.toComputed((v) => `nav-group-arrow ${v === nav.id ? 'open' : ''}`)}>
-                      ▾
-                    </span>
+                    <span class={openedGroup.map((v) => `nav-group-arrow ${v === nav.id ? 'open' : ''}`)}>▾</span>
                   </button>
 
-                  <div class={openedGroup.toComputed((v) => `nav-group-panel ${v === nav.id ? 'open' : 'collapsed'}`)}>
+                  <div class={openedGroup.map((v) => `nav-group-panel ${v === nav.id ? 'open' : 'collapsed'}`)}>
                     {nav.items.map((item) => (
                       <button
                         type="button"
-                        class={page.toComputed((v) => `nav-item ${item.id === v ? 'active' : ''}`)}
+                        class={page.map((v) => `nav-item ${item.id === v ? 'active' : ''}`)}
                         on:click={() => navigateTo(item.id)}
                       >
                         {item.label}
@@ -138,7 +136,7 @@ function createApp() {
                 <div class="nav-section">
                   <button
                     type="button"
-                    class={page.toComputed((p) => `nav-item nav-item-top ${nav.id === p ? 'active' : ''}`)}
+                    class={page.map((p) => `nav-item nav-item-top ${nav.id === p ? 'active' : ''}`)}
                     on:click={() => navigateTo(nav.id)}
                   >
                     {nav.label}
@@ -162,8 +160,8 @@ function createApp() {
         <div class="content-pagination">
           <button
             type="button"
-            class={prev.toComputed((v) => `content-pagination-btn ${v ? '' : 'disabled'}`)}
-            disabled={prev.toComputed((v) => !v)}
+            class={prev.map((v) => `content-pagination-btn ${v ? '' : 'disabled'}`)}
+            disabled={prev.map((v) => !v)}
             on:click={() => {
               if (prev.value) {
                 navigateTo(prev.value.id);
@@ -173,13 +171,13 @@ function createApp() {
             <span class="content-pagination-caption" k-html={t('app.pagination.prev')}></span>
             <span
               class="content-pagination-title"
-              k-html={prev.toComputed((v) => v?.label ?? t('app.pagination.noPrev'))}
+              k-html={prev.map((v) => v?.label ?? t('app.pagination.noPrev'))}
             ></span>
           </button>
           <button
             type="button"
-            class={next.toComputed((v) => `content-pagination-btn content-pagination-next ${v ? '' : 'disabled'}`)}
-            disabled={next.toComputed((v) => !v)}
+            class={next.map((v) => `content-pagination-btn content-pagination-next ${v ? '' : 'disabled'}`)}
+            disabled={next.map((v) => !v)}
             on:click={() => {
               if (next.value) {
                 navigateTo(next.value.id);
@@ -189,7 +187,7 @@ function createApp() {
             <span class="content-pagination-caption" k-html={t('app.pagination.next')}></span>
             <span
               class="content-pagination-title"
-              k-html={next.toComputed((v) => v?.label ?? t('app.pagination.noNext'))}
+              k-html={next.map((v) => v?.label ?? t('app.pagination.noNext'))}
             ></span>
           </button>
         </div>

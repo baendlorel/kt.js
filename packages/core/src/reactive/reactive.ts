@@ -69,7 +69,7 @@ export class KTReactive<T> {
    *
    * @see ./computed.ts implemented in `KTComputed`
    */
-  toComputed<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
+  map<R>(calculator: (currentValue: T) => R, dependencies?: KTReactive<any>[]): KTComputed<R> {
     throw new Error('This is meant to be override in computed.ts');
   }
 

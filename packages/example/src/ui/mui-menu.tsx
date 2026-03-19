@@ -24,10 +24,10 @@ export function MuiMenuDemo() {
 
       <div class="button-group">
         <Button ref={anchorEl} variant="contained" on:click={() => (open.value = !open.value)}>
-          {open.toComputed((value) => (value ? 'Close Menu' : 'Open Menu'))}
+          {open.map((value) => (value ? 'Close Menu' : 'Open Menu'))}
         </Button>
         <Button variant="outlined" on:click={() => (autoClose.value = !autoClose.value)}>
-          Auto Close: {autoClose.toComputed((value) => (value ? 'On' : 'Off'))}
+          Auto Close: {autoClose.map((value) => (value ? 'On' : 'Off'))}
         </Button>
       </div>
 

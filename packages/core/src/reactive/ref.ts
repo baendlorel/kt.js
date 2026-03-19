@@ -24,6 +24,17 @@ export class KTRef<T> extends KTReactive<T> {
   notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
     return this._emit(newValue, oldValue, handlerKeys);
   }
+
+  get draft() {
+    // todo add to microtask queue
+    return this._value;
+  }
+
+  set draft(newValue: T) {
+    const oldValue = this._value;
+    this._value = newValue;
+    // todo add to microtask queue
+  }
 }
 
 // todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref

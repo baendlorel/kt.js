@@ -29,14 +29,14 @@ export function Reactivity() {
   }, 1000);
 
   const valueRef = ref(1);
-  const valueTextRef = valueRef.toComputed((value) => i18nText('reactive.api.value.current', value));
-  const valueDoubleTextRef = valueRef.toComputed((value) => i18nText('reactive.api.value.double', value * 2));
+  const valueTextRef = valueRef.map((value) => i18nText('reactive.api.value.current', value));
+  const valueDoubleTextRef = valueRef.map((value) => i18nText('reactive.api.value.double', value * 2));
 
   const objectStateRef = ref({
     count: 0,
     updatedAt: '--:--:--',
   });
-  const objectSummaryRef = objectStateRef.toComputed((state) =>
+  const objectSummaryRef = objectStateRef.map((state) =>
     i18nText('reactive.api.notifyMutate.summary', state.count, state.updatedAt),
   );
   const patchInPlaceOnly = () => {
@@ -54,31 +54,31 @@ export function Reactivity() {
   const priceRef = ref(120);
   const discountRef = ref(10);
   const taxRef = ref(6);
-  const finalPriceRef = priceRef.toComputed(
+  const finalPriceRef = priceRef.map(
     (price) => {
       const discountedPrice = price * (1 - discountRef.value / 100);
       return (discountedPrice * (1 + taxRef.value / 100)).toFixed(2);
     },
     [discountRef, taxRef],
   );
-  const priceTextRef = priceRef.toComputed((value) => i18nText('reactive.api.toComputed.price', value));
-  const discountTextRef = discountRef.toComputed((value) => i18nText('reactive.api.toComputed.discount', value));
-  const taxTextRef = taxRef.toComputed((value) => i18nText('reactive.api.toComputed.tax', value));
-  const finalPriceTextRef = finalPriceRef.toComputed((value) => i18nText('reactive.api.toComputed.total', value));
+  const priceTextRef = priceRef.map((value) => i18nText('reactive.api.toComputed.price', value));
+  const discountTextRef = discountRef.map((value) => i18nText('reactive.api.toComputed.discount', value));
+  const taxTextRef = taxRef.map((value) => i18nText('reactive.api.toComputed.tax', value));
+  const finalPriceTextRef = finalPriceRef.map((value) => i18nText('reactive.api.toComputed.total', value));
 
   const listenerValueRef = ref(0);
   const listenerActiveRef = ref(false);
   const listenerLogsRef = ref<string[]>([]);
-  const listenerLogsTextRef = listenerLogsRef.toComputed((logs) =>
+  const listenerLogsTextRef = listenerLogsRef.map((logs) =>
     logs.length > 0 ? logs.join('\n') : i18nText('reactive.api.listeners.log.empty'),
   );
-  const listenerStatusTextRef = listenerActiveRef.toComputed((active) =>
+  const listenerStatusTextRef = listenerActiveRef.map((active) =>
     i18nText(active ? 'reactive.api.listeners.status.on' : 'reactive.api.listeners.status.off'),
   );
-  const listenerStatusLineRef = listenerStatusTextRef.toComputed((status) =>
+  const listenerStatusLineRef = listenerStatusTextRef.map((status) =>
     i18nText('reactive.api.listeners.status', status),
   );
-  const listenerValueTextRef = listenerValueRef.toComputed((value) => i18nText('reactive.api.listeners.value', value));
+  const listenerValueTextRef = listenerValueRef.map((value) => i18nText('reactive.api.listeners.value', value));
   const listenerKey = 'reactive-page-listener';
   const pushListenerLog = (message: string) => {
     listenerLogsRef.mutate((logs) => {

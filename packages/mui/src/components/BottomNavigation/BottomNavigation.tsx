@@ -109,13 +109,11 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
         list={optionsRef}
         key={(action) => action.value}
         map={(action) => {
-          const actionRef = optionsRef.toComputed(
-            (options) => options.find((item) => item.value === action.value) ?? action,
-          );
-          const selectedRef = modelRef.toComputed((value) => value === action.value);
-          const disabledRef = actionRef.toComputed((current) => current.disabled ?? false);
-          const labelRef = actionRef.toComputed((current) => current.label);
-          const iconRef = actionRef.toComputed((current) => current.icon ?? null);
+          const actionRef = optionsRef.map((options) => options.find((item) => item.value === action.value) ?? action);
+          const selectedRef = modelRef.map((value) => value === action.value);
+          const disabledRef = actionRef.map((current) => current.disabled ?? false);
+          const labelRef = actionRef.map((current) => current.label);
+          const iconRef = actionRef.map((current) => current.icon ?? null);
           const buttonClass = computed(() => {
             const current = actionRef.value;
             const selected = modelRef.value === action.value;
@@ -130,10 +128,10 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
               role="tab"
               class={buttonClass}
               data-value={action.value}
-              aria-selected={selectedRef.toComputed((selected) => String(selected))}
-              aria-disabled={disabledRef.toComputed((disabled) => (disabled ? 'true' : 'false'))}
+              aria-selected={selectedRef.map((selected) => String(selected))}
+              aria-disabled={disabledRef.map((disabled) => (disabled ? 'true' : 'false'))}
               disabled={disabledRef}
-              tabIndex={selectedRef.toComputed((selected) => (selected ? 0 : -1))}
+              tabIndex={selectedRef.map((selected) => (selected ? 0 : -1))}
               on:click={handleActionClick}
             >
               {KTConditional(iconRef, 'span', { class: 'mui-bottom-navigation-action-icon', children: iconRef })}

@@ -22,7 +22,7 @@ export function MuiBottomNavigationDemo() {
 
       <div class="button-group">
         <Button variant="outlined" size="small" on:click={() => (showLabels.value = !showLabels.value)}>
-          Show Labels: {showLabels.toComputed((v) => (v ? 'On' : 'Off'))}
+          Show Labels: {showLabels.map((v) => (v ? 'On' : 'Off'))}
         </Button>
       </div>
 

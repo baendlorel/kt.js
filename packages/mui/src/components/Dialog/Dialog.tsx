@@ -60,7 +60,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
 
   // Mode selection
   const modeRef = toReactive(props.mode ?? 'dialog');
-  const useDialog = modeRef.toComputed((v) => v === 'dialog' && SUPPORTS_DIALOG);
+  const useDialog = modeRef.map((v) => v === 'dialog' && SUPPORTS_DIALOG);
 
   const clearTimers = () => {
     if (enterTimer) {

@@ -20,7 +20,7 @@ list.value.push(4);
 list.notify();
 
 // 3) toComputed: derive a computed value
-const doubled = state.toComputed((current) => current * 2);
+const doubled = state.map((current) => current * 2);
 
 // 4) addOnChange: subscribe to changes
 const listenerKey = state.addOnChange((next, prev) => {
@@ -44,9 +44,12 @@ profile.notify();
 // toComputed with extra dependencies
 const discount = ref(10);
 const tax = ref(6);
-const total = state.toComputed((price) => {
-  const discounted = price * (1 - discount.value / 100);
-  return discounted * (1 + tax.value / 100);
-}, [discount, tax]);
+const total = state.map(
+  (price) => {
+    const discounted = price * (1 - discount.value / 100);
+    return discounted * (1 + tax.value / 100);
+  },
+  [discount, tax],
+);
 
 console.log(doubled.value, total.value);

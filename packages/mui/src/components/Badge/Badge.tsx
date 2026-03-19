@@ -42,7 +42,7 @@ const DEFAULT_ANCHOR_ORIGIN: KTMuiBadgeAnchorOrigin = {
 export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
-  const rootClassRef = customClassRef.toComputed((v) => 'mui-badge-root ' + v);
+  const rootClassRef = customClassRef.map((v) => 'mui-badge-root ' + v);
 
   const contentRef = toReactive<KTMuiBadgeContent>(
     (props.badgeContent as KTMuiBadgeContent | KTReactive<KTMuiBadgeContent>) ?? '',

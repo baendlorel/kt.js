@@ -145,7 +145,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     radios.value.forEach((radio) => (radio.checked = radio.value === value));
   };
 
-  const radios = toReactive(props.options).toComputed((options) =>
+  const radios = toReactive(props.options).map((options) =>
     options.map((o) => {
       o.size = sizeRef.value;
       o.checked = valueRef.value === o.value;

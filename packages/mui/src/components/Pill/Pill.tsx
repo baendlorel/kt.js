@@ -98,7 +98,7 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
     <span
       class={className}
       style={styleRef}
-      role={clickableRef.toComputed((v) => (v ? 'button' : 'presentation'))}
+      role={clickableRef.map((v) => (v ? 'button' : 'presentation'))}
       tabIndex={computed(() => (clickableRef.value && !disabledRef.value ? 0 : undefined), [clickableRef, disabledRef])}
       on:click={handleClick}
       on:keydown={handleKeydown}

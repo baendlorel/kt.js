@@ -54,9 +54,9 @@ export function Code(props: CodeProps) {
   return (
     <div class="demo-code code-panel">
       <button class="demo-code-copy" on:click={copyCode}>
-        {copied.toComputed((v) => (v ? 'Copied' : 'Copy'))}
+        {copied.map((v) => (v ? 'Copied' : 'Copy'))}
       </button>
-      <div k-if={state.theme.toComputed((v) => v === 'light')}> {highlight(props.code, props.lang || 'tsx')}</div>
+      <div k-if={state.theme.map((v) => v === 'light')}> {highlight(props.code, props.lang || 'tsx')}</div>
       <div k-else> {highlightDark(props.code, props.lang || 'tsx')} </div>
     </div>
   );

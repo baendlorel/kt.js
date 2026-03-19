@@ -29,7 +29,7 @@ export function MuiPopoverDemo() {
             open.value = !open.value;
           }}
         >
-          {open.toComputed((value) => (value ? 'Close Popover' : 'Open Popover'))}
+          {open.map((value) => (value ? 'Close Popover' : 'Open Popover'))}
         </Button>
       </div>
 

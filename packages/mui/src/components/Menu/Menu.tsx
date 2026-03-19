@@ -93,7 +93,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
     }, 0);
   };
 
-  const paperClassName = classRef.toComputed((v) => `mui-menu-paper ${v}`);
+  const paperClassName = classRef.map((v) => `mui-menu-paper ${v}`);
 
   const closeMenu = (reason: KTMuiMenuCloseReason) => {
     openRef.value = false;

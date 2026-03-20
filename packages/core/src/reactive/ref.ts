@@ -32,7 +32,6 @@ export class KTRef<T> extends KTReactive<T> {
   }
 }
 
-// todo 编译时期，插件要尽量分析出谁是谁，并基于最大限度的覆写支持，避免运行时for循环创建ref
 /**
  * Create a plain `KTRef` object.
  * - use `refObject.value` to get/set plain data

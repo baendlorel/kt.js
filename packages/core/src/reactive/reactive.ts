@@ -47,8 +47,11 @@ export class KTReactive<T> {
 
   /**
    * If new value and old value are both nodes, the old one will be replaced in the DOM
+   * - Use `.mutable` to modify the value.
    * @readonly
    */
+  // todo 让所有对value的aaa.value.xxx = yyy，或者aaa.value++ += -=等等的类似的赋值等操作都在编译期由插件负责报错。
+  // todo 同样的，对于所有在只做了读取的位置使用aaa.mutable.xxx的，也由插件负责报错，提示使用aaa.value.xxx
   get value() {
     return this._value;
   }

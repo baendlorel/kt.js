@@ -50,10 +50,7 @@ export const en: typeof zh = {
     'To make your project fully compatible with IE11, we need to transpile the code with Babel and include necessary polyfills. Below is the Vite configuration used for this purpose:',
   'reactive.section.title': '<code>ref</code> and <code>computed</code>',
   'reactive.section.description':
-    '<code>ref()</code> creates a plain <code>KTRef</code>, while <code>autoRef()</code> auto-specializes arrays, Map, Set, WeakMap, WeakSet, and Date into dedicated refs. <code>computed</code> dependencies still need to be declared manually.',
-  'reactive.ref.title': '<code>autoRef()</code> auto specialization',
-  'reactive.ref.description':
-    '<code>autoRef()</code> is an enhanced creation entry: existing <code>value</code> / <code>notify()</code> / <code>mutate()</code> flows still work, while common containers expose more natural ref-level mutating methods.',
+    '<code>ref()</code> creates a plain <code>KTRef</code>. <code>computed</code> dependencies still need to be declared manually.',
   'reactive.ref.overview': 'Currently auto-specialized built-ins:',
   'reactive.ref.item.array':
     'Call <code>push</code>, <code>splice</code>, <code>sort</code>, and similar methods directly on the ref and emit once automatically.',
@@ -81,14 +78,13 @@ export const en: typeof zh = {
     'Force listeners to run after mutating inside <code>ref.value</code>; useful for plain objects or updates that do not go through specialized ref methods.',
   'reactive.api.method.mutate':
     'Mutate in-place within one callback and emit exactly once; useful when you want mutation and emit in one step.',
-  'reactive.api.method.toComputed':
-    'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
+  'reactive.api.method.map': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
   'reactive.api.method.removeOnChange': 'Remove a listener by key.',
   'reactive.api.value.title': '<code>value</code> read/write',
   'reactive.api.value.description': 'Directly reading and writing <code>value</code> triggers reactive updates.',
   'reactive.api.value.current': 'Current value: {{1}}',
-  'reactive.api.value.double': 'Double result (toComputed): {{1}}',
+  'reactive.api.value.double': 'Double result (map): {{1}}',
   'reactive.api.value.decrement': '-1',
   'reactive.api.value.increment': '+1',
   'reactive.api.notifyMutate.title': '<code>notify</code> / <code>mutate</code>',
@@ -100,19 +96,19 @@ export const en: typeof zh = {
   'reactive.api.notifyMutate.summary': 'count={{1}}, updatedAt={{2}}',
   'reactive.api.notifyMutate.tip':
     'Click “In-place only” first (no UI change), then click <code>notify()</code> to flush the update.',
-  'reactive.api.toComputed.title': '<code>toComputed</code>',
-  'reactive.api.toComputed.description':
+  'reactive.api.map.title': '<code>map</code>',
+  'reactive.api.map.description':
     'Derive a computed value from current state and declare extra dependencies as the second argument (e.g. discount and tax).',
-  'reactive.api.toComputed.price': 'Base price: {{1}}',
-  'reactive.api.toComputed.discount': 'Discount: {{1}}%',
-  'reactive.api.toComputed.tax': 'Tax: {{1}}%',
-  'reactive.api.toComputed.total': 'Final price: {{1}}',
-  'reactive.api.toComputed.priceMinus': 'Price -10',
-  'reactive.api.toComputed.pricePlus': 'Price +10',
-  'reactive.api.toComputed.discountMinus': 'Discount -5%',
-  'reactive.api.toComputed.discountPlus': 'Discount +5%',
-  'reactive.api.toComputed.taxMinus': 'Tax -1%',
-  'reactive.api.toComputed.taxPlus': 'Tax +1%',
+  'reactive.api.map.price': 'Base price: {{1}}',
+  'reactive.api.map.discount': 'Discount: {{1}}%',
+  'reactive.api.map.tax': 'Tax: {{1}}%',
+  'reactive.api.map.total': 'Final price: {{1}}',
+  'reactive.api.map.priceMinus': 'Price -10',
+  'reactive.api.map.pricePlus': 'Price +10',
+  'reactive.api.map.discountMinus': 'Discount -5%',
+  'reactive.api.map.discountPlus': 'Discount +5%',
+  'reactive.api.map.taxMinus': 'Tax -1%',
+  'reactive.api.map.taxPlus': 'Tax +1%',
   'reactive.api.listeners.title': '<code>addOnChange</code> / <code>removeOnChange</code>',
   'reactive.api.listeners.description':
     'Manage listener lifecycle via key; once removed, no further updates are received.',

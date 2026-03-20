@@ -1,9 +1,7 @@
 import { computed, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 
-import autoRefCode from '../code/auto-ref.ts?raw';
 import reactiveCode from '../code/reactive.tsx?raw';
-import reactiveApiCode from '../code/ktreactive-methods.ts?raw';
 import { Code } from '../components/Code.js';
 import { t } from '../i18n/index.js';
 import { i18nText } from '../i18n/text.js';
@@ -59,10 +57,10 @@ export function Reactivity() {
     },
     [discountRef, taxRef],
   );
-  const priceTextRef = priceRef.map((value) => i18nText('reactive.api.toComputed.price', value));
-  const discountTextRef = discountRef.map((value) => i18nText('reactive.api.toComputed.discount', value));
-  const taxTextRef = taxRef.map((value) => i18nText('reactive.api.toComputed.tax', value));
-  const finalPriceTextRef = finalPriceRef.map((value) => i18nText('reactive.api.toComputed.total', value));
+  const priceTextRef = priceRef.map((value) => i18nText('reactive.api.map.price', value));
+  const discountTextRef = discountRef.map((value) => i18nText('reactive.api.map.discount', value));
+  const taxTextRef = taxRef.map((value) => i18nText('reactive.api.map.tax', value));
+  const finalPriceTextRef = finalPriceRef.map((value) => i18nText('reactive.api.map.total', value));
 
   const listenerValueRef = ref(0);
   const listenerActiveRef = ref(false);
@@ -116,33 +114,6 @@ export function Reactivity() {
         <Code code={reactiveCode} />
       </div>
       <div class="demo-section">
-        <h3 k-html={t('reactive.ref.title')}></h3>
-        <p k-html={t('reactive.ref.description')}></p>
-        <div class="demo-block">
-          <p class="demo-desc" k-html={t('reactive.ref.overview')}></p>
-          <ul class="reactive-api-method-list">
-            <li>
-              <code>autoRef([]) -&gt; KTArrayRef</code>
-              <p k-html={t('reactive.ref.item.array')}></p>
-            </li>
-            <li>
-              <code>autoRef(new Map()) / autoRef(new Set())</code>
-              <p k-html={t('reactive.ref.item.mapSet')}></p>
-            </li>
-            <li>
-              <code>autoRef(new WeakMap()) / autoRef(new WeakSet())</code>
-              <p k-html={t('reactive.ref.item.weak')}></p>
-            </li>
-            <li>
-              <code>autoRef(new Date()) -&gt; KTDateRef</code>
-              <p k-html={t('reactive.ref.item.date')}></p>
-            </li>
-          </ul>
-          <p class="demo-desc" k-html={t('reactive.ref.tip')}></p>
-        </div>
-        <Code code={autoRefCode} lang="ts" />
-      </div>
-      <div class="demo-section">
         <h3 k-html={t('reactive.attribute.title')}></h3>
         <p k-html={t('reactive.attribute.description')}></p>
         <div style={styleRef}></div>
@@ -175,10 +146,10 @@ export function Reactivity() {
             </li>
             <li>
               <code>
-                toComputed&lt;R&gt;(calculator: (value: T) =&gt; R, dependencies?: KTReactive&lt;any&gt;[]):
+                map&lt;R&gt;(calculator: (value: T) =&gt; R, dependencies?: KTReactive&lt;any&gt;[]):
                 KTComputed&lt;R&gt;
               </code>
-              <p k-html={t('reactive.api.method.toComputed')}></p>
+              <p k-html={t('reactive.api.method.map')}></p>
             </li>
             <li>
               <code>
@@ -231,46 +202,46 @@ export function Reactivity() {
           </div>
 
           <div class="demo-block reactive-api-card">
-            <h4 k-html={t('reactive.api.toComputed.title')}></h4>
-            <p class="demo-desc" k-html={t('reactive.api.toComputed.description')}></p>
+            <h4 k-html={t('reactive.api.map.title')}></h4>
+            <p class="demo-desc" k-html={t('reactive.api.map.description')}></p>
             <div class="demo-flex-gap">
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (priceRef.mutable = Math.max(0, priceRef.state - 10))}
               >
-                {t('reactive.api.toComputed.priceMinus')}
+                {t('reactive.api.map.priceMinus')}
               </Button>
               <Button variant="contained" color="primary" on:click={() => (priceRef.mutable += 10)}>
-                {t('reactive.api.toComputed.pricePlus')}
+                {t('reactive.api.map.pricePlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (discountRef.mutable = Math.max(0, discountRef.state - 5))}
               >
-                {t('reactive.api.toComputed.discountMinus')}
+                {t('reactive.api.map.discountMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (discountRef.mutable = Math.min(90, discountRef.state + 5))}
               >
-                {t('reactive.api.toComputed.discountPlus')}
+                {t('reactive.api.map.discountPlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (taxRef.mutable = Math.max(0, taxRef.state - 1))}
               >
-                {t('reactive.api.toComputed.taxMinus')}
+                {t('reactive.api.map.taxMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (taxRef.mutable = Math.min(30, taxRef.state + 1))}
               >
-                {t('reactive.api.toComputed.taxPlus')}
+                {t('reactive.api.map.taxPlus')}
               </Button>
             </div>
             <div class="demo-result">
@@ -305,8 +276,6 @@ export function Reactivity() {
             <pre class="reactive-api-log">{listenerLogsTextRef}</pre>
           </div>
         </div>
-
-        <Code code={reactiveApiCode} lang="ts" />
       </div>
     </div>
   );

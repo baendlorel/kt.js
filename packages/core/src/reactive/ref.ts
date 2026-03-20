@@ -33,10 +33,10 @@ export class KTRef<T> extends KTReactive<T> {
 }
 
 /**
- * Create a plain `KTRef` object.
- * - use `refObject.value` to get/set plain data
- * - use `refObject.toComputed(calculator)` to create a computed value based on this ref
- * - use `refObject.draft` to set too, but it will recalculate in the next microtask. Useful for deep objects, `Map`, `Set` or other custom objects
+ * Create a `KTRef` object.
+ * - use `refObject.state` to get plain data
+ * - use `refObject.map(calculator)` to create a computed value based on this ref
+ * - use `refObject.mutable` to set too, but it will recalculate in the next microtask. Useful for deep objects, `Map`, `Set` or other custom objects
  *
  * @param value any data
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`

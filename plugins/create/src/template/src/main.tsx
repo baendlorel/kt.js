@@ -3,7 +3,7 @@ import './style.css';
 import icon from './logo.svg';
 
 const count = ref(0);
-const isClicked = count.toComputed((v) => v > 0);
+const isClicked = count.map((v) => v > 0);
 
 const app = (
   <main class="app">

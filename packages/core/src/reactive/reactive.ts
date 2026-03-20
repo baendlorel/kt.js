@@ -51,6 +51,7 @@ export class KTReactive<T> {
    * @readonly
    */
   get state() {
+    // todo 对于直接的设置，这里一定会触发报错，关键是要检测到state.xxx被变更的情况，并即使予以error
     return this._value;
   }
 

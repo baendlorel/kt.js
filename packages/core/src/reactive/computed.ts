@@ -5,7 +5,7 @@ import { isKT, KTReactiveType } from './core.js';
 import { KTReactive } from './reactive.js';
 
 export class KTComputed<T> extends KTReactive<T> {
-  ktType = KTReactiveType.Computed;
+  public readonly ktType = KTReactiveType.Computed;
 
   /**
    * @internal

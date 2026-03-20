@@ -4,10 +4,10 @@ import type { ChangeHandler, ChangeHandlerKey } from './reactive.js';
 import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './core.js';
 import { KTReactive } from './reactive.js';
-import { pushMicroqueue } from './scheduler.js';
+import { markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
-  ktType = KTReactiveType.Ref;
+  public readonly ktType = KTReactiveType.Ref;
 
   /**
    * Force all listeners to run even when reference identity has not changed.
@@ -17,12 +17,12 @@ export class KTRef<T> extends KTReactive<T> {
     return this._emit(newValue, oldValue, handlerKeys);
   }
 
-  get draft() {
-    pushMicroqueue(this);
+  get mutable() {
+    markMutation(this);
     return this._value;
   }
 
-  set draft(newValue: T) {
+  set mutable(newValue: T) {
     if ($is(newValue, this._value)) {
       return;
     }
@@ -61,7 +61,7 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   return ref(defaultValue) as KTRef<T>;
 };
 
-const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.draft = node);
+const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.mutable = node);
 type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
 
 /**
@@ -74,7 +74,7 @@ export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): Re
 
   const r = props.ref;
   if (isRef(r)) {
-    r.draft = node;
+    r.mutable = node;
     return $refSetter;
   } else {
     $throw('Fragment: ref must be a KTRef');

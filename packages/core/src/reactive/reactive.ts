@@ -9,9 +9,9 @@ export class KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance
    */
-  public isKT: true = true;
+  public readonly isKT: true = true;
 
-  public ktType: KTReactiveType = KTReactiveType.Reative;
+  public readonly ktType: KTReactiveType = KTReactiveType.Reative;
 
   /**
    * @internal
@@ -47,6 +47,7 @@ export class KTReactive<T> {
 
   /**
    * If new value and old value are both nodes, the old one will be replaced in the DOM
+   * @readonly
    */
   get value() {
     return this._value;

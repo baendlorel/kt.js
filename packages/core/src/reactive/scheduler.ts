@@ -6,7 +6,7 @@ const reactiveToOldValue = new Map<KTRef<any>, any>();
 
 let scheduled = false;
 
-export const pushMicroqueue = (reactive: KTRef<any>) => {
+export const markMutation = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
     // @ts-expect-error accessing protected property
     reactiveToOldValue.set(reactive, reactive._value);

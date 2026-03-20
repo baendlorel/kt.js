@@ -82,6 +82,7 @@ export class KTReactive<T> {
    * @param callback (newValue, oldValue) => xxx
    * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
+  // todo 改名为watch？
   // todo 这里返回this了，是不是可以不需要ref后面跟一个onChange了，直接链式调用addOnChange就好了？感觉更自然一些
   addOnChange(callback: ChangeHandler<T>, key?: ChangeHandlerKey): this {
     if (typeof callback !== 'function') {

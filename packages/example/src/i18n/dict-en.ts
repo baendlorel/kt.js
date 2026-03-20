@@ -60,8 +60,6 @@ export const en: typeof zh = {
     'Weak containers are wrapped too, which is useful when state is keyed only by object identity.',
   'reactive.ref.item.date':
     'Calling setters such as <code>setFullYear</code> or <code>setUTCFullYear</code> emits changes automatically.',
-  'reactive.ref.tip':
-    'Important: auto emitting happens only when you mutate through specialized ref methods themselves. If you mutate inside <code>ref.value</code> directly, you still need <code>notify()</code> or <code>mutate()</code>. If you explicitly want a plain <code>KTRef</code>, keep using <code>ref()</code>.',
   'reactive.attribute.title': 'Attribute Ref',
   'reactive.attribute.description': 'Make attributes reactive.',
   'reactive.attribute.currentWidth': 'Current Width: {{1}}',
@@ -74,28 +72,16 @@ export const en: typeof zh = {
     'The following blocks explain each <code>KTReactive</code> public method in practice. Demos are based on <code>ref</code>, and also apply to <code>computed</code>.',
   'reactive.api.overview': 'Core API overview:',
   'reactive.api.method.value': 'Read or set the current reactive value.',
-  'reactive.api.method.notify':
-    'Force listeners to run after mutating inside <code>ref.value</code>; useful for plain objects or updates that do not go through specialized ref methods.',
-  'reactive.api.method.mutate':
-    'Mutate in-place within one callback and emit exactly once; useful when you want mutation and emit in one step.',
+  'reactive.api.method.notify': 'Force listeners to run.',
   'reactive.api.method.map': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
   'reactive.api.method.removeOnChange': 'Remove a listener by key.',
-  'reactive.api.value.title': '<code>value</code> read/write',
-  'reactive.api.value.description': 'Directly reading and writing <code>value</code> triggers reactive updates.',
+  'reactive.api.value.title': '<code>state</code> for read, <code>mutable</code> for write',
+  'reactive.api.value.description': 'Write to <code>mutable</code> to trigger reactive updates.',
   'reactive.api.value.current': 'Current value: {{1}}',
   'reactive.api.value.double': 'Double result (map): {{1}}',
   'reactive.api.value.decrement': '-1',
   'reactive.api.value.increment': '+1',
-  'reactive.api.notifyMutate.title': '<code>notify</code> / <code>mutate</code>',
-  'reactive.api.notifyMutate.description':
-    'Direct in-place mutation inside <code>ref.value</code> does not auto refresh. Use <code>notify()</code> to force emit, or <code>mutate()</code> to do both in one step.',
-  'reactive.api.notifyMutate.inline': 'In-place only',
-  'reactive.api.notifyMutate.notify': 'Call notify()',
-  'reactive.api.notifyMutate.mutate': 'Use mutate()',
-  'reactive.api.notifyMutate.summary': 'count={{1}}, updatedAt={{2}}',
-  'reactive.api.notifyMutate.tip':
-    'Click “In-place only” first (no UI change), then click <code>notify()</code> to flush the update.',
   'reactive.api.map.title': '<code>map</code>',
   'reactive.api.map.description':
     'Derive a computed value from current state and declare extra dependencies as the second argument (e.g. discount and tax).',

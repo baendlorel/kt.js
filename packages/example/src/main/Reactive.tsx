@@ -30,23 +30,6 @@ export function Reactivity() {
   const valueTextRef = valueRef.map((value) => i18nText('reactive.api.value.current', value));
   const valueDoubleTextRef = valueRef.map((value) => i18nText('reactive.api.value.double', value * 2));
 
-  const objectStateRef = ref({
-    count: 0,
-    updatedAt: '--:--:--',
-  });
-  const objectSummaryRef = objectStateRef.map((state) =>
-    i18nText('reactive.api.notifyMutate.summary', state.count, state.updatedAt),
-  );
-  const patchInPlaceOnly = () => {
-    objectStateRef.state.count += 1;
-    objectStateRef.state.updatedAt = new Date().toLocaleTimeString();
-  };
-  const forceNotify = () => objectStateRef.notify();
-  const mutateAndNotify = () => {
-    objectStateRef.mutable.count += 1;
-    objectStateRef.mutable.updatedAt = new Date().toLocaleTimeString();
-  };
-
   const priceRef = ref(120);
   const discountRef = ref(10);
   const taxRef = ref(6);
@@ -141,10 +124,6 @@ export function Reactivity() {
               <p k-html={t('reactive.api.method.notify')}></p>
             </li>
             <li>
-              <code>mutate&lt;R = void&gt;(mutator: (value: T) =&gt; R, handlerKeys?: (string | number)[]): R</code>
-              <p k-html={t('reactive.api.method.mutate')}></p>
-            </li>
-            <li>
               <code>
                 map&lt;R&gt;(calculator: (value: T) =&gt; R, dependencies?: KTReactive&lt;any&gt;[]):
                 KTComputed&lt;R&gt;
@@ -182,25 +161,6 @@ export function Reactivity() {
               <div>{valueDoubleTextRef}</div>
             </div>
           </div>
-
-          <div class="demo-block reactive-api-card">
-            <h4 k-html={t('reactive.api.notifyMutate.title')}></h4>
-            <p class="demo-desc" k-html={t('reactive.api.notifyMutate.description')}></p>
-            <div class="demo-flex-gap">
-              <Button variant="contained" color="primary" on:click={patchInPlaceOnly}>
-                {t('reactive.api.notifyMutate.inline')}
-              </Button>
-              <Button variant="contained" color="primary" on:click={forceNotify}>
-                {t('reactive.api.notifyMutate.notify')}
-              </Button>
-              <Button variant="contained" color="primary" on:click={mutateAndNotify}>
-                {t('reactive.api.notifyMutate.mutate')}
-              </Button>
-            </div>
-            <div class="demo-result">{objectSummaryRef}</div>
-            <p class="demo-desc" k-html={t('reactive.api.notifyMutate.tip')}></p>
-          </div>
-
           <div class="demo-block reactive-api-card">
             <h4 k-html={t('reactive.api.map.title')}></h4>
             <p class="demo-desc" k-html={t('reactive.api.map.description')}></p>

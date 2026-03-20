@@ -9,9 +9,12 @@
   - Read current data with `ref.state`.
   - Write next data with `ref.mutable = nextValue`.
   - Deep object or array updates should also go through `ref.mutable`, for example `ref.mutable.user.name = 'Jane'` or `ref.mutable.list.push(item)`.
+  - `ref.mutable` should not be cached, destructured, returned, or carried across `await`.
 - **Computed read API alignment**:
   - `computed` values are now read through `.state` as well.
   - Derived values remain read-only; only `ref(...)` instances expose `.mutable`.
+- **Reactive listener semantics**:
+  - `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 - **Migration direction**:
   - Replace all `xxx.value` reads with `xxx.state`.
   - Replace all `xxx.value = next` writes with `xxx.mutable = next`.
@@ -25,6 +28,8 @@
 
 ### Documentation
 
+- Clarified the `state` / `mutable` contract in README files.
+- Clarified that compile-time checks should reject ambiguous write patterns, while runtime hot paths intentionally avoid defensive guards.
 - Updated `packages/kt.js/instruction.md` for the new `state` / `mutable` API.
 - Updated `kt.js.instruction.md` so AI-oriented JSX guidance now uses `state` for reads and `mutable` for writes.
 

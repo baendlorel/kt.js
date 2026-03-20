@@ -1,5 +1,39 @@
 # Changelog
 
+## Unreleased (Next Version)
+
+### New Features
+
+- **Ref Read/Write Separation (`@ktjs/core`)**:
+  - Implemented separated read-only and mutable access for ref objects to enable automatic scheduler integration for deep modifications.
+  - Introduced `readonly` property for read-only access to ref values, preventing accidental mutations outside of controlled flows.
+  - Added `mut` property for mutable access that automatically triggers reactive updates in the scheduler, ensuring proper handling of deep object/array modifications via microtask queuing mechanism.
+  - The new pattern enables automatic deep mutation tracking, allowing changes like `ref.mut.nested.prop = value` to properly trigger reactive updates through the scheduler system. This also supports array mutations like `ref.mut.items.push(newItem)` which will now automatically schedule reactive updates.
+  - This change provides better predictability for reactive updates, reducing unnecessary computations when only reading values while ensuring deep modifications are properly scheduled.
+  - Improved performance for complex reactive scenarios with nested objects and arrays by enabling fine-grained update scheduling through the microtask queue.
+  - Legacy `.value` property remains available but is deprecated for write operations in favor of the new `mut` property for better separation of concerns and debugging experience.
+  - Deep modification tracking is now automatically enabled when using the `mut` property, meaning mutations like `ref.mut.array.push(item)` or `ref.mut.object.nested.prop = value` will properly trigger reactive updates through the microtask scheduling system without requiring explicit notify calls.
+  - Usage examples:
+    - Old pattern: `const countRef = ref(0); countRef.value++;` (still works for simple assignments)
+    - New recommended pattern: `const countRef = ref(0); countRef.mut = 1;` (triggers scheduler)
+    - Deep mutation example: `const userRef = ref({ profile: { name: 'John' } }); userRef.mut.profile.name = 'Jane';` (automatically scheduled)
+    - Read-only access: `console.log(userRef.readonly.profile.name);` (no reactive triggers)
+
+### Optimizations
+
+- Scheduler microtask queuing has been optimized to batch multiple mutations from the same `mut` property access, reducing redundant re-renders in scenarios with multiple consecutive updates to the same reactive object.
+
+### Breaking Changes
+
+- Ref objects now separate read-only and mutable access into distinct properties (`readonly` vs `mut`), changing the access pattern from `ref.value` for both reading and writing to `ref.readonly` for reading and `ref.mut` for writing. This affects existing code that uses `ref.value = newValue` for assignments.
+- Direct mutation of deeply nested properties using legacy `.value` access will no longer automatically trigger reactive updates unless the `mut` property is used, requiring migration to `ref.mut.property = newValue` pattern for proper scheduler integration.
+- Applications relying on immediate value updates without microtask queuing may experience slight timing differences due to the new scheduler-integrated write pattern.
+
+### Documentation
+
+- Updated ref API documentation to reflect the new read/write separation pattern and provide migration guides for existing applications.
+- Added examples and best practices for using the new `readonly` and `mut` properties effectively in different reactive scenarios.
+
 ## 0.32.x - 2026-02-27
 
 ### New Features

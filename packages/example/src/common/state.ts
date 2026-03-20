@@ -18,7 +18,7 @@ export const resolveInitialTheme = (): ThemeMode => {
 };
 
 export const applyTheme = (theme: ThemeMode) => {
-  state.theme.state = theme;
+  state.theme.mutable = theme;
   document.documentElement.setAttribute('data-theme', theme);
   window.localStorage.setItem(themeStorageKey, theme);
 };

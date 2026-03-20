@@ -16,8 +16,9 @@
 
 ## Recent Updates
 
-1. Refactored `KTReactive` to be more flexible and easier to extend.
-2. Fixed issues of `svg` and `mathml` elements.
+1. <span style="color: red; font-weight: bold;">IMPORTANT!!</span> `refObject.value` is now split into **read-only** `refObject.state` and `refObject.mutable`. This change allows you to control the trigger of change handlers and enables kt.js to handle deep changes of any objects.
+2. Refactored `KTReactive`. Now it is a real class and implements common things of `ref` and `computed`.
+3. Fixed issues of `svg` and `mathml` elements.
 
 ## Community
 

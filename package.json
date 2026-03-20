@@ -28,6 +28,7 @@
     "lines": "tsx ./scripts/lines.ts",
     "check": "tsx ./scripts/index.ts --check",
     "build": "tsx ./scripts/index.ts --build",
+    "sync-readme": "tsx ./scripts/index.ts --readme",
     "pub": "tsx ./scripts/index.ts --publish",
     "test": "tsx ./scripts/index.ts --test",
     "cover": "pnpm -r --if-present run cover",

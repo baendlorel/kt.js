@@ -16,7 +16,7 @@
 }
 ```
 
-2. 构建插件（否则 `k-if`/`k-for` 等指令不会按预期编译）：
+2. 构建插件（否则 `k-if` / `k-for` 等指令不会按预期编译）：
 
 ```ts
 import { defineConfig } from 'vite';
@@ -31,7 +31,10 @@ export default defineConfig({
 
 - KT.js JSX 直接产出真实 DOM 节点，不是虚拟 DOM。
 - 组件函数默认执行一次，不会像 React 一样因 state 自动重跑。
-- 响应式更新依赖 `ref/computed` 本身：在 JSX 中优先写 `{someRef}`，而不是 `{someRef.value}`。
+- 响应式对象用 `ref()` 和 `computed()` 表达。
+- **普通 JS 中读取响应式值用 `.state`，写入用 `.mutable`。**
+- JSX 中优先直接传 `ref/computed` 本身，例如 `{count}`、`class={className}`，不要习惯性展开成 `.state`。
+- `computed(() => ..., deps)` 需要显式提供依赖数组。
 - 事件名使用 `on:事件名`，例如 `on:click`，不是 `onClick`。
 
 ## 2. JSX 基础语法
@@ -43,7 +46,7 @@ import { ref } from 'kt.js';
 
 function Counter() {
   const count = ref(0);
-  return <button on:click={() => count.value++}>Count: {count}</button>;
+  return <button on:click={() => count.mutable++}>Count: {count}</button>;
 }
 ```
 
@@ -54,8 +57,10 @@ function Counter() {
 - 普通属性可直接传响应式对象（`ref/computed`）。
 
 ```tsx
+import { computed, ref } from 'kt.js';
+
 const active = ref(true);
-const cls = active.toComputed((v) => (v ? 'btn btn-on' : 'btn btn-off'));
+const cls = computed(() => (active.state ? 'btn btn-on' : 'btn btn-off'), [active]);
 const styleRef = ref({ color: 'tomato', fontWeight: 'bold' as const });
 
 const el = (
@@ -72,9 +77,9 @@ const output = ref('idle');
 
 const el = (
   <button
-    on:click={() => (output.value = 'clicked')}
-    on:mouseenter={() => (output.value = 'hover')}
-    on:mouseleave={() => (output.value = 'idle')}
+    on:click={() => (output.mutable = 'clicked')}
+    on:mouseenter={() => (output.mutable = 'hover')}
+    on:mouseleave={() => (output.mutable = 'idle')}
   >
     Trigger
   </button>
@@ -94,6 +99,8 @@ const view = (
     <div k-else>B</div>
   </>
 );
+
+show.mutable = false;
 ```
 
 规则：
@@ -172,10 +179,11 @@ const frag = (
 也可显式使用：
 
 ```tsx
-import { Fragment } from 'kt.js';
+import { Fragment, ref } from 'kt.js';
 
 const childrenRef = ref([<span>A</span>, <span>B</span>]);
 const frag = <Fragment children={childrenRef} />;
+childrenRef.mutable = [<span>C</span>];
 ```
 
 ### 4.2 `children` 透传
@@ -196,6 +204,8 @@ function Card(props: { title: string; children?: any }) {
 ```tsx
 const inputRef = ref<HTMLInputElement>();
 const view = <input ref={inputRef} />;
+
+inputRef.state?.focus();
 ```
 
 规则：
@@ -219,10 +229,12 @@ const icon = (
 ## 6. 与 React/Vue JSX 的关键差异（AI 易踩坑）
 
 1. 事件写法是 `on:click`，不是 `onClick`。
-2. 响应式值优先传 `ref/computed` 本身，不是每次都写 `.value`。
-3. 条件/循环建议用 `k-if`/`k-else`、`k-for` 指令语法。
-4. `k-else-if` 目前不要用。
-5. 没有 ktjsx 转换插件时，指令基本不会生效（尤其 `k-if`、`k-for`、SVG/MathML）。
+2. JSX 中优先传 `ref/computed` 本身，不是每次都写 `.state`。
+3. 普通 JS 中读取响应式值用 `.state`，写入统一用 `.mutable`。
+4. 条件/循环建议用 `k-if` / `k-else`、`k-for` 指令语法。
+5. `computed` 必须显式写依赖数组。
+6. `k-else-if` 目前不要用。
+7. 没有 ktjsx 转换插件时，指令基本不会生效（尤其 `k-if`、`k-for`、SVG / MathML）。
 
 ## 7. AI 生成 KT.js JSX 的最小模板
 
@@ -236,7 +248,8 @@ function App() {
   return (
     <main>
       <h1>KT.js JSX</h1>
-      <button on:click={() => count.value++}>Count: {count}</button>
+      <button on:click={() => count.mutable++}>Count: {count}</button>
+      <button on:click={() => (visible.mutable = !visible.state)}>Toggle</button>
       <p k-if={visible}>Visible</p>
       <p k-else>Hidden</p>
     </main>

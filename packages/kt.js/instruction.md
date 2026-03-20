@@ -1,334 +1,229 @@
 # KT.js - AI Assistant Usage Guide
 
-KT.js is a lightweight, manual-control web framework that creates real DOM elements with reactive state management.
+KT.js is a lightweight real-DOM framework with explicit reactive objects.
 
 ## Core Concepts
 
-- **Real DOM**: JSX creates actual HTMLElements, no virtual DOM
-- **Manual Updates**: You control when DOM updates happen
-- **Reactive State**: Use `ref()` for plain reactive values, `autoRef()` for auto-specialized containers, and `computed()` for derived values
-- **No Auto-rendering**: Components don't re-execute automatically
+- **Real DOM**: JSX returns actual DOM nodes.
+- **Run once**: Components do not auto re-execute.
+- **Reactive objects**: Use `ref()` for state and `computed()` for derived values.
+- **Read / write split**:
+  - Read reactive data with `.state`
+  - Write reactive data with `.mutable`
+- **JSX convenience**: In JSX, prefer passing the reactive object itself, such as `{count}` or `class={className}`.
 
-## Basic Usage
+## Installation
 
-### Installation
 ```bash
 npm install kt.js
 ```
 
-### Basic Component
+## Basic Component
+
 ```tsx
 import { ref } from 'kt.js';
 
 function Counter() {
   const count = ref(0);
-  
-  const button = <button on:click={() => count.value++}>
-    Count: {count.value}
-  </button>;
-  
-  return button;
+
+  return <button on:click={() => count.mutable++}>Count: {count}</button>;
 }
 
-// Mount to DOM
 document.body.appendChild(Counter());
 ```
 
 ## Reactive System
 
-### ref() - Plain Reactive References
+### ref()
+
 ```tsx
 import { ref } from 'kt.js';
 
-// Create reactive value
 const count = ref(0);
 
-// Access value
-console.log(count.value); // 0
+console.log(count.state); // 0
 
-// Update value
-count.value = 10;
+count.mutable = 10;
+count.mutable++;
 
-// React to changes
-count.addOnChange((newVal, oldVal) => {
-  console.log(`Changed from ${oldVal} to ${newVal}`);
+count.addOnChange((next, prev) => {
+  console.log(`Changed from ${prev} to ${next}`);
 });
 ```
 
-### autoRef() - Auto-specialized Container Refs
+Deep writes should also go through `.mutable`:
+
 ```tsx
-import { autoRef } from 'kt.js';
+const profile = ref({ name: 'John', tags: ['admin'] });
 
-const list = autoRef([1, 2]);
-list.push(3); // emits automatically
+profile.mutable.name = 'Jane';
+profile.mutable.tags.push('editor');
+```
 
-const mapping = autoRef(new Map<string, number>());
-mapping.set('count', 1); // emits automatically
+If you bypass `.mutable` and mutate in place manually, call `notify()` yourself:
 
-// Direct mutation inside `.value` is still manual
-list.value.push(4);
+```tsx
+const list = ref([1, 2]);
+list.state.push(3);
 list.notify();
 ```
 
-### computed() - Computed Values
+### computed()
+
 ```tsx
 import { ref, computed } from 'kt.js';
 
 const firstName = ref('John');
 const lastName = ref('Doe');
 
-const fullName = computed(() => `${firstName.value} ${lastName.value}`);
+const fullName = computed(() => `${firstName.state} ${lastName.state}`, [firstName, lastName]);
 
-console.log(fullName.value); // "John Doe"
+console.log(fullName.state); // John Doe
 ```
 
-### k-model - Two-way Binding
+## Directives
+
+### k-model
+
 ```tsx
 function InputComponent() {
   const text = ref('');
-  
   return <input k-model={text} />;
 }
 ```
 
-## JSX Features
+### k-if / k-else
 
-### Conditional Rendering with k-if
 ```tsx
 const show = ref(true);
 
-const element = <div k-if={show}>
-  This content is conditionally rendered
-</div>;
+const element = (
+  <>
+    <div k-if={show}>Visible</div>
+    <div k-else>Hidden</div>
+  </>
+);
 
-// Toggle visibility
-show.value = false; // Element becomes comment placeholder
+show.mutable = false;
 ```
 
-### List Rendering with KTFor
+### k-for / k-key
+
 ```tsx
-import { KTFor, ref } from 'kt.js';
+const items = ref([
+  { id: 1, name: 'Item 1' },
+  { id: 2, name: 'Item 2' },
+]);
 
-const items = ref([{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]);
+const list = (
+  <li k-for="item in items" k-key="item.id">
+    {item.name}
+  </li>
+);
 
-const list = <KTFor
-  list={items.value}
-  key={(item) => item.id}
-  map={(item) => <div>{item.name}</div>}
-/>;
-
-// Update list
-items.value = [...items.value, { id: 3, name: 'Item 3' }];
+items.mutable = [...items.state, { id: 3, name: 'Item 3' }];
 ```
 
-### Event Handling
+### k-html
+
 ```tsx
-const handleClick = (event) => {
-  console.log('Clicked!', event);
-};
-
-const button = <button on:click={handleClick}>
-  Click me
-</button>;
+const html = ref('<strong>trusted html</strong>');
+const box = <div k-html={html} />;
 ```
 
-### Dynamic Attributes
+## Dynamic Attributes
+
 ```tsx
-const isActive = ref(true);
-const className = ref('btn-primary');
+const disabled = ref(false);
+const className = computed(() => (disabled.state ? 'btn disabled' : 'btn'), [disabled]);
 
-const button = <button 
-  class={className.value}
-  disabled={!isActive.value}
->
-  Dynamic Button
-</button>;
+const button = <button class={className} disabled={disabled}>Submit</button>;
 ```
 
-## Component Patterns
+## Fragment and Element Refs
 
-### Function Components
 ```tsx
-function Greeting({ name = 'World' }) {
-  return <h1>Hello, {name}!</h1>;
-}
+import { Fragment, ref } from 'kt.js';
 
-// Usage
-document.body.appendChild(Greeting({ name: 'KT.js' }));
+const childrenRef = ref([<span>A</span>, <span>B</span>]);
+const fragment = <Fragment children={childrenRef} />;
+
+childrenRef.mutable = [<span>C</span>];
 ```
 
-### Stateful Components
+```tsx
+const inputRef = ref<HTMLInputElement>();
+const element = <input ref={inputRef} />;
+
+inputRef.state?.focus();
+```
+
+## Common Patterns
+
+### Stateful Component
+
 ```tsx
 function TodoApp() {
-  const todos = ref([]);
+  const todos = ref<{ id: number; text: string }[]>([]);
   const inputText = ref('');
-  
+
   const addTodo = () => {
-    if (inputText.value.trim()) {
-      todos.value = [...todos.value, {
-        id: Date.now(),
-        text: inputText.value.trim()
-      }];
-      inputText.value = '';
+    const text = inputText.state.trim();
+    if (!text) {
+      return;
     }
+
+    todos.mutable = [...todos.state, { id: Date.now(), text }];
+    inputText.mutable = '';
   };
-  
+
   return (
     <div>
       <input k-model={inputText} placeholder="Add todo" />
       <button on:click={addTodo}>Add</button>
-      <KTFor
-        list={todos.value}
-        key={(todo) => todo.id}
-        map={(todo) => <div>{todo.text}</div>}
-      />
+      <ul>
+        <li k-for="todo in todos" k-key="todo.id">
+          {todo.text}
+        </li>
+      </ul>
     </div>
-  );
-}
-```
-
-### createRedrawable() - Redrawable Elements
-```tsx
-import { createRedrawable, ref } from 'kt.js';
-
-function DynamicCounter() {
-  const count = ref(0);
-  
-  const counter = createRedrawable(() => 
-    <div>
-      Count: {count.value}
-      <button on:click={() => count.value++}>+</button>
-    </div>
-  );
-  
-  // Redraw when count changes
-  count.addOnChange(() => {
-    counter.redraw();
-  });
-  
-  return counter;
-}
-```
-
-## Advanced Patterns
-
-### Surface References
-```tsx
-import { surfaceRef } from 'kt.js';
-
-const user = surfaceRef({
-  name: 'John',
-  age: 30
-});
-
-// Access reactive properties
-user.name.value = 'Jane';
-
-// Get original object
-const original = user.kcollect();
-```
-
-### Async Components
-```tsx
-import { KTAsync } from 'kt.js';
-
-function AsyncData() {
-  return <KTAsync
-    promise={fetch('/api/data').then(r => r.json())}
-    pending={() => <div>Loading...</div>}
-    then={(data) => <div>Data: {data}</div>}
-    catch={(error) => <div>Error: {error.message}</div>}
-  />;
-}
-```
-
-## DOM Manipulation
-
-### Manual Updates
-```tsx
-const element = <div>Initial content</div>;
-
-// Update content manually
-element.textContent = 'Updated content';
-
-// Or use redraw pattern
-const content = ref('Initial');
-const redrawable = createRedrawable(() => <div>{content.value}</div>);
-content.value = 'Updated'; // Then call redrawable.redraw()
-```
-
-### Element References
-```tsx
-const myRef = ref<HTMLElement>();
-
-const element = <div ref={myRef}>
-  This element has a reference
-</div>;
-
-// Access the element
-console.log(myRef.value); // The actual div element
-```
-
-## Best Practices
-
-1. **Use ref() for state**: Always wrap mutable state in `ref()`
-2. **Use k-if for conditionals**: More efficient than manual DOM manipulation
-3. **Use KTFor for lists**: Provides key-based optimization
-4. **Handle events with on: prefix**: Standard event binding syntax
-5. **Use k-model for inputs**: Two-way binding convenience
-6. **Create redrawable components**: For complex update scenarios
-
-## Common Patterns
-
-### Form Handling
-```tsx
-function ContactForm() {
-  const form = surfaceRef({
-    name: '',
-    email: '',
-    message: ''
-  });
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form data:', form.kcollect());
-  };
-  
-  return (
-    <form on:submit={handleSubmit}>
-      <input k-model={form.name} placeholder="Name" />
-      <input k-model={form.email} placeholder="Email" />
-      <textarea k-model={form.message} placeholder="Message" />
-      <button type="submit">Submit</button>
-    </form>
   );
 }
 ```
 
 ### Dynamic Styling
-```tsx
-const isHighlighted = ref(false);
 
-const box = <div 
-  style={{
-    background: isHighlighted.value ? 'yellow' : 'white',
-    transition: 'background 0.3s'
-  }}
-  on:mouseenter={() => isHighlighted.value = true}
-  on:mouseleave={() => isHighlighted.value = false}
->
-  Hover me!
-</div>;
+```tsx
+const highlighted = ref(false);
+const background = computed(() => (highlighted.state ? 'yellow' : 'white'), [highlighted]);
+
+const box = (
+  <div
+    style={computed(() => ({ background: background.state, transition: 'background 0.3s' }), [background])}
+    on:mouseenter={() => (highlighted.mutable = true)}
+    on:mouseleave={() => (highlighted.mutable = false)}
+  >
+    Hover me!
+  </div>
+);
 ```
+
+## Best Practices
+
+1. Use `.state` only for reads.
+2. Use `.mutable` for all writes, including deep object and array writes.
+3. In JSX, prefer the reactive object itself instead of manually unwrapping it.
+4. Always pass the dependency array to `computed()`.
+5. Use `k-model`, `k-if`, `k-else`, and `k-for` as the primary JSX control-flow tools.
 
 ## Key Differences from Other Frameworks
 
 | Feature | React/Vue | KT.js |
-|---------|-----------|--------|
-| Rendering | Virtual DOM + Auto | Real DOM + Manual |
-| State | Reactive system | Manual ref()/computed() |
-| Updates | Automatic | Manual via redraw() |
-| Components | Re-execute on state change | Execute once, update manually |
-| JSX Output | Virtual nodes | Real HTMLElements |
+| --- | --- | --- |
+| Rendering | Virtual DOM + auto scheduling | Real DOM + direct updates |
+| State read | Hook/state getter | `ref.state` |
+| State write | Setter / proxy mutation | `ref.mutable` |
+| Derived state | Auto tracked | `computed(fn, deps)` |
+| Component updates | Re-executes component | Component runs once |
 
-KT.js gives you complete control over when and how your UI updates, making it ideal for performance-critical applications where you want to minimize unnecessary DOM operations.
+KT.js keeps reactivity explicit and makes DOM updates predictable.

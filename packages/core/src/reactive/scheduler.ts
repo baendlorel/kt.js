@@ -6,15 +6,16 @@ const reactiveToOldValue = new Map<KTRef<any>, any>();
 
 let scheduled = false;
 
-export const addReaction = (reactive: KTRef<any>, oldValue: any) => {
+export const pushMicroqueue = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
-    reactiveToOldValue.set(reactive, oldValue);
-    schedule();
-  }
-};
+    // @ts-expect-error accessing protected property
+    reactiveToOldValue.set(reactive, reactive._value);
 
-const schedule = () => {
-  if (!scheduled) {
+    // # schedule by microqueue
+    if (scheduled) {
+      return;
+    }
+
     scheduled = true;
     Promise.resolve().then(() => {
       scheduled = false;

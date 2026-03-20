@@ -53,13 +53,6 @@ export class KTReactive<T> {
   }
 
   /**
-   * If new value and old value are both nodes, the old one will be replaced in the DOM
-   */
-  set value(_value: T) {
-    // & only `KTRef` will take effect when setting.
-  }
-
-  /**
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
    * - Is implemented differently in `KTRef` and `KTComputed`

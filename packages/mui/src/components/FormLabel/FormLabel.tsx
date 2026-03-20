@@ -57,10 +57,10 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
     () =>
       [
         'mui-form-label',
-        errorRef.value ? 'mui-form-label-error' : '',
-        disabledRef.value ? 'mui-form-label-disabled' : '',
-        focusedRef.value ? 'mui-form-label-focused' : '',
-        filledRef.value ? 'mui-form-label-filled' : '',
+        errorRef.state ? 'mui-form-label-error' : '',
+        disabledRef.state ? 'mui-form-label-disabled' : '',
+        focusedRef.state ? 'mui-form-label-focused' : '',
+        filledRef.state ? 'mui-form-label-filled' : '',
       ].join(' '),
     [errorRef, disabledRef, focusedRef, filledRef],
   );

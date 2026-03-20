@@ -17,7 +17,7 @@ describe('reactive helpers', () => {
 
     const _: Assert<IsEqual<typeof booleanRef, KTRef<boolean>>> = true;
 
-    expect(booleanRef.value).toBe(true);
+    expect(booleanRef.state).toBe(true);
   });
 
   it('notify should trigger listeners for in-place mutation', () => {
@@ -25,11 +25,11 @@ describe('reactive helpers', () => {
     const onChange = vi.fn();
     list.addOnChange(onChange);
 
-    list.value.push(3);
+    list.state.push(3);
     list.notify();
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(list.value).toEqual([1, 2, 3]);
+    expect(list.state).toEqual([1, 2, 3]);
   });
 
   it('mutate should update value and notify once', () => {
@@ -42,7 +42,7 @@ describe('reactive helpers', () => {
       items.push(4);
     });
 
-    expect(list.value).toEqual([1, 3, 4]);
+    expect(list.state).toEqual([1, 3, 4]);
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -71,24 +71,24 @@ describe('reactive helpers', () => {
 
     list.mutate((items) => items.push(3), ['pick']);
 
-    expect(list.value).toEqual([1, 2, 3]);
+    expect(list.state).toEqual([1, 2, 3]);
     expect(onAll).toHaveBeenCalledTimes(0);
     expect(onPick).toHaveBeenCalledTimes(1);
   });
 
   it('notify should trigger computed recalculation', () => {
     const list = ref<number[]>([1, 2]);
-    const total = computed(() => list.value.reduce((sum, n) => sum + n, 0), [list]);
+    const total = computed(() => list.state.reduce((sum, n) => sum + n, 0), [list]);
 
-    expect(total.value).toBe(3);
-    list.value.push(3);
+    expect(total.state).toBe(3);
+    list.state.push(3);
     list.notify();
-    expect(total.value).toBe(6);
+    expect(total.state).toBe(6);
   });
 
   it('computed notify should force callback even when value is unchanged', () => {
     const base = ref(2);
-    const doubled = computed(() => base.value * 2, [base]);
+    const doubled = computed(() => base.state * 2, [base]);
     const onChange = vi.fn();
     doubled.addOnChange(onChange);
 
@@ -100,7 +100,7 @@ describe('reactive helpers', () => {
 
   it('computed notify with handlerKeys should only trigger selected listeners', () => {
     const base = ref(2);
-    const doubled = computed(() => base.value * 2, [base]);
+    const doubled = computed(() => base.state * 2, [base]);
     const onA = vi.fn();
     const onB = vi.fn();
     doubled.addOnChange(onA, 'a');
@@ -119,7 +119,7 @@ describe('reactive helpers', () => {
     (globalThis as any).$warn = warn;
 
     const base = ref(3);
-    const doubled = computed(() => base.value * 2, [base]);
+    const doubled = computed(() => base.state * 2, [base]);
     const onA = vi.fn();
     const onB = vi.fn();
     doubled.addOnChange(onA, 'a');
@@ -141,12 +141,12 @@ describe('reactive helpers', () => {
     (globalThis as any).$warn = warn;
 
     const base = ref(5);
-    const doubled = computed(() => base.value * 2, [base]);
-    const before = doubled.value;
+    const doubled = computed(() => base.state * 2, [base]);
+    const before = doubled.state;
 
     doubled.mutate((v) => v);
 
-    expect(doubled.value).toBe(before);
+    expect(doubled.state).toBe(before);
     expect(warn).toHaveBeenCalledTimes(1);
 
     (globalThis as any).$warn = oldWarn;

@@ -34,26 +34,26 @@ function createApp() {
       throw new Error('Invalid page id: ' + pageId);
     }
 
-    if (page.value === navItem.id) {
+    if (page.state === navItem.id) {
       return;
     }
 
-    page.value = navItem.id;
-    currentSection.value = navItem.label;
+    page.state = navItem.id;
+    currentSection.state = navItem.label;
     if (navItem.groupId) {
-      openedGroup.value = navItem.groupId;
+      openedGroup.state = navItem.groupId;
     }
-    headerTitleRef.value = navItem.title;
-    headerDescRef.value = navItem.description;
-    view.value = navItem.component();
-    contentBodyRef.value.scrollTop = 0;
+    headerTitleRef.state = navItem.title;
+    headerDescRef.state = navItem.description;
+    view.state = navItem.component();
+    contentBodyRef.state.scrollTop = 0;
   };
 
   const toggleGroup = (groupId: string) => {
-    if (openedGroup.value === groupId) {
-      openedGroup.value = '';
+    if (openedGroup.state === groupId) {
+      openedGroup.state = '';
     } else {
-      openedGroup.value = groupId;
+      openedGroup.state = groupId;
     }
   };
   const navIndex = page.map((v) => navs.findIndex((entry) => entry.id === v));
@@ -62,7 +62,7 @@ function createApp() {
 
   const themeLabel = state.theme.map((v) => t(('app.theme.' + v) as any));
   const themeIcon = state.theme.map((v) => (v === 'dark' ? '🌙' : '☀️'));
-  const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
+  const toggleTheme = () => applyTheme(state.theme.state === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
@@ -163,8 +163,8 @@ function createApp() {
             class={prev.map((v) => `content-pagination-btn ${v ? '' : 'disabled'}`)}
             disabled={prev.map((v) => !v)}
             on:click={() => {
-              if (prev.value) {
-                navigateTo(prev.value.id);
+              if (prev.state) {
+                navigateTo(prev.state.id);
               }
             }}
           >
@@ -179,8 +179,8 @@ function createApp() {
             class={next.map((v) => `content-pagination-btn content-pagination-next ${v ? '' : 'disabled'}`)}
             disabled={next.map((v) => !v)}
             on:click={() => {
-              if (next.value) {
-                navigateTo(next.value.id);
+              if (next.state) {
+                navigateTo(next.state.id);
               }
             }}
           >

@@ -22,9 +22,9 @@ describe('MUI FormLabel component reactivity', () => {
     expect(label.className).not.toContain('mui-form-label-error');
     expect(label.querySelector('.mui-form-label-asterisk')).toBeNull();
 
-    required.value = true;
-    error.value = true;
-    focused.value = true;
+    required.state = true;
+    error.state = true;
+    focused.state = true;
 
     expect(label.className).toContain('mui-form-label-error');
     expect(label.className).toContain('mui-form-label-focused');
@@ -36,7 +36,7 @@ describe('MUI FormLabel component reactivity', () => {
     const label = <FormLabel {...{ children: 'Name', htmlFor }} />;
 
     expect(label.getAttribute('for')).toBe('field-a');
-    htmlFor.value = 'field-b';
+    htmlFor.state = 'field-b';
     expect(label.getAttribute('for')).toBe('field-b');
   });
 });

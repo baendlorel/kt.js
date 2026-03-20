@@ -51,7 +51,7 @@ describe('MUI Switch component', () => {
     const disabled = ref(false);
     const sw = <Switch {...{ disabled }} />;
     expect(sw.className).not.toContain('mui-switch-disabled');
-    disabled.value = true;
+    disabled.state = true;
     expect(sw.className).toContain('mui-switch-disabled');
   });
 });

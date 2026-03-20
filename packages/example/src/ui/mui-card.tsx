@@ -28,7 +28,7 @@ export function MuiCardDemo() {
           </p>
         </Card>
 
-        <Card variant="contained" raised style="padding:16px;" on:click={() => (clickCount.value += 1)}>
+        <Card variant="contained" raised style="padding:16px;" on:click={() => (clickCount.state += 1)}>
           <h4 style="margin:0 0 8px;">Contained Clickable</h4>
           <p class="demo-desc" style="margin:0;">
             Click to increase count.
@@ -37,7 +37,7 @@ export function MuiCardDemo() {
       </div>
 
       <div class="button-group">
-        <Button variant="outlined" on:click={() => (clickCount.value = 0)}>
+        <Button variant="outlined" on:click={() => (clickCount.state = 0)}>
           Reset Count
         </Button>
       </div>

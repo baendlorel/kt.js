@@ -26,7 +26,7 @@ export function MuiTabsDemo() {
         <Button
           variant="outlined"
           size="small"
-          on:click={() => (orientation.value = orientation.value === 'horizontal' ? 'vertical' : 'horizontal')}
+          on:click={() => (orientation.state = orientation.state === 'horizontal' ? 'vertical' : 'horizontal')}
         >
           Orientation: {orientation}
         </Button>
@@ -34,8 +34,8 @@ export function MuiTabsDemo() {
           variant="outlined"
           size="small"
           on:click={() =>
-            (variant.value =
-              variant.value === 'standard' ? 'scrollable' : variant.value === 'scrollable' ? 'fullWidth' : 'standard')
+            (variant.state =
+              variant.state === 'standard' ? 'scrollable' : variant.state === 'scrollable' ? 'fullWidth' : 'standard')
           }
         >
           Variant: {variant}
@@ -44,7 +44,7 @@ export function MuiTabsDemo() {
           variant="outlined"
           size="small"
           on:click={() => {
-            options.value = [
+            options.state = [
               { value: 'overview', label: 'Overview', icon: <HomeIcon /> },
               { value: 'history', label: 'History', icon: <ContentCopyIcon /> },
               { value: 'downloads', label: 'Downloads', icon: <DownloadIcon /> },

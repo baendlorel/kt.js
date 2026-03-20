@@ -81,7 +81,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
 
   let focusTimer = 0;
   const scheduleFocusFirstItem = () => {
-    if (!openRef.value || disableAutoFocusItemRef.value) {
+    if (!openRef.state || disableAutoFocusItemRef.state) {
       return;
     }
     if (focusTimer) {
@@ -96,7 +96,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
   const paperClassName = classRef.map((v) => `mui-menu-paper ${v}`);
 
   const closeMenu = (reason: KTMuiMenuCloseReason) => {
-    openRef.value = false;
+    openRef.state = false;
     onClose(reason);
   };
 
@@ -111,13 +111,13 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
     }
 
     const index = Number(currentTarget.dataset.index ?? '-1');
-    const content = optionsRef.value[index];
+    const content = optionsRef.state[index];
     if (!content || !isMenuOption(content) || content.disabled) {
       return;
     }
 
     onSelect(content.value, content);
-    if (autoCloseRef.value) {
+    if (autoCloseRef.state) {
       closeMenu('itemClick');
     }
   };
@@ -129,7 +129,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
         return;
       }
     }
-    menuListRef.value?.focus();
+    menuListRef.state?.focus();
   };
 
   const focusNeighbor = (startIndex: number, step: 1 | -1) => {
@@ -190,7 +190,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
 
   const members = computed(() => {
     menuItemElements.length = 0;
-    return optionsRef.value.map((content, index) => {
+    return optionsRef.state.map((content, index) => {
       if (!isMenuOption(content)) {
         return (
           <li class="mui-menu-static" role="presentation">
@@ -244,7 +244,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
   });
 
   optionsRef.addOnChange(() => {
-    if (openRef.value) {
+    if (openRef.state) {
       scheduleFocusFirstItem();
     }
   });

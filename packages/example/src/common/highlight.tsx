@@ -42,9 +42,9 @@ export const highlight = (code: string, lang: string = 'tsx') => {
         lang: normalizeLang(lang) as any,
         theme: 'one-light',
       });
-      o.value = <div class="highlight" k-html={html}></div>;
+      o.state = <div class="highlight" k-html={html}></div>;
     })
-    .catch(() => (o.value = <pre class="highlight">{code}</pre>));
+    .catch(() => (o.state = <pre class="highlight">{code}</pre>));
   return o;
 };
 
@@ -57,8 +57,8 @@ export const highlightDark = (code: string, lang: string = 'tsx') => {
         lang: normalizeLang(lang) as any,
         theme: 'dark-plus',
       });
-      o.value = <div class="highlight" k-html={html}></div>;
+      o.state = <div class="highlight" k-html={html}></div>;
     })
-    .catch(() => (o.value = <pre class="highlight">{code}</pre>));
+    .catch(() => (o.state = <pre class="highlight">{code}</pre>));
   return o;
 };

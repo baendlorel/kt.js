@@ -65,13 +65,13 @@ describe('MUI Popover component', () => {
 
     document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     expect(onClose).toHaveBeenCalledWith('backdropClick');
-    expect(openRef.value).toBe(false);
+    expect(openRef.state).toBe(false);
 
-    openRef.value = true;
+    openRef.state = true;
     vi.runAllTimers();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(onClose).toHaveBeenCalledWith('escapeKeyDown');
-    expect(openRef.value).toBe(false);
+    expect(openRef.state).toBe(false);
 
     popover.remove();
     anchor.remove();

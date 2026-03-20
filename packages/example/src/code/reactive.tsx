@@ -4,7 +4,7 @@ export function ComponentA() {
   const size = ref(100);
   const mode = ref<'A' | 'B'>('A');
   const style = computed(
-    () => `width: ${size.value}px; background: ${mode.value === 'A' ? 'red' : 'blue'};`,
+    () => `width: ${size.state}px; background: ${mode.state === 'A' ? 'red' : 'blue'};`,
     [size, mode], // Manually specify dependencies for the computed value
   );
 

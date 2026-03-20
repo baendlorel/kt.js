@@ -18,13 +18,13 @@ export function MuiBadgeDemo() {
         <Badge badgeContent={unread} color="error" max={99} showZero={showZero}>
           <Button variant="outlined">Inbox</Button>
         </Badge>
-        <Button variant="contained" on:click={() => (unread.value += 1)}>
+        <Button variant="contained" on:click={() => (unread.state += 1)}>
           +1
         </Button>
-        <Button variant="outlined" on:click={() => (unread.value = 0)}>
+        <Button variant="outlined" on:click={() => (unread.state = 0)}>
           Mark all read
         </Button>
-        <Button variant="text" on:click={() => (showZero.value = !showZero.value)}>
+        <Button variant="text" on:click={() => (showZero.state = !showZero.state)}>
           Show Zero: {showZero}
         </Button>
       </div>

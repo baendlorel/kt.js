@@ -7,7 +7,7 @@ export function MenuExample() {
 
   return (
     <div>
-      <Button ref={anchorEl} on:click={() => (open.value = !open.value)}>
+      <Button ref={anchorEl} on:click={() => (open.state = !open.state)}>
         Toggle Menu
       </Button>
       <Menu
@@ -17,7 +17,7 @@ export function MenuExample() {
           { value: 'rename', label: 'Rename' },
           { value: 'duplicate', label: 'Duplicate' },
         ]}
-        on:close={() => (open.value = false)}
+        on:close={() => (open.state = false)}
       />
     </div>
   );

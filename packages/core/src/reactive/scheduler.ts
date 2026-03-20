@@ -21,7 +21,7 @@ export const markMutation = (reactive: KTRef<any>) => {
       scheduled = false;
       reactiveToOldValue.forEach((oldValue, reactive) => {
         // @ts-expect-error accessing protected property
-        reactive._changeHandlers.forEach((handler) => handler(reactive.value, oldValue));
+        reactive._changeHandlers.forEach((handler) => handler(reactive.state, oldValue));
       });
       reactiveToOldValue.clear();
     });

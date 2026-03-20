@@ -24,7 +24,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     if (isKT<string>(classValue)) {
-      element.setAttribute('class', classValue.value);
+      element.setAttribute('class', classValue.state);
       classValue.addOnChange((v) => element.setAttribute('class', v));
     } else {
       element.setAttribute('class', classValue);
@@ -37,7 +37,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       element.setAttribute('style', style);
     } else if (typeof style === 'object') {
       if (isKT(style)) {
-        setElementStyle(element, style.value);
+        setElementStyle(element, style.state);
         style.addOnChange((v: Partial<CSSStyleDeclaration> | string) => setElementStyle(element, v));
       } else {
         setElementStyle(element, style as Partial<CSSStyleDeclaration>);
@@ -48,7 +48,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   if ('k-html' in attr) {
     const html = attr['k-html'];
     if (isKT(html)) {
-      element.innerHTML = html.value;
+      element.innerHTML = html.state;
       html.addOnChange((v) => (element.innerHTML = v));
     } else {
       element.innerHTML = html;
@@ -86,7 +86,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     // normal attributes
     const handler = handlers[key] || defaultHandler;
     if (isKT(o)) {
-      handler(element, key, o.value);
+      handler(element, key, o.state);
       o.addOnChange((v) => handler(element, key, v));
     } else {
       handler(element, key, o);

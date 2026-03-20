@@ -56,7 +56,7 @@ describe('MUI Menu component', () => {
 
     expect(onSelect).toHaveBeenCalledWith('archive', option);
     expect(onClose).toHaveBeenCalledWith('itemClick');
-    expect(open.value).toBe(false);
+    expect(open.state).toBe(false);
 
     menu.remove();
     anchor.remove();
@@ -85,7 +85,7 @@ describe('MUI Menu component', () => {
     document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
 
     expect(onClose).toHaveBeenCalledWith('backdropClick');
-    expect(open.value).toBe(false);
+    expect(open.state).toBe(false);
 
     menu.remove();
     anchor.remove();

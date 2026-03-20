@@ -12,10 +12,10 @@ export function MuiProgressDemo() {
       return;
     }
 
-    value.value = 0;
+    value.state = 0;
     intervalId = window.setInterval(() => {
-      value.value += 5;
-      if (value.value >= 100) {
+      value.state += 5;
+      if (value.state >= 100) {
         window.clearInterval(intervalId!);
         intervalId = null;
       }
@@ -27,7 +27,7 @@ export function MuiProgressDemo() {
       window.clearInterval(intervalId);
       intervalId = null;
     }
-    value.value = 0;
+    value.state = 0;
   };
 
   return (

@@ -18,7 +18,7 @@ export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ChangeHandler
  * Extracts the value from a KTReactive, or returns the value directly if it's not reactive.
  */
 export function dereactive<T = JSX.Element>(value: T | KTReactive<T>): T {
-  return isKT<T>(value) ? value.value : value;
+  return isKT<T>(value) ? value.state : value;
 }
 
 export * from './core.js';

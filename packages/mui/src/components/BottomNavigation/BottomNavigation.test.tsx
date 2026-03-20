@@ -40,7 +40,7 @@ describe('MUI BottomNavigation component', () => {
     const action = navigation.querySelector('[data-value="favorites"]') as HTMLButtonElement;
     action.click();
 
-    expect(model.value).toBe('favorites');
+    expect(model.state).toBe('favorites');
     expect(navigation.querySelector('[data-value="favorites"]')?.className).toContain(
       'mui-bottom-navigation-action-selected',
     );
@@ -64,7 +64,7 @@ describe('MUI BottomNavigation component', () => {
     const homeBefore = navigation.querySelector('[data-value="home"]') as HTMLButtonElement;
     const favoritesBefore = navigation.querySelector('[data-value="favorites"]') as HTMLButtonElement;
 
-    model.value = 'favorites';
+    model.state = 'favorites';
 
     const homeAfter = navigation.querySelector('[data-value="home"]') as HTMLButtonElement;
     const favoritesAfter = navigation.querySelector('[data-value="favorites"]') as HTMLButtonElement;
@@ -96,7 +96,7 @@ describe('MUI BottomNavigation component', () => {
     expect(blocked.disabled).toBe(true);
     blocked.click();
 
-    expect(model.value).toBe('home');
+    expect(model.state).toBe('home');
     expect(onChange).not.toHaveBeenCalled();
   });
 

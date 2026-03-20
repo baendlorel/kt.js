@@ -22,7 +22,7 @@ export function MuiSelectDemo() {
 
       <Select k-model={selectedValue} label="Fruits" placeholder="Select a fruit" options={options}></Select>
       <div class="demo-btn-group">
-        <Button on:click={() => (options.value = [{ label: 'Watermelon', value: 'watermelon' }])}>
+        <Button on:click={() => (options.state = [{ label: 'Watermelon', value: 'watermelon' }])}>
           Change Options
         </Button>
       </div>

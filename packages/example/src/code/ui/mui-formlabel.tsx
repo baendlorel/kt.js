@@ -8,7 +8,7 @@ export function FormLabelExample() {
     <div>
       <FormLabel required={required}>Account Name</FormLabel>
       <input type="text" placeholder="Type here..." />
-      <Button variant="outlined" on:click={() => (required.value = !required.value)}>
+      <Button variant="outlined" on:click={() => (required.state = !required.state)}>
         Toggle Required
       </Button>
     </div>

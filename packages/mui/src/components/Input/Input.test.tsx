@@ -87,7 +87,7 @@ describe('MUI TextField component', () => {
     const textfield = <TextField {...({ 'k-model': valueRef } as any)} />;
     const input = textfield.querySelector('input') as HTMLInputElement;
     expect(input.value).toBe('initial');
-    valueRef.value = 'updated';
+    valueRef.state = 'updated';
     expect(input.value).toBe('updated');
   });
 

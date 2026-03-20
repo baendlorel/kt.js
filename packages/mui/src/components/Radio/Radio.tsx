@@ -52,12 +52,12 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
 
   // Handle change
   const handleChange = () => {
-    if (disabledRef.value) {
+    if (disabledRef.state) {
       return;
     }
     checked = input.checked;
     toggleIcon(checked);
-    onChange(checked, valueRef.value);
+    onChange(checked, valueRef.state);
   };
 
   let { checked = false, label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
@@ -99,7 +99,7 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   $defines(container, {
     value: {
       get() {
-        return valueRef.value;
+        return valueRef.state;
       },
     },
     checked: {
@@ -131,7 +131,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const rowRef = toReactive(props.row ?? false);
 
   const className = computed(
-    () => `mui-radio-group ${rowRef.value ? 'mui-radio-group-row' : ''} ${customClassRef.value}`,
+    () => `mui-radio-group ${rowRef.state ? 'mui-radio-group-row' : ''} ${customClassRef.state}`,
     [customClassRef, rowRef],
   );
 
@@ -139,16 +139,16 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
 
   const changeHandler = (checked: boolean, value: string) => {
     if (checked) {
-      valueRef.value = value;
+      valueRef.state = value;
       onChange(value);
     }
-    radios.value.forEach((radio) => (radio.checked = radio.value === value));
+    radios.state.forEach((radio) => (radio.checked = radio.value === value));
   };
 
   const radios = toReactive(props.options).map((options) =>
     options.map((o) => {
-      o.size = sizeRef.value;
-      o.checked = valueRef.value === o.value;
+      o.size = sizeRef.state;
+      o.checked = valueRef.state === o.value;
 
       const originalChange = o['on:change'];
       if (originalChange) {
@@ -172,11 +172,11 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   $defines(container, {
     value: {
       get() {
-        return valueRef.value;
+        return valueRef.state;
       },
       set(newValue: string) {
-        valueRef.value = newValue;
-        radios.value.forEach((radio) => (radio.checked = radio.value === valueRef.value));
+        valueRef.state = newValue;
+        radios.state.forEach((radio) => (radio.checked = radio.value === valueRef.state));
       },
     },
   });

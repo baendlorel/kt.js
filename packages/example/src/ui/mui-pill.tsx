@@ -25,14 +25,14 @@ export function MuiPillDemo() {
           color="warning"
           clickable
           on:click={() => {
-            interaction.value = 'Clickable pill pressed';
+            interaction.state = 'Clickable pill pressed';
           }}
         />
         <Pill
           label="Closable"
           color="error"
           on:delete={() => {
-            interaction.value = 'Closable pill deleted';
+            interaction.state = 'Closable pill deleted';
           }}
         />
       </div>

@@ -3,7 +3,7 @@ import { autoRef, ref } from 'kt.js';
 const state = ref(1);
 
 // 1) value: read + write
-state.value = state.value + 1;
+state.state = state.state + 1;
 
 // 2) auto specialized refs for common containers
 const list = autoRef([1, 2]); // KTArrayRef<number>
@@ -38,7 +38,7 @@ profile.mutate((current) => {
 });
 
 // 7) notify: force emit after in-place mutation
-profile.value.count += 1;
+profile.state.count += 1;
 profile.notify();
 
 // toComputed with extra dependencies
@@ -46,10 +46,10 @@ const discount = ref(10);
 const tax = ref(6);
 const total = state.map(
   (price) => {
-    const discounted = price * (1 - discount.value / 100);
-    return discounted * (1 + tax.value / 100);
+    const discounted = price * (1 - discount.state / 100);
+    return discounted * (1 + tax.state / 100);
   },
   [discount, tax],
 );
 
-console.log(doubled.value, total.value);
+console.log(doubled.state, total.state);

@@ -20,5 +20,5 @@ list.notify();
 
 // If you need a plain KTRef, keep using ref().
 const plain = ref([1, 2, 3]);
-plain.value.push(4);
+plain.state.push(4);
 plain.notify();

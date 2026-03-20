@@ -23,14 +23,14 @@ describe('MUI Tabs component reactivity', () => {
 
     expect(tabs.querySelector('.mui-tab-root[data-value="overview"]')?.className).toContain('mui-tab-selected');
 
-    model.value = 'analytics';
+    model.state = 'analytics';
     expect(tabs.querySelector('.mui-tab-root[data-value="analytics"]')?.className).toContain('mui-tab-selected');
 
-    options.value = [{ value: 'settings', label: 'Settings' }];
+    options.state = [{ value: 'settings', label: 'Settings' }];
 
-    expect(model.value).toBe('settings');
+    expect(model.state).toBe('settings');
     expect(tabs.querySelector('.mui-tab-root[data-value="settings"]')?.className).toContain('mui-tab-selected');
-    expect(onChange).toHaveBeenLastCalledWith('settings', 'analytics', 0, options.value[0]);
+    expect(onChange).toHaveBeenLastCalledWith('settings', 'analytics', 0, options.state[0]);
   });
 
   it('reacts to variant/orientation refs', () => {
@@ -42,8 +42,8 @@ describe('MUI Tabs component reactivity', () => {
     expect(tabs.className).toContain('mui-tabs-variant-standard');
     expect(tabs.className).toContain('mui-tabs-orientation-horizontal');
 
-    variant.value = 'scrollable';
-    orientation.value = 'vertical';
+    variant.state = 'scrollable';
+    orientation.state = 'vertical';
 
     expect(tabs.className).toContain('mui-tabs-variant-scrollable');
     expect(tabs.className).toContain('mui-tabs-orientation-vertical');

@@ -10,12 +10,12 @@ describe('MUI Dialog component reactivity', () => {
     const dialog = <Dialog {...{ open, children: 'Body' }} />;
     expect(dialog.style.display).toBe('none');
 
-    open.value = true;
+    open.state = true;
     vi.advanceTimersByTime(60);
     expect(dialog.style.display).toBe('flex');
     expect(dialog.className).toContain('kt-dialog-backdrop-open');
 
-    open.value = false;
+    open.state = false;
     vi.advanceTimersByTime(225);
     expect(dialog.style.display).toBe('none');
 
@@ -25,7 +25,7 @@ describe('MUI Dialog component reactivity', () => {
 
   it('reacts to computed size and fullWidth refs', () => {
     const sizeSeed = ref<'sm' | 'lg'>('sm');
-    const size = computed(() => sizeSeed.value, [sizeSeed]);
+    const size = computed(() => sizeSeed.state, [sizeSeed]);
     const fullWidth = ref(false);
 
     const dialog = (
@@ -43,8 +43,8 @@ describe('MUI Dialog component reactivity', () => {
     expect(paper.className).toContain('kt-dialog-maxWidth-sm');
     expect(paper.className).not.toContain('kt-dialog-fullWidth');
 
-    sizeSeed.value = 'lg';
-    fullWidth.value = true;
+    sizeSeed.state = 'lg';
+    fullWidth.state = true;
 
     expect(paper.className).toContain('kt-dialog-maxWidth-lg');
     expect(paper.className).toContain('kt-dialog-fullWidth');

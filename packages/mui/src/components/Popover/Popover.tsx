@@ -124,7 +124,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
 
   let positionTimer = 0;
   const scheduleUpdatePosition = () => {
-    if (!openRef.value) {
+    if (!openRef.state) {
       return;
     }
     if (positionTimer) {
@@ -145,7 +145,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       container.classList.add('mui-popover-rendered');
       openTransitionTimer = window.setTimeout(() => {
         openTransitionTimer = 0;
-        if (!openRef.value) {
+        if (!openRef.state) {
           return;
         }
         container.classList.add('mui-popover-open');
@@ -156,7 +156,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     container.classList.remove('mui-popover-open');
     hideTransitionTimer = window.setTimeout(() => {
       hideTransitionTimer = 0;
-      if (openRef.value) {
+      if (openRef.state) {
         return;
       }
       container.style.display = 'none';
@@ -178,22 +178,22 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const elevationRef = toReactive(props.elevation ?? 8);
 
   const paperClassName = computed(() => {
-    return ['mui-popover-paper', customClassRef.value].join(' ').trim();
+    return ['mui-popover-paper', customClassRef.state].join(' ').trim();
   }, [customClassRef]);
 
   const paperStyle = computed(() => {
-    const custom = styleRef.value;
-    const shadow = getElevationShadow(elevationRef.value);
+    const custom = styleRef.state;
+    const shadow = getElevationShadow(elevationRef.state);
     return `${custom}${custom ? ';' : ''}box-shadow:${shadow}`;
   }, [styleRef, elevationRef]);
 
   const updatePosition = () => {
-    if (!openRef.value) {
+    if (!openRef.state) {
       return;
     }
 
     const paperRect = paper.getBoundingClientRect();
-    const anchor = anchorElRef.value;
+    const anchor = anchorElRef.state;
     const anchorRect = anchor
       ? anchor.getBoundingClientRect()
       : {
@@ -205,8 +205,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
           bottom: window.innerHeight / 2,
         };
 
-    const anchorOrigin = anchorOriginRef.value ?? DEFAULT_ANCHOR_ORIGIN;
-    const transformOrigin = transformOriginRef.value ?? DEFAULT_TRANSFORM_ORIGIN;
+    const anchorOrigin = anchorOriginRef.state ?? DEFAULT_ANCHOR_ORIGIN;
+    const transformOrigin = transformOriginRef.state ?? DEFAULT_TRANSFORM_ORIGIN;
 
     let top =
       anchorRect.top +
@@ -217,7 +217,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       getOffsetFromHorizontal(anchorRect.width, anchorOrigin.horizontal) -
       getOffsetFromHorizontal(paperRect.width, transformOrigin.horizontal);
 
-    const margin = $max(0, marginThresholdRef.value);
+    const margin = $max(0, marginThresholdRef.state);
     top = $clamp(top, margin, window.innerHeight - paperRect.height - margin);
     left = $clamp(left, margin, window.innerWidth - paperRect.width - margin);
 
@@ -226,15 +226,15 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   };
 
   const close = (reason: KTMuiPopoverCloseReason) => {
-    if (!openRef.value) {
+    if (!openRef.state) {
       return;
     }
-    openRef.value = false;
+    openRef.state = false;
     onClose(reason);
   };
 
   const handleDocumentMouseDown = (e: MouseEvent) => {
-    if (!openRef.value) {
+    if (!openRef.state) {
       return;
     }
     const target = e.target as Node | null;
@@ -244,7 +244,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     if (paper.contains(target)) {
       return;
     }
-    if (anchorElRef.value?.contains(target)) {
+    if (anchorElRef.state?.contains(target)) {
       return;
     }
     close('backdropClick');
@@ -257,15 +257,15 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   };
 
   const paper = (
-    <div class={paperClassName} style={paperStyle} role="dialog" aria-hidden={!openRef.value}>
+    <div class={paperClassName} style={paperStyle} role="dialog" aria-hidden={!openRef.state}>
       {props.children}
     </div>
   ) as HTMLDivElement;
 
   const container = (
     <div
-      class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}
-      style={openRef.value ? 'display: block;' : 'display: none;'}
+      class={`mui-popover-root ${openRef.state ? 'mui-popover-open mui-popover-rendered' : ''}`}
+      style={openRef.state ? 'display: block;' : 'display: none;'}
     >
       {paper}
     </div>
@@ -276,8 +276,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   window.addEventListener('resize', scheduleUpdatePosition);
   window.addEventListener('scroll', scheduleUpdatePosition, true);
 
-  syncOpenState(openRef.value);
-  if (openRef.value) {
+  syncOpenState(openRef.state);
+  if (openRef.state) {
     scheduleUpdatePosition();
   }
 

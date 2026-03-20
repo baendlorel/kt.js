@@ -5,7 +5,7 @@ import { Card } from './Card.js';
 describe('MUI Card component reactivity', () => {
   it('reacts to variant/elevation/square/raised refs', () => {
     const variantSeed = ref<'elevation' | 'outlined'>('elevation');
-    const variant = computed(() => variantSeed.value, [variantSeed]);
+    const variant = computed(() => variantSeed.state, [variantSeed]);
     const elevation = ref(2);
     const square = ref(false);
     const raised = ref(false);
@@ -24,27 +24,27 @@ describe('MUI Card component reactivity', () => {
 
     expect(card.className).toContain('mui-card-elevation-2');
 
-    elevation.value = 30;
-    square.value = true;
-    raised.value = true;
+    elevation.state = 30;
+    square.state = true;
+    raised.state = true;
 
     expect(card.className).toContain('mui-card-elevation-24');
     expect(card.className).toContain('mui-card-square');
     expect(card.className).toContain('mui-card-raised');
 
-    variantSeed.value = 'outlined';
+    variantSeed.state = 'outlined';
     expect(card.className).not.toContain('mui-card-elevation-24');
     expect(card.className).toContain('mui-card-outlined');
   });
 
   it('reacts to computed custom class', () => {
     const customSeed = ref<'card-a' | 'card-b'>('card-a');
-    const customClass = computed(() => customSeed.value, [customSeed]);
+    const customClass = computed(() => customSeed.state, [customSeed]);
 
     const card = <Card {...{ children: 'Body', class: customClass }} />;
     expect(card.className).toContain('card-a');
 
-    customSeed.value = 'card-b';
+    customSeed.state = 'card-b';
     expect(card.className).toContain('card-b');
   });
 });

@@ -45,7 +45,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const indicatorColorRef = toReactive(props.indicatorColor ?? 'primary');
   const orientationRef = toReactive(props.orientation ?? 'horizontal');
   const centeredRef = toReactive(props.centered ?? false);
-  const modelRef = $modelOrRef<string>(props, optionsRef.value[0]?.value ?? '');
+  const modelRef = $modelOrRef<string>(props, optionsRef.state[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();
   const tabButtons: HTMLButtonElement[] = [];
@@ -62,8 +62,8 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   };
 
   const ensureValidModelValue = (emitChange: boolean) => {
-    const currentValue = modelRef.value;
-    const options = optionsRef.value;
+    const currentValue = modelRef.state;
+    const options = optionsRef.state;
     const selected = options.find((option) => option.value === currentValue && !option.disabled);
     if (selected) {
       return;
@@ -76,7 +76,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
       return;
     }
 
-    modelRef.value = nextValue;
+    modelRef.state = nextValue;
     if (emitChange) {
       onChange(nextValue, currentValue, fallbackIndex, fallback);
     }
@@ -85,23 +85,23 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const className = computed(() => {
     return [
       'mui-tabs-root',
-      `mui-tabs-variant-${variantRef.value}`,
-      `mui-tabs-orientation-${orientationRef.value}`,
-      centeredRef.value ? 'mui-tabs-centered' : '',
-      classRef.value,
+      `mui-tabs-variant-${variantRef.state}`,
+      `mui-tabs-orientation-${orientationRef.state}`,
+      centeredRef.state ? 'mui-tabs-centered' : '',
+      classRef.state,
     ].join(' ');
   }, [variantRef, orientationRef, centeredRef, classRef]);
 
   const indicatorClassName = computed(() => {
     return [
       'mui-tabs-indicator',
-      `mui-tabs-indicator-color-${indicatorColorRef.value}`,
-      `mui-tabs-indicator-orientation-${orientationRef.value}`,
+      `mui-tabs-indicator-color-${indicatorColorRef.state}`,
+      `mui-tabs-indicator-orientation-${orientationRef.state}`,
     ].join(' ');
   }, [indicatorColorRef, orientationRef]);
 
   const updateIndicator = () => {
-    const tabsList = tabsListRef.value;
+    const tabsList = tabsListRef.state;
     if (!tabsList) {
       return;
     }
@@ -113,7 +113,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     }
 
     indicator.style.opacity = '1';
-    if (orientationRef.value === 'vertical') {
+    if (orientationRef.state === 'vertical') {
       indicator.style.width = '2px';
       indicator.style.height = `${selectedTab.offsetHeight}px`;
       indicator.style.transform = `translateY(${selectedTab.offsetTop}px)`;
@@ -129,12 +129,12 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
       return;
     }
 
-    const oldValue = modelRef.value;
+    const oldValue = modelRef.state;
     if (oldValue === option.value) {
       return;
     }
 
-    modelRef.value = option.value;
+    modelRef.state = option.value;
     onChange(option.value, oldValue, index, option);
   };
 
@@ -145,7 +145,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     }
 
     const index = Number(currentTarget.dataset.index ?? '-1');
-    const option = optionsRef.value[index];
+    const option = optionsRef.state[index];
     if (!option) {
       return;
     }
@@ -154,7 +154,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   };
 
   const focusNeighbor = (startIndex: number, step: 1 | -1) => {
-    const options = optionsRef.value;
+    const options = optionsRef.state;
     if (!options.length) {
       return;
     }
@@ -177,7 +177,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
       return; // & excludes the situation where `focused` is null or not a tab button
     }
 
-    const isVertical = orientationRef.value === 'vertical';
+    const isVertical = orientationRef.state === 'vertical';
     if ((isVertical && e.key === 'ArrowDown') || (!isVertical && e.key === 'ArrowRight')) {
       e.preventDefault();
       focusNeighbor(focusedIndex, 1);
@@ -210,13 +210,13 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
 
   const members = computed(() => {
     tabButtons.length = 0;
-    return optionsRef.value.map((option, index) => {
-      const selected = modelRef.value === option.value;
+    return optionsRef.state.map((option, index) => {
+      const selected = modelRef.state === option.value;
       const tab = (
         <button
           type="button"
           role="tab"
-          class={`mui-tab-root mui-tab-text-color-${textColorRef.value} ${selected ? 'mui-tab-selected' : ''} ${option.disabled ? 'mui-tab-disabled' : ''} ${option.icon ? 'mui-tab-has-icon' : ''}`}
+          class={`mui-tab-root mui-tab-text-color-${textColorRef.state} ${selected ? 'mui-tab-selected' : ''} ${option.disabled ? 'mui-tab-disabled' : ''} ${option.icon ? 'mui-tab-has-icon' : ''}`}
           data-value={option.value}
           data-index={String(index)}
           aria-selected={selected}

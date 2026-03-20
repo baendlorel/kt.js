@@ -22,20 +22,20 @@ describe('MUI Badge component reactivity', () => {
     const badgeNode = badge.querySelector('.mui-badge-badge');
     expect(badgeNode.className).toContain('mui-badge-invisible');
 
-    showZero.value = true;
+    showZero.state = true;
     expect(badgeNode.className).not.toContain('mui-badge-invisible');
     expect(badgeNode.textContent).toBe('0');
 
-    badgeContent.value = 18;
+    badgeContent.state = 18;
     expect(badgeNode.textContent).toBe('9+');
 
-    max.value = 99;
+    max.state = 99;
     expect(badgeNode.textContent).toBe('18');
   });
 
   it('reacts to computed overlap/color and anchor origin refs', () => {
     const overlapSeed = ref<'rectangular' | 'circular'>('rectangular');
-    const overlap = computed(() => overlapSeed.value, [overlapSeed]);
+    const overlap = computed(() => overlapSeed.state, [overlapSeed]);
     const color = ref<'default' | 'success'>('default');
     const anchorOrigin = ref({ vertical: 'top', horizontal: 'right' } as const);
 
@@ -55,9 +55,9 @@ describe('MUI Badge component reactivity', () => {
     expect(badgeNode.className).toContain('mui-badge-overlap-rectangular');
     expect(badgeNode.className).toContain('mui-badge-anchor-top-right');
 
-    overlapSeed.value = 'circular';
-    color.value = 'success';
-    anchorOrigin.value = { vertical: 'bottom', horizontal: 'left' };
+    overlapSeed.state = 'circular';
+    color.state = 'success';
+    anchorOrigin.state = { vertical: 'bottom', horizontal: 'left' };
 
     expect(badgeNode.className).toContain('mui-badge-overlap-circular');
     expect(badgeNode.className).toContain('mui-badge-color-success');

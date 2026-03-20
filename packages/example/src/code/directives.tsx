@@ -7,7 +7,7 @@ export function Demo() {
 
   return (
     <div>
-      <button on:click={() => (show.value = !show.value)}>Toggle Branch</button>
+      <button on:click={() => (show.state = !show.state)}>Toggle Branch</button>
       <div k-if={show}>This block is rendered by k-if.</div>
       <div k-else>This block is rendered by k-else.</div>
       <input type="text" k-model={inputValue} />

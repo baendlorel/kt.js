@@ -56,40 +56,40 @@ export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
 
   const contentText = computed(() => {
-    if (variantRef.value === 'dot') {
+    if (variantRef.state === 'dot') {
       return '';
     }
 
-    const v = contentRef.value;
+    const v = contentRef.state;
     if (typeof v === 'number') {
-      return v > maxRef.value ? `${maxRef.value}+` : `${v}`;
+      return v > maxRef.state ? `${maxRef.state}+` : `${v}`;
     }
     return v ?? '';
   }, [contentRef, maxRef, variantRef]);
 
   const isInvisible = computed(() => {
-    if (invisibleRef.value) {
+    if (invisibleRef.state) {
       return true;
     }
-    if (variantRef.value === 'dot') {
+    if (variantRef.state === 'dot') {
       return false;
     }
-    const v = contentRef.value;
+    const v = contentRef.state;
     const isEmpty = v === '' || v === null || v === undefined;
     const isZero = v === 0 || v === '0';
-    return isEmpty || (isZero && !showZeroRef.value);
+    return isEmpty || (isZero && !showZeroRef.state);
   }, [invisibleRef, variantRef, contentRef, showZeroRef]);
 
   const badgeClass = computed(() => {
-    const vertical = anchorOriginRef.value?.vertical ?? DEFAULT_ANCHOR_ORIGIN.vertical;
-    const horizontal = anchorOriginRef.value?.horizontal ?? DEFAULT_ANCHOR_ORIGIN.horizontal;
+    const vertical = anchorOriginRef.state?.vertical ?? DEFAULT_ANCHOR_ORIGIN.vertical;
+    const horizontal = anchorOriginRef.state?.horizontal ?? DEFAULT_ANCHOR_ORIGIN.horizontal;
     return [
       'mui-badge-badge',
-      `mui-badge-${variantRef.value}`,
-      `mui-badge-color-${colorRef.value}`,
-      `mui-badge-overlap-${overlapRef.value}`,
+      `mui-badge-${variantRef.state}`,
+      `mui-badge-color-${colorRef.state}`,
+      `mui-badge-overlap-${overlapRef.state}`,
       `mui-badge-anchor-${vertical}-${horizontal}`,
-      isInvisible.value ? 'mui-badge-invisible' : '',
+      isInvisible.state ? 'mui-badge-invisible' : '',
     ].join(' ');
   }, [variantRef, colorRef, overlapRef, anchorOriginRef, isInvisible]);
 

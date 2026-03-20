@@ -47,19 +47,19 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
   const modelRef = $modelOrRef<string>(props, initialValue);
 
   const ensureValidModelValue = (emitChange: boolean) => {
-    const currentValue = modelRef.value;
-    const selected = optionsRef.value.find((option) => option.value === currentValue && !option.disabled);
+    const currentValue = modelRef.state;
+    const selected = optionsRef.state.find((option) => option.value === currentValue && !option.disabled);
     if (selected) {
       return;
     }
 
-    const fallback = findFirstEnabledAction(optionsRef.value);
+    const fallback = findFirstEnabledAction(optionsRef.state);
     const nextValue = fallback?.option.value ?? '';
     if (nextValue === currentValue) {
       return;
     }
 
-    modelRef.value = nextValue;
+    modelRef.state = nextValue;
     if (emitChange) {
       onChange(nextValue, currentValue, fallback?.index ?? -1, fallback?.option);
     }
@@ -68,8 +68,8 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
   const className = computed(() => {
     return [
       'mui-bottom-navigation-root',
-      showLabelsRef.value ? 'mui-bottom-navigation-show-labels' : '',
-      classRef.value,
+      showLabelsRef.state ? 'mui-bottom-navigation-show-labels' : '',
+      classRef.state,
     ].join(' ');
   }, [showLabelsRef, classRef]);
 
@@ -78,12 +78,12 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
       return;
     }
 
-    const oldValue = modelRef.value;
+    const oldValue = modelRef.state;
     if (oldValue === action.value) {
       return;
     }
 
-    modelRef.value = action.value;
+    modelRef.state = action.value;
     onChange(action.value, oldValue, index, action);
   };
 
@@ -94,8 +94,8 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
     }
 
     const value = currentTarget.dataset.value ?? '';
-    const index = optionsRef.value.findIndex((item) => item.value === value);
-    const action = index >= 0 ? optionsRef.value[index] : undefined;
+    const index = optionsRef.state.findIndex((item) => item.value === value);
+    const action = index >= 0 ? optionsRef.state[index] : undefined;
     if (!action) {
       return;
     }
@@ -115,9 +115,9 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
           const labelRef = actionRef.map((current) => current.label);
           const iconRef = actionRef.map((current) => current.icon ?? null);
           const buttonClass = computed(() => {
-            const current = actionRef.value;
-            const selected = modelRef.value === action.value;
-            const showLabel = showLabelsRef.value || selected || !!current.showLabel;
+            const current = actionRef.state;
+            const selected = modelRef.state === action.value;
+            const showLabel = showLabelsRef.state || selected || !!current.showLabel;
 
             return `mui-bottom-navigation-action ${selected ? 'mui-bottom-navigation-action-selected' : ''} ${current.disabled ? 'mui-bottom-navigation-action-disabled' : ''} ${showLabel ? 'mui-bottom-navigation-action-show-label' : ''}`;
           }, [actionRef, modelRef, showLabelsRef]);

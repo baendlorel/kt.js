@@ -12,20 +12,20 @@ export function Directives() {
   const khtmlContent = ref(`<span style="color: #52c41a;">${i18nText('directives.html.initialContent')}</span>`);
 
   const kifStateText = computed(
-    () => i18nText(kifFlag.value ? 'directives.ifElse.state.true' : 'directives.ifElse.state.false'),
+    () => i18nText(kifFlag.state ? 'directives.ifElse.state.true' : 'directives.ifElse.state.false'),
     [kifFlag],
   );
 
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
-    kmodelText.value = i18nText('directives.model.updatedAt', time);
+    kmodelText.state = i18nText('directives.model.updatedAt', time);
   }, 1000);
 
   setInterval(() => {
     const color = Math.floor(Math.random() * 0xffffff)
       .toString(16)
       .padStart(6, '0');
-    khtmlContent.value = `<span style="color: #${color};">${i18nText('directives.html.initialContent')}</span>`;
+    khtmlContent.state = `<span style="color: #${color};">${i18nText('directives.html.initialContent')}</span>`;
   }, 1000);
 
   return (
@@ -35,13 +35,13 @@ export function Directives() {
         <h4 k-html={t('directives.ifElse.title')}></h4>
         <p k-html={t('directives.ifElse.description')}></p>
         <div class="demo-flex-gap">
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = true)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.state = true)}>
             {t('directives.ifElse.showIf')}
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = false)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.state = false)}>
             {t('directives.ifElse.showElse')}
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = !kifFlag.value)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.state = !kifFlag.state)}>
             {t('directives.ifElse.toggle')}
           </Button>
         </div>

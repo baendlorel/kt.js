@@ -11,7 +11,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   }
 
   if (isKT(c)) {
-    let node = assureNode(c.value);
+    let node = assureNode(c.state);
     element.appendChild(node);
     c.addOnChange((newValue, _oldValue) => {
       const oldNode = node;

@@ -23,10 +23,10 @@ export function MuiMenuDemo() {
       <p class="description">Menu displays a list of actions anchored to a trigger element.</p>
 
       <div class="button-group">
-        <Button ref={anchorEl} variant="contained" on:click={() => (open.value = !open.value)}>
+        <Button ref={anchorEl} variant="contained" on:click={() => (open.state = !open.state)}>
           {open.map((value) => (value ? 'Close Menu' : 'Open Menu'))}
         </Button>
-        <Button variant="outlined" on:click={() => (autoClose.value = !autoClose.value)}>
+        <Button variant="outlined" on:click={() => (autoClose.state = !autoClose.state)}>
           Auto Close: {autoClose.map((value) => (value ? 'On' : 'Off'))}
         </Button>
       </div>
@@ -37,10 +37,10 @@ export function MuiMenuDemo() {
         options={actions}
         autoClose={autoClose}
         on:close={() => {
-          open.value = false;
+          open.state = false;
         }}
         on:select={(value) => {
-          selected.value = value;
+          selected.state = value;
         }}
       />
 

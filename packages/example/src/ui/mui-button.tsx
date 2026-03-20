@@ -8,8 +8,8 @@ export function MuiButtonDemo() {
   const counterText = (<span>0</span>) as HTMLSpanElement;
 
   const handleClick = () => {
-    clickCount.value++;
-    counterText.textContent = String(clickCount.value);
+    clickCount.state++;
+    counterText.textContent = String(clickCount.state);
   };
 
   return (

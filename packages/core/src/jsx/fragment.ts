@@ -70,7 +70,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
   let observer: MutationObserver | undefined;
 
   const redraw = () => {
-    const newElements = childrenRef.value;
+    const newElements = childrenRef.state;
     const parent = anchor.parentNode;
 
     if (!parent) {
@@ -106,7 +106,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
   const childrenRef = toReactive(props.children, redraw);
 
   const renderInitial = () => {
-    const current = childrenRef.value;
+    const current = childrenRef.state;
     elements.length = 0;
 
     const fragment = document.createDocumentFragment();
@@ -179,7 +179,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
     }
 
     if (isKT(child)) {
-      processChild(child.value);
+      processChild(child.state);
       return;
     }
 

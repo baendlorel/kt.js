@@ -39,7 +39,7 @@ describe('MUI Dialog component', () => {
     vi.advanceTimersByTime(20);
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(true);
 
-    openRef.value = false;
+    openRef.state = false;
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(false);
     expect(dialog.style.display).toBe('flex');
 

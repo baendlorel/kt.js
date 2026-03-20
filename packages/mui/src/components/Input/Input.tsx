@@ -50,26 +50,26 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
    * ! This would work only when model is registered before this3
    * ! which is determined by `core/src/h/index.ts`
    */
-  const handleInput = () => onInput(modelRef.value);
+  const handleInput = () => onInput(modelRef.state);
 
   /**
    * ! This would work only when model is registered before this3
    * ! which is determined by `core/src/h/index.ts`
    */
-  const handleChange = () => onChange(modelRef.value);
+  const handleChange = () => onChange(modelRef.state);
 
   const handleFocus = () => {
-    isFocusedRef.value = true;
+    isFocusedRef.state = true;
     onFocus(inputEl.value);
   };
 
   const handleBlur = () => {
-    isFocusedRef.value = false;
+    isFocusedRef.state = false;
     onBlur(inputEl.value);
   };
 
   const handleWrapperMouseDown = (e: MouseEvent) => {
-    if (disabledRef.value) {
+    if (disabledRef.state) {
       return;
     }
     const target = e.target as Node | null;
@@ -99,7 +99,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   const sizeRef = toReactive(props.size ?? 'medium');
 
   const placeholder = toReactive(props.placeholder ?? '').map(
-    (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
+    (v) => (labelRef.state && !isFocusedRef.state && !hasInputValue(modelRef.state) ? '' : v),
     [labelRef, isFocusedRef, modelRef],
   );
 
@@ -142,20 +142,20 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
     () =>
       [
         'mui-textfield-root',
-        `mui-textfield-size-${sizeRef.value}`,
-        isFocusedRef.value ? 'mui-textfield-focused' : '',
-        errorRef.value ? 'mui-textfield-error' : '',
-        disabledRef.value ? 'mui-textfield-disabled' : '',
-        fullWidthRef.value ? 'mui-textfield-fullwidth' : '',
-        labelRef.value && hasInputValue(modelRef.value) ? 'mui-textfield-has-value' : '',
-        labelRef.value ? '' : 'mui-textfield-no-label',
-        customClass.value ? customClass.value : '',
+        `mui-textfield-size-${sizeRef.state}`,
+        isFocusedRef.state ? 'mui-textfield-focused' : '',
+        errorRef.state ? 'mui-textfield-error' : '',
+        disabledRef.state ? 'mui-textfield-disabled' : '',
+        fullWidthRef.state ? 'mui-textfield-fullwidth' : '',
+        labelRef.state && hasInputValue(modelRef.state) ? 'mui-textfield-has-value' : '',
+        labelRef.state ? '' : 'mui-textfield-no-label',
+        customClass.state ? customClass.state : '',
       ].join(' '),
     [sizeRef, errorRef, disabledRef, fullWidthRef, labelRef, isFocusedRef, modelRef, customClass],
   );
 
   const labelElement = computed(() => {
-    if (!labelRef.value) {
+    if (!labelRef.state) {
       return '';
     }
 
@@ -168,7 +168,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   }, [labelRef, requiredRef]);
 
   const legendElement = computed(() => {
-    if (!labelRef.value) {
+    if (!labelRef.state) {
       return '';
     }
 

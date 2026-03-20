@@ -5,7 +5,7 @@ import { Alert } from './Alert.js';
 describe('MUI Alert component reactivity', () => {
   it('updates severity and variant classes from refs/computed', () => {
     const severitySeed = ref<'info' | 'error'>('info');
-    const severity = computed(() => severitySeed.value, [severitySeed]);
+    const severity = computed(() => severitySeed.state, [severitySeed]);
     const variant = ref<'standard' | 'filled'>('standard');
 
     const alert = (
@@ -21,8 +21,8 @@ describe('MUI Alert component reactivity', () => {
     expect(alert.className).toContain('mui-alert-info');
     expect(alert.className).toContain('mui-alert-standard');
 
-    severitySeed.value = 'error';
-    variant.value = 'filled';
+    severitySeed.state = 'error';
+    variant.state = 'filled';
 
     expect(alert.className).toContain('mui-alert-error');
     expect(alert.className).toContain('mui-alert-filled');
@@ -34,7 +34,7 @@ describe('MUI Alert component reactivity', () => {
 
     expect(alert.querySelector('.mui-alert-icon-wrapper svg')).toBeTruthy();
 
-    icon.value = false;
+    icon.state = false;
     expect(alert.querySelector('.mui-alert-icon-wrapper svg')).toBeFalsy();
   });
 });

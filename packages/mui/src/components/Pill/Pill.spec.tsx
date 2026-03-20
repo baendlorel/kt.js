@@ -23,13 +23,13 @@ describe('MUI Pill component reactivity', () => {
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).not.toHaveBeenCalled();
 
-    clickable.value = true;
-    label.value = 'Published';
+    clickable.state = true;
+    label.state = 'Published';
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).toHaveBeenCalledTimes(1);
     expect(pill.textContent).toContain('Published');
 
-    disabled.value = true;
+    disabled.state = true;
     pill.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).toHaveBeenCalledTimes(1);
     expect(pill.className).toContain('mui-pill-disabled');
@@ -56,7 +56,7 @@ describe('MUI Pill component reactivity', () => {
     expect(onDelete).toHaveBeenCalledTimes(1);
     expect(pill.isConnected).toBe(true);
 
-    autoRemoveOnDelete.value = true;
+    autoRemoveOnDelete.state = true;
     deleteButton.click();
 
     expect(onDelete).toHaveBeenCalledTimes(2);

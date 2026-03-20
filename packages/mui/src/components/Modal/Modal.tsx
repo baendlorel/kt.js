@@ -77,7 +77,7 @@ export function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOption
         return;
       }
       settled = true;
-      openRef.value = false;
+      openRef.state = false;
       resolve();
       removeDialog(dialog);
     };
@@ -119,7 +119,7 @@ export function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOp
         return;
       }
       settled = true;
-      openRef.value = false;
+      openRef.state = false;
       resolve(value);
       removeDialog(dialog);
     };
@@ -177,7 +177,7 @@ export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOpti
         return;
       }
       settled = true;
-      openRef.value = false;
+      openRef.state = false;
       resolve(value);
       removeDialog(dialog);
     };

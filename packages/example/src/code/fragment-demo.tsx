@@ -2,7 +2,7 @@ import { Fragment, ref } from 'kt.js';
 
 const labelsRef = ref(['Header', 'Content', 'Actions']);
 const childrenRef = ref(
-  labelsRef.value.map((label, index) => (
+  labelsRef.state.map((label, index) => (
     <span class="fragment-pill">
       <span class="fragment-pill__index">#{index + 1}</span>
       {label}
@@ -11,8 +11,8 @@ const childrenRef = ref(
 );
 
 const sync = (nextLabels: string[]) => {
-  labelsRef.value = nextLabels;
-  childrenRef.value = nextLabels.map((label, index) => (
+  labelsRef.state = nextLabels;
+  childrenRef.state = nextLabels.map((label, index) => (
     <span class="fragment-pill">
       <span class="fragment-pill__index">#{index + 1}</span>
       {label}
@@ -30,7 +30,7 @@ export function FragmentDemo() {
 
       <Fragment children={childrenRef} />
 
-      <button on:click={() => sync([...labelsRef.value, `Section ${labelsRef.value.length + 1}`])}>Add Item</button>
+      <button on:click={() => sync([...labelsRef.state, `Section ${labelsRef.state.length + 1}`])}>Add Item</button>
     </div>
   );
 }

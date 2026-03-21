@@ -180,6 +180,7 @@ export function ChangeLog() {
     .trim()
     .split(/\n##\s/g)
     .map((block) => '## ' + block.trim().replace(/^##\s+/g, ''));
+  // todo k-for里的item是无法做到被tsc完美检测的，因为本来就不认识这个写法
   return (
     <div class={className}>
       <div k-for="item in changelogList" class="demo-section">

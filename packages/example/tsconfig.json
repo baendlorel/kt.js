@@ -6,10 +6,10 @@
     "incremental": false,
     "declaration": false,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "./src",
     "outDir": "dist"
   },
-  "include": ["./global.d.ts", "./src/**/*.tsx", "./src/**/*.ts"],
-  "exclude": ["./dist"],
+  "include": ["global.d.ts", "src/**/*.tsx", "src/**/*.ts"],
+  "exclude": ["dist"],
   "references": [{ "path": "../core" }, { "path": "../mui" }]
 }

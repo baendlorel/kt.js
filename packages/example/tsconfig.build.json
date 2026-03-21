@@ -1,0 +1,48 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "..",
+    "noEmit": true,
+    "composite": false,
+    "incremental": false,
+    "paths": {
+      "@ktjs/babel-plugin-ktjsx": ["../../plugins/babel-plugin-ktjsx/src/index.ts"],
+      "@ktjs/transformer": ["../../plugins/transformer/src/index.ts"],
+      "@ktjs/router": ["../router/src/index.ts"],
+      "@ktjs/shortcuts": ["../shortcuts/src/index.ts"],
+      "@ktjs/mui": ["../mui/src/index.ts"],
+      "@ktjs/mui-icon": ["../mui-icon/src/index.ts"],
+      "@ktjs/shared": ["../shared/src/index.ts"],
+      "@ktjs/core": ["../core/src/index.ts"],
+      "@ktjs/core/jsx": ["../core/src/index.ts"],
+      "@ktjs/core/jsx-runtime": ["../core/src/jsx-runtime.ts"],
+      "kt.js": ["../kt.js/src/index.ts"],
+      "kt.js/jsx": ["../kt.js/src/jsx.ts"],
+      "kt.js/jsx-runtime": ["../kt.js/src/jsx-runtime.ts"]
+    }
+  },
+  "include": [
+    "./global.d.ts",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "../core/src/**/*.ts",
+    "../core/src/**/*.tsx",
+    "../shared/src/**/*.ts",
+    "../shared/src/**/*.tsx",
+    "../kt.js/src/**/*.ts",
+    "../kt.js/src/**/*.tsx",
+    "../mui/src/**/*.ts",
+    "../mui/src/**/*.tsx",
+    "../mui-icon/src/**/*.ts",
+    "../mui-icon/src/**/*.tsx"
+  ],
+  "exclude": [
+    "./src/code/**/*",
+    "../core/tests/**/*",
+    "../mui/**/*.test.ts",
+    "../mui/**/*.test.tsx",
+    "../mui/**/*.spec.ts",
+    "../mui/**/*.spec.tsx"
+  ]
+}

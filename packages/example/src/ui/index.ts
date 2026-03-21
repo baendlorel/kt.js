@@ -9,6 +9,7 @@ import { MuiButtonDemo } from './mui-button.js';
 import { MuiCardDemo } from './mui-card.js';
 import { MuiCheckboxDemo } from './mui-checkbox.js';
 import { MuiDialogDemo } from './mui-dialog.js';
+import { MuiFilePickerDemo } from './mui-filepicker.js';
 import { MuiFormLabelDemo } from './mui-formlabel.js';
 import { MuiIconsDemo } from './mui-icons.js';
 import { MuiMenuDemo } from './mui-menu.js';
@@ -53,6 +54,13 @@ export const muiNav: NavGroup = {
       title: t('nav.mui.textfield.title'),
       description: t('nav.mui.textfield.description'),
       component: MuiTextFieldDemo,
+    },
+    {
+      id: 'mui-filepicker',
+      label: t('nav.mui.filepicker.label'),
+      title: t('nav.mui.filepicker.title'),
+      description: t('nav.mui.filepicker.description'),
+      component: MuiFilePickerDemo,
     },
     {
       id: 'mui-dialog',

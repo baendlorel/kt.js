@@ -1,9 +1,10 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { computed, effect, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
+
 import './Dialog.css.ts';
-import { registerPrefixedEvents } from '../../common/attribute';
-import { KTMuiProps } from '../../types/component';
+import { registerPrefixedEvents } from '../../common/attribute.js';
+import { KTMuiProps } from '../../types/component.js';
 
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
@@ -122,13 +123,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }, DIALOG_EXIT_MS);
   };
 
-  const openRef = toReactive(props.open ?? false, (isOpen) => {
-    if (isOpen) {
-      queueEnter();
-    } else {
-      queueExit();
-    }
-  });
+  const openRef = toReactive(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
   const sizeRef = toReactive(props.size ?? 'sm');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
 
@@ -147,7 +142,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     () => `kt-dialog-backdrop ${activeRef.value ? 'kt-dialog-backdrop-open' : ''}`,
     [activeRef],
   );
-  const backdropStyle = computed(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
+  const backdropStyle = computed<string>(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {

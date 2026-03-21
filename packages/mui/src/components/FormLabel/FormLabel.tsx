@@ -1,7 +1,7 @@
 import { KTConditional, computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import './FormLabel.css.ts';
-import { KTMuiProps } from '../../types/component.js';
-import { registerPrefixedEvents } from '../../common/attribute';
+import type { KTMuiProps } from '../../types/component.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiFormLabelComponent = 'label' | 'legend';
 

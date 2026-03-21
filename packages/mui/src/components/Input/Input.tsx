@@ -2,7 +2,7 @@ import { $modelOrRef, KTConditional, computed, dereactive, ref, toReactive } fro
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactive } from '@ktjs/core';
 
-import type { ChangeHandler } from '../../common/handler.js';
+import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './Input.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -26,8 +26,8 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
   multiline?: boolean;
   rows?: KTMaybeReactive<number>;
   size?: KTMuiTextFieldSize | KTReactive<KTMuiTextFieldSize>;
-  'on:input'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
-  'on:change'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
+  'on:input'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
+  'on:change'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;
   'on:focus'?: () => void;
 

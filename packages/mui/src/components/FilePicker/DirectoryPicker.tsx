@@ -20,6 +20,7 @@ export interface KTMuiDirectoryPickerProps extends KTMuiProps {
   helperText?: KTMaybeReactive<string>;
   fullWidth?: KTMaybeReactive<boolean>;
   size?: KTMuiDirectoryPickerSize | KTReactive<KTMuiDirectoryPickerSize>;
+  buttonText?: KTMaybeReactive<string>;
   'on:change'?: (files: File[], directoryPath: string) => void;
   'on:blur'?: () => void;
   'on:focus'?: () => void;
@@ -55,6 +56,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   const helperTextRef = toReactive(props.helperText ?? '');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
   const sizeRef = toReactive(props.size ?? 'medium');
+  const buttonTextRef = toReactive(props.buttonText ?? 'Select');
 
   // # computed directory path
   const directoryPath = computed(() => {
@@ -78,15 +80,22 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   // # computed display text
   const displayText = computed(() => {
     const path = directoryPath.value;
-    if (!path) {
-      return placeholderRef.value;
+    if (path) {
+      return path;
     }
-    return path;
-  }, [directoryPath, placeholderRef]);
+    if (labelRef.value && !isFocusedRef.value) {
+      return '';
+    }
+    return placeholderRef.value;
+  }, [directoryPath, placeholderRef, labelRef, isFocusedRef]);
 
-  const hasValue = computed(() => {
-    return modelRef.value && modelRef.value.length > 0;
-  }, [modelRef]);
+  const hasValue = modelRef.map((v) => v && v.length > 0);
+
+  const displayClassName = computed(
+    () =>
+      `mui-filepicker-display${!hasValue.value && (!labelRef.value || isFocusedRef.value) ? ' mui-filepicker-placeholder' : ''}`,
+    [hasValue, labelRef, isFocusedRef],
+  );
 
   // # methods
   const handleFileChange = (e: Event) => {
@@ -114,7 +123,22 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
     onBlur();
   };
 
+  const handleWrapperMouseDown = () => {
+    if (disabledRef.value || readOnlyRef.value) {
+      return;
+    }
+    setTimeout(() => inputRef.value.focus(), 0);
+  };
+
   const handleWrapperClick = () => {
+    if (disabledRef.value || readOnlyRef.value) {
+      return;
+    }
+    inputRef.value.click();
+  };
+
+  const handleButtonClick = (e: MouseEvent) => {
+    e.stopPropagation();
     if (disabledRef.value || readOnlyRef.value) {
       return;
     }
@@ -170,13 +194,11 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
 
   const container = (
     <div class={className} style={style}>
-      <div class="mui-filepicker-wrapper" on:click={handleWrapperClick}>
+      <div class="mui-filepicker-wrapper" on:mousedown={handleWrapperMouseDown} on:click={handleWrapperClick}>
         {labelElement}
         <div class="mui-filepicker-input-wrapper">
           <div class="mui-filepicker-input-container">
-            <span class={`mui-filepicker-display${!hasValue.value ? ' mui-filepicker-placeholder' : ''}`}>
-              {displayText}
-            </span>
+            <span class={displayClassName}>{displayText}</span>
             <input
               ref={inputRef}
               type="file"
@@ -189,6 +211,9 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
             />
           </div>
         </div>
+        <button type="button" class="mui-filepicker-button" disabled={disabledRef} on:click={handleButtonClick}>
+          {buttonTextRef}
+        </button>
         <fieldset class="mui-filepicker-fieldset">{legendElement}</fieldset>
       </div>
       <p class="mui-filepicker-helper-text">{helperTextRef}</p>

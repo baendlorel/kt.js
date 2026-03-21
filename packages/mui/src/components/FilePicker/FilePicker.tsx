@@ -68,6 +68,9 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
   const displayText = computed(() => {
     const files = modelRef.value;
     if (!files || files.length === 0) {
+      if (labelRef.value && !isFocusedRef.value) {
+        return '';
+      }
       return placeholderRef.value;
     }
 
@@ -80,11 +83,15 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
     }
 
     return files.map((f) => f.name).join(', ');
-  }, [modelRef, placeholderRef, showFileCountRef]);
+  }, [modelRef, placeholderRef, showFileCountRef, labelRef, isFocusedRef]);
 
-  const hasValue = computed(() => {
-    return modelRef.value && modelRef.value.length > 0;
-  }, [modelRef]);
+  const hasValue = modelRef.map((v) => v && v.length > 0);
+
+  const displayClassName = computed(
+    () =>
+      `mui-filepicker-display${!hasValue.value && (!labelRef.value || isFocusedRef.value) ? ' mui-filepicker-placeholder' : ''}`,
+    [hasValue, labelRef, isFocusedRef],
+  );
 
   // # methods
   const handleFileChange = (e: Event) => {
@@ -182,7 +189,7 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
         {labelElement}
         <div class="mui-filepicker-input-wrapper">
           <div class="mui-filepicker-input-container">
-            <span class={`mui-filepicker-display${!hasValue.value ? ' mui-filepicker-placeholder' : ''}`}>
+            <span class={displayClassName}>
               {displayText}
               {fileCountBadge}
             </span>

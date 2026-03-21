@@ -21,6 +21,15 @@ describe('MUI FilePicker component', () => {
     expect(display?.textContent).toContain('Choose files...');
   });
 
+  it('should hide placeholder when label is resting', () => {
+    const filepicker = <FilePicker {...{ label: 'Files', placeholder: 'Choose files...' }} />;
+    const display = filepicker.querySelector('.mui-filepicker-display') as HTMLSpanElement;
+    const input = filepicker.querySelector('input') as HTMLInputElement;
+    expect(display.textContent).toBe('');
+    input.dispatchEvent(new Event('focus'));
+    expect(display.textContent).toContain('Choose files...');
+  });
+
   it('should handle disabled state', () => {
     const filepicker = <FilePicker {...{ disabled: true }} />;
     const input = filepicker.querySelector('input');

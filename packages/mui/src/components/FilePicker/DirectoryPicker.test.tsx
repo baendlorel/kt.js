@@ -23,6 +23,15 @@ describe('MUI DirectoryPicker component', () => {
     expect(display?.textContent).toContain('Select directory...');
   });
 
+  it('should hide placeholder when label is resting', () => {
+    const dirPicker = <DirectoryPicker {...{ label: 'Directory', placeholder: 'Select directory...' }} />;
+    const display = dirPicker.querySelector('.mui-filepicker-display') as HTMLSpanElement;
+    const input = dirPicker.querySelector('input') as HTMLInputElement;
+    expect(display.textContent).toBe('');
+    input.dispatchEvent(new Event('focus'));
+    expect(display.textContent).toContain('Select directory...');
+  });
+
   it('should handle disabled state', () => {
     const dirPicker = <DirectoryPicker {...{ disabled: true }} />;
     const input = dirPicker.querySelector('input');
@@ -59,10 +68,17 @@ describe('MUI DirectoryPicker component', () => {
     expect(medium.className).toContain('mui-filepicker-size-medium');
   });
 
-  it('should not render browse button (looks like textfield)', () => {
+  it('should render select button', () => {
     const dirPicker = <DirectoryPicker {...{}} />;
     const button = dirPicker.querySelector('.mui-filepicker-button');
-    expect(button).toBeNull();
+    expect(button).toBeTruthy();
+    expect(button?.textContent).toBe('Select');
+  });
+
+  it('should apply custom button text', () => {
+    const dirPicker = <DirectoryPicker {...{ buttonText: 'Choose' }} />;
+    const button = dirPicker.querySelector('.mui-filepicker-button');
+    expect(button?.textContent).toBe('Choose');
   });
 
   it('should have clickable wrapper', () => {

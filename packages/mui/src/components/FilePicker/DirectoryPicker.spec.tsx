@@ -119,6 +119,7 @@ describe('MUI DirectoryPicker component reactivity', () => {
       <DirectoryPicker
         {...({
           'k-model': files,
+          label: 'Directory',
         } as any)}
       />
     );
@@ -152,6 +153,25 @@ describe('MUI DirectoryPicker component reactivity', () => {
     placeholder.value = 'Choose a folder';
 
     expect(display?.textContent).toContain('Choose a folder');
+  });
+
+  it('reacts to buttonText changes', () => {
+    const buttonText = ref('Select');
+
+    const dirPicker = (
+      <DirectoryPicker
+        {...({
+          buttonText,
+        } as any)}
+      />
+    );
+
+    const button = dirPicker.querySelector('.mui-filepicker-button');
+    expect(button?.textContent).toBe('Select');
+
+    buttonText.value = 'Choose Folder';
+
+    expect(button?.textContent).toBe('Choose Folder');
   });
 
   it('reacts to fullWidth changes', () => {
@@ -215,11 +235,11 @@ describe('MUI DirectoryPicker component reactivity', () => {
     expect(display?.textContent).toContain('project');
   });
 
-  it('has no browse button (looks like textfield)', () => {
+  it('has a select button', () => {
     const dirPicker = <DirectoryPicker {...{}} />;
 
     const button = dirPicker.querySelector('.mui-filepicker-button');
-    expect(button).toBeNull();
+    expect(button?.textContent).toBe('Select');
   });
 
   it('reacts to readOnly state', () => {

@@ -56,7 +56,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
 
-  const actionsRef = toReactive(props.actions); // todo actionsRef是否生效注意
+  const actionsRef = toReactive(props.actions);
   const titleRef = toReactive(props.title ?? '');
   const visibleRef = ref(false);
   const activeRef = ref(false);

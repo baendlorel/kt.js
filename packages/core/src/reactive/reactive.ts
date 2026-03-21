@@ -82,7 +82,6 @@ export class KTReactive<T> {
    * @param callback newValue and oldValue are references. You can use `a.draft` to make in-place mutations since `a.value` will not trigger `onChange` handers.
    * @param key Optional key to identify the callback, allowing multiple listeners on the same ref and individual removal. If not provided, a unique ID will be generated.
    */
-  // todo 链式调用addOnChange改造
   addOnChange(callback: ChangeHandler<T>, key?: ChangeHandlerKey): this {
     if (typeof callback !== 'function') {
       $throw('KTRef.addOnChange: callback must be a function');

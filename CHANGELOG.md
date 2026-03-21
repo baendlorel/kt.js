@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (Next Version)
+## 0.33.x - 2026-03-21
 
 ### API Clarification
 

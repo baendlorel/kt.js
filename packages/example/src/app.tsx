@@ -60,14 +60,14 @@ function createApp() {
   const prev = navIndex.map((i) => (i <= 0 ? null : navs[i - 1]));
   const next = navIndex.map((i) => (i < 0 || i >= navs.length - 1 ? null : navs[i + 1]));
 
-  const themeLabel = state.theme.map((v) => t(('app.theme.' + v) as any));
-  const themeIcon = state.theme.map((v) => (v === 'dark' ? '🌙' : '☀️'));
-  const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
+  const themeLabel = state.map((v) => t(('app.theme.' + v.theme) as any));
+  const themeIcon = state.map((v) => (v.theme === 'dark' ? '🌙' : '☀️'));
+  const toggleTheme = () => applyTheme(state.value.theme === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
       <div class="floating-controls" aria-label={t('app.controls.ariaLabel')}>
-        <button type="button" class={state.theme.map((v) => `theme-toggle-btn ${v}`)} on:click={toggleTheme}>
+        <button type="button" class={state.map((v) => `theme-toggle-btn ${v.theme}`)} on:click={toggleTheme}>
           <span class="theme-toggle-icon">{themeIcon}</span>
           <span class="theme-toggle-text">{themeLabel}</span>
         </button>

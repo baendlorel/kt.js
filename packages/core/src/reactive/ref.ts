@@ -9,14 +9,6 @@ import { markMutation } from './scheduler.js';
 export class KTRef<T> extends KTReactive<T> {
   public readonly ktType = KTReactiveType.Ref;
 
-  /**
-   * Force all listeners to run even when reference identity has not changed.
-   * Useful for in-place array/object mutations.
-   */
-  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
-    return this._emit(newValue, oldValue, handlerKeys);
-  }
-
   set value(newValue: T) {
     if ($is(newValue, this._value)) {
       return;
@@ -30,6 +22,13 @@ export class KTRef<T> extends KTReactive<T> {
   get draft() {
     markMutation(this);
     return this._value;
+  }
+
+  /**
+   * Force all listeners to run even when reference identity has not changed.
+   */
+  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
+    return this._emit(newValue, oldValue, handlerKeys);
   }
 }
 

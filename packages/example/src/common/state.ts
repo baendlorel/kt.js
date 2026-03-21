@@ -1,11 +1,10 @@
 import { ref } from 'kt.js';
 
-// todo 这里改成ref一个object
-export const state = {
-  theme: ref<ThemeMode>('light'),
-};
-
 type ThemeMode = 'light' | 'dark';
+export const state = ref({
+  theme: 'light' as ThemeMode,
+});
+
 const themeStorageKey = 'ktjs-example-theme';
 export const resolveInitialTheme = (): ThemeMode => {
   const storedTheme = window.localStorage.getItem(themeStorageKey);
@@ -19,7 +18,7 @@ export const resolveInitialTheme = (): ThemeMode => {
 };
 
 export const applyTheme = (theme: ThemeMode) => {
-  state.theme.value = theme;
+  state.draft.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   window.localStorage.setItem(themeStorageKey, theme);
 };

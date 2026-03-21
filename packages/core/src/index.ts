@@ -30,4 +30,4 @@ export type {
 } from './types/h.js';
 export type * from './types/jsx.js';
 
-// todo 可以考虑加入SSR服务端渲染
+// epic 可以考虑加入SSR服务端渲染

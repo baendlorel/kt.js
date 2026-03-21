@@ -43,7 +43,7 @@ describe('MUI Tabs component', () => {
     const target = tabs.querySelector('.mui-tab-root[data-value="analytics"]') as HTMLButtonElement;
     target.click();
 
-    expect(model.state).toBe('analytics');
+    expect(model.value).toBe('analytics');
     expect(tabs.querySelector('.mui-tab-root[data-value="analytics"]')?.className).toContain('mui-tab-selected');
     expect(onChange).toHaveBeenCalledWith('analytics', 'overview', 1, options[1]);
   });
@@ -69,7 +69,7 @@ describe('MUI Tabs component', () => {
     expect(disabledTab.disabled).toBe(true);
     disabledTab.click();
 
-    expect(model.state).toBe('overview');
+    expect(model.value).toBe('overview');
     expect(onChange).not.toHaveBeenCalled();
   });
 

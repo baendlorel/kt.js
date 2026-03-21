@@ -18,7 +18,7 @@ describe('MUI Radio component reactivity', () => {
     const input = radio.querySelector('input') as HTMLInputElement;
     expect(input.disabled).toBe(false);
 
-    disabled.state = true;
+    disabled.value = true;
     expect(input.disabled).toBe(true);
   });
 });
@@ -28,7 +28,7 @@ describe('MUI RadioGroup component reactivity', () => {
     const value = ref('a');
     const row = ref(false);
     const sizeSeed = ref<'small' | 'medium'>('small');
-    const size = computed(() => sizeSeed.state, [sizeSeed]);
+    const size = computed(() => sizeSeed.value, [sizeSeed]);
 
     const group = (
       <RadioGroup
@@ -47,9 +47,9 @@ describe('MUI RadioGroup component reactivity', () => {
     expect(group.className).not.toContain('mui-radio-group-row');
     expect((group as any).value).toBe('a');
 
-    row.state = true;
-    sizeSeed.state = 'medium';
-    value.state = 'b';
+    row.value = true;
+    sizeSeed.value = 'medium';
+    value.value = 'b';
 
     expect(group.className).toContain('mui-radio-group-row');
     expect((group as any).value).toBe('b');

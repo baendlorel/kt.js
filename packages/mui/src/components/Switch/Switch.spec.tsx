@@ -6,7 +6,7 @@ describe('MUI Switch component reactivity', () => {
   it('reacts to model/color/size/label refs', () => {
     const model = ref(false);
     const colorSeed = ref<'primary' | 'secondary'>('primary');
-    const color = computed(() => colorSeed.state, [colorSeed]);
+    const color = computed(() => colorSeed.value, [colorSeed]);
     const size = ref<'small' | 'large'>('small');
     const label = ref('Wi-Fi');
 
@@ -28,10 +28,10 @@ describe('MUI Switch component reactivity', () => {
     expect(sw.className).toContain('mui-switch-size-small');
     expect(sw.className).toContain('mui-switch-color-primary');
 
-    model.state = true;
-    size.state = 'large';
-    colorSeed.state = 'secondary';
-    label.state = 'Bluetooth';
+    model.value = true;
+    size.value = 'large';
+    colorSeed.value = 'secondary';
+    label.value = 'Bluetooth';
 
     expect(input.checked).toBe(true);
     expect(track.className).toContain('mui-switch-track-checked');
@@ -50,7 +50,7 @@ describe('MUI Switch component reactivity', () => {
     input.dispatchEvent(new Event('change'));
     expect(onChange).not.toHaveBeenCalled();
 
-    disabled.state = false;
+    disabled.value = false;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     expect(onChange).toHaveBeenCalledTimes(1);

@@ -81,21 +81,21 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       clearTimeout(exitTimer);
       exitTimer = undefined;
     }
-    visibleRef.state = true;
+    visibleRef.value = true;
     if (enterTimer) {
       clearTimeout(enterTimer);
     }
     enterTimer = setTimeout(() => {
-      if (openRef.state) {
-        activeRef.state = true;
+      if (openRef.value) {
+        activeRef.value = true;
         // Native dialog: show()
-        if (dialogEl.state instanceof HTMLDialogElement) {
-          dialogEl.state.showModal();
+        if (dialogEl.value instanceof HTMLDialogElement) {
+          dialogEl.value.showModal();
         }
         // Lock scroll
         document.body.style.overflow = 'hidden';
         // Focus
-        setTimeout(() => dialogEl.state.focus(), 0);
+        setTimeout(() => dialogEl.value.focus(), 0);
       }
     }, DIALOG_ENTER_MS);
   };
@@ -105,16 +105,16 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       clearTimeout(enterTimer);
       enterTimer = undefined;
     }
-    activeRef.state = false;
+    activeRef.value = false;
     if (exitTimer) {
       clearTimeout(exitTimer);
     }
     exitTimer = setTimeout(() => {
-      if (!openRef.state) {
-        visibleRef.state = false;
+      if (!openRef.value) {
+        visibleRef.value = false;
         // Native dialog: close()
-        if (dialogEl.state instanceof HTMLDialogElement) {
-          dialogEl.state.close();
+        if (dialogEl.value instanceof HTMLDialogElement) {
+          dialogEl.value.close();
         }
         // Unlock scroll
         document.body.style.overflow = '';
@@ -134,25 +134,25 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
 
   const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 
-  if (openRef.state) {
+  if (openRef.value) {
     queueEnter();
   }
 
   const className = computed(
     () =>
-      `kt-dialog-paper ${sizeRef.state ? `kt-dialog-maxWidth-${sizeRef.state}` : ''} ${fullWidthRef.state ? 'kt-dialog-fullWidth' : ''} ${customClassRef.state}`,
+      `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''} ${customClassRef.value}`,
     [sizeRef, fullWidthRef, customClassRef],
   );
   const backdropClass = computed(
-    () => `kt-dialog-backdrop ${activeRef.state ? 'kt-dialog-backdrop-open' : ''}`,
+    () => `kt-dialog-backdrop ${activeRef.value ? 'kt-dialog-backdrop-open' : ''}`,
     [activeRef],
   );
-  const backdropStyle = computed(() => (visibleRef.state ? 'display:flex' : 'display:none'), [visibleRef]);
+  const backdropStyle = computed(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
 
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      openRef.state = false;
+      openRef.value = false;
       onClose();
     }
   };
@@ -164,7 +164,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const assignContainer = () => {
-    if (modeRef.state === 'dialog' && SUPPORTS_DIALOG) {
+    if (modeRef.value === 'dialog' && SUPPORTS_DIALOG) {
       return (
         <div class={backdropClass} style={backdropStyle}>
           <dialog

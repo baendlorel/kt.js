@@ -14,26 +14,26 @@ describe('MUI LinearProgress component reactivity', () => {
     expect(progress.className).toContain('mui-linear-progress-determinate');
     expect(bar.style.width).toBe('15%');
 
-    value.state = 70;
-    color.state = 'success';
+    value.value = 70;
+    color.value = 'success';
 
     expect(bar.style.width).toBe('70%');
     expect(progress.className).toContain('mui-linear-progress-success');
 
-    variant.state = 'indeterminate';
+    variant.value = 'indeterminate';
     expect(progress.className).toContain('mui-linear-progress-indeterminate');
     expect(bar.style.width).toBe('');
   });
 
   it('accepts computed numeric value', () => {
     const seed = ref(20);
-    const value = computed(() => seed.state, [seed]);
+    const value = computed(() => seed.value, [seed]);
 
     const progress = <LinearProgress {...{ variant: 'determinate', value }} />;
     const bar = progress.querySelector('.mui-linear-progress-bar');
 
     expect(bar.style.width).toBe('20%');
-    seed.state = 45;
+    seed.value = 45;
     expect(bar.style.width).toBe('45%');
   });
 });

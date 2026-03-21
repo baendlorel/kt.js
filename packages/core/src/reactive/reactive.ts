@@ -50,9 +50,12 @@ export class KTReactive<T> {
    * - Use `.mutable` to modify the value.
    * @readonly
    */
-  get state() {
-    // todo 对于直接的设置，这里一定会触发报错，关键是要检测到state.xxx被变更的情况，并即使予以error
+  get value() {
     return this._value;
+  }
+
+  set value(_newValue: T) {
+    // Only allow KTRef to be set.
   }
 
   /**

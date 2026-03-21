@@ -100,19 +100,19 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
 
   const className = computed(
     () =>
-      `mui-alert mui-alert-${severityRef.state} mui-alert-${variantRef.state} ${customClassRef.state ? customClassRef.state : ''}`,
+      `mui-alert mui-alert-${severityRef.value} mui-alert-${variantRef.value} ${customClassRef.value ? customClassRef.value : ''}`,
     [severityRef, variantRef, customClassRef],
   );
 
   const alertIcon = computed(() => {
-    if (iconRef.state === false) {
+    if (iconRef.value === false) {
       return null;
     }
 
     // if icon is a custom element, use it directly
-    if (iconRef.state === true) {
-      const creator = severityToIcon[severityRef.state] || severityToIcon['info'];
-      return creator(iconSizeRef.state, 'mui-alert-icon');
+    if (iconRef.value === true) {
+      const creator = severityToIcon[severityRef.value] || severityToIcon['info'];
+      return creator(iconSizeRef.value, 'mui-alert-icon');
     }
 
     return iconRef;

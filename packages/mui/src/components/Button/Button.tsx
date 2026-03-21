@@ -59,19 +59,19 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const className = computed(() => {
     return [
       'mui-button',
-      `mui-button-${variantRef.state}`,
-      `mui-button-${variantRef.state}-${colorRef.state}`,
-      `mui-button-size-${sizeRef.state}`,
-      fullWidthRef.state ? 'mui-button-fullwidth' : '',
-      iconOnlyRef.state ? 'mui-button-icon-only' : '',
-      disabledRef.state ? 'mui-button-disabled' : '',
-      customClassRef.state,
+      `mui-button-${variantRef.value}`,
+      `mui-button-${variantRef.value}-${colorRef.value}`,
+      `mui-button-size-${sizeRef.value}`,
+      fullWidthRef.value ? 'mui-button-fullwidth' : '',
+      iconOnlyRef.value ? 'mui-button-icon-only' : '',
+      disabledRef.value ? 'mui-button-disabled' : '',
+      customClassRef.value,
     ].join(' ');
   }, [variantRef, colorRef, sizeRef, fullWidthRef, iconOnlyRef, disabledRef, customClassRef]);
 
   const createRippleEffect = (mouseX: number, mouseY: number) => {
-    const buttonEl = buttonRef.state;
-    const rippleContainer = rippleContainerRef.state;
+    const buttonEl = buttonRef.value;
+    const rippleContainer = rippleContainerRef.value;
     if (!buttonEl || !rippleContainer) {
       return;
     }
@@ -93,7 +93,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   };
 
   const handleClick = (e: MouseEvent) => {
-    if (disabledRef.state) {
+    if (disabledRef.value) {
       e.preventDefault();
       return;
     }
@@ -121,7 +121,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const onDblclick = props['on:dblclick'];
   if (onDblclick) {
     container.addEventListener('dblclick', (e) => {
-      if (disabledRef.state) {
+      if (disabledRef.value) {
         e.preventDefault();
         return;
       }

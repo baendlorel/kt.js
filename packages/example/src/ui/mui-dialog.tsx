@@ -6,16 +6,16 @@ export function MuiDialogDemo() {
   const open = ref(false);
 
   const openDialog = () => {
-    open.state = true;
+    open.value = true;
   };
 
   const handleClose = () => {
     console.log('Dialog closed');
-    open.state = false;
+    open.value = false;
   };
 
   setInterval(() => {
-    console.log('Dialog open state:', open.state);
+    console.log('Dialog open state:', open.value);
   }, 1200);
 
   return (
@@ -33,14 +33,14 @@ export function MuiDialogDemo() {
           <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>
 
           <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
-            <Button variant="text" on:click={() => (open.state = false)}>
+            <Button variant="text" on:click={() => (open.value = false)}>
               Cancel
             </Button>
             <Button
               variant="contained"
               on:click={() => {
                 alert('Action confirmed!');
-                open.state = false;
+                open.value = false;
               }}
             >
               Confirm

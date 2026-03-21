@@ -26,9 +26,9 @@ describe('MUI Checkbox component reactivity', () => {
     expect(indeterminateIcon.style.display).toBe('');
     expect(checkedIcon.style.display).toBe('none');
 
-    indeterminate.state = false;
-    model.state = true;
-    label.state = 'Accepted';
+    indeterminate.value = false;
+    model.value = true;
+    label.value = 'Accepted';
 
     expect(input.checked).toBe(true);
     expect(checkedIcon.style.display).toBe('');

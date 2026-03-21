@@ -25,9 +25,9 @@ describe('MUI Select component reactivity', () => {
     expect(select.querySelector('.mui-select-label')?.textContent).toContain('Status');
     expect(select.querySelector('.mui-select-display')?.textContent).toContain('Open');
 
-    model.state = 'closed';
-    label.state = 'State';
-    placeholder.state = 'Choose';
+    model.value = 'closed';
+    label.value = 'State';
+    placeholder.value = 'Choose';
 
     expect(select.querySelector('.mui-select-label')?.textContent).toContain('State');
     expect(select.querySelector('.mui-select-display')?.textContent).toContain('Closed');
@@ -54,7 +54,7 @@ describe('MUI Select component reactivity', () => {
     const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
     expect(hiddenInput.value).toBe('open');
 
-    options.state = [{ label: 'Closed', value: 'closed' }];
+    options.value = [{ label: 'Closed', value: 'closed' }];
 
     expect(hiddenInput.value).toBe('');
     expect(onChange).toHaveBeenCalledWith('', 'open');

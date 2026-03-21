@@ -43,12 +43,12 @@ describe('KTConditional', () => {
     expect(container.textContent).toBe('if-branch');
     expect(container.querySelector('#if-node')).toBeTruthy();
 
-    visible.state = false;
+    visible.value = false;
     expect(container.textContent).toBe('');
     expect(container.firstChild?.nodeType).toBe(Node.COMMENT_NODE);
     expect((container.firstChild as Comment).data).toBe('kt-conditional');
 
-    visible.state = true;
+    visible.value = true;
     expect(container.textContent).toBe('if-branch');
     expect(container.querySelector('#if-node')).toBeTruthy();
   });
@@ -64,11 +64,11 @@ describe('KTConditional', () => {
     expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
     expect(container.querySelector('.else-branch')).toBeNull();
 
-    visible.state = false;
+    visible.value = false;
     expect(container.querySelector('.if-branch')).toBeNull();
     expect(container.querySelector('.else-branch')?.textContent).toBe('else-branch');
 
-    visible.state = true;
+    visible.value = true;
     expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
     expect(container.querySelector('.else-branch')).toBeNull();
   });

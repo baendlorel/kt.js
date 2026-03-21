@@ -23,10 +23,10 @@ describe('MUI TextField component reactivity', () => {
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('Email');
     expect(textfield.querySelector('.mui-textfield-required')).toBeNull();
 
-    required.state = true;
-    error.state = true;
-    helperText.state = 'Updated hint';
-    label.state = 'Account';
+    required.value = true;
+    error.value = true;
+    helperText.value = 'Updated hint';
+    label.value = 'Account';
 
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('Account');
     expect(textfield.querySelector('.mui-textfield-required')?.textContent).toBe('*');
@@ -36,7 +36,7 @@ describe('MUI TextField component reactivity', () => {
 
   it('reacts to computed value updates', () => {
     const labelSeed = ref('State');
-    const label = computed(() => labelSeed.state, [labelSeed]);
+    const label = computed(() => labelSeed.value, [labelSeed]);
     const model = ref('alpha');
 
     const textfield = (
@@ -52,8 +52,8 @@ describe('MUI TextField component reactivity', () => {
     expect(input.value).toBe('alpha');
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('State');
 
-    model.state = 'beta';
-    labelSeed.state = 'Account';
+    model.value = 'beta';
+    labelSeed.value = 'Account';
 
     expect(input.value).toBe('beta');
     expect(textfield.querySelector('.mui-textfield-label')?.textContent).toContain('Account');

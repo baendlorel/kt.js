@@ -32,7 +32,7 @@ describe('MUI Menu component reactivity', () => {
 
     expect(menu.querySelector('.mui-menu-item')?.textContent).toContain('One');
 
-    options.state = [{ value: 'two', label: 'Two' }];
+    options.value = [{ value: 'two', label: 'Two' }];
 
     expect(menu.querySelector('.mui-menu-item')?.textContent).toContain('Two');
 
@@ -64,12 +64,12 @@ describe('MUI Menu component reactivity', () => {
 
     const item = menu.querySelector('.mui-menu-item[data-index="0"]') as HTMLLIElement;
     item.click();
-    expect(open.state).toBe(true);
+    expect(open.value).toBe(true);
     expect(onClose).not.toHaveBeenCalled();
 
-    autoClose.state = true;
+    autoClose.value = true;
     item.click();
-    expect(open.state).toBe(false);
+    expect(open.value).toBe(false);
     expect(onClose).toHaveBeenCalledWith('itemClick');
 
     menu.remove();

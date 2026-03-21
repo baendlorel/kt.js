@@ -21,7 +21,7 @@ export function MuiBottomNavigationDemo() {
       <p class="description">Bottom navigation helps users switch between top-level destinations.</p>
 
       <div class="button-group">
-        <Button variant="outlined" size="small" on:click={() => (showLabels.state = !showLabels.state)}>
+        <Button variant="outlined" size="small" on:click={() => (showLabels.value = !showLabels.value)}>
           Show Labels: {showLabels.map((v) => (v ? 'On' : 'Off'))}
         </Button>
       </div>

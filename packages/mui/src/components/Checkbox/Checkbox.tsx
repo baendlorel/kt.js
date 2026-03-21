@@ -41,11 +41,11 @@ export function Checkbox(
 ): KTMuiCheckbox {
   // Handle change
   const handleChange = () => {
-    if (disabledRef.state) {
+    if (disabledRef.value) {
       return;
     }
-    model.state = inputEl.checked;
-    interminateRef.state = false;
+    model.value = inputEl.checked;
+    interminateRef.value = false;
   };
 
   const customClassRef = toReactive(props.class ?? '');
@@ -73,10 +73,10 @@ export function Checkbox(
   // # events
   const onChange = props['on:change'];
   if (onChange) {
-    inputEl.addEventListener('change', () => onChange(inputEl.checked, valueRef.state));
+    inputEl.addEventListener('change', () => onChange(inputEl.checked, valueRef.value));
   }
   if (onChangeForGroup) {
-    inputEl.addEventListener('change', () => onChangeForGroup(inputEl.checked, valueRef.state));
+    inputEl.addEventListener('change', () => onChangeForGroup(inputEl.checked, valueRef.value));
   }
 
   const uncheckedIcon = createUnchecked();
@@ -84,7 +84,7 @@ export function Checkbox(
   const indeterminateIcon = createIndeterminate();
 
   const className = computed(() => {
-    return `mui-checkbox-wrapper mui-checkbox-size-${sizeRef.state} ${disabledRef.state ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.state} ${customClassRef.state}`;
+    return `mui-checkbox-wrapper mui-checkbox-size-${sizeRef.value} ${disabledRef.value ? 'mui-checkbox-disabled' : ''} mui-checkbox-color-${colorRef.value} ${customClassRef.value}`;
   }, [colorRef, disabledRef, sizeRef, customClassRef]);
 
   const container = (
@@ -100,13 +100,13 @@ export function Checkbox(
   ) as KTMuiCheckbox;
 
   effect(() => {
-    if (interminateRef.state) {
+    if (interminateRef.value) {
       uncheckedIcon.style.display = 'none';
       checkedIcon.style.display = 'none';
       indeterminateIcon.style.display = '';
     } else {
-      uncheckedIcon.style.display = model.state ? 'none' : '';
-      checkedIcon.style.display = model.state ? '' : 'none';
+      uncheckedIcon.style.display = model.value ? 'none' : '';
+      checkedIcon.style.display = model.value ? '' : 'none';
       indeterminateIcon.style.display = 'none';
     }
   }, [model, interminateRef]);
@@ -114,26 +114,26 @@ export function Checkbox(
   $defines(container, {
     checked: {
       get() {
-        return model.state;
+        return model.value;
       },
       set(v: boolean) {
-        model.state = v;
+        model.value = v;
       },
     },
     value: {
       get() {
-        return valueRef.state;
+        return valueRef.value;
       },
       set(v: string) {
-        valueRef.state = v;
+        valueRef.value = v;
       },
     },
     disabled: {
       get() {
-        return disabledRef.state;
+        return disabledRef.value;
       },
       set(v: boolean) {
-        disabledRef.state = v;
+        disabledRef.value = v;
       },
     },
   });

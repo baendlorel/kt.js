@@ -25,18 +25,18 @@ describe('MUI BottomNavigation component reactivity', () => {
       'mui-bottom-navigation-action-selected',
     );
 
-    model.state = 'favorites';
+    model.value = 'favorites';
     expect(navigation.querySelector('[data-value="favorites"]')?.className).toContain(
       'mui-bottom-navigation-action-selected',
     );
 
-    options.state = [{ value: 'home', label: 'Home' }];
+    options.value = [{ value: 'home', label: 'Home' }];
 
-    expect(model.state).toBe('home');
+    expect(model.value).toBe('home');
     expect(navigation.querySelector('[data-value="home"]')?.className).toContain(
       'mui-bottom-navigation-action-selected',
     );
-    expect(onChange).toHaveBeenLastCalledWith('home', 'favorites', 0, options.state[0]);
+    expect(onChange).toHaveBeenLastCalledWith('home', 'favorites', 0, options.value[0]);
   });
 
   it('reacts to showLabels ref', () => {
@@ -45,7 +45,7 @@ describe('MUI BottomNavigation component reactivity', () => {
 
     expect(navigation.className).not.toContain('mui-bottom-navigation-show-labels');
 
-    showLabels.state = true;
+    showLabels.value = true;
     expect(navigation.className).toContain('mui-bottom-navigation-show-labels');
   });
 });

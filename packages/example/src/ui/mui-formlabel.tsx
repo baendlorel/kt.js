@@ -17,16 +17,16 @@ export function MuiFormLabelDemo() {
       <p class="description">Displays label states for forms and fieldsets.</p>
 
       <div class="button-group">
-        <Button variant="outlined" on:click={() => (required.state = !required.state)}>
+        <Button variant="outlined" on:click={() => (required.value = !required.value)}>
           Required: {required}
         </Button>
-        <Button variant="outlined" on:click={() => (focused.state = !focused.state)}>
+        <Button variant="outlined" on:click={() => (focused.value = !focused.value)}>
           Focused: {focused}
         </Button>
-        <Button variant="outlined" on:click={() => (error.state = !error.state)}>
+        <Button variant="outlined" on:click={() => (error.value = !error.value)}>
           Error: {error}
         </Button>
-        <Button variant="outlined" on:click={() => (disabled.state = !disabled.state)}>
+        <Button variant="outlined" on:click={() => (disabled.value = !disabled.value)}>
           Disabled: {disabled}
         </Button>
       </div>

@@ -9,10 +9,10 @@ export function Counter() {
       <p>A simple counter demonstrating manual state updates in KT.js.</p>
       <div>Count: {counterRef}</div>
       <div>
-        <button on:click={() => counterRef.state--}>-1</button>
-        <button on:click={() => counterRef.state++}>+1</button>
-        <button on:click={() => (counterRef.state += 10)}>+10</button>
-        <button on:click={() => (counterRef.state = 0)}>Reset</button>
+        <button on:click={() => counterRef.value--}>-1</button>
+        <button on:click={() => counterRef.value++}>+1</button>
+        <button on:click={() => (counterRef.value += 10)}>+10</button>
+        <button on:click={() => (counterRef.value = 0)}>Reset</button>
       </div>
     </div>
   );

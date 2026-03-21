@@ -12,7 +12,7 @@ export function Directives() {
   const khtmlContent = ref(`<span style="color: #52c41a;">${i18nText('directives.html.initialContent')}</span>`);
 
   const kifStateText = computed(
-    () => i18nText(kifFlag.state ? 'directives.ifElse.state.true' : 'directives.ifElse.state.false'),
+    () => i18nText(kifFlag.value ? 'directives.ifElse.state.true' : 'directives.ifElse.state.false'),
     [kifFlag],
   );
 
@@ -41,7 +41,7 @@ export function Directives() {
           <Button variant="contained" color="primary" on:click={() => (kifFlag.mutable = false)}>
             {t('directives.ifElse.showElse')}
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.mutable = !kifFlag.state)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.mutable = !kifFlag.value)}>
             {t('directives.ifElse.toggle')}
           </Button>
         </div>

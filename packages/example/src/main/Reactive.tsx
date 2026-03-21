@@ -12,10 +12,10 @@ export function Reactivity() {
   const styleWidthRef = ref(10);
   setInterval(() => {
     styleWidthRef.mutable = Math.floor(Math.random() * 100);
-    styleRef.mutable = `width: ${styleWidthRef.state}%;height:20px;background-color:#1890ff;transition: width 1s;`;
+    styleRef.mutable = `width: ${styleWidthRef.value}%;height:20px;background-color:#1890ff;transition: width 1s;`;
   }, 1000);
   const widthTextRef = computed(
-    () => i18nText('reactive.attribute.currentWidth', styleWidthRef.state),
+    () => i18nText('reactive.attribute.currentWidth', styleWidthRef.value),
     [styleWidthRef],
   );
 
@@ -35,8 +35,8 @@ export function Reactivity() {
   const taxRef = ref(6);
   const finalPriceRef = priceRef.map(
     (price) => {
-      const discountedPrice = price * (1 - discountRef.state / 100);
-      return (discountedPrice * (1 + taxRef.state / 100)).toFixed(2);
+      const discountedPrice = price * (1 - discountRef.value / 100);
+      return (discountedPrice * (1 + taxRef.value / 100)).toFixed(2);
     },
     [discountRef, taxRef],
   );
@@ -61,12 +61,12 @@ export function Reactivity() {
   const listenerKey = 'reactive-page-listener';
   const pushListenerLog = (message: string) => {
     listenerLogsRef.mutable.unshift(message);
-    if (listenerLogsRef.state.length > 8) {
+    if (listenerLogsRef.value.length > 8) {
       listenerLogsRef.mutable.length = 8;
     }
   };
   const enableListener = () => {
-    if (listenerActiveRef.state) {
+    if (listenerActiveRef.value) {
       return;
     }
     listenerValueRef.addOnChange((newValue, oldValue) => {
@@ -78,7 +78,7 @@ export function Reactivity() {
     pushListenerLog(i18nText('reactive.api.listeners.log.listenerOn'));
   };
   const disableListener = () => {
-    if (!listenerActiveRef.state) {
+    if (!listenerActiveRef.value) {
       return;
     }
     listenerValueRef.removeOnChange(listenerKey);
@@ -168,7 +168,7 @@ export function Reactivity() {
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (priceRef.mutable = Math.max(0, priceRef.state - 10))}
+                on:click={() => (priceRef.mutable = Math.max(0, priceRef.value - 10))}
               >
                 {t('reactive.api.map.priceMinus')}
               </Button>
@@ -178,28 +178,28 @@ export function Reactivity() {
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (discountRef.mutable = Math.max(0, discountRef.state - 5))}
+                on:click={() => (discountRef.mutable = Math.max(0, discountRef.value - 5))}
               >
                 {t('reactive.api.map.discountMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (discountRef.mutable = Math.min(90, discountRef.state + 5))}
+                on:click={() => (discountRef.mutable = Math.min(90, discountRef.value + 5))}
               >
                 {t('reactive.api.map.discountPlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (taxRef.mutable = Math.max(0, taxRef.state - 1))}
+                on:click={() => (taxRef.mutable = Math.max(0, taxRef.value - 1))}
               >
                 {t('reactive.api.map.taxMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (taxRef.mutable = Math.min(30, taxRef.state + 1))}
+                on:click={() => (taxRef.mutable = Math.min(30, taxRef.value + 1))}
               >
                 {t('reactive.api.map.taxPlus')}
               </Button>

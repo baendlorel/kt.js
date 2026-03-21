@@ -20,7 +20,7 @@ export interface KTForProps<T> {
  */
 export function KTFor<T>(props: KTForProps<T>): KTForElement {
   const redraw = () => {
-    const newList = listRef.state;
+    const newList = listRef.value;
 
     const parent = anchor.parentNode;
     if (!parent) {
@@ -167,10 +167,10 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
   // Render initial list
   const elements: HTMLElement[] = [];
-  for (let index = 0; index < listRef.state.length; index++) {
-    const item = listRef.state[index];
-    const itemKey = currentKey(item, index, listRef.state);
-    const node = currentMap(item, index, listRef.state);
+  for (let index = 0; index < listRef.value.length; index++) {
+    const item = listRef.value[index];
+    const itemKey = currentKey(item, index, listRef.value);
+    const node = currentMap(item, index, listRef.value);
     nodeMap.set(itemKey, node);
     elements.push(node);
   }

@@ -136,7 +136,7 @@ describe('KTFor Component', () => {
     expect(items.length).toBe(3);
 
     // Redraw with new list
-    list.state = [4, 5, 6, 7];
+    list.value = [4, 5, 6, 7];
 
     items = container.querySelectorAll('.item');
     expect(items.length).toBe(4);
@@ -176,7 +176,7 @@ describe('KTFor Component', () => {
     const firstTestId = firstDiv.dataset.__test_id__;
 
     // Reorder list - first item stays first
-    list.state = [
+    list.value = [
       { id: '1', value: 'a-updated' },
       { id: '3', value: 'c' },
       { id: '2', value: 'b' },
@@ -205,7 +205,7 @@ describe('KTFor Component', () => {
     expect(items.length).toBe(5);
 
     // Remove some items
-    list.state = [1, 3, 5];
+    list.value = [1, 3, 5];
 
     items = container.querySelectorAll('.item');
     expect(items.length).toBe(3);
@@ -237,12 +237,12 @@ describe('KTFor Component', () => {
       </div>
     );
 
-    expect((anchor.state as any).__kt_for_list__.length).toBe(3);
+    expect((anchor.value as any).__kt_for_list__.length).toBe(3);
 
     // Redraw before adding to DOM
-    list.state = [4, 5];
+    list.value = [4, 5];
 
-    expect((anchor.state as any).__kt_for_list__.length).toBe(2);
+    expect((anchor.value as any).__kt_for_list__.length).toBe(2);
 
     // Now add to DOM
     container.appendChild(forEl);

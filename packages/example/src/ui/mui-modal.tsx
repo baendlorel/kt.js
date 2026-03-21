@@ -9,12 +9,12 @@ export function MuiModalDemo() {
 
   const openAlert = async () => {
     await modalAlert('Saved successfully.', { title: 'System Message' });
-    result.state = 'Alert closed';
+    result.value = 'Alert closed';
   };
 
   const openConfirm = async () => {
     const ok = await Modal.confirm('Delete this record?', { title: 'Confirm Action' });
-    result.state = `Confirm result: ${ok ? 'confirmed' : 'canceled'}`;
+    result.value = `Confirm result: ${ok ? 'confirmed' : 'canceled'}`;
   };
 
   const openPrompt = async () => {
@@ -23,7 +23,7 @@ export function MuiModalDemo() {
       defaultValue: 'kt-user',
       validator: (v) => (v.trim().length >= 2 ? true : 'At least 2 characters'),
     });
-    result.state = value === null ? 'Prompt canceled' : `Prompt value: ${value}`;
+    result.value = value === null ? 'Prompt canceled' : `Prompt value: ${value}`;
   };
 
   return (

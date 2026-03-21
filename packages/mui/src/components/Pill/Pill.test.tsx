@@ -36,7 +36,7 @@ describe('MUI Pill component', () => {
     const pill = <Pill {...{ label: 'Reactive', disabled }} />;
     expect(pill.className).not.toContain('mui-pill-disabled');
 
-    disabled.state = true;
+    disabled.value = true;
     expect(pill.className).toContain('mui-pill-disabled');
   });
 

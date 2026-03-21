@@ -17,7 +17,7 @@ export function KTConditional(
   }
 
   if (tagElse) {
-    let current = condition.state ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
+    let current = condition.value ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
@@ -26,7 +26,7 @@ export function KTConditional(
     return current;
   } else {
     const dummy = placeholder('kt-conditional') as HTMLElement;
-    let current = condition.state ? jsxh(tagIf, propsIf) : dummy;
+    let current = condition.value ? jsxh(tagIf, propsIf) : dummy;
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : dummy;

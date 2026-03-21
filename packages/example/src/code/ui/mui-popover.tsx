@@ -7,10 +7,10 @@ export function PopoverExample() {
 
   return (
     <div>
-      <Button ref={anchorEl} on:click={() => (open.state = !open.state)}>
+      <Button ref={anchorEl} on:click={() => (open.value = !open.value)}>
         Toggle Popover
       </Button>
-      <Popover open={open} anchorEl={anchorEl} on:close={() => (open.state = false)}>
+      <Popover open={open} anchorEl={anchorEl} on:close={() => (open.value = false)}>
         <div style="padding:12px 16px;">Popover content</div>
       </Popover>
     </div>

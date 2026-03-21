@@ -9,7 +9,7 @@ export function MuiRadioDemo() {
     name: 'demo-radio',
     value: 'option1',
     'on:change': (value) => {
-      selectedValue.state = value;
+      selectedValue.value = value;
     },
     options: [
       { value: 'option1', label: 'Option 1' },

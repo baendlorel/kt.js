@@ -21,9 +21,9 @@ const createPill = (label: string, index: number): JSX.Element => (
 
 export function FragmentDemo() {
   const labelsRef = ref<string[]>([...defaultSections]);
-  const childrenRef = ref<JSX.Element[]>(labelsRef.state.map(createPill));
+  const childrenRef = ref<JSX.Element[]>(labelsRef.value.map(createPill));
   const summaryRef = computed(
-    () => i18nText('fragment.reactive.summary', labelsRef.state.length, labelsRef.state.join(' / ')),
+    () => i18nText('fragment.reactive.summary', labelsRef.value.length, labelsRef.value.join(' / ')),
     [labelsRef],
   );
 
@@ -33,20 +33,20 @@ export function FragmentDemo() {
   };
 
   const addItem = () =>
-    syncChildren([...labelsRef.state, `${i18nText('fragment.reactive.sectionPrefix')} ${labelsRef.state.length + 1}`]);
+    syncChildren([...labelsRef.value, `${i18nText('fragment.reactive.sectionPrefix')} ${labelsRef.value.length + 1}`]);
 
   const removeItem = () => {
-    if (labelsRef.state.length <= 1) {
+    if (labelsRef.value.length <= 1) {
       return;
     }
-    syncChildren(labelsRef.state.slice(0, -1));
+    syncChildren(labelsRef.value.slice(0, -1));
   };
 
   const rotate = () => {
-    if (labelsRef.state.length <= 1) {
+    if (labelsRef.value.length <= 1) {
       return;
     }
-    const [first, ...rest] = labelsRef.state;
+    const [first, ...rest] = labelsRef.value;
     syncChildren([...rest, first]);
   };
 

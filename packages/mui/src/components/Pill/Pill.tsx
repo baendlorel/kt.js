@@ -57,24 +57,24 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const className = computed(() => {
     return [
       'mui-pill',
-      `mui-pill-color-${colorRef.state}`,
-      `mui-pill-variant-${variantRef.state}`,
-      `mui-pill-size-${sizeRef.state}`,
-      clickableRef.state ? 'mui-pill-clickable' : '',
-      disabledRef.state ? 'mui-pill-disabled' : '',
-      classRef.state,
+      `mui-pill-color-${colorRef.value}`,
+      `mui-pill-variant-${variantRef.value}`,
+      `mui-pill-size-${sizeRef.value}`,
+      clickableRef.value ? 'mui-pill-clickable' : '',
+      disabledRef.value ? 'mui-pill-disabled' : '',
+      classRef.value,
     ].join(' ');
   }, [colorRef, variantRef, sizeRef, clickableRef, disabledRef, classRef]);
 
   const handleClick = (e: MouseEvent) => {
-    if (!clickableRef.state || disabledRef.state) {
+    if (!clickableRef.value || disabledRef.value) {
       return;
     }
     onClick(e);
   };
 
   const handleKeydown = (e: KeyboardEvent) => {
-    if (!clickableRef.state || disabledRef.state) {
+    if (!clickableRef.value || disabledRef.value) {
       return;
     }
     if (e.key === 'Enter' || e.key === ' ') {
@@ -85,11 +85,11 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
 
   const handleDelete = (e: MouseEvent) => {
     e.stopPropagation();
-    if (disabledRef.state || !onDelete) {
+    if (disabledRef.value || !onDelete) {
       return;
     }
     const shouldKeep = onDelete(e);
-    if (!autoRemoveOnDeleteRef.state) {
+    if (!autoRemoveOnDeleteRef.value) {
       return;
     }
 
@@ -105,7 +105,7 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
       class={className}
       style={styleRef}
       role={clickableRef.map((v) => (v ? 'button' : 'presentation'))}
-      tabIndex={computed(() => (clickableRef.state && !disabledRef.state ? 0 : undefined), [clickableRef, disabledRef])}
+      tabIndex={computed(() => (clickableRef.value && !disabledRef.value ? 0 : undefined), [clickableRef, disabledRef])}
       on:click={handleClick}
       on:keydown={handleKeydown}
     >

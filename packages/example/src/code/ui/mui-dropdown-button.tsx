@@ -13,7 +13,7 @@ export function DropdownButtonExample() {
         { value: 'delete', label: 'Delete', disabled: true },
       ]}
       on:select={(value) => {
-        selectedAction.state = value;
+        selectedAction.value = value;
       }}
     />
   );

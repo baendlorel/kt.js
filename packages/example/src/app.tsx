@@ -34,7 +34,7 @@ function createApp() {
       throw new Error('Invalid page id: ' + pageId);
     }
 
-    if (page.state === navItem.id) {
+    if (page.value === navItem.id) {
       return;
     }
 
@@ -46,11 +46,11 @@ function createApp() {
     headerTitleRef.mutable = navItem.title;
     headerDescRef.mutable = navItem.description;
     view.mutable = navItem.component();
-    contentBodyRef.state.scrollTop = 0;
+    contentBodyRef.value.scrollTop = 0;
   };
 
   const toggleGroup = (groupId: string) => {
-    if (openedGroup.state === groupId) {
+    if (openedGroup.value === groupId) {
       openedGroup.mutable = '';
     } else {
       openedGroup.mutable = groupId;
@@ -62,7 +62,7 @@ function createApp() {
 
   const themeLabel = state.theme.map((v) => t(('app.theme.' + v) as any));
   const themeIcon = state.theme.map((v) => (v === 'dark' ? '🌙' : '☀️'));
-  const toggleTheme = () => applyTheme(state.theme.state === 'dark' ? 'light' : 'dark');
+  const toggleTheme = () => applyTheme(state.theme.value === 'dark' ? 'light' : 'dark');
 
   return (
     <div class="app-layout">
@@ -163,8 +163,8 @@ function createApp() {
             class={prev.map((v) => `content-pagination-btn ${v ? '' : 'disabled'}`)}
             disabled={prev.map((v) => !v)}
             on:click={() => {
-              if (prev.state) {
-                navigateTo(prev.state.id);
+              if (prev.value) {
+                navigateTo(prev.value.id);
               }
             }}
           >
@@ -179,8 +179,8 @@ function createApp() {
             class={next.map((v) => `content-pagination-btn content-pagination-next ${v ? '' : 'disabled'}`)}
             disabled={next.map((v) => !v)}
             on:click={() => {
-              if (next.state) {
-                navigateTo(next.state.id);
+              if (next.value) {
+                navigateTo(next.value.id);
               }
             }}
           >

@@ -41,11 +41,11 @@ export class KTComputed<T> extends KTReactive<T> {
   /**
    * If new value and old value are both nodes, the old one will be replaced in the DOM
    */
-  get state() {
+  get value() {
     return this._value;
   }
 
-  set state(_newValue: T) {
+  set value(_newValue: T) {
     $throw('KTComputed: cannot set value of a computed value');
   }
 
@@ -58,7 +58,7 @@ export class KTComputed<T> extends KTReactive<T> {
 }
 
 KTReactive.prototype.map = function <R>(calculator: (v: unknown) => R, dependencies?: KTReactive<any>[]) {
-  return new KTComputed(() => calculator(this.state), dependencies ? [this, ...dependencies] : [this]);
+  return new KTComputed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
 };
 
 /**

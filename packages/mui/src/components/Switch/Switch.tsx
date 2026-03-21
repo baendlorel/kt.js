@@ -52,23 +52,23 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   const classRef = toReactive(props.class ?? '');
 
   const className = computed(() => {
-    return `mui-switch-wrapper mui-switch-size-${sizeRef.state} ${disabledRef.state ? 'mui-switch-disabled' : ''} mui-switch-color-${colorRef.state} ${classRef.state}`;
+    return `mui-switch-wrapper mui-switch-size-${sizeRef.value} ${disabledRef.value ? 'mui-switch-disabled' : ''} mui-switch-color-${colorRef.value} ${classRef.value}`;
   }, [colorRef, disabledRef, sizeRef, classRef]);
 
   // Handle change
   const handleChange = () => {
-    if (disabledRef.state) {
+    if (disabledRef.value) {
       return;
     }
-    modelRef.state = inputEl.checked;
-    onChange(modelRef.state, valueRef.state);
+    modelRef.value = inputEl.checked;
+    onChange(modelRef.value, valueRef.value);
   };
 
   const inputEl = (
     <input
       type="checkbox"
       class="mui-switch-input"
-      checked={modelRef.state}
+      checked={modelRef.value}
       value={valueRef}
       disabled={disabledRef}
       on:change={handleChange}
@@ -90,8 +90,8 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   ) as KTMuiSwitch;
 
   // Initialize state
-  track.classList.toggle('mui-switch-track-checked', modelRef.state);
-  thumb.classList.toggle('mui-switch-thumb-checked', modelRef.state);
+  track.classList.toggle('mui-switch-track-checked', modelRef.value);
+  thumb.classList.toggle('mui-switch-thumb-checked', modelRef.value);
 
   return container;
 }

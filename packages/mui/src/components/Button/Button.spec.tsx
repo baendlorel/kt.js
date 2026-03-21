@@ -5,7 +5,7 @@ import { Button } from './Button.js';
 describe('MUI Button component reactivity', () => {
   it('reacts to variant/color/size/fullWidth refs', () => {
     const variantSeed = ref<'text' | 'outlined'>('text');
-    const variant = computed(() => variantSeed.state, [variantSeed]);
+    const variant = computed(() => variantSeed.value, [variantSeed]);
     const color = ref<'primary' | 'secondary'>('primary');
     const size = ref<'small' | 'large'>('small');
     const fullWidth = ref(false);
@@ -26,10 +26,10 @@ describe('MUI Button component reactivity', () => {
     expect(button.className).toContain('mui-button-text-primary');
     expect(button.className).toContain('mui-button-size-small');
 
-    variantSeed.state = 'outlined';
-    color.state = 'secondary';
-    size.state = 'large';
-    fullWidth.state = true;
+    variantSeed.value = 'outlined';
+    color.value = 'secondary';
+    size.value = 'large';
+    fullWidth.value = true;
 
     expect(button.className).toContain('mui-button-outlined');
     expect(button.className).toContain('mui-button-outlined-secondary');
@@ -54,7 +54,7 @@ describe('MUI Button component reactivity', () => {
     button.click();
     expect(onClick).not.toHaveBeenCalled();
 
-    disabled.state = false;
+    disabled.value = false;
     button.click();
     expect(onClick).toHaveBeenCalledTimes(1);
   });

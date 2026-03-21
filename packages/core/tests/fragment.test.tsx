@@ -53,7 +53,7 @@ describe('Fragment Component', () => {
     expect(items.length).toBe(2);
 
     // Update reactive array
-    childrenRef.state = [
+    childrenRef.value = [
       h('div', { class: 'item' }, 'C'),
       h('div', { class: 'item' }, 'D'),
       h('div', { class: 'item' }, 'E'),
@@ -71,7 +71,7 @@ describe('Fragment Component', () => {
     const anchor = Fragment({ children: childrenRef });
 
     // Update while anchor not in DOM
-    childrenRef.state = [h('div', { class: 'item' }, 'C')];
+    childrenRef.value = [h('div', { class: 'item' }, 'C')];
 
     expect((anchor as any).__kt_fragment_list__.length).toBe(1);
 
@@ -88,7 +88,7 @@ describe('Fragment Component', () => {
     const fragmentRef = ref<JSX.Element>();
     const anchor = Fragment({ children, ref: fragmentRef });
 
-    expect(fragmentRef.state).toBe(anchor);
+    expect(fragmentRef.value).toBe(anchor);
   });
 
   it('should handle empty children array', () => {
@@ -123,7 +123,7 @@ describe('Fragment Component', () => {
     const oldElement2 = firstItems[1];
 
     // Update children
-    childrenRef.state = [h('div', { class: 'item' }, 'C'), h('div', { class: 'item' }, 'D')];
+    childrenRef.value = [h('div', { class: 'item' }, 'C'), h('div', { class: 'item' }, 'D')];
 
     // Old elements should be removed from DOM
     expect(document.body.contains(oldElement1)).toBe(false);

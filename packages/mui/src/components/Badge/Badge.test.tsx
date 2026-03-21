@@ -18,7 +18,7 @@ describe('MUI Badge component', () => {
     const badgeNode = badge.querySelector('.mui-badge-badge');
     expect(badgeNode.textContent).toBe('99+');
 
-    badgeContent.state = 9;
+    badgeContent.value = 9;
     expect(badgeNode.textContent).toBe('9');
   });
 

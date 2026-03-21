@@ -45,11 +45,11 @@ export function LinearProgress(props: LinearProgressProps) {
   const colorRef = toReactive(props.color ?? 'primary');
   const variantRef = toReactive(props.variant ?? 'indeterminate');
   const className = computed(() => {
-    return `mui-linear-progress mui-linear-progress-${variantRef.state} mui-linear-progress-${colorRef.state} ${customClassRef.state}`;
+    return `mui-linear-progress mui-linear-progress-${variantRef.value} mui-linear-progress-${colorRef.value} ${customClassRef.value}`;
   }, [customClassRef, colorRef, variantRef]);
 
   const barLength = computed(
-    () => (variantRef.state === 'determinate' ? `width: ${valueRef.state}%` : ''),
+    () => (variantRef.value === 'determinate' ? `width: ${valueRef.value}%` : ''),
     [variantRef, valueRef],
   );
 
@@ -62,10 +62,10 @@ export function LinearProgress(props: LinearProgressProps) {
   $defines(container, {
     value: {
       get() {
-        return valueRef.state;
+        return valueRef.value;
       },
       set(v: number) {
-        valueRef.state = v;
+        valueRef.value = v;
       },
     },
   });

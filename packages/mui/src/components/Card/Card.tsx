@@ -38,11 +38,11 @@ export function Card(props: KTMuiCardProps): KTMuiCard {
   const className = computed(() => {
     return [
       `mui-card`,
-      `mui-card-${variantRef.state}`,
-      variantRef.state === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.state))}` : '',
-      squareRef.state ? 'mui-card-square' : '',
-      raisedRef.state ? 'mui-card-raised' : '',
-      customClass.state,
+      `mui-card-${variantRef.value}`,
+      variantRef.value === 'elevation' ? `mui-card-elevation-${Math.min(24, Math.max(0, elevationRef.value))}` : '',
+      squareRef.value ? 'mui-card-square' : '',
+      raisedRef.value ? 'mui-card-raised' : '',
+      customClass.value,
     ].join(' ');
   }, [variantRef, elevationRef, squareRef, raisedRef, customClass]);
 

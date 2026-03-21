@@ -13,7 +13,7 @@ export function MuiAlertDemo() {
       children: `This is a ${severity} alert #${alertCount}!`,
       'on:close': () => alert.remove(),
     });
-    alertContainer.state?.appendChild(alert);
+    alertContainer.value?.appendChild(alert);
   };
 
   return (

@@ -12,8 +12,8 @@ export function MuiPopoverDemo() {
   const closeReason = ref<KTMuiPopoverCloseReason | 'manual' | 'none'>('none');
 
   const closePopover = (reason: KTMuiPopoverCloseReason | 'manual') => {
-    closeReason.state = reason;
-    open.state = false;
+    closeReason.value = reason;
+    open.value = false;
   };
 
   return (
@@ -26,7 +26,7 @@ export function MuiPopoverDemo() {
           ref={anchorEl}
           variant="contained"
           on:click={() => {
-            open.state = !open.state;
+            open.value = !open.value;
           }}
         >
           {open.map((value) => (value ? 'Close Popover' : 'Open Popover'))}
@@ -39,7 +39,7 @@ export function MuiPopoverDemo() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         on:close={(reason) => {
-          closeReason.state = reason;
+          closeReason.value = reason;
         }}
       >
         <div style="padding:12px 16px; min-width:220px;">

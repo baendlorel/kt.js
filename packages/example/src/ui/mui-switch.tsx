@@ -11,9 +11,9 @@ export function MuiSwitchDemo() {
   const lastChanged = ref('None');
 
   const reset = () => {
-    darkMode.state = false;
-    autoSave.state = true;
-    lastChanged.state = 'Reset to default values';
+    darkMode.value = false;
+    autoSave.value = true;
+    lastChanged.value = 'Reset to default values';
   };
 
   return (
@@ -27,7 +27,7 @@ export function MuiSwitchDemo() {
           label="Dark Mode"
           color="primary"
           on:change={(checked) => {
-            lastChanged.state = `Dark Mode: ${checked}`;
+            lastChanged.value = `Dark Mode: ${checked}`;
           }}
         />
         <Switch
@@ -35,7 +35,7 @@ export function MuiSwitchDemo() {
           label="Auto Save"
           color="success"
           on:change={(checked) => {
-            lastChanged.state = `Auto Save: ${checked}`;
+            lastChanged.value = `Auto Save: ${checked}`;
           }}
         />
         <Switch checked disabled label="Disabled Switch" />

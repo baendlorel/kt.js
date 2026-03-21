@@ -50,18 +50,18 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   });
 
   const className = computed(() => {
-    return `mui-checkbox-group ${rowRef.state ? 'mui-checkbox-group-row' : ''} ${customClassRef.state}`;
+    return `mui-checkbox-group ${rowRef.value ? 'mui-checkbox-group-row' : ''} ${customClassRef.value}`;
   }, [rowRef, customClassRef]);
 
   const checkboxes: KTMuiCheckbox[] = [];
   const checkboxOnChangeForGroup = (checked: boolean, value: string) => {
-    const old = model.state.slice();
+    const old = model.value.slice();
     if (checked) {
-      $arrayPushUnique(model.state, value);
+      $arrayPushUnique(model.value, value);
     } else {
-      $arrayDelete(model.state, value);
+      $arrayDelete(model.value, value);
     }
-    onChange(model.state.slice(), old);
+    onChange(model.value.slice(), old);
     internalChange = true;
     model.notify();
   };
@@ -71,9 +71,9 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
    */
   const members = computed<Array<KTMuiCheckbox | JSX.Element>>(() => {
     checkboxes.length = 0;
-    return optionsRef.state.map((o) => {
+    return optionsRef.value.map((o) => {
       if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
-        const checkboxProps = { ...o, size: sizeRef.state };
+        const checkboxProps = { ...o, size: sizeRef.value };
         const checkbox = Checkbox(checkboxProps, checkboxOnChangeForGroup);
         checkboxes.push(checkbox);
         return checkbox;

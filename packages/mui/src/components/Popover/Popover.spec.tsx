@@ -31,12 +31,12 @@ describe('MUI Popover component reactivity', () => {
 
     expect(popover.style.display).toBe('none');
 
-    open.state = true;
+    open.value = true;
     vi.runAllTimers();
     expect(popover.style.display).toBe('block');
     expect(popover.className).toContain('mui-popover-open');
 
-    open.state = false;
+    open.value = false;
     vi.advanceTimersByTime(180);
     expect(popover.style.display).toBe('none');
 
@@ -48,7 +48,7 @@ describe('MUI Popover component reactivity', () => {
   it('reacts to computed elevation changes', () => {
     const anchor = createAnchor();
     const elevationSeed = ref(2);
-    const elevation = computed(() => elevationSeed.state, [elevationSeed]);
+    const elevation = computed(() => elevationSeed.value, [elevationSeed]);
 
     const popover = (
       <Popover
@@ -65,7 +65,7 @@ describe('MUI Popover component reactivity', () => {
     const paper = popover.querySelector('.mui-popover-paper');
     const previousShadow = paper.style.boxShadow;
 
-    elevationSeed.state = 20;
+    elevationSeed.value = 20;
     expect(paper.style.boxShadow).not.toBe(previousShadow);
 
     popover.remove();

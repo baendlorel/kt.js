@@ -1,6 +1,6 @@
 import '@ktjs/shared';
 import './main.css.ts';
-// todo 增加新组件，文件选择器和文件夹选择器。其中文件夹选择器需要和textfield长得一样
+
 // UI Components
 export { Alert } from './components/Alert/Alert.js';
 export { Button } from './components/Button/Button.js';
@@ -12,6 +12,8 @@ export { LinearProgress } from './components/LinearProgress/LinearProgress.js';
 export { Menu } from './components/Menu/Menu.js';
 export { Modal, modalAlert, modalConfirm, modalPrompt, alert, confirm, prompt } from './components/Modal/Modal.js';
 export { TextField } from './components/Input/Input.js';
+export { FilePicker } from './components/FilePicker/FilePicker.js';
+export { DirectoryPicker } from './components/FilePicker/DirectoryPicker.js';
 export { Radio, RadioGroup } from './components/Radio/Radio.js';
 export { Select } from './components/Select/Select.js';
 export { Card } from './components/Card/Card.js';
@@ -29,6 +31,12 @@ export type {
   KTMuiTextFieldType,
   KTMuiTextFieldSize,
 } from './components/Input/Input.js';
+export type { KTMuiFilePicker, KTMuiFilePickerProps, KTMuiFilePickerSize } from './components/FilePicker/FilePicker.js';
+export type {
+  KTMuiDirectoryPicker,
+  KTMuiDirectoryPickerProps,
+  KTMuiDirectoryPickerSize,
+} from './components/FilePicker/DirectoryPicker.js';
 export type {
   KTMuiCheckboxProps,
   KTMuiCheckbox,

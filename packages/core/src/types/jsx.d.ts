@@ -1,9 +1,10 @@
-import type { KTRef } from '../reactive/refs/ref.js';
+import type { KTRef } from '../reactive/ref.js';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTRawContent } from './h.js';
 
+type AliasElement = Element;
 export namespace JSX {
-  type Element = HTMLElementTagNameMap[keyof HTMLElementTagNameMap];
+  type Element = AliasElement;
 
   interface IntrinsicElements {
     [k: string]: AttributesMap['div']; // Allow any element with div attributes as fallback

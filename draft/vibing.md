@@ -247,3 +247,7 @@ const ssss = bindParams(sss, 'a');
 然后，把每个属性都写成这样的类型，但是：
 1、id不可以这样，name不可以这样；
 2、绑定的事件，on:xxx不可以Reactive；
+
+---
+
+现在ref的读写已经改回了value/draft。value适合所有读取和简单的全覆盖写，而draft适合深层响应的写，不支持全覆盖写

@@ -28,7 +28,7 @@ export type KTMuiCheckboxGroup = JSX.Element & {};
  * CheckboxGroup component - groups multiple checkboxes together
  */
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
-  let { 'on:change': onChange = $emptyFn } = props;
+  const onChange = props['on:change'] ?? $emptyFn;
 
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));

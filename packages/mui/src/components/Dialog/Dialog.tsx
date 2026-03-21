@@ -51,7 +51,7 @@ const SUPPORTS_DIALOG = typeof window !== 'undefined' && typeof HTMLDialogElemen
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let { 'on:close': onClose = $emptyFn, children } = props;
+  const { 'on:close': onClose = $emptyFn, children } = props;
 
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));

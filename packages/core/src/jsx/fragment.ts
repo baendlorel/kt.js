@@ -183,7 +183,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
       return;
     }
 
-    console.warn('Fragment: unsupported child type', child);
+    $warn('Fragment: unsupported child type', child);
   };
 
   processChild(children);

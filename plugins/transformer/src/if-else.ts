@@ -1,5 +1,6 @@
 import type { NodePath } from '@babel/core';
 import * as t from '@babel/types';
+import { warn } from './logger.js';
 
 const KTCONDITIONAL_HELPER_CACHE_KEY = '__kt_conditional_component_identifier__';
 const KTCONDITIONAL_COMPONENT_IMPORT_NAME = 'KTConditional';
@@ -409,9 +410,7 @@ function warnUnsupportedElseIf(path: NodePath<t.Node>) {
 
   const file = ((programPath as any).hub?.file?.opts?.filename as string | undefined) || 'unknown file';
   const pos = loc ? `${loc.line}:${loc.column + 1}` : 'unknown';
-  console.warn(
-    `[ktjs-transformer] \`k-else-if\` is not supported yet and will be left untransformed (${file}:${pos}).`,
-  );
+  warn(`\`k-else-if\` is not supported yet and will be left untransformed (${file}:${pos}).`);
 }
 
 export function transformConditionalChains(path: NodePath<t.JSXElement>) {

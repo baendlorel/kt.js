@@ -114,12 +114,11 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
     onBlur();
   };
 
-  const handleWrapperClick = (e: MouseEvent) => {
+  const handleWrapperClick = () => {
     if (disabledRef.value || readOnlyRef.value) {
       return;
     }
-    // Trigger the file input click
-    inputRef.value?.click();
+    inputRef.value.click();
   };
 
   // # styles

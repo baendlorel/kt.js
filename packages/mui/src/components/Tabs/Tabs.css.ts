@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-tabs-root {
   display: flex;
   width: 100%;

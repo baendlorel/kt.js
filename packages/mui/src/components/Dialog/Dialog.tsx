@@ -2,9 +2,9 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { computed, effect, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
+import type { KTMuiProps } from '../../types/component.js';
 import './Dialog.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { KTMuiProps } from '../../types/component.js';
 
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
@@ -22,7 +22,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
     | KTMaybeReactive<string>
     | KTMaybeReactive<JSX.Element>
     | KTMaybeReactive<JSX.Element[]>;
-  actions?: KTMaybeReactive<HTMLElement | HTMLElement[]>;
+  actions?: KTMaybeReactive<HTMLElement | HTMLElement[] | undefined>;
   size?: KTMaybeReactive<KTMuiDialogSize>;
   fullWidth?: KTMaybeReactive<boolean>;
 
@@ -51,11 +51,12 @@ const SUPPORTS_DIALOG = typeof window !== 'undefined' && typeof HTMLDialogElemen
  * Only handles open/close state, title and content are passed as props
  */
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
-  let { 'on:close': onClose = $emptyFn, children, actions } = props;
+  let { 'on:close': onClose = $emptyFn, children } = props;
 
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
 
+  const actionsRef = toReactive(props.actions); // todo actionsRef是否生效注意
   const titleRef = toReactive(props.title ?? '');
   const visibleRef = ref(false);
   const activeRef = ref(false);
@@ -64,7 +65,6 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
 
   // Mode selection
   const modeRef = toReactive(props.mode ?? 'dialog');
-  const useDialog = modeRef.map((v) => v === 'dialog' && SUPPORTS_DIALOG);
 
   const clearTimers = () => {
     if (enterTimer) {
@@ -171,7 +171,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
           >
             {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
             {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
-            {KTConditional(actions, 'div', { class: 'kt-dialog-actions', children: actions })}
+            {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}
           </dialog>
         </div>
       ) as KTMuiDialog;
@@ -187,7 +187,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
           >
             {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
             {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
-            {KTConditional(actions, 'div', { class: 'kt-dialog-actions', children: actions })}
+            {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}
           </div>
         </div>
       ) as KTMuiDialog;

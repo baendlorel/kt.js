@@ -23,19 +23,6 @@ interface ConditionalCallDirective extends ConditionalDirective {
   propsArgIndex: number;
 }
 
-function hasConditionalDirective(element: t.JSXElement): boolean {
-  const attributes = element.openingElement.attributes || [];
-  return attributes.some((attr) => {
-    if (!t.isJSXAttribute(attr)) {
-      return false;
-    }
-    if (!t.isJSXIdentifier(attr.name)) {
-      return false;
-    }
-    return CONDITIONAL_DIRECTIVES.has(attr.name.name);
-  });
-}
-
 function getConditionalDirective(element: t.JSXElement): ConditionalDirective | null {
   const attributes = element.openingElement.attributes || [];
   for (const attr of attributes) {
@@ -107,7 +94,7 @@ function getConditionalDirectiveFromObjectProperty(property: t.ObjectProperty): 
   return null;
 }
 
-function removeConditionalDirectives(attributes: (t.JSXAttribute | t.JSXSpreadAttribute)[]) {
+function removeConditionalDirectives(attributes: Array<t.JSXAttribute | t.JSXSpreadAttribute>) {
   return attributes.filter((attr) => {
     if (!t.isJSXAttribute(attr)) {
       return true;
@@ -158,7 +145,10 @@ function buildConditionalCallArgsFromCallExpression(
 ): ConditionalCallArgs {
   const tagArgument = callExpression.arguments[0];
   const tag =
-    tagArgument && !t.isSpreadElement(tagArgument) && !t.isArgumentPlaceholder(tagArgument) && t.isExpression(tagArgument)
+    tagArgument &&
+    !t.isSpreadElement(tagArgument) &&
+    !t.isArgumentPlaceholder(tagArgument) &&
+    t.isExpression(tagArgument)
       ? (t.cloneNode(tagArgument, true) as t.Expression)
       : t.stringLiteral('div');
 
@@ -417,7 +407,7 @@ function warnUnsupportedElseIf(path: NodePath<t.Node>) {
   }
   warningCache.add(cacheKey);
 
-  const file = (((programPath as any).hub?.file?.opts?.filename as string | undefined) || 'unknown file');
+  const file = ((programPath as any).hub?.file?.opts?.filename as string | undefined) || 'unknown file';
   const pos = loc ? `${loc.line}:${loc.column + 1}` : 'unknown';
   console.warn(
     `[ktjs-transformer] \`k-else-if\` is not supported yet and will be left untransformed (${file}:${pos}).`,
@@ -615,11 +605,7 @@ function getNextSignificantJSXSibling(path: NodePath<t.JSXElement>): NodePath<t.
 }
 
 function getNextSignificantCallSibling(path: NodePath<t.CallExpression>): NodePath<t.CallExpression> | null {
-  if (
-    !isConditionalCallChainListPath(path) ||
-    !path.container ||
-    !Array.isArray(path.container)
-  ) {
+  if (!isConditionalCallChainListPath(path) || !path.container || !Array.isArray(path.container)) {
     return null;
   }
   const currentIndex = path.key as number;

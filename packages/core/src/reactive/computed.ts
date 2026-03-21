@@ -29,12 +29,13 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  constructor(_calculator: () => T, reactives: Array<KTReactive<unknown>>) {
+  // todo 侦听的dependency数量比较多的，纳入scheduler
+  constructor(_calculator: () => T, dependencies: Array<KTReactive<unknown>>) {
     super(_calculator());
     this._calculator = _calculator;
 
-    for (let i = 0; i < reactives.length; i++) {
-      reactives[i].addOnChange(() => this._recalculate());
+    for (let i = 0; i < dependencies.length; i++) {
+      dependencies[i].addOnChange(() => this._recalculate());
     }
   }
 

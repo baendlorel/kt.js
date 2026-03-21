@@ -1,0 +1,40 @@
+{
+  "name": "@ktjs/kt-tsc",
+  "version": "0.1.0",
+  "description": "Simple TypeScript checker for KT.js that suppresses k-for alias false positives.",
+  "description_zh": "用于屏蔽 KT.js 中 k-for 作用域误报的简易 TypeScript 检查工具。",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "kt-tsc": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Kasukabe Tsumugi",
+    "email": "futami16237@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baendlorel/kt.js",
+    "directory": "plugins/kt-tsc"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

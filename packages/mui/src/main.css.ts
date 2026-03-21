@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Global UI Color Variables - MUI-like color palette */
 
 :root {

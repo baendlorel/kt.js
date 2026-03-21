@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-modal-dialog {
   max-width: 420px;
 }

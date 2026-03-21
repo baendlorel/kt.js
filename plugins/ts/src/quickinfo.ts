@@ -25,12 +25,6 @@ interface KForStringContext {
   token: KForStringToken;
 }
 
-interface TokenSpan {
-  text: string;
-  start: number;
-  length: number;
-}
-
 const IDENTIFIER_PATTERN = /[A-Za-z_$][A-Za-z0-9_$]*/g;
 const KEYWORD_DELIMITER_PATTERN = /\s+(in|of)\s+/;
 
@@ -80,13 +74,7 @@ function getKForStringQuickInfo(
   }
 
   if (context.token.kind === 'alias') {
-    const bindings = resolveBindingsForForAttribute(
-      context.opening,
-      context.attr,
-      analysis.checker,
-      config,
-      ts,
-    );
+    const bindings = resolveBindingsForForAttribute(context.opening, context.attr, analysis.checker, config, ts);
     for (let i = 0; i < bindings.length; i++) {
       const binding = bindings[i];
       if (binding.name === context.token.text) {
@@ -481,15 +469,7 @@ function createQuickInfo(
     return undefined;
   }
 
-  return createQuickInfoForSpan(
-    identifier.getStart(),
-    identifier.getWidth(),
-    label,
-    types,
-    checker,
-    identifier,
-    ts,
-  );
+  return createQuickInfoForSpan(identifier.getStart(), identifier.getWidth(), label, types, checker, identifier, ts);
 }
 
 function createQuickInfoForSpan(

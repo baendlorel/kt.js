@@ -1,13 +1,9 @@
 // String manipulation utilities
 
-import { $is, $isArray } from './native.js';
-
 /**
  * Default empty function
  */
 export const $emptyFn = (() => true) as (...args: any[]) => any;
-export const $emptyArray: any[] = [];
-export const $emptyObject = Object.create(null);
 export const $identity = (x: any) => x;
 
 /**

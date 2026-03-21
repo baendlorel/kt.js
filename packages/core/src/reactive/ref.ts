@@ -1,5 +1,5 @@
 import type { JSX } from '../types/jsx.js';
-import type { ChangeHandler, ChangeHandlerKey } from './reactive.js';
+import type { ChangeHandlerKey } from './reactive.js';
 
 import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';

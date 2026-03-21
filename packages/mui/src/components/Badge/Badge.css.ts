@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-badge-root {
   position: relative;
   display: inline-flex;

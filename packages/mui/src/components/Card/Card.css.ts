@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Card Component Styles - MUI-like */
 
 .mui-card {

@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-pill {
   box-sizing: border-box;
   display: inline-flex;

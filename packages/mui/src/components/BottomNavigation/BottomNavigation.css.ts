@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-bottom-navigation-root {
   width: 100%;
   height: 56px;

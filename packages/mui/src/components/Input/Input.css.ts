@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* TextField Component Styles - MUI-like */
 
 .mui-textfield-root {

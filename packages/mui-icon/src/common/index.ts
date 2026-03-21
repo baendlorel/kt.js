@@ -50,7 +50,7 @@ export function svg(...args: any[]) {
     return s;
   }
 
-  console.warn('Invalid arguments for svg function:', args);
+  $warn('Invalid arguments for svg function:', args);
   return document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 }
 

@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Alert Component Styles - Mimics MUI Alert */
 
 .mui-alert {

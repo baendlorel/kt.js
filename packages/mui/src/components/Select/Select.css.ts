@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Select Component Styles - MUI-like */
 
 .mui-select-wrapper {

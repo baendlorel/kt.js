@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* FormLabel Component Styles - MUI-like */
 
 .mui-form-label {

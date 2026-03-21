@@ -57,7 +57,7 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 }
 
-KTReactive.prototype.map = function <R>(calculator: (v: unknown) => R, dependencies?: KTReactive<any>[]) {
+KTReactive.prototype.map = function <R>(calculator: (v: unknown) => R, dependencies?: Array<KTReactive<any>>) {
   return new KTComputed(() => calculator(this.value), dependencies ? [this, ...dependencies] : [this]);
 };
 

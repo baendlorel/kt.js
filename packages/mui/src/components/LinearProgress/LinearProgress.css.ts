@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* LinearProgress Component Styles - Mimics MUI LinearProgress */
 
 .mui-linear-progress {

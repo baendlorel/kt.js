@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Switch Component Styles - MUI-like */
 
 .mui-switch-wrapper {

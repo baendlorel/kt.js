@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 .mui-menu-paper {
   min-width: 180px;
   padding: 8px 0;

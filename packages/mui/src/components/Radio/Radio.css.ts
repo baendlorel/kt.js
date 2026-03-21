@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Radio Component Styles - MUI-like */
 
 .mui-radio-wrapper {

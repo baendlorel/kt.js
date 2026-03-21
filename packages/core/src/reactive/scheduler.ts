@@ -1,6 +1,6 @@
 // Use microqueue to schedule the flush of pending reactions
 
-import { KTRef } from './ref.js';
+import type { KTRef } from './ref.js';
 
 const reactiveToOldValue = new Map<KTRef<any>, any>();
 

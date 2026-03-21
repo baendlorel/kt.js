@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Checkbox Component Styles - MUI-like */
 
 .mui-checkbox-wrapper {

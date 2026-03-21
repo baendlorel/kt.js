@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* Dialog Component Styles - MUI-like appearance */
 
 .kt-dialog-backdrop {

@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-injectGlobal`
+void injectGlobal`
 /* FilePicker & DirectoryPicker Component Styles */
 
 .mui-filepicker-root {

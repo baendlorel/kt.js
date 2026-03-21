@@ -17,12 +17,21 @@ export class KTRef<T> extends KTReactive<T> {
     return this._emit(newValue, oldValue, handlerKeys);
   }
 
-  get mutable() {
+  set value(newValue: T) {
+    if ($is(newValue, this._value)) {
+      return;
+    }
+    const oldValue = this._value;
+    this._value = newValue;
+    this._emit(newValue, oldValue);
+  }
+
+  get draft() {
     markMutation(this);
     return this._value;
   }
 
-  set mutable(newValue: T) {
+  set draft(newValue: T) {
     if ($is(newValue, this._value)) {
       return;
     }
@@ -60,7 +69,7 @@ export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   return ref(defaultValue) as KTRef<T>;
 };
 
-const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.mutable = node);
+const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.draft = node);
 type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
 
 /**
@@ -73,7 +82,7 @@ export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): Re
 
   const r = props.ref;
   if (isRef(r)) {
-    r.mutable = node;
+    r.draft = node;
     return $refSetter;
   } else {
     $throw('Fragment: ref must be a KTRef');

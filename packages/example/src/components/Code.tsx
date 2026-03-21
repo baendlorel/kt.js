@@ -44,11 +44,11 @@ export function Code(props: CodeProps) {
       return;
     }
 
-    copied.mutable = true;
+    copied.draft = true;
     if (copiedTimer !== undefined) {
       clearTimeout(copiedTimer);
     }
-    copiedTimer = window.setTimeout(() => (copied.mutable = false), 1200);
+    copiedTimer = window.setTimeout(() => (copied.draft = false), 1200);
   };
 
   return (

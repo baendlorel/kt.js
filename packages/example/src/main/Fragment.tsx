@@ -28,8 +28,8 @@ export function FragmentDemo() {
   );
 
   const syncChildren = (nextLabels: string[]) => {
-    labelsRef.mutable = nextLabels;
-    childrenRef.mutable = nextLabels.map(createPill);
+    labelsRef.draft = nextLabels;
+    childrenRef.draft = nextLabels.map(createPill);
   };
 
   const addItem = () =>

@@ -46,7 +46,7 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 
   set value(_newValue: T) {
-    $throw('KTComputed: cannot set value of a computed value');
+    $warn(`'value' of Computed are read-only.`);
   }
 
   /**

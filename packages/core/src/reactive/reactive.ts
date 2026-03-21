@@ -1,7 +1,7 @@
 import type { KTComputed } from './computed.js';
 
 import { IdGenerator } from '../common.js';
-import { KTReactiveType } from './core.js';
+import { KTReactiveType } from './common.js';
 
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 export type ChangeHandlerKey = string | number;

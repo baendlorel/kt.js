@@ -2,7 +2,7 @@ import type { JSX } from '../types/jsx.js';
 import type { ChangeHandler, ChangeHandlerKey } from './reactive.js';
 
 import { $emptyFn, $is } from '@ktjs/shared';
-import { isRef, KTReactiveType } from './core.js';
+import { isRef, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
 

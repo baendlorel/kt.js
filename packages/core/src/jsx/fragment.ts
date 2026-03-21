@@ -103,7 +103,7 @@ export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentPro
     (anchor as any).__kt_fragment_list__ = elements;
   };
 
-  const childrenRef = toReactive(props.children, redraw);
+  const childrenRef = toReactive(props.children).addOnChange(redraw);
 
   const renderInitial = () => {
     const current = childrenRef.value;

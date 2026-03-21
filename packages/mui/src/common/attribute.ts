@@ -15,7 +15,7 @@ export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undef
   return '';
 };
 
-export const registerPrefixedEvents = (element: HTMLElement, props: { [key: string]: any }, exclude?: string[]) => {
+export const registerPrefixedEvents = (element: Element, props: { [key: string]: any }, exclude?: string[]) => {
   if (exclude) {
     for (const key in props) {
       if (key.startsWith('on:') && !exclude.includes(key)) {

@@ -3,7 +3,7 @@ import type { KTAttribute } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import { h } from '../h/index';
 
-export const jsxh = (tag: JSXTag, props: KTAttribute): HTMLElement =>
+export const jsxh = (tag: JSXTag, props: KTAttribute): JSX.Element =>
   (typeof tag === 'function' ? tag(props) : h(tag, props, props.children)) as JSX.Element;
 
 export const placeholder = (data: string): JSX.Element => document.createComment(data) as unknown as JSX.Element;

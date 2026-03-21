@@ -10,7 +10,7 @@ export interface KTForProps<T> {
   ref?: KTRef<KTForElement>;
   list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
-  map?: (item: T, index: number, array: T[]) => HTMLElement;
+  map?: (item: T, index: number, array: T[]) => JSX.Element;
 }
 
 // todo 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样

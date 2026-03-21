@@ -1,7 +1,7 @@
 import type { ChangeHandlerKey } from './reactive.js';
 import type { JSX } from '../types/jsx.js';
 
-import { isKT, KTReactiveType } from './core.js';
+import { isKT, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 
 export class KTComputed<T> extends KTReactive<T> {

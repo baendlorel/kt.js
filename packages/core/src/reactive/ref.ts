@@ -28,13 +28,6 @@ export class KTRef<T> extends KTReactive<T> {
     markMutation(this);
     return this._value;
   }
-
-  /**
-   * Force all listeners to run even when reference identity has not changed.
-   */
-  notify(oldValue: T = this._value, newValue: T = this._value, handlerKeys?: ChangeHandlerKey[]): this {
-    return this._emit(newValue, oldValue, handlerKeys);
-  }
 }
 
 /**

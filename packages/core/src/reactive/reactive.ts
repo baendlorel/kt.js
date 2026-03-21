@@ -58,10 +58,9 @@ export class KTReactive<T> {
   /**
    * Force all listeners to run even when reference identity has not changed.
    * Useful for in-place array/object mutations.
-   * - Is implemented differently in `KTRef` and `KTComputed`
    */
-  notify(..._args: unknown[]): this {
-    throw new Error('This is meant to be override in ref.ts and computed.ts');
+  notify(handlerKeys?: ChangeHandlerKey[]): this {
+    return this._emit(this._value, this._value, handlerKeys);
   }
 
   /**

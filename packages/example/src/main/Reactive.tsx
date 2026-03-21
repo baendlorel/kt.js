@@ -71,10 +71,11 @@ export function Reactivity() {
   const listenerValueTextRef = listenerValueRef.map((value) => i18nText('reactive.api.listeners.value', value));
   const listenerKey = 'reactive-page-listener';
   const pushListenerLog = (message: string) => {
-    const logs = listenerLogsRef.draft;
+    const logs = listenerLogsRef.value;
     logs.unshift(message);
     if (logs.length > 8) {
       logs.length = 8;
+      listenerLogsRef.notify();
     }
   };
   const enableListener = () => {

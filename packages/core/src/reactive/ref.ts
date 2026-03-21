@@ -9,6 +9,11 @@ import { markMutation } from './scheduler.js';
 export class KTRef<T> extends KTReactive<T> {
   public readonly ktType = KTReactiveType.Ref;
 
+  // ! Cannot be omitted, otherwise this will override `KTReactive` with only setter. And getter will return undefined.
+  get value() {
+    return this._value;
+  }
+
   set value(newValue: T) {
     if ($is(newValue, this._value)) {
       return;

@@ -16,9 +16,10 @@
 
 ## Recent Updates
 
-1. <span style="color: red; font-weight: bold;">IMPORTANT!!</span> `refObject.value` is now split into **read-only** `refObject.state` and `refObject.mutable`. This change allows you to control the trigger of change handlers and enables kt.js to handle deep changes of any objects.
-2. Refactored `KTReactive`. Now it is a real class and implements common things of `ref` and `computed`.
-3. Fixed issues of `svg` and `mathml` elements.
+1. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
+2. `ref.draft` is the deep-mutation entry for nested objects, arrays, `Map` / `Set`, and custom mutable objects.
+3. `ref.draft` itself is not assignable; mutate nested fields or call mutating methods on the returned object instead.
+4. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Community
 
@@ -30,6 +31,35 @@
 kt.js is a simple framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
+
+## Reactive Contract
+
+```ts
+const user = ref({ profile: { name: 'John' }, tags: ['new'] });
+
+console.log(user.value.profile.name); // read
+
+user.value = {
+  ...user.value,
+  profile: { ...user.value.profile, name: 'Jane' },
+  tags: [...user.value.tags],
+}; // replace the whole outer value
+
+user.draft.profile.name = 'Jane'; // deep write
+user.draft.tags.push('active'); // array / map / set / custom-object style mutation
+```
+
+Rules:
+
+- Read with `.value`.
+- Replace the whole outer value with `.value = nextValue`.
+- Use `.draft` for deep mutations on nested objects, arrays, `Map` / `Set`, or other mutable instances.
+- Do not assign to `.draft` itself; mutate inside it.
+- `computed` stays read-only and is consumed through `.value`.
+- `oldValue` in change listeners is the previous reference only, not a deep-cloned snapshot.
+- Correctness is expected to come from the transformer and TypeScript checks; runtime hot paths stay minimal on purpose.
+
+This is an explicit contract, closer to a Rust-style model than permissive runtime magic: unclear code should fail early.
 
 ## Quick Start
 

@@ -18,8 +18,8 @@ interface KTMuiButtonProps extends KTMuiProps {
   disabled?: KTMaybeReactive<boolean>;
   fullWidth?: KTMaybeReactive<boolean>;
   iconOnly?: KTMaybeReactive<boolean>;
-  startIcon?: KTMaybeReactive<JSX.Element>;
-  endIcon?: KTMaybeReactive<JSX.Element>;
+  startIcon?: KTMaybeReactive<JSX.Element | undefined>;
+  endIcon?: KTMaybeReactive<JSX.Element | undefined>;
   type?: KTMaybeReactive<KTMuiButtonType>;
 
   // # native events

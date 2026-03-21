@@ -26,6 +26,7 @@ export class KTRef<T> extends KTReactive<T> {
     this._emit(newValue, oldValue);
   }
 
+  // todo 编译器要对这个属性的逃逸（也就是什么都没改或者被赋值）进行检测，比如const a = xxx.draft.
   get draft() {
     markMutation(this);
     return this._value;

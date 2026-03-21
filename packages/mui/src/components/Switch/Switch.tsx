@@ -37,7 +37,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   const valueRef = toReactive(props.value ?? '');
   const colorRef = toReactive(props.color ?? 'primary');
   const sizeRef = toReactive(props.size ?? 'medium');
-  const disabledRef = toReactive(props.disabled ?? false, (v) => {
+  const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });

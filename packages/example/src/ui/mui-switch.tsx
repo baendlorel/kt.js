@@ -8,6 +8,7 @@ import muiSwitchCode from '../code/ui/mui-switch.tsx?raw';
 export function MuiSwitchDemo() {
   const darkMode = ref(false);
   const autoSave = ref(true);
+  const disabledChecked = ref(true);
   const lastChanged = ref('None');
 
   const reset = () => {
@@ -38,7 +39,7 @@ export function MuiSwitchDemo() {
             lastChanged.value = `Auto Save: ${checked}`;
           }}
         />
-        <Switch checked disabled label="Disabled Switch" />
+        <Switch k-model={disabledChecked} disabled label="Disabled Switch" />
       </div>
 
       <div class="button-group">

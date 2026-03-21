@@ -49,7 +49,13 @@ export type {
   KTMuiBottomNavigationProps,
   KTMuiBottomNavigation,
 } from './components/BottomNavigation/BottomNavigation.js';
-export type { KTMuiSelectProps, KTMuiSelect, KTMuiSelectOption, KTMuiSelectSize } from './components/Select/Select.js';
+export type {
+  KTMuiSelectProps,
+  KTMuiSelect,
+  KTMuiSelectOption,
+  KTMuiSelectContent,
+  KTMuiSelectSize,
+} from './components/Select/Select.js';
 export type { KTMuiDialog, KTMuiDialogSize } from './components/Dialog/Dialog.js';
 export type {
   KTMuiLinearProgress,

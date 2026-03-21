@@ -1,5 +1,3 @@
-import type { JSX } from 'packages/core/dist';
-
 const unchecked = (() => {
   const wrapper = <span class="mui-radio-icon-unchecked"></span>;
   wrapper.innerHTML = `  <svg viewBox="0 0 24 24">
@@ -7,7 +5,7 @@ const unchecked = (() => {
       </svg>`;
   return wrapper;
 })();
-export const createUnchecked = () => unchecked.cloneNode(true) as JSX.Element;
+export const createUnchecked = () => unchecked.cloneNode(true) as HTMLSpanElement;
 
 const checked = (() => {
   const wrapper = <span class="mui-radio-icon-checked"></span>;
@@ -16,4 +14,4 @@ const checked = (() => {
       </svg>`;
   return wrapper;
 })();
-export const createChecked = () => checked.cloneNode(true) as JSX.Element;
+export const createChecked = () => checked.cloneNode(true) as HTMLSpanElement;

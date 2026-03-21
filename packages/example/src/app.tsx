@@ -38,22 +38,22 @@ function createApp() {
       return;
     }
 
-    page.draft = navItem.id;
-    currentSection.draft = navItem.label;
+    page.value = navItem.id;
+    currentSection.value = navItem.label;
     if (navItem.groupId) {
-      openedGroup.draft = navItem.groupId;
+      openedGroup.value = navItem.groupId;
     }
-    headerTitleRef.draft = navItem.title;
-    headerDescRef.draft = navItem.description;
-    view.draft = navItem.component();
+    headerTitleRef.value = navItem.title;
+    headerDescRef.value = navItem.description;
+    view.value = navItem.component();
     contentBodyRef.value.scrollTop = 0;
   };
 
   const toggleGroup = (groupId: string) => {
     if (openedGroup.value === groupId) {
-      openedGroup.draft = '';
+      openedGroup.value = '';
     } else {
-      openedGroup.draft = groupId;
+      openedGroup.value = groupId;
     }
   };
   const navIndex = page.map((v) => navs.findIndex((entry) => entry.id === v));

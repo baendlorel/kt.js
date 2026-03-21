@@ -78,7 +78,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
         checkboxes.push(checkbox);
         return checkbox;
       }
-      return o as JSX.Element;
+      return o as unknown as JSX.Element;
     });
   }, [optionsRef, sizeRef]);
 

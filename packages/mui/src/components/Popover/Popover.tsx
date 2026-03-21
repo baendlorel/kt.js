@@ -167,17 +167,18 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     }, EXIT_TRANSITION_MS);
   };
 
-  const openRef = toReactive(props.open ?? false, (isOpen) => {
+  const openRef = toReactive(props.open ?? false).addOnChange((isOpen) => {
     syncOpenState(isOpen);
     if (isOpen) {
       scheduleUpdatePosition();
     }
   });
-
-  const anchorElRef = toReactive<HTMLElement | null>(props.anchorEl ?? null, scheduleUpdatePosition);
-  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN, scheduleUpdatePosition);
-  const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN, scheduleUpdatePosition);
-  const marginThresholdRef = toReactive(props.marginThreshold ?? 16, scheduleUpdatePosition);
+  const anchorElRef = toReactive<HTMLElement | null>(props.anchorEl ?? null).addOnChange(scheduleUpdatePosition);
+  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
+  const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
+    scheduleUpdatePosition,
+  );
+  const marginThresholdRef = toReactive(props.marginThreshold ?? 16).addOnChange(scheduleUpdatePosition);
   const elevationRef = toReactive(props.elevation ?? 8);
 
   const paperClassName = computed(() => {
@@ -208,8 +209,8 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
           bottom: window.innerHeight / 2,
         };
 
-    const anchorOrigin = anchorOriginRef.value ?? DEFAULT_ANCHOR_ORIGIN;
-    const transformOrigin = transformOriginRef.value ?? DEFAULT_TRANSFORM_ORIGIN;
+    const anchorOrigin = anchorOriginRef.value;
+    const transformOrigin = transformOriginRef.value;
 
     let top =
       anchorRect.top +
@@ -272,7 +273,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
     >
       {paper}
     </div>
-  ) as KTMuiPopover;
+  ) as HTMLDivElement & KTMuiPopover;
 
   document.addEventListener('mousedown', handleDocumentMouseDown);
   document.addEventListener('keydown', handleKeyDown);

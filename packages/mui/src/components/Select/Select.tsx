@@ -19,7 +19,7 @@ export interface KTMuiSelectProps extends KTMuiProps {
 
   value?: KTMaybeReactive<string>;
 
-  options: KTMaybeReactive<KTMuiSelectOption[]>;
+  options: KTMaybeReactive<KTMuiSelectContent[]>;
 
   label?: KTMaybeReactive<string>;
 
@@ -55,12 +55,11 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // # refs
   const isFocusedRef = ref(false);
-  const open = ref(false, (isOpen) => {
+  const open = ref(false).addOnChange((isOpen) => {
     if (isOpen) {
       menu.value.style.display = 'block';
-      void menu.value.offsetHeight; // & Trigger reflow to enable animation
+      void menu.value.offsetHeight;
     } else {
-      // Hide after animation completes
       setTimeout(() => {
         if (!isOpen) {
           menu.value.style.display = 'none';
@@ -74,14 +73,16 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   // # ref props
   const placeholderRef = toReactive(props.placeholder ?? '');
   const labelRef = toReactive(props.label ?? '');
-  const optionsRef = toReactive(props.options, (newOptions) => {
+  const optionsRef = toReactive(props.options).addOnChange((newOptions) => {
     if (!newOptions.find((o) => (o as any)?.value === modelRef.value)) {
       const old = modelRef.value;
       modelRef.value = '';
       onChange(modelRef.value, old);
     }
   });
-  const disabledRef = toReactive(props.disabled ?? false, (v) => container.classList.toggle('mui-select-disabled', v));
+  const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) =>
+    container.classList.toggle('mui-select-disabled', v),
+  );
   const modelRef = $modelOrRef(props, props.value ?? '');
 
   const styleRef = toReactive($parseStyle(props.style));
@@ -138,7 +139,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   }, [modelRef]);
 
   const selectOptions: JSX.Element[] = [];
-  const menu = computed(() => {
+  const menu = computed<HTMLDivElement>(() => {
     return (
       <div class="mui-select-menu" style="display: none;">
         {optionsRef.value.map((o) => {
@@ -158,7 +159,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
           return o as JSX.Element;
         })}
       </div>
-    );
+    ) as HTMLDivElement;
   }, [optionsRef, modelRef]);
 
   // Create container
@@ -184,7 +185,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
       </div>
       {menu}
     </div>
-  ) as KTMuiSelect;
+  ) as HTMLDivElement & KTMuiSelect;
 
   menu.notify();
 

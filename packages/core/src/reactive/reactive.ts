@@ -37,12 +37,9 @@ export class KTReactive<T> {
     return this;
   }
 
-  constructor(_value: T, _onChange?: ChangeHandler<T>) {
+  constructor(_value: T) {
     this._value = _value;
     this._changeHandlers = new Map();
-    if (_onChange) {
-      this._changeHandlers.set(IdGenerator.refOnChangeId, _onChange);
-    }
   }
 
   /**

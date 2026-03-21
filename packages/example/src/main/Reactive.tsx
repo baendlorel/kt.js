@@ -11,8 +11,8 @@ export function Reactivity() {
   const styleRef = ref('width: 10%;height:20px;background-color:#1890ff;transition: width 1s;');
   const styleWidthRef = ref(10);
   setInterval(() => {
-    styleWidthRef.draft = Math.floor(Math.random() * 100);
-    styleRef.draft = `width: ${styleWidthRef.value}%;height:20px;background-color:#1890ff;transition: width 1s;`;
+    styleWidthRef.value = Math.floor(Math.random() * 100);
+    styleRef.value = `width: ${styleWidthRef.value}%;height:20px;background-color:#1890ff;transition: width 1s;`;
   }, 1000);
   const widthTextRef = computed(
     () => i18nText('reactive.attribute.currentWidth', styleWidthRef.value),
@@ -23,7 +23,7 @@ export function Reactivity() {
   let isChildUpdated = false;
   setInterval(() => {
     isChildUpdated = !isChildUpdated;
-    childRef.draft = i18nText(isChildUpdated ? 'reactive.children.updated' : 'reactive.children.initial');
+    childRef.value = i18nText(isChildUpdated ? 'reactive.children.updated' : 'reactive.children.initial');
   }, 1000);
 
   const valueRef = ref(1);
@@ -60,7 +60,7 @@ export function Reactivity() {
   const listenerValueTextRef = listenerValueRef.map((value) => i18nText('reactive.api.listeners.value', value));
   const listenerKey = 'reactive-page-listener';
   const pushListenerLog = (message: string) => {
-    listenerLogsRef.draft.unshift(message);
+    listenerLogsRef.value.unshift(message);
     if (listenerLogsRef.value.length > 8) {
       listenerLogsRef.draft.length = 8;
     }
@@ -74,7 +74,7 @@ export function Reactivity() {
         i18nText('reactive.api.listeners.log.changed', oldValue, newValue, new Date().toLocaleTimeString()),
       );
     }, listenerKey);
-    listenerActiveRef.draft = true;
+    listenerActiveRef.value = true;
     pushListenerLog(i18nText('reactive.api.listeners.log.listenerOn'));
   };
   const disableListener = () => {
@@ -82,11 +82,11 @@ export function Reactivity() {
       return;
     }
     listenerValueRef.removeOnChange(listenerKey);
-    listenerActiveRef.draft = false;
+    listenerActiveRef.value = false;
     pushListenerLog(i18nText('reactive.api.listeners.log.listenerOff'));
   };
   const clearListenerLogs = () => {
-    listenerLogsRef.draft = [];
+    listenerLogsRef.value = [];
   };
 
   return (
@@ -149,10 +149,10 @@ export function Reactivity() {
             <h4 k-html={t('reactive.api.value.title')}></h4>
             <p class="demo-desc" k-html={t('reactive.api.value.description')}></p>
             <div class="demo-flex-gap">
-              <Button variant="contained" color="primary" on:click={() => valueRef.draft--}>
+              <Button variant="contained" color="primary" on:click={() => valueRef.value--}>
                 {t('reactive.api.value.decrement')}
               </Button>
-              <Button variant="contained" color="primary" on:click={() => valueRef.draft++}>
+              <Button variant="contained" color="primary" on:click={() => valueRef.value++}>
                 {t('reactive.api.value.increment')}
               </Button>
             </div>
@@ -168,38 +168,38 @@ export function Reactivity() {
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (priceRef.draft = Math.max(0, priceRef.value - 10))}
+                on:click={() => (priceRef.value = Math.max(0, priceRef.value - 10))}
               >
                 {t('reactive.api.map.priceMinus')}
               </Button>
-              <Button variant="contained" color="primary" on:click={() => (priceRef.draft += 10)}>
+              <Button variant="contained" color="primary" on:click={() => (priceRef.value += 10)}>
                 {t('reactive.api.map.pricePlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (discountRef.draft = Math.max(0, discountRef.value - 5))}
+                on:click={() => (discountRef.value = Math.max(0, discountRef.value - 5))}
               >
                 {t('reactive.api.map.discountMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (discountRef.draft = Math.min(90, discountRef.value + 5))}
+                on:click={() => (discountRef.value = Math.min(90, discountRef.value + 5))}
               >
                 {t('reactive.api.map.discountPlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (taxRef.draft = Math.max(0, taxRef.value - 1))}
+                on:click={() => (taxRef.value = Math.max(0, taxRef.value - 1))}
               >
                 {t('reactive.api.map.taxMinus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                on:click={() => (taxRef.draft = Math.min(30, taxRef.value + 1))}
+                on:click={() => (taxRef.value = Math.min(30, taxRef.value + 1))}
               >
                 {t('reactive.api.map.taxPlus')}
               </Button>
@@ -222,7 +222,7 @@ export function Reactivity() {
               <Button variant="contained" color="primary" on:click={disableListener}>
                 {t('reactive.api.listeners.disable')}
               </Button>
-              <Button variant="contained" color="primary" on:click={() => listenerValueRef.draft++}>
+              <Button variant="contained" color="primary" on:click={() => listenerValueRef.value++}>
                 {t('reactive.api.listeners.bump')}
               </Button>
               <Button variant="contained" color="primary" on:click={clearListenerLogs}>

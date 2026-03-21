@@ -3,16 +3,13 @@ import type { JSX } from '../types/jsx.js';
 import { isKT } from './core.js';
 import { ref } from './ref.js';
 
-export const toReactive = <T>(value: T | KTReactive<T>, onChange?: ChangeHandler<T>): KTReactive<T> => {
-  if (isKT(value)) {
-    if (onChange) {
-      value.addOnChange(onChange);
-    }
-    return value;
-  } else {
-    return ref(value as T, onChange) as KTReactive<T>;
-  }
-};
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const toReactive = <T>(value: T | KTReactive<T>): KTReactive<T> =>
+  isKT(value) ? value : (ref(value as T) as KTReactive<T>);
 
 /**
  * Extracts the value from a KTReactive, or returns the value directly if it's not reactive.

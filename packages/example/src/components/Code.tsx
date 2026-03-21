@@ -1,4 +1,4 @@
-import { computed, ref } from 'kt.js';
+import { ref } from 'kt.js';
 import { highlight, highlightDark } from '../common/highlight.js';
 import { state } from '../common/state.js';
 
@@ -44,11 +44,11 @@ export function Code(props: CodeProps) {
       return;
     }
 
-    copied.draft = true;
+    copied.value = true;
     if (copiedTimer !== undefined) {
       clearTimeout(copiedTimer);
     }
-    copiedTimer = window.setTimeout(() => (copied.draft = false), 1200);
+    copiedTimer = window.setTimeout(() => (copied.value = false), 1200);
   };
 
   return (

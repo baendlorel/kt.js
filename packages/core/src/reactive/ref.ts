@@ -43,7 +43,7 @@ export class KTRef<T> extends KTReactive<T> {
  * @param onChange event handler triggered when the value changes, with signature `(newValue, oldValue) => void`
  * @returns
  */
-export const ref = <T = JSX.Element>(value?: T, onChange?: ChangeHandler<T>) => new KTRef(value as any, onChange);
+export const ref = <T = JSX.Element>(value?: T) => new KTRef(value as any);
 
 /**
  * Assert k-model to be a ref object

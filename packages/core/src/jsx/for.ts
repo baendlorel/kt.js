@@ -159,7 +159,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   };
 
   const { key: currentKey = (item: T) => item, map: currentMap = $identity } = props;
-  const listRef = toReactive(props.list, redraw);
+  const listRef = toReactive(props.list).addOnChange(redraw);
   const anchor = document.createComment('kt-for') as unknown as KTForElement;
 
   // Map to track rendered nodes by key

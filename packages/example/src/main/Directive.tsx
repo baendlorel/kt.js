@@ -18,14 +18,14 @@ export function Directives() {
 
   setInterval(() => {
     const time = new Date().toLocaleTimeString();
-    kmodelText.draft = i18nText('directives.model.updatedAt', time);
+    kmodelText.value = i18nText('directives.model.updatedAt', time);
   }, 1000);
 
   setInterval(() => {
     const color = Math.floor(Math.random() * 0xffffff)
       .toString(16)
       .padStart(6, '0');
-    khtmlContent.draft = `<span style="color: #${color};">${i18nText('directives.html.initialContent')}</span>`;
+    khtmlContent.value = `<span style="color: #${color};">${i18nText('directives.html.initialContent')}</span>`;
   }, 1000);
 
   return (
@@ -35,13 +35,13 @@ export function Directives() {
         <h4 k-html={t('directives.ifElse.title')}></h4>
         <p k-html={t('directives.ifElse.description')}></p>
         <div class="demo-flex-gap">
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.draft = true)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = true)}>
             {t('directives.ifElse.showIf')}
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.draft = false)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = false)}>
             {t('directives.ifElse.showElse')}
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (kifFlag.draft = !kifFlag.value)}>
+          <Button variant="contained" color="primary" on:click={() => (kifFlag.value = !kifFlag.value)}>
             {t('directives.ifElse.toggle')}
           </Button>
         </div>

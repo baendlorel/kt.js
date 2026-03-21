@@ -23,30 +23,30 @@ export function Events() {
             <Button
               variant="contained"
               color="primary"
-              on:click={() => (outputRef.draft = i18nText('events.output.clickedAt', new Date().toLocaleTimeString()))}
+              on:click={() => (outputRef.value = i18nText('events.output.clickedAt', new Date().toLocaleTimeString()))}
             >
               {t('events.button.click')}
             </Button>
             <Button
               variant="contained"
               color="primary"
-              on:dblclick={() => (outputRef.draft = i18nText('events.output.doubleClicked'))}
+              on:dblclick={() => (outputRef.value = i18nText('events.output.doubleClicked'))}
             >
               {t('events.button.doubleClick')}
             </Button>
             <Button
               variant="contained"
               color="primary"
-              on:mouseenter={() => (outputRef.draft = i18nText('events.output.mouseEntered'))}
-              on:mouseleave={() => (outputRef.draft = i18nText('events.output.mouseLeft'))}
+              on:mouseenter={() => (outputRef.value = i18nText('events.output.mouseEntered'))}
+              on:mouseleave={() => (outputRef.value = i18nText('events.output.mouseLeft'))}
             >
               {t('events.button.hover')}
             </Button>
             <Button
               variant="contained"
               color="primary"
-              on:focus={() => (outputRef.draft = i18nText('events.output.focused'))}
-              on:blur={() => (outputRef.draft = i18nText('events.output.blurred'))}
+              on:focus={() => (outputRef.value = i18nText('events.output.focused'))}
+              on:blur={() => (outputRef.value = i18nText('events.output.blurred'))}
             >
               {t('events.button.focus')}
             </Button>
@@ -63,16 +63,16 @@ export function Events() {
           <div style="width:200px; font-size: 2rem; font-weight: bold; color: #667eea;">
             {i18nText('events.counter.label')} {counterRef}
           </div>
-          <Button variant="contained" color="primary" on:click={() => counterRef.draft--}>
+          <Button variant="contained" color="primary" on:click={() => counterRef.value--}>
             -1
           </Button>
-          <Button variant="contained" color="primary" on:click={() => counterRef.draft++}>
+          <Button variant="contained" color="primary" on:click={() => counterRef.value++}>
             +1
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (counterRef.draft += 10)}>
+          <Button variant="contained" color="primary" on:click={() => (counterRef.value += 10)}>
             +10
           </Button>
-          <Button variant="contained" color="primary" on:click={() => (counterRef.draft = 0)}>
+          <Button variant="contained" color="primary" on:click={() => (counterRef.value = 0)}>
             {t('events.counter.reset')}
           </Button>
         </div>

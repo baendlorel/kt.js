@@ -9,6 +9,7 @@ import {
 } from './completion';
 import { DIAGNOSTIC_CANNOT_FIND_NAME } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
+import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
 import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
 import { getKForQuickInfoAtPosition } from './quickinfo';
@@ -35,24 +36,36 @@ function init(modules: { typescript: typeof tsModule }) {
         return diagnostics;
       }
 
-      const analysis = getFileAnalysis(fileName, languageService, ts, config);
-      if (!analysis) {
+      const program = languageService.getProgram();
+      const sourceFile = program?.getSourceFile(fileName);
+      const checker = program?.getTypeChecker();
+      if (!sourceFile || !checker) {
         return diagnostics;
       }
 
-      return diagnostics.filter((diagnostic) => {
-        // $ origin is diagnostic.start == null and diagnostic.length == null
-        if (diagnostic.code !== DIAGNOSTIC_CANNOT_FIND_NAME || !diagnostic.start || !diagnostic.length) {
-          return true;
-        }
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      const filteredDiagnostics = analysis?.scopes.length
+        ? diagnostics.filter((diagnostic) => {
+            // $ origin is diagnostic.start == null and diagnostic.length == null
+            if (diagnostic.code !== DIAGNOSTIC_CANNOT_FIND_NAME || !diagnostic.start || !diagnostic.length) {
+              return true;
+            }
 
-        const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
-        if (!isValidIdentifier(name)) {
-          return true;
-        }
+            const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+            if (!isValidIdentifier(name)) {
+              return true;
+            }
 
-        return !isSuppressed(diagnostic.start, name, analysis.scopes);
-      });
+            return !isSuppressed(diagnostic.start, name, analysis.scopes);
+          })
+        : diagnostics;
+
+      const draftDiagnostics = getDraftEscapeDiagnostics(sourceFile, checker, ts);
+      if (draftDiagnostics.length === 0) {
+        return filteredDiagnostics;
+      }
+
+      return [...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...draftDiagnostics])];
     };
 
     proxy.getEncodedSemanticClassifications = (

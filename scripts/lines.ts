@@ -4,7 +4,7 @@ import path from 'node:path';
 const ROOT = path.resolve('./packages');
 
 const INCLUDE = ['**/*.{ts,tsx,css}'];
-const EXCLUDE = ['**/node_modules/**', '**/dist/**', '**/*.test.{ts,tsx}'];
+const EXCLUDE = ['**/node_modules/**', '**/dist/**', '**/*.test.{ts,tsx}', '**/mui-icon/src/icons/**'];
 
 let totalLines = 0;
 let fileCount = 0;

@@ -11,6 +11,7 @@ export async function check(who: string | undefined) {
     const configJson = path.join(pkg.path, 'tsconfig.json');
     const jsonPath = existsSync(configBuildJson) ? configBuildJson : configJson;
     try {
+      execSync(`clear`);
       execSync(`tsc --project ${JSON.stringify(jsonPath)} --noEmit`, { stdio: 'inherit', env: pkg.env });
     } catch {
       // do nothing, the error is already printed by tsc

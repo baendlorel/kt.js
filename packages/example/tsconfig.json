@@ -1,5 +1,12 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["*.tsx", "*.ts", "./src/**/*.tsx", "./src/**/*.ts"],
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist"
+  },
+  "include": ["./global.d.ts", "./src/**/*.tsx", "./src/**/*.ts"],
+  "exclude": ["./dist"],
   "references": [{ "path": "../core" }, { "path": "../mui" }]
 }

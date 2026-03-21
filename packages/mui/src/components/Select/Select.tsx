@@ -30,6 +30,11 @@ export interface KTMuiSelectProps extends KTMuiProps {
   disabled?: KTMaybeReactive<boolean>;
 
   'on:change'?: (value: string) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiSelect = JSX.Element & {};

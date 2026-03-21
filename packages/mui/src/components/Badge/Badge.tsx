@@ -27,6 +27,11 @@ export interface KTMuiBadgeProps extends KTMuiProps {
   variant?: KTMaybeReactive<KTMuiBadgeVariant>;
   overlap?: KTMaybeReactive<KTMuiBadgeOverlap>;
   anchorOrigin?: KTMaybeReactive<KTMuiBadgeAnchorOrigin>;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiBadge = JSX.Element & {};

@@ -18,6 +18,11 @@ export interface KTMuiRadioProps extends KTMuiProps {
   'on:change'?: (checked: boolean, value: string) => void;
   disabled?: boolean;
   color?: KTMuiRadioColor;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export interface KTMuiRadioGroupProps extends KTMuiProps {
@@ -26,8 +31,12 @@ export interface KTMuiRadioGroupProps extends KTMuiProps {
   size?: KTMuiRadioSize;
   options: KTMuiRadioProps[];
   'on:change'?: (value: string) => void;
-  'on:click'?: (checked: boolean) => void;
   row?: boolean;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiRadio = JSX.Element & {

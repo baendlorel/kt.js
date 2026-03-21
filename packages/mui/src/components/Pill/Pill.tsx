@@ -21,6 +21,12 @@ export interface KTMuiPillProps extends KTMuiProps {
   autoRemoveOnDelete?: KTMaybeReactive<boolean>;
   'on:click'?: (event: MouseEvent) => void;
   'on:delete'?: (event: MouseEvent) => void | boolean;
+
+  // # native events
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
+  'on:focus'?: (event: FocusEvent) => void;
+  'on:blur'?: (event: FocusEvent) => void;
 }
 
 export type KTMuiPill = JSX.Element & {};

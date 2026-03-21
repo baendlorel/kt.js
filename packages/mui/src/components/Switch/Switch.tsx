@@ -19,6 +19,9 @@ export interface KTMuiSwitchProps extends KTMuiProps {
   size?: KTMaybeReactive<KTMuiSwitchSize>;
 
   'on:change'?: (checked: boolean, value?: string) => void;
+
+  // # native events
+  // intentionally omitted: switch uses a label + input pair and does not promise generic root event passthrough.
 }
 
 export type KTMuiSwitch = JSX.Element & {};

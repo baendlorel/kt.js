@@ -49,6 +49,9 @@ export interface KTMuiPopoverProps extends KTMuiProps {
   elevation?: KTMaybeReactive<number>;
 
   'on:close'?: (reason: KTMuiPopoverCloseReason) => void;
+
+  // # native events
+  // intentionally omitted: popover is a composite floating component and does not promise generic root event passthrough.
 }
 
 export type KTMuiPopover = JSX.Element & {};

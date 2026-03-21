@@ -15,6 +15,11 @@ export interface KTMuiCheckboxGroupProps extends Omit<KTMuiProps, 'children'> {
   options: KTMaybeReactive<Array<Omit<KTMuiCheckboxProps, 'value'> & { value: string }>>;
   row?: KTMaybeReactive<boolean>;
   'on:change'?: (values: string[]) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiCheckboxGroup = JSX.Element & {};

@@ -35,6 +35,9 @@ export interface KTMuiMenuProps extends KTMuiProps {
   disableAutoFocusItem?: KTMaybeReactive<boolean>;
   'on:close'?: (reason: KTMuiMenuCloseReason) => void;
   'on:select'?: (value: string, option: KTMuiMenuOption) => void;
+
+  // # native events
+  // intentionally omitted: menu is a composite popup component and does not promise generic root event passthrough.
 }
 
 export type KTMuiMenu = JSX.Element & {};

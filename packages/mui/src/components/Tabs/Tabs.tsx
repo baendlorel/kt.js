@@ -26,6 +26,11 @@ export interface KTMuiTabsProps extends KTMuiProps {
   orientation?: KTMaybeReactive<KTMuiTabsOrientation>;
   centered?: KTMaybeReactive<boolean>;
   'on:change'?: (value: string, oldValue: string, index: number, option?: KTMuiTabOption) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiTabs = JSX.Element & {};

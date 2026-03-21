@@ -40,6 +40,11 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
   component?: KTMuiFormLabelComponent;
 
   htmlFor?: KTMaybeReactive<string>;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 /**

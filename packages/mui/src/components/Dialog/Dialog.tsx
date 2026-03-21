@@ -34,6 +34,9 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
   mode?: KTMaybeReactive<'dialog' | 'div'>;
 
   'on:close'?: () => void;
+
+  // # native events
+  // intentionally omitted: dialog is a composite overlay component and does not promise generic root event passthrough.
 }
 
 export type KTMuiDialog = JSX.Element;

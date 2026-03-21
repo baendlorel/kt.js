@@ -18,6 +18,11 @@ export interface KTMuiBottomNavigationProps extends KTMuiProps {
   options: KTMaybeReactive<KTMuiBottomNavigationAction[]>;
   showLabels?: KTMaybeReactive<boolean>;
   'on:change'?: (value: string, oldValue: string, index: number, option?: KTMuiBottomNavigationAction) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiBottomNavigation = JSX.Element & {};

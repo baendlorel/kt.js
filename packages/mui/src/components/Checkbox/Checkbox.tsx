@@ -17,6 +17,11 @@ export interface KTMuiCheckboxProps extends Omit<KTMuiProps, 'children'> {
   color?: KTMaybeReactive<KTMuiCheckboxColor>;
   indeterminate?: KTMaybeReactive<boolean>;
   'on:change'?: (checked: boolean, value: string) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiCheckbox = JSX.Element & {

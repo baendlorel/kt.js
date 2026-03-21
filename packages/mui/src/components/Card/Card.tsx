@@ -13,7 +13,11 @@ export interface KTMuiCardProps extends KTMuiProps {
   elevation?: number | KTReactive<number>;
   square?: boolean | KTReactive<boolean>;
   raised?: boolean | KTReactive<boolean>;
-  'on:click'?: (event: PointerEvent) => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiCard = JSX.Element & {};

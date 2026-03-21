@@ -30,6 +30,11 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
   'on:change'?: ChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;
   'on:focus'?: () => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiTextField = JSX.Element;

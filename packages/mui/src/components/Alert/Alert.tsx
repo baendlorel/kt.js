@@ -48,6 +48,11 @@ interface KTMuiAlertProps extends KTMuiProps {
    * Callback fired when the component requests to be closed. If provided, a close icon button will be displayed.
    */
   'on:close'?: () => void;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 const severityToIcon = {

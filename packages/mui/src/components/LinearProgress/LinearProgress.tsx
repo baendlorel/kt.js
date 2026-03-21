@@ -26,6 +26,11 @@ interface LinearProgressProps extends KTMuiProps {
    * The color of the component. It supports those theme colors that make sense for this component.
    */
   color?: KTMaybeReactive<KTMuiLinearProgressColor>;
+
+  // # native events
+  'on:click'?: (event: MouseEvent) => void;
+  'on:mouseenter'?: (event: MouseEvent) => void;
+  'on:mouseleave'?: (event: MouseEvent) => void;
 }
 
 export type KTMuiLinearProgress = JSX.Element & {

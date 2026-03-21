@@ -43,7 +43,15 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
             stripInternal: true,
           },
         }),
-        void terser(),
+        terser({
+          compress: {
+            dead_code: true,
+          },
+          mangle: false,
+          output: {
+            beautify: true,
+          },
+        }),
       ].filter(Boolean),
       external: [/^@ktjs\//, /^@babel\//],
     },
@@ -118,6 +126,7 @@ interface CommonPackageJson {
 
 export const globalDefines = {
   'process.env.BASE_URL': JSON.stringify('/'),
+  'process.env.IS_DEV': JSON.stringify('false'),
   'flags.svg': JSON.stringify('__svg'),
   'flags.mathml': JSON.stringify('__mathml'),
 };

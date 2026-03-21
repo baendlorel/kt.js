@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { type JSX, ref } from '@ktjs/core';
 import { Fragment, convertChildrenToElements } from '../src/jsx/fragment.js';
 import { h } from '../src/h/index.js';
-import { ref } from '@ktjs/core';
 
 describe('Fragment Component', () => {
   let container: HTMLDivElement;
@@ -243,12 +243,7 @@ describe('convertChildrenToElements', () => {
   });
 
   it('should warn on unsupported types', () => {
-    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
     const unsupportedObject = { foo: 'bar' };
-    convertChildrenToElements(unsupportedObject as any);
-
-    expect(consoleWarnSpy).toHaveBeenCalledWith('Fragment: unsupported child type', unsupportedObject);
-    consoleWarnSpy.mockRestore();
+    expect(() => convertChildrenToElements(unsupportedObject as any)).toThrow(/Fragment: unsupported child type/);
   });
 });

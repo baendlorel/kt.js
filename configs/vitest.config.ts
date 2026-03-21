@@ -6,6 +6,7 @@ export default defineConfig(() => {
   const packageDir = process.env.CURRENT_PKG_PATH || path.join(import.meta.dirname, '..', '(packages|plugins)');
   return {
     test: {
+      setupFiles: [path.join(import.meta.dirname, 'vitest.setup.ts')],
       environment: 'jsdom',
       // setupFiles: ['./src/macros.ts'],
       include: [path.join(packageDir, '**', '*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)')],
@@ -17,7 +18,7 @@ export default defineConfig(() => {
       ],
       silent: false,
     },
-    define: globalDefines,
+    define: { ...globalDefines, 'process.env.IS_DEV': JSON.stringify('true') },
     resolve: { alias: getAliases() },
   };
 });

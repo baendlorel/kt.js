@@ -33,7 +33,7 @@ if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED])
   };
 }
 
-export interface FragmentProps<T extends HTMLElement = HTMLElement> {
+export interface FragmentProps<T extends JSX.Element = JSX.Element> {
   /** Array of child elements, supports reactive arrays */
   children: T[] | KTReactive<T[]>;
 
@@ -63,7 +63,7 @@ export interface FragmentProps<T extends HTMLElement = HTMLElement> {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment<T extends HTMLElement = HTMLElement>(props: FragmentProps<T>): JSX.Element {
+export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentProps<T>): JSX.Element {
   const elements: T[] = [];
   const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
   let inserted = false;
@@ -184,6 +184,9 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
     }
 
     $warn('Fragment: unsupported child type', child);
+    if (process.env.IS_DEV) {
+      throw new Error(`Fragment: unsupported child type`);
+    }
   };
 
   processChild(children);

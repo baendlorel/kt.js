@@ -16,10 +16,10 @@
 
 ## Recent Updates
 
-1. `refObject.value` is now split into read-only `refObject.state` and writable `refObject.mutable`.
-2. `mutable` is a transient write view: do not cache it, destructure it, return it, or carry it across `await`.
-3. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
-4. KT.js expects the transformer and TypeScript rules to reject ambiguous patterns at compile time; runtime hot paths intentionally avoid defensive guards for performance.
+1. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
+2. `ref.draft` is the deep-mutation entry for nested objects, arrays, `Map` / `Set`, and custom mutable objects.
+3. `ref.draft` itself is not assignable; mutate nested fields or call mutating methods on the returned object instead.
+4. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Community
 
@@ -35,16 +35,27 @@ KT.js focuses on one principle: keep direct control of the DOM and avoid unneces
 ## Reactive Contract
 
 ```ts
-const user = ref({ profile: { name: 'John' } });
+const user = ref({ profile: { name: 'John' }, tags: ['new'] });
 
-console.log(user.state.profile.name); // read
-user.mutable.profile.name = 'Jane'; // write
+console.log(user.value.profile.name); // read
+
+user.value = {
+  ...user.value,
+  profile: { ...user.value.profile, name: 'Jane' },
+  tags: [...user.value.tags],
+}; // replace the whole outer value
+
+user.draft.profile.name = 'Jane'; // deep write
+user.draft.tags.push('active'); // array / map / set / custom-object style mutation
 ```
 
 Rules:
 
-- Read with `.state`, write with `.mutable`.
-- Do not cache `const x = ref.mutable`, destructure it, return it, or carry it across `await`.
+- Read with `.value`.
+- Replace the whole outer value with `.value = nextValue`.
+- Use `.draft` for deep mutations on nested objects, arrays, `Map` / `Set`, or other mutable instances.
+- Do not assign to `.draft` itself; mutate inside it.
+- `computed` stays read-only and is consumed through `.value`.
 - `oldValue` in change listeners is the previous reference only, not a deep-cloned snapshot.
 - Correctness is expected to come from the transformer and TypeScript checks; runtime hot paths stay minimal on purpose.
 

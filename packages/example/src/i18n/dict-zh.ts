@@ -45,12 +45,16 @@ export const zh = {
     '若要让你的项目完整兼容 IE11，需要使用 Babel 对代码进行转译并引入必要的 polyfill。下面是示例使用的 Vite 配置：',
   'reactive.section.title': '<code>ref</code> 与 <code>computed</code>',
   'reactive.section.description':
-    '<code>ref()</code> 负责创建普通 <code>KTRef</code>，<code>computed</code> 的依赖仍需手动声明。',
-  'reactive.ref.overview': '当前会自动特化的常见类型：',
+    '<code>ref()</code> 创建普通 <code>KTRef</code>。读取统一使用 <code>value</code>；整体替换时写 <code>ref.value = nextValue</code>；深层对象、数组、<code>Map</code> / <code>Set</code> 或自定义可变对象内部修改时使用 <code>ref.draft</code>。<code>computed</code> 的依赖仍需手动声明。',
+  'reactive.ref.overview': 'Ref 使用场景：',
+  'reactive.ref.item.value':
+    '<code>value</code> 用于读取当前值，也用于整体覆盖写入：<code>a.value = newValue</code>。',
   'reactive.ref.item.array':
-    '可直接调用 <code>push</code>、<code>splice</code>、<code>sort</code> 等方法，并自动触发一次更新。',
+    '深层对象或数组要走 <code>draft</code>：例如 <code>a.draft.user.name = "Jane"</code>、<code>a.draft.list.push(item)</code>。',
   'reactive.ref.item.mapSet':
-    '可直接调用 <code>set</code>、<code>add</code>、<code>delete</code>、<code>clear</code>，不必手写 <code>notify()</code>。',
+    '<code>Map</code> / <code>Set</code> / 自定义可变对象同样应通过 <code>draft</code> 修改，而不是直接改 <code>value</code> 内部。',
+  'reactive.ref.item.computed':
+    '<code>computed</code> 继续通过 <code>value</code> 读取结果，本身只读，没有 <code>draft</code>。',
   'reactive.ref.item.weak': 'Weak 容器同样会自动包装，适合只通过对象引用管理状态的场景。',
   'reactive.ref.item.date':
     '调用 <code>setFullYear</code>、<code>setUTCFullYear</code> 等 setter 后会自动发出变化通知。',
@@ -63,19 +67,30 @@ export const zh = {
   'reactive.children.updated': '已更新子节点',
   'reactive.api.title': 'KTReactive 公共方法',
   'reactive.api.description':
-    '下面按方法展示 <code>KTReactive</code> 的常见用法，示例基于 <code>ref</code>，同样适用于 <code>computed</code>。',
+    '下面按方法展示 <code>KTReactive</code> 的常见用法：<code>ref</code> 重点看 <code>value</code> / <code>draft</code>，<code>computed</code> 继续通过 <code>value</code> 读取且保持只读。',
   'reactive.api.overview': '核心 API 一览：',
-  'reactive.api.method.value': '读取或设置当前响应式值。',
+  'reactive.api.method.value': '读取当前值，也用于覆盖整个外层值，例如 <code>ref.value = nextValue</code>。',
+  'reactive.api.method.draft':
+    '用于深层响应式修改；只能改内部内容，不能整体赋值。允许 <code>ref.draft.user.name = "Jane"</code>，不允许 <code>ref.draft = nextValue</code>。',
   'reactive.api.method.notify': '强制触发监听器。',
   'reactive.api.method.map': '基于当前 reactive 派生 <code>computed</code>，可附加额外依赖。',
   'reactive.api.method.addOnChange': '注册值变化监听，可选自定义 key。',
   'reactive.api.method.removeOnChange': '按 key 移除监听器。',
-  'reactive.api.value.title': '<code>state</code>读，<code>mutable</code>写',
-  'reactive.api.value.description': '写 <code>mutable</code> 即可触发响应式更新。',
+  'reactive.api.value.title': '<code>value</code>：读取 + 整体替换',
+  'reactive.api.value.description':
+    '适合读取当前值，或直接用 <code>ref.value = nextValue</code> 覆盖整个外层值。像 <code>ref.value.user.name = "Jane"</code> 这样的深层修改不会被 <code>value</code> 追踪。',
   'reactive.api.value.current': '当前值：{{1}}',
   'reactive.api.value.double': '两倍结果（map）：{{1}}',
   'reactive.api.value.decrement': '-1',
   'reactive.api.value.increment': '+1',
+  'reactive.api.draft.title': '<code>draft</code>：深层响应式修改',
+  'reactive.api.draft.description':
+    '深层对象、数组、<code>Map</code> / <code>Set</code> 或自定义可变对象都应该通过 <code>draft</code> 修改。只能写内部字段或调用变异方法，不能写 <code>ref.draft = nextValue</code>。',
+  'reactive.api.draft.summary': '名称：{{1}}；访问次数：{{2}}；标签：{{3}}',
+  'reactive.api.draft.replace': '整体替换 name',
+  'reactive.api.draft.bumpVisits': '访问次数 +1',
+  'reactive.api.draft.addTag': '添加标签',
+  'reactive.api.draft.removeTag': '删除最后标签',
   'reactive.api.map.title': '<code>map</code>',
   'reactive.api.map.description': '可从当前值派生 computed，并通过第二个参数声明额外依赖（如折扣与税率）。',
   'reactive.api.map.price': '原价：{{1}}',

@@ -197,7 +197,7 @@ void injectGlobal`
     0px 3px 14px 2px rgba(0, 0, 0, 0.12);
   max-height: 300px;
   overflow-y: auto;
-  padding: 8px 0;
+  padding: 3px 0;
   display: none;
   opacity: 0;
   transform: scale(0.75) translateY(-8px);

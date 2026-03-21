@@ -6,9 +6,9 @@ export function MuiSelectDemo() {
   const selectedValue = ref<string>('apple');
 
   const options = ref<KTMuiSelectContent[]>([
-    <h4 style="color:gray; margin: 15px 5px 12px 5px">Small Fruits</h4>,
+    <h4 style="color:gray; margin: 15px 15px 12px 15px">Small Fruits</h4>,
     { value: 'grape', label: 'Grape' },
-    <h4 style="color:gray; margin: 15px 5px 12px 5px">Big Fruits</h4>,
+    <h4 style="color:gray; margin: 15px 15px 12px 15px">Big Fruits</h4>,
     { value: 'mango', label: 'Mango' },
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -20,7 +20,13 @@ export function MuiSelectDemo() {
       <h2>Select Component</h2>
       <p class="demo-desc">Select components let users pick a value from a list.</p>
 
-      <Select k-model={selectedValue} label="Fruits" placeholder="Select a fruit" options={options}></Select>
+      <Select
+        k-model={selectedValue}
+        style="width:100%"
+        label="Fruits"
+        placeholder="Select a fruit"
+        options={options}
+      ></Select>
       <div class="demo-btn-group">
         <Button on:click={() => (options.value = [{ label: 'Watermelon', value: 'watermelon' }])}>
           Change Options

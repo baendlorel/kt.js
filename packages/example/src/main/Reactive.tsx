@@ -30,6 +30,17 @@ export function Reactivity() {
   const valueTextRef = valueRef.map((value) => i18nText('reactive.api.value.current', value));
   const valueDoubleTextRef = valueRef.map((value) => i18nText('reactive.api.value.double', value * 2));
 
+  const profileRef = ref({
+    user: {
+      name: 'KT.js',
+      visits: 1,
+    },
+    tags: ['direct-dom'],
+  });
+  const profileSummaryRef = profileRef.map((value) =>
+    i18nText('reactive.api.draft.summary', value.user.name, value.user.visits, value.tags.join(' / ')),
+  );
+
   const priceRef = ref(120);
   const discountRef = ref(10);
   const taxRef = ref(6);
@@ -60,9 +71,10 @@ export function Reactivity() {
   const listenerValueTextRef = listenerValueRef.map((value) => i18nText('reactive.api.listeners.value', value));
   const listenerKey = 'reactive-page-listener';
   const pushListenerLog = (message: string) => {
-    listenerLogsRef.value.unshift(message);
-    if (listenerLogsRef.value.length > 8) {
-      listenerLogsRef.draft.length = 8;
+    const logs = listenerLogsRef.draft;
+    logs.unshift(message);
+    if (logs.length > 8) {
+      logs.length = 8;
     }
   };
   const enableListener = () => {
@@ -88,12 +100,52 @@ export function Reactivity() {
   const clearListenerLogs = () => {
     listenerLogsRef.value = [];
   };
+  const replaceProfileName = () => {
+    const nextName = profileRef.value.user.name === 'KT.js' ? 'KT.js Next' : 'KT.js';
+    profileRef.value = {
+      ...profileRef.value,
+      user: {
+        ...profileRef.value.user,
+        name: nextName,
+      },
+      tags: [...profileRef.value.tags],
+    };
+  };
+  const bumpVisits = () => {
+    profileRef.draft.user.visits += 1;
+  };
+  const addTag = () => {
+    profileRef.draft.tags.push(`tag-${profileRef.value.tags.length + 1}`);
+  };
+  const removeTag = () => {
+    if (profileRef.value.tags.length <= 1) {
+      return;
+    }
+    profileRef.draft.tags.pop();
+  };
 
   return (
     <div>
       <div class="demo-section">
         <h3 k-html={t('reactive.section.title')}></h3>
         <p k-html={t('reactive.section.description')}></p>
+        <div class="demo-block">
+          <p class="demo-desc" k-html={t('reactive.ref.overview')}></p>
+          <ul class="reactive-api-method-list">
+            <li>
+              <p k-html={t('reactive.ref.item.value')}></p>
+            </li>
+            <li>
+              <p k-html={t('reactive.ref.item.array')}></p>
+            </li>
+            <li>
+              <p k-html={t('reactive.ref.item.mapSet')}></p>
+            </li>
+            <li>
+              <p k-html={t('reactive.ref.item.computed')}></p>
+            </li>
+          </ul>
+        </div>
         <Code code={reactiveCode} />
       </div>
       <div class="demo-section">
@@ -118,6 +170,10 @@ export function Reactivity() {
             <li>
               <code>value: T</code>
               <p k-html={t('reactive.api.method.value')}></p>
+            </li>
+            <li>
+              <code>draft: T</code>
+              <p k-html={t('reactive.api.method.draft')}></p>
             </li>
             <li>
               <code>notify(handlerKeys?: (string | number)[]): void</code>
@@ -160,6 +216,30 @@ export function Reactivity() {
               <div>{valueTextRef}</div>
               <div>{valueDoubleTextRef}</div>
             </div>
+          </div>
+          <div class="demo-block reactive-api-card">
+            <h4 k-html={t('reactive.api.draft.title')}></h4>
+            <p class="demo-desc" k-html={t('reactive.api.draft.description')}></p>
+            <div class="demo-flex-gap">
+              <Button variant="contained" color="primary" on:click={replaceProfileName}>
+                {t('reactive.api.draft.replace')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={bumpVisits}>
+                {t('reactive.api.draft.bumpVisits')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={addTag}>
+                {t('reactive.api.draft.addTag')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={removeTag}>
+                {t('reactive.api.draft.removeTag')}
+              </Button>
+            </div>
+            <div class="demo-result">
+              <div>{profileSummaryRef}</div>
+            </div>
+            <Code
+              code={`profileRef.value = { ...profileRef.value, user: { ...profileRef.value.user, name: 'KT.js Next' } }\nprofileRef.draft.user.visits += 1\nprofileRef.draft.tags.push('tag-2')`}
+            />
           </div>
           <div class="demo-block reactive-api-card">
             <h4 k-html={t('reactive.api.map.title')}></h4>

@@ -50,12 +50,16 @@ export const en: typeof zh = {
     'To make your project fully compatible with IE11, we need to transpile the code with Babel and include necessary polyfills. Below is the Vite configuration used for this purpose:',
   'reactive.section.title': '<code>ref</code> and <code>computed</code>',
   'reactive.section.description':
-    '<code>ref()</code> creates a plain <code>KTRef</code>. <code>computed</code> dependencies still need to be declared manually.',
-  'reactive.ref.overview': 'Currently auto-specialized built-ins:',
+    '<code>ref()</code> creates a plain <code>KTRef</code>. Read with <code>value</code>; replace the whole outer value with <code>ref.value = nextValue</code>; use <code>ref.draft</code> for deep changes inside nested objects, arrays, <code>Map</code> / <code>Set</code>, or custom mutable objects. <code>computed</code> dependencies still need to be declared manually.',
+  'reactive.ref.overview': 'Ref quick guide:',
+  'reactive.ref.item.value':
+    '<code>value</code> is for reading the current value and replacing the whole outer value: <code>a.value = newValue</code>.',
   'reactive.ref.item.array':
-    'Call <code>push</code>, <code>splice</code>, <code>sort</code>, and similar methods directly on the ref and emit once automatically.',
+    'Use <code>draft</code> for deep object or array changes, for example <code>a.draft.user.name = "Jane"</code> or <code>a.draft.list.push(item)</code>.',
   'reactive.ref.item.mapSet':
-    'Call <code>set</code>, <code>add</code>, <code>delete</code>, or <code>clear</code> without writing <code>notify()</code> yourself.',
+    '<code>Map</code> / <code>Set</code> / custom mutable objects should also be changed through <code>draft</code>, not by mutating inside <code>value</code>.',
+  'reactive.ref.item.computed':
+    '<code>computed</code> is still read through <code>value</code>; it stays read-only and has no <code>draft</code>.',
   'reactive.ref.item.weak':
     'Weak containers are wrapped too, which is useful when state is keyed only by object identity.',
   'reactive.ref.item.date':
@@ -69,22 +73,33 @@ export const en: typeof zh = {
   'reactive.children.updated': 'Updated Child',
   'reactive.api.title': 'KTReactive Public Methods',
   'reactive.api.description':
-    'The following blocks explain each <code>KTReactive</code> public method in practice. Demos are based on <code>ref</code>, and also apply to <code>computed</code>.',
+    'The following blocks explain each <code>KTReactive</code> public method in practice: for <code>ref</code>, focus on <code>value</code> / <code>draft</code>; <code>computed</code> is still read through <code>value</code> and stays read-only.',
   'reactive.api.overview': 'Core API overview:',
-  'reactive.api.method.value': 'Read or set the current reactive value.',
+  'reactive.api.method.value': 'Read the current value, and also replace the whole outer value with <code>ref.value = nextValue</code>.',
+  'reactive.api.method.draft':
+    'Use it for deep reactive mutations. You may change nested content, but you must not assign to it directly. <code>ref.draft.user.name = "Jane"</code> is valid; <code>ref.draft = nextValue</code> is not.',
   'reactive.api.method.notify': 'Force listeners to run.',
   'reactive.api.method.map': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
   'reactive.api.method.removeOnChange': 'Remove a listener by key.',
-  'reactive.api.value.title': '<code>state</code> for read, <code>mutable</code> for write',
-  'reactive.api.value.description': 'Write to <code>mutable</code> to trigger reactive updates.',
+  'reactive.api.value.title': '<code>value</code>: read + whole-value replace',
+  'reactive.api.value.description':
+    'Use it to read the current value, or to replace the whole outer value with <code>ref.value = nextValue</code>. Deep mutations such as <code>ref.value.user.name = "Jane"</code> are not tracked through <code>value</code>.',
   'reactive.api.value.current': 'Current value: {{1}}',
   'reactive.api.value.double': 'Double result (map): {{1}}',
   'reactive.api.value.decrement': '-1',
   'reactive.api.value.increment': '+1',
+  'reactive.api.draft.title': '<code>draft</code>: deep reactive mutation',
+  'reactive.api.draft.description':
+    'Nested objects, arrays, <code>Map</code> / <code>Set</code>, and custom mutable objects should be changed through <code>draft</code>. Mutate inner fields or call mutating methods; do not write <code>ref.draft = nextValue</code>.',
+  'reactive.api.draft.summary': 'Name: {{1}}; Visits: {{2}}; Tags: {{3}}',
+  'reactive.api.draft.replace': 'Replace name by value',
+  'reactive.api.draft.bumpVisits': 'Visits +1',
+  'reactive.api.draft.addTag': 'Add tag',
+  'reactive.api.draft.removeTag': 'Remove last tag',
   'reactive.api.map.title': '<code>map</code>',
   'reactive.api.map.description':
-    'Derive a computed value from current state and declare extra dependencies as the second argument (e.g. discount and tax).',
+    'Derive a computed value from the current value and declare extra dependencies as the second argument (e.g. discount and tax).',
   'reactive.api.map.price': 'Base price: {{1}}',
   'reactive.api.map.discount': 'Discount: {{1}}%',
   'reactive.api.map.tax': 'Tax: {{1}}%',

@@ -2,36 +2,24 @@
 
 ## Unreleased (Next Version)
 
-### Breaking Changes
+### API Clarification
 
-- **Ref state/write split (`@ktjs/core`, `kt.js`)**:
-  - `ref.value` is replaced by read-only `ref.state` and writable `ref.mutable`.
-  - Read current data with `ref.state`.
-  - Write next data with `ref.mutable = nextValue`.
-  - Deep object or array updates should also go through `ref.mutable`, for example `ref.mutable.user.name = 'Jane'` or `ref.mutable.list.push(item)`.
-  - `ref.mutable` should not be cached, destructured, returned, or carried across `await`.
-- **Computed read API alignment**:
-  - `computed` values are now read through `.state` as well.
-  - Derived values remain read-only; only `ref(...)` instances expose `.mutable`.
+- **`ref.value` remains the primary read API (`@ktjs/core`, `kt.js`)**:
+  - Read current data with `ref.value`.
+  - Replace the whole outer value with `ref.value = nextValue`.
+- **`ref.draft` is the deep-mutation entry**:
+  - Deep object or array updates should go through `ref.draft`, for example `ref.draft.user.name = 'Jane'` or `ref.draft.list.push(item)`.
+  - `Map` / `Set` / custom mutable objects should also be mutated through `ref.draft`.
+  - `ref.draft` itself is not assignable; mutate nested fields or call mutating methods on the returned object instead.
+- **Computed values stay read-only**:
+  - `computed` values continue to be consumed through `.value`.
 - **Reactive listener semantics**:
   - `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
-- **Migration direction**:
-  - Replace all `xxx.value` reads with `xxx.state`.
-  - Replace all `xxx.value = next` writes with `xxx.mutable = next`.
-  - Replace deep mutations such as `xxx.value.a.b = c` with `xxx.mutable.a.b = c`.
-
-### New Features
-
-- **Automatic deep-mutation scheduling for refs**:
-  - Accessing `ref.mutable` marks the ref for batched notification in a microtask.
-  - This makes deep mutations on plain objects, arrays, maps, sets, DOM refs, and similar mutable values participate in the reactive update flow.
 
 ### Documentation
 
-- Clarified the `state` / `mutable` contract in README files.
-- Clarified that compile-time checks should reject ambiguous write patterns, while runtime hot paths intentionally avoid defensive guards.
-- Updated `packages/kt.js/instruction.md` for the new `state` / `mutable` API.
-- Updated `kt.js.instruction.md` so AI-oriented JSX guidance now uses `state` for reads and `mutable` for writes.
+- Updated the example reactive page to explain when to use `value` vs `draft`.
+- Updated the root README so the reactive contract matches the current `value` / `draft` API.
 
 ## 0.32.x - 2026-02-27
 

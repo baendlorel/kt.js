@@ -41,11 +41,8 @@ function init(modules: { typescript: typeof tsModule }) {
       }
 
       return diagnostics.filter((diagnostic) => {
-        if (
-          diagnostic.code !== DIAGNOSTIC_CANNOT_FIND_NAME ||
-          diagnostic.start == null ||
-          diagnostic.length == null
-        ) {
+        // $ origin is diagnostic.start == null and diagnostic.length == null
+        if (diagnostic.code !== DIAGNOSTIC_CANNOT_FIND_NAME || !diagnostic.start || !diagnostic.length) {
           return true;
         }
 

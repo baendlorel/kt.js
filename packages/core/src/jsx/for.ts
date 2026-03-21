@@ -123,8 +123,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
             parent.insertBefore(node, anchor);
           } else {
             // Insert at end
-            let nextSibling = (anchor as any).nextSibling;
-            let temp = nextSibling;
+            let temp = (anchor as any).nextSibling; // ?? 这里难道不是null？
             while (temp && newElements.includes(temp as HTMLElement)) {
               temp = temp.nextSibling;
             }

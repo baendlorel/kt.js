@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { FilePicker } from './FilePicker.js';
 
 // Helper to create mock File objects
-function createMockFile(name: string, size: number = 1024): File {
+function createMockFile(name: string, _size: number = 1024): File {
   return new File([''], name, { type: 'text/plain' });
 }
 

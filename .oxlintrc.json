@@ -12,6 +12,10 @@
     "plugins/**/*.js",
     "**/tests/**/*.ts",
     "**/tests/**/*.tsx",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.test.tsx",
+    "**/*.spec.tsx",
     "build/",
     "example/",
     "scripts/"
@@ -38,7 +42,7 @@
       "fields"
     ],
     "no-debugger": "error",
-    "no-console": "warn",
+    "no-console": "off",
     "no-var": "error",
     "prefer-const": "error",
     "eqeqeq": [

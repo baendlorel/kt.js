@@ -104,7 +104,7 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
     onBlur();
   };
 
-  const handleWrapperMouseDown = (e: MouseEvent) => {
+  const handleWrapperMouseDown = () => {
     if (disabledRef.value) {
       return;
     }
@@ -114,7 +114,7 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
 
   const handleButtonClick = (e: MouseEvent) => {
     e.stopPropagation();
-    if (disabledRef.value) {
+    if (disabledRef.value || readOnlyRef.value) {
       return;
     }
     inputRef.value?.click();

@@ -1,7 +1,8 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { KTConditional, type KTReactive, computed, toReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
+
+import { KTConditional, computed, toReactive } from '@ktjs/core';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import './Pill.css.ts';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 

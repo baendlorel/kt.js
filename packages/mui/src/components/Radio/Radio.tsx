@@ -69,7 +69,9 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     onChange(checked, valueRef.value);
   };
 
-  let { checked = false, label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
+  // & There is no need to make these reactive.
+  const { label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
+  let checked = props.checked ?? false;
 
   const valueRef = toReactive(props.value ?? '');
   const disabledRef = toReactive(props.disabled ?? false);

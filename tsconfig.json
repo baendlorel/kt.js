@@ -41,7 +41,6 @@
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
   "references": [
     { "path": "./packages/core" },
-    { "path": "./packages/example" },
     { "path": "./packages/mui" },
     { "path": "./packages/router" },
     { "path": "./packages/shortcuts" },

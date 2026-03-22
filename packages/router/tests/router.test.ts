@@ -8,6 +8,8 @@ const component = (textContent: string = '') => {
   return d;
 };
 
+const waitForNavigation = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 describe('Router', () => {
   beforeEach(() => {
     window.history.replaceState(null, '', '/');
@@ -52,6 +54,20 @@ describe('Router', () => {
       expect(router.current?.name).toBe('user');
       expect(router.current?.params.id).toBe('123');
     });
+
+    it('should allow unnamed routes', async () => {
+      const router = createRouter({
+        routes: [
+          { path: '/', component: () => component('Home') },
+          { path: '/about', component: () => component('About') },
+        ],
+      });
+
+      await router.push('/about');
+
+      expect(router.current?.path).toBe('/about');
+      expect(router.current?.name).toBe('');
+    });
   });
 
   describe('route parameters', () => {
@@ -73,6 +89,27 @@ describe('Router', () => {
       await router.push('/post/tech/456');
 
       expect(router.current?.params).toEqual({ category: 'tech', id: '456' });
+    });
+
+    it('should keep matched chain limited to declared parents', async () => {
+      const router = createRouter({
+        routes: [
+          { path: '/a', name: 'a', component },
+          { path: '/ab', name: 'ab', component },
+          {
+            path: '/users',
+            name: 'users',
+            component,
+            children: [{ path: ':id', name: 'user-detail', component }],
+          },
+        ],
+      });
+
+      await router.push('/ab');
+      expect(router.current?.matched.map((route) => route.path)).toEqual(['/ab']);
+
+      await router.push('/users/123');
+      expect(router.current?.matched.map((route) => route.path)).toEqual(['/users', '/users/:id']);
     });
   });
 
@@ -183,6 +220,64 @@ describe('Router', () => {
 
       expect(onError).toHaveBeenCalled();
     });
+
+    it('should report after hook errors via onError', async () => {
+      const onError = vi.fn();
+
+      const router = createRouter({
+        routes: [
+          {
+            path: '/',
+            name: 'home',
+            after: async () => {
+              throw new Error('after failed');
+            },
+            component,
+          },
+        ],
+        onError,
+      });
+
+      await router.push('/');
+      await waitForNavigation();
+
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ message: 'after failed' }), expect.any(Object));
+    });
+  });
+
+  describe('hash navigation', () => {
+    it('should apply guards on hashchange', async () => {
+      const beforeEach = vi.fn((to: { path: string }) => to.path !== '/blocked');
+
+      const router = createRouter({
+        routes: [
+          { path: '/', name: 'home', component },
+          { path: '/blocked', name: 'blocked', component },
+        ],
+        beforeEach,
+      });
+
+      await router.push('/');
+      window.location.hash = '/blocked';
+      await waitForNavigation();
+      await waitForNavigation();
+
+      expect(beforeEach).toHaveBeenCalledWith(expect.objectContaining({ path: '/blocked' }), expect.anything());
+      expect(router.current?.path).toBe('/');
+      expect(window.location.hash).not.toBe('#/blocked');
+    });
+
+    it('should update query when only hash query changes', async () => {
+      const router = createRouter({
+        routes: [{ path: '/search', name: 'search', component }],
+      });
+
+      await router.push('/search?q=1');
+      window.location.hash = '/search?q=2';
+      await waitForNavigation();
+
+      expect(router.current?.query).toEqual({ q: '2' });
+    });
   });
 
   describe('NavigateOptions with flags', () => {
@@ -229,6 +324,18 @@ describe('Router', () => {
       await router.push('/');
       await router.push({ path: '/about', replace: true });
       expect(router.current?.name).toBe('about');
+    });
+
+    it('should apply prefix to path navigation', async () => {
+      const router = createRouter({
+        prefix: '/app',
+        routes: [{ path: '/home', name: 'home', component }],
+      });
+
+      const result = await router.push('/home');
+
+      expect(result).toBe(true);
+      expect(router.current?.path).toBe('/app/home');
     });
   });
 });

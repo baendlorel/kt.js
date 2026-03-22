@@ -22,7 +22,12 @@ export interface RawRouteConfig {
   children?: RawRouteConfig[];
 }
 
-export type RouteConfig = Required<Omit<RawRouteConfig, 'children'>> & { children: RouteConfig[] };
+export type RouteConfig = Omit<RawRouteConfig, 'children'> & {
+  meta: Record<string, any>;
+  beforeEnter: NonNullable<RawRouteConfig['beforeEnter']>;
+  after: NonNullable<RawRouteConfig['after']>;
+  children: RouteConfig[];
+};
 
 /**
  * Current route context information

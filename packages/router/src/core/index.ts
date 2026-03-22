@@ -17,29 +17,37 @@ export const createRouter = ({
 }: RouterConfig): Router => {
   // # private values
   const routes: RouteConfig[] = [];
+  const matchedMap = new Map<RouteConfig, RouteConfig[]>();
   const history: RouteContext[] = [];
+  const prefixPath = prefix ? normalizePath(prefix) : '';
   let routerView: HTMLElement | null = null;
   let current: RouteContext | null = null;
+  let ignoreNextHashChange = false;
 
   // # methods
-  const normalize = (rawRoutes: RawRouteConfig[], parentPath: string): RouteConfig[] =>
+  const normalize = (rawRoutes: RawRouteConfig[], parentPath: string, parentMatched: RouteConfig[]): RouteConfig[] =>
     rawRoutes.map((route) => {
       const path = normalizePath(parentPath, route.path);
-      const normalized = {
-        path: prefix + path,
-        name: route.name ?? '',
+      const normalized: RouteConfig = {
+        path: prefixPath ? normalizePath(prefixPath, path) : path,
+        name: route.name,
         meta: route.meta ?? {},
         beforeEnter: route.beforeEnter ?? $emptyFn,
         after: route.after ?? $emptyFn,
-        children: route.children ? normalize(route.children, path) : [],
+        children: [],
         component: route.component,
       };
+      const matched = parentMatched.concat(normalized);
+      matchedMap.set(normalized, matched);
+      normalized.children = route.children ? normalize(route.children, path, matched) : [];
 
       // directly push the normalized route to the list
       // avoid flatten them again
       routes.push(normalized);
       return normalized;
     });
+
+  normalize(rawRoutes, '/', []);
 
   const guard = async (
     to: RouteContext,
@@ -88,17 +96,18 @@ export const createRouter = ({
   const navigatePrepare = (options: NavOptions) => {
     // Resolve target route
     let targetPath: string;
-    let targetRoute;
 
     if (options.name) {
-      targetRoute = findByName(options.name);
+      const targetRoute = findByName(options.name);
       if (!targetRoute) {
         $throw(`Route not found: ${options.name}`);
       }
       targetPath = targetRoute.path;
     } else if (options.path) {
       targetPath = normalizePath(options.path);
-      targetRoute = match(targetPath)?.route;
+      if (prefixPath && targetPath !== prefixPath && !targetPath.startsWith(prefixPath + '/')) {
+        targetPath = normalizePath(prefixPath, targetPath);
+      }
     } else {
       $throw(`Either path or name must be provided`);
     }
@@ -121,7 +130,7 @@ export const createRouter = ({
 
     const to: RouteContext = {
       path: targetPath,
-      name: matched.route.name,
+      name: matched.route.name ?? '',
       params: { ...matched.params, ...(options.params ?? {}) },
       query: options.query ?? {},
       meta: matched.route.meta ?? {},
@@ -134,6 +143,46 @@ export const createRouter = ({
       to,
       fullPath,
     };
+  };
+
+  const commit = async (
+    to: RouteContext,
+    fullPath: string,
+    replaceHistory: boolean,
+    hashMode: 'push' | 'replace' | null,
+  ): Promise<void> => {
+    if (hashMode && window.location.hash.slice(1) !== fullPath) {
+      ignoreNextHashChange = true;
+      const hashUrl = '#' + fullPath;
+      if (hashMode === 'replace') {
+        window.location.replace(hashUrl);
+      } else {
+        window.location.hash = fullPath;
+      }
+    }
+
+    const from = current;
+    current = to;
+    if (replaceHistory) {
+      if (history.length > 0) {
+        history[history.length - 1] = to;
+      } else {
+        history.push(to);
+      }
+    } else {
+      history.push(to);
+    }
+
+    if (routerView && to.matched.length > 0) {
+      const route = to.matched[to.matched.length - 1];
+      const element = await route.component();
+      routerView.innerHTML = '';
+      routerView.appendChild(element);
+    }
+
+    void executeAfterHooks(to, from).catch((error) => {
+      onError(error as Error, to.matched[to.matched.length - 1]);
+    });
   };
 
   const navigate = async (options: NavOptions, redirectCount = 0): Promise<boolean> => {
@@ -161,36 +210,7 @@ export const createRouter = ({
       }
 
       // ---- Guards passed ----
-
-      const hashUrl = '#' + fullPath;
-      if (replace) {
-        window.location.replace(hashUrl);
-      } else {
-        window.location.hash = fullPath;
-      }
-
-      current = to;
-      if (replace) {
-        if (history.length > 0) {
-          history[history.length - 1] = to;
-        } else {
-          history.push(to);
-        }
-      } else {
-        history.push(to);
-      }
-
-      // Render component if routerView exists
-      if (routerView && to.matched.length > 0) {
-        const route = to.matched[to.matched.length - 1];
-        if (route.component) {
-          const element = await route.component();
-          routerView.innerHTML = '';
-          routerView.appendChild(element);
-        }
-      }
-
-      executeAfterHooks(to, history[history.length - 2] ?? null);
+      await commit(to, fullPath, replace, replace ? 'replace' : 'push');
       return true;
     } catch (error) {
       onError(error as Error);
@@ -219,51 +239,47 @@ export const createRouter = ({
     };
   };
 
+  const { findByName, match } = createMatcher(routes, matchedMap);
+
+  const handleHashChange = async () => {
+    if (ignoreNextHashChange) {
+      ignoreNextHashChange = false;
+      return;
+    }
+
+    const hash = window.location.hash.slice(1);
+    if (!hash) {
+      return;
+    }
+
+    const prep = navigatePrepare(normalizeLocation(hash));
+    if (!prep) {
+      return;
+    }
+
+    const { guardLevel, to, fullPath } = prep;
+    const guardResult = await guard(to, current, guardLevel);
+    if (!guardResult.continue) {
+      if (guardResult.redirectTo) {
+        await navigate({ ...guardResult.redirectTo, replace: true });
+        return;
+      }
+
+      ignoreNextHashChange = true;
+      if (current) {
+        window.location.replace('#' + current.path + buildQuery(current.query));
+      } else {
+        window.location.replace(window.location.pathname + window.location.search);
+      }
+      return;
+    }
+
+    await commit(to, fullPath, false, fullPath === hash ? null : 'replace');
+  };
+
   // # register events
   window.addEventListener('hashchange', () => {
-    const hash = window.location.hash.slice(1);
-    const [path] = hash.split('?');
-    const normalizedPath = normalizePath(path);
-    if (current && current.path === normalizedPath) {
-      return;
-    }
-    // render route for new hash without adding extra history entry
-    const matched = match(normalizedPath);
-    if (!matched) {
-      onNotFound(normalizedPath);
-      return;
-    }
-    const queryString = window.location.hash.slice(1).split('?')[1];
-    const to: RouteContext = {
-      path: normalizedPath,
-      name: matched.route.name,
-      params: matched.params,
-      query: queryString ? parseQuery(queryString) : {},
-      meta: matched.route.meta ?? {},
-      matched: matched.result,
-    };
-
-    // apply without modifying browser history
-    current = to;
-    history.push(to);
-
-    if (routerView && to.matched.length > 0) {
-      const route = to.matched[to.matched.length - 1];
-      if (route.component) {
-        const element = route.component();
-        if (element instanceof Promise) {
-          element.then((el) => {
-            routerView!.innerHTML = '';
-            routerView!.appendChild(el);
-          });
-        } else {
-          routerView.innerHTML = '';
-          routerView.appendChild(element);
-        }
-      }
-    }
-
-    executeAfterHooks(to, history[history.length - 2] ?? null);
+    void handleHashChange();
   });
 
   // # initialize
@@ -303,11 +319,9 @@ export const createRouter = ({
       window.history.forward();
     },
   };
-  normalize(rawRoutes, '/');
-  const { findByName, match } = createMatcher(routes);
   const currentHash = window.location.hash.slice(1);
   if (currentHash) {
-    instance.push(currentHash);
+    void handleHashChange();
   }
 
   return instance;

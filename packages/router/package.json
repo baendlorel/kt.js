@@ -36,8 +36,8 @@
     "@ktjs/shared": "workspace:^*"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.mjs",
-    "dev": "rollup -c rollup.config.mjs -w",
-    "test": "vitest run"
+    "build": "node -e \"process.env.CURRENT_PKG_PATH=process.cwd(); require('node:child_process').execSync('rollup -c ../../configs/rollup.config.base.js', { stdio: 'inherit' })\"",
+    "dev": "node -e \"process.env.CURRENT_PKG_PATH=process.cwd(); require('node:child_process').execSync('rollup -c ../../configs/rollup.config.base.js -w', { stdio: 'inherit' })\"",
+    "test": "node -e \"process.env.CURRENT_PKG_PATH=process.cwd(); require('node:child_process').execSync('vitest run . --config ../../configs/vitest.config.ts', { stdio: 'inherit' })\""
   }
 }

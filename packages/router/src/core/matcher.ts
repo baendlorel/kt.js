@@ -4,7 +4,7 @@ import { extractParams, normalizePath } from '@ktjs/shared';
 /**
  * Route matcher for finding matching routes and extracting params
  */
-export const createMatcher = (routes: RouteConfig[]) => {
+export const createMatcher = (routes: RouteConfig[], matchedMap: Map<RouteConfig, RouteConfig[]>) => {
   const nameMap: Record<string, RouteConfig> = {};
 
   for (let i = 0; i < routes.length; i++) {
@@ -36,7 +36,7 @@ export const createMatcher = (routes: RouteConfig[]) => {
         return {
           route,
           params: {},
-          result: getMatchedChain(route),
+          result: matchedMap.get(route) ?? [route],
         };
       }
     }
@@ -49,32 +49,13 @@ export const createMatcher = (routes: RouteConfig[]) => {
           return {
             route,
             params,
-            result: getMatchedChain(route),
+            result: matchedMap.get(route) ?? [route],
           };
         }
       }
     }
 
     return null;
-  };
-
-  /**
-   * Get chain of matched routes (for nested routes)
-   * - parent roots ahead
-   */
-  const getMatchedChain = (route: RouteConfig): RouteConfig[] => {
-    const matched: RouteConfig[] = [route];
-    const path = route.path;
-
-    // Find parent routes by path prefix matching
-    for (let i = 0; i < routes.length; i++) {
-      const r = routes[i];
-      if (r !== route && path.startsWith(r.path) && path !== r.path) {
-        matched.push(r);
-      }
-    }
-
-    return matched.reverse();
   };
 
   return {

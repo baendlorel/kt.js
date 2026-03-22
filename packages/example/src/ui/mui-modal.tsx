@@ -28,9 +28,6 @@ export function MuiModalDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Modal Helpers</h2>
-      <p class="description">Use modal-based APIs to replace native alert, confirm, and prompt.</p>
-
       <div class="button-group">
         <Button variant="contained" on:click={openAlert}>
           Open Alert

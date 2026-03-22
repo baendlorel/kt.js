@@ -1,16 +1,16 @@
-import { ref } from '@ktjs/core';
+import { type JSX, ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { Button, Menu } from '@ktjs/mui';
+import { Button, KTMuiMenuContent, Menu } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
 import muiMenuCode from '../code/ui/mui-menu.tsx?raw';
 
 export function MuiMenuDemo() {
   const open = ref(false);
-  const anchorEl = ref<HTMLButtonElement>();
+  const anchorEl = ref<JSX.Element | undefined>();
   const selected = ref('none');
   const autoClose = ref(true);
 
-  const actions = ref([
+  const actions = ref<KTMuiMenuContent[]>([
     { value: 'rename', label: 'Rename' },
     { value: 'duplicate', label: 'Duplicate' },
     { value: 'archive', label: 'Archive' },
@@ -33,12 +33,8 @@ export function MuiMenuDemo() {
         anchorEl={anchorEl}
         options={actions}
         autoClose={autoClose}
-        on:close={() => {
-          open.value = false;
-        }}
-        on:select={(value) => {
-          selected.value = value;
-        }}
+        on:close={() => (open.value = false)}
+        on:select={(value) => (selected.value = value)}
       />
 
       <div class="demo-result">Last action: {selected}</div>

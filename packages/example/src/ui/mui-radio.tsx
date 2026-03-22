@@ -21,9 +21,6 @@ export function MuiRadioDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Radio Component</h2>
-      <p class="description">Radio buttons let users select one option from a set.</p>
-
       <FormLabel>Choose an option:</FormLabel>
       {radioGroup}
       <div class="demo-result">Selected: {selectedValue}</div>

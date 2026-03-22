@@ -32,9 +32,6 @@ export function MuiProgressDemo() {
 
   return (
     <div class="demo-section">
-      <h2>LinearProgress Component</h2>
-      <p class="description">Progress indicators show the completion status of an operation.</p>
-
       <div style="margin: 20px 0;">
         <LinearProgress value={value} variant="determinate" />
       </div>

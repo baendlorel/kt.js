@@ -24,7 +24,7 @@ export interface KTMuiPopoverProps extends KTMuiProps {
   /**
    * The DOM element used as the anchor of the popover. The popover will appear next to this element.
    */
-  anchorEl?: JSX.Element | null | KTReactive<JSX.Element | null>;
+  anchorEl?: JSX.Element | KTReactive<JSX.Element | undefined>;
 
   /**
    * Defines which part of the anchor element to align the popover with.
@@ -173,7 +173,7 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       scheduleUpdatePosition();
     }
   });
-  const anchorElRef = toReactive(props.anchorEl ?? null).addOnChange(scheduleUpdatePosition);
+  const anchorElRef = toReactive(props.anchorEl).addOnChange(scheduleUpdatePosition);
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
   const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
     scheduleUpdatePosition,

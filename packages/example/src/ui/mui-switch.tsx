@@ -19,9 +19,6 @@ export function MuiSwitchDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Switch Component</h2>
-      <p class="description">Switches toggle a value between on and off states.</p>
-
       <div class="demo-flex-gap-column">
         <Switch
           k-model={darkMode}

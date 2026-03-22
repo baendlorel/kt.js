@@ -7,9 +7,6 @@ export function MuiTextFieldDemo() {
 
   return (
     <div class="demo-section">
-      <h2>TextField Component</h2>
-      <p class="description">Text fields let users enter and edit text.</p>
-
       <div class="textfield-grid">
         <TextField label="多行" size="small" multiline rows={4} />
         <TextField k-model={inputValueRef} label="Standard" placeholder="Enter text..." />

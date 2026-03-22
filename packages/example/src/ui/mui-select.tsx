@@ -17,9 +17,6 @@ export function MuiSelectDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Select Component</h2>
-      <p class="demo-desc">Select components let users pick a value from a list.</p>
-
       <Select
         k-model={selectedValue}
         style="width:100%"

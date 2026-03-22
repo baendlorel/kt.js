@@ -19,9 +19,6 @@ export function MuiTabsDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Tabs Component</h2>
-      <p class="description">Tabs organize content into multiple switchable views.</p>
-
       <div class="button-group">
         <Button
           variant="outlined"

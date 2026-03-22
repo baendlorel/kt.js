@@ -11,9 +11,6 @@ export function MuiPillDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Pill Component</h2>
-      <p class="description">Pills (chips) are compact elements for labels, actions, or filters.</p>
-
       <div class="button-group">
         <Pill label="Default" />
         <Pill label="Primary" color="primary" />

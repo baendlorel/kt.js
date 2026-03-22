@@ -1,4 +1,4 @@
-import { ref } from '@ktjs/core';
+import { type JSX, ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button, Popover } from '@ktjs/mui';
 import type { KTMuiPopoverCloseReason } from '@ktjs/mui';
@@ -8,7 +8,8 @@ import muiPopoverCode from '../code/ui/mui-popover.tsx?raw';
 
 export function MuiPopoverDemo() {
   const open = ref(false);
-  const anchorEl = ref<HTMLButtonElement>();
+  // fixme 如果这里写成HTMLButtonElement，则会提示_changehandlers类型不正确，可明明是包含关系
+  const anchorEl = ref<JSX.Element | undefined>();
   const closeReason = ref<KTMuiPopoverCloseReason | 'manual' | 'none'>('none');
 
   const closePopover = (reason: KTMuiPopoverCloseReason | 'manual') => {
@@ -18,9 +19,6 @@ export function MuiPopoverDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Popover Component</h2>
-      <p class="description">Popover displays floating content anchored to another element.</p>
-
       <div class="button-group">
         <Button
           ref={anchorEl}
@@ -38,9 +36,7 @@ export function MuiPopoverDemo() {
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        on:close={(reason) => {
-          closeReason.value = reason;
-        }}
+        on:close={(reason) => (closeReason.value = reason)}
       >
         <div style="padding:12px 16px; min-width:220px;">
           <h4 style="margin:0 0 8px;">Project Actions</h4>

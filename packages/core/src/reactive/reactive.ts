@@ -19,9 +19,9 @@ export class KTReactive<T> {
   protected _value: T;
 
   /**
-   * @internal
+   * & Here we trust developers using addOnChange properly. `ChangeHandler<any>` is aimed to mute some unnecessary type errors.
    */
-  protected _changeHandlers: Map<ChangeHandlerKey, ChangeHandler<T>> = new Map();
+  protected _changeHandlers: Map<ChangeHandlerKey, ChangeHandler<any>> = new Map();
 
   /**
    * @internal

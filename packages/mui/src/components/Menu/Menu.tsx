@@ -5,6 +5,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import {
   Popover,
+  type KTMuiPopoverAnchorEl,
   type KTMuiPopoverCloseReason,
   type KTMuiPopoverOrigin,
   type KTMuiPopoverHorizontalOrigin,
@@ -23,9 +24,9 @@ export interface KTMuiMenuOption {
 
 export type KTMuiMenuContent = KTMuiMenuOption | JSX.Element | HTMLElement | string;
 
-export interface KTMuiMenuProps extends KTMuiProps {
+export interface KTMuiMenuProps<TAnchor extends JSX.Element | undefined = JSX.Element | undefined> extends KTMuiProps {
   open?: KTMaybeReactive<boolean>;
-  anchorEl?: JSX.Element | KTReactive<JSX.Element | undefined>;
+  anchorEl?: KTMuiPopoverAnchorEl<TAnchor>;
   options?: KTMaybeReactive<KTMuiMenuContent[]>;
   anchorOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
   transformOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
@@ -62,7 +63,9 @@ const isMenuOption = (item: KTMuiMenuContent): item is KTMuiMenuOption => {
 /**
  * Menu component - mimics MUI Menu appearance and behavior
  */
-export function Menu(props: KTMuiMenuProps): KTMuiMenu {
+export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>(
+  props: KTMuiMenuProps<TAnchor>,
+): KTMuiMenu {
   const onClose = props['on:close'] ?? $emptyFn;
   const onSelect = props['on:select'] ?? $emptyFn;
 
@@ -70,7 +73,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
   const styleRef = toReactive($parseStyle(props.style));
 
   const openRef = toReactive(props.open ?? false);
-  const anchorElRef = toReactive(props.anchorEl);
+  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>);
   const optionsRef = toReactive<KTMuiMenuContent[]>(props.options ?? []);
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
   const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);

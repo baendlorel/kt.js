@@ -15,7 +15,12 @@ export interface KTMuiPopoverOrigin {
 
 export type KTMuiPopoverCloseReason = 'backdropClick' | 'escapeKeyDown';
 
-export interface KTMuiPopoverProps extends KTMuiProps {
+export type KTMuiPopoverAnchorEl<TAnchor extends JSX.Element | undefined = JSX.Element | undefined> =
+  | TAnchor
+  | KTReactive<TAnchor>;
+
+export interface KTMuiPopoverProps<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>
+  extends KTMuiProps {
   /**
    * Indicates whether the popover is open.
    */
@@ -24,7 +29,7 @@ export interface KTMuiPopoverProps extends KTMuiProps {
   /**
    * The DOM element used as the anchor of the popover. The popover will appear next to this element.
    */
-  anchorEl?: JSX.Element | KTReactive<JSX.Element | undefined>;
+  anchorEl?: KTMuiPopoverAnchorEl<TAnchor>;
 
   /**
    * Defines which part of the anchor element to align the popover with.
@@ -106,7 +111,9 @@ const getElevationShadow = (level: number) => {
 /**
  * Popover component - mimics MUI Popover appearance and behavior
  */
-export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
+export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>(
+  props: KTMuiPopoverProps<TAnchor>,
+): KTMuiPopover {
   const onClose = props['on:close'] ?? $emptyFn;
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
@@ -173,7 +180,9 @@ export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
       scheduleUpdatePosition();
     }
   });
-  const anchorElRef = toReactive(props.anchorEl).addOnChange(scheduleUpdatePosition);
+  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).addOnChange(
+    scheduleUpdatePosition,
+  );
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
   const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
     scheduleUpdatePosition,

@@ -1,4 +1,4 @@
-import { type JSX, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button, KTMuiMenuContent, Menu } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
@@ -6,7 +6,7 @@ import muiMenuCode from '../code/ui/mui-menu.tsx?raw';
 
 export function MuiMenuDemo() {
   const open = ref(false);
-  const anchorEl = ref<JSX.Element | undefined>();
+  const anchorEl = ref<HTMLButtonElement>();
   const selected = ref('none');
   const autoClose = ref(true);
 

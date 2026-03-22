@@ -1,4 +1,4 @@
-import { type JSX, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button, Popover } from '@ktjs/mui';
 import type { KTMuiPopoverCloseReason } from '@ktjs/mui';
@@ -8,8 +8,7 @@ import muiPopoverCode from '../code/ui/mui-popover.tsx?raw';
 
 export function MuiPopoverDemo() {
   const open = ref(false);
-  // fixme 如果这里写成HTMLButtonElement，则会提示_changehandlers类型不正确，可明明是包含关系
-  const anchorEl = ref<JSX.Element | undefined>();
+  const anchorEl = ref<HTMLButtonElement>();
   const closeReason = ref<KTMuiPopoverCloseReason | 'manual' | 'none'>('none');
 
   const closePopover = (reason: KTMuiPopoverCloseReason | 'manual') => {

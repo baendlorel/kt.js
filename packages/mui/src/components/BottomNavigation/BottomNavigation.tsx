@@ -8,7 +8,7 @@ import './BottomNavigation.css.ts';
 export interface KTMuiBottomNavigationAction {
   value: string;
   label: string | JSX.Element;
-  icon?: JSX.Element | HTMLElement;
+  icon?: JSX.Element;
   disabled?: boolean;
   showLabel?: boolean;
 }

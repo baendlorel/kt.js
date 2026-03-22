@@ -4,9 +4,6 @@ import { HomeIcon, DeleteIcon, ContentCopyIcon, DownloadIcon, MenuIcon } from '@
 export function MuiIconsDemo() {
   return (
     <div class="demo-section">
-      <h2>Icons</h2>
-      <p class="description">A collection of commonly used icons.</p>
-
       <div class="icons-grid">
         <div class="icon-item">
           <HomeIcon />

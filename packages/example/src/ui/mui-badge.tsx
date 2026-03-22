@@ -11,9 +11,6 @@ export function MuiBadgeDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Badge Component</h2>
-      <p class="description">Badges show counts and status indicators on top of content.</p>
-
       <div class="button-group" style="align-items:center;">
         <Badge badgeContent={unread} color="error" max={99} showZero={showZero}>
           <Button variant="outlined">Inbox</Button>

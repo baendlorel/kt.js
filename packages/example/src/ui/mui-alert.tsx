@@ -18,9 +18,6 @@ export function MuiAlertDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Alert Component</h2>
-      <p class="description">Alerts provide contextual feedback messages.</p>
-
       <div class="button-group">
         <Button variant="outlined" color="success" on:click={() => addAlert('success')}>
           Add Success Alert

@@ -19,9 +19,6 @@ export function MuiMenuDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Menu Component</h2>
-      <p class="description">Menu displays a list of actions anchored to a trigger element.</p>
-
       <div class="button-group">
         <Button ref={anchorEl} variant="contained" on:click={() => (open.value = !open.value)}>
           {open.map((value) => (value ? 'Close Menu' : 'Open Menu'))}

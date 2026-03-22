@@ -20,9 +20,6 @@ export function MuiDialogDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Dialog Component</h2>
-      <p class="description">Dialogs controlled by const open = ref(boolean).</p>
-
       <Button variant="contained" on:click={openDialog}>
         Open Dialog
       </Button>

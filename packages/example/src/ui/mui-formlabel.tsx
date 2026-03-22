@@ -13,9 +13,6 @@ export function MuiFormLabelDemo() {
 
   return (
     <div class="demo-section">
-      <h2>FormLabel Component</h2>
-      <p class="description">Displays label states for forms and fieldsets.</p>
-
       <div class="button-group">
         <Button variant="outlined" on:click={() => (required.value = !required.value)}>
           Required: {required}

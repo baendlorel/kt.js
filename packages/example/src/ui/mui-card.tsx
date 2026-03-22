@@ -10,9 +10,6 @@ export function MuiCardDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Card Component</h2>
-      <p class="description">Cards group related content with different visual variants.</p>
-
       <div style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
         <Card variant="elevation" elevation={3} style="padding:16px;">
           <h4 style="margin:0 0 8px;">Elevation Card</h4>

@@ -128,8 +128,6 @@ export function Reactivity() {
   return (
     <div>
       <div class="demo-section">
-        <h3 k-html={t('reactive.section.title')}></h3>
-        <p k-html={t('reactive.section.description')}></p>
         <div class="demo-block">
           <p class="demo-desc" k-html={t('reactive.ref.overview')}></p>
           <ul class="reactive-api-method-list">

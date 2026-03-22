@@ -14,9 +14,6 @@ export function MuiButtonDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Button Component</h2>
-      <p class="description">Buttons come in different variants, colors, and sizes. Click count: {counterText}</p>
-
       <div class="button-group">
         <h3>Variants</h3>
         <Button variant="contained" color="primary" on:click={handleClick}>

@@ -1,6 +1,6 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { BottomNavigation, Button } from '@ktjs/mui';
+import { BottomNavigation, Button, KTMuiBottomNavigationAction } from '@ktjs/mui';
 import { ContentCopyIcon, HomeIcon, MenuIcon } from '@ktjs/mui-icon';
 import { Code } from '../components/Code.js';
 import muiBottomNavigationCode from '../code/ui/mui-bottom-navigation.tsx?raw';
@@ -9,7 +9,7 @@ export function MuiBottomNavigationDemo() {
   const value = ref('home');
   const showLabels = ref(false);
 
-  const options = ref([
+  const options = ref<KTMuiBottomNavigationAction[]>([
     { value: 'home', label: 'Home', icon: <HomeIcon /> },
     { value: 'files', label: 'Files', icon: <ContentCopyIcon /> },
     { value: 'menu', label: 'Menu', icon: <MenuIcon /> },
@@ -17,9 +17,6 @@ export function MuiBottomNavigationDemo() {
 
   return (
     <div class="demo-section">
-      <h2>BottomNavigation Component</h2>
-      <p class="description">Bottom navigation helps users switch between top-level destinations.</p>
-
       <div class="button-group">
         <Button variant="outlined" size="small" on:click={() => (showLabels.value = !showLabels.value)}>
           Show Labels: {showLabels.map((v) => (v ? 'On' : 'Off'))}

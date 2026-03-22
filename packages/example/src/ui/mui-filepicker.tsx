@@ -2,6 +2,7 @@ import { computed, ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button, DirectoryPicker, FilePicker } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
+import { t } from '../i18n/index.js';
 
 import muiFilePickerCode from '../code/ui/mui-filepicker.tsx?raw';
 
@@ -13,44 +14,45 @@ export function MuiFilePickerDemo() {
   const fileSummary = computed(() => {
     const files = filesRef.value;
     if (files.length === 0) {
-      return 'No files selected yet.';
+      return t('mui.filepicker.file.empty');
     }
-    return `${files.length} file(s): ${files.map((file) => file.name).join(', ')}`;
+    return t('mui.filepicker.file.summary', files.length, files.map((file) => file.name).join(', '));
   }, [filesRef]);
 
   const directorySummary = computed(() => {
     const files = directoryFilesRef.value;
     if (files.length === 0) {
-      return 'No directory selected yet.';
+      return t('mui.filepicker.directory.empty');
     }
     const preview = files
       .slice(0, 3)
       .map((file) => file.webkitRelativePath || file.name)
       .join(', ');
-    return `${directoryPathRef.value || 'Selected directory'} · ${files.length} file(s)${preview ? ` · ${preview}` : ''}`;
+    return t(
+      'mui.filepicker.directory.summary',
+      directoryPathRef.value || t('mui.filepicker.directory.selected'),
+      files.length,
+      preview ? ` · ${preview}` : '',
+    );
   }, [directoryFilesRef, directoryPathRef]);
 
   return (
     <div class="demo-section">
-      <h2>FilePicker / DirectoryPicker</h2>
-      <p class="description">Pick files or a whole directory with native inputs and KT refs.</p>
-
       <div class="demo-block">
         <h3>FilePicker</h3>
-        <p class="demo-desc">
-          Supports multiple files, file type filters, helper text, and <code>k-model</code>.
-        </p>
+        <p class="demo-desc" k-html={t('mui.filepicker.file.description')}></p>
         <FilePicker
           k-model={filesRef}
-          label="Project assets"
-          placeholder="Choose images or markdown files"
-          helperText="Try selecting several files to see the summary update."
+          label={t('mui.filepicker.file.label')}
+          placeholder={t('mui.filepicker.file.placeholder')}
+          helperText={t('mui.filepicker.file.helper')}
+          buttonText={t('mui.filepicker.file.button')}
           accept=".png,.jpg,.jpeg,.svg,.md"
           fullWidth
         />
         <div class="button-group">
           <Button variant="outlined" on:click={() => (filesRef.value = [])}>
-            Clear Files
+            {t('mui.filepicker.file.clear')}
           </Button>
         </div>
         <div class="demo-result">{fileSummary}</div>
@@ -58,12 +60,13 @@ export function MuiFilePickerDemo() {
 
       <div class="demo-block">
         <h3>DirectoryPicker</h3>
-        <p class="demo-desc">Uses browser directory selection and exposes the top-level folder plus file list.</p>
+        <p class="demo-desc">{t('mui.filepicker.directory.description')}</p>
         <DirectoryPicker
           k-model={directoryFilesRef}
-          label="Workspace folder"
-          placeholder="Choose a directory"
-          helperText="Directory selection depends on browser support for webkitdirectory."
+          label={t('mui.filepicker.directory.label')}
+          placeholder={t('mui.filepicker.directory.placeholder')}
+          helperText={t('mui.filepicker.directory.helper')}
+          buttonText={t('mui.filepicker.directory.button')}
           fullWidth
           on:change={(_files, directoryPath) => (directoryPathRef.value = directoryPath)}
         />
@@ -75,7 +78,7 @@ export function MuiFilePickerDemo() {
               directoryPathRef.value = '';
             }}
           >
-            Clear Directory
+            {t('mui.filepicker.directory.clear')}
           </Button>
         </div>
         <div class="demo-result">{directorySummary}</div>

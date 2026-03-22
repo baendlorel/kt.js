@@ -6,9 +6,6 @@ export function MuiCheckboxDemo() {
 
   return (
     <div class="demo-section">
-      <h2>Checkbox Component</h2>
-      <p class="description">Checkboxes allow users to select multiple options from a set.</p>
-
       <FormLabel>Select technologies:</FormLabel>
 
       <CheckboxGroup

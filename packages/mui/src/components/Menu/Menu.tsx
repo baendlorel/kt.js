@@ -25,7 +25,7 @@ export type KTMuiMenuContent = KTMuiMenuOption | JSX.Element | HTMLElement | str
 
 export interface KTMuiMenuProps extends KTMuiProps {
   open?: KTMaybeReactive<boolean>;
-  anchorEl?: HTMLElement | null | KTReactive<HTMLElement | null>;
+  anchorEl?: JSX.Element | null | KTReactive<JSX.Element | null>;
   options?: KTMaybeReactive<KTMuiMenuContent[]>;
   anchorOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
   transformOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
@@ -70,7 +70,7 @@ export function Menu(props: KTMuiMenuProps): KTMuiMenu {
   const styleRef = toReactive($parseStyle(props.style));
 
   const openRef = toReactive(props.open ?? false);
-  const anchorElRef = toReactive<HTMLElement | null>(props.anchorEl ?? null);
+  const anchorElRef = toReactive(props.anchorEl ?? null);
   const optionsRef = toReactive<KTMuiMenuContent[]>(props.options ?? []);
   const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
   const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);

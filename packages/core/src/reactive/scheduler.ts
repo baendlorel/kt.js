@@ -6,6 +6,7 @@ const reactiveToOldValue = new Map<KTRef<any>, any>();
 
 let scheduled = false;
 
+// todo 这里要写在class里面，因computed和ref的schedule做的事情不太一样。
 export const markMutation = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
     // @ts-expect-error accessing protected property

@@ -22,6 +22,10 @@ export class KTRef<T> extends KTReactive<T> {
     this._emit(newValue, oldValue);
   }
 
+  /**
+   * Used to mutate the value in-place.
+   * - internal value is changed instantly, but the change handlers will be called in the next microtask.
+   */
   get draft() {
     markMutation(this);
     return this._value;

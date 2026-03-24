@@ -31,6 +31,30 @@ export class KTRef<T> extends KTReactive<T> {
     markMutation(this);
     return this._value;
   }
+
+  mutable<
+    K0 extends keyof T,
+    K1 extends keyof T[K0],
+    K2 extends keyof T[K0][K1],
+    K3 extends keyof T[K0][K1][K2],
+    K4 extends keyof T[K0][K1][K2][K3],
+  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
+  mutable<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+    key3: K3,
+  ): KTComputed<T[K0][K1][K2][K3]>;
+  mutable<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+  ): KTComputed<T[K0][K1][K2]>;
+  mutable<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
+  mutable(...keys: any[]): KTRef<any> {
+    // todo 为了方便让多层复杂的属性也可以被响应式绑定到输入组件，这里建立mutable
+    return ref();
+  }
 }
 
 /**

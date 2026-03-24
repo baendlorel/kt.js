@@ -13,6 +13,8 @@ export const $defines = Object.defineProperties;
 export const $define = Object.defineProperty;
 export const $entries = Object.entries as <T>(o: T) => Array<[keyof T, T[keyof T]]>;
 
+export const $stringify = JSON.stringify;
+
 export const $random = Math.random;
 export const $max = Math.max;
 export const $min = Math.min;

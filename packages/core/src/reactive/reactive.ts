@@ -90,6 +90,61 @@ export class KTReactive<T> {
     this._changeHandlers.delete(key);
     return callback;
   }
+
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
+   * @returns A `KTComputed` object
+   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   */
+  get<
+    K0 extends keyof T,
+    K1 extends keyof T[K0],
+    K2 extends keyof T[K0][K1],
+    K3 extends keyof T[K0][K1][K2],
+    K4 extends keyof T[K0][K1][K2][K3],
+  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
+   * @returns A `KTComputed` object
+   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   */
+  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+    key3: K3,
+  ): KTComputed<T[K0][K1][K2][K3]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
+   * @returns A `KTComputed` object
+   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   */
+  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+  ): KTComputed<T[K0][K1][K2]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
+   * @returns A `KTComputed` object
+   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   */
+  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
+   * @returns A `KTComputed` object
+   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   */
+  get<K0 extends keyof T>(key0: K0): KTComputed<T[K0]>;
+  get(..._keys: PropertyKey[]) {
+    // & It is implemented in computed.ts since it depends on KTComputed.
+    return {} as any;
+  }
 }
 
 // & Shockingly, If T is boolean, KTReactify<T> becomes KTReactive<true> | KTReactive<false>. It causes @ktjs/mui that disabledRefs not assignable.

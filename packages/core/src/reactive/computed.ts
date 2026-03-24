@@ -61,6 +61,16 @@ KTReactive.prototype.map = function <R>(calculator: (v: unknown) => R, dependenc
   return new KTComputed(() => calculator(this._value), dependencies ? [this, ...dependencies] : [this]);
 };
 
+KTReactive.prototype.get = function (...keys: PropertyKey[]) {
+  return new KTComputed(() => {
+    let v = this.value as any;
+    for (let i = 0; i < keys.length; i++) {
+      v = v[keys[i]];
+    }
+    return v;
+  }, [this]) as any;
+};
+
 /**
  * Create a reactive computed value
  * @param computeFn

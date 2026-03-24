@@ -34,7 +34,7 @@ export class KTRef<T> extends KTReactive<T> {
 
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler and more efficient.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
    * @returns A `KTComputed` object
    */
   get<
@@ -61,26 +61,18 @@ export class KTRef<T> extends KTReactive<T> {
     key1: K1,
     key2: K2,
   ): KTComputed<T[K0][K1][K2]>;
-  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<keyof T[K0][K1]>;
+  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    */
-  get(key: keyof T): KTComputed<T[typeof key]>;
-  get(...keys: any[]) {
+  get<K0 extends keyof T>(key0: K0): KTComputed<T[K0]>;
+  get(...keys: PropertyKey[]) {
     return new KTComputed(() => {
       let v = this.value as any;
       for (let i = 0; i < keys.length; i++) {
-        if (v === null || v === undefined) {
-          return v;
-        }
-        const k = keys[i];
-        if (k in v) {
-          v = v[k];
-        } else {
-          return undefined;
-        }
+        v = v?.[keys[i]];
       }
-      return undefined;
+      return v;
     }, [this]) as any;
   }
 }

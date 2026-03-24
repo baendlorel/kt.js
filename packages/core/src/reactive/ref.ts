@@ -1,5 +1,4 @@
 import type { JSX } from '../types/jsx.js';
-import type { DeepGet } from '../types/type-utils.js';
 
 import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';
@@ -33,37 +32,22 @@ export class KTRef<T> extends KTReactive<T> {
     return this._value;
   }
 
-  // todo 写一个deepget的类型工具
-  get(
-    key0: keyof T,
-    key1: keyof T[typeof key0],
-    key2: keyof T[typeof key0][typeof key1],
-    key3: keyof T[typeof key0][typeof key1][typeof key2],
-    key4: keyof T[typeof key0][typeof key1][typeof key2][typeof key3],
-  ): KTComputed<T[typeof key0][typeof key1][typeof key2][typeof key3][typeof key4]>;
-  get(
-    key0: keyof T,
-    key1: keyof T[typeof key0],
-    key2: keyof T[typeof key0][typeof key1],
-    key3: keyof T[typeof key0][typeof key1][typeof key2],
-  ): KTComputed<T[typeof key0][typeof key1][typeof key2][typeof key3]>;
-  get(
-    key0: keyof T,
-    key1: keyof T[typeof key0],
-    key2: keyof T[typeof key0][typeof key1],
-  ): KTComputed<T[typeof key0][typeof key1][typeof key2]>;
-  get(key0: keyof T, key1: keyof T[typeof key0]): KTComputed<T[typeof key0][typeof key1]>;
+  // get(
+  //   key0: keyof T,
+  //   key1: keyof T[typeof key0],
+  //   key2: keyof T[typeof key0][typeof key1],
+  // ): KTComputed<T[typeof key0][typeof key1][typeof key2]>;
+  get<K0 extends keyof T>(key0: K0, key1: keyof T[K0]): KTComputed<T[typeof key0][typeof key1]>;
   get(key: keyof T): KTComputed<T[typeof key]>;
   get(...keys: any[]) {
     return new KTComputed(() => {
       let v = this.value as any;
-      switch (keys.length) {
-        case 1:
-          return v[keys[0]];
-        case 2:
-          return v[keys[0]][keys[1]];
-        case 3:
-          return v[keys[0]][keys[1]][keys[2]];
+      if (v === null || v === undefined) {
+        return v;
+      }
+
+      for (let i = 0; i < keys.length; i++) {
+        const element = keys[i];
       }
       return undefined;
     }, [this]) as any;
@@ -82,8 +66,10 @@ export class KTRef<T> extends KTReactive<T> {
  */
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
 
-const a = ref({ a: { b: { c: 1 } } });
-const b = a.get('a', 'b', 'c', 'toString');
+const a = ref({ a: { b: { c: 1 } }, b: 'sss', c: { a: { b: '' } } });
+a.get('a', 'b');
+a.get('b', 'blink');
+a.get('c', 'a');
 
 /**
  * Assert k-model to be a ref object

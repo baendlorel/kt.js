@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "upkt": "pnpm up -L kt.js @ktjs/vite-plugin-ktjsx @ktjs/babel-plugin-ktjsx @ktjs/ts-plugin @ktjs/mui @ktjs/mui-icon",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
@@ -14,7 +15,7 @@
   "devDependencies": {
     "@ktjs/vite-plugin-ktjsx": "latest",
     "@ktjs/ts-plugin": "latest",
-    "typescript": "^5.9.3",
-    "vite": "^7.0.0"
+    "typescript": "latest",
+    "vite": "latest"
   }
 }

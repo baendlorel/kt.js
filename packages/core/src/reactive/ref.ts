@@ -4,6 +4,7 @@ import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
+import { KTComputed } from './computed.js';
 
 export class KTRef<T> extends KTReactive<T> {
   public readonly ktType = KTReactiveType.Ref;
@@ -29,6 +30,13 @@ export class KTRef<T> extends KTReactive<T> {
   get draft() {
     markMutation(this);
     return this._value;
+  }
+
+  // todo 写一个deepget的类型工具
+  get(key: keyof T, key2: keyof T[typeof key]): KTComputed<T[typeof key][typeof key2]>;
+  get(key: keyof T): KTComputed<T[keyof T]>;
+  get(key: keyof T): KTComputed<T[keyof T]> {
+    return new KTComputed(() => this.value[key], [this]);
   }
 }
 

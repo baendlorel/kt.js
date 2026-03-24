@@ -1,4 +1,5 @@
 import type { JSX } from '../types/jsx.js';
+import type { DeepGet } from '../types/type-utils.js';
 
 import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';
@@ -33,10 +34,26 @@ export class KTRef<T> extends KTReactive<T> {
   }
 
   // todo 写一个deepget的类型工具
-  get(key: keyof T, key2: keyof T[typeof key]): KTComputed<T[typeof key][typeof key2]>;
-  get(key: keyof T): KTComputed<T[keyof T]>;
-  get(key: keyof T): KTComputed<T[keyof T]> {
-    return new KTComputed(() => this.value[key], [this]);
+  get(
+    key0: keyof T,
+    key1: keyof T[typeof key0],
+    key2: keyof T[typeof key0][typeof key1],
+  ): KTComputed<T[typeof key0][typeof key1][typeof key2]>;
+  get(key0: keyof T, key1: keyof T[typeof key0]): KTComputed<T[typeof key0][typeof key1]>;
+  get(key: keyof T): KTComputed<T[typeof key]>;
+  get(...keys: string[]): KTComputed<any> {
+    return new KTComputed(() => {
+      let v = this.value as any;
+      switch (keys.length) {
+        case 1:
+          return v[keys[0]];
+        case 2:
+          return v[keys[0]][keys[1]];
+        case 3:
+          return v[keys[0]][keys[1]][keys[2]];
+      }
+      return undefined;
+    }, [this]) as any;
   }
 }
 
@@ -51,6 +68,8 @@ export class KTRef<T> extends KTReactive<T> {
  * @returns
  */
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
+
+const a = ref({ a: { b: 1 } });
 
 /**
  * Assert k-model to be a ref object

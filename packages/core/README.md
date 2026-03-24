@@ -33,6 +33,16 @@ kt.js is a web framework with a tiny runtime that renders real DOM directly (no 
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
 
+## Security model
+
+kt.js intentionally trusts application code and keeps DOM operations explicit.
+
+- Text children are inserted as text nodes by default.
+- `k-html` is a raw HTML escape hatch that writes to `innerHTML` without sanitization.
+- Prefer `on:*` event bindings. Do not pass raw `onclick` / `onerror` style strings.
+- Attributes such as `href`, `src`, `srcdoc`, `action`, and SVG URL attributes are forwarded as-is.
+- If you bind untrusted input, sanitization and validation must be handled by your application.
+
 ## Quick Start
 
 ```bash

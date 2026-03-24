@@ -26,6 +26,11 @@ export type EventHandler<T extends Event = Event> = (this: HTMLElement, ev: T) =
  * Used to create enhanced HTML elements
  */
 interface KTBaseAttribute {
+  /**
+   * Additional attributes are forwarded to the DOM as-is.
+   * kt.js does not sanitize raw HTML, URLs, `srcdoc`, or native `on*` attribute values.
+   * If you bind untrusted input here, sanitization is the application's responsibility.
+   */
   [k: string]: any;
 
   // # kt-specific attributes
@@ -43,8 +48,11 @@ interface KTBaseAttribute {
   'k-model'?: KTRef<any>;
 
   /**
-   * Directly apply html string to `innerHTML`.
-   * - Would be reactive if `KTRef` instance is provided
+   * Raw HTML escape hatch. Directly assigns to `innerHTML`.
+   * - Provide a `KTRef` to make it reactive.
+   * - No sanitization is performed by kt.js.
+   * - Only pass trusted HTML.
+   * - Never bind user-controlled strings here without application-level sanitization.
    */
   'k-html'?: any;
 
@@ -102,6 +110,10 @@ interface KTBaseAttribute {
 }
 
 export type KTPrefixedEventAttribute = {
+  /**
+   * Preferred event binding form.
+   * Use `on:click`, `on:input`, etc. instead of raw `onclick`/`onerror` attributes.
+   */
   [EventName in keyof HTMLElementEventMap as `on:${EventName}`]?: (ev: HTMLElementEventMap[EventName]) => void;
 };
 

@@ -45,6 +45,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     }
   }
 
+  // ! Security: `k-html` is an explicit raw HTML escape hatch. kt.js intentionally does not sanitize here; callers must pass only trusted HTML.
   if ('k-html' in attr) {
     const html = attr['k-html'];
     if (isKT(html)) {
@@ -84,6 +85,9 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     }
 
     // normal attributes
+    // Security: all non-`on:` attributes are forwarded as-is.
+    // Dangerous values such as raw `on*`, `href`, `src`, `srcdoc`, SVG href, etc.
+    // remain the caller's responsibility.
     const handler = handlers[key] || defaultHandler;
     if (isKT(o)) {
       handler(element, key, o.value);

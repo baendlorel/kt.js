@@ -166,7 +166,10 @@ const box = <div k-html={html} />;
 
 规则：
 
-- 直接写入 `innerHTML`，仅用于可信内容。
+- 直接写入 `innerHTML`，kt.js 不做任何净化。
+- 仅用于可信内容。
+- 不要把用户输入、URL 参数、富文本原文等未经消毒的字符串直接传给 `k-html`。
+- 若必须渲染外部 HTML，请先在业务层完成白名单过滤或消毒。
 
 ## 4. Fragment、children、ref
 

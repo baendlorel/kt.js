@@ -213,8 +213,11 @@ export namespace JSX {
     'k-model'?: KTRef<any>;
 
     /**
-     * Raw html binding
-     * - Provide a `KTRef` to make it reactive
+     * Raw HTML escape hatch.
+     * - Provide a `KTRef` to make it reactive.
+     * - Directly writes to `innerHTML` with no sanitization.
+     * - Only use trusted HTML.
+     * - Do not pass user-controlled strings unless you sanitize them yourself first.
      */
     'k-html'?: any;
     children?: KTRawContent;

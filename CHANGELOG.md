@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.35.x - 2026-03-24
+
+### API
+
+- **`reactive.get('a','b')`** is a shortcut for `reactive.map((v) => v.a.b)`. By default it has 5 levels of type annotations and it's convienient for common use cases.
+
 ## 0.34.0 - 2026-03-24
 
 ### API

@@ -32,22 +32,53 @@ export class KTRef<T> extends KTReactive<T> {
     return this._value;
   }
 
-  // get(
-  //   key0: keyof T,
-  //   key1: keyof T[typeof key0],
-  //   key2: keyof T[typeof key0][typeof key1],
-  // ): KTComputed<T[typeof key0][typeof key1][typeof key2]>;
-  get<K0 extends keyof T>(key0: K0, key1: keyof T[K0]): KTComputed<T[typeof key0][typeof key1]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler and more efficient.
+   * @returns A `KTComputed` object
+   */
+  get<
+    K0 extends keyof T,
+    K1 extends keyof T[K0],
+    K2 extends keyof T[K0][K1],
+    K3 extends keyof T[K0][K1][K2],
+    K4 extends keyof T[K0][K1][K2][K3],
+  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   */
+  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+    key3: K3,
+  ): KTComputed<T[K0][K1][K2][K3]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   */
+  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
+    key0: K0,
+    key1: K1,
+    key2: K2,
+  ): KTComputed<T[K0][K1][K2]>;
+  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<keyof T[K0][K1]>;
+  /**
+   * Generate a computed value based on this ref, using keys to access nested properties.
+   */
   get(key: keyof T): KTComputed<T[typeof key]>;
   get(...keys: any[]) {
     return new KTComputed(() => {
       let v = this.value as any;
-      if (v === null || v === undefined) {
-        return v;
-      }
-
       for (let i = 0; i < keys.length; i++) {
-        const element = keys[i];
+        if (v === null || v === undefined) {
+          return v;
+        }
+        const k = keys[i];
+        if (k in v) {
+          v = v[k];
+        } else {
+          return undefined;
+        }
       }
       return undefined;
     }, [this]) as any;
@@ -65,11 +96,6 @@ export class KTRef<T> extends KTReactive<T> {
  * @returns
  */
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
-
-const a = ref({ a: { b: { c: 1 } }, b: 'sss', c: { a: { b: '' } } });
-a.get('a', 'b');
-a.get('b', 'blink');
-a.get('c', 'a');
 
 /**
  * Assert k-model to be a ref object

@@ -186,6 +186,42 @@ describe('KTFor Component', () => {
     expect(newFirstDiv.textContent).toBe('a-updated');
   });
 
+  it('should reorder keyed DOM nodes', () => {
+    const list = ref([
+      { id: '1', value: 'a' },
+      { id: '2', value: 'b' },
+      { id: '3', value: 'c' },
+      { id: '4', value: 'd' },
+    ]);
+
+    const forEl = (
+      <div>
+        <KTFor
+          list={list}
+          key={(item) => item.id}
+          map={(item) => {
+            const div = h('div', { class: 'item' }, item.value);
+            div.dataset.__test_id__ = item.id;
+            return div;
+          }}
+        />
+      </div>
+    );
+
+    container.appendChild(forEl);
+
+    list.value = [
+      { id: '4', value: 'd' },
+      { id: '2', value: 'b' },
+      { id: '1', value: 'a' },
+      { id: '3', value: 'c' },
+    ];
+
+    const items = Array.from(container.querySelectorAll('.item'));
+    expect(items.map((item) => item.textContent)).toEqual(['d', 'b', 'a', 'c']);
+    expect(items.map((item) => (item as HTMLDivElement).dataset.__test_id__)).toEqual(['4', '2', '1', '3']);
+  });
+
   it('should remove elements not in new list', () => {
     const list = ref([1, 2, 3, 4, 5]);
     const anchor = KTFor({

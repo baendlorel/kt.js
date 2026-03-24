@@ -69,9 +69,6 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     // Build key index map and new elements array in one pass
     const newKeyToNewIndex = new Map<any, number>();
     const newElements: HTMLElement[] = new Array(newLength);
-    let maxNewIndexSoFar = 0;
-    let moved = false;
-
     for (let i = 0; i < newLength; i++) {
       const item = newList[i];
       const itemKey = currentKey(item, i, newList);
@@ -79,15 +76,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
       if (nodeMap.has(itemKey)) {
         // Reuse existing node
-        const node = nodeMap.get(itemKey)!;
-        newElements[i] = node;
-
-        // Track if items moved
-        if (i < maxNewIndexSoFar) {
-          moved = true;
-        } else {
-          maxNewIndexSoFar = i;
-        }
+        newElements[i] = nodeMap.get(itemKey)!;
       } else {
         // Create new node
         newElements[i] = currentMap(item, i, newList);
@@ -105,45 +94,14 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       toRemove[i].remove();
     }
 
-    // Update DOM with minimal operations
-    if (moved) {
-      // Use longest increasing subsequence to minimize moves
-      const seq = getSequence(newElements.map((el, i) => (nodeMap.has(currentKey(newList[i], i, newList)) ? i : -1)));
-
-      let j = seq.length - 1;
-      let anchor: Node | null = null;
-
-      // Traverse from end to start for stable insertions
-      for (let i = newLength - 1; i >= 0; i--) {
-        const node = newElements[i];
-
-        if (j < 0 || i !== seq[j]) {
-          // Node needs to be moved or inserted
-          if (anchor) {
-            parent.insertBefore(node, anchor);
-          } else {
-            // Insert at end
-            let temp = (anchor as any).nextSibling; // ?? 这里难道不是null？
-            while (temp && newElements.includes(temp as HTMLElement)) {
-              temp = temp.nextSibling;
-            }
-            parent.insertBefore(node, temp);
-          }
-        } else {
-          j--;
-        }
-        anchor = node;
-      }
-    } else {
-      // No moves needed, just insert new nodes
-      let currentNode = anchor.nextSibling;
-      for (let i = 0; i < newLength; i++) {
-        const node = newElements[i];
-        if (currentNode !== node) {
-          parent.insertBefore(node, currentNode);
-        } else {
-          currentNode = currentNode.nextSibling;
-        }
+    // Reorder existing nodes and insert new nodes in a single pass.
+    let currentNode = anchor.nextSibling;
+    for (let i = 0; i < newLength; i++) {
+      const node = newElements[i];
+      if (currentNode !== node) {
+        parent.insertBefore(node, currentNode);
+      } else {
+        currentNode = currentNode.nextSibling;
       }
     }
 
@@ -179,53 +137,4 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   $initRef(props, anchor);
 
   return anchor;
-}
-
-// Longest Increasing Subsequence algorithm (optimized for diff)
-function getSequence(arr: number[]): number[] {
-  const p = arr.slice();
-  const result = [0];
-  let i: number, j: number, u: number, v: number, c: number;
-  const len = arr.length;
-
-  for (i = 0; i < len; i++) {
-    const arrI = arr[i];
-    if (arrI === -1) continue;
-
-    j = result[result.length - 1];
-    if (arr[j] < arrI) {
-      p[i] = j;
-      result.push(i);
-      continue;
-    }
-
-    u = 0;
-    v = result.length - 1;
-
-    while (u < v) {
-      c = ((u + v) / 2) | 0;
-      if (arr[result[c]] < arrI) {
-        u = c + 1;
-      } else {
-        v = c;
-      }
-    }
-
-    if (arrI < arr[result[u]]) {
-      if (u > 0) {
-        p[i] = result[u - 1];
-      }
-      result[u] = i;
-    }
-  }
-
-  u = result.length;
-  v = result[u - 1];
-
-  while (u-- > 0) {
-    result[u] = v;
-    v = p[v];
-  }
-
-  return result;
 }

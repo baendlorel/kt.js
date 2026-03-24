@@ -1,6 +1,6 @@
-import type { ChangeHandlerKey } from './reactive.js';
 import type { JSX } from '../types/jsx.js';
 
+import { $is } from '@ktjs/shared';
 import { isKT, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 
@@ -15,17 +15,17 @@ export class KTComputed<T> extends KTReactive<T> {
   /**
    * @internal
    */
-  private _recalculate(forceEmit: boolean = false, handlerKeys?: ChangeHandlerKey[]): this {
+  private _recalculate(forceEmit: boolean = false): this {
     const oldValue = this._value;
     const newValue = this._calculator();
-    if (oldValue === newValue) {
+    if ($is(oldValue, newValue)) {
       if (forceEmit) {
-        this._emit(newValue, oldValue, handlerKeys);
+        this._emit(newValue, oldValue);
       }
       return this;
     }
     this._value = newValue;
-    this._emit(newValue, oldValue, handlerKeys);
+    this._emit(newValue, oldValue);
     return this;
   }
 
@@ -52,8 +52,8 @@ export class KTComputed<T> extends KTReactive<T> {
   /**
    * Force listeners to run once with the latest computed result.
    */
-  notify(handlerKeys?: ChangeHandlerKey[]): this {
-    return this._recalculate(true, handlerKeys);
+  notify(): this {
+    return this._recalculate(true);
   }
 }
 

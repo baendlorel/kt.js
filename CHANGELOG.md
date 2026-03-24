@@ -1,8 +1,14 @@
 # Changelog
 
+## 0.34.0 - 2026-03-24
+
+### API
+
+- **`notify()`** nolonger has an optional handlerKeys parameter
+
 ## 0.33.x - 2026-03-21
 
-### API Clarification
+### API
 
 - **`ref.value` remains the primary read API (`@ktjs/core`, `kt.js`)**:
   - Read current data with `ref.value`.

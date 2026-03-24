@@ -26,13 +26,7 @@ export class KTReactive<T> {
   /**
    * @internal
    */
-  protected _emit(newValue: T, oldValue: T, handlerKeys?: ChangeHandlerKey[]) {
-    if (handlerKeys) {
-      for (let i = 0; i < handlerKeys.length; i++) {
-        this._changeHandlers.get(handlerKeys[i])?.(newValue, oldValue);
-      }
-      return this;
-    }
+  protected _emit(newValue: T, oldValue: T) {
     this._changeHandlers.forEach((c) => c(newValue, oldValue));
     return this;
   }
@@ -57,10 +51,11 @@ export class KTReactive<T> {
 
   /**
    * Force all listeners to run even when reference identity has not changed.
+   *
    * Useful for in-place array/object mutations.
    */
-  notify(handlerKeys?: ChangeHandlerKey[]): this {
-    return this._emit(this._value, this._value, handlerKeys);
+  notify(): this {
+    return this._emit(this._value, this._value);
   }
 
   /**

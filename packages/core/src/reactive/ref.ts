@@ -64,17 +64,15 @@ export class KTSubRef<T> {
 
   private _setter: (source: KTReactive<any>, newValue: T) => void;
 
+  private _draftGetter: (source: KTReactive<any>) => T;
+
   constructor(_source: KTReactive<any>, path: string[]) {
     this._source = _source;
-    this._getter = new Function(
-      `r`,
-      `return r.value${path.map((p) => `[${$stringify(p)}]`).join('')}`,
-    ) as typeof this._getter;
-    this._setter = new Function(
-      `r`,
-      `nv`,
-      `r.draft${path.map((p) => `[${$stringify(p)}]`).join('')} = nv`,
-    ) as typeof this._setter;
+    const p = path.map((p) => `[${$stringify(p)}]`).join('');
+
+    this._getter = new Function(`r`, `return r.value${p}`) as typeof this._getter;
+    this._setter = new Function(`r`, `nv`, `r.draft${p} = nv`) as typeof this._setter;
+    this._draftGetter = new Function(`r`, `return r.draft${p}`) as typeof this._getter;
   }
 
   get value() {
@@ -82,7 +80,11 @@ export class KTSubRef<T> {
   }
 
   set value(newValue: T) {
-    this._setter(this._source, newValue);
+    this._setter(this._source, newValue); // hack 理论上这里如果被修改，由于改动的透传，源对象的事件应该能正常触发
+  }
+
+  get draft() {
+    return this._draftGetter(this._source);
   }
 }
 

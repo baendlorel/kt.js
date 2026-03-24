@@ -91,6 +91,7 @@ export class KTReactive<T> {
     return callback;
   }
 
+  // todo 为了方便让多层复杂的属性也可以被响应式绑定到输入组件，这里建立mutable，名字待定。但其是否要返回只有value属性的极简版ref，还是完整的ref，要看对model的需求
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.

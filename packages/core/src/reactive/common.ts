@@ -6,6 +6,7 @@ export const enum KTReactiveType {
   Reative = 1,
   Computed,
   Ref,
+  SubRef,
 }
 
 export const isKT = <T = any>(obj: any): obj is KTReactive<T> => obj?.isKT;
@@ -15,6 +16,6 @@ export const isRef = <T = any>(obj: any): obj is KTRef<T> => {
   if (obj.ktType === undefined) {
     return false;
   }
-  return obj.ktType === KTReactiveType.Ref;
+  return obj.ktType >= KTReactiveType.Ref;
 };
 export const isComputed = <T = any>(obj: any): obj is KTComputed<T> => obj?.ktType === KTReactiveType.Computed;

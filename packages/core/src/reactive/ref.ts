@@ -4,7 +4,6 @@ import { $emptyFn, $is } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
-import { KTComputed } from './computed.js';
 
 export class KTRef<T> extends KTReactive<T> {
   public readonly ktType = KTReactiveType.Ref;
@@ -31,30 +30,6 @@ export class KTRef<T> extends KTReactive<T> {
     markMutation(this);
     return this._value;
   }
-
-  mutable<
-    K0 extends keyof T,
-    K1 extends keyof T[K0],
-    K2 extends keyof T[K0][K1],
-    K3 extends keyof T[K0][K1][K2],
-    K4 extends keyof T[K0][K1][K2][K3],
-  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
-  mutable<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
-    key0: K0,
-    key1: K1,
-    key2: K2,
-    key3: K3,
-  ): KTComputed<T[K0][K1][K2][K3]>;
-  mutable<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
-    key0: K0,
-    key1: K1,
-    key2: K2,
-  ): KTComputed<T[K0][K1][K2]>;
-  mutable<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
-  mutable(...keys: any[]): KTRef<any> {
-    // todo 为了方便让多层复杂的属性也可以被响应式绑定到输入组件，这里建立mutable
-    return ref();
-  }
 }
 
 /**
@@ -68,6 +43,19 @@ export class KTRef<T> extends KTReactive<T> {
  * @returns
  */
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
+
+export class KTSubRef<T> {
+  public readonly isKT: true = true;
+  public readonly ktType: KTReactiveType = KTReactiveType.SubRef;
+  private _derivedFrom: KTReactive<any>;
+  private _getter: () => T;
+  private _setter: (newValue: T) => void;
+  constructor(_derivedFrom: KTReactive<any>, _getter: () => T, _setter: (newValue: T) => void) {
+    this._derivedFrom = _derivedFrom;
+    this._getter = _getter;
+    this._setter = _setter;
+  }
+}
 
 /**
  * Assert k-model to be a ref object

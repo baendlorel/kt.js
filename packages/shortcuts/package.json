@@ -1,6 +1,6 @@
 {
   "name": "@ktjs/shortcuts",
-  "version": "0.34.1",
+  "version": "0.34.3",
   "description": "Shortcut functions for kt.js - common DOM operations",
   "description_zh": "kt.js 的快捷函数集合，封装常见 DOM 操作。",
   "type": "module",

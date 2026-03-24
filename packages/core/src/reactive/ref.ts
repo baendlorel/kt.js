@@ -38,10 +38,23 @@ export class KTRef<T> extends KTReactive<T> {
     key0: keyof T,
     key1: keyof T[typeof key0],
     key2: keyof T[typeof key0][typeof key1],
+    key3: keyof T[typeof key0][typeof key1][typeof key2],
+    key4: keyof T[typeof key0][typeof key1][typeof key2][typeof key3],
+  ): KTComputed<T[typeof key0][typeof key1][typeof key2][typeof key3][typeof key4]>;
+  get(
+    key0: keyof T,
+    key1: keyof T[typeof key0],
+    key2: keyof T[typeof key0][typeof key1],
+    key3: keyof T[typeof key0][typeof key1][typeof key2],
+  ): KTComputed<T[typeof key0][typeof key1][typeof key2][typeof key3]>;
+  get(
+    key0: keyof T,
+    key1: keyof T[typeof key0],
+    key2: keyof T[typeof key0][typeof key1],
   ): KTComputed<T[typeof key0][typeof key1][typeof key2]>;
   get(key0: keyof T, key1: keyof T[typeof key0]): KTComputed<T[typeof key0][typeof key1]>;
   get(key: keyof T): KTComputed<T[typeof key]>;
-  get(...keys: string[]): KTComputed<any> {
+  get(...keys: any[]) {
     return new KTComputed(() => {
       let v = this.value as any;
       switch (keys.length) {
@@ -69,7 +82,8 @@ export class KTRef<T> extends KTReactive<T> {
  */
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
 
-const a = ref({ a: { b: 1 } });
+const a = ref({ a: { b: { c: 1 } } });
+const b = a.get('a', 'b', 'c', 'toString');
 
 /**
  * Assert k-model to be a ref object

@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
 
-import { $emptyFn, $is } from '@ktjs/shared';
+import { $emptyFn, $is, $stringify } from '@ktjs/shared';
 import { isRef, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
@@ -45,15 +45,44 @@ export class KTRef<T> extends KTReactive<T> {
 export const ref = <T = JSX.Element>(value?: T) => new KTRef<T>(value as any);
 
 export class KTSubRef<T> {
+  /**
+   * Although it is not extending `KTReactive`, it remains a KT object.
+   */
   public readonly isKT: true = true;
+
+  /**
+   * Indicates that this is a `KTSubRef` instance
+   */
   public readonly ktType: KTReactiveType = KTReactiveType.SubRef;
-  private _derivedFrom: KTReactive<any>;
-  private _getter: () => T;
-  private _setter: (newValue: T) => void;
-  constructor(_derivedFrom: KTReactive<any>, _getter: () => T, _setter: (newValue: T) => void) {
-    this._derivedFrom = _derivedFrom;
-    this._getter = _getter;
-    this._setter = _setter;
+
+  /**
+   * Reference to the original reactive object, used for change tracking and dependency collection.
+   */
+  private _source: KTReactive<any>;
+
+  private _getter: (source: KTReactive<any>) => T;
+
+  private _setter: (source: KTReactive<any>, newValue: T) => void;
+
+  constructor(_source: KTReactive<any>, path: string[]) {
+    this._source = _source;
+    this._getter = new Function(
+      `r`,
+      `return r.value${path.map((p) => `[${$stringify(p)}]`).join('')}`,
+    ) as typeof this._getter;
+    this._setter = new Function(
+      `r`,
+      `nv`,
+      `r.draft${path.map((p) => `[${$stringify(p)}]`).join('')} = nv`,
+    ) as typeof this._setter;
+  }
+
+  get value() {
+    return this._getter(this._source);
+  }
+
+  set value(newValue: T) {
+    this._setter(this._source, newValue);
   }
 }
 

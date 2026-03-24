@@ -89,6 +89,11 @@ describe('reactive helpers', () => {
     expect(length.value).toBe(4);
   });
 
+  it('ref.get should throw when a nullish intermediate value is accessed', () => {
+    expect(() => ref<any>({ user: undefined }).get('user', 'profile')).toThrow(TypeError);
+    expect(() => ref<any>({ user: null }).get('user', 'profile')).toThrow(TypeError);
+  });
+
   it('computed notify should force callback even when value is unchanged', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);

@@ -33,6 +33,15 @@ kt.js is a web framework with a tiny runtime that renders real DOM directly (no 
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
 
+## Quick Start
+
+```bash
+pnpm create kt.js my-app
+cd my-app
+pnpm install
+pnpm dev
+```
+
 ## Security model
 
 kt.js intentionally trusts application code and keeps DOM operations explicit.
@@ -43,11 +52,6 @@ kt.js intentionally trusts application code and keeps DOM operations explicit.
 - Attributes such as `href`, `src`, `srcdoc`, `action`, and SVG URL attributes are forwarded as-is.
 - If you bind untrusted input, sanitization and validation must be handled by your application.
 
-## Quick Start
+## License
 
-```bash
-pnpm create kt.js my-app
-cd my-app
-pnpm install
-pnpm dev
-```
+MIT License.

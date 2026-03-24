@@ -17,9 +17,9 @@
 ## Recent Updates and Breaking Changes
 
 1. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-2. `ref.draft` is the deep-mutation entry for nested objects, arrays, `Map` / `Set`, and custom mutable objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick.
-3. `ref.draft` itself is not assignable; mutate nested fields or call mutating methods on the returned object instead.
-4. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
+2. `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.
+   1. `ref.draft` itself is **not assignable**.
+3. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Community
 

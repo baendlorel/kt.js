@@ -17,10 +17,12 @@
 
 ## Recent Updates
 
-1. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-2. `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.
+1. 0.35.x - `reactive.get('a','b')` is a shortcut for `reactive.map((v) => v.a.b)`. By default it has 5 levels of type annotations and it's convienient for common use cases.
+2. 0.34.x - `ref.notify()` no-longer has an optional argument.
+3. 0.33.x - `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
+4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.
    1. `ref.draft` itself is **not assignable**.
-3. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
+5. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Community
 

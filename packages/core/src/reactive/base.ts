@@ -121,3 +121,12 @@ type KTSubRef<T> = KTReactable<T> & KTWritable<T>;
 type KTSubComputed<T> = KTReactable<T>;
 
 type KTReactive<T> = KTComputed<T> | KTSubComputed<T> | KTRef<T> | KTSubRef<T>;
+
+const a = {} as KTRef<{ a: { b: number }; c: string }>;
+const b = a.get('a', 'b');
+b.draft;
+b.value;
+
+const aa = {} as KTComputed<{ a: { b: number }; c: string }>;
+const bb = aa.get('a', 'b');
+bb.value;

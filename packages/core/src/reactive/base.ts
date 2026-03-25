@@ -1,4 +1,4 @@
-export const enum KTReactiveType {
+export const enum KTType {
   Reative = 1,
   Computed,
   Ref,
@@ -6,10 +6,10 @@ export const enum KTReactiveType {
 }
 type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
-interface KTReactiveBase<T> {
+interface KTReactable<T> {
   readonly isKT: true;
 
-  readonly type: KTReactiveType;
+  readonly type: KTType;
 
   readonly value: T; // & Reactive objects must at least be readable
 }
@@ -52,7 +52,13 @@ interface KTListenable<T> {
   notify(): this;
 }
 
-interface KTDerivable<T> {
+type Derived<O, Type extends KTType.Computed | KTType.Ref> = Type extends KTType.Computed
+  ? KTSubComputed<O>
+  : KTSubRef<O>;
+
+interface KTDerivable<T, Type extends KTType.Computed | KTType.Ref> {
+  readonly type: Type;
+
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
@@ -70,7 +76,10 @@ interface KTDerivable<T> {
     key2: K2,
     key3: K3,
     key4: K4,
-  ): Derived<T[K0][K1][K2][K3][K4]>;
+  ): Derived<T[K0][K1][K2][K3][K4], Type>;
+  // this['type'] extends KTReactiveType.Computed
+  //   ? KTSubComputed<T[K0][K1][K2][K3][K4]>
+  //   : KTSubRef<T[K0][K1][K2][K3][K4]>;
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
@@ -81,7 +90,7 @@ interface KTDerivable<T> {
     key1: K1,
     key2: K2,
     key3: K3,
-  ): KTReactiveBase<T[K0][K1][K2][K3]>;
+  ): Derived<T[K0][K1][K2][K3], Type>;
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
@@ -91,22 +100,24 @@ interface KTDerivable<T> {
     key0: K0,
     key1: K1,
     key2: K2,
-  ): KTReactiveBase<T[K0][K1][K2]>;
+  ): Derived<T[K0][K1][K2], Type>;
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
-  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTReactiveBase<T[K0][K1]>;
+  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): Derived<T[K0][K1], Type>;
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
-  get<K0 extends keyof T>(key0: K0): KTReactiveBase<T[K0]>;
+  get<K0 extends keyof T>(key0: K0): Derived<T[K0], Type>;
 }
 
-type KTComputed<T> = KTReactiveBase<T> & KTListenable<T> & KTMappable<T>;
-type KTRef<T> = KTReactiveBase<T> & KTListenable<T> & KTMappable<T> & KTWritable<T>;
-type KTSubRef<T> = KTReactiveBase<T> & KTWritable<T>;
-type KTSubComputed<T> = KTReactiveBase<T>;
+type KTComputed<T> = KTReactable<T> & KTListenable<T> & KTMappable<T> & KTDerivable<T, KTType.Computed>;
+type KTRef<T> = KTReactable<T> & KTListenable<T> & KTMappable<T> & KTWritable<T> & KTDerivable<T, KTType.Ref>;
+type KTSubRef<T> = KTReactable<T> & KTWritable<T>;
+type KTSubComputed<T> = KTReactable<T>;
+
+type KTReactive<T> = KTComputed<T> | KTSubComputed<T> | KTRef<T> | KTSubRef<T>;

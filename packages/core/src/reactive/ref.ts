@@ -1,7 +1,7 @@
 import type { JSX } from '../types/jsx.js';
 
 import { $emptyFn, $is, $stringify } from '@ktjs/shared';
-import { isRef, KTReactiveType } from './common.js';
+import { $createSubFn, $createSubFnWithCache, isRef, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
 
@@ -50,7 +50,9 @@ export class KTSubRef<T> {
    */
   public readonly isKT: true = true;
 
-  /**
+  /**iiii9iiiiiiiiiiiiiiiiiiiiiiiiii
+   *
+   *
    * Indicates that this is a `KTSubRef` instance
    */
   public readonly ktType: KTReactiveType = KTReactiveType.SubRef;
@@ -64,15 +66,15 @@ export class KTSubRef<T> {
 
   private _setter: (source: KTReactive<any>, newValue: T) => void;
 
-  private _draftGetter: (source: KTReactive<any>) => T;
+  private _draft: (source: KTReactive<any>) => T;
 
   constructor(_source: KTReactive<any>, path: string[]) {
     this._source = _source;
     const p = path.map((p) => `[${$stringify(p)}]`).join('');
-
-    this._getter = new Function(`r`, `return r.value${p}`) as typeof this._getter;
-    this._setter = new Function(`r`, `nv`, `r.draft${p} = nv`) as typeof this._setter;
-    this._draftGetter = new Function(`r`, `return r.draft${p}`) as typeof this._getter;
+    const subFn = path.some((p) => typeof p === 'number') ? $createSubFn(p) : $createSubFnWithCache(p);
+    this._getter = subFn.getter;
+    this._setter = subFn.setter;
+    this._draft = subFn.draft;
   }
 
   get value() {
@@ -84,7 +86,7 @@ export class KTSubRef<T> {
   }
 
   get draft() {
-    return this._draftGetter(this._source);
+    return this._draft(this._source);
   }
 }
 

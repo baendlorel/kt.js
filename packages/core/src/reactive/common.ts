@@ -19,3 +19,28 @@ export const isRef = <T = any>(obj: any): obj is KTRef<T> => {
   return obj.ktType >= KTReactiveType.Ref;
 };
 export const isComputed = <T = any>(obj: any): obj is KTComputed<T> => obj?.ktType === KTReactiveType.Computed;
+
+interface SubRefCacheItem {
+  getter: (source: KTReactive<any>) => any;
+  setter: (source: KTReactive<any>, newValue: any) => void;
+  draft: (source: KTReactive<any>) => any;
+}
+
+const _subRefCache = new Map<string, SubRefCacheItem>();
+export const $createSubFn = (path: string) =>
+  ({
+    getter: new Function(`r`, `return r.value${path}`),
+    setter: new Function(`r`, `nv`, `r.draft${path} = nv`),
+    draft: new Function(`r`, `return r.draft${path}`),
+  }) as SubRefCacheItem;
+
+export const $createSubFnWithCache = (path: string) => {
+  const exist = _subRefCache.get(path);
+  if (exist) {
+    return exist;
+  } else {
+    const cache = $createSubFn(path);
+    _subRefCache.set(path, cache);
+    return cache;
+  }
+};

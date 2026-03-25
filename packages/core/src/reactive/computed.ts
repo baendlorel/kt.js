@@ -61,12 +61,6 @@ KTReactive.prototype.map = function <R>(calculator: (v: unknown) => R, dependenc
   return new KTComputed(() => calculator(this._value), dependencies ? [this, ...dependencies] : [this]);
 };
 
-KTReactive.prototype.get = function (...keys: string[]) {
-  // # This method is 10 times faster than `for v=v[keys[i]]`
-  const reader = new Function('v', `return v${keys.map((k) => `[${$stringify(k)}]`).join('')}`);
-  return new KTComputed(() => reader(this._value), [this]) as any;
-};
-
 /**
  * Create a reactive computed value
  * @param computeFn

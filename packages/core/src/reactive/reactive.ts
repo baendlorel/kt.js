@@ -1,8 +1,8 @@
 import type { KTComputed } from './computed.js';
+import type { KTSubRef } from './sub-ref.js';
 
 import { IdGenerator } from '../common.js';
 import { KTReactiveType } from './common.js';
-import { KTSubRef } from './index.js';
 
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 export type ChangeHandlerKey = string | number;

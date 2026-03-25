@@ -90,6 +90,10 @@ export class KTSubRef<T> {
   }
 }
 
+KTReactive.prototype.get = function (this: KTReactive<any>, ...path: string[]) {
+  return new KTSubRef(this, path);
+};
+
 /**
  * Assert k-model to be a ref object
  */

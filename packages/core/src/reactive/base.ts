@@ -9,7 +9,12 @@ type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 interface KTReactiveBase<T> {
   readonly isKT: true;
   readonly type: KTReactiveType;
-  get value(): T;
+  get value(): T; // & Definitely readable
+}
+
+interface KTWritable<T> {
+  set value(newValue: T);
+  readonly draft: T; // ! Getter only
 }
 
 // & KTRef and KTComputed are mappable, but KTSubRef and KTSubComputed are not.
@@ -17,7 +22,7 @@ interface KTMappable<T> {
   map<U>(calculator: (value: T) => U): KTComputed<U>;
 }
 
-// todo 也许我们可以给sub系列也加上addonchange，但是它们会实际上给source去添加事件
+// todo 给sub系列也加上addonchange，它会实际上给source去添加事件。那么事件要加上触发条件？还是说无所谓直接触发所有事件（这个也许更符合语义）
 interface KTListenable<T> {
   // /**
   //  * & Here we trust developers using addOnChange properly. `ChangeHandler<any>` is aimed to mute some unnecessary type errors.
@@ -45,5 +50,5 @@ interface KTListenable<T> {
   notify(): this;
 }
 
-type KTComputed<T> = KTReactiveBase<T>;
-type KTRef<T> = KTReactiveBase<T>;
+type KTComputed<T> = KTReactiveBase<T> & KTListenable<T> & KTMappable<T>;
+type KTRef<T> = KTReactiveBase<T> & KTListenable<T> & KTMappable<T> & KTWritable<T>;

@@ -6,6 +6,8 @@ import { KTReactiveType } from './common.js';
 
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 export type ChangeHandlerKey = string | number;
+
+// todo 也许应该用组合的方式实现响应式？
 export class KTReactive<T> {
   /**
    * Indicates that this is a KTRef instance

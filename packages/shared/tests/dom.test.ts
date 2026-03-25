@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { $isNode, $parseStyle, $applyModel } from '../src/utils/dom.js';
+import { $isNode, $parseStyle } from '../src/utils/dom.js';
 
 describe('DOM utilities', () => {
   let container: HTMLElement;
@@ -50,54 +50,6 @@ describe('DOM utilities', () => {
       expect($parseStyle(reactive)).toBe('color:blue');
       const reactiveString = { isKT: true, value: 'color: green' };
       expect($parseStyle(reactiveString)).toBe('color: green');
-    });
-  });
-
-  describe('$applyModel', () => {
-    it('should bind input value and change events', () => {
-      const input = document.createElement('input');
-      const valueRef = { value: 'initial', addOnChange: vi.fn() };
-      const onChangeMock = vi.fn();
-      valueRef.addOnChange.mockImplementation((fn) => {
-        // Simulate storing the callback
-        onChangeMock.mockImplementation(fn);
-      });
-
-      $applyModel(input, valueRef, 'value', 'input');
-
-      expect(input.value).toBe('initial');
-      expect(valueRef.addOnChange).toHaveBeenCalledTimes(1);
-
-      // Simulate ref value change
-      onChangeMock('new value');
-      expect(input.value).toBe('new value');
-
-      // Simulate user input
-      input.value = 'user typed';
-      input.dispatchEvent(new Event('input'));
-      expect(valueRef.value).toBe('user typed');
-    });
-
-    it('should bind checkbox checked and change events', () => {
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      const valueRef = { value: false, addOnChange: vi.fn() };
-      const onChangeMock = vi.fn();
-      valueRef.addOnChange.mockImplementation((fn) => {
-        onChangeMock.mockImplementation(fn);
-      });
-
-      $applyModel(checkbox, valueRef, 'checked', 'change');
-
-      expect(checkbox.checked).toBe(false);
-      expect(valueRef.addOnChange).toHaveBeenCalledTimes(1);
-
-      onChangeMock(true);
-      expect(checkbox.checked).toBe(true);
-
-      checkbox.checked = false;
-      checkbox.dispatchEvent(new Event('change'));
-      expect(valueRef.value).toBe(false);
     });
   });
 });

@@ -36,29 +36,3 @@ export const $parseStyle = (style: unknown): string => {
 };
 
 export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
-
-/**
- *
- * @param element
- * @param valueRef
- * @param propName
- * @param eventName
- * @param transformer For `input type="number"` or `"date"`..., we need to transform the value to number before assigning it to the ref
- */
-export const $applyModel = (
-  element: HTMLElementTagNameMap[InputElementTag],
-  valueRef: { value: unknown; addOnChange: (fn: (newValue: unknown) => void) => void },
-  propName: 'value' | 'checked',
-  eventName: 'change' | 'input',
-  transformer?: (value: unknown) => unknown,
-) => {
-  if (transformer) {
-    (element as any)[propName] = transformer(valueRef.value); // initialize
-    valueRef.addOnChange((newValue) => ((element as any)[propName] = transformer(newValue)));
-    element.addEventListener(eventName, () => (valueRef.value = (element as any)[propName]));
-  } else {
-    (element as any)[propName] = valueRef.value; // initialize
-    valueRef.addOnChange((newValue) => ((element as any)[propName] = newValue));
-    element.addEventListener(eventName, () => (valueRef.value = (element as any)[propName]));
-  }
-};

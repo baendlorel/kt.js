@@ -50,9 +50,7 @@ export class KTSubRef<T> {
    */
   public readonly isKT: true = true;
 
-  /**iiii9iiiiiiiiiiiiiiiiiiiiiiiiii
-   *
-   *
+  /**
    * Indicates that this is a `KTSubRef` instance
    */
   public readonly ktType: KTReactiveType = KTReactiveType.SubRef;

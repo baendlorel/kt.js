@@ -25,15 +25,15 @@ export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
     }
   }
 
+  notify(): this {
+    return this._recalculate(true);
+  }
+
   map<U>(calculator: (value: T) => U, dependencies?: KTReactive<any>[]): KTComputed<U> {
     return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
   get(...keys: PropertyKey[]): unknown {
     throw new Error('Method not implemented.');
-  }
-
-  notify(): this {
-    return this._recalculate(true);
   }
 }

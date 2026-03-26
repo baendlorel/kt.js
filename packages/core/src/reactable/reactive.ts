@@ -1,7 +1,6 @@
 import { $stringify } from '@ktjs/shared';
 
-type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
-type ChangeHandlerKey = string | symbol | number;
+type ChangeHandler<T> = (newValue?: T, oldValue?: T) => void;
 
 export const enum KTReactiveType {
   Reative = 1,
@@ -21,15 +20,22 @@ export abstract class KTReactiveBase<T, Type extends KTReactiveType> {
 
   abstract get value(): T;
 
-  abstract addOnChange(handler: ChangeHandler<T>, key?: ChangeHandlerKey): this;
+  abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
 
-  abstract removeOnChange(key: ChangeHandlerKey): this;
+  abstract removeOnChange(key: any): this;
 }
 
 type ReactiveType = KTReactiveType.Ref | KTReactiveType.Computed;
 export abstract class KTReactive<T, Type extends ReactiveType = ReactiveType> extends KTReactiveBase<T, Type> {
+  /**
+   * @internal
+   */
   protected _value: T;
-  protected readonly _changeHandlers = new Map<ChangeHandlerKey, ChangeHandler<any>>();
+
+  /**
+   * @internal
+   */
+  protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
 
   constructor(value: T) {
     super();
@@ -44,12 +50,15 @@ export abstract class KTReactive<T, Type extends ReactiveType = ReactiveType> ex
     $warn('Setting value to a non-ref instance takes no effect.');
   }
 
-  _emit(newValue: T, oldValue: T): this {
+  /**
+   * @internal
+   */
+  protected _emit(newValue: T, oldValue: T): this {
     this._changeHandlers.forEach((handler) => handler(newValue, oldValue));
     return this;
   }
 
-  addOnChange(handler: ChangeHandler<T>, key: ChangeHandlerKey = handlerId++): this {
+  addOnChange(handler: ChangeHandler<T>, key: any = handlerId++): this {
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
     }
@@ -57,7 +66,7 @@ export abstract class KTReactive<T, Type extends ReactiveType = ReactiveType> ex
     return this;
   }
 
-  removeOnChange(key: ChangeHandlerKey): this {
+  removeOnChange(key: any): this {
     this._changeHandlers.delete(key);
     return this;
   }
@@ -86,6 +95,9 @@ export abstract class KTSubReactive<
 > extends KTReactiveBase<T, Type> {
   readonly source: Source;
 
+  /**
+   * @internal
+   */
   protected readonly _getter: (source: Source) => T;
 
   constructor(source: Source, paths: string) {

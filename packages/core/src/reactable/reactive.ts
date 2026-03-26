@@ -63,7 +63,8 @@ export abstract class KTReactive<T> extends KTReactiveBase<T> {
     return this;
   }
 
-  addOnChange(handler: ChangeHandler<T>, key: any = handlerId++): this {
+  addOnChange(handler: ChangeHandler<T>, key?: any): this {
+    key ??= handlerId++;
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
     }
@@ -87,7 +88,7 @@ export abstract class KTReactive<T> extends KTReactiveBase<T> {
 
   abstract map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): unknown;
 
-  abstract get(...keys: (string | number)[]): KTSubReactive<unknown>;
+  abstract get(...keys: Array<string | number>): KTSubReactive<unknown>;
 }
 
 export abstract class KTSubReactive<T> extends KTReactiveBase<T> {

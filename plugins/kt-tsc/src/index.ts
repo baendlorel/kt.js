@@ -104,7 +104,13 @@ function loadProject(projectPath: string, options: ts.CompilerOptions) {
     process.exit(1);
   }
 
-  const parsed = ts.parseJsonConfigFileContent(readResult.config, ts.sys, path.dirname(projectPath), options, projectPath);
+  const parsed = ts.parseJsonConfigFileContent(
+    readResult.config,
+    ts.sys,
+    path.dirname(projectPath),
+    options,
+    projectPath,
+  );
   if (parsed.errors.length > 0) {
     report(parsed.errors, parsed.options.pretty !== false);
     process.exit(1);
@@ -126,7 +132,7 @@ function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForCo
   const scopeCache = new Map<string, KForScope[]>();
 
   return diagnostics.filter((diagnostic) => {
-    if (!diagnostic.file || diagnostic.start == null || diagnostic.length == null) {
+    if (!diagnostic.file || diagnostic.start === null || diagnostic.start === undefined || diagnostic.length === 0) {
       return true;
     }
     if (!SUPPRESSED_DIAGNOSTIC_CODES.has(diagnostic.code)) {
@@ -215,10 +221,7 @@ function collectKForScopes(sourceFile: ts.SourceFile, config: KForConfig) {
   return scopes;
 }
 
-function getJsxAttribute(
-  opening: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
-  attrName: string,
-) {
+function getJsxAttribute(opening: ts.JsxOpeningElement | ts.JsxSelfClosingElement, attrName: string) {
   const attrs = opening.attributes.properties;
   for (let i = 0; i < attrs.length; i++) {
     const attr = attrs[i];
@@ -310,7 +313,9 @@ function report(diagnostics: readonly ts.Diagnostic[], pretty: boolean) {
     getNewLine: () => ts.sys.newLine,
   };
 
-  const text = pretty ? ts.formatDiagnosticsWithColorAndContext(diagnostics, formatHost) : ts.formatDiagnostics(diagnostics, formatHost);
+  const text = pretty
+    ? ts.formatDiagnosticsWithColorAndContext(diagnostics, formatHost)
+    : ts.formatDiagnostics(diagnostics, formatHost);
   if (text) {
     process.stderr.write(text);
   }

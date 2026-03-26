@@ -38,7 +38,7 @@ export class KTRef<T> extends KTReactive<T> {
     return this._emit(this._value, this._value);
   }
 
-  map<U>(calculator: (value: T) => U, dependencies?: KTReactive<any>[]): KTComputed<U> {
+  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): KTComputed<U> {
     return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
@@ -75,7 +75,7 @@ export class KTRef<T> extends KTReactive<T> {
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
   get<K0 extends keyof T>(key0: K0): KTSubRef<T[K0]>;
-  get(...keys: (string | number)[]): KTSubRef<any> {
+  get(...keys: Array<string | number>): KTSubRef<any> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }
@@ -120,7 +120,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
  * Create a reactive reference to a value. The returned object has a single property `value` that holds the internal value.
  * @param value listened value
  */
-export const ref = <T>(value: T): KTRef<T> => new KTRef(value);
+export const ref = <T>(value?: T): KTRef<T> => new KTRef(value as any);
 
 /**
  * Assert k-model to be a ref object

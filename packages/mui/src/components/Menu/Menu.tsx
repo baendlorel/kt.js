@@ -1,4 +1,4 @@
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX } from '@ktjs/core';
 import { computed, KTFor, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';

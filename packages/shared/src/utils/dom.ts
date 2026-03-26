@@ -1,7 +1,6 @@
 // DOM manipulation utilities
 
 import type { KTReactiveLike } from '../types/misc.js';
-import type { InputElementTag } from '../types/global.js';
 import { $entries } from './native.js';
 
 // # dom natives

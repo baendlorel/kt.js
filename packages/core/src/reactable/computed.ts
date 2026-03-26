@@ -16,7 +16,7 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  constructor(calculator: () => T, dependencies: KTReactive<any>[]) {
+  constructor(calculator: () => T, dependencies: Array<KTReactive<any>>) {
     super(calculator());
     this._calculator = calculator;
     const recalculate = () => this._recalculate();
@@ -29,7 +29,7 @@ export class KTComputed<T> extends KTReactive<T> {
     return this._recalculate(true);
   }
 
-  map<U>(calculator: (value: T) => U, dependencies?: KTReactive<any>[]): KTComputed<U> {
+  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): KTComputed<U> {
     return new KTComputed(() => calculator(this._value), dependencies ? dependencies.concat(this) : [this]);
   }
 
@@ -66,7 +66,7 @@ export class KTComputed<T> extends KTReactive<T> {
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
   get<K0 extends keyof T>(key0: K0): KTSubComputed<T[K0]>;
-  get(...keys: (string | number)[]): KTSubComputed<any> {
+  get(...keys: Array<string | number>): KTSubComputed<any> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-computed.');
     }
@@ -86,5 +86,5 @@ export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
  * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
  */
-export const computed = <T>(calculator: () => T, dependencies: KTReactive<any>[]): KTComputed<T> =>
+export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);

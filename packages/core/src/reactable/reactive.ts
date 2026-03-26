@@ -1,6 +1,6 @@
 import { $stringify } from '@ktjs/shared';
 
-type ChangeHandler<T> = (newValue?: T, oldValue?: T) => void;
+export type ChangeHandler<T> = (newValue?: T, oldValue?: T) => void;
 
 export const enum KTReactiveType {
   Reative = 1,
@@ -82,31 +82,48 @@ export abstract class KTReactive<T, Type extends ReactiveType = ReactiveType> ex
 
   abstract map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): unknown;
 
-  abstract get(...keys: PropertyKey[]): unknown;
+  /**
+   * Although it's possible to use non-string keys, it's not recommended since it may cause unexpected issues.
+   */
+  abstract get(...keys: (string | number)[]): unknown;
 }
 
 type SubReactiveType = KTReactiveType.SubRef | KTReactiveType.SubComputed;
 
-// todo 这里好像写得跟初心不符合了，重新看看
 export abstract class KTSubReactive<
   T,
   Type extends SubReactiveType,
-  Source extends KTReactiveBase<any, KTReactiveType>,
+  Source extends KTReactive<any>,
 > extends KTReactiveBase<T, Type> {
   readonly source: Source;
 
   /**
    * @internal
    */
-  protected readonly _getter: (source: Source) => T;
+  protected readonly _getter: (sv: Source['value']) => T;
 
   constructor(source: Source, paths: string) {
     super();
     this.source = source;
-    this._getter = new Function('s', `return s._value${paths}`) as (source: Source) => T;
+    this._getter = new Function('s', `return s${paths}`) as (sv: Source['value']) => T;
   }
 
   get value() {
-    return this._getter(this.source);
+    // @ts-expect-error _value is private
+    return this._getter(this.source._value);
+  }
+
+  addOnChange(handler: ChangeHandler<T>, key?: any): this {
+    this.source.addOnChange((newSourceValue, oldSourceValue) => {
+      const oldValue = this._getter(oldSourceValue);
+      const newValue = this._getter(newSourceValue);
+      handler(newValue, oldValue);
+    }, key);
+    return this;
+  }
+
+  removeOnChange(key: any): this {
+    this.source.removeOnChange(key);
+    return this;
   }
 }

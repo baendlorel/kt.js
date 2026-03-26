@@ -41,7 +41,10 @@ export class KTRef<T> extends KTReactive<T, KTReactiveType.Ref> {
     return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
-  get(...keys: string[]): unknown {
+  get(...keys: (string | number)[]): unknown {
+    if (keys.length === 0) {
+      $throw('At least one key is required to get a sub-ref.');
+    }
     return new KTSubRef(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
   }
 }
@@ -50,35 +53,34 @@ export function ref<T>(value: T): KTRef<T> {
   return new KTRef(value);
 }
 
-class KTSubRef<T, Source extends KTReactive<any>> extends KTSubReactive<T, KTReactiveType.SubRef, Source> {
+class KTSubRef<T, Source extends KTRef<any>> extends KTSubReactive<T, KTReactiveType.SubRef, KTRef<any>> {
   readonly type = KTReactiveType.SubRef;
 
   /**
    * @internal
    */
-  protected readonly _setter: (newValue: T) => void;
+  protected readonly _setter: (o: object, newValue: T) => void;
 
   constructor(source: Source, paths: string) {
     super(source, paths);
-    this._setter = new Function('s', 'v', `s._value${paths}=v`) as (newValue: T) => void;
+    this._setter = new Function('s', 'v', `s${paths}=v`) as (o: object, newValue: T) => void;
   }
 
   get value() {
-    return this._getter(this.source);
+    // @ts-expect-error _value is private
+    return this._getter(this.source._value);
   }
 
   set value(newValue: T) {
-    this._setter(newValue);
+    // @ts-expect-error _value is private
+    this._setter(this.source._value, newValue);
     this.source.notify();
   }
 
-  addOnChange(handler: () => void): this {
-    this.source.addOnChange(handler, this);
-    return this;
-  }
-
-  removeOnChange(): this {
-    this.source.removeOnChange(this);
-    return this;
+  get draft() {
+    // Same implementation as `draft` in `KTRef`
+    markMutation(this.source);
+    // @ts-expect-error _value is private
+    return this._getter(this.source._value);
   }
 }

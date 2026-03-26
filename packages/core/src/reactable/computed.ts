@@ -1,5 +1,5 @@
-import { $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType } from './reactive.js';
+import { $is, $stringify } from '@ktjs/shared';
+import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 
 export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
   readonly type = KTReactiveType.Computed;
@@ -33,7 +33,18 @@ export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
     return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
-  get(...keys: PropertyKey[]): unknown {
-    throw new Error('Method not implemented.');
+  get(...keys: (string | number)[]): unknown {
+    if (keys.length === 0) {
+      $throw('At least one key is required to get a sub-computed.');
+    }
+    return new KTSubComputed(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
   }
+}
+
+class KTSubComputed<T, Source extends KTReactive<any, KTReactiveType.Computed>> extends KTSubReactive<
+  T,
+  KTReactiveType.SubComputed,
+  Source
+> {
+  readonly type = KTReactiveType.SubComputed;
 }

@@ -26,11 +26,12 @@ export abstract class KTReactive<
 > extends KTReactiveBase<T, Type> {
   protected _value: T;
 
-  protected readonly _changeHandlers = new Map<ChangeHandlerKey, ChangeHandler<any>>();
+  protected readonly _changeHandlers: Map<ChangeHandlerKey, ChangeHandler<any>>;
 
   constructor(value: T) {
     super();
     this._value = value;
+    this._changeHandlers = new Map();
   }
 
   get value() {

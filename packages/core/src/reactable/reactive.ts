@@ -1,8 +1,7 @@
 import { $stringify } from '@ktjs/shared';
-import { IdGenerator } from '../common.js';
 
 type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
-type ChangeHandlerKey = string | number;
+type ChangeHandlerKey = string | symbol | number;
 
 export const enum KTReactiveType {
   Reative = 1,
@@ -12,30 +11,37 @@ export const enum KTReactiveType {
   SubComputed,
 }
 
+let kid = 1;
+let handlerId = 1;
+
 export abstract class KTReactiveBase<T, Type extends KTReactiveType> {
-  readonly isKT = true as const;
+  readonly kid = kid++;
 
   abstract readonly type: Type;
 
   abstract get value(): T;
+
+  abstract addOnChange(handler: ChangeHandler<T>, key?: ChangeHandlerKey): this;
+
+  abstract removeOnChange(key: ChangeHandlerKey): this;
 }
 
-export abstract class KTReactive<
-  T,
-  Type extends KTReactiveType.Ref | KTReactiveType.Computed = KTReactiveType.Ref | KTReactiveType.Computed,
-> extends KTReactiveBase<T, Type> {
+type ReactiveType = KTReactiveType.Ref | KTReactiveType.Computed;
+export abstract class KTReactive<T, Type extends ReactiveType = ReactiveType> extends KTReactiveBase<T, Type> {
   protected _value: T;
-
-  protected readonly _changeHandlers: Map<ChangeHandlerKey, ChangeHandler<any>>;
+  protected readonly _changeHandlers = new Map<ChangeHandlerKey, ChangeHandler<any>>();
 
   constructor(value: T) {
     super();
     this._value = value;
-    this._changeHandlers = new Map();
   }
 
   get value() {
     return this._value;
+  }
+
+  set value(_newValue: T) {
+    $warn('Setting value to a non-ref instance takes no effect.');
   }
 
   _emit(newValue: T, oldValue: T): this {
@@ -43,13 +49,21 @@ export abstract class KTReactive<
     return this;
   }
 
-  addOnChange(handler: ChangeHandler<T>, key?: ChangeHandlerKey): this {
-    this._changeHandlers.set(key ?? IdGenerator.kid, handler);
+  addOnChange(handler: ChangeHandler<T>, key: ChangeHandlerKey = handlerId++): this {
+    if (this._changeHandlers.has(key)) {
+      $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
+    }
+    this._changeHandlers.set(key, handler);
     return this;
   }
 
   removeOnChange(key: ChangeHandlerKey): this {
     this._changeHandlers.delete(key);
+    return this;
+  }
+
+  clearOnChange(): this {
+    this._changeHandlers.clear();
     return this;
   }
 
@@ -62,19 +76,22 @@ export abstract class KTReactive<
   abstract get(...keys: PropertyKey[]): unknown;
 }
 
+type SubReactiveType = KTReactiveType.SubRef | KTReactiveType.SubComputed;
+
+// todo 这里好像写得跟初心不符合了，重新看看
 export abstract class KTSubReactive<
   T,
-  Type extends KTReactiveType.SubRef | KTReactiveType.SubComputed,
+  Type extends SubReactiveType,
   Source extends KTReactiveBase<any, KTReactiveType>,
 > extends KTReactiveBase<T, Type> {
   readonly source: Source;
 
   protected readonly _getter: (source: Source) => T;
 
-  constructor(source: Source, paths: string[]) {
+  constructor(source: Source, paths: string) {
     super();
     this.source = source;
-    this._getter = new Function('v', `return ${paths.map((p) => `v[${$stringify(p)}]`).join('')}`) as any;
+    this._getter = new Function('s', `return s._value${paths}`) as (source: Source) => T;
   }
 
   get value() {

@@ -1,5 +1,5 @@
 import { $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType } from './reactive.js';
+import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 
@@ -43,5 +43,24 @@ export class KTRef<T> extends KTReactive<T, KTReactiveType.Ref> {
 
   get(...keys: PropertyKey[]): unknown {
     throw new Error('Method not implemented.');
+  }
+}
+
+class KTSubRef<T, Source extends KTReactive<any>> extends KTSubReactive<T, KTReactiveType.SubRef, Source> {
+  readonly type = KTReactiveType.SubRef;
+
+  protected readonly _setter: (newValue: T) => void;
+
+  constructor(source: Source, paths: string) {
+    super(source, paths);
+    this._setter = new Function('s', 'v', `s._value${paths}=v`) as (newValue: T) => void;
+  }
+
+  get value() {
+    return this._getter(this.source);
+  }
+
+  set value(newValue: T) {
+    this._setter(newValue);
   }
 }

@@ -1,6 +1,6 @@
-import type { KTReactifyProps } from '../reactive/reactive.js';
+import type { KTReactifyProps } from '../reactable/reactive.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
-import { isKT } from '../reactive/common.js';
+import { isKT } from '../reactable/common.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>

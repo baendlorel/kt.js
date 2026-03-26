@@ -1,8 +1,8 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
-import type { KTReactive } from '../reactive/reactive.js';
+import type { KTReactive } from '../reactable/reactive.js';
 
-import { isKT } from '../reactive/index.js';
+import { isKT } from '../reactable/index.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(

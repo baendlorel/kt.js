@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { h } from '../src/h/index.js';
 import { KTConditional } from '../src/jsx/if.js';
-import { ref } from '../src/reactive/index.js';
+import { ref } from '../src/reactable/index.js';
 
 describe('KTConditional', () => {
   let container: HTMLDivElement;

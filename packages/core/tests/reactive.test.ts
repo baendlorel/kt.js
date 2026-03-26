@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
-import { ref, computed } from '../src/reactive/index.js';
-import type { KTComputed } from '../src/reactive/computed.js';
-import type { KTRef } from '../src/reactive/ref.js';
+import { ref, computed } from '../src/reactable/index.js';
+import type { KTComputed } from '../src/reactable/computed.js';
+import type { KTRef } from '../src/reactable/ref.js';
 
 type IsEqual<A, B> =
   (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B ? 1 : 2

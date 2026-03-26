@@ -9,7 +9,7 @@ export * from './jsx/index.js';
 export { svg, mathml, svg as svgRuntime, mathml as mathmlRuntime } from './jsx/jsx-runtime.js';
 export { svg as createSVGElement, mathml as createMathMLElement } from './h/index.js';
 
-export * from './reactive/index.js';
+export * from './reactable/index.js';
 
 // # special JSX Components
 export { KTAsync } from './jsx/async.js';

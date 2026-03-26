@@ -1,6 +1,6 @@
 import type { InputElementTag } from '@ktjs/shared';
-import type { KTRef } from '../reactive/ref.js';
-import { isKT } from '../reactive/index.js';
+import type { KTRef } from '../reactable/ref.js';
+import { isKT } from '../reactable/index.js';
 
 // todo 这里完全可以直接访问subref的source来加事件，但是，颗粒度是否太大了？能否通过path来触发更加精细的change事件？
 export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {

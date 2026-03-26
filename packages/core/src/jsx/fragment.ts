@@ -1,10 +1,10 @@
-import type { KTReactive } from '../reactive/reactive.js';
+import type { KTReactive } from '../reactable/reactive.js';
 import type { KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
-import type { KTRef } from '../reactive/ref.js';
+import type { KTRef } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
-import { $initRef, isKT, toReactive } from '../reactive/index.js';
+import { $initRef, isKT, toReactive } from '../reactable/index.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 const FRAGMENT_MOUNT = '__kt_fragment_mount__';

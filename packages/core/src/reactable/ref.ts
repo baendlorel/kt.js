@@ -2,6 +2,7 @@ import { $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
+import { $createSubSetter } from './common.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Ref;
@@ -93,7 +94,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
 
   constructor(source: KTRef<any>, paths: string) {
     super(source, paths);
-    this._setter = new Function('s', 'v', `s${paths}=v`) as (s: object, newValue: T) => void;
+    this._setter = $createSubSetter(paths);
   }
 
   get value() {

@@ -4,39 +4,42 @@ import type { KTRef, KTSubRef } from './ref.js';
 
 export const isKT = <T = any>(obj: any): obj is KTReactive<T> => typeof obj?.kid === 'number';
 export const isRefLike = <T = any>(obj: any): obj is KTRef<T> & KTSubRef<T> => {
-  // & This is tested to be the fastest way. Faster than `includes`, array index, if or.
-  if (obj.ktype === undefined) {
+  if (typeof obj.ktype === 'number') {
+    return (obj.ktype & KTReactiveType.RefLike) === KTReactiveType.RefLike;
+  } else {
     return false;
   }
-  return obj.ktype === KTReactiveType.Ref || obj.ktype === KTReactiveType.SubRef;
 };
 export const isComputedLike = <T = any>(obj: any): obj is KTComputed<T> & KTSubComputed<T> => {
-  if (obj.ktype === undefined) {
+  if (typeof obj.ktype === 'number') {
+    return (obj.ktype & KTReactiveType.ComputedLike) === KTReactiveType.ComputedLike;
+  } else {
     return false;
   }
-  return obj.ktype === KTReactiveType.Computed || obj.ktype === KTReactiveType.SubComputed;
 };
 
-const _getters = new Map<string, (s: KTReactive<any>['value']) => any>();
-const _setters = new Map<string, (s: KTReactive<any>['value'], newValue: any) => void>();
+type SubGetter = (s: any) => any;
+type SubSetter = (s: any, newValue: any) => void;
+const _getters = new Map<string, SubGetter>();
+const _setters = new Map<string, SubSetter>();
 
-export const $createSubGetter = (path: string) => {
+export const $createSubGetter = (path: string): SubGetter => {
   const exist = _getters.get(path);
   if (exist) {
     return exist;
   } else {
-    const cache = new Function('s', `return s${path}`) as (s: object) => any;
+    const cache = new Function('s', `return s${path}`) as SubGetter;
     _setters.set(path, cache);
     return cache;
   }
 };
 
-export const $createSubSetter = (path: string) => {
+export const $createSubSetter = (path: string): SubSetter => {
   const exist = _setters.get(path);
   if (exist) {
     return exist;
   } else {
-    const cache = new Function('s', 'v', `s${path}=v`) as (s: object, newValue: any) => void;
+    const cache = new Function('s', 'v', `s${path}=v`) as SubSetter;
     _setters.set(path, cache);
     return cache;
   }

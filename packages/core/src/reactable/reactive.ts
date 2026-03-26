@@ -2,15 +2,18 @@ import type { KTRef, KTSubRef } from './ref.js';
 import type { KTComputed, KTSubComputed } from './computed.js';
 
 import { $stringify } from '@ktjs/shared';
+import { $createSubGetter } from './common.js';
 
 export type ChangeHandler<T> = (newValue?: T, oldValue?: T) => void;
 
 export const enum KTReactiveType {
-  Reative = 1,
-  Computed,
-  Ref,
-  SubRef,
-  SubComputed,
+  Reative = 0b00001,
+  Ref = 0b00010,
+  SubRef = 0b00100,
+  RefLike = Ref | SubRef,
+  Computed = 0b01000,
+  SubComputed = 0b10000,
+  ComputedLike = Computed | SubComputed,
 }
 
 let kid = 1;
@@ -98,7 +101,7 @@ export abstract class KTSubReactive<T> extends KTReactiveBase<T> {
   constructor(source: KTRef<any> | KTComputed<any>, paths: string) {
     super();
     this.source = source;
-    this._getter = new Function('s', `return s${paths}`) as (sv: (KTRef<any> | KTComputed<any>)['value']) => T;
+    this._getter = $createSubGetter(paths);
   }
 
   get value() {

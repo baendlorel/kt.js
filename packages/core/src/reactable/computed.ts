@@ -1,56 +1,39 @@
-import { type KTBaseReactable, KTReactive, KTReactiveType } from './base.js';
-import type { ChangeHandler, KTDerivable, KTDerived } from './reactable.js';
+import { $is } from '@ktjs/shared';
+import { KTReactive, KTReactiveType } from './reactive.js';
 
-export class KTComputed<T>
-  implements
-    KTBaseReactable<T, KTReactiveType.Computed>,
-    KTDerivable<T, KTReactiveType.Computed>,
-    KTDerived<T, KTReactiveType.Computed>
-{
-  readonly isKT = true;
+export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
   readonly type = KTReactiveType.Computed;
-  private _value: T;
-  private readonly _changeHandlers = new Map<string | number, ChangeHandler<any>>();
-  /**
-   * @internal
-   */
-  private _calculator: () => T;
 
-  /**
-   * @internal
-   */
-  private _recalculate(forceEmit: boolean = false): this {
-    const oldValue = this._value;
+  private readonly _calculator: () => T;
+
+  private _recalculate(forced: boolean = false): this {
     const newValue = this._calculator();
-    if ($is(oldValue, newValue)) {
-      if (forceEmit) {
-        this._emit(newValue, oldValue);
-      }
-      return this;
+    const oldValue = this._value;
+    if (!$is(oldValue, newValue) || forced) {
+      this._value = newValue;
+      this._emit(newValue, oldValue);
     }
-    this._value = newValue;
-    this._emit(newValue, oldValue);
     return this;
   }
 
-  constructor(_calculator: () => T, dependencies: Array<KTReactive<unknown>>) {
-    this._calculator = _calculator;
-
+  constructor(calculator: () => T, dependencies: KTReactive<any>[]) {
+    super(calculator());
+    this._calculator = calculator;
+    const recalculate = () => this._recalculate();
     for (let i = 0; i < dependencies.length; i++) {
-      dependencies[i].addOnChange(() => this._recalculate());
+      dependencies[i].addOnChange(recalculate);
     }
-
-    this._value = _calculator();
   }
 
-  /**
-   * If new value and old value are both nodes, the old one will be replaced in the DOM
-   */
-  get value() {
-    return this._value;
+  map<U>(calculator: (value: T) => U, dependencies?: KTReactive<any>[]): KTComputed<U> {
+    return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
-  set value(_newValue: T) {
-    $warn(`'value' of Computed are read-only.`);
+  get(...keys: PropertyKey[]): unknown {
+    throw new Error('Method not implemented.');
+  }
+
+  notify(): this {
+    return this._recalculate(true);
   }
 }

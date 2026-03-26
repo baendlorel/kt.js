@@ -3,14 +3,6 @@ import { $is } from '@ktjs/shared';
 import { IdGenerator } from '../common.js';
 import { KTReactable, KTListenable, KTWritable, KTMappable, KTDerivable } from './reactable.js';
 
-export const enum KTReactiveType {
-  Reative = 1,
-  Computed,
-  Ref,
-  SubRef,
-  SubComputed,
-}
-
 export type ChangeHandler = (newValue: any, oldValue: any) => void;
 export type ChangeHandlerKey = string | number;
 

@@ -102,6 +102,9 @@ importers:
       '@ktjs/shared':
         specifier: workspace:^*
         version: link:../shared
+      composition-ts:
+        specifier: ^0.1.2
+        version: 0.1.2
 
   packages/example:
     dependencies:
@@ -183,6 +186,15 @@ importers:
         version: 5.9.3
 
   plugins/create: {}
+
+  plugins/kt-tsc:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.2.3
+        version: 25.3.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   plugins/transformer:
     dependencies:
@@ -1547,6 +1559,9 @@ packages:
 
   commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
+
+  composition-ts@0.1.2:
+    resolution: {integrity: sha512-32TeaWH41y1/m3QwecXi/Jc+7IoT2W43S7UPQmuZDnnbQKaV8GVIMxPg3M407S58aD1B8BUNY+P7IDRtvscAaA==}
 
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
@@ -3624,6 +3639,8 @@ snapshots:
   commander@2.20.3: {}
 
   commondir@1.0.1: {}
+
+  composition-ts@0.1.2: {}
 
   convert-source-map@1.9.0: {}
 

@@ -57,9 +57,10 @@ export type Derived<O, Type extends KTReactiveType.Computed | KTReactiveType.Ref
   ? KTSubComputed<O>
   : KTSubRef<O>;
 
-export interface KTDerivable<T, Type extends KTReactiveType.Computed | KTReactiveType.Ref> {
-  readonly type: Type;
-
+export interface KTDerivable<T, Type extends KTReactiveType.Computed | KTReactiveType.Ref> extends KTReactable<
+  T,
+  Type
+> {
   /**
    * Generate a computed value based on this ref, using keys to access nested properties.
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
@@ -114,4 +115,9 @@ export interface KTDerivable<T, Type extends KTReactiveType.Computed | KTReactiv
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
   get<K0 extends keyof T>(key0: K0): Derived<T[K0], Type>;
+}
+
+export interface KTDerived<T, Type extends KTReactiveType.Computed | KTReactiveType.Ref> extends KTReactable<T, Type> {
+  readonly source: KTReactable<T, Type>;
+  readonly value: T;
 }

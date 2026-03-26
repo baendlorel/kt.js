@@ -86,7 +86,7 @@ const derivableForComputed: KTDerivable<any, KTReactiveType.Computed> = {
   },
 };
 
-type KTBaseReactable<T, Type extends KTReactiveType> = KTReactable<T, Type> & KTListenable<T> & KTMappable<T>;
+export type KTBaseReactable<T, Type extends KTReactiveType> = KTReactable<T, Type> & KTListenable<T> & KTMappable<T>;
 export type KTComputed<T> = KTBaseReactable<T, KTReactiveType.Computed> & KTDerivable<T, KTReactiveType.Computed>;
 export type KTRef<T> = KTBaseReactable<T, KTReactiveType.Ref> & KTWritable<T> & KTDerivable<T, KTReactiveType.Ref>;
 export type KTSubRef<T> = KTReactable<T, KTReactiveType.SubRef> & KTWritable<T>;
@@ -94,26 +94,30 @@ export type KTSubComputed<T> = KTReactable<T, KTReactiveType.SubComputed>;
 
 export type KTReactive<T> = KTComputed<T> | KTSubComputed<T> | KTRef<T> | KTSubRef<T>;
 
-const baseReactable = { ...reactable, ...listenable, ...mappable };
 const KTRefConstructor = compose(
-  function KTRef(this, _value) {
+  function KTRef(_value) {
     this.type = KTReactiveType.Ref;
     this._value = _value;
     this._changeHandlers = new Map();
   },
-  baseReactable,
+  reactable,
+  listenable,
+  mappable,
   writable,
   derivableForRef,
 ) as new <T>(value: T) => KTRef<T>;
 export const ref = <T>(value: T): KTRef<T> => new KTRefConstructor(value);
 
 const KTComputedConstructor = compose(
-  function KTComputed(this, _value) {
+  function KTComputed(this, calculator: () => any, dependencies: Array<KTReactive<unknown>>) {
     this.type = KTReactiveType.Computed;
     this._value = _value;
+    this._calculator = calculator;
     this._changeHandlers = new Map();
   },
-  baseReactable,
+  reactable,
+  listenable,
+  mappable,
   derivableForComputed,
 ) as new <T>(value: T) => KTComputed<T>;
 export const computed = <T>(value: T): KTComputed<T> => new KTComputedConstructor(value);

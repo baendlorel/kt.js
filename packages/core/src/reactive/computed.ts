@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
 
-import { $is, $stringify } from '@ktjs/shared';
+import { $is } from '@ktjs/shared';
 import { isKT, KTReactiveType } from './common.js';
 import { KTReactive } from './reactive.js';
 

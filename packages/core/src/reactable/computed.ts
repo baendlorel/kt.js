@@ -78,3 +78,13 @@ export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly ktype = KTReactiveType.SubComputed;
   declare readonly source: KTComputed<any>;
 }
+
+export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
+
+/**
+ * Create a computed value that automatically updates when its dependencies change.
+ * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
+ * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
+ */
+export const computed = <T>(calculator: () => T, dependencies: KTReactive<any>[]): KTComputed<T> =>
+  new KTComputed(calculator, dependencies);

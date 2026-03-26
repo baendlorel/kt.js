@@ -1,8 +1,8 @@
-import { $is, $stringify } from '@ktjs/shared';
+import { $emptyFn, $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
-import { $createSubSetter } from './common.js';
+import { $createSubSetter, isRefLike } from './common.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Ref;
@@ -116,9 +116,46 @@ export class KTSubRef<T> extends KTSubReactive<T> {
   }
 }
 
-export function ref<T>(value: T): KTRef<T> {
-  return new KTRef(value);
-}
+/**
+ * Create a reactive reference to a value. The returned object has a single property `value` that holds the internal value.
+ * @param value listened value
+ */
+export const ref = <T>(value: T): KTRef<T> => new KTRef(value);
 
-const a = ref({ a: { b: { c: 1 } }, dd: 23, cc: 11 });
-a.get('dd', 'toExponential');
+/**
+ * Assert k-model to be a ref object
+ */
+export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRefLike<T> => {
+  // & props is an object. Won't use it in any other place
+  if ('k-model' in props) {
+    const kmodel = props['k-model'];
+    if (isRefLike(kmodel)) {
+      return kmodel;
+    } else {
+      $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
+    }
+  }
+  return ref(defaultValue) as KTRef<T>;
+};
+
+const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.value = node);
+type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
+
+export type KTRefLike<T> = KTRef<T> | KTSubRef<T>;
+
+/**
+ * Whether `props.ref` is a `KTRef` only needs to be checked in the initial render
+ */
+export const $initRef = <T extends Node>(props: { ref?: KTRefLike<T> }, node: T): RefSetter<T> => {
+  if (!('ref' in props)) {
+    return $emptyFn;
+  }
+
+  const r = props.ref;
+  if (isRefLike(r)) {
+    r.value = node;
+    return $refSetter;
+  } else {
+    $throw('Fragment: ref must be a KTRef');
+  }
+};

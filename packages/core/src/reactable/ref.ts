@@ -46,18 +46,6 @@ export class KTRef<T> extends KTReactive<T> {
    * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
-  get<
-    K0 extends keyof T,
-    K1 extends keyof T[K0],
-    K2 extends keyof T[K0][K1],
-    K3 extends keyof T[K0][K1][K2],
-    K4 extends keyof T[K0][K1][K2][K3],
-  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTSubRef<T[K0][K1][K2][K3][K4]>;
-  /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
-   */
   get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
     key0: K0,
     key1: K1,
@@ -86,7 +74,7 @@ export class KTRef<T> extends KTReactive<T> {
    * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
    */
   get<K0 extends keyof T>(key0: K0): KTSubRef<T[K0]>;
-  get(...keys: (string | number)[]): any {
+  get(...keys: (string | number)[]): KTSubRef<any> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }

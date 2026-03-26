@@ -1,7 +1,7 @@
 import { compose } from 'composition-ts';
 import { $is } from '@ktjs/shared';
 import { IdGenerator } from '../common.js';
-import { ValueStore, KTReactable, KTListenable, KTWritable, KTMappable, KTDerivable } from './reactable.js';
+import { KTReactable, KTListenable, KTWritable, KTMappable, KTDerivable } from './reactable.js';
 
 export const enum KTReactiveType {
   Reative = 1,
@@ -10,6 +10,9 @@ export const enum KTReactiveType {
   SubRef,
   SubComputed,
 }
+
+export type ChangeHandler = (newValue: any, oldValue: any) => void;
+export type ChangeHandlerKey = string | number;
 
 const valueStore: ValueStore = { _value: undefined };
 

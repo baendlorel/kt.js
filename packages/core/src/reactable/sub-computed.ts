@@ -1,57 +1,70 @@
-import { KTComputed, KTReactiveType } from './base.js';
-import { KTDerived, KTReactable } from './reactable.js';
-
-export class KTSubComputed<T> implements KTReactable<T, KTReactiveType.SubComputed> {
-  readonly isKT = true;
-  readonly type = KTReactiveType.SubComputed;
-  private readonly source: KTComputed<T>;
-  get value() {}
-}
+import { KTReactiveType } from './base.js';
 
 class KTSomeReactive {
-  iskt = true; // & 全有
+  readonly isKT = true; // & 全有
 
-  type = KTReactiveType.SubComputed; // & 全有
-
-  _value = 123; // & ref\computed 要有，用于缓存
-
-  _changeHandlers = new Map(); // & ref\computed 要有，用于监听变化
-
-  // & ref\computed 要有，同_changeHandlers，用于触发变化
-  _emit(newValue: any, oldValue: any) {
-    const handlers = this._changeHandlers.get(this) || [];
-    handlers.forEach((handler: any) => handler(newValue, oldValue));
-  }
-
-  // & computed 要有，用于计算值
-  _calculator = () => 1;
+  readonly type = KTReactiveType.SubComputed; // & 全有
 
   // & 全有
   get value() {
     return 1;
   }
 
-  // & ref\subRef 要有，用于设置值。但subref将会直接影响source的值。
+  source = this; // & 仅 subRef\subComputed，指向真正持有数据/监听器的上游
+
+  _getter = (source: any) => source; // & 仅 subRef\subComputed，根据 path 从 source 取值
+  _setter = (source: any, newValue: any) => {}; // & 仅 subRef，根据 path 写回 source
+  _draft = (source: any) => source; // & 仅 subRef，根据 path 返回可变引用
+
+  // & 仅 subRef\subComputed，监听透传到 source 时，记录本地 key -> source key
+  _sourceChangeHandlerKeys = new Map<ChangeHandlerKey, ChangeHandlerKey>();
+
+  _value = 123; // & 仅 ref\computed，要缓存当前值
+
+  _changeHandlers = new Map<ChangeHandlerKey, ChangeHandler>(); // & 仅 ref\computed，自身持有监听器时才需要
+
+  // & 仅 ref\computed，同 _changeHandlers，用于触发变化
+  _emit(newValue: any, oldValue: any) {
+    this._changeHandlers.forEach((handler) => handler(newValue, oldValue));
+  }
+
+  // & 仅 computed
+  _calculator = () => 1;
+
+  // & 仅 computed
+  _dependencies: any[] = [];
+
+  // & 仅 computed
+  _recalculate(forceEmit: boolean = false): this {
+    return this;
+  }
+
+  // & 仅 ref\subRef，用于设置值。subRef 会直接影响 source 的值。
   set value(v) {}
 
-  // & 全有，ref\computed给自己加，sub系列给source加。
-  addOnChange(handler: any, key?: string) {
-    const handlers = this._changeHandlers.get(this) || [];
-    handlers.push(handler);
-    this._changeHandlers.set(this, handlers);
+  // & 仅 ref\subRef
+  get draft() {
+    return 1;
   }
 
-  // & 全有
-  removeOnChange(key: string) {
-    this._changeHandlers.delete(this);
+  // & ref\computed 给自己加；sub 系列给 source 加，必要时要用 _sourceChangeHandlerKeys 记映射。
+  addOnChange(handler: ChangeHandler, key?: ChangeHandlerKey) {
+    this._changeHandlers.set(key ?? this._changeHandlers.size, handler);
   }
 
-  // & 全有，ref\computed直接触发自己的事件。sub系列直接触发source的事件。
+  // & ref\computed 删除自己的；sub 系列删除 source 上对应的包装监听。
+  removeOnChange(key: ChangeHandlerKey) {
+    this._changeHandlers.delete(key);
+  }
+
+  // & ref\computed 直接触发自己的事件；sub 系列直接触发 source 的事件。
   notify() {
-    const handlers = this._changeHandlers.get(this) || [];
-    handlers.forEach((handler: any) => handler(this._value, this._value));
+    this._changeHandlers.forEach((handler) => handler(this._value, this._value));
   }
 
-  // & ref\computed有，用于导出subref和subcomputed
+  // & 仅 ref\computed，用于导出 subRef 和 subComputed
+  map(calculator: (value: any) => any) {}
+
+  // & 仅 ref\computed，用于导出 subRef 和 subComputed
   get(...args: string[]) {}
 }

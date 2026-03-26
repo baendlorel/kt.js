@@ -4,7 +4,7 @@ import type { KTComputed } from './computed.js';
 import { $stringify } from '@ktjs/shared';
 import { $createSubGetter } from './common.js';
 
-export type ChangeHandler<T> = (newValue?: T, oldValue?: T) => void;
+export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
 export const enum KTReactiveType {
   Reative = 0b00001,

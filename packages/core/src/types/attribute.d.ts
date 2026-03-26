@@ -1,6 +1,6 @@
 import type { otherstring } from '@ktjs/shared';
 import type { KTPrefixedEventAttribute } from './h.js';
-import type { KTMaybeReactive, KTMaybeReactiveProps, KTReactify } from '../reactable/reactive.js';
+import type { KTMaybeReactive, KTMaybeReactiveProps, KTReactify } from '../reactable/type-utils.js';
 
 // Base events available to all HTML elements
 type BaseAttr = KTPrefixedEventAttribute & {

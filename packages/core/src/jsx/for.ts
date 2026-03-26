@@ -1,7 +1,7 @@
-import type { KTRef } from '../reactable/ref.js';
+import { $initRef, type KTRef } from '../reactable/ref.js';
 import type { KTReactive } from '../reactable/reactive.js';
 import type { JSX } from '../types/jsx.js';
-import { $initRef, toReactive } from '../reactable/index.js';
+import { toReactive } from '../reactable/index.js';
 import { $identity } from '@ktjs/shared';
 
 export type KTForElement = JSX.Element;

@@ -19,7 +19,7 @@ let handlerId = 1;
 export abstract class KTReactiveBase<T> {
   readonly kid = kid++;
 
-  abstract readonly type: KTReactiveType;
+  abstract readonly ktype: KTReactiveType;
 
   abstract get value(): T;
 

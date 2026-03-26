@@ -4,7 +4,7 @@ import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
-  readonly type = KTReactiveType.Ref;
+  readonly ktype = KTReactiveType.Ref;
 
   constructor(_value: T) {
     super(_value);
@@ -81,18 +81,19 @@ export class KTRef<T> extends KTReactive<T> {
     return new KTSubRef(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
   }
 }
+
 export class KTSubRef<T> extends KTSubReactive<T> {
-  readonly type = KTReactiveType.SubRef;
+  readonly ktype = KTReactiveType.SubRef;
   declare readonly source: KTRef<any>;
 
   /**
    * @internal
    */
-  protected readonly _setter: (o: object, newValue: T) => void;
+  protected readonly _setter: (s: object, newValue: T) => void;
 
   constructor(source: KTRef<any>, paths: string) {
     super(source, paths);
-    this._setter = new Function('s', 'v', `s${paths}=v`) as (o: object, newValue: T) => void;
+    this._setter = new Function('s', 'v', `s${paths}=v`) as (s: object, newValue: T) => void;
   }
 
   get value() {

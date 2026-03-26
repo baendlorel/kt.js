@@ -2,7 +2,7 @@ import { $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 
 export class KTComputed<T> extends KTReactive<T> {
-  readonly type = KTReactiveType.Computed;
+  readonly ktype = KTReactiveType.Computed;
 
   private readonly _calculator: () => T;
 
@@ -75,6 +75,6 @@ export class KTComputed<T> extends KTReactive<T> {
 }
 
 export class KTSubComputed<T> extends KTSubReactive<T> {
-  readonly type = KTReactiveType.SubComputed;
+  readonly ktype = KTReactiveType.SubComputed;
   declare readonly source: KTComputed<any>;
 }

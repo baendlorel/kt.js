@@ -91,6 +91,7 @@ export type KTComputed<T> = KTBaseReactable<T, KTReactiveType.Computed> & KTDeri
 export type KTRef<T> = KTBaseReactable<T, KTReactiveType.Ref> & KTWritable<T> & KTDerivable<T, KTReactiveType.Ref>;
 export type KTSubRef<T> = KTReactable<T, KTReactiveType.SubRef> & KTWritable<T>;
 export type KTSubComputed<T> = KTReactable<T, KTReactiveType.SubComputed>;
+
 export type KTReactive<T> = KTComputed<T> | KTSubComputed<T> | KTRef<T> | KTSubRef<T>;
 
 const baseReactable = { ...reactable, ...listenable, ...mappable };

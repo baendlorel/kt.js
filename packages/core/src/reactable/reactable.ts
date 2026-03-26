@@ -2,14 +2,7 @@ import type { KTReactiveType } from './base.js';
 
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
-export interface ValueStore {
-  /**
-   * @internal
-   */
-  _value: any;
-}
-
-export interface KTReactable<T, Type extends KTReactiveType> extends ValueStore {
+export interface KTReactable<T, Type extends KTReactiveType> {
   readonly isKT: true;
   readonly type: Type;
   readonly value: T; // & Reactive objects must at least be readable
@@ -21,12 +14,12 @@ export interface KTWritable<T> extends KTListenable<T> {
 }
 
 // & KTRef and KTComputed are mappable, but KTSubRef and KTSubComputed are not.
-export interface KTMappable<T> extends ValueStore {
+export interface KTMappable<T> {
   map<U>(calculator: (value: T) => U): KTComputed<U>;
 }
 
 // todo 给sub系列也加上addonchange，它会实际上给source去添加事件。那么事件要加上触发条件？还是说无所谓直接触发所有事件（这个也许更符合语义）
-export interface KTListenable<T> extends ValueStore {
+export interface KTEmittable<T> {
   /**
    * & Here we trust developers using addOnChange properly. `ChangeHandler<any>` is aimed to mute some unnecessary type errors.
    * @internal
@@ -37,7 +30,9 @@ export interface KTListenable<T> extends ValueStore {
    * @internal
    */
   _emit(newValue: T, oldValue: T): this;
+}
 
+export interface KTListenable<T> {
   /**
    * Register a callback when the value changes
    * @param callback newValue and oldValue are references. You can use `a.draft` to make in-place mutations since `a.value` will not trigger `onChange` handers.

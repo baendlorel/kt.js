@@ -3,7 +3,7 @@ import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 
-export class KTRef<T> extends KTReactive<T, KTReactiveType.Ref> {
+export class KTRef<T> extends KTReactive<T> {
   readonly type = KTReactiveType.Ref;
 
   constructor(_value: T) {
@@ -41,27 +41,23 @@ export class KTRef<T> extends KTReactive<T, KTReactiveType.Ref> {
     return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
   }
 
-  get(...keys: (string | number)[]): unknown {
+  get(...keys: (string | number)[]): any {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }
     return new KTSubRef(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
   }
 }
-
-export function ref<T>(value: T): KTRef<T> {
-  return new KTRef(value);
-}
-
-class KTSubRef<T, Source extends KTRef<any>> extends KTSubReactive<T, KTReactiveType.SubRef, KTRef<any>> {
+export class KTSubRef<T> extends KTSubReactive<T> {
   readonly type = KTReactiveType.SubRef;
+  declare readonly source: KTRef<any>;
 
   /**
    * @internal
    */
   protected readonly _setter: (o: object, newValue: T) => void;
 
-  constructor(source: Source, paths: string) {
+  constructor(source: KTRef<any>, paths: string) {
     super(source, paths);
     this._setter = new Function('s', 'v', `s${paths}=v`) as (o: object, newValue: T) => void;
   }
@@ -83,4 +79,8 @@ class KTSubRef<T, Source extends KTRef<any>> extends KTSubReactive<T, KTReactive
     // @ts-expect-error _value is private
     return this._getter(this.source._value);
   }
+}
+
+export function ref<T>(value: T): KTRef<T> {
+  return new KTRef(value);
 }

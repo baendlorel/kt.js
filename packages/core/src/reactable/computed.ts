@@ -1,7 +1,7 @@
 import { $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 
-export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
+export class KTComputed<T> extends KTReactive<T> {
   readonly type = KTReactiveType.Computed;
 
   private readonly _calculator: () => T;
@@ -30,10 +30,11 @@ export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
   }
 
   map<U>(calculator: (value: T) => U, dependencies?: KTReactive<any>[]): KTComputed<U> {
-    return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
+    return new KTComputed(() => calculator(this._value), dependencies ? dependencies.concat(this) : [this]);
   }
 
-  get(...keys: (string | number)[]): unknown {
+  // fixme 类型标注
+  get(...keys: (string | number)[]): any {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-computed.');
     }
@@ -41,10 +42,7 @@ export class KTComputed<T> extends KTReactive<T, KTReactiveType.Computed> {
   }
 }
 
-class KTSubComputed<T, Source extends KTReactive<any, KTReactiveType.Computed>> extends KTSubReactive<
-  T,
-  KTReactiveType.SubComputed,
-  Source
-> {
+export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly type = KTReactiveType.SubComputed;
+  declare readonly source: KTComputed<any>;
 }

@@ -7,7 +7,7 @@ import { FragmentDemo } from './Fragment.js';
 import { Home } from './Home.js';
 import { IE11Compatibility } from './IE11Compatibility.js';
 import { OtherElements } from './OtherElements.js';
-import { Reactivity } from './Reactive.js';
+import { Reactivity } from './Reactive/Reactive.js';
 import { Trivia } from './Trivia.js';
 
 export const mainNavs: Nav[] = [

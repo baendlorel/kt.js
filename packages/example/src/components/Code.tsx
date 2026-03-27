@@ -21,6 +21,7 @@ const fallbackCopy = (code: string) => {
 };
 
 export function Code(props: CodeProps) {
+  const code = props.code.replace('// @ts-nocheck', '').trim();
   const copied = ref(false);
   let copiedTimer: number | undefined;
 
@@ -29,7 +30,7 @@ export function Code(props: CodeProps) {
 
     if (navigator.clipboard && window.isSecureContext) {
       try {
-        await navigator.clipboard.writeText(props.code);
+        await navigator.clipboard.writeText(code);
         isCopied = true;
       } catch {
         isCopied = false;
@@ -37,7 +38,7 @@ export function Code(props: CodeProps) {
     }
 
     if (!isCopied) {
-      isCopied = fallbackCopy(props.code);
+      isCopied = fallbackCopy(code);
     }
 
     if (!isCopied) {
@@ -56,8 +57,8 @@ export function Code(props: CodeProps) {
       <button class="demo-code-copy" on:click={copyCode}>
         {copied.map((v) => (v ? 'Copied' : 'Copy'))}
       </button>
-      <div k-if={state.map((v) => v.theme === 'light')}> {highlight(props.code, props.lang || 'tsx')}</div>
-      <div k-else> {highlightDark(props.code, props.lang || 'tsx')} </div>
+      <div k-if={state.map((v) => v.theme === 'light')}> {highlight(code, props.lang || 'tsx')}</div>
+      <div k-else> {highlightDark(code, props.lang || 'tsx')} </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { KTSubComputed } from './computed.js';
+import type { KTComputed, KTSubComputed } from './computed.js';
 
 import { $stringify } from '@ktjs/shared';
 import { $createSubGetter } from './common.js';
@@ -85,7 +85,9 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
     return this._emit(this._value, this._value);
   }
 
-  abstract map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): unknown;
+  map<U>(_calculator: (value: T) => U, _dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+    return null as any; // & Will be implemented in computed.ts to avoid circular dependency
+  }
 
   /**
    * Generate a sub-computed value based on this reactive, using keys to access nested properties.

@@ -1,5 +1,5 @@
 import { $is, $stringify } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive } from './reactive.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
@@ -16,7 +16,7 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  constructor(calculator: () => T, dependencies: Array<KTReactive<any>>) {
+  constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
     super(calculator());
     this._calculator = calculator;
     const recalculate = () => this._recalculate();
@@ -28,11 +28,14 @@ export class KTComputed<T> extends KTReactive<T> {
   notify(): this {
     return this._recalculate(true);
   }
-
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): KTComputed<U> {
-    return new KTComputed(() => calculator(this._value), dependencies ? dependencies.concat(this) : [this]);
-  }
 }
+
+KTReactive.prototype.map = function <U>(
+  calculator: (value: unknown) => U,
+  dependencies?: Array<KTReactiveLike<any>>,
+): KTComputed<U> {
+  return new KTComputed(() => calculator(this._value), dependencies ? dependencies.concat(this) : [this]);
+};
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
   if (keys.length === 0) {

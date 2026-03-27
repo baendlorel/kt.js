@@ -38,10 +38,6 @@ export class KTRef<T> extends KTReactive<T> {
     return this._emit(this._value, this._value);
   }
 
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): KTComputed<U> {
-    return new KTComputed(() => calculator(this.value), dependencies ? dependencies.concat(this) : [this]);
-  }
-
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.

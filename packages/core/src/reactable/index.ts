@@ -15,7 +15,7 @@ export const toReactive = <T>(o: T | KTReactive<T>): KTReactive<T> => (isKT(o) ?
 export const dereactive = <T>(value: T | KTReactive<T>): T => (isKT<T>(value) ? value.value : value);
 
 export type { KTRef, KTSubRef, KTRefLike } from './ref.js';
-export { ref, assertModel as $modelOrRef } from './ref.js';
+export { ref, assertModel } from './ref.js';
 export type { KTComputed, KTSubComputed } from './computed.js';
 export { computed } from './computed.js';
 export { KTReactiveType } from './reactive.js';

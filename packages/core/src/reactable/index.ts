@@ -16,11 +16,21 @@ export const dereactive = <T>(value: T | KTReactive<T>): T => (isKT<T>(value) ? 
 
 export type { KTRef, KTSubRef, KTRefLike } from './ref.js';
 export { ref, assertModel } from './ref.js';
-export type { KTComputed, KTSubComputed } from './computed.js';
+export type { KTComputed, KTSubComputed, KTComputedLike } from './computed.js';
 export { computed } from './computed.js';
 export { KTReactiveType } from './reactive.js';
 export type * from './reactive.js';
 
-export { isKT, isRefLike, isComputedLike } from './common.js';
+export {
+  isKT,
+  isReactiveLike,
+  isRef,
+  isSubRef,
+  isRefLike,
+  isComputed,
+  isSubComputed,
+  isComputedLike,
+  isReactive,
+} from './common.js';
 export { effect } from './effect.js';
 export type * from './types.js';

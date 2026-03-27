@@ -151,8 +151,8 @@ export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentPro
 /**
  * Convert KTRawContent to HTMLElement array
  */
-export function convertChildrenToElements(children: KTRawContent): HTMLElement[] {
-  const elements: HTMLElement[] = [];
+export function convertChildrenToElements(children: KTRawContent): Element[] {
+  const elements: Element[] = [];
 
   const processChild = (child: any): void => {
     if (child === undefined || child === null || child === false || child === true) {
@@ -173,7 +173,7 @@ export function convertChildrenToElements(children: KTRawContent): HTMLElement[]
       return;
     }
 
-    if (child instanceof HTMLElement) {
+    if (child instanceof Element) {
       elements.push(child);
       return;
     }

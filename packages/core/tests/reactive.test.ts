@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ref, computed } from '../src/reactable/index.js';
-import type { KTComputed } from '../src/reactable/computed.js';
-import type { KTRef } from '../src/reactable/ref.js';
+import type { KTSubComputed } from '../src/reactable/computed.js';
+import type { KTRef, KTSubRef } from '../src/reactable/ref.js';
 
 type IsEqual<A, B> =
   (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B ? 1 : 2
@@ -43,7 +43,7 @@ describe('reactive helpers', () => {
     expect(total.value).toBe(6);
   });
 
-  it('ref.get should access nested values with exact types', () => {
+  it('get should create sub-computed from ref with exact types', () => {
     const state = ref({
       user: {
         name: 'kt',
@@ -57,8 +57,8 @@ describe('reactive helpers', () => {
     const user = state.get('user');
     const level = state.get('user', 'profile', 'level');
 
-    const _user: Assert<IsEqual<typeof user, KTComputed<{ name: string; profile: { level: number } }>>> = true;
-    const _level: Assert<IsEqual<typeof level, KTComputed<number>>> = true;
+    const _user: Assert<IsEqual<typeof user, KTSubComputed<{ name: string; profile: { level: number } }>>> = true;
+    const _level: Assert<IsEqual<typeof level, KTSubComputed<number>>> = true;
 
     expect(user.value.name).toBe('kt');
     expect(level.value).toBe(3);
@@ -77,21 +77,94 @@ describe('reactive helpers', () => {
     expect(level.value).toBe(4);
   });
 
-  it('ref.get should support property access on primitive values', () => {
+  it('get should create sub-computed from computed source', () => {
+    const state = ref({
+      user: {
+        name: 'kt',
+      },
+    });
+
+    const user = computed(() => state.value.user, [state]);
+    const name = user.get('name');
+
+    const _name: Assert<IsEqual<typeof name, KTSubComputed<string>>> = true;
+
+    expect(name.value).toBe('kt');
+    state.value = { user: { name: 'js' } };
+    expect(name.value).toBe('js');
+  });
+
+  it('get should support property access on primitive values', () => {
     const state = ref({
       name: 'ktjs',
     });
 
     const length = state.get('name', 'length');
 
-    const _length: Assert<IsEqual<typeof length, KTComputed<number>>> = true;
+    const _length: Assert<IsEqual<typeof length, KTSubComputed<number>>> = true;
 
     expect(length.value).toBe(4);
   });
 
-  it('ref.get should throw when a nullish intermediate value is accessed', () => {
-    expect(() => ref<any>({ user: undefined }).get('user', 'profile')).toThrow(TypeError);
-    expect(() => ref<any>({ user: null }).get('user', 'profile')).toThrow(TypeError);
+  it('get should throw when keys are empty or a nullish intermediate value is accessed', () => {
+    expect(() => (ref({ a: 1 }) as any).get()).toThrow();
+    expect(() => ref<any>({ user: undefined }).get('user', 'profile').value).toThrow(TypeError);
+    expect(() => ref<any>({ user: null }).get('user', 'profile').value).toThrow(TypeError);
+  });
+
+  it('subref should create writable nested refs with exact types', () => {
+    const state = ref({
+      user: {
+        name: 'kt',
+        profile: {
+          level: 3,
+        },
+      },
+    });
+
+    const name = state.subref('user', 'name');
+    const level = state.subref('user', 'profile', 'level');
+
+    const _name: Assert<IsEqual<typeof name, KTSubRef<string>>> = true;
+    const _level: Assert<IsEqual<typeof level, KTSubRef<number>>> = true;
+
+    expect(name.value).toBe('kt');
+    expect(level.value).toBe(3);
+
+    name.value = 'js';
+    level.value = 4;
+
+    expect(state.value.user.name).toBe('js');
+    expect(state.value.user.profile.level).toBe(4);
+  });
+
+  it('subref should receive updates when source ref value is replaced', () => {
+    const state = ref({
+      user: {
+        profile: {
+          level: 3,
+        },
+      },
+    });
+    const level = state.subref('user', 'profile', 'level');
+    const onChange = vi.fn();
+    level.addOnChange(onChange);
+
+    state.value = {
+      user: {
+        profile: {
+          level: 5,
+        },
+      },
+    };
+
+    expect(level.value).toBe(5);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith(5, 3);
+  });
+
+  it('subref should throw when keys are empty', () => {
+    expect(() => (ref({ a: 1 }) as any).subref()).toThrow();
   });
 
   it('computed notify should force callback even when value is unchanged', () => {

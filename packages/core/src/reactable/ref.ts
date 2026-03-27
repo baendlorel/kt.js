@@ -1,6 +1,6 @@
 import { $emptyFn, $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
-import { KTComputed, KTSubComputed } from './computed.js';
+import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 import { $createSubSetter, isRefLike } from './common.js';
 

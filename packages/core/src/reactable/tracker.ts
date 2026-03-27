@@ -1,4 +1,4 @@
-import { KTReactive } from './reactive.js';
+import type { KTReactive } from './reactive.js';
 
 /**
  * ! Its very complicated and may not be implemented.

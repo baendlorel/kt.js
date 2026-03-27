@@ -1,8 +1,10 @@
-import { $initRef, type KTRef } from '../reactable/ref.js';
-import type { KTReactive } from '../reactable/reactive.js';
 import type { JSX } from '../types/jsx.js';
-import { toReactive } from '../reactable/index.js';
+import type { KTRef } from '../reactable/ref.js';
+import type { KTReactive } from '../reactable/reactive.js';
+
 import { $identity } from '@ktjs/shared';
+import { toReactive } from '../reactable/index.js';
+import { $initRef } from '../reactable/ref.js';
 
 export type KTForElement = JSX.Element;
 
@@ -13,7 +15,8 @@ export interface KTForProps<T> {
   map?: (item: T, index: number, array: T[]) => JSX.Element;
 }
 
-// task 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
+// TASK 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
+// FIXME 梳理并修复类型错误
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__
@@ -25,7 +28,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     const parent = anchor.parentNode;
     if (!parent) {
       // If not in DOM yet, just rebuild the list
-      const newElements: HTMLElement[] = [];
+      const newElements: Element[] = [];
       nodeMap.clear();
       for (let index = 0; index < newList.length; index++) {
         const item = newList[index];
@@ -51,7 +54,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     // Fast path: all new items
     if (oldLength === 0) {
-      const newElements: HTMLElement[] = [];
+      const newElements: Element[] = [];
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
         const item = newList[i];
@@ -68,7 +71,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     // Build key index map and new elements array in one pass
     const newKeyToNewIndex = new Map<any, number>();
-    const newElements: HTMLElement[] = new Array(newLength);
+    const newElements: Element[] = new Array(newLength);
     for (let i = 0; i < newLength; i++) {
       const item = newList[i];
       const itemKey = currentKey(item, i, newList);
@@ -120,10 +123,10 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   const anchor = document.createComment('kt-for') as unknown as KTForElement;
 
   // Map to track rendered nodes by key
-  const nodeMap = new Map<any, HTMLElement>();
+  const nodeMap = new Map<any, Element>();
 
   // Render initial list
-  const elements: HTMLElement[] = [];
+  const elements: Element[] = [];
   for (let index = 0; index < listRef.value.length; index++) {
     const item = listRef.value[index];
     const itemKey = currentKey(item, index, listRef.value);

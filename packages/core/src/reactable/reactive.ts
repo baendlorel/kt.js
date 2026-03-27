@@ -1,5 +1,4 @@
-import type { KTRef } from './ref.js';
-import type { KTComputed, KTSubComputed } from './computed.js';
+import type { KTSubComputed } from './computed.js';
 
 import { $stringify } from '@ktjs/shared';
 import { $createSubGetter } from './common.js';

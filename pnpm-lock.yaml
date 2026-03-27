@@ -20,6 +20,9 @@ importers:
       shiki:
         specifier: ^3.22.0
         version: 3.22.0
+      type-narrow:
+        specifier: ^0.1.1
+        version: 0.1.1
     devDependencies:
       '@ktjs/ts-plugin':
         specifier: ^0.1.13
@@ -2117,6 +2120,9 @@ packages:
     resolution: {integrity: sha512-5C1sg4USs1lfG0GFb2RLXsdpXqBSEhAaA/0kPL01wxzpMqLILNxIxIOKiILz+cdg/pLnOUxFYOR5yhHU666wbw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
+
+  type-narrow@0.1.1:
+    resolution: {integrity: sha512-oPp/2/bQ2Rye8Q8ms9gA5MfZWrS2BDRcpI4offSnVQr9VS4O0hRsDOxl6nXuQZ6Y/ts6ycKbi7d4glTBMfHbWQ==}
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -4249,6 +4255,8 @@ snapshots:
       get-tsconfig: 4.13.6
     optionalDependencies:
       fsevents: 2.3.3
+
+  type-narrow@0.1.1: {}
 
   typescript@5.9.3: {}
 

@@ -140,9 +140,9 @@ export class KTSubRef<T> extends KTSubReactive<T> {
 export const ref = <T>(value?: T): KTRef<T> => new KTRef(value as any);
 
 /**
- * Assert k-model to be a ref object
+ * Assert `k-model` to be a ref-like object
  */
-export const $modelOrRef = <T = any>(props: any, defaultValue?: T): KTRefLike<T> => {
+export const assertModel = <T = any>(props: any, defaultValue?: T): KTRefLike<T> => {
   // & props is an object. Won't use it in any other place
   if ('k-model' in props) {
     const kmodel = props['k-model'];

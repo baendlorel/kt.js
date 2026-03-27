@@ -1,20 +1,20 @@
 import { KTReactiveType, type KTReactive } from './reactive.js';
-import type { KTComputed, KTSubComputed } from './computed.js';
 import type { KTRefLike } from './ref.js';
+import type { KTComputedLike } from './computed.js';
 
 export const isKT = <T = any>(obj: any): obj is KTReactive<T> => typeof obj?.kid === 'number';
 
 export const isRefLike = <T = any>(obj: any): obj is KTRefLike<T> => {
   if (typeof obj.ktype === 'number') {
-    return (obj.ktype & KTReactiveType.RefLike) === KTReactiveType.RefLike;
+    return (obj.ktype & KTReactiveType.RefLike) !== 0;
   } else {
     return false;
   }
 };
 
-export const isComputedLike = <T = any>(obj: any): obj is KTComputed<T> & KTSubComputed<T> => {
+export const isComputedLike = <T = any>(obj: any): obj is KTComputedLike<T> => {
   if (typeof obj.ktype === 'number') {
-    return (obj.ktype & KTReactiveType.ComputedLike) === KTReactiveType.ComputedLike;
+    return (obj.ktype & KTReactiveType.ComputedLike) !== 0;
   } else {
     return false;
   }

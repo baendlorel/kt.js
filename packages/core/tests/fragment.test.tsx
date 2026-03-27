@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { type JSX, ref } from '@ktjs/core';
+import { computed, type JSX, ref } from '@ktjs/core';
 import { Fragment, convertChildrenToElements } from '../src/jsx/fragment.js';
 import { h } from '../src/h/index.js';
 
@@ -213,17 +213,16 @@ describe('convertChildrenToElements', () => {
   });
 
   it('should unwrap KTRef and KTComputed values', () => {
-    // Mock KTRef-like object
-    const mockRef = {
-      isKT: true,
-      value: 'unwrapped',
-    };
+    const valueRef = ref('unwrapped');
+    const valueComputed = computed(() => `${valueRef.value}!`, [valueRef]);
 
-    const result = convertChildrenToElements(mockRef as any);
+    const result = convertChildrenToElements([valueRef, valueComputed]);
 
-    expect(result.length).toBe(1);
+    expect(result.length).toBe(2);
     expect(result[0].tagName).toBe('SPAN');
     expect(result[0].textContent).toBe('unwrapped');
+    expect(result[1].tagName).toBe('SPAN');
+    expect(result[1].textContent).toBe('unwrapped!');
   });
 
   it('should handle mixed content types', () => {

@@ -44,7 +44,11 @@ export type KTMuiDialog = JSX.Element;
 
 const DIALOG_ENTER_MS = 12;
 const DIALOG_EXIT_MS = 225;
-const SUPPORTS_DIALOG = typeof window !== 'undefined' && typeof HTMLDialogElement !== 'undefined';
+const SUPPORTS_DIALOG =
+  typeof window !== 'undefined' &&
+  typeof HTMLDialogElement !== 'undefined' &&
+  typeof HTMLDialogElement.prototype.showModal === 'function' &&
+  typeof HTMLDialogElement.prototype.close === 'function';
 
 /**
  * Dialog component - mimics MUI Dialog appearance and behavior

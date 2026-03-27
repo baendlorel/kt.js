@@ -67,6 +67,6 @@
     "@ktjs/vite-plugin-ktjsx": "^0.4.5",
     "marked": "^17.0.3",
     "shiki": "^3.22.0",
-    "type-narrow": "^0.1.1"
+    "type-narrow": "^0.2.1"
   }
 }

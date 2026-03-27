@@ -28,7 +28,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     const parent = anchor.parentNode;
     if (!parent) {
       // If not in DOM yet, just rebuild the list
-      const newElements: Element[] = [];
+      const newElements: KTForElement[] = [];
       nodeMap.clear();
       for (let index = 0; index < newList.length; index++) {
         const item = newList[index];
@@ -54,7 +54,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     // Fast path: all new items
     if (oldLength === 0) {
-      const newElements: Element[] = [];
+      const newElements: KTForElement[] = [];
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
         const item = newList[i];
@@ -71,7 +71,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     // Build key index map and new elements array in one pass
     const newKeyToNewIndex = new Map<any, number>();
-    const newElements: Element[] = new Array(newLength);
+    const newElements: KTForElement[] = new Array(newLength);
     for (let i = 0; i < newLength; i++) {
       const item = newList[i];
       const itemKey = currentKey(item, i, newList);
@@ -87,7 +87,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     }
 
     // Remove nodes not in new list
-    const toRemove: HTMLElement[] = [];
+    const toRemove: KTForElement[] = [];
     nodeMap.forEach((node, key) => {
       if (!newKeyToNewIndex.has(key)) {
         toRemove.push(node);
@@ -118,15 +118,17 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     return anchor;
   };
 
-  const { key: currentKey = (item: T) => item, map: currentMap = $identity } = props;
+  const currentKey: NonNullable<KTForProps<T>['key']> = props.key ?? ((item: T) => item);
+  const currentMap: NonNullable<KTForProps<T>['map']> =
+    props.map ?? ((item: T) => $identity(item) as unknown as KTForElement);
   const listRef = toReactive(props.list).addOnChange(redraw);
   const anchor = document.createComment('kt-for') as unknown as KTForElement;
 
   // Map to track rendered nodes by key
-  const nodeMap = new Map<any, Element>();
+  const nodeMap = new Map<any, KTForElement>();
 
   // Render initial list
-  const elements: Element[] = [];
+  const elements: KTForElement[] = [];
   for (let index = 0; index < listRef.value.length; index++) {
     const item = listRef.value[index];
     const itemKey = currentKey(item, index, listRef.value);

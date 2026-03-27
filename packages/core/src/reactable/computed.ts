@@ -32,47 +32,14 @@ export class KTComputed<T> extends KTReactive<T> {
   map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): KTComputed<U> {
     return new KTComputed(() => calculator(this._value), dependencies ? dependencies.concat(this) : [this]);
   }
-
-  /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
-   */
-  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
-    key0: K0,
-    key1: K1,
-    key2: K2,
-    key3: K3,
-  ): KTSubComputed<T[K0][K1][K2][K3]>;
-  /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
-   */
-  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
-    key0: K0,
-    key1: K1,
-    key2: K2,
-  ): KTSubComputed<T[K0][K1][K2]>;
-  /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
-   */
-  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTSubComputed<T[K0][K1]>;
-  /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
-   */
-  get<K0 extends keyof T>(key0: K0): KTSubComputed<T[K0]>;
-  get(...keys: Array<string | number>): KTSubComputed<any> {
-    if (keys.length === 0) {
-      $throw('At least one key is required to get a sub-computed.');
-    }
-    return new KTSubComputed(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
-  }
 }
+
+KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
+  if (keys.length === 0) {
+    $throw('At least one key is required to get a sub-computed.');
+  }
+  return new KTSubComputed(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
+};
 
 export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly ktype = KTReactiveType.SubComputed;

@@ -1,6 +1,6 @@
 import { $emptyFn, $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
-import { KTComputed } from './computed.js';
+import { KTComputed, KTSubComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 import { $createSubSetter, isRefLike } from './common.js';
 
@@ -43,39 +43,56 @@ export class KTRef<T> extends KTReactive<T> {
   }
 
   /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
    */
-  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
+  subref<
+    K0 extends keyof T,
+    K1 extends keyof T[K0],
+    K2 extends keyof T[K0][K1],
+    K3 extends keyof T[K0][K1][K2],
+    K4 extends keyof T[K0][K1][K2][K3],
+  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTSubRef<T[K0][K1][K2][K3][K4]>;
+  /**
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
+   */
+  subref<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
     key0: K0,
     key1: K1,
     key2: K2,
     key3: K3,
   ): KTSubRef<T[K0][K1][K2][K3]>;
   /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
    */
-  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
+  subref<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
     key0: K0,
     key1: K1,
     key2: K2,
   ): KTSubRef<T[K0][K1][K2]>;
   /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
    */
-  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
+  subref<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
   /**
-   * Generate a computed value based on this ref, using keys to access nested properties.
-   * - `ref.get('a', 'b')` is equivalent to `ref.map((v) => v.a.b)`, but simpler to write.
-   * @throws when `a.b.c` throws error(e.g. `a.b` is undefined, then it throws when calling `undefined.c`).
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
    */
-  get<K0 extends keyof T>(key0: K0): KTSubRef<T[K0]>;
-  get(...keys: Array<string | number>): KTSubRef<any> {
+  subref<K0 extends keyof T>(key0: K0): KTSubRef<T[K0]>;
+  /**
+   * Derive a lighter sub-ref from this ref, using keys to access nested properties.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `KTSubRef` is lighter than `KTRef`.
+   */
+  subref(...keys: Array<string | number>): KTSubRef<any> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }

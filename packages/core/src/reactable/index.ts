@@ -23,4 +23,4 @@ export type * from './reactive.js';
 
 export { isKT, isRefLike, isComputedLike } from './common.js';
 export { effect } from './effect.js';
-export type * from './type-utils.js';
+export type * from './types.js';

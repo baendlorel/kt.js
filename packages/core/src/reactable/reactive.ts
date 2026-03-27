@@ -19,7 +19,7 @@ export const enum KTReactiveType {
 let kid = 1;
 let handlerId = 1;
 
-export abstract class KTReactiveBase<T> {
+export abstract class KTReactiveLike<T> {
   readonly kid = kid++;
 
   abstract readonly ktype: KTReactiveType;
@@ -31,7 +31,7 @@ export abstract class KTReactiveBase<T> {
   abstract removeOnChange(key: any): this;
 }
 
-export abstract class KTReactive<T> extends KTReactiveBase<T> {
+export abstract class KTReactive<T> extends KTReactiveLike<T> {
   /**
    * @internal
    */
@@ -91,7 +91,7 @@ export abstract class KTReactive<T> extends KTReactiveBase<T> {
   abstract get(...keys: Array<string | number>): KTSubReactive<unknown>;
 }
 
-export abstract class KTSubReactive<T> extends KTReactiveBase<T> {
+export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
   readonly source: KTRef<any> | KTComputed<any>;
 
   /**

@@ -30,8 +30,12 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 }
 
-KTReactive.prototype.map = function <U>(c: (value: unknown) => U, dep?: Array<KTReactiveLike<any>>) {
-  return new KTComputed(() => c(this._value), dep ? dep.concat(this) : [this]);
+KTReactive.prototype.map = function <U>(
+  this: KTReactive<unknown>,
+  c: (value: unknown) => U,
+  dep?: Array<KTReactiveLike<any>>,
+) {
+  return new KTComputed(() => c(this.value), dep ? dep.concat(this) : [this]);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
@@ -43,7 +47,6 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
 
 export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly ktype = KTReactiveType.SubComputed;
-  declare readonly source: KTComputed<any>;
 }
 
 export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
@@ -53,5 +56,5 @@ export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
  * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
  */
-export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
+export const computed = <T>(calculator: () => T, dependencies: Array<KTReactiveLike<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);

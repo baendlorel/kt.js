@@ -3,8 +3,8 @@
 /**
  * Default empty function
  */
-export const $emptyFn = (() => true) as (...args: any[]) => any;
-export const $identity = (x: any) => x;
+export const $emptyFn = (() => true) as (...args: unknown[]) => unknown;
+export const $identity = <T>(x: T): T => x;
 
 /**
  * SameValueZero comparison, similar to `Object.is` but treats `+0 === -0`
@@ -29,7 +29,7 @@ export const $forEach = (
  */
 export const $forEachAsync = async (
   array: unknown[],
-  callback: (item: unknown, index: number, array: unknown[]) => void,
+  callback: (item: unknown, index: number, array: unknown[]) => Promise<void>,
 ): Promise<void> => {
   const len = array.length;
   for (let i = 0; i < len; i++) {

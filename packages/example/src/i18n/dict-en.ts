@@ -75,11 +75,16 @@ export const en: typeof zh = {
   'reactive.api.description':
     'The following blocks explain each <code>KTReactive</code> public method in practice: for <code>ref</code>, focus on <code>value</code> / <code>draft</code>; <code>computed</code> is still read through <code>value</code> and stays read-only.',
   'reactive.api.overview': 'Core API overview:',
-  'reactive.api.method.value': 'Read the current value, and also replace the whole outer value with <code>ref.value = nextValue</code>.',
+  'reactive.api.method.value':
+    'Read the current value, and also replace the whole outer value with <code>ref.value = nextValue</code>.',
   'reactive.api.method.draft':
     'Use it for deep reactive mutations. You may change nested content, but you must not assign to it directly. <code>ref.draft.user.name = "Jane"</code> is valid; <code>ref.draft = nextValue</code> is not.',
   'reactive.api.method.notify': 'Force listeners to run.',
   'reactive.api.method.map': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
+  'reactive.api.method.get':
+    'Read a nested path from the current reactive and get a lightweight read-only <code>KTSubComputed</code>.',
+  'reactive.api.method.subref':
+    'Get a writable nested field from a <code>ref</code>; updating the subref also updates the parent ref.',
   'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
   'reactive.api.method.removeOnChange': 'Remove a listener by key.',
   'reactive.api.value.title': '<code>value</code>: read + whole-value replace',
@@ -110,6 +115,26 @@ export const en: typeof zh = {
   'reactive.api.map.discountPlus': 'Discount +5%',
   'reactive.api.map.taxMinus': 'Tax -1%',
   'reactive.api.map.taxPlus': 'Tax +1%',
+  'reactive.api.get.title': '<code>get</code>: read nested paths',
+  'reactive.api.get.description':
+    '<code>get(...keys)</code> is useful when you want to expose a deep field directly. It stays in sync with the parent reactive while remaining read-only.',
+  'reactive.api.get.cityLabel': 'City',
+  'reactive.api.get.planLabel': 'Plan',
+  'reactive.api.get.ordersLabel': 'Orders',
+  'reactive.api.get.rotateCity': 'Rotate City',
+  'reactive.api.get.upgradePlan': 'Upgrade Plan',
+  'reactive.api.get.addOrder': 'Orders +1',
+  'reactive.api.subref.title': '<code>subref</code>: write nested paths',
+  'reactive.api.subref.description':
+    '<code>subref(...keys)</code> returns a writable nested ref. Assigning to its <code>value</code> keeps the parent ref in sync and emits updates.',
+  'reactive.api.subref.summary': 'Title: {{1}}; Theme: {{2}}; Volume: {{3}}',
+  'reactive.api.subref.titleLabel': 'Sub title',
+  'reactive.api.subref.themeLabel': 'Sub theme',
+  'reactive.api.subref.volumeLabel': 'Sub volume',
+  'reactive.api.subref.rename': 'Rename Title',
+  'reactive.api.subref.toggleTheme': 'Toggle Theme',
+  'reactive.api.subref.volumeUp': 'Volume +5',
+  'reactive.api.subref.volumeDown': 'Volume -5',
   'reactive.api.listeners.title': '<code>addOnChange</code> / <code>removeOnChange</code>',
   'reactive.api.listeners.description':
     'Manage listener lifecycle via key; once removed, no further updates are received.',
@@ -233,7 +258,8 @@ export const en: typeof zh = {
   'nav.mui.filepicker.title': 'MUI FilePicker / DirectoryPicker',
   'nav.mui.filepicker.description': 'Material-UI file and directory picker components',
   'mui.filepicker.description': 'Pick files or a whole directory with native inputs and KT refs.',
-  'mui.filepicker.file.description': 'Supports multiple files, file type filters, helper text, and <code>k-model</code>.',
+  'mui.filepicker.file.description':
+    'Supports multiple files, file type filters, helper text, and <code>k-model</code>.',
   'mui.filepicker.file.label': 'Project assets',
   'mui.filepicker.file.placeholder': 'Choose images or markdown files',
   'mui.filepicker.file.helper': 'Try selecting several files to see the summary update.',
@@ -241,7 +267,8 @@ export const en: typeof zh = {
   'mui.filepicker.file.clear': 'Clear Files',
   'mui.filepicker.file.empty': 'No files selected yet.',
   'mui.filepicker.file.summary': '{{1}} file(s): {{2}}',
-  'mui.filepicker.directory.description': 'Uses browser directory selection and exposes the top-level folder plus file list.',
+  'mui.filepicker.directory.description':
+    'Uses browser directory selection and exposes the top-level folder plus file list.',
   'mui.filepicker.directory.label': 'Workspace folder',
   'mui.filepicker.directory.placeholder': 'Choose a directory',
   'mui.filepicker.directory.helper': 'Directory selection depends on browser support for webkitdirectory.',

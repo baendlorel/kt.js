@@ -5,6 +5,11 @@
 ### API
 
 - **`reactive.get('a','b')`** is a shortcut for `reactive.map((v) => v.a.b)`. By default it has 5 levels of type annotations and it's convienient for common use cases.
+- **`ref.subref('a','b')`** creates a writable lightweight ref to a nested field. Reading and writing the subref will stay in sync with the parent ref and trigger parent listeners.
+
+### Documentation
+
+- Updated the example reactive page to demonstrate both `get(...)` and `subref(...)`.
 
 ## 0.34.0 - 2026-03-24
 

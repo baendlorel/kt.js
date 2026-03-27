@@ -56,6 +56,84 @@ export function Reactivity() {
   const taxTextRef = taxRef.map((value) => i18nText('reactive.api.map.tax', value));
   const finalPriceTextRef = finalPriceRef.map((value) => i18nText('reactive.api.map.total', value));
 
+  const shippingRef = ref({
+    customer: {
+      profile: {
+        city: 'Hangzhou',
+        plan: 'Starter' as 'Starter' | 'Pro' | 'Enterprise',
+      },
+    },
+    metrics: {
+      orders: 12,
+    },
+  });
+  const shippingCityRef = shippingRef.get('customer', 'profile', 'city');
+  const shippingPlanRef = shippingRef.get('customer', 'profile', 'plan');
+  const shippingOrdersRef = shippingRef.get('metrics', 'orders');
+  const rotateShippingCity = () => {
+    const currentCity = shippingRef.value.customer.profile.city;
+    const nextCity = currentCity === 'Hangzhou' ? 'Tokyo' : currentCity === 'Tokyo' ? 'Berlin' : 'Hangzhou';
+    shippingRef.value = {
+      ...shippingRef.value,
+      customer: {
+        ...shippingRef.value.customer,
+        profile: {
+          ...shippingRef.value.customer.profile,
+          city: nextCity,
+        },
+      },
+    };
+  };
+  const upgradeShippingPlan = () => {
+    const currentPlan = shippingRef.value.customer.profile.plan;
+    const nextPlan = currentPlan === 'Starter' ? 'Pro' : currentPlan === 'Pro' ? 'Enterprise' : 'Starter';
+    shippingRef.value = {
+      ...shippingRef.value,
+      customer: {
+        ...shippingRef.value.customer,
+        profile: {
+          ...shippingRef.value.customer.profile,
+          plan: nextPlan,
+        },
+      },
+    };
+  };
+  const addShippingOrder = () => {
+    shippingRef.value = {
+      ...shippingRef.value,
+      metrics: {
+        ...shippingRef.value.metrics,
+        orders: shippingRef.value.metrics.orders + 1,
+      },
+    };
+  };
+
+  const draftPanelRef = ref({
+    draft: {
+      title: 'Feature notes',
+      theme: 'light' as 'light' | 'dark',
+      volume: 28,
+    },
+  });
+  const draftTitleRef = draftPanelRef.subref('draft', 'title');
+  const draftThemeRef = draftPanelRef.subref('draft', 'theme');
+  const draftVolumeRef = draftPanelRef.subref('draft', 'volume');
+  const draftSummaryRef = draftPanelRef.map((value) =>
+    i18nText('reactive.api.subref.summary', value.draft.title, value.draft.theme, value.draft.volume),
+  );
+  const renameDraftTitle = () => {
+    draftTitleRef.value = draftTitleRef.value === 'Feature notes' ? 'Nested refs in action' : 'Feature notes';
+  };
+  const toggleDraftTheme = () => {
+    draftThemeRef.value = draftThemeRef.value === 'light' ? 'dark' : 'light';
+  };
+  const increaseDraftVolume = () => {
+    draftVolumeRef.value = Math.min(100, draftVolumeRef.value + 5);
+  };
+  const decreaseDraftVolume = () => {
+    draftVolumeRef.value = Math.max(0, draftVolumeRef.value - 5);
+  };
+
   const listenerValueRef = ref(0);
   const listenerActiveRef = ref(false);
   const listenerLogsRef = ref<string[]>([]);
@@ -186,6 +264,14 @@ export function Reactivity() {
               <p k-html={t('reactive.api.method.map')}></p>
             </li>
             <li>
+              <code>get(...keys): KTSubComputed&lt;any&gt;</code>
+              <p k-html={t('reactive.api.method.get')}></p>
+            </li>
+            <li>
+              <code>subref(...keys): KTSubRef&lt;any&gt;</code>
+              <p k-html={t('reactive.api.method.subref')}></p>
+            </li>
+            <li>
               <code>
                 addOnChange&lt;K extends string | number | undefined&gt;(callback: ReactiveChangeHandler&lt;T&gt;, key?:
                 K): K extends undefined ? number : K
@@ -289,6 +375,70 @@ export function Reactivity() {
               <div>{taxTextRef}</div>
               <div>{finalPriceTextRef}</div>
             </div>
+          </div>
+
+          <div class="demo-block reactive-api-card">
+            <h4 k-html={t('reactive.api.get.title')}></h4>
+            <p class="demo-desc" k-html={t('reactive.api.get.description')}></p>
+            <div class="demo-flex-gap">
+              <Button variant="contained" color="primary" on:click={rotateShippingCity}>
+                {t('reactive.api.get.rotateCity')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={upgradeShippingPlan}>
+                {t('reactive.api.get.upgradePlan')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={addShippingOrder}>
+                {t('reactive.api.get.addOrder')}
+              </Button>
+            </div>
+            <div class="demo-result">
+              <div>
+                {t('reactive.api.get.cityLabel')}: {shippingCityRef}
+              </div>
+              <div>
+                {t('reactive.api.get.planLabel')}: {shippingPlanRef}
+              </div>
+              <div>
+                {t('reactive.api.get.ordersLabel')}: {shippingOrdersRef}
+              </div>
+            </div>
+            <Code
+              code={`const shippingRef = ref({ customer: { profile: { city: 'Hangzhou', plan: 'Starter' } }, metrics: { orders: 12 } })\nconst cityRef = shippingRef.get('customer', 'profile', 'city')\nconst planRef = shippingRef.get('customer', 'profile', 'plan')`}
+            />
+          </div>
+
+          <div class="demo-block reactive-api-card">
+            <h4 k-html={t('reactive.api.subref.title')}></h4>
+            <p class="demo-desc" k-html={t('reactive.api.subref.description')}></p>
+            <div class="demo-flex-gap">
+              <Button variant="contained" color="primary" on:click={renameDraftTitle}>
+                {t('reactive.api.subref.rename')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={toggleDraftTheme}>
+                {t('reactive.api.subref.toggleTheme')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={increaseDraftVolume}>
+                {t('reactive.api.subref.volumeUp')}
+              </Button>
+              <Button variant="contained" color="primary" on:click={decreaseDraftVolume}>
+                {t('reactive.api.subref.volumeDown')}
+              </Button>
+            </div>
+            <div class="demo-result">
+              <div>{draftSummaryRef}</div>
+              <div>
+                {t('reactive.api.subref.titleLabel')}: {draftTitleRef}
+              </div>
+              <div>
+                {t('reactive.api.subref.themeLabel')}: {draftThemeRef}
+              </div>
+              <div>
+                {t('reactive.api.subref.volumeLabel')}: {draftVolumeRef}
+              </div>
+            </div>
+            <Code
+              code={`const draftPanelRef = ref({ draft: { title: 'Feature notes', theme: 'light', volume: 28 } })\nconst titleRef = draftPanelRef.subref('draft', 'title')\nconst themeRef = draftPanelRef.subref('draft', 'theme')\nconst volumeRef = draftPanelRef.subref('draft', 'volume')\nthemeRef.value = 'dark'\nvolumeRef.value += 5`}
+            />
           </div>
 
           <div class="demo-block reactive-api-card">

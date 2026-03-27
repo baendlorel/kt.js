@@ -16,7 +16,6 @@ export interface KTForProps<T> {
 }
 
 // TASK 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
-// FIXME 梳理并修复类型错误
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in __kt_for_list__

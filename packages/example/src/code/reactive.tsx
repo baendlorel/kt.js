@@ -1,30 +1,52 @@
-import { computed, ref } from 'kt.js';
+import { ref } from 'kt.js';
 
 export function ComponentA() {
-  const card = ref({
-    width: 100,
-    mode: 'A' as 'A' | 'B',
-    tags: ['demo'],
+  const workspace = ref({
+    user: {
+      profile: {
+        name: 'KT.js',
+        city: 'Hangzhou',
+      },
+    },
+    ui: {
+      theme: 'light' as 'light' | 'dark',
+      volume: 30,
+    },
   });
-  const style = card.map((v) => `width: ${v.width}px; background: ${v.mode === 'A' ? 'red' : 'blue'};`);
+  const city = workspace.get('user', 'profile', 'city');
+  const theme = workspace.subref('ui', 'theme');
+  const volume = workspace.subref('ui', 'volume');
 
-  const replaceMode = () => {
-    card.value = {
-      ...card.value,
-      mode: card.value.mode === 'A' ? 'B' : 'A',
+  const moveCity = () => {
+    workspace.value = {
+      ...workspace.value,
+      user: {
+        ...workspace.value.user,
+        profile: {
+          ...workspace.value.user.profile,
+          city: workspace.value.user.profile.city === 'Hangzhou' ? 'Tokyo' : 'Hangzhou',
+        },
+      },
     };
   };
 
-  const widen = () => {
-    card.draft.width += 20;
-    card.draft.tags.push('updated');
+  const toggleTheme = () => {
+    theme.value = theme.value === 'light' ? 'dark' : 'light';
+  };
+
+  const increaseVolume = () => {
+    volume.value = Math.min(100, volume.value + 10);
   };
 
   return (
     <div>
-      <button on:click={replaceMode}>Replace by value</button>
-      <button on:click={widen}>Deep update by draft</button>
-      <div style={style}>{card.value.tags.join(', ')}</div>
+      <button on:click={moveCity}>Update city via parent ref</button>
+      <button on:click={toggleTheme}>Toggle theme via subref</button>
+      <button on:click={increaseVolume}>Volume +10 via subref</button>
+
+      <div>City from get(): {city}</div>
+      <div>Theme from subref(): {theme}</div>
+      <div>Volume from subref(): {volume}</div>
     </div>
   );
 }

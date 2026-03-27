@@ -47,8 +47,7 @@ export const zh = {
   'reactive.section.description':
     '<code>ref()</code> 创建普通 <code>KTRef</code>。读取统一使用 <code>value</code>；整体替换时写 <code>ref.value = nextValue</code>；深层对象、数组、<code>Map</code> / <code>Set</code> 或自定义可变对象内部修改时使用 <code>ref.draft</code>。<code>computed</code> 的依赖仍需手动声明。',
   'reactive.ref.overview': 'Ref 使用场景：',
-  'reactive.ref.item.value':
-    '<code>value</code> 用于读取当前值，也用于整体覆盖写入：<code>a.value = newValue</code>。',
+  'reactive.ref.item.value': '<code>value</code> 用于读取当前值，也用于整体覆盖写入：<code>a.value = newValue</code>。',
   'reactive.ref.item.array':
     '深层对象或数组要走 <code>draft</code>：例如 <code>a.draft.user.name = "Jane"</code>、<code>a.draft.list.push(item)</code>。',
   'reactive.ref.item.mapSet':
@@ -74,6 +73,8 @@ export const zh = {
     '用于深层响应式修改；只能改内部内容，不能整体赋值。允许 <code>ref.draft.user.name = "Jane"</code>，不允许 <code>ref.draft = nextValue</code>。',
   'reactive.api.method.notify': '强制触发监听器。',
   'reactive.api.method.map': '基于当前 reactive 派生 <code>computed</code>，可附加额外依赖。',
+  'reactive.api.method.get': '从当前 reactive 里取出嵌套路径，得到只读、轻量的 <code>KTSubComputed</code>。',
+  'reactive.api.method.subref': '从 <code>ref</code> 里取出可写的嵌套字段，直接改子路径也会同步更新父级。',
   'reactive.api.method.addOnChange': '注册值变化监听，可选自定义 key。',
   'reactive.api.method.removeOnChange': '按 key 移除监听器。',
   'reactive.api.value.title': '<code>value</code>：读取 + 整体替换',
@@ -103,6 +104,26 @@ export const zh = {
   'reactive.api.map.discountPlus': '折扣 +5%',
   'reactive.api.map.taxMinus': '税率 -1%',
   'reactive.api.map.taxPlus': '税率 +1%',
+  'reactive.api.get.title': '<code>get</code>：读取嵌套路径',
+  'reactive.api.get.description':
+    '<code>get(...keys)</code> 适合把深层字段单独拿出来读。它会跟随父级 reactive 自动更新，但自身保持只读。',
+  'reactive.api.get.cityLabel': '城市',
+  'reactive.api.get.planLabel': '套餐',
+  'reactive.api.get.ordersLabel': '订单数',
+  'reactive.api.get.rotateCity': '切换城市',
+  'reactive.api.get.upgradePlan': '升级套餐',
+  'reactive.api.get.addOrder': '订单 +1',
+  'reactive.api.subref.title': '<code>subref</code>：写入嵌套路径',
+  'reactive.api.subref.description':
+    '<code>subref(...keys)</code> 会返回一个可写的子 ref。对它的 <code>value</code> 赋值，父级 ref 也会同步更新并触发监听。',
+  'reactive.api.subref.summary': '标题：{{1}}；主题：{{2}}；音量：{{3}}',
+  'reactive.api.subref.titleLabel': '子标题',
+  'reactive.api.subref.themeLabel': '子主题',
+  'reactive.api.subref.volumeLabel': '子音量',
+  'reactive.api.subref.rename': '改标题',
+  'reactive.api.subref.toggleTheme': '切换主题',
+  'reactive.api.subref.volumeUp': '音量 +5',
+  'reactive.api.subref.volumeDown': '音量 -5',
   'reactive.api.listeners.title': '<code>addOnChange</code> / <code>removeOnChange</code>',
   'reactive.api.listeners.description': '通过 key 管理监听器生命周期；移除后将不再接收变化通知。',
   'reactive.api.listeners.enable': '开启监听',

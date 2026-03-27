@@ -1,4 +1,4 @@
-import { $modelOrRef, computed, ref, toReactive, KTConditional } from '@ktjs/core';
+import { assertModel, computed, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactive } from '@ktjs/core';
 
@@ -47,7 +47,7 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
 
   // # refs
   // k-model takes precedence over value prop for two-way binding
-  const modelRef = $modelOrRef(props, props.value ?? []);
+  const modelRef = assertModel(props, props.value ?? []);
 
   // Create refs for all reactive properties
   const labelRef = toReactive(props.label ?? '');

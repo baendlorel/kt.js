@@ -1,6 +1,6 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
-import { $modelOrRef, computed, KTFor, toReactive } from '@ktjs/core';
+import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import type { KTMuiCheckbox, KTMuiCheckboxProps, KTMuiCheckboxSize } from './Checkbox.js';
 
@@ -36,7 +36,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
   const optionsRef = toReactive(props.options);
   const rowRef = toReactive(props.row ?? true);
   const sizeRef = toReactive(props.size ?? 'medium');
-  const model = $modelOrRef(props, [] as string[]);
+  const model = assertModel(props, [] as string[]);
   let internalChange = false;
   model.addOnChange((newValues) => {
     if (internalChange) {

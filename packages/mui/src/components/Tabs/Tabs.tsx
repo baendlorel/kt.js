@@ -1,5 +1,5 @@
 import type { JSX, KTReactive } from '@ktjs/core';
-import { $modelOrRef, KTConditional, KTFor, computed, ref, toReactive } from '@ktjs/core';
+import { assertModel, KTConditional, KTFor, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
@@ -50,7 +50,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const indicatorColorRef = toReactive(props.indicatorColor ?? 'primary');
   const orientationRef = toReactive(props.orientation ?? 'horizontal');
   const centeredRef = toReactive(props.centered ?? false);
-  const modelRef = $modelOrRef<string>(props, optionsRef.value[0]?.value ?? '');
+  const modelRef = assertModel<string>(props, optionsRef.value[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();
   const tabButtons: HTMLButtonElement[] = [];

@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { $modelOrRef, computed, ref, toReactive } from '@ktjs/core';
+import { assertModel, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Select.css.ts';
@@ -83,7 +83,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) =>
     container.classList.toggle('mui-select-disabled', v),
   );
-  const modelRef = $modelOrRef(props, props.value ?? '');
+  const modelRef = assertModel(props, props.value ?? '');
 
   const styleRef = toReactive($parseStyle(props.style));
   const classRef = toReactive(props.class ?? '');

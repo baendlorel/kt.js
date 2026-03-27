@@ -1,5 +1,5 @@
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { KTConditional, toReactive, $modelOrRef, computed, effect } from '@ktjs/core';
+import { KTConditional, toReactive, assertModel, computed, effect } from '@ktjs/core';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import type { KTMuiProps } from '../../types/component.js';
@@ -57,7 +57,7 @@ export function Checkbox(
   const colorRef = toReactive(props.color ?? 'primary');
   const sizeRef = toReactive(props.size ?? 'medium');
   const disabledRef = toReactive(props.disabled ?? false);
-  const model = $modelOrRef(props, false);
+  const model = assertModel(props, false);
 
   const inputEl = (
     <input

@@ -1,5 +1,5 @@
 import type { JSX } from '@ktjs/core';
-import { $modelOrRef, KTConditional, KTFor, computed, toReactive } from '@ktjs/core';
+import { assertModel, KTConditional, KTFor, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
@@ -49,7 +49,7 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
   const showLabelsRef = toReactive(props.showLabels ?? false);
 
   const initialValue = typeof props.value === 'string' ? props.value : '';
-  const modelRef = $modelOrRef<string>(props, initialValue);
+  const modelRef = assertModel<string>(props, initialValue);
 
   const ensureValidModelValue = (emitChange: boolean) => {
     const currentValue = modelRef.value;

@@ -1,6 +1,6 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { $modelOrRef, KTConditional, computed, toReactive } from '@ktjs/core';
+import { assertModel, KTConditional, computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './Switch.css.ts';
 
@@ -41,7 +41,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });
-  const modelRef = $modelOrRef(props, false);
+  const modelRef = assertModel(props, false);
   modelRef.addOnChange((newValue) => {
     inputEl.checked = newValue;
     track.classList.toggle('mui-switch-track-checked', newValue);

@@ -1,4 +1,4 @@
-import type { KTRef } from '../reactable/ref.js';
+import type { KTRefLike } from '../reactable/ref.js';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
 import type { KTRawContent } from './h.js';
 
@@ -183,11 +183,11 @@ export namespace JSX {
     /**
      * Make a reference to the created element
      */
-    ref?: KTRef<any>;
+    ref?: KTRefLike<any>;
 
     /**
      * Conditional rendering
-     * - Provide a `KTRef` to make it reactive
+     * - Provide a `KTRefLike` to make it reactive
      */
     'k-if'?: any;
 
@@ -208,9 +208,9 @@ export namespace JSX {
     'k-key'?: any;
 
     /**
-     * 2-way binding. Must provide a `KTRef`
+     * 2-way binding. Must provide a `KTRefLike`
      */
-    'k-model'?: KTRef<any>;
+    'k-model'?: KTRefLike<any>;
 
     /**
      * Raw HTML escape hatch.

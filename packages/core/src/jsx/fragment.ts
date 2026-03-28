@@ -1,7 +1,7 @@
-import type { KTReactive } from '../reactable/reactive.js';
+import type { KTReactiveLike } from '../reactable/reactive.js';
 import type { KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
-import { $initRef, type KTRef } from '../reactable/ref.js';
+import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
@@ -35,13 +35,13 @@ if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED])
 
 export interface FragmentProps<T extends JSX.Element = JSX.Element> {
   /** Array of child elements, supports reactive arrays */
-  children: T[] | KTReactive<T[]>;
+  children: T[] | KTReactiveLike<T[]>;
 
   /** element key function for optimization (future enhancement) */
   key?: (element: T, index: number, array: T[]) => any;
 
   /** ref to get the anchor node */
-  ref?: KTRef<JSX.Element>;
+  ref?: KTRefLike<JSX.Element>;
 }
 
 /**

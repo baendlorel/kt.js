@@ -63,17 +63,17 @@
 **验收**：`KTMaybeReactive<T>` 能覆盖 `ref().subref(...)` 与 `ref().get(...)` 返回值。
 
 ### Phase B：core 的 content/attr/jsx 类型出口同步
-- [ ] `types/h.d.ts`
+- [x] `types/h.d.ts`
   - `SingleContent` 改为 `KTReactiveLike<any> | ...`
   - `ref` / `k-model` 改为 `KTRefLike<any>`
-- [ ] `types/jsx.d.ts`
+- [x] `types/jsx.d.ts`
   - `IntrinsicAttributes.ref` / `k-model` 改为 `KTRefLike<any>`
-- [ ] `types/directives.d.ts`
+- [x] `types/directives.d.ts`
   - `__kif__` 改为 `KTReactiveLike<boolean>`
-- [ ] `jsx/for.ts`、`jsx/fragment.ts`、`jsx/if.ts`
+- [x] `jsx/for.ts`、`jsx/fragment.ts`、`jsx/if.ts`
   - props 中 `KTReactive` 改为 `KTReactiveLike`
   - `ref` 类型改为 `KTRefLike`
-- [ ] `h/model.ts`
+- [x] `h/model.ts`
   - 入参从 `KTRef` 改为 `KTRefLike`
   - 同步收紧运行时校验为 ref-like（只允许可写对象）
 

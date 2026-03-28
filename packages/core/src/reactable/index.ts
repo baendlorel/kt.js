@@ -1,13 +1,12 @@
-import type { KTReactive } from './reactive.js';
+import type { KTReactive, KTReactiveLike } from './reactive.js';
 import { isKT } from './common.js';
 import { ref } from './ref.js';
 
 /**
- *
- * @param o
- * @returns
+ * Ensure a value is reactive. If it's already `KTReactiveLike`, return it as is; otherwise, wrap it in a `ref`.
  */
-export const toReactive = <T>(o: T | KTReactive<T>): KTReactive<T> => (isKT(o) ? o : (ref(o as T) as KTReactive<T>));
+export const toReactive = <T>(o: T | KTReactiveLike<T>): KTReactiveLike<T> =>
+  isKT(o) ? o : (ref(o as T) as KTReactive<T>);
 
 /**
  * Extracts the value from a KTReactive, or returns the value directly if it's not reactive.

@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
-import type { KTRef } from '../reactable/ref.js';
-import type { KTReactive } from '../reactable/reactive.js';
+import type { KTRefLike } from '../reactable/ref.js';
+import type { KTReactiveLike } from '../reactable/reactive.js';
 
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
@@ -9,8 +9,8 @@ import { $initRef } from '../reactable/ref.js';
 export type KTForElement = JSX.Element;
 
 export interface KTForProps<T> {
-  ref?: KTRef<KTForElement>;
-  list: T[] | KTReactive<T[]>;
+  ref?: KTRefLike<KTForElement>;
+  list: T[] | KTReactiveLike<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
   map?: (item: T, index: number, array: T[]) => JSX.Element;
 }

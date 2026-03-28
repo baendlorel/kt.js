@@ -1,6 +1,6 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
-import type { KTReactive } from '../reactable/reactive.js';
-import type { KTRef } from '../reactable/ref.js';
+import type { KTReactiveLike } from '../reactable/reactive.js';
+import type { KTRefLike } from '../reactable/ref.js';
 import type { JSX } from './jsx.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
@@ -11,7 +11,7 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
       ? MathMLElementTagNameMap[T]
       : HTMLElement;
 
-type SingleContent = KTReactive<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
+type SingleContent = KTReactiveLike<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | null | undefined | '' | false;
@@ -34,18 +34,18 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   // # kt-specific attributes
-  ref?: KTRef<any>;
+  ref?: KTRefLike<any>;
 
   /**
-   * If a `KTRef` is bound, it will be reactive; otherwise, it will be static.
+   * If a `KTRefLike` is bound, it will be reactive; otherwise, it will be static.
    */
   'k-if'?: any;
 
   /**
-   * Register two-way data binding between an input element and a KTRef.
+   * Register two-way data binding between an input element and a KTRefLike.
    * - Default to regist `input` event and `value` property(`checked` for checkboxes and radios).
    */
-  'k-model'?: KTRef<any>;
+  'k-model'?: KTRefLike<any>;
 
   /**
    * Raw HTML escape hatch. Directly assigns to `innerHTML`.
@@ -121,7 +121,7 @@ export type KTAttribute = KTBaseAttribute & KTPrefixedEventAttribute;
 
 export type KTComponent = (
   props: {
-    ref?: KTRef<JSX.Element>;
+    ref?: KTRefLike<JSX.Element>;
     children?: KTRawContent;
   } & KTAttribute &
     any,

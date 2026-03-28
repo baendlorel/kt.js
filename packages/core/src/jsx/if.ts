@@ -1,12 +1,12 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
-import type { KTReactive } from '../reactable/reactive.js';
+import type { KTReactiveLike } from '../reactable/reactive.js';
 
 import { isKT } from '../reactable/index.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(
-  condition: any | KTReactive<any>,
+  condition: any | KTReactiveLike<any>,
   tagIf: JSXTag,
   propsIf: KTAttribute,
   tagElse?: JSXTag,

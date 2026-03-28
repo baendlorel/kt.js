@@ -1,4 +1,5 @@
 import { $entries } from '@ktjs/shared';
+import { isKT, isRefLike, type KTRefLike, ref } from '@ktjs/core';
 
 export const $parseStyle = (style: string | Partial<CSSStyleDeclaration> | undefined) => {
   if (typeof style === 'string') {
@@ -28,5 +29,17 @@ export const registerPrefixedEvents = (element: Element, props: { [key: string]:
         element.addEventListener(key.slice(3), props[key]);
       }
     }
+  }
+};
+
+export const ensureRefLike = <T>(value: unknown): KTRefLike<T> => {
+  if (isKT(value)) {
+    if (isRefLike(value)) {
+      return value;
+    } else {
+      $throw(`Computed values cannot be used as ref-like. Please use 'ref' instead.`);
+    }
+  } else {
+    return ref(value as T);
   }
 };

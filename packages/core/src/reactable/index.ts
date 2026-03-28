@@ -11,7 +11,7 @@ export const toReactive = <T>(o: T | KTReactiveLike<T>): KTReactiveLike<T> =>
 /**
  * Extracts the value from a KTReactive, or returns the value directly if it's not reactive.
  */
-export const dereactive = <T>(value: T | KTReactive<T>): T => (isKT<T>(value) ? value.value : value);
+export const dereactive = <T>(value: T | KTReactiveLike<T>): T => (isKT<T>(value) ? value.value : value);
 
 export type { KTRef, KTSubRef, KTRefLike } from './ref.js';
 export { ref, assertModel } from './ref.js';

@@ -82,13 +82,13 @@
 - `k-model={state.subref('form','name')}` 类型通过。
 
 ### Phase C：mui props 类型同步
-- [ ] `types/component.d.ts`
+- [x] `types/component.d.ts`
   - 本地 `KTMaybeReactive` 改为基于 `KTReactiveLike`
   - `class/style` 类型同步放宽
-- [ ] 组件逐个替换硬编码 `KTReactive`
+- [x] 组件逐个替换硬编码 `KTReactive`
   - `Badge/Card/Radio/Popover`
   - `Input/FilePicker/DirectoryPicker/Tabs`
-- [ ] 所有 `k-model` props 统一到 `KTRefLike<...>`
+- [x] 所有 `k-model` props 统一到 `KTRefLike<...>`
 
 **验收**：mui 组件可直接接收 `subref/get` 结果作为可读 props；`k-model` 只接收可写 ref-like。
 

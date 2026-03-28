@@ -17,7 +17,9 @@
 
 ## Recent Updates
 
-1. 0.35.x - `reactive.get('a','b')` is a shortcut for `reactive.map((v) => v.a.b)`. By default it has 5 levels of type annotations and it's convienient for common use cases.
+1. 0.36.x - override 0.35.x. Now refs and computeds have 2 new apis:
+   1. `get(...keys)`: create a `KTSubComputed` object. It is a light version of computed, used to bind values
+   2. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
 2. 0.34.x - `ref.notify()` no-longer has an optional argument.
 3. 0.33.x - `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
 4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.

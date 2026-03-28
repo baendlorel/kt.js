@@ -16,7 +16,7 @@ export interface PackageInfo {
 }
 
 const publishGroupMap = new Map<string | undefined, string[]>([
-  [undefined, ['core', 'kt.js', 'mui-icon', 'mui', 'router', 'shortcuts', 'shared']],
+  [undefined, ['core', 'kt.js', 'mui']],
   ['plugin', ['vite', 'babel', 'transformer', 'create']],
 ]);
 

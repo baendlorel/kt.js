@@ -21,7 +21,7 @@ function createApp() {
 
   const page = ref(firstItem.id);
   const currentSection = ref(firstItem.label);
-  const openedGroup = ref(mainNavs[0].id);
+  const openedGroup = ref('features');
   const headerTitleRef = ref(firstItem.title);
   const headerDescRef = ref(firstItem.description);
   const contentBodyRef = ref<HTMLDivElement>();

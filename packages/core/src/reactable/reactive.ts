@@ -29,6 +29,16 @@ export abstract class KTReactiveLike<T> {
   abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
 
   abstract removeOnChange(key: any): this;
+
+  /**
+   * Create a computed value via current reactive value.
+   * - No matter `this` is added to `dependencies` or not, it is always listened.
+   * @param calculator A function that generates a new value based on current value.
+   * @param dependencies optional other dependencies that the computed value depends on.
+   */
+  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+    return null as any;
+  }
 }
 
 export abstract class KTReactive<T> extends KTReactiveLike<T> {
@@ -84,10 +94,6 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
   notify(): this {
     return this._emit(this._value, this._value);
-  }
-
-  map<U>(_calculator: (value: T) => U, _dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
-    return null as any; // & Will be implemented in computed.ts to avoid circular dependency
   }
 
   /**

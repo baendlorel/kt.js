@@ -30,12 +30,12 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 }
 
-KTReactive.prototype.map = function <U>(
+KTReactiveLike.prototype.map = function <U>(
   this: KTReactive<unknown>,
   c: (value: unknown) => U,
   dep?: Array<KTReactiveLike<any>>,
 ) {
-  return new KTComputed(() => c(this.value), dep ? dep.concat(this) : [this]);
+  return new KTComputed(() => c(this.value), dep ? [this, ...dep] : [this]);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {

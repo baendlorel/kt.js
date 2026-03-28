@@ -192,14 +192,11 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
   const marginThresholdRef = toReactive(props.marginThreshold ?? 16).addOnChange(scheduleUpdatePosition);
   const elevationRef = toReactive(props.elevation ?? 8);
 
-  const paperClassName = computed(() => {
-    return ['mui-popover-paper', customClassRef.value].join(' ').trim();
-  }, [customClassRef]);
+  const paperClassName = customClassRef.map((v) => `mui-popover-paper ${v}`);
 
   const paperStyle = computed(() => {
-    const custom = styleRef.value;
     const shadow = getElevationShadow(elevationRef.value);
-    return `${custom}${custom ? ';' : ''}box-shadow:${shadow}`;
+    return `${styleRef.value}${styleRef.value ? ';' : ''}box-shadow:${shadow}`;
   }, [styleRef, elevationRef]);
 
   const updatePosition = () => {

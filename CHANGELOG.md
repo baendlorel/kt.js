@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.36.x - 2026-03-27
+
+- Refactored reactive objects. Now we have a new base class `KTReactiveLike`, and `ref` / `computed` both implement this interface. This allows for more consistent APIs and better type inference across reactive values.
+- @ktjs/mui now fully supports the new reactive contract, and we updated the Popover component to use `ensureRefLike` for the `open` prop, which provides better error handling and type safety.
+
 ## 0.35.x - 2026-03-24
 
 ### API

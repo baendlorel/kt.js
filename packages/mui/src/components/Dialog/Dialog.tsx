@@ -4,7 +4,7 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiProps } from '../../types/component.js';
 import './Dialog.css.ts';
-import { registerPrefixedEvents } from '../../common/attribute.js';
+import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
@@ -127,7 +127,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }, DIALOG_EXIT_MS);
   };
 
-  const openRef = toReactive(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
+  const openRef = ensureRefLike(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
   const sizeRef = toReactive(props.size ?? 'sm');
   const fullWidthRef = toReactive(props.fullWidth ?? false);
 

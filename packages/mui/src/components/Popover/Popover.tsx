@@ -1,9 +1,9 @@
-import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { type KTReactive, computed, toReactive } from '@ktjs/core';
+import type { JSX, KTMaybeReactive, KTReactiveLike } from '@ktjs/core';
+import { computed, toReactive } from '@ktjs/core';
 import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Popover.css.ts';
-import { registerPrefixedEvents } from '../../common/attribute.js';
+import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiPopoverVerticalOrigin = 'top' | 'center' | 'bottom';
 export type KTMuiPopoverHorizontalOrigin = 'left' | 'center' | 'right';
@@ -17,10 +17,11 @@ export type KTMuiPopoverCloseReason = 'backdropClick' | 'escapeKeyDown';
 
 export type KTMuiPopoverAnchorEl<TAnchor extends JSX.Element | undefined = JSX.Element | undefined> =
   | TAnchor
-  | KTReactive<TAnchor>;
+  | KTReactiveLike<TAnchor>;
 
-export interface KTMuiPopoverProps<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>
-  extends KTMuiProps {
+export interface KTMuiPopoverProps<
+  TAnchor extends JSX.Element | undefined = JSX.Element | undefined,
+> extends KTMuiProps {
   /**
    * Indicates whether the popover is open.
    */
@@ -174,12 +175,13 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     }, EXIT_TRANSITION_MS);
   };
 
-  const openRef = toReactive(props.open ?? false).addOnChange((isOpen) => {
+  const openRef = ensureRefLike<boolean>(props.open ?? false).addOnChange((isOpen) => {
     syncOpenState(isOpen);
     if (isOpen) {
       scheduleUpdatePosition();
     }
   });
+
   const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).addOnChange(
     scheduleUpdatePosition,
   );

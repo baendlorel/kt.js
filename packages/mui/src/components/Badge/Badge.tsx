@@ -1,5 +1,5 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { type KTReactive, computed, toReactive } from '@ktjs/core';
+import { computed, toReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 
 import './Badge.css.ts';
@@ -19,7 +19,7 @@ export interface KTMuiBadgeAnchorOrigin {
 }
 
 export interface KTMuiBadgeProps extends KTMuiProps {
-  badgeContent?: KTMuiBadgeContent | KTReactive<number> | KTReactive<string>;
+  badgeContent?: KTMaybeReactive<KTMuiBadgeContent>;
   max?: KTMaybeReactive<number>;
   showZero?: KTMaybeReactive<boolean>;
   invisible?: KTMaybeReactive<boolean>;
@@ -49,9 +49,7 @@ export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
   const styleRef = toReactive($parseStyle(props.style));
   const rootClassRef = customClassRef.map((v) => 'mui-badge-root ' + v);
 
-  const contentRef = toReactive<KTMuiBadgeContent>(
-    (props.badgeContent as KTMuiBadgeContent | KTReactive<KTMuiBadgeContent>) ?? '',
-  );
+  const contentRef = toReactive<KTMuiBadgeContent>(props.badgeContent ?? '');
   const maxRef = toReactive(props.max ?? 99);
   const showZeroRef = toReactive(props.showZero ?? false);
   const invisibleRef = toReactive(props.invisible ?? false);

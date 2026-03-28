@@ -1,6 +1,6 @@
 import { assertModel, computed, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './FilePicker.css.ts';
@@ -9,7 +9,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 export type KTMuiFilePickerSize = 'small' | 'medium';
 
 export interface KTMuiFilePickerProps extends KTMuiProps {
-  'k-model'?: KTReactive<File[]>;
+  'k-model'?: KTRefLike<File[]>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
   value?: File[];
@@ -21,7 +21,7 @@ export interface KTMuiFilePickerProps extends KTMuiProps {
   error?: KTMaybeReactive<boolean>;
   helperText?: KTMaybeReactive<string>;
   fullWidth?: KTMaybeReactive<boolean>;
-  size?: KTMuiFilePickerSize | KTReactive<KTMuiFilePickerSize>;
+  size?: KTMuiFilePickerSize | KTReactiveLike<KTMuiFilePickerSize>;
   buttonText?: KTMaybeReactive<string>;
   showFileCount?: KTMaybeReactive<boolean>;
   'on:change'?: (files: File[]) => void;

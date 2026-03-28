@@ -1,4 +1,4 @@
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX, KTRefLike } from '@ktjs/core';
 import { assertModel, KTConditional, KTFor, computed, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -18,7 +18,7 @@ export interface KTMuiTabOption {
 }
 
 export interface KTMuiTabsProps extends KTMuiProps {
-  'k-model'?: KTReactive<string>;
+  'k-model'?: KTRefLike<string>;
   options: KTMaybeReactive<KTMuiTabOption[]>;
   variant?: KTMaybeReactive<KTMuiTabsVariant>;
   textColor?: KTMaybeReactive<KTMuiTabsTextColor>;

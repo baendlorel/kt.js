@@ -1,6 +1,6 @@
 import { assertModel, computed, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './FilePicker.css.ts';
@@ -9,7 +9,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 export type KTMuiDirectoryPickerSize = 'small' | 'medium';
 
 export interface KTMuiDirectoryPickerProps extends KTMuiProps {
-  'k-model'?: KTReactive<File[]>;
+  'k-model'?: KTRefLike<File[]>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
   value?: File[];
@@ -19,7 +19,7 @@ export interface KTMuiDirectoryPickerProps extends KTMuiProps {
   error?: KTMaybeReactive<boolean>;
   helperText?: KTMaybeReactive<string>;
   fullWidth?: KTMaybeReactive<boolean>;
-  size?: KTMuiDirectoryPickerSize | KTReactive<KTMuiDirectoryPickerSize>;
+  size?: KTMuiDirectoryPickerSize | KTReactiveLike<KTMuiDirectoryPickerSize>;
   buttonText?: KTMaybeReactive<string>;
   'on:change'?: (files: File[], directoryPath: string) => void;
   'on:blur'?: () => void;
@@ -89,7 +89,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
     return placeholderRef.value;
   }, [directoryPath, placeholderRef, labelRef, isFocusedRef]);
 
-  const hasValue = modelRef.map((v) => v && v.length > 0);
+  const hasValue = computed(() => modelRef.value && modelRef.value.length > 0, [modelRef]);
 
   const displayClassName = computed(
     () =>

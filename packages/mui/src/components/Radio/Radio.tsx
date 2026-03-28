@@ -1,6 +1,6 @@
 import { computed, KTFor, toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import type { KTMuiProps } from '../../types/component.js';
 import './Radio.css.ts';
@@ -12,7 +12,7 @@ export type KTMuiRadioColor = 'primary' | 'secondary' | 'default';
 
 export interface KTMuiRadioProps extends KTMuiProps {
   value: string;
-  label: string | JSX.Element | HTMLElement | KTReactive<string | JSX.Element | HTMLElement>;
+  label: KTMaybeReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
   size?: KTMuiRadioSize;
   'on:change'?: (checked: boolean, value: string) => void;

@@ -1,5 +1,5 @@
-import type { JSX } from '@ktjs/core';
-import { type KTReactive, toReactive, computed } from '@ktjs/core';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
+import { toReactive, computed } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 
 import './Card.css.ts';
@@ -9,10 +9,10 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 export type KTMuiCardVariant = 'elevation' | 'outlined' | 'contained';
 
 export interface KTMuiCardProps extends KTMuiProps {
-  variant?: KTMuiCardVariant;
-  elevation?: number | KTReactive<number>;
-  square?: boolean | KTReactive<boolean>;
-  raised?: boolean | KTReactive<boolean>;
+  variant?: KTMaybeReactive<KTMuiCardVariant>;
+  elevation?: KTMaybeReactive<number>;
+  square?: KTMaybeReactive<boolean>;
+  raised?: KTMaybeReactive<boolean>;
 
   // # native events
   'on:click'?: (event: MouseEvent) => void;

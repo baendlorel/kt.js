@@ -1,6 +1,6 @@
 import { assertModel, KTConditional, computed, dereactive, ref, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import type { JSX, KTReactive } from '@ktjs/core';
+import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
@@ -12,7 +12,7 @@ export type KTMuiTextFieldSize = 'small' | 'medium';
 export type InputTypes = KTMuiTextFieldType;
 
 export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> extends KTMuiProps {
-  'k-model'?: T extends 'number' ? KTReactive<number> : KTReactive<string>;
+  'k-model'?: T extends 'number' ? KTRefLike<number> : KTRefLike<string>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
   value?: any;
@@ -25,7 +25,7 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
   fullWidth?: KTMaybeReactive<boolean>;
   multiline?: boolean;
   rows?: KTMaybeReactive<number>;
-  size?: KTMuiTextFieldSize | KTReactive<KTMuiTextFieldSize>;
+  size?: KTMuiTextFieldSize | KTReactiveLike<KTMuiTextFieldSize>;
   'on:input'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:change'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;

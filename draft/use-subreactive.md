@@ -93,9 +93,9 @@
 **验收**：mui 组件可直接接收 `subref/get` 结果作为可读 props；`k-model` 只接收可写 ref-like。
 
 ### Phase D：回归验证
-- [ ] core 增加/更新类型用例（至少覆盖 content、attr、k-model）
-- [ ] mui 增加/更新类型用例（至少覆盖 Input/FilePicker/Tabs/Popover）
-- [ ] 执行构建与测试（core + mui）并确认导出 d.ts 同步
+- [x] core 增加/更新类型用例（至少覆盖 content、attr、k-model）
+- [x] mui 增加/更新类型用例（至少覆盖 Input/FilePicker/Tabs/Popover）
+- [x] 执行构建与测试（core + mui）并确认导出 d.ts 同步
 
 ---
 

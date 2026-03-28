@@ -2,6 +2,7 @@ import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
 import type { KTReactiveLike } from '../reactable/reactive.js';
 import type { KTRefLike } from '../reactable/ref.js';
 import type { JSX } from './jsx.js';
+import type { KTMaybeReactive } from '../reactable/types.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
   ? SVGElementTagNameMap[T]
@@ -58,9 +59,9 @@ interface KTBaseAttribute {
 
   // # normal HTML attributes
   id?: string;
-  class?: string;
-  className?: string;
-  style?: string | Partial<CSSStyleDeclaration>;
+  class?: string; // KTMaybeReactive<string>;
+  className?: string; // KTMaybeReactive<string>;
+  style?: string | Partial<CSSStyleDeclaration>; //  | KTReactiveLike<string | KTReactiveLike<Partial<CSSStyleDeclaration>>>;
 
   type?:
     | 'text'

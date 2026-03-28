@@ -55,9 +55,9 @@
 ## 分阶段计划
 
 ### Phase A：core 类型基座先对齐（阻塞项）
-- [ ] `reactable/types.d.ts`
+- [x] `reactable/types.d.ts`
   - `KTReactify* / KTMaybeReactive*` 从 `KTReactive` 切到 `KTReactiveLike`
-- [ ] `reactable/common.ts`
+- [x] `reactable/common.ts`
   - `isKT` 的类型谓词改为 `KTReactiveLike`
 
 **验收**：`KTMaybeReactive<T>` 能覆盖 `ref().subref(...)` 与 `ref().get(...)` 返回值。

@@ -3,7 +3,7 @@ import type { KTRef, KTRefLike, KTSubRef } from './ref.js';
 import type { KTComputed, KTComputedLike, KTSubComputed } from './computed.js';
 
 // # type guards
-export function isKT<T = any>(obj: any): obj is KTReactive<T> {
+export function isKT<T = any>(obj: any): obj is KTReactiveLike<T> {
   return typeof obj?.kid === 'number';
 }
 export function isReactiveLike<T = any>(obj: any): obj is KTReactiveLike<T> {

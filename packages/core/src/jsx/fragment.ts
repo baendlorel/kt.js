@@ -9,7 +9,7 @@ import { AnchorType } from './common.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 
-const CAN_OBSERVE = typeof MutationObserver === 'undefined' || typeof document === 'undefined';
+const CANNOT_OBSERVE = typeof MutationObserver === 'undefined' || typeof document === 'undefined';
 
 const collectAnchors = (node: Node): FragmentAnchor[] => {
   if (typeof document === 'undefined') {
@@ -96,7 +96,7 @@ export class FragmentAnchor extends Comment {
   queueMount() {
     pendingAnchors.add(this);
 
-    if (pendingAnchorObserver || CAN_OBSERVE || !document.body) {
+    if (pendingAnchorObserver || CANNOT_OBSERVE || !document.body) {
       return;
     }
 
@@ -106,6 +106,10 @@ export class FragmentAnchor extends Comment {
 
   unqueueMount() {
     pendingAnchors.delete(this);
+    if (pendingAnchors.size === 0) {
+      pendingAnchorObserver?.disconnect();
+      pendingAnchorObserver = undefined;
+    }
   }
 
   /**

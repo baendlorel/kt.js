@@ -63,6 +63,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         newElements.push(node);
         fragment.appendChild(node);
       }
+      // TODO(fragment-mount): insertBefore 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       parent.insertBefore(fragment, anchor.nextSibling);
       (anchor as any).__kt_for_list__ = newElements;
       return anchor;
@@ -101,6 +102,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     for (let i = 0; i < newLength; i++) {
       const node = newElements[i];
       if (currentNode !== node) {
+        // TODO(fragment-mount): insertBefore 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
         parent.insertBefore(node, currentNode);
       } else {
         currentNode = currentNode.nextSibling;

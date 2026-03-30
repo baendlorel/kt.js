@@ -54,6 +54,7 @@ const flushPendingAnchors = () => {
 };
 
 if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED]) {
+  // TODO(fragment-mount): 删除这段全局 patch，改为框架内部插入/替换路径显式触发 mount
   (globalThis as any)[FRAGMENT_MOUNT_PATCHED] = true;
 
   const originAppendChild = Node.prototype.appendChild;
@@ -180,6 +181,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
       fragment.appendChild(element);
     }
 
+    // TODO(fragment-mount): insertBefore 后由统一 mount helper 触发（替代全局 Node.prototype patch）
     parent.insertBefore(fragment, anchor.nextSibling);
     inserted = true;
     anchor.mountCallback = undefined;
@@ -201,6 +203,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
 
     const parent = anchor.parentNode;
     if (parent && !inserted) {
+      // TODO(fragment-mount): insertBefore 后由统一 mount helper 触发（替代全局 Node.prototype patch）
       parent.insertBefore(fragment, anchor.nextSibling);
       inserted = true;
       anchor.unqueueMount();

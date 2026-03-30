@@ -12,14 +12,17 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
 
   if (isKT(c)) {
     let node = assureNode(c.value);
+    // TODO(fragment-mount): append 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
     element.appendChild(node);
     c.addOnChange((newValue, _oldValue) => {
       const oldNode = node;
       node = assureNode(newValue);
+      // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       oldNode.replaceWith(node);
     });
   } else {
     const node = assureNode(c);
+    // TODO(fragment-mount): append 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
     element.appendChild(node);
     // Handle KTFor anchor
     const list = (node as any).__kt_for_list__ as any[];
@@ -38,7 +41,9 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       const ci = c[i];
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
+        // TODO(fragment-mount): append 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
         element.appendChild(comment);
+        // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
         ci.then((awaited) => comment.replaceWith(awaited));
       } else {
         apdSingle(element, ci);

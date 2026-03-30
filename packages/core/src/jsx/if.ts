@@ -21,6 +21,7 @@ export function KTConditional(
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
+      // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       old.replaceWith(current);
     });
     return current;
@@ -30,6 +31,7 @@ export function KTConditional(
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : dummy;
+      // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       old.replaceWith(current);
     });
     return current;

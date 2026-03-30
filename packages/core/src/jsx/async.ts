@@ -21,6 +21,7 @@ export function KTAsync<T extends KTComponent>(
     props.skeleton ?? (document.createComment('ktjs-suspense-placeholder') as unknown as JSX.Element);
 
   if ($isThenable(raw)) {
+    // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
     raw.then((resolved) => comp.replaceWith(resolved));
   } else {
     comp = raw as JSX.Element;

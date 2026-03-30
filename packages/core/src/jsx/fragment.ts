@@ -8,43 +8,120 @@ import { isKT, toReactive } from '../reactable/index.js';
 import { AnchorType } from './common.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
-const FRAGMENT_MOUNT = '__kt_fragment_mount__';
+
+const collectAnchors = (node: Node): FragmentAnchor[] => {
+  if (typeof document === 'undefined') {
+    return [];
+  }
+
+  const anchors: FragmentAnchor[] = [];
+  if (node instanceof FragmentAnchor) {
+    anchors.push(node);
+    return anchors;
+  }
+
+  if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_COMMENT);
+    let current = walker.nextNode();
+    while (current) {
+      if (current instanceof FragmentAnchor) {
+        anchors.push(current);
+      }
+      current = walker.nextNode();
+    }
+  }
+  return anchors;
+};
+
+const pendingAnchors = new Set<FragmentAnchor>();
+let pendingAnchorObserver: MutationObserver | undefined;
+
+const flushPendingAnchors = () => {
+  if (pendingAnchors.size === 0) {
+    pendingAnchorObserver?.disconnect();
+    pendingAnchorObserver = undefined;
+    return;
+  }
+
+  pendingAnchors.forEach((anchor) => anchor.mount());
+
+  if (pendingAnchors.size === 0) {
+    pendingAnchorObserver?.disconnect();
+    pendingAnchorObserver = undefined;
+  }
+};
 
 if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED]) {
   (globalThis as any)[FRAGMENT_MOUNT_PATCHED] = true;
 
   const originAppendChild = Node.prototype.appendChild;
   Node.prototype.appendChild = function (node) {
+    const anchors = collectAnchors(node);
     const result = originAppendChild.call(this, node);
-    const mount = (node as any)[FRAGMENT_MOUNT];
-    if (typeof mount === 'function') {
-      mount();
+    for (let i = 0; i < anchors.length; i++) {
+      anchors[i].mount();
     }
     return result as any;
   };
 
   const originInsertBefore = Node.prototype.insertBefore;
   Node.prototype.insertBefore = function (node: Node, child: Node | null) {
+    const anchors = collectAnchors(node);
     const result = originInsertBefore.call(this, node, child);
-    const mount = (node as any)[FRAGMENT_MOUNT];
-    if (typeof mount === 'function') {
-      mount();
+    for (let i = 0; i < anchors.length; i++) {
+      anchors[i].mount();
     }
     return result as any;
   };
 }
 
 export class FragmentAnchor extends Comment {
-  public readonly isKTAnchor: true = true;
-  public readonly type = AnchorType.Fragment;
-  private readonly _list: JSX.Element[] = [];
+  readonly isKTAnchor: true = true;
+  readonly type = AnchorType.Fragment;
+  readonly list: Node[] = [];
+  mountCallback?: () => void;
 
   constructor() {
     super('kt-fragment');
   }
+
+  mount() {
+    if (this.parentNode) {
+      this.mountCallback?.();
+    }
+  }
+
+  queueMount() {
+    pendingAnchors.add(this);
+
+    // todo 每次都判定太麻烦了
+    // typeof MutationObserver === 'undefined' ||
+    // typeof document === 'undefined' ||
+    // !document.body
+
+    if (pendingAnchorObserver) {
+      return;
+    }
+
+    pendingAnchorObserver = new MutationObserver(flushPendingAnchors);
+    pendingAnchorObserver.observe(document.body, { childList: true, subtree: true });
+  }
+
+  unqueueMount() {
+    pendingAnchors.delete(this);
+  }
+
+  /**
+   * Remove elements in the list
+   */
+  removeElements() {
+    for (let i = 0; i < this.list.length; i++) {
+      (this.list[i] as ChildNode).remove();
+    }
+  }
 }
 
-export interface FragmentProps<T extends JSX.Element = JSX.Element> {
+export interface FragmentProps<T extends Node = Node> {
   /** Array of child elements, supports reactive arrays */
   children: T[] | KTReactiveLike<T[]>;
 
@@ -74,11 +151,10 @@ export interface FragmentProps<T extends JSX.Element = JSX.Element> {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentProps<T>): JSX.Element {
-  const elements: T[] = [];
-  const anchor = document.createComment('kt-fragment') as unknown as JSX.Element;
+export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element {
+  const anchor = new FragmentAnchor();
+  const elements = anchor.list as T[];
   let inserted = false;
-  let observer: MutationObserver | undefined;
 
   const redraw = () => {
     const newElements = childrenRef.value;
@@ -89,13 +165,10 @@ export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentPro
       for (let i = 0; i < newElements.length; i++) {
         elements.push(newElements[i]);
       }
-      (anchor as any).__kt_fragment_list__ = elements;
       return;
     }
 
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].remove();
-    }
+    anchor.removeElements();
 
     const fragment = document.createDocumentFragment();
     elements.length = 0;
@@ -108,10 +181,8 @@ export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentPro
 
     parent.insertBefore(fragment, anchor.nextSibling);
     inserted = true;
-    delete (anchor as any)[FRAGMENT_MOUNT];
-    observer?.disconnect();
-    observer = undefined;
-    (anchor as any).__kt_fragment_list__ = elements;
+    anchor.mountCallback = undefined;
+    anchor.unqueueMount();
   };
 
   const childrenRef = toReactive(props.children).addOnChange(redraw);
@@ -127,36 +198,29 @@ export function Fragment<T extends JSX.Element = JSX.Element>(props: FragmentPro
       fragment.appendChild(element);
     }
 
-    (anchor as any).__kt_fragment_list__ = elements;
-
     const parent = anchor.parentNode;
     if (parent && !inserted) {
       parent.insertBefore(fragment, anchor.nextSibling);
       inserted = true;
+      anchor.unqueueMount();
     }
   };
 
   renderInitial();
 
-  (anchor as any)[FRAGMENT_MOUNT] = () => {
+  anchor.mountCallback = () => {
     if (!inserted && anchor.parentNode) {
       redraw();
     }
   };
 
-  observer = new MutationObserver(() => {
-    if (anchor.parentNode && !inserted) {
-      redraw();
-      observer?.disconnect();
-      observer = undefined;
-    }
-  });
+  if (!inserted) {
+    anchor.queueMount();
+  }
 
-  observer.observe(document.body, { childList: true, subtree: true });
+  $initRef(props as { ref?: KTRefLike<Node> }, anchor);
 
-  $initRef(props, anchor);
-
-  return anchor;
+  return anchor as unknown as JSX.Element;
 }
 
 /**

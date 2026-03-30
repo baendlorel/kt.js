@@ -5,6 +5,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
+import { AnchorType } from './common.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 const FRAGMENT_MOUNT = '__kt_fragment_mount__';
@@ -31,6 +32,16 @@ if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED])
     }
     return result as any;
   };
+}
+
+export class FragmentAnchor extends Comment {
+  public readonly isKTAnchor: true = true;
+  public readonly type = AnchorType.Fragment;
+  private readonly _list: JSX.Element[] = [];
+
+  constructor() {
+    super('kt-fragment');
+  }
 }
 
 export interface FragmentProps<T extends JSX.Element = JSX.Element> {

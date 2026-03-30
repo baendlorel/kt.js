@@ -9,6 +9,8 @@ import { AnchorType } from './common.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 
+const CAN_OBSERVE = typeof MutationObserver === 'undefined' || typeof document === 'undefined';
+
 const collectAnchors = (node: Node): FragmentAnchor[] => {
   if (typeof document === 'undefined') {
     return [];
@@ -94,12 +96,7 @@ export class FragmentAnchor extends Comment {
   queueMount() {
     pendingAnchors.add(this);
 
-    // todo 每次都判定太麻烦了
-    // typeof MutationObserver === 'undefined' ||
-    // typeof document === 'undefined' ||
-    // !document.body
-
-    if (pendingAnchorObserver) {
+    if (pendingAnchorObserver || CAN_OBSERVE || !document.body) {
       return;
     }
 
@@ -151,7 +148,7 @@ export interface FragmentProps<T extends Node = Node> {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element {
+export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & FragmentAnchor {
   const anchor = new FragmentAnchor();
   const elements = anchor.list as T[];
   let inserted = false;
@@ -220,7 +217,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
 
   $initRef(props as { ref?: KTRefLike<Node> }, anchor);
 
-  return anchor as unknown as JSX.Element;
+  return anchor as unknown as JSX.Element & FragmentAnchor;
 }
 
 /**

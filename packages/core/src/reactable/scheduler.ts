@@ -20,8 +20,12 @@ export const markMutation = (reactive: KTRef<any>) => {
     Promise.resolve().then(() => {
       scheduled = false;
       reactiveToOldValue.forEach((oldValue, reactive) => {
-        // @ts-expect-error accessing protected property
-        reactive._changeHandlers.forEach((handler) => handler(reactive.value, oldValue));
+        try {
+          // @ts-expect-error accessing protected property
+          reactive._changeHandlers.forEach((handler) => handler(reactive.value, oldValue));
+        } catch (error) {
+          $error('KTScheduler:', error);
+        }
       });
       reactiveToOldValue.clear();
     });

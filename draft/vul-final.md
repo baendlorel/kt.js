@@ -30,6 +30,8 @@
 
 ## P0（应立即修复）
 
+- [x] P0-A 调度器异常会中断后续刷新并滞留引用（已完成）
+
 ### A. 调度器异常会中断后续刷新并滞留引用
 
 - 位置：`packages/core/src/reactable/scheduler.ts`
@@ -39,6 +41,9 @@
   - 后续同 ref 可能不再进入调度，出现“更新失效/卡死”。
 
 ## P1（高优先级，尽快）
+
+- [ ] P1-B Fragment 全局 patch + 全局 MutationObserver 设计
+- [ ] P1-C 订阅/事件监听缺少统一卸载机制
 
 ### B. Fragment 全局 patch + 全局 MutationObserver 设计
 

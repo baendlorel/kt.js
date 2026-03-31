@@ -127,8 +127,6 @@ interface CommonPackageJson {
 export const globalDefines = {
   'process.env.BASE_URL': JSON.stringify('/'),
   'process.env.IS_DEV': JSON.stringify('false'),
-  'flags.svg': JSON.stringify('__svg'),
-  'flags.mathml': JSON.stringify('__mathml'),
 };
 
 export function replaceOpts(packagePath?: string): RollupReplaceOptions {

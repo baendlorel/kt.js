@@ -3,7 +3,7 @@
 /**
  * Default empty function
  */
-export const $emptyFn = (() => true) as (...args: unknown[]) => unknown;
+export const $emptyFn = (() => true) as (...args: any[]) => any;
 export const $identity = <T>(x: T): T => x;
 
 /**

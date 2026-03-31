@@ -45,9 +45,7 @@ function resolveNamespaceKindFromTag(tag: string): NamespaceKind | null {
   return null;
 }
 
-function resolveJSXTagName(
-  name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName,
-): string | null {
+function resolveJSXTagName(name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName): string | null {
   if (t.isJSXIdentifier(name)) {
     return name.name;
   }
@@ -242,7 +240,7 @@ function resolveCallNamespace(path: NodePath<t.CallExpression>): NamespaceKind |
     return ownNamespace;
   }
 
-  let current = path.parentPath;
+  let current: NodePath<t.Node> | null = path.parentPath; // ?? is `NodePath<t.Node> | null` right?
   while (current) {
     if (current.isCallExpression() && isRuntimeFactoryCall(current as NodePath<t.CallExpression>)) {
       const currentNamespace = resolveOwnCallNamespace(current as NodePath<t.CallExpression>);
@@ -347,7 +345,11 @@ function findImportedFactoryIdentifier(
   const body = programPath.node.body;
   for (let i = 0; i < body.length; i++) {
     const statement = body[i];
-    if (!t.isImportDeclaration(statement) || statement.importKind === 'type' || statement.source.value !== importSource) {
+    if (
+      !t.isImportDeclaration(statement) ||
+      statement.importKind === 'type' ||
+      statement.source.value !== importSource
+    ) {
       continue;
     }
 
@@ -405,7 +407,10 @@ function ensureNamespaceFactoryIdentifier(
   }
 
   const finalImportSource =
-    importSource ?? (path.isCallExpression() ? resolveRuntimeImportSource(path, programPath) : resolveRuntimeImportSourceFromProgram(programPath));
+    importSource ??
+    (path.isCallExpression()
+      ? resolveRuntimeImportSource(path, programPath)
+      : resolveRuntimeImportSourceFromProgram(programPath));
   const existingFactoryIdentifier = findImportedFactoryIdentifier(programPath, finalImportSource, namespace);
   if (existingFactoryIdentifier) {
     programPath.setData(cacheKey, t.identifier(existingFactoryIdentifier.name));
@@ -627,7 +632,10 @@ export function transformSvgMathMLJSXElement(path: NodePath<t.JSXElement>): bool
   const importSource = resolveRuntimeImportSourceFromProgram(getProgramPath(path));
   const namespaceFactory = ensureNamespaceFactoryIdentifier(path, namespace, importSource);
   const props = buildRuntimePropsObject(opening.attributes || [], path.node.children);
-  const runtimeCall = t.callExpression(t.identifier(namespaceFactory.name), [t.stringLiteral(normalizedTagName), props]);
+  const runtimeCall = t.callExpression(t.identifier(namespaceFactory.name), [
+    t.stringLiteral(normalizedTagName),
+    props,
+  ]);
 
   if (isInsideJSXChildren(path)) {
     path.replaceWith(t.jsxExpressionContainer(runtimeCall));
@@ -688,7 +696,8 @@ export function addFlagToSvgMathMLElement(path: NodePath<t.JSXElement>) {
       const parentOpening = parentNamespacePath.node.openingElement;
       const parentTagName = resolveJSXTagName(parentOpening.name);
       if (parentTagName) {
-        namespace = resolveNamespaceKindFromTag(parentTagName) || getNamespaceFlagFromAttributes(parentOpening.attributes || []);
+        namespace =
+          resolveNamespaceKindFromTag(parentTagName) || getNamespaceFlagFromAttributes(parentOpening.attributes || []);
       } else {
         namespace = getNamespaceFlagFromAttributes(parentOpening.attributes || []);
       }
@@ -700,7 +709,7 @@ export function addFlagToSvgMathMLElement(path: NodePath<t.JSXElement>) {
   }
 
   const attrs = opening.attributes || [];
-  const flag = namespace === 'svg' ? flags.svg : flags.mathml;
+  const flag = namespace === 'svg' ? '__svg' : '__mathml'; // flag.svg
   const hasFlag = attrs.some((attr) => {
     if (!t.isJSXAttribute(attr)) {
       return false;

@@ -55,13 +55,12 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
 
   const checkboxes: KTMuiCheckbox[] = [];
   const checkboxOnChangeForGroup = (checked: boolean, value: string) => {
-    const old = model.value.slice();
     if (checked) {
       $arrayPushUnique(model.value, value);
     } else {
       $arrayDelete(model.value, value);
     }
-    onChange(model.value.slice(), old);
+    onChange(model.value.slice());
     internalChange = true;
     model.notify();
   };

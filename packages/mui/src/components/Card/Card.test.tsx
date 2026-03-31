@@ -37,7 +37,7 @@ describe('MUI Card component', () => {
           style: { marginTop: '8px' },
         }}
       />
-    );
+    ) as HTMLDivElement;
     expect(card.className).toContain('custom-card');
     expect(card.style.marginTop).toBe('8px');
   });

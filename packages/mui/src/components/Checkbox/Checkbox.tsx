@@ -1,5 +1,5 @@
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { KTConditional, toReactive, assertModel, computed, effect } from '@ktjs/core';
+import { KTConditional, toReactive, assertModel, computed, effect, isRefLike } from '@ktjs/core';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import type { KTMuiProps } from '../../types/component.js';
@@ -45,7 +45,9 @@ export function Checkbox(
       return;
     }
     model.value = inputEl.checked;
-    interminateRef.value = false;
+    if (isRefLike(interminateRef)) {
+      interminateRef.value = false;
+    }
   };
 
   const customClassRef = toReactive(props.class ?? '');
@@ -124,17 +126,21 @@ export function Checkbox(
       get() {
         return valueRef.value;
       },
-      set(v: string) {
-        valueRef.value = v;
-      },
+      set: isRefLike(valueRef)
+        ? (v: string) => {
+            valueRef.value = v;
+          }
+        : undefined,
     },
     disabled: {
       get() {
         return disabledRef.value;
       },
-      set(v: boolean) {
-        disabledRef.value = v;
-      },
+      set: isRefLike(disabledRef)
+        ? (v: boolean) => {
+            disabledRef.value = v;
+          }
+        : undefined,
     },
   });
 

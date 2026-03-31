@@ -21,7 +21,7 @@ describe('MUI Switch component', () => {
           style: { marginLeft: '12px' },
         }}
       />
-    );
+    ) as HTMLElement;
     expect(sw.querySelector('.mui-switch-label')?.textContent).toContain('Wi-Fi');
     expect(sw.className).toContain('custom-switch');
     expect(sw.style.marginLeft).toBe('12px');

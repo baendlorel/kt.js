@@ -22,7 +22,7 @@ const createAnchor = () => {
 
 describe('MUI Menu component', () => {
   it('should render hidden by default', () => {
-    const menu = <Menu {...{ options: [{ value: 'edit', label: 'Edit' }] }} />;
+    const menu = (<Menu {...{ options: [{ value: 'edit', label: 'Edit' }] }} />) as HTMLElement;
 
     expect(menu.className).toContain('mui-popover-root');
     expect(menu.style.display).toBe('none');

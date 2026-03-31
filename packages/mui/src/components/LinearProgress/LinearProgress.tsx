@@ -1,6 +1,6 @@
 import { $defines, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, toReactive } from '@ktjs/core';
+import { computed, isRefLike, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import './LinearProgress.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -37,7 +37,7 @@ export type KTMuiLinearProgress = JSX.Element & {
   value: number;
 };
 
-export function LinearProgress(props: LinearProgressProps) {
+export function LinearProgress(props: LinearProgressProps): KTMuiLinearProgress {
   const customClassRef = toReactive(props.class ?? '');
   const style = toReactive($parseStyle(props.style));
 
@@ -64,9 +64,11 @@ export function LinearProgress(props: LinearProgressProps) {
       get() {
         return valueRef.value;
       },
-      set(v: number) {
-        valueRef.value = v;
-      },
+      set: isRefLike(valueRef)
+        ? (v: number) => {
+            valueRef.value = v;
+          }
+        : undefined,
     },
   });
 

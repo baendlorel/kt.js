@@ -10,28 +10,28 @@ describe('MUI Checkbox component reactivity', () => {
 
     const checkbox = (
       <Checkbox
-        {...({
+        {...{
           'k-model': model,
           indeterminate,
           label,
           value: 'accept',
-        } as any)}
+        }}
       />
-    );
+    ) as HTMLLabelElement;
 
     const input = checkbox.querySelector('input') as HTMLInputElement;
-    const indeterminateIcon = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
-    const checkedIcon = checkbox.querySelector('.mui-checkbox-icon-checked');
+    const indeterminateIcon = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-indeterminate');
+    const checkedIcon = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-checked');
 
-    expect(indeterminateIcon.style.display).toBe('');
-    expect(checkedIcon.style.display).toBe('none');
+    expect(indeterminateIcon?.style.display).toBe('');
+    expect(checkedIcon?.style.display).toBe('none');
 
     indeterminate.value = false;
     model.value = true;
     label.value = 'Accepted';
 
     expect(input.checked).toBe(true);
-    expect(checkedIcon.style.display).toBe('');
+    expect(checkedIcon?.style.display).toBe('');
     expect(checkbox.querySelector('.mui-checkbox-label')?.textContent).toBe('Accepted');
   });
 });

@@ -74,10 +74,9 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const placeholderRef = toReactive(props.placeholder ?? '');
   const labelRef = toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options).addOnChange((newOptions) => {
-    if (!newOptions.find((o) => (o as any)?.value === modelRef.value)) {
-      const old = modelRef.value;
+    if (!newOptions.find((o) => (o as any).value === modelRef.value)) {
       modelRef.value = '';
-      onChange(modelRef.value, old);
+      onChange(modelRef.value);
     }
   });
   const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) =>

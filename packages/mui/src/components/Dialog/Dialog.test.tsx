@@ -4,7 +4,7 @@ import { Dialog } from './Dialog.js';
 
 describe('MUI Dialog component', () => {
   it('should render closed by default', () => {
-    const dialog = <Dialog {...{}} />;
+    const dialog = (<Dialog {...{}} />) as HTMLElement;
     expect(dialog.style.display).toBe('none');
     expect(dialog.className).toContain('kt-dialog-backdrop');
   });
@@ -20,7 +20,7 @@ describe('MUI Dialog component', () => {
 
   it('should open when open is true', () => {
     vi.useFakeTimers();
-    const dialog = <Dialog {...{ open: true }} />;
+    const dialog = (<Dialog {...{ open: true }} />) as HTMLElement;
     expect(dialog.style.display).toBe('flex');
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(false);
 
@@ -34,7 +34,7 @@ describe('MUI Dialog component', () => {
   it('should animate out before hiding when closed', () => {
     vi.useFakeTimers();
     const openRef = ref(true);
-    const dialog = <Dialog {...{ open: openRef }} />;
+    const dialog = (<Dialog {...{ open: openRef }} />) as HTMLElement;
 
     vi.advanceTimersByTime(20);
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(true);
@@ -61,7 +61,7 @@ describe('MUI Dialog component', () => {
     vi.useFakeTimers();
     const onClose = vi.fn();
     const openRef = ref(true);
-    const dialog = <Dialog {...{ open: openRef, 'on:close': onClose }} />;
+    const dialog = (<Dialog {...{ open: openRef, 'on:close': onClose }} />) as HTMLElement;
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     vi.advanceTimersByTime(250);
     expect(onClose).toHaveBeenCalledTimes(1);

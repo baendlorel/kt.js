@@ -22,7 +22,7 @@ describe('MUI Switch component reactivity', () => {
     );
 
     const input = sw.querySelector('input') as HTMLInputElement;
-    const track = sw.querySelector('.mui-switch-track');
+    const track = sw.querySelector<HTMLElement>('.mui-switch-track');
 
     expect(input.checked).toBe(false);
     expect(sw.className).toContain('mui-switch-size-small');
@@ -34,7 +34,7 @@ describe('MUI Switch component reactivity', () => {
     label.value = 'Bluetooth';
 
     expect(input.checked).toBe(true);
-    expect(track.className).toContain('mui-switch-track-checked');
+    expect(track?.className).toContain('mui-switch-track-checked');
     expect(sw.className).toContain('mui-switch-size-large');
     expect(sw.className).toContain('mui-switch-color-secondary');
     expect(sw.querySelector('.mui-switch-label')?.textContent).toContain('Bluetooth');

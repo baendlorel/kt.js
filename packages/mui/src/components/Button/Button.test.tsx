@@ -3,7 +3,7 @@ import { Button } from './Button.js';
 
 describe('MUI Button component', () => {
   it('should render button with default props', () => {
-    const button = <Button {...{ children: 'Click me' }} />;
+    const button = (<Button {...{ children: 'Click me' }} />) as HTMLButtonElement;
     expect(button.tagName).toBe('BUTTON');
     expect(button.type).toBe('button');
     expect(button.textContent).toContain('Click me');
@@ -32,11 +32,11 @@ describe('MUI Button component', () => {
   });
 
   it('should handle disabled state', () => {
-    const disabled = <Button {...{ disabled: true, children: 'Test' }} />;
+    const disabled = (<Button {...{ disabled: true, children: 'Test' }} />) as HTMLButtonElement;
     expect(disabled.disabled).toBe(true);
     expect(disabled.className).toContain('mui-button-disabled');
 
-    const enabled = <Button {...{ disabled: false, children: 'Test' }} />;
+    const enabled = (<Button {...{ disabled: false, children: 'Test' }} />) as HTMLButtonElement;
     expect(enabled.disabled).toBe(false);
     expect(enabled.className).not.toContain('mui-button-disabled');
   });
@@ -72,7 +72,7 @@ describe('MUI Button component', () => {
 
   it('should handle click events with ripple effect', () => {
     const onClick = vi.fn();
-    const button = <Button {...{ children: 'Click', 'on:click': onClick }} />;
+    const button = (<Button {...{ children: 'Click', 'on:click': onClick }} />) as HTMLButtonElement;
     const rippleContainer = button.querySelector('.mui-button-ripple');
     expect(rippleContainer).toBeTruthy();
     button.click();
@@ -99,7 +99,7 @@ describe('MUI Button component', () => {
           style: { color: 'red', fontSize: '16px' },
         }}
       />
-    );
+    ) as HTMLButtonElement;
     expect(button.className).toContain('custom-class');
     expect(button.style.color).toBe('red');
     expect(button.style.fontSize).toBe('16px');

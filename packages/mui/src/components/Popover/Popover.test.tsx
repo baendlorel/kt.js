@@ -22,7 +22,7 @@ const createAnchor = () => {
 
 describe('MUI Popover component', () => {
   it('should render hidden by default', () => {
-    const popover = <Popover {...{ children: 'Body' }} />;
+    const popover = (<Popover {...{ children: 'Body' }} />) as HTMLElement;
     expect(popover.className).toContain('mui-popover-root');
     expect(popover.style.display).toBe('none');
     popover.remove();
@@ -31,14 +31,14 @@ describe('MUI Popover component', () => {
   it('should position popover when opened', () => {
     vi.useFakeTimers();
     const anchor = createAnchor();
-    const popover = <Popover {...{ open: true, anchorEl: anchor, children: 'Body' }} />;
+    const popover = (<Popover {...{ open: true, anchorEl: anchor, children: 'Body' }} />) as HTMLElement;
     document.body.appendChild(popover);
 
     vi.runAllTimers();
-    const paper = popover.querySelector('.mui-popover-paper');
+    const paper = popover.querySelector<HTMLElement>('.mui-popover-paper');
     expect(popover.style.display).toBe('block');
-    expect(paper.style.top).not.toBe('');
-    expect(paper.style.left).not.toBe('');
+    expect(paper?.style.top).not.toBe('');
+    expect(paper?.style.left).not.toBe('');
 
     popover.remove();
     anchor.remove();
@@ -95,9 +95,9 @@ describe('MUI Popover component', () => {
     document.body.appendChild(popover);
     vi.runAllTimers();
 
-    const paper = popover.querySelector('.mui-popover-paper');
-    expect(paper.className).toContain('custom-popover');
-    expect(paper.style.minWidth).toBe('240px');
+    const paper = popover.querySelector<HTMLElement>('.mui-popover-paper');
+    expect(paper?.className).toContain('custom-popover');
+    expect(paper?.style.minWidth).toBe('240px');
 
     popover.remove();
     anchor.remove();

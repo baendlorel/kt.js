@@ -32,16 +32,16 @@ describe('MUI Select component', () => {
       />
     );
     document.body.appendChild(select);
-    const control = select.querySelector('.mui-select-control')!;
-    const menu = select.querySelector('.mui-select-menu')!;
-    control.click();
-    expect(menu.style.display).toBe('block');
-    expect(menu.classList.contains('mui-select-menu-open')).toBe(true);
+    const control = select.querySelector<HTMLElement>('.mui-select-control');
+    const menu = select.querySelector<HTMLElement>('.mui-select-menu');
+    control?.click();
+    expect(menu?.style.display).toBe('block');
+    expect(menu?.classList.contains('mui-select-menu-open')).toBe(true);
     expect(select.classList.contains('mui-select-open')).toBe(true);
-    control.click();
+    control?.click();
     vi.advanceTimersByTime(250);
-    expect(menu.classList.contains('mui-select-menu-open')).toBe(false);
-    expect(menu.style.display).toBe('none');
+    expect(menu?.classList.contains('mui-select-menu-open')).toBe(false);
+    expect(menu?.style.display).toBe('none');
     select.remove();
     vi.useRealTimers();
   });
@@ -61,10 +61,10 @@ describe('MUI Select component', () => {
       />
     );
     document.body.appendChild(select);
-    const control = select.querySelector('.mui-select-control');
-    control.click();
-    const option = select.querySelector('.mui-select-option[data-value="closed"]');
-    option.click();
+    const control = select.querySelector<HTMLElement>('.mui-select-control');
+    control?.click();
+    const option = select.querySelector<HTMLElement>('.mui-select-option[data-value="closed"]');
+    option?.click();
     vi.advanceTimersByTime(250);
     expect(onChange).toHaveBeenCalledWith('closed');
     const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
@@ -85,11 +85,11 @@ describe('MUI Select component', () => {
         }}
       />
     );
-    const control = select.querySelector('.mui-select-control');
-    const menu = select.querySelector('.mui-select-menu');
-    expect(control.tabIndex).toBe(-1);
-    control.click();
-    expect(menu.classList.contains('mui-select-menu-open')).toBe(false);
+    const control = select.querySelector<HTMLElement>('.mui-select-control');
+    const menu = select.querySelector<HTMLElement>('.mui-select-menu');
+    expect(control?.tabIndex).toBe(-1);
+    control?.click();
+    expect(menu?.classList.contains('mui-select-menu-open')).toBe(false);
   });
 
   it('should apply size and fullWidth classes', () => {

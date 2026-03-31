@@ -132,7 +132,7 @@ describe('MUI TextField component', () => {
           style: { margin: '10px' },
         }}
       />
-    );
+    ) as HTMLElement;
     expect(textfield.className).toContain('custom-textfield');
     expect(textfield.style.margin).toBe('10px');
   });

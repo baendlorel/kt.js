@@ -72,7 +72,7 @@ describe('MUI Alert component', () => {
           style: { backgroundColor: 'red', padding: '10px' },
         }}
       />
-    );
+    ) as HTMLDivElement;
     expect(alert.className).toContain('custom-alert');
     expect(alert.style.backgroundColor).toBe('red');
     expect(alert.style.padding).toBe('10px');

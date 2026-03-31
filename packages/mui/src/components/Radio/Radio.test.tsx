@@ -14,17 +14,17 @@ describe('MUI Radio component', () => {
 
   it('should toggle icons and call on:change', () => {
     const onChange = vi.fn();
-    const radio = <Radio {...{ value: 'a', 'on:change': onChange, label: 'Option' }} />;
+    const radio = (<Radio {...{ value: 'a', 'on:change': onChange, label: 'Option' }} />) as HTMLElement;
     const input = radio.querySelector('input') as HTMLInputElement;
-    const unchecked = radio.querySelector('.mui-radio-icon-unchecked');
-    const checked = radio.querySelector('.mui-radio-icon-checked');
-    expect(unchecked.style.display).toBe('');
-    expect(checked.style.display).toBe('none');
+    const unchecked = radio.querySelector<HTMLElement>('.mui-radio-icon-unchecked');
+    const checked = radio.querySelector<HTMLElement>('.mui-radio-icon-checked');
+    expect(unchecked?.style.display).toBe('');
+    expect(checked?.style.display).toBe('none');
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     expect(onChange).toHaveBeenCalledWith(true, 'a');
-    expect(unchecked.style.display).toBe('none');
-    expect(checked.style.display).toBe('');
+    expect(unchecked?.style.display).toBe('none');
+    expect(checked?.style.display).toBe('');
   });
 
   it('should apply disabled class', () => {

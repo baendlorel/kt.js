@@ -15,7 +15,7 @@ describe('MUI Badge component', () => {
       />
     );
 
-    const badgeNode = badge.querySelector('.mui-badge-badge');
+    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLSpanElement;
     expect(badgeNode.textContent).toBe('99+');
 
     badgeContent.value = 9;
@@ -42,7 +42,7 @@ describe('MUI Badge component', () => {
       />
     );
 
-    const badgeNode = badge.querySelector('.mui-badge-badge');
+    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLSpanElement;
     expect(badgeNode.className).toContain('mui-badge-dot');
     expect(badgeNode.className).toContain('mui-badge-overlap-circular');
     expect(badgeNode.className).toContain('mui-badge-anchor-bottom-left');
@@ -58,7 +58,7 @@ describe('MUI Badge component', () => {
           children: <span>Node</span>,
         }}
       />
-    );
+    ) as HTMLSpanElement;
 
     expect(badge.className).toContain('custom-badge');
     expect(badge.style.marginLeft).toBe('12px');

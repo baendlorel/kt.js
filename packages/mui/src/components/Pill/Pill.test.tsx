@@ -23,7 +23,7 @@ describe('MUI Pill component', () => {
           style: { marginTop: '8px' },
         }}
       />
-    );
+    ) as HTMLElement;
 
     expect(pill.className).toContain('mui-pill-variant-outlined');
     expect(pill.className).toContain('mui-pill-color-primary');

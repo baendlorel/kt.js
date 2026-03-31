@@ -1,6 +1,6 @@
 import { computed, ref } from '@ktjs/core';
 import { describe, expect, it } from 'vitest';
-import { Badge } from './Badge.js';
+import { Badge, type KTMuiBadgeAnchorOrigin } from './Badge.js';
 
 describe('MUI Badge component reactivity', () => {
   it('reacts to content/max/showZero refs', () => {
@@ -17,9 +17,9 @@ describe('MUI Badge component reactivity', () => {
           children: <span>Inbox</span>,
         }}
       />
-    );
+    ) as HTMLSpanElement;
 
-    const badgeNode = badge.querySelector('.mui-badge-badge');
+    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLSpanElement;
     expect(badgeNode.className).toContain('mui-badge-invisible');
 
     showZero.value = true;
@@ -37,7 +37,7 @@ describe('MUI Badge component reactivity', () => {
     const overlapSeed = ref<'rectangular' | 'circular'>('rectangular');
     const overlap = computed(() => overlapSeed.value, [overlapSeed]);
     const color = ref<'default' | 'success'>('default');
-    const anchorOrigin = ref({ vertical: 'top', horizontal: 'right' } as const);
+    const anchorOrigin = ref({ vertical: 'top', horizontal: 'right' } as KTMuiBadgeAnchorOrigin);
 
     const badge = (
       <Badge
@@ -51,7 +51,7 @@ describe('MUI Badge component reactivity', () => {
       />
     );
 
-    const badgeNode = badge.querySelector('.mui-badge-badge');
+    const badgeNode = badge.querySelector('.mui-badge-badge') as HTMLSpanElement;
     expect(badgeNode.className).toContain('mui-badge-overlap-rectangular');
     expect(badgeNode.className).toContain('mui-badge-anchor-top-right');
 

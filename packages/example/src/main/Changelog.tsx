@@ -183,6 +183,7 @@ export function ChangeLog() {
   return (
     <div class={className}>
       <div k-for="item in changelogList" class="demo-section">
+        {/* @ts-ignore */}
         <div k-html={marked(item)}></div>
       </div>
     </div>

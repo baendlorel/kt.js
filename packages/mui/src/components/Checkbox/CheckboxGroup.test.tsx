@@ -21,23 +21,23 @@ describe('MUI Checkbox component', () => {
 
   it('should toggle icons based on state', () => {
     const checkedModel = ref(true);
-    const checkbox = <Checkbox {...({ 'k-model': checkedModel } as any)} />;
-    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked');
-    const checked = checkbox.querySelector('.mui-checkbox-icon-checked');
-    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
-    expect(unchecked.style.display).toBe('none');
-    expect(checked.style.display).toBe('');
-    expect(indeterminate.style.display).toBe('none');
+    const checkbox = (<Checkbox {...{ 'k-model': checkedModel }} />) as HTMLLabelElement;
+    const unchecked = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-unchecked');
+    const checked = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-checked');
+    const indeterminate = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-indeterminate');
+    expect(unchecked?.style.display).toBe('none');
+    expect(checked?.style.display).toBe('');
+    expect(indeterminate?.style.display).toBe('none');
   });
 
   it('should show indeterminate icon', () => {
     const checkbox = <Checkbox {...{ indeterminate: true }} />;
-    const unchecked = checkbox.querySelector('.mui-checkbox-icon-unchecked');
-    const checked = checkbox.querySelector('.mui-checkbox-icon-checked');
-    const indeterminate = checkbox.querySelector('.mui-checkbox-icon-indeterminate');
-    expect(unchecked.style.display).toBe('none');
-    expect(checked.style.display).toBe('none');
-    expect(indeterminate.style.display).toBe('');
+    const unchecked = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-unchecked');
+    const checked = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-checked');
+    const indeterminate = checkbox.querySelector<HTMLElement>('.mui-checkbox-icon-indeterminate');
+    expect(unchecked?.style.display).toBe('none');
+    expect(checked?.style.display).toBe('none');
+    expect(indeterminate?.style.display).toBe('');
   });
 
   it('should call on:change on toggle', () => {

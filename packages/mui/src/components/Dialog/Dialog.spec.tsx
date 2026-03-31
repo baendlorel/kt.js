@@ -7,7 +7,7 @@ describe('MUI Dialog component reactivity', () => {
     vi.useFakeTimers();
     const open = ref(false);
 
-    const dialog = <Dialog {...{ open, children: 'Body' }} />;
+    const dialog = (<Dialog {...{ open, children: 'Body' }} />) as HTMLElement;
     expect(dialog.style.display).toBe('none');
 
     open.value = true;
@@ -37,17 +37,17 @@ describe('MUI Dialog component reactivity', () => {
           children: 'Body',
         }}
       />
-    );
+    ) as HTMLElement;
 
-    const paper = dialog.querySelector('.kt-dialog-paper');
-    expect(paper.className).toContain('kt-dialog-maxWidth-sm');
-    expect(paper.className).not.toContain('kt-dialog-fullWidth');
+    const paper = dialog.querySelector<HTMLElement>('.kt-dialog-paper');
+    expect(paper?.className).toContain('kt-dialog-maxWidth-sm');
+    expect(paper?.className).not.toContain('kt-dialog-fullWidth');
 
     sizeSeed.value = 'lg';
     fullWidth.value = true;
 
-    expect(paper.className).toContain('kt-dialog-maxWidth-lg');
-    expect(paper.className).toContain('kt-dialog-fullWidth');
+    expect(paper?.className).toContain('kt-dialog-maxWidth-lg');
+    expect(paper?.className).toContain('kt-dialog-fullWidth');
     dialog.remove();
   });
 });

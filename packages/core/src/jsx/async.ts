@@ -2,6 +2,7 @@ import { $isThenable } from '@ktjs/shared';
 import type { KTComponent, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import type { KTRef } from '../reactable/ref.js';
+import { mountFragmentAnchors } from './anchor-mount.js';
 
 /**
  * Extract component props type (excluding ref and children)
@@ -21,8 +22,10 @@ export function KTAsync<T extends KTComponent>(
     props.skeleton ?? (document.createComment('ktjs-suspense-placeholder') as unknown as JSX.Element);
 
   if ($isThenable(raw)) {
-    // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
-    raw.then((resolved) => comp.replaceWith(resolved));
+    raw.then((resolved) => {
+      comp.replaceWith(resolved);
+      mountFragmentAnchors(resolved); // ^ Explicitly deal with FragmentAnchors
+    });
   } else {
     comp = raw as JSX.Element;
   }

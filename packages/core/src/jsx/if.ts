@@ -3,6 +3,7 @@ import type { KTAttribute } from '../types/h.js';
 import type { KTReactiveLike } from '../reactable/reactive.js';
 
 import { isKT } from '../reactable/index.js';
+import { mountFragmentAnchors } from './anchor-mount.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(
@@ -21,8 +22,8 @@ export function KTConditional(
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
-      // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       old.replaceWith(current);
+      mountFragmentAnchors(current); // ^ Explicitly deal with FragmentAnchors
     });
     return current;
   } else {
@@ -31,8 +32,8 @@ export function KTConditional(
     condition.addOnChange((newValue) => {
       const old = current;
       current = newValue ? jsxh(tagIf, propsIf) : dummy;
-      // TODO(fragment-mount): replaceWith 后显式触发 FragmentAnchor mount（替代全局 Node.prototype patch）
       old.replaceWith(current);
+      mountFragmentAnchors(current); // ^ Explicitly deal with FragmentAnchors
     });
     return current;
   }

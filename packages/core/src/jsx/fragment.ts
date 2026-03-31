@@ -6,6 +6,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
 import { AnchorType } from './common.js';
+import { mountFragmentAnchors } from './anchor-mount.js';
 
 const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
 
@@ -181,8 +182,8 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
       fragment.appendChild(element);
     }
 
-    // TODO(fragment-mount): insertBefore 后由统一 mount helper 触发（替代全局 Node.prototype patch）
     parent.insertBefore(fragment, anchor.nextSibling);
+    mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
     inserted = true;
     anchor.mountCallback = undefined;
     anchor.unqueueMount();
@@ -203,8 +204,8 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
 
     const parent = anchor.parentNode;
     if (parent && !inserted) {
-      // TODO(fragment-mount): insertBefore 后由统一 mount helper 触发（替代全局 Node.prototype patch）
       parent.insertBefore(fragment, anchor.nextSibling);
+      mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
       inserted = true;
       anchor.unqueueMount();
     }

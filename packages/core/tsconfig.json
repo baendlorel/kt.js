@@ -1,9 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "jsxImportSource": "@ktjs/core",
-    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ESNext"],
+    "lib": ["DOM", "ESNext"],
     "paths": {
       "@ktjs/core": ["./src/index.ts"],
       "@ktjs/core/jsx": ["./src/index.ts"],

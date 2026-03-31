@@ -1,13 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "..",
     "noEmit": true,
     "composite": false,
     "incremental": false,
     "paths": {
-      "@ktjs/babel-plugin-ktjsx": ["../../plugins/babel-plugin-ktjsx/src/index.ts"],
+      "@ktjs/babel-plugin-ktjsx": ["../../plugins/babel/src/index.ts"],
       "@ktjs/transformer": ["../../plugins/transformer/src/index.ts"],
       "@ktjs/router": ["../router/src/index.ts"],
       "@ktjs/shortcuts": ["../shortcuts/src/index.ts"],

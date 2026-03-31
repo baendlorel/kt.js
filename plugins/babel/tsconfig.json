@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "baseUrl": ".",
     "paths": {
       "@ktjs/transformer": ["../transformer/src/index.ts"]
     },

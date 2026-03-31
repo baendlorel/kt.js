@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "baseUrl": ".",
     "paths": {
       "@ktjs/core": ["../core/src/index.ts"]
     }

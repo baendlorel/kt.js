@@ -5,7 +5,6 @@
     "composite": false,
     "incremental": false,
     "declaration": false,
-    "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "dist"
   },

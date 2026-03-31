@@ -184,4 +184,9 @@ export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
     this.source.removeOnChange(key);
     return this;
   }
+
+  notify(): this {
+    this.source.notify();
+    return this;
+  }
 }

@@ -1,6 +1,5 @@
 import { $emptyFn, $is, $stringify } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
-import { KTComputed } from './computed.js';
 import { markMutation } from './scheduler.js';
 import { $createSubSetter, isRefLike } from './common.js';
 
@@ -126,6 +125,11 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     markMutation(this.source);
     // @ts-expect-error _value is private
     return this._getter(this.source._value);
+  }
+
+  notify(): this {
+    this.source.notify();
+    return this;
   }
 }
 

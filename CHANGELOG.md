@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.37.x - 2026-03-31
+
+- Fixed an issue where schedulers would not clear properly if a handler threw an error, which could lead to unexpected behavior in subsequent updates.
+- Refactored the `Fragment` implementation to address memory leak issues and improve robustness. The new implementation ensures that fragments are properly cleaned up and that their lifecycle is more predictable, especially in complex reactive scenarios.
+
 ## 0.36.x - 2026-03-27
 
 - Refactored reactive objects. Now we have a new base class `KTReactiveLike`, and `ref` / `computed` both implement this interface. This allows for more consistent APIs and better type inference across reactive values.

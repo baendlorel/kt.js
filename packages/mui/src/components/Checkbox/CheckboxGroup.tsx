@@ -4,7 +4,7 @@ import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import type { KTMuiCheckbox, KTMuiCheckboxProps, KTMuiCheckboxSize } from './Checkbox.js';
 
-import './Checkbox.css.ts';
+import './Checkbox.css.js';
 import { Checkbox } from './Checkbox.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 

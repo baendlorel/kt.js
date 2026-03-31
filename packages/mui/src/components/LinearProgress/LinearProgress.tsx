@@ -2,7 +2,7 @@ import { $defines, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
-import './LinearProgress.css.ts';
+import './LinearProgress.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiLinearProgressVariant = 'determinate' | 'indeterminate';

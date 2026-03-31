@@ -3,7 +3,7 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './FilePicker.css.ts';
+import './FilePicker.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiDirectoryPickerSize = 'small' | 'medium';

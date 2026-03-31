@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { toReactive, computed } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 
-import './Card.css.ts';
+import './Card.css.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 

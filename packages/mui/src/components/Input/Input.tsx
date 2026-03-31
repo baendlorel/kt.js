@@ -4,7 +4,7 @@ import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './Input.css.ts';
+import './Input.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiTextFieldType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';

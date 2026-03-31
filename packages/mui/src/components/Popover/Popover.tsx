@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive, KTReactiveLike } from '@ktjs/core';
 import { computed, toReactive } from '@ktjs/core';
 import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
-import './Popover.css.ts';
+import './Popover.css.js';
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiPopoverVerticalOrigin = 'top' | 'center' | 'bottom';

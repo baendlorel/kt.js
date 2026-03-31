@@ -1,12 +1,11 @@
 import { ref } from '@ktjs/core';
-import { DropdownButton } from '@ktjs/mui';
+import { Menu } from '@ktjs/mui';
 
 export function DropdownButtonExample() {
   const selectedAction = ref('none');
 
   return (
-    <DropdownButton
-      label="Quick Actions"
+    <Menu
       options={[
         { value: 'open', label: 'Open File' },
         { value: 'save', label: 'Save' },

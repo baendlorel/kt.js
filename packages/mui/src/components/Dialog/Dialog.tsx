@@ -3,7 +3,7 @@ import { computed, effect, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMuiProps } from '../../types/component.js';
-import './Dialog.css.ts';
+import './Dialog.css.js';
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;

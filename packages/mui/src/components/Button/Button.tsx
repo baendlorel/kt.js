@@ -4,7 +4,7 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import './Button.css.ts';
+import './Button.css.js';
 
 export type KTMuiButtonVariant = 'contained' | 'outlined' | 'text';
 export type KTMuiButtonColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';

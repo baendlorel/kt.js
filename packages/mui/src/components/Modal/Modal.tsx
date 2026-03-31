@@ -3,7 +3,7 @@ import { ref } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import { Button } from '../Button/Button.js';
 import { Dialog, type KTMuiDialogSize } from '../Dialog/Dialog.js';
-import './Modal.css.ts';
+import './Modal.css.js';
 
 export type KTMuiModalContent = string | JSX.Element | HTMLElement;
 

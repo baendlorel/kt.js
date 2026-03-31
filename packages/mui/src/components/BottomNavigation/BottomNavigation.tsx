@@ -3,7 +3,7 @@ import { assertModel, KTConditional, KTFor, computed, toReactive } from '@ktjs/c
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './BottomNavigation.css.ts';
+import './BottomNavigation.css.js';
 
 export interface KTMuiBottomNavigationAction {
   value: string;

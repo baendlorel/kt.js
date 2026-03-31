@@ -3,7 +3,7 @@ import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import type { KTMuiProps } from '../../types/component.js';
-import './Radio.css.ts';
+import './Radio.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { createChecked, createUnchecked } from './Icon.js';
 

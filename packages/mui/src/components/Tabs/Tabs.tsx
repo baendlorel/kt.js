@@ -3,7 +3,7 @@ import { assertModel, KTConditional, KTFor, computed, ref, toReactive } from '@k
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './Tabs.css.ts';
+import './Tabs.css.js';
 
 export type KTMuiTabsVariant = 'standard' | 'scrollable' | 'fullWidth';
 export type KTMuiTabsTextColor = 'primary' | 'secondary' | 'inherit';

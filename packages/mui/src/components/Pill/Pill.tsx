@@ -3,7 +3,7 @@ import type { KTMuiProps } from '../../types/component.js';
 
 import { KTConditional, computed, toReactive } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import './Pill.css.ts';
+import './Pill.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export type KTMuiPillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';

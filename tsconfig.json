@@ -7,6 +7,7 @@
     "esModuleInterop": true,
     "composite": true,
     "strict": true,
+    "types": ["node", "macros"],
     "typeRoots": ["./packages/types", "./node_modules/@types"],
     "paths": {
       "@ktjs/babel-plugin-ktjsx": ["./plugins/babel/src/index.ts"],

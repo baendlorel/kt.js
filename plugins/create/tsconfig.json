@@ -6,9 +6,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "declaration": false,
-    "declarationMap": false,
-    "types": ["node"],
-    "typeRoots": ["../../packages/types", "../../node_modules/@types"]
+    "declarationMap": false
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }

@@ -9,8 +9,7 @@
     "outDir": "./dist",
     "declaration": true,
     "noEmit": false,
-    "esModuleInterop": true,
-    "types": ["node"]
+    "esModuleInterop": true
   },
   "include": ["src/index.ts"]
 }

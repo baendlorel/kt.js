@@ -18,5 +18,5 @@ const _divAttr: JSX.IntrinsicElements['div'] = { class: classSub };
 const _modelAttr: JSX.IntrinsicAttributes = { 'k-model': nameModel };
 const _modelIsRefLike: Assert<IsAssignable<typeof nameModel, KTRefLike<string>>> = true;
 
-h('div', { class: classSub }, textGet);
-h('input', { 'k-model': nameModel });
+<div class={classSub}></div>;
+<input type="text" k-model={nameModel} />;

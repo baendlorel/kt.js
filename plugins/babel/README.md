@@ -17,14 +17,17 @@
 
 ## Recent Updates
 
-1. 0.36.x - override 0.35.x. Now refs and computeds have 2 new apis:
+1. 0.37.x - fixes and refactors
+   1. fix schedulers clear issue. Which would occur when some handler throws an error.
+   2. `Fragment` is refactored. Fixes memory leak issues and makes it more robust.
+2. 0.36.x - override 0.35.x. Now refs and computeds have 2 new apis:
    1. `get(...keys)`: create a `KTSubComputed` object. It is a light version of computed, used to bind values
    2. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
-2. 0.34.x - `ref.notify()` no-longer has an optional argument.
-3. 0.33.x - `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.
+3. 0.34.x - `ref.notify()` no-longer has an optional argument.
+4. 0.33.x - `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
+5. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.
    1. `ref.draft` itself is **not assignable**.
-5. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
+6. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Community
 

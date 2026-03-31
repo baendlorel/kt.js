@@ -1,14 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
-    "composite": false,
-    "incremental": false,
-    "declaration": false,
-    "rootDir": "./src",
-    "outDir": "dist"
+    "noEmit": true
   },
   "include": ["global.d.ts", "src/**/*.tsx", "src/**/*.ts"],
-  "exclude": ["dist"],
-  "references": [{ "path": "../core" }, { "path": "../mui" }]
+  "exclude": ["dist"]
 }

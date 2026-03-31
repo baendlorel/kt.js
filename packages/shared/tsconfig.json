@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "composite": true
+    "moduleResolution": "nodenext"
   },
   "include": ["src/**/*.*", "tests/**/*"]
 }

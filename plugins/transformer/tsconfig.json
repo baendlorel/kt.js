@@ -4,10 +4,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "outDir": "dist",
-    "rootDir": "src",
-    "declaration": false,
-    "declarationMap": false,
-    "typeRoots": ["../../packages/types", "../../node_modules/@types"]
+    "rootDir": "src"
   },
   "include": ["src/**/*.ts"]
 }

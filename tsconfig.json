@@ -5,7 +5,6 @@
     "moduleResolution": "bundler",
     "lib": ["DOM", "ESNext"],
     "esModuleInterop": true,
-    "composite": true,
     "strict": true,
     "types": ["node", "macros"],
     "typeRoots": ["./packages/types", "./node_modules/@types"],
@@ -18,7 +17,6 @@
       "@ktjs/mui-icon": ["./packages/mui-icon/src/index.ts"],
       "@ktjs/shared": ["./packages/shared/src/index.ts"],
 
-      // & core
       "@ktjs/core": ["./packages/core/src/index.ts"],
       "@ktjs/core/jsx": ["./packages/core/src/index.ts"],
       "@ktjs/core/jsx-runtime": ["./packages/core/src/jsx-runtime.ts"],
@@ -39,13 +37,5 @@
     "./packages/**/*.js",
     "./configs/*.ts"
   ],
-  "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"],
-  "references": [
-    { "path": "./packages/core" },
-    { "path": "./packages/mui" },
-    { "path": "./packages/router" },
-    { "path": "./packages/shortcuts" },
-    { "path": "./packages/shared" },
-    { "path": "./packages/kt.js" }
-  ]
+  "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]
 }

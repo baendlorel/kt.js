@@ -10,6 +10,5 @@
       "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"],
-  "references": [{ "path": "../shared" }]
+  "include": ["src/**/*", "tests/**/*", "../shared/src/**/*"]
 }

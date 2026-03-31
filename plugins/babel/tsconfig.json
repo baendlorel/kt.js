@@ -8,8 +8,6 @@
     },
     "outDir": "dist",
     "rootDir": "..",
-    "declaration": false,
-    "declarationMap": false,
     "typeRoots": ["../../packages/types", "../../node_modules/@types"]
   },
   "include": ["src/**/*.ts"]

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsxImportSource": "@ktjs/core",
     "lib": ["DOM", "ESNext"],
+    "types": ["node"],
     "paths": {
       "@ktjs/core": ["./src/index.ts"],
       "@ktjs/core/jsx": ["./src/index.ts"],

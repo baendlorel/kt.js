@@ -1,4 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*.*", "tests/**/*", "../global.d.ts"]
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["DOM", "ESNext"],
+    "composite": true
+  },
+  "include": ["src/**/*.*", "tests/**/*"]
 }

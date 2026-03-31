@@ -54,31 +54,6 @@ const flushPendingAnchors = () => {
   }
 };
 
-if (typeof Node !== 'undefined' && !(globalThis as any)[FRAGMENT_MOUNT_PATCHED]) {
-  // TODO(fragment-mount): 删除这段全局 patch，改为框架内部插入/替换路径显式触发 mount
-  (globalThis as any)[FRAGMENT_MOUNT_PATCHED] = true;
-
-  const originAppendChild = Node.prototype.appendChild;
-  Node.prototype.appendChild = function (node) {
-    const anchors = collectAnchors(node);
-    const result = originAppendChild.call(this, node);
-    for (let i = 0; i < anchors.length; i++) {
-      anchors[i].mount();
-    }
-    return result as any;
-  };
-
-  const originInsertBefore = Node.prototype.insertBefore;
-  Node.prototype.insertBefore = function (node: Node, child: Node | null) {
-    const anchors = collectAnchors(node);
-    const result = originInsertBefore.call(this, node, child);
-    for (let i = 0; i < anchors.length; i++) {
-      anchors[i].mount();
-    }
-    return result as any;
-  };
-}
-
 export class FragmentAnchor extends Comment {
   readonly isKTAnchor: true = true;
   readonly type = AnchorType.Fragment;

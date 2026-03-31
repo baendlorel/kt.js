@@ -28,11 +28,12 @@ describe('Fragment Component', () => {
     expect(anchor.list.length).toBe(2);
   });
 
-  it('should render children elements when anchor is in DOM', () => {
+  it('should render children elements when anchor is in DOM', async () => {
     const children = [h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')];
     const anchor = Fragment({ children });
 
     container.appendChild(anchor);
+    await Promise.resolve(); // Wait for next microtask
 
     // Children should be inserted after anchor
     const items = container.querySelectorAll('.item');
@@ -43,11 +44,12 @@ describe('Fragment Component', () => {
     expect(items[1].previousSibling).toBe(items[0]);
   });
 
-  it('should support reactive children array', () => {
+  it('should support reactive children array', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
     const anchor = Fragment({ children: childrenRef });
 
     container.appendChild(anchor);
+    await Promise.resolve(); // Wait for next microtask
 
     let items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);
@@ -66,7 +68,7 @@ describe('Fragment Component', () => {
     expect(items[2].textContent).toBe('E');
   });
 
-  it('should update internal state when not in DOM', () => {
+  it('should update internal state when not in DOM', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
     const anchor = Fragment({ children: childrenRef });
 
@@ -77,6 +79,7 @@ describe('Fragment Component', () => {
 
     // Now add to DOM
     container.appendChild(anchor);
+    await Promise.resolve(); // Wait for next microtask
 
     const items = container.querySelectorAll('.item');
     expect(items.length).toBe(1);
@@ -109,11 +112,12 @@ describe('Fragment Component', () => {
     expect(anchor.list.length).toBe(0);
   });
 
-  it('should remove old elements and insert new ones on update', () => {
+  it('should remove old elements and insert new ones on update', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
     const anchor = Fragment({ children: childrenRef });
 
     container.appendChild(anchor);
+    await Promise.resolve(); // Wait for next microtask
 
     const firstItems = container.querySelectorAll('.item');
     expect(firstItems.length).toBe(2);
@@ -135,12 +139,14 @@ describe('Fragment Component', () => {
     expect(newItems[1].textContent).toBe('D');
   });
 
-  it('should work with JSX syntax', () => {
+  it('should work with JSX syntax', async () => {
     // Test that Fragment works with JSX children
     const children = [<div className="item">A</div>, <div className="item">B</div>];
     const anchor = Fragment({ children });
 
     container.appendChild(anchor);
+
+    await Promise.resolve(); // Wait for next microtask
 
     const items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);

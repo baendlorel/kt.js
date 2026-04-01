@@ -1,6 +1,6 @@
 type MountableFragmentAnchor = Node & {
   isKTAnchor?: true;
-  mount?: () => void;
+  mount?: (parent?: Node) => void;
 };
 
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';

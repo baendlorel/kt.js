@@ -8,6 +8,16 @@ export const enum AnchorType {
   For = 'kt-for',
 }
 
+export abstract class KTAnchor<T extends Node = Node> extends Comment {
+  readonly isKTAnchor: true = true;
+  readonly list: T[] = [];
+  abstract readonly type: AnchorType;
+
+  constructor(data: AnchorType) {
+    super(data);
+  }
+}
+
 export const jsxh = (tag: JSXTag, props: KTAttribute): JSX.Element =>
   (typeof tag === 'function' ? tag(props) : h(tag, props, props.children)) as JSX.Element;
 

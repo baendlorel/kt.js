@@ -6,15 +6,13 @@ import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
 import { $mountFragmentAnchors } from './anchor-mount.js';
-import { AnchorType } from './common.js';
+import { AnchorType, KTAnchor } from './common.js';
 
-export class KTForAnchor extends Comment {
-  readonly isKTAnchor: true = true;
+export class KTForAnchor extends KTAnchor<JSX.Element> {
   readonly type = AnchorType.For;
-  readonly list: JSX.Element[] = [];
 
   constructor() {
-    super('kt-for');
+    super(AnchorType.For);
   }
 }
 

@@ -1,8 +1,8 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
-import { $mountFragmentAnchors } from '../jsx/anchor-mount.js';
-import { AnchorType } from '../jsx/common.js';
+import { $mountFragmentAnchors } from '../jsx/anchor.js';
+import { AnchorType } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 

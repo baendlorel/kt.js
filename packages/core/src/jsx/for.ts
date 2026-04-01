@@ -5,8 +5,8 @@ import type { KTReactiveLike } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { $mountFragmentAnchors } from './anchor-mount.js';
-import { AnchorType, KTAnchor } from './common.js';
+import { $mountFragmentAnchors } from './anchor.js';
+import { AnchorType, KTAnchor } from './anchor.js';
 
 export class KTForAnchor extends KTAnchor<JSX.Element> {
   readonly type = AnchorType.For;

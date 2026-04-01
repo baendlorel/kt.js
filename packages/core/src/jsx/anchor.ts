@@ -1,3 +1,18 @@
+export const enum AnchorType {
+  Fragment = 'kt-fragment',
+  For = 'kt-for',
+}
+
+export abstract class KTAnchor<T extends Node = Node> extends Comment {
+  readonly isKTAnchor: true = true;
+  readonly list: T[] = [];
+  abstract readonly type: AnchorType;
+
+  constructor(data: AnchorType) {
+    super(data);
+  }
+}
+
 type MountableFragmentAnchor = Node & {
   isKTAnchor?: true;
   mount?: (parent?: Node) => void;

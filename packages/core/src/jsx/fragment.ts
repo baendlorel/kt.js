@@ -5,8 +5,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
-import { AnchorType, KTAnchor } from './common.js';
-import { $mountFragmentAnchors } from './anchor-mount.js';
+import { AnchorType, KTAnchor, $mountFragmentAnchors } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
   readonly type = AnchorType.Fragment;

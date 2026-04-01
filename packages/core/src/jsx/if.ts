@@ -3,7 +3,7 @@ import type { KTAttribute } from '../types/h.js';
 import type { KTReactiveLike } from '../reactable/reactive.js';
 
 import { isKT } from '../reactable/index.js';
-import { $mountFragmentAnchors } from './anchor-mount.js';
+import { $mountFragmentAnchors } from './anchor.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(

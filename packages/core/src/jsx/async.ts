@@ -2,7 +2,7 @@ import { $isThenable } from '@ktjs/shared';
 import type { KTComponent, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import type { KTRef } from '../reactable/ref.js';
-import { $mountFragmentAnchors } from './anchor-mount.js';
+import { $mountFragmentAnchors } from './anchor.js';
 
 /**
  * Extract component props type (excluding ref and children)

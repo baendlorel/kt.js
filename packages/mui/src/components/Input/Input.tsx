@@ -187,6 +187,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
     );
   }, [labelRef, requiredRef]);
 
+  // fixme 这里的helpertext如果为空，会导致textfield下方多出来一点点，如果横向布局则无法对齐
   const container = (
     <div class={className} style={style}>
       <div class="mui-textfield-wrapper" on:mousedown={handleWrapperMouseDown}>
@@ -194,7 +195,9 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
         <div class="mui-textfield-input-wrapper">{inputEl}</div>
         <fieldset class="mui-textfield-fieldset">{legendElement}</fieldset>
       </div>
-      <p class="mui-textfield-helper-text">{helperTextRef}</p>
+      <p k-if={helperTextRef} class="mui-textfield-helper-text">
+        {helperTextRef}
+      </p>
     </div>
   ) as KTMuiTextField;
 

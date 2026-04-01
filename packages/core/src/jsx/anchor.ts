@@ -7,9 +7,20 @@ export abstract class KTAnchor<T extends Node = Node> extends Comment {
   readonly isKTAnchor: true = true;
   readonly list: T[] = [];
   abstract readonly type: AnchorType;
+  mountCallback?: () => void;
 
   constructor(data: AnchorType) {
     super(data);
+    $ensureAnchorObserver();
+  }
+
+  mount(parent?: Node) {
+    if (parent && this.parentNode !== parent) {
+      parent.appendChild(this);
+    }
+    if (this.parentNode) {
+      this.mountCallback?.();
+    }
   }
 }
 
@@ -20,8 +31,26 @@ type MountableKTAnchor = Node & {
 type NodeCleanup = () => void;
 
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';
+const CANNOT_OBSERVE = CANNOT_MOUNT || typeof MutationObserver === 'undefined';
 const COMMENT_FILTER = typeof NodeFilter === 'undefined' ? 0x80 : NodeFilter.SHOW_COMMENT;
 const nodeToCleanups = new WeakMap<Node, NodeCleanup[]>();
+let anchorObserver: MutationObserver | undefined;
+
+const $ensureAnchorObserver = () => {
+  if (CANNOT_OBSERVE || anchorObserver || !document.body) {
+    return;
+  }
+
+  anchorObserver = new MutationObserver((records) => {
+    for (let i = 0; i < records.length; i++) {
+      const nodes = records[i].addedNodes;
+      for (let j = 0; j < nodes.length; j++) {
+        $mountFragmentAnchors(nodes[j]);
+      }
+    }
+  });
+  anchorObserver.observe(document.body, { childList: true, subtree: true });
+};
 
 const $mountIfFragmentAnchor = (node: Node) => {
   const anchor = node as MountableKTAnchor;
@@ -141,6 +170,5 @@ export const $replaceNode = (oldNode: Node, newNode: Node) => {
   }
 
   parent.insertBefore(newNode, oldNode);
-  $mountFragmentAnchors(newNode);
   $removeNode(oldNode);
 };

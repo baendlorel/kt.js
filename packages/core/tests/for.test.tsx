@@ -34,6 +34,21 @@ describe('KTFor Component', () => {
     expect(anchor.list.length).toBe(3);
   });
 
+  it('should auto mount when appended directly by raw DOM', async () => {
+    const anchor = KTFor({
+      list: ['a', 'b'],
+      map: (item) => h('div', { class: 'item' }, item),
+    });
+
+    container.appendChild(anchor);
+    await Promise.resolve();
+
+    const items = container.querySelectorAll('.item');
+    expect(items.length).toBe(2);
+    expect(items[0].textContent).toBe('a');
+    expect(items[1].textContent).toBe('b');
+  });
+
   it('should render list elements', () => {
     const list = ['a', 'b', 'c'];
     const anchor = KTFor({

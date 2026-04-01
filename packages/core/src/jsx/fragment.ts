@@ -5,27 +5,13 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
-import { $addNodeCleanup, AnchorType, KTAnchor, $mountFragmentAnchors, $removeNode } from './anchor.js';
+import { $addNodeCleanup, AnchorType, KTAnchor, $removeNode } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
   readonly type = AnchorType.Fragment;
-  mountCallback?: () => void;
 
   constructor() {
     super(AnchorType.Fragment);
-  }
-
-  /**
-   * Manually mount this fragment into a parent node.
-   * - If `parent` is provided and the anchor is detached, it will be appended first.
-   */
-  mount(parent?: Node) {
-    if (parent && this.parentNode !== parent) {
-      parent.appendChild(this);
-    }
-    if (this.parentNode) {
-      this.mountCallback?.();
-    }
   }
 
   /**
@@ -66,7 +52,7 @@ export interface FragmentProps<T extends Node = Node> {
  * ```tsx
  * const children = ref([<div>A</div>, <div>B</div>]);
  * const fragment = <Fragment children={children} />;
- * fragment.mount(document.body);
+ * document.body.appendChild(fragment);
  *
  * // Automatic update
  * children.value = [<div>C</div>, <div>D</div>];
@@ -100,7 +86,6 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
     }
 
     parent.insertBefore(fragment, anchor.nextSibling);
-    $mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
   };
 
   childrenRef.addOnChange(redraw, redraw);

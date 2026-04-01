@@ -1,8 +1,8 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
-import { $addNodeCleanup, $mountFragmentAnchors, $replaceNode } from '../jsx/anchor.js';
 import { AnchorType } from '../jsx/anchor.js';
+import { $addNodeCleanup, $replaceNode } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -15,7 +15,6 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   if (isKT(c)) {
     let node = assureNode(c.value);
     element.appendChild(node);
-    $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
     const onChange = (newValue: KTAvailableContent) => {
       const newNode = assureNode(newValue);
       const oldNode = node;
@@ -27,7 +26,6 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   } else {
     const node = assureNode(c);
     element.appendChild(node);
-    $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
     const anchor = node as { type?: AnchorType; list?: any[] };
     if (anchor.type === AnchorType.For) {
       apd(element, anchor.list);
@@ -45,7 +43,6 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
         element.appendChild(comment);
-        $mountFragmentAnchors(comment); // ^ Explicitly deal with FragmentAnchors
         ci.then((awaited) => {
           if ($isNode(awaited)) {
             $replaceNode(comment, awaited);

@@ -32,7 +32,8 @@ describe('Fragment Component', () => {
     const children = [h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')];
     const anchor = Fragment({ children });
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     // Children should be inserted after anchor
     const items = container.querySelectorAll('.item');
@@ -47,7 +48,8 @@ describe('Fragment Component', () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
     const anchor = Fragment({ children: childrenRef });
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     let items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);
@@ -76,7 +78,8 @@ describe('Fragment Component', () => {
     expect(anchor.list.length).toBe(1);
 
     // Now add to DOM
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     const items = container.querySelectorAll('.item');
     expect(items.length).toBe(1);
@@ -91,22 +94,24 @@ describe('Fragment Component', () => {
     expect(fragmentRef.value).toBe(anchor);
   });
 
-  it('should mount directly into raw DOM parent', () => {
+  it('should auto mount when appended directly into raw DOM parent', async () => {
     const children = [h('div', { class: 'item' }, 'A')];
     const anchor = Fragment({ children });
 
     expect(container.querySelectorAll('.item').length).toBe(0);
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
     expect(container.querySelectorAll('.item').length).toBe(1);
   });
 
-  it('should handle empty children array', () => {
+  it('should handle empty children array', async () => {
     const anchor = Fragment({ children: [] });
 
     expect(anchor.list.length).toBe(0);
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     // No elements should be added after anchor
     expect(anchor.nextSibling).toBeNull();
@@ -123,7 +128,8 @@ describe('Fragment Component', () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
     const anchor = Fragment({ children: childrenRef });
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     const firstItems = container.querySelectorAll('.item');
     expect(firstItems.length).toBe(2);
@@ -150,7 +156,8 @@ describe('Fragment Component', () => {
     const children = [<div className="item">A</div>, <div className="item">B</div>];
     const anchor = Fragment({ children });
 
-    anchor.mount(container);
+    container.appendChild(anchor);
+    await Promise.resolve();
 
     const items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);

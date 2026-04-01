@@ -17,6 +17,7 @@ void injectGlobal`
   opacity: 0;
   transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
+  outline: 0;
 }
 
 .kt-dialog-backdrop-open {
@@ -39,6 +40,7 @@ void injectGlobal`
   transform: scale(0.8);
   opacity: 0;
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1), opacity 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: 0;
 }
 
 .kt-dialog-backdrop-open .kt-dialog-paper {

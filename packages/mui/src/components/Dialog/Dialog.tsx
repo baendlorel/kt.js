@@ -22,7 +22,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
     | KTMaybeReactive<string>
     | KTMaybeReactive<JSX.Element>
     | KTMaybeReactive<JSX.Element[]>;
-  actions?: KTMaybeReactive<HTMLElement | HTMLElement[] | undefined>;
+  actions?: KTMaybeReactive<JSX.Element | JSX.Element[] | undefined>;
   size?: KTMaybeReactive<KTMuiDialogSize>;
   fullWidth?: KTMaybeReactive<boolean>;
 

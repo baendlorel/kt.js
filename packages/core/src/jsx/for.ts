@@ -5,7 +5,7 @@ import type { KTReactiveLike } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { $mountFragmentAnchors } from './anchor.js';
+import { $addNodeCleanup, $mountFragmentAnchors, $removeNode } from './anchor.js';
 import { AnchorType, KTAnchor } from './anchor.js';
 
 export class KTForAnchor extends KTAnchor<JSX.Element> {
@@ -52,7 +52,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     const newLength = newList.length;
 
     if (newLength === 0) {
-      nodeMap.forEach((node) => node.remove());
+      nodeMap.forEach((node) => $removeNode(node));
       nodeMap.clear();
       anchor.list.length = 0;
       return anchor;
@@ -90,7 +90,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       }
     });
     for (let i = 0; i < toRemove.length; i++) {
-      toRemove[i].remove();
+      $removeNode(toRemove[i]);
     }
 
     let currentNode = anchor.nextSibling;
@@ -118,7 +118,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   const currentKey: NonNullable<KTForProps<T>['key']> = props.key ?? ((item: T) => item);
   const currentMap: NonNullable<KTForProps<T>['map']> =
     props.map ?? ((item: T) => $identity(item) as unknown as JSX.Element);
-  const listRef = toReactive(props.list).addOnChange(redraw);
+  const listRef = toReactive(props.list);
   const anchor = new KTForAnchor() as KTForElement;
   const nodeMap = new Map<any, JSX.Element>();
 
@@ -130,6 +130,8 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     anchor.list.push(node);
   }
 
+  listRef.addOnChange(redraw, redraw);
+  $addNodeCleanup(anchor, () => listRef.removeOnChange(redraw));
   $initRef(props, anchor);
 
   return anchor;

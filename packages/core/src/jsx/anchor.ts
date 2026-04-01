@@ -13,19 +13,79 @@ export abstract class KTAnchor<T extends Node = Node> extends Comment {
   }
 }
 
-type MountableFragmentAnchor = Node & {
+type MountableKTAnchor = Node & {
   isKTAnchor?: true;
   mount?: (parent?: Node) => void;
 };
+type NodeCleanup = () => void;
 
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';
 const COMMENT_FILTER = typeof NodeFilter === 'undefined' ? 0x80 : NodeFilter.SHOW_COMMENT;
+const nodeToCleanups = new WeakMap<Node, NodeCleanup[]>();
 
 const $mountIfFragmentAnchor = (node: Node) => {
-  const anchor = node as MountableFragmentAnchor;
+  const anchor = node as MountableKTAnchor;
   if (anchor.isKTAnchor === true && typeof anchor.mount === 'function') {
     anchor.mount();
   }
+};
+
+const $runNodeCleanups = (node: Node) => {
+  const cleanups = nodeToCleanups.get(node);
+  if (!cleanups) {
+    return;
+  }
+
+  nodeToCleanups.delete(node);
+  for (let i = cleanups.length - 1; i >= 0; i--) {
+    try {
+      cleanups[i]();
+    } catch (error) {
+      $error('KTNodeCleanup:', error);
+    }
+  }
+};
+
+export const $addNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
+  const cleanups = nodeToCleanups.get(node);
+  if (cleanups) {
+    cleanups.push(cleanup);
+  } else {
+    nodeToCleanups.set(node, [cleanup]);
+  }
+  return cleanup;
+};
+
+export const $removeNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
+  const cleanups = nodeToCleanups.get(node);
+  if (!cleanups) {
+    return;
+  }
+
+  const index = cleanups.indexOf(cleanup);
+  if (index === -1) {
+    return;
+  }
+
+  cleanups.splice(index, 1);
+  if (cleanups.length === 0) {
+    nodeToCleanups.delete(node);
+  }
+};
+
+export const $moveNodeCleanups = (from: Node, to: Node) => {
+  const cleanups = nodeToCleanups.get(from);
+  if (!cleanups?.length) {
+    return;
+  }
+
+  const targetCleanups = nodeToCleanups.get(to);
+  if (targetCleanups) {
+    targetCleanups.push(...cleanups);
+  } else {
+    nodeToCleanups.set(to, cleanups);
+  }
+  nodeToCleanups.delete(from);
 };
 
 export const $mountFragmentAnchors = (node: unknown) => {
@@ -45,4 +105,42 @@ export const $mountFragmentAnchors = (node: unknown) => {
     $mountIfFragmentAnchor(current);
     current = walker.nextNode();
   }
+};
+
+export const $removeNode = (node: Node | null | undefined) => {
+  if (!(node instanceof Node)) {
+    return;
+  }
+
+  const anchor = node as KTAnchor<Node>;
+  if (anchor.isKTAnchor === true) {
+    const list = anchor.list.slice();
+    anchor.list.length = 0;
+    for (let i = 0; i < list.length; i++) {
+      $removeNode(list[i]);
+    }
+  } else {
+    const children = Array.from(node.childNodes);
+    for (let i = 0; i < children.length; i++) {
+      $removeNode(children[i]);
+    }
+  }
+
+  $runNodeCleanups(node);
+  (node as ChildNode).remove?.();
+};
+
+export const $replaceNode = (oldNode: Node, newNode: Node) => {
+  if (oldNode === newNode) {
+    return;
+  }
+
+  const parent = oldNode.parentNode;
+  if (!parent) {
+    return;
+  }
+
+  parent.insertBefore(newNode, oldNode);
+  $mountFragmentAnchors(newNode);
+  $removeNode(oldNode);
 };

@@ -5,6 +5,9 @@ export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
 
   private readonly _calculator: () => T;
+  private readonly _dependencies: Array<KTReactiveLike<any>>;
+  private readonly _recalculateListener: () => void;
+  private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
     const newValue = this._calculator();
@@ -19,14 +22,27 @@ export class KTComputed<T> extends KTReactive<T> {
   constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
     super(calculator());
     this._calculator = calculator;
-    const recalculate = () => this._recalculate();
+    this._dependencies = dependencies;
+    this._recalculateListener = () => this._recalculate();
     for (let i = 0; i < dependencies.length; i++) {
-      dependencies[i].addOnChange(recalculate);
+      dependencies[i].addOnChange(this._recalculateListener, this._recalculateListener);
     }
   }
 
   notify(): this {
     return this._recalculate(true);
+  }
+
+  dispose(): this {
+    if (this._disposed) {
+      return this;
+    }
+
+    this._disposed = true;
+    for (let i = 0; i < this._dependencies.length; i++) {
+      this._dependencies[i].removeOnChange(this._recalculateListener);
+    }
+    return this;
   }
 }
 

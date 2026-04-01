@@ -1,7 +1,7 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
-import { $mountFragmentAnchors } from '../jsx/anchor.js';
+import { $addNodeCleanup, $mountFragmentAnchors, $replaceNode } from '../jsx/anchor.js';
 import { AnchorType } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
@@ -16,12 +16,14 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     let node = assureNode(c.value);
     element.appendChild(node);
     $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
-    c.addOnChange((newValue, _oldValue) => {
+    const onChange = (newValue: KTAvailableContent) => {
+      const newNode = assureNode(newValue);
       const oldNode = node;
-      node = assureNode(newValue);
-      oldNode.replaceWith(node);
-      $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
-    });
+      node = newNode;
+      $replaceNode(oldNode, newNode);
+    };
+    c.addOnChange(onChange, onChange);
+    $addNodeCleanup(element, () => c.removeOnChange(onChange));
   } else {
     const node = assureNode(c);
     element.appendChild(node);
@@ -45,8 +47,12 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
         element.appendChild(comment);
         $mountFragmentAnchors(comment); // ^ Explicitly deal with FragmentAnchors
         ci.then((awaited) => {
-          comment.replaceWith(awaited);
-          $mountFragmentAnchors(awaited); // ^ Explicitly deal with FragmentAnchors
+          if ($isNode(awaited)) {
+            $replaceNode(comment, awaited);
+          } else {
+            const awaitedNode = assureNode(awaited);
+            $replaceNode(comment, awaitedNode);
+          }
         });
       } else {
         apdSingle(element, ci);

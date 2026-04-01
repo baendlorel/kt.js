@@ -1,6 +1,7 @@
 import type { KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
+import { $addNodeCleanup, $removeNode } from '../jsx/anchor.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
@@ -20,12 +21,24 @@ const setElementStyle = (
   }
 };
 
+const addReactiveCleanup = (
+  element: HTMLElement | SVGElement | MathMLElement,
+  reactive: {
+    addOnChange: (handler: (value: any) => void, key?: any) => unknown;
+    removeOnChange: (key: any) => unknown;
+  },
+  handler: (value: any) => void,
+) => {
+  reactive.addOnChange(handler, handler);
+  $addNodeCleanup(element, () => reactive.removeOnChange(handler));
+};
+
 function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyProps<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     if (isKT<string>(classValue)) {
       element.setAttribute('class', classValue.value);
-      classValue.addOnChange((v) => element.setAttribute('class', v));
+      addReactiveCleanup(element, classValue, (v) => element.setAttribute('class', v));
     } else {
       element.setAttribute('class', classValue);
     }
@@ -38,7 +51,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     } else if (typeof style === 'object') {
       if (isKT(style)) {
         setElementStyle(element, style.value);
-        style.addOnChange((v: Partial<CSSStyleDeclaration> | string) => setElementStyle(element, v));
+        addReactiveCleanup(element, style, (v: Partial<CSSStyleDeclaration> | string) => setElementStyle(element, v));
       } else {
         setElementStyle(element, style as Partial<CSSStyleDeclaration>);
       }
@@ -48,11 +61,17 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   // ! Security: `k-html` is an explicit raw HTML escape hatch. kt.js intentionally does not sanitize here; callers must pass only trusted HTML.
   if ('k-html' in attr) {
     const html = attr['k-html'];
+    const setHTML = (value: any) => {
+      while (element.firstChild) {
+        $removeNode(element.firstChild);
+      }
+      element.innerHTML = value;
+    };
     if (isKT(html)) {
-      element.innerHTML = html.value;
-      html.addOnChange((v) => (element.innerHTML = v));
+      setHTML(html.value);
+      addReactiveCleanup(element, html, (v) => setHTML(v));
     } else {
-      element.innerHTML = html;
+      setHTML(html);
     }
   }
 
@@ -79,7 +98,9 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     // normal event handler
     if (key.startsWith('on:')) {
       if (o) {
-        element.addEventListener(key.slice(3), o); // chop off the `on:`
+        const eventName = key.slice(3);
+        element.addEventListener(eventName, o); // chop off the `on:`
+        $addNodeCleanup(element, () => element.removeEventListener(eventName, o));
       }
       continue;
     }
@@ -91,7 +112,7 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     const handler = handlers[key] || defaultHandler;
     if (isKT(o)) {
       handler(element, key, o.value);
-      o.addOnChange((v) => handler(element, key, v));
+      addReactiveCleanup(element, o, (v) => handler(element, key, v));
     } else {
       handler(element, key, o);
     }

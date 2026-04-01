@@ -5,7 +5,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
-import { AnchorType, KTAnchor, $mountFragmentAnchors } from './anchor.js';
+import { $addNodeCleanup, AnchorType, KTAnchor, $mountFragmentAnchors, $removeNode } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
   readonly type = AnchorType.Fragment;
@@ -32,8 +32,12 @@ export class FragmentAnchor extends KTAnchor<Node> {
    * Remove elements in the list
    */
   removeElements() {
-    for (let i = 0; i < this.list.length; i++) {
-      (this.list[i] as ChildNode).remove();
+    const list = this.list.slice();
+    this.list.length = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].parentNode) {
+        $removeNode(list[i]);
+      }
     }
   }
 }
@@ -99,7 +103,8 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
     $mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
   };
 
-  childrenRef.addOnChange(redraw);
+  childrenRef.addOnChange(redraw, redraw);
+  $addNodeCleanup(anchor, () => childrenRef.removeOnChange(redraw));
   anchor.mountCallback = redraw;
   redraw();
 

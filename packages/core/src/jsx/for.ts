@@ -5,7 +5,7 @@ import type { KTReactiveLike } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { mountFragmentAnchors } from './anchor-mount.js';
+import { $mountFragmentAnchors } from './anchor-mount.js';
 
 export type KTForElement = JSX.Element;
 
@@ -65,7 +65,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         fragment.appendChild(node);
       }
       parent.insertBefore(fragment, anchor.nextSibling);
-      mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
+      $mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
       (anchor as any).__kt_for_list__ = newElements;
       return anchor;
     }
@@ -104,7 +104,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       const node = newElements[i];
       if (currentNode !== node) {
         parent.insertBefore(node, currentNode);
-        mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
+        $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
       } else {
         currentNode = currentNode.nextSibling;
       }

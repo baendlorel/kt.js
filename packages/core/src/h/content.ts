@@ -1,7 +1,7 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
-import { mountFragmentAnchors } from '../jsx/anchor-mount.js';
+import { $mountFragmentAnchors } from '../jsx/anchor-mount.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -14,17 +14,17 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   if (isKT(c)) {
     let node = assureNode(c.value);
     element.appendChild(node);
-    mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
+    $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
     c.addOnChange((newValue, _oldValue) => {
       const oldNode = node;
       node = assureNode(newValue);
       oldNode.replaceWith(node);
-      mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
+      $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
     });
   } else {
     const node = assureNode(c);
     element.appendChild(node);
-    mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
+    $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
     // Handle KTFor anchor
     const list = (node as any).__kt_for_list__ as any[];
     if ($isArray(list)) {
@@ -43,10 +43,10 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       if ($isThenable(ci)) {
         const comment = document.createComment('ktjs-promise-placeholder');
         element.appendChild(comment);
-        mountFragmentAnchors(comment); // ^ Explicitly deal with FragmentAnchors
+        $mountFragmentAnchors(comment); // ^ Explicitly deal with FragmentAnchors
         ci.then((awaited) => {
           comment.replaceWith(awaited);
-          mountFragmentAnchors(awaited); // ^ Explicitly deal with FragmentAnchors
+          $mountFragmentAnchors(awaited); // ^ Explicitly deal with FragmentAnchors
         });
       } else {
         apdSingle(element, ci);

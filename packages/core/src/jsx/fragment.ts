@@ -6,53 +6,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
 import { AnchorType } from './common.js';
-import { mountFragmentAnchors } from './anchor-mount.js';
-
-const FRAGMENT_MOUNT_PATCHED = '__kt_fragment_mount_patched__';
-
-const CANNOT_OBSERVE = typeof MutationObserver === 'undefined' || typeof document === 'undefined';
-
-const collectAnchors = (node: Node): FragmentAnchor[] => {
-  if (typeof document === 'undefined') {
-    return [];
-  }
-
-  const anchors: FragmentAnchor[] = [];
-  if (node instanceof FragmentAnchor) {
-    anchors.push(node);
-    return anchors;
-  }
-
-  if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_COMMENT);
-    let current = walker.nextNode();
-    while (current) {
-      if (current instanceof FragmentAnchor) {
-        anchors.push(current);
-      }
-      current = walker.nextNode();
-    }
-  }
-  return anchors;
-};
-
-const pendingAnchors = new Set<FragmentAnchor>();
-let pendingAnchorObserver: MutationObserver | undefined;
-
-const flushPendingAnchors = () => {
-  if (pendingAnchors.size === 0) {
-    pendingAnchorObserver?.disconnect();
-    pendingAnchorObserver = undefined;
-    return;
-  }
-
-  pendingAnchors.forEach((anchor) => anchor.mount());
-
-  if (pendingAnchors.size === 0) {
-    pendingAnchorObserver?.disconnect();
-    pendingAnchorObserver = undefined;
-  }
-};
+import { $mountFragmentAnchors } from './anchor-mount.js';
 
 export class FragmentAnchor extends Comment {
   readonly isKTAnchor: true = true;
@@ -64,28 +18,16 @@ export class FragmentAnchor extends Comment {
     super('kt-fragment');
   }
 
-  mount() {
+  /**
+   * Manually mount this fragment into a parent node.
+   * - If `parent` is provided and the anchor is detached, it will be appended first.
+   */
+  mount(parent?: Node) {
+    if (parent && this.parentNode !== parent) {
+      parent.appendChild(this);
+    }
     if (this.parentNode) {
       this.mountCallback?.();
-    }
-  }
-
-  queueMount() {
-    pendingAnchors.add(this);
-
-    if (pendingAnchorObserver || CANNOT_OBSERVE || !document.body) {
-      return;
-    }
-
-    pendingAnchorObserver = new MutationObserver(flushPendingAnchors);
-    pendingAnchorObserver.observe(document.body, { childList: true, subtree: true });
-  }
-
-  unqueueMount() {
-    pendingAnchors.delete(this);
-    if (pendingAnchors.size === 0) {
-      pendingAnchorObserver?.disconnect();
-      pendingAnchorObserver = undefined;
     }
   }
 
@@ -123,7 +65,7 @@ export interface FragmentProps<T extends Node = Node> {
  * ```tsx
  * const children = ref([<div>A</div>, <div>B</div>]);
  * const fragment = <Fragment children={children} />;
- * document.body.appendChild(fragment);
+ * fragment.mount(document.body);
  *
  * // Automatic update
  * children.value = [<div>C</div>, <div>D</div>];
@@ -132,7 +74,7 @@ export interface FragmentProps<T extends Node = Node> {
 export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & FragmentAnchor {
   const anchor = new FragmentAnchor();
   const elements = anchor.list as T[];
-  let inserted = false;
+  const childrenRef = toReactive(props.children);
 
   const redraw = () => {
     const newElements = childrenRef.value;
@@ -147,10 +89,9 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
     }
 
     anchor.removeElements();
-
-    const fragment = document.createDocumentFragment();
     elements.length = 0;
 
+    const fragment = document.createDocumentFragment();
     for (let i = 0; i < newElements.length; i++) {
       const element = newElements[i];
       elements.push(element);
@@ -158,45 +99,12 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
     }
 
     parent.insertBefore(fragment, anchor.nextSibling);
-    mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
-    inserted = true;
-    anchor.mountCallback = undefined;
-    anchor.unqueueMount();
+    $mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
   };
 
-  const childrenRef = toReactive(props.children).addOnChange(redraw);
-
-  const renderInitial = () => {
-    const current = childrenRef.value;
-    elements.length = 0;
-
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < current.length; i++) {
-      const element = current[i];
-      elements.push(element);
-      fragment.appendChild(element);
-    }
-
-    const parent = anchor.parentNode;
-    if (parent && !inserted) {
-      parent.insertBefore(fragment, anchor.nextSibling);
-      mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
-      inserted = true;
-      anchor.unqueueMount();
-    }
-  };
-
-  renderInitial();
-
-  anchor.mountCallback = () => {
-    if (!inserted && anchor.parentNode) {
-      redraw();
-    }
-  };
-
-  if (!inserted) {
-    anchor.queueMount();
-  }
+  childrenRef.addOnChange(redraw);
+  anchor.mountCallback = redraw;
+  redraw();
 
   $initRef(props as { ref?: KTRefLike<Node> }, anchor);
 

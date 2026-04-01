@@ -11,19 +11,18 @@
    - packages/core/src/h/attr.ts:48-57,87-90
    - k-html 和危险属性透传已经明确标成公开 escape hatch，不再是“未声明行为”。
 
-### 部分完成
-
-3. P1-B Fragment：只完成了“去掉全局 patch”这一半
-   - 已完成：
-     - 不再重写 Node.prototype.appendChild/insertBefore
-     - 现在改成显式调用 mountFragmentAnchors(...)
-     - 证据：
-       - packages/core/src/jsx/fragment.ts:160-183
-       - packages/core/src/jsx/anchor-mount.ts:16-33
-       - 历史提交：4a7fa12（删除全局 patch）
-   - 未完成：
-     - 仍然存在 document.body 级别的 MutationObserver
-     - packages/core/src/jsx/fragment.ts:73-81
+3. P1-B Fragment 挂载链路重构：已完成
+   - 不再重写 Node.prototype.appendChild/insertBefore
+   - 已删除 document.body 级别的 MutationObserver
+   - 框架内部插入/替换路径继续显式调用 $mountFragmentAnchors(...)
+   - 对外保留 FragmentAnchor.mount(parent) 手动挂载语义，用于原生 DOM 直接挂载场景
+   - 证据：
+     - packages/core/src/jsx/fragment.ts
+     - packages/core/src/jsx/anchor-mount.ts
+     - packages/core/src/h/content.ts
+     - packages/core/src/jsx/for.ts
+     - packages/core/src/jsx/if.ts
+     - packages/core/src/jsx/async.ts
 
 ## 仍未完成
 
@@ -66,13 +65,7 @@
 3. 顺手给 computed 加 dispose/stop
    - 这样 P1-C + P2-G 可以一起收掉
 
-### 第二优先：收尾 P1-B Fragment
-
-- 在已有显式 mount 路径基础上，
-- 移除 document.body 级 MutationObserver
-- 让 Fragment 完全退出全局监听模式
-
-### 第三优先：做低风险补丁项
+### 第二优先：做低风险补丁项
 
 按顺序建议：
 
@@ -87,9 +80,11 @@
 如果你想按“性价比”推进，我建议：
 
 1. P1-C + P2-G
-2. P1-B 剩余 observer 清理
-3. P2-D 重复 key
-4. P2-E CSP/缓存
-5. P2-F 文本/style
+2. P2-D 重复 key
+3. P2-E CSP/缓存
+4. P2-F 文本/style
 
-如果你要，我下一步可以直接继续给你出一版 “P1-C 统一 disposer 的落地改造方案”，我会按文件拆到具体改哪些点。
+补充：
+
+- Fragment 的新边界是：框架内部路径自动 mount；原生 DOM 直挂 Fragment 根节点时，调用 `fragment.mount(parent)`。
+- 这更符合 kt.js 的“轻量、手动、不过度兜底”风格。

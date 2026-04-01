@@ -3,8 +3,9 @@ import type { KTAttribute } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import { h } from '../h/index';
 
-export enum AnchorType {
-  Fragment = 1,
+export const enum AnchorType {
+  Fragment = 'kt-fragment',
+  For = 'kt-for',
 }
 
 export const jsxh = (tag: JSXTag, props: KTAttribute): JSX.Element =>

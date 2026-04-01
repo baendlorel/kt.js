@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { KTFor, KTForElement } from '../src/jsx/for.js';
+import { KTFor, KTForAnchor, KTForElement } from '../src/jsx/for.js';
 import { h } from '../src/h/index.js';
 import { ref } from '@ktjs/core';
 
@@ -22,16 +22,16 @@ describe('KTFor Component', () => {
     expect(anchor.textContent).toBe('kt-for');
   });
 
-  it('should attach __kt_for_list__ to anchor', () => {
+  it('should attach list to anchor', () => {
     const list = [1, 2, 3];
     const anchor = KTFor({
       list,
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect((anchor as any).__kt_for_list__).toBeDefined();
-    expect(Array.isArray((anchor as any).__kt_for_list__)).toBe(true);
-    expect((anchor as any).__kt_for_list__.length).toBe(3);
+    expect(anchor).toBeInstanceOf(KTForAnchor);
+    expect(Array.isArray(anchor.list)).toBe(true);
+    expect(anchor.list.length).toBe(3);
   });
 
   it('should render list elements', () => {
@@ -64,7 +64,7 @@ describe('KTFor Component', () => {
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect((anchor as any).__kt_for_list__.length).toBe(3);
+    expect(anchor.list.length).toBe(3);
   });
 
   it('should use custom key function', () => {
@@ -260,7 +260,7 @@ describe('KTFor Component', () => {
 
     const items = container.querySelectorAll('div');
     expect(items.length).toBe(0);
-    expect((anchor as any).__kt_for_list__.length).toBe(0);
+    expect(anchor.list.length).toBe(0);
   });
 
   it('should work before being added to DOM', () => {
@@ -273,12 +273,12 @@ describe('KTFor Component', () => {
       </div>
     );
 
-    expect((anchor.value as any).__kt_for_list__.length).toBe(3);
+    expect(anchor.value.list.length).toBe(3);
 
     // Redraw before adding to DOM
     list.value = [4, 5];
 
-    expect((anchor.value as any).__kt_for_list__.length).toBe(2);
+    expect(anchor.value.list.length).toBe(2);
 
     // Now add to DOM
     container.appendChild(forEl);

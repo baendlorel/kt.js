@@ -6,8 +6,19 @@ import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
 import { $mountFragmentAnchors } from './anchor-mount.js';
+import { AnchorType } from './common.js';
 
-export type KTForElement = JSX.Element;
+export class KTForAnchor extends Comment {
+  readonly isKTAnchor: true = true;
+  readonly type = AnchorType.For;
+  readonly list: JSX.Element[] = [];
+
+  constructor() {
+    super('kt-for');
+  }
+}
+
+export type KTForElement = JSX.Element & KTForAnchor;
 
 export interface KTForProps<T> {
   ref?: KTRefLike<KTForElement>;
@@ -19,76 +30,62 @@ export interface KTForProps<T> {
 // TASK 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
 /**
  * KTFor - List rendering component with key-based optimization
- * Returns a Comment anchor node with rendered elements in __kt_for_list__
+ * Returns a Comment anchor node with rendered elements in anchor.list
  */
 export function KTFor<T>(props: KTForProps<T>): KTForElement {
   const redraw = () => {
     const newList = listRef.value;
-
     const parent = anchor.parentNode;
+
     if (!parent) {
-      // If not in DOM yet, just rebuild the list
-      const newElements: KTForElement[] = [];
+      anchor.list.length = 0;
       nodeMap.clear();
       for (let index = 0; index < newList.length; index++) {
         const item = newList[index];
         const itemKey = currentKey(item, index, newList);
         const node = currentMap(item, index, newList);
         nodeMap.set(itemKey, node);
-        newElements.push(node);
+        anchor.list.push(node);
       }
-      (anchor as any).__kt_for_list__ = newElements;
       return anchor;
     }
 
-    const oldLength = (anchor as any).__kt_for_list__.length;
+    const oldLength = anchor.list.length;
     const newLength = newList.length;
 
-    // Fast path: empty list
     if (newLength === 0) {
       nodeMap.forEach((node) => node.remove());
       nodeMap.clear();
-      (anchor as any).__kt_for_list__ = [];
+      anchor.list.length = 0;
       return anchor;
     }
 
-    // Fast path: all new items
     if (oldLength === 0) {
-      const newElements: KTForElement[] = [];
+      anchor.list.length = 0;
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
         const item = newList[i];
         const itemKey = currentKey(item, i, newList);
         const node = currentMap(item, i, newList);
         nodeMap.set(itemKey, node);
-        newElements.push(node);
+        anchor.list.push(node);
         fragment.appendChild(node);
       }
       parent.insertBefore(fragment, anchor.nextSibling);
-      $mountFragmentAnchors(fragment); // ^ Explicitly deal with FragmentAnchors
-      (anchor as any).__kt_for_list__ = newElements;
+      $mountFragmentAnchors(fragment);
       return anchor;
     }
 
-    // Build key index map and new elements array in one pass
     const newKeyToNewIndex = new Map<any, number>();
-    const newElements: KTForElement[] = new Array(newLength);
+    const newElements: JSX.Element[] = new Array(newLength);
     for (let i = 0; i < newLength; i++) {
       const item = newList[i];
       const itemKey = currentKey(item, i, newList);
       newKeyToNewIndex.set(itemKey, i);
-
-      if (nodeMap.has(itemKey)) {
-        // Reuse existing node
-        newElements[i] = nodeMap.get(itemKey)!;
-      } else {
-        // Create new node
-        newElements[i] = currentMap(item, i, newList);
-      }
+      newElements[i] = nodeMap.has(itemKey) ? nodeMap.get(itemKey)! : currentMap(item, i, newList);
     }
 
-    // Remove nodes not in new list
-    const toRemove: KTForElement[] = [];
+    const toRemove: JSX.Element[] = [];
     nodeMap.forEach((node, key) => {
       if (!newKeyToNewIndex.has(key)) {
         toRemove.push(node);
@@ -98,48 +95,42 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       toRemove[i].remove();
     }
 
-    // Reorder existing nodes and insert new nodes in a single pass.
     let currentNode = anchor.nextSibling;
     for (let i = 0; i < newLength; i++) {
       const node = newElements[i];
       if (currentNode !== node) {
         parent.insertBefore(node, currentNode);
-        $mountFragmentAnchors(node); // ^ Explicitly deal with FragmentAnchors
+        $mountFragmentAnchors(node);
       } else {
         currentNode = currentNode.nextSibling;
       }
     }
 
-    // Update maps
     nodeMap.clear();
+    anchor.list.length = 0;
     for (let i = 0; i < newLength; i++) {
       const itemKey = currentKey(newList[i], i, newList);
-      nodeMap.set(itemKey, newElements[i]);
+      const node = newElements[i];
+      nodeMap.set(itemKey, node);
+      anchor.list.push(node);
     }
-    (anchor as any).__kt_for_list__ = newElements;
     return anchor;
   };
 
   const currentKey: NonNullable<KTForProps<T>['key']> = props.key ?? ((item: T) => item);
   const currentMap: NonNullable<KTForProps<T>['map']> =
-    props.map ?? ((item: T) => $identity(item) as unknown as KTForElement);
+    props.map ?? ((item: T) => $identity(item) as unknown as JSX.Element);
   const listRef = toReactive(props.list).addOnChange(redraw);
-  const anchor = document.createComment('kt-for') as unknown as KTForElement;
+  const anchor = new KTForAnchor() as KTForElement;
+  const nodeMap = new Map<any, JSX.Element>();
 
-  // Map to track rendered nodes by key
-  const nodeMap = new Map<any, KTForElement>();
-
-  // Render initial list
-  const elements: KTForElement[] = [];
   for (let index = 0; index < listRef.value.length; index++) {
     const item = listRef.value[index];
     const itemKey = currentKey(item, index, listRef.value);
     const node = currentMap(item, index, listRef.value);
     nodeMap.set(itemKey, node);
-    elements.push(node);
+    anchor.list.push(node);
   }
-
-  (anchor as any).__kt_for_list__ = elements;
 
   $initRef(props, anchor);
 

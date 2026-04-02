@@ -1,8 +1,12 @@
 import type { JSX, KTRefLike } from '@ktjs/core';
-import { assertModel, KTConditional, KTFor, computed, ref, toReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
+
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { assertModel, KTConditional, KTFor, computed, ref } from '@ktjs/core';
+
+import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
 import './Tabs.css.js';
 
 export type KTMuiTabsVariant = 'standard' | 'scrollable' | 'fullWidth';
@@ -41,15 +45,16 @@ export type KTMuiTabs = JSX.Element & {};
 export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const classRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const optionsRef = toReactive(props.options);
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'standard');
-  const textColorRef = /* pseudo */ toReactive(props.textColor ?? 'primary');
-  const indicatorColorRef = /* pseudo */ toReactive(props.indicatorColor ?? 'primary');
-  const orientationRef = /* pseudo */ toReactive(props.orientation ?? 'horizontal');
-  const centeredRef = /* pseudo */ toReactive(props.centered ?? false);
+  const optionsRef = toPseudoRef(props.options);
+  const variantRef = toPseudoRef(props.variant ?? 'standard');
+  const textColorRef = toPseudoRef(props.textColor ?? 'primary');
+  const indicatorColorRef = toPseudoRef(props.indicatorColor ?? 'primary');
+  const orientationRef = toPseudoRef(props.orientation ?? 'horizontal');
+  const centeredRef = toPseudoRef(props.centered ?? false);
+
   const modelRef = assertModel<string>(props, optionsRef.value[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();

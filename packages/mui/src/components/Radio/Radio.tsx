@@ -1,11 +1,14 @@
-import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
-import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-
 import type { KTMuiProps } from '../../types/component.js';
-import './Radio.css.js';
+
+import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
+import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
+
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 import { createChecked, createUnchecked } from './Icon.js';
+
+import './Radio.css.js';
 
 export type KTMuiRadioSize = 'small' | 'medium';
 export type KTMuiRadioColor = 'primary' | 'secondary' | 'default';
@@ -134,17 +137,18 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
  * RadioGroup component - groups multiple radios together
  */
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const model = assertModel(props, toReactive(props.value ?? '').value);
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'small');
-  const rowRef = /* pseudo */ toReactive(props.row ?? false);
+  const sizeRef = toPseudoRef(props.size ?? 'small');
+  const rowRef = toPseudoRef(props.row ?? false);
 
   const className = computed(
     () => `mui-radio-group ${rowRef.value ? 'mui-radio-group-row' : ''} ${customClassRef.value}`,
     [customClassRef, rowRef],
   );
+
+  const model = assertModel(props, toReactive(props.value ?? '').value);
 
   const onChange = props['on:change'] ?? $emptyFn;
 

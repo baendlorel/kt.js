@@ -1,9 +1,12 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { assertModel, computed, ref, toReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
-import './Select.css.js';
+
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { assertModel, computed, ref } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './Select.css.js';
 
 export interface KTMuiSelectOption {
   value: string;
@@ -71,23 +74,24 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   });
 
   // # ref props
-  const placeholderRef = /* pseudo */ toReactive(props.placeholder ?? '');
-  const labelRef = /* pseudo */ toReactive(props.label ?? '');
-  const optionsRef = toReactive(props.options).addOnChange((newOptions) => {
+  const placeholderRef = toPseudoRef(props.placeholder ?? '');
+  const labelRef = toPseudoRef(props.label ?? '');
+  const optionsRef = toPseudoRef(props.options).addOnChange((newOptions) => {
     if (!newOptions.find((o) => (o as any).value === modelRef.value)) {
       modelRef.value = '';
       onChange(modelRef.value);
     }
   });
-  const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) =>
+  const disabledRef = toPseudoRef(props.disabled ?? false).addOnChange((v) =>
     container.classList.toggle('mui-select-disabled', v),
   );
   const modelRef = assertModel(props, props.value ?? '');
 
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const fullwidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const styleRef = toPseudoRef($parseStyle(props.style));
+  const classRef = toPseudoRef(props.class ?? '');
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const fullwidthRef = toPseudoRef(props.fullWidth ?? false);
+
   const className = computed(() => {
     return `mui-select-wrapper mui-select-size-${sizeRef.value} ${fullwidthRef.value ? 'mui-select-fullWidth' : ''} ${classRef.value} ${disabledRef.value ? 'mui-select-disabled' : ''}`;
   }, [sizeRef, fullwidthRef, classRef, disabledRef]);

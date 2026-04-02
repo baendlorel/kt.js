@@ -1,7 +1,10 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, KTConditional, computed, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
+
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { assertModel, KTConditional, computed } from '@ktjs/core';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
 import './Switch.css.js';
 
 export type KTMuiSwitchColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
@@ -33,11 +36,11 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   const onChange = props['on:change'] ?? $emptyFn;
 
   // # ref props
-  const labelRef = /* pseudo */ toReactive(props.label ?? '');
-  const valueRef = toReactive(props.value ?? '');
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) => {
+  const labelRef = toPseudoRef(props.label ?? '');
+  const valueRef = toPseudoRef(props.value ?? '');
+  const colorRef = toPseudoRef(props.color ?? 'primary');
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const disabledRef = toPseudoRef(props.disabled ?? false).addOnChange((v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });
@@ -48,8 +51,8 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     thumb.classList.toggle('mui-switch-thumb-checked', newValue);
   });
 
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
+  const classRef = toPseudoRef(props.class ?? '');
 
   const className = computed(() => {
     return `mui-switch-wrapper mui-switch-size-${sizeRef.value} ${disabledRef.value ? 'mui-switch-disabled' : ''} mui-switch-color-${colorRef.value} ${classRef.value}`;

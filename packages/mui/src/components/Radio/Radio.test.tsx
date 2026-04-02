@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
+import { ref } from '@ktjs/core';
 import { Radio, RadioGroup } from './Radio.js';
 
 describe('MUI Radio component', () => {
@@ -106,5 +107,31 @@ describe('MUI RadioGroup component', () => {
     expect((group as any).value).toBe('a');
     (group as any).value = 'b';
     expect((group as any).value).toBe('b');
+  });
+
+  it('should prioritize k-model over value and sync selection', () => {
+    const model = ref('b');
+    const group = (
+      <RadioGroup
+        {...({
+          value: 'a',
+          'k-model': model,
+          options: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+        } as any)}
+      />
+    );
+
+    expect((group as any).value).toBe('b');
+    const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+    expect(inputs[0].checked).toBe(false);
+    expect(inputs[1].checked).toBe(true);
+
+    inputs[0].checked = true;
+    inputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+    expect(model.value).toBe('a');
+    expect((group as any).value).toBe('a');
   });
 });

@@ -1,4 +1,4 @@
-import { computed, isRefLike, KTFor, toReactive } from '@ktjs/core';
+import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
@@ -26,7 +26,7 @@ export interface KTMuiRadioProps extends KTMuiProps {
 }
 
 export interface KTMuiRadioGroupProps extends KTMuiProps {
-  value?: string;
+  value?: KTMaybeReactive<string>;
   name?: string;
   size?: KTMuiRadioSize;
   options: KTMuiRadioProps[];
@@ -137,7 +137,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const customClassRef = toReactive(props.class ?? '');
   const styleRef = toReactive($parseStyle(props.style));
 
-  const valueRef = toReactive(props.value ?? '');
+  const model = assertModel(props, toReactive(props.value ?? '').value);
   const sizeRef = toReactive(props.size ?? 'small');
   const rowRef = toReactive(props.row ?? false);
 
@@ -149,19 +149,17 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const onChange = props['on:change'] ?? $emptyFn;
 
   const changeHandler = (checked: boolean, value: string) => {
-    if (checked) {
-      if (isRefLike(valueRef)) {
-        valueRef.value = value;
-      }
-      onChange(value);
+    if (!checked) {
+      return;
     }
-    radios.value.forEach((radio) => (radio.checked = radio.value === value));
+    model.value = value;
+    onChange(value);
   };
 
   const radios = toReactive(props.options).map((options) =>
     options.map((o) => {
       o.size = sizeRef.value;
-      o.checked = valueRef.value === o.value;
+      o.checked = model.value === o.value;
 
       const originalChange = o['on:change'];
       if (originalChange) {
@@ -175,6 +173,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
       return Radio(o);
     }),
   );
+  model.addOnChange((value) => radios.value.forEach((radio) => (radio.checked = radio.value === value)));
 
   const container = (
     <div class={className} style={styleRef} role="radiogroup">
@@ -185,11 +184,9 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   $defines(container, {
     value: {
       get() {
-        return valueRef.value;
+        return model.value;
       },
-      set: isRefLike(valueRef)
-        ? (newValue: string) => (valueRef.value = newValue)
-        : (newValue: string) => radios.value.forEach((radio) => (radio.checked = radio.value === newValue)),
+      set: (newValue: string) => (model.value = newValue),
     },
   });
 

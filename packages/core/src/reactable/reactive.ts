@@ -6,7 +6,7 @@ import { $createSubGetter } from './common.js';
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
 export const enum KTReactiveType {
-  ReactiveLike = 0b00001,
+  ReactiveLike = 0b11111,
   Ref = 0b00010,
   SubRef = 0b00100,
   RefLike = Ref | SubRef,

@@ -5,6 +5,7 @@ import { $parseStyle } from '@ktjs/shared';
 import './Badge.css.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiBadgeColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 export type KTMuiBadgeVariant = 'standard' | 'dot';
@@ -45,18 +46,18 @@ const DEFAULT_ANCHOR_ORIGIN: KTMuiBadgeAnchorOrigin = {
  * Badge component - mimics MUI Badge appearance and behavior
  */
 export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
   const rootClassRef = customClassRef.map((v) => 'mui-badge-root ' + v);
 
   const contentRef = toReactive<KTMuiBadgeContent>(props.badgeContent ?? '');
-  const maxRef = /* pseudo */ toReactive(props.max ?? 99);
-  const showZeroRef = /* pseudo */ toReactive(props.showZero ?? false);
+  const maxRef = toPseudoRef(props.max ?? 99);
+  const showZeroRef = toPseudoRef(props.showZero ?? false);
   const invisibleRef = toReactive(props.invisible ?? false);
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'default');
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'standard');
-  const overlapRef = /* pseudo */ toReactive(props.overlap ?? 'rectangular');
-  const anchorOriginRef = /* pseudo */ toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
+  const colorRef = toPseudoRef(props.color ?? 'default');
+  const variantRef = toPseudoRef(props.variant ?? 'standard');
+  const overlapRef = toPseudoRef(props.overlap ?? 'rectangular');
+  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
 
   const contentText = computed(() => {
     if (variantRef.value === 'dot') {

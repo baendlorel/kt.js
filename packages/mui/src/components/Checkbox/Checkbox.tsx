@@ -5,6 +5,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiCheckboxSize = 'small' | 'medium';
 export type KTMuiCheckboxColor = 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
@@ -50,15 +51,16 @@ export function Checkbox(
     }
   };
 
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const labelRef = toReactive(props.label ?? '');
-  const valueRef = toReactive(props.value ?? '');
+  const labelRef = toPseudoRef(props.label ?? '');
+  const valueRef = toPseudoRef(props.value ?? '');
+  const colorRef = toPseudoRef(props.color ?? 'primary');
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const disabledRef = toPseudoRef(props.disabled ?? false);
+
   const interminateRef = toReactive(props.indeterminate ?? false);
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const disabledRef = toReactive(props.disabled ?? false);
   const model = assertModel(props, false);
 
   const inputEl = (

@@ -2,8 +2,9 @@ import type { JSX } from '@ktjs/core';
 import { computed, ref, toReactive, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
-import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './Button.css.js';
 
 export type KTMuiButtonVariant = 'contained' | 'outlined' | 'text';
@@ -46,15 +47,15 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const endIconRef = toReactive(props.endIcon);
 
   // # ref props
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'text');
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
-  const iconOnlyRef = /* pseudo */ toReactive(props.iconOnly ?? false);
-  const disabledRef = toReactive(props.disabled ?? false);
+  const variantRef = toPseudoRef(props.variant ?? 'text');
+  const colorRef = toPseudoRef(props.color ?? 'primary');
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
+  const iconOnlyRef = toPseudoRef(props.iconOnly ?? false);
+  const disabledRef = toPseudoRef(props.disabled ?? false); // It is possible that the user passes a non-reactive value to disabled.
 
   const className = computed(() => {
     return [

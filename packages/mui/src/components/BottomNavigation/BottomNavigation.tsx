@@ -4,6 +4,7 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import './BottomNavigation.css.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export interface KTMuiBottomNavigationAction {
   value: string;
@@ -42,11 +43,11 @@ const findFirstEnabledAction = (options: KTMuiBottomNavigationAction[]) => {
 export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottomNavigation {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const classRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const optionsRef = toReactive(props.options);
-  const showLabelsRef = /* pseudo */ toReactive(props.showLabels ?? false);
+  const optionsRef = toPseudoRef(props.options); // ?? 我认为options不一定要响应式，实际上也有很多直接放入数组的
+  const showLabelsRef = toPseudoRef(props.showLabels ?? false);
 
   const initialValue = typeof props.value === 'string' ? props.value : '';
   const modelRef = assertModel<string>(props, initialValue);

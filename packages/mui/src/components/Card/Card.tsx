@@ -1,10 +1,11 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { toReactive, computed } from '@ktjs/core';
+import { computed } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 
-import './Card.css.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import './Card.css.js';
 
 export type KTMuiCardVariant = 'elevation' | 'outlined' | 'contained';
 
@@ -27,13 +28,13 @@ export type KTMuiCard = JSX.Element & {};
  */
 export function Card(props: KTMuiCardProps): KTMuiCard {
   // # ref props
-  const customClass = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClass = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'elevation');
-  const elevationRef = /* pseudo */ toReactive(props.elevation ?? 1);
-  const squareRef = /* pseudo */ toReactive(props.square ?? false);
-  const raisedRef = /* pseudo */ toReactive(props.raised ?? false);
+  const variantRef = toPseudoRef(props.variant ?? 'elevation');
+  const elevationRef = toPseudoRef(props.elevation ?? 1);
+  const squareRef = toPseudoRef(props.square ?? false);
+  const raisedRef = toPseudoRef(props.raised ?? false);
 
   const className = computed(() => {
     return [

@@ -3,7 +3,7 @@ import type { KTAttribute } from '../types/h.js';
 import type { KTReactiveLike } from '../reactable/reactive.js';
 
 import { isKT } from '../reactable/index.js';
-import { $addNodeCleanup, $removeNodeCleanup, $replaceNode } from './anchor.js';
+import { $addNodeCleanup, $mountFragmentAnchors, $removeNodeCleanup } from './anchor.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTConditional(
@@ -25,7 +25,8 @@ export function KTConditional(
       current = newValue ? jsxh(tagIf, propsIf) : jsxh(tagElse!, propsElse!);
       $removeNodeCleanup(old, cleanup);
       $addNodeCleanup(current, cleanup);
-      $replaceNode(old, current);
+      old.replaceWith(current);
+      $mountFragmentAnchors(current);
     };
     condition.addOnChange(onChange, onChange);
     $addNodeCleanup(current, cleanup);
@@ -39,7 +40,8 @@ export function KTConditional(
       current = newValue ? jsxh(tagIf, propsIf) : dummy;
       $removeNodeCleanup(old, cleanup);
       $addNodeCleanup(current, cleanup);
-      $replaceNode(old, current);
+      old.replaceWith(current);
+      $mountFragmentAnchors(current);
     };
     condition.addOnChange(onChange, onChange);
     $addNodeCleanup(current, cleanup);

@@ -33,8 +33,34 @@ type NodeCleanup = () => void;
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';
 const CANNOT_OBSERVE = CANNOT_MOUNT || typeof MutationObserver === 'undefined';
 const COMMENT_FILTER = typeof NodeFilter === 'undefined' ? 0x80 : NodeFilter.SHOW_COMMENT;
+const ELEMENT_NODE = 1;
+const DOCUMENT_FRAGMENT_NODE = 11;
 const nodeToCleanups = new WeakMap<Node, NodeCleanup[]>();
 let anchorObserver: MutationObserver | undefined;
+
+const $cleanupRemovedNode = (node: Node) => {
+  if (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE) {
+    const children = Array.from(node.childNodes);
+    for (let i = 0; i < children.length; i++) {
+      $cleanupRemovedNode(children[i]);
+    }
+  }
+
+  const anchor = node as KTAnchor<Node>;
+  if (anchor.isKTAnchor === true) {
+    const list = anchor.list.slice();
+    anchor.list.length = 0;
+    for (let i = 0; i < list.length; i++) {
+      const listNode = list[i] as ChildNode;
+      if (listNode.parentNode) {
+        listNode.remove();
+      }
+      $cleanupRemovedNode(listNode);
+    }
+  }
+
+  $runNodeCleanups(node);
+};
 
 const $ensureAnchorObserver = () => {
   if (CANNOT_OBSERVE || anchorObserver || !document.body) {
@@ -42,10 +68,21 @@ const $ensureAnchorObserver = () => {
   }
 
   anchorObserver = new MutationObserver((records) => {
+    if (typeof document === 'undefined') {
+      anchorObserver?.disconnect();
+      anchorObserver = undefined;
+      return;
+    }
+
     for (let i = 0; i < records.length; i++) {
-      const nodes = records[i].addedNodes;
-      for (let j = 0; j < nodes.length; j++) {
-        $mountFragmentAnchors(nodes[j]);
+      const addedNodes = records[i].addedNodes;
+      for (let j = 0; j < addedNodes.length; j++) {
+        $mountFragmentAnchors(addedNodes[j]);
+      }
+
+      const removedNodes = records[i].removedNodes;
+      for (let j = 0; j < removedNodes.length; j++) {
+        $cleanupRemovedNode(removedNodes[j]);
       }
     }
   });
@@ -76,6 +113,7 @@ const $runNodeCleanups = (node: Node) => {
 };
 
 export const $addNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
+  $ensureAnchorObserver();
   const cleanups = nodeToCleanups.get(node);
   if (cleanups) {
     cleanups.push(cleanup);
@@ -102,73 +140,22 @@ export const $removeNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
   }
 };
 
-export const $moveNodeCleanups = (from: Node, to: Node) => {
-  const cleanups = nodeToCleanups.get(from);
-  if (!cleanups?.length) {
-    return;
-  }
-
-  const targetCleanups = nodeToCleanups.get(to);
-  if (targetCleanups) {
-    targetCleanups.push(...cleanups);
-  } else {
-    nodeToCleanups.set(to, cleanups);
-  }
-  nodeToCleanups.delete(from);
-};
-
 export const $mountFragmentAnchors = (node: unknown) => {
-  if (CANNOT_MOUNT || !(node instanceof Node)) {
+  if (CANNOT_MOUNT || typeof document === 'undefined' || !node || typeof (node as any).nodeType !== 'number') {
     return;
   }
 
-  $mountIfFragmentAnchor(node);
+  const nodeObj = node as Node;
+  $mountIfFragmentAnchor(nodeObj);
 
-  if (node.nodeType !== Node.ELEMENT_NODE && node.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
+  if (nodeObj.nodeType !== ELEMENT_NODE && nodeObj.nodeType !== DOCUMENT_FRAGMENT_NODE) {
     return;
   }
 
-  const walker = document.createTreeWalker(node, COMMENT_FILTER);
+  const walker = document.createTreeWalker(nodeObj, COMMENT_FILTER);
   let current = walker.nextNode();
   while (current) {
     $mountIfFragmentAnchor(current);
     current = walker.nextNode();
   }
-};
-
-export const $removeNode = (node: Node | null | undefined) => {
-  if (!(node instanceof Node)) {
-    return;
-  }
-
-  const anchor = node as KTAnchor<Node>;
-  if (anchor.isKTAnchor === true) {
-    const list = anchor.list.slice();
-    anchor.list.length = 0;
-    for (let i = 0; i < list.length; i++) {
-      $removeNode(list[i]);
-    }
-  } else {
-    const children = Array.from(node.childNodes);
-    for (let i = 0; i < children.length; i++) {
-      $removeNode(children[i]);
-    }
-  }
-
-  $runNodeCleanups(node);
-  (node as ChildNode).remove?.();
-};
-
-export const $replaceNode = (oldNode: Node, newNode: Node) => {
-  if (oldNode === newNode) {
-    return;
-  }
-
-  const parent = oldNode.parentNode;
-  if (!parent) {
-    return;
-  }
-
-  parent.insertBefore(newNode, oldNode);
-  $removeNode(oldNode);
 };

@@ -5,7 +5,7 @@ import { $initRef, type KTRefLike } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
-import { $addNodeCleanup, AnchorType, KTAnchor, $removeNode } from './anchor.js';
+import { $addNodeCleanup, AnchorType, KTAnchor } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
   readonly type = AnchorType.Fragment;
@@ -21,8 +21,9 @@ export class FragmentAnchor extends KTAnchor<Node> {
     const list = this.list.slice();
     this.list.length = 0;
     for (let i = 0; i < list.length; i++) {
-      if (list[i].parentNode) {
-        $removeNode(list[i]);
+      const node = list[i] as ChildNode;
+      if (node.parentNode) {
+        node.remove();
       }
     }
   }

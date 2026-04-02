@@ -2,7 +2,7 @@ import { $isThenable } from '@ktjs/shared';
 import type { KTComponent, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import type { KTRef } from '../reactable/ref.js';
-import { $replaceNode } from './anchor.js';
+import { $mountFragmentAnchors } from './anchor.js';
 
 /**
  * Extract component props type (excluding ref and children)
@@ -23,7 +23,8 @@ export function KTAsync<T extends KTComponent>(
 
   if ($isThenable(raw)) {
     raw.then((resolved) => {
-      $replaceNode(comp, resolved);
+      comp.replaceWith(resolved);
+      $mountFragmentAnchors(resolved);
     });
   } else {
     comp = raw as JSX.Element;

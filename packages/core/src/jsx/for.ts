@@ -5,7 +5,7 @@ import type { KTReactiveLike } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { $addNodeCleanup, $removeNode } from './anchor.js';
+import { $addNodeCleanup } from './anchor.js';
 import { AnchorType, KTAnchor } from './anchor.js';
 
 export class KTForAnchor extends KTAnchor<JSX.Element> {
@@ -52,7 +52,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     const newLength = newList.length;
 
     if (newLength === 0) {
-      nodeMap.forEach((node) => $removeNode(node));
+      nodeMap.forEach((node) => node.remove());
       nodeMap.clear();
       anchor.list.length = 0;
       return anchor;
@@ -89,7 +89,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
       }
     });
     for (let i = 0; i < toRemove.length; i++) {
-      $removeNode(toRemove[i]);
+      toRemove[i].remove();
     }
 
     let currentNode = anchor.nextSibling;

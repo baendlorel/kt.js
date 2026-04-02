@@ -2,7 +2,7 @@ import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
 import { AnchorType } from '../jsx/anchor.js';
-import { $addNodeCleanup, $replaceNode } from '../jsx/anchor.js';
+import { $addNodeCleanup, $mountFragmentAnchors } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -19,7 +19,8 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
       const newNode = assureNode(newValue);
       const oldNode = node;
       node = newNode;
-      $replaceNode(oldNode, newNode);
+      oldNode.replaceWith(newNode);
+      $mountFragmentAnchors(newNode);
     };
     c.addOnChange(onChange, onChange);
     $addNodeCleanup(element, () => c.removeOnChange(onChange));
@@ -45,10 +46,13 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
         element.appendChild(comment);
         ci.then((awaited) => {
           if ($isNode(awaited)) {
-            $replaceNode(comment, awaited);
+            // ?? 难道不能都在observer回调里做吗
+            comment.replaceWith(awaited);
+            $mountFragmentAnchors(awaited);
           } else {
             const awaitedNode = assureNode(awaited);
-            $replaceNode(comment, awaitedNode);
+            comment.replaceWith(awaitedNode);
+            $mountFragmentAnchors(awaitedNode);
           }
         });
       } else {

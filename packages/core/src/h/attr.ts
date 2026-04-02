@@ -1,7 +1,7 @@
 import type { KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
-import { $addNodeCleanup, $removeNode } from '../jsx/anchor.js';
+import { $addNodeCleanup } from '../jsx/anchor.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
@@ -61,9 +61,10 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   // ! Security: `k-html` is an explicit raw HTML escape hatch. kt.js intentionally does not sanitize here; callers must pass only trusted HTML.
   if ('k-html' in attr) {
     const html = attr['k-html'];
+    // ?? 这是要干嘛啊
     const setHTML = (value: any) => {
       while (element.firstChild) {
-        $removeNode(element.firstChild);
+        element.firstChild.remove();
       }
       element.innerHTML = value;
     };

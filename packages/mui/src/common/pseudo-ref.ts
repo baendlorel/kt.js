@@ -1,9 +1,10 @@
+import { isReactive, isReactiveLike } from '@ktjs/core';
 import { KTMaybeReactive } from '@ktjs/core';
-import { ChangeHandler, isRefLike, KTComputed, KTReactiveLike, KTReactiveType } from '@ktjs/core';
+import { ChangeHandler, isComputedLike, isRefLike, KTComputed, KTReactiveLike, KTReactiveType } from '@ktjs/core';
 
 class PseudoRef<T> implements KTReactiveLike<T> {
   kid: number = -1;
-  ktype = KTReactiveType.RefLike;
+  ktype = KTReactiveType.ReactiveLike;
   public value: T;
   constructor(value: T) {
     this.value = value;
@@ -26,5 +27,9 @@ class PseudoRef<T> implements KTReactiveLike<T> {
  * In order to reduce listeners and computations, we use this to wrap non-reactive values in a pseudo-ref.
  * This allows us to treat them uniformly with reactive values without the overhead of making them fully reactive.
  */
-export const toPseudoRef = <T>(o: KTMaybeReactive<T>): PseudoRef<T> =>
-  (isRefLike(o) ? o : new PseudoRef(o)) as PseudoRef<T>;
+export const toPseudoRef = <T>(o: KTMaybeReactive<T>): KTReactiveLike<T> => {
+  if (isReactiveLike<T>(o)) {
+    return o;
+  }
+  return new PseudoRef(o) as unknown as KTReactiveLike<T>;
+};

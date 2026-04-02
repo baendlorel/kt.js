@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { ref } from '@ktjs/core';
 import { KTMuiLinearProgress, LinearProgress } from './LinearProgress.js';
 
 describe('MUI LinearProgress component', () => {
@@ -24,11 +25,12 @@ describe('MUI LinearProgress component', () => {
   });
 
   it('should update width when progress property changes', () => {
-    const progress = (<LinearProgress {...{ variant: 'determinate', value: 10 }} />) as KTMuiLinearProgress;
+    const progressValue = ref(10);
+    const progress = (<LinearProgress {...{ variant: 'determinate', value: progressValue }} />) as KTMuiLinearProgress;
     const bar = progress.querySelector<HTMLElement>('.mui-linear-progress-bar');
 
     expect(bar?.style.width).toBe('10%');
-    progress.value = 65;
+    progressValue.value = 65;
     expect(bar?.style.width).toBe('65%');
   });
 });

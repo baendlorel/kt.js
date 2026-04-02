@@ -17,7 +17,7 @@ class PseudoRef<T> implements KTReactiveLike<T> {
   }
 
   map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
-    throw new Error('PseudoRef does not support map operation.');
+    return new PseudoRef(calculator(this.value)) as KTComputed<U>;
   }
 }
 

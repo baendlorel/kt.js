@@ -1,0 +1,24 @@
+import { ChangeHandler, isRefLike, KTComputed, KTReactiveLike, KTReactiveType } from '@ktjs/core';
+
+class PseudoRef<T> implements KTReactiveLike<T> {
+  kid: number = -1;
+  ktype = KTReactiveType.RefLike;
+  public value: T;
+  constructor(value: T) {
+    this.value = value;
+  }
+
+  addOnChange(handler: ChangeHandler<T>, key?: any): this {
+    return this;
+  }
+
+  removeOnChange(key: any): this {
+    return this;
+  }
+
+  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+    throw new Error('PseudoRef does not support map operation.');
+  }
+}
+
+export const toPseudoRef = <T>(o: T) => (isRefLike(o) ? o : new PseudoRef(o));

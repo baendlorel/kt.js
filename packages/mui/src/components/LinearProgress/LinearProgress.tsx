@@ -38,12 +38,12 @@ export type KTMuiLinearProgress = JSX.Element & {
 };
 
 export function LinearProgress(props: LinearProgressProps): KTMuiLinearProgress {
-  const customClassRef = toReactive(props.class ?? '');
-  const style = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const style = /* pseudo */ toReactive($parseStyle(props.style));
 
   const valueRef = toReactive(props.value ?? 0);
-  const colorRef = toReactive(props.color ?? 'primary');
-  const variantRef = toReactive(props.variant ?? 'indeterminate');
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'indeterminate');
   const className = computed(() => {
     return `mui-linear-progress mui-linear-progress-${variantRef.value} mui-linear-progress-${colorRef.value} ${customClassRef.value}`;
   }, [customClassRef, colorRef, variantRef]);

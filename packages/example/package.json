@@ -23,6 +23,7 @@
     "@ktjs/mui": "workspace:^*"
   },
   "devDependencies": {
+    "@ktjs/babel-plugin-ktjsx": "^0.4.6",
     "@ktjs/ts-plugin": "workspace:^*"
   }
 }

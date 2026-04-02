@@ -71,8 +71,8 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   });
 
   // # ref props
-  const placeholderRef = toReactive(props.placeholder ?? '');
-  const labelRef = toReactive(props.label ?? '');
+  const placeholderRef = /* pseudo */ toReactive(props.placeholder ?? '');
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
   const optionsRef = toReactive(props.options).addOnChange((newOptions) => {
     if (!newOptions.find((o) => (o as any).value === modelRef.value)) {
       modelRef.value = '';
@@ -84,10 +84,10 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   );
   const modelRef = assertModel(props, props.value ?? '');
 
-  const styleRef = toReactive($parseStyle(props.style));
-  const classRef = toReactive(props.class ?? '');
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const fullwidthRef = toReactive(props.fullWidth ?? false);
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const fullwidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
   const className = computed(() => {
     return `mui-select-wrapper mui-select-size-${sizeRef.value} ${fullwidthRef.value ? 'mui-select-fullWidth' : ''} ${classRef.value} ${disabledRef.value ? 'mui-select-disabled' : ''}`;
   }, [sizeRef, fullwidthRef, classRef, disabledRef]);

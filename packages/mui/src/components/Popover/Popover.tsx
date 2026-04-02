@@ -116,8 +116,8 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
   props: KTMuiPopoverProps<TAnchor>,
 ): KTMuiPopover {
   const onClose = props['on:close'] ?? $emptyFn;
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   let openTransitionTimer = 0;
   let hideTransitionTimer = 0;
@@ -185,12 +185,12 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
   const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).addOnChange(
     scheduleUpdatePosition,
   );
-  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
-  const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
+  const anchorOriginRef = /* pseudo */ toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
+  const transformOriginRef = /* pseudo */ toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
     scheduleUpdatePosition,
   );
-  const marginThresholdRef = toReactive(props.marginThreshold ?? 16).addOnChange(scheduleUpdatePosition);
-  const elevationRef = toReactive(props.elevation ?? 8);
+  const marginThresholdRef = /* pseudo */ toReactive(props.marginThreshold ?? 16).addOnChange(scheduleUpdatePosition);
+  const elevationRef = /* pseudo */ toReactive(props.elevation ?? 8);
 
   const paperClassName = customClassRef.map((v) => `mui-popover-paper ${v}`);
 

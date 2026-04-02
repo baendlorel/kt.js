@@ -46,14 +46,14 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   const endIconRef = toReactive(props.endIcon);
 
   // # ref props
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
-  const variantRef = toReactive(props.variant ?? 'text');
-  const colorRef = toReactive(props.color ?? 'primary');
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const iconOnlyRef = toReactive(props.iconOnly ?? false);
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'text');
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const iconOnlyRef = /* pseudo */ toReactive(props.iconOnly ?? false);
   const disabledRef = toReactive(props.disabled ?? false);
 
   const className = computed(() => {

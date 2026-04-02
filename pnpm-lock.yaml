@@ -118,6 +118,9 @@ importers:
         specifier: workspace:^*
         version: link:../mui
     devDependencies:
+      '@ktjs/babel-plugin-ktjsx':
+        specifier: ^0.4.6
+        version: 0.4.6(@babel/core@7.29.0)
       '@ktjs/ts-plugin':
         specifier: workspace:^*
         version: link:../../plugins/ts
@@ -998,6 +1001,11 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@ktjs/babel-plugin-ktjsx@0.4.6':
+    resolution: {integrity: sha512-qt4g6QkMd9QNL2K7n//scYQ0CFtwk9jaD+wPHggFBpsX7ipLzh26DwR7gRcrd+QYbhGMSg6A/uz0zi6UeKBdSw==}
+    peerDependencies:
+      '@babel/core': ^7.0.0
 
   '@ktjs/transformer@0.4.5':
     resolution: {integrity: sha512-UlBCcIsrW2+AzwBHx25GHFnLN+s71IFfmKzLjE4Nge0lDci3APQfStuTqw+tGO2kEn/M7Og6UwiYgeV4lsNOYw==}
@@ -3163,6 +3171,13 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@ktjs/babel-plugin-ktjsx@0.4.6(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/core': 7.29.0
+      '@ktjs/transformer': 0.4.5
+    transitivePeerDependencies:
+      - supports-color
 
   '@ktjs/transformer@0.4.5':
     dependencies:

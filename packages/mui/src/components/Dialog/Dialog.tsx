@@ -57,8 +57,8 @@ const SUPPORTS_DIALOG =
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const { 'on:close': onClose = $emptyFn, children } = props;
 
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const actionsRef = toReactive(props.actions);
   const titleRef = toReactive(props.title ?? '');
@@ -68,7 +68,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   let exitTimer: ReturnType<typeof setTimeout> | undefined;
 
   // Mode selection
-  const modeRef = toReactive(props.mode ?? 'dialog');
+  const modeRef = /* pseudo */ toReactive(props.mode ?? 'dialog');
 
   const clearTimers = () => {
     if (enterTimer) {
@@ -128,8 +128,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const openRef = ensureRefLike(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
-  const sizeRef = toReactive(props.size ?? 'sm');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'sm');
+  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
 
   const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 

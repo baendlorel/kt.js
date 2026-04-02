@@ -50,19 +50,19 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
   const modelRef = assertModel(props, props.value ?? []);
 
   // Create refs for all reactive properties
-  const labelRef = toReactive(props.label ?? '');
-  const placeholderRef = toReactive(props.placeholder ?? 'Choose files...');
-  const acceptRef = toReactive(props.accept ?? '');
-  const multipleRef = toReactive(props.multiple ?? true);
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
+  const placeholderRef = /* pseudo */ toReactive(props.placeholder ?? 'Choose files...');
+  const acceptRef = /* pseudo */ toReactive(props.accept ?? '');
+  const multipleRef = /* pseudo */ toReactive(props.multiple ?? true);
   const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = toReactive(props.readOnly ?? false);
-  const requiredRef = toReactive(props.required ?? false);
+  const readOnlyRef = /* pseudo */ toReactive(props.readOnly ?? false);
+  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
   const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = toReactive(props.helperText ?? '');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const buttonTextRef = toReactive(props.buttonText ?? 'Browse');
-  const showFileCountRef = toReactive(props.showFileCount ?? true);
+  const helperTextRef = /* pseudo */ toReactive(props.helperText ?? '');
+  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const buttonTextRef = /* pseudo */ toReactive(props.buttonText ?? 'Browse');
+  const showFileCountRef = /* pseudo */ toReactive(props.showFileCount ?? true);
 
   // # computed display text
   const displayText = computed(() => {
@@ -128,8 +128,8 @@ export function FilePicker(props: KTMuiFilePickerProps): KTMuiFilePicker {
   };
 
   // # styles
-  const style = toReactive($parseStyle(props.style));
-  const customClass = toReactive(props.class ?? '');
+  const style = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClass = /* pseudo */ toReactive(props.class ?? '');
   const className = computed(
     () =>
       [

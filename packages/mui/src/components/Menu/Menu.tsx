@@ -69,18 +69,18 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
   const onClose = props['on:close'] ?? $emptyFn;
   const onSelect = props['on:select'] ?? $emptyFn;
 
-  const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const openRef = toReactive(props.open ?? false);
   const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>);
   const optionsRef = toReactive<KTMuiMenuContent[]>(props.options ?? []);
-  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
-  const transformOriginRef = toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);
-  const marginThresholdRef = toReactive(props.marginThreshold ?? 16);
-  const elevationRef = toReactive(props.elevation ?? 8);
-  const autoCloseRef = toReactive(props.autoClose ?? true);
-  const disableAutoFocusItemRef = toReactive(props.disableAutoFocusItem ?? false);
+  const anchorOriginRef = /* pseudo */ toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
+  const transformOriginRef = /* pseudo */ toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);
+  const marginThresholdRef = /* pseudo */ toReactive(props.marginThreshold ?? 16);
+  const elevationRef = /* pseudo */ toReactive(props.elevation ?? 8);
+  const autoCloseRef = /* pseudo */ toReactive(props.autoClose ?? true);
+  const disableAutoFocusItemRef = /* pseudo */ toReactive(props.disableAutoFocusItem ?? false);
 
   const menuListRef = ref<HTMLUListElement>();
   const menuItemElements: HTMLElement[] = [];

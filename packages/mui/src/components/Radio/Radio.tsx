@@ -134,12 +134,12 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
  * RadioGroup component - groups multiple radios together
  */
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const model = assertModel(props, toReactive(props.value ?? '').value);
-  const sizeRef = toReactive(props.size ?? 'small');
-  const rowRef = toReactive(props.row ?? false);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'small');
+  const rowRef = /* pseudo */ toReactive(props.row ?? false);
 
   const className = computed(
     () => `mui-radio-group ${rowRef.value ? 'mui-radio-group-row' : ''} ${customClassRef.value}`,

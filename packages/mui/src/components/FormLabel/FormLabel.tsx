@@ -51,12 +51,12 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
  * FormLabel component - mimics MUI FormLabel appearance and behavior
  */
 export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
-  const requiredRef = toReactive(props.required ?? false);
+  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
   const errorRef = toReactive(props.error ?? false);
   const disabledRef = toReactive(props.disabled ?? false);
   const focusedRef = toReactive(props.focused ?? false);
   const filledRef = toReactive(props.filled ?? false);
-  const htmlForRef = toReactive(props.htmlFor ?? '');
+  const htmlForRef = /* pseudo */ toReactive(props.htmlFor ?? '');
 
   const classes = computed(
     () =>

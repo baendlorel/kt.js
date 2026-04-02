@@ -27,13 +27,13 @@ export type KTMuiCard = JSX.Element & {};
  */
 export function Card(props: KTMuiCardProps): KTMuiCard {
   // # ref props
-  const customClass = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClass = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
-  const variantRef = toReactive(props.variant ?? 'elevation');
-  const elevationRef = toReactive(props.elevation ?? 1);
-  const squareRef = toReactive(props.square ?? false);
-  const raisedRef = toReactive(props.raised ?? false);
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'elevation');
+  const elevationRef = /* pseudo */ toReactive(props.elevation ?? 1);
+  const squareRef = /* pseudo */ toReactive(props.square ?? false);
+  const raisedRef = /* pseudo */ toReactive(props.raised ?? false);
 
   const className = computed(() => {
     return [

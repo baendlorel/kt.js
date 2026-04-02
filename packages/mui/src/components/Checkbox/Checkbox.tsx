@@ -50,14 +50,14 @@ export function Checkbox(
     }
   };
 
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const labelRef = toReactive(props.label ?? '');
   const valueRef = toReactive(props.value ?? '');
   const interminateRef = toReactive(props.indeterminate ?? false);
-  const colorRef = toReactive(props.color ?? 'primary');
-  const sizeRef = toReactive(props.size ?? 'medium');
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
   const disabledRef = toReactive(props.disabled ?? false);
   const model = assertModel(props, false);
 

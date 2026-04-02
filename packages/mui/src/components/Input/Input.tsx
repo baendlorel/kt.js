@@ -93,17 +93,17 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   const modelRef = assertModel(props, props.value ?? '');
 
   // Create refs for all reactive properties
-  const labelRef = toReactive(props.label ?? '');
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
   const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = toReactive(props.readOnly ?? false);
-  const requiredRef = toReactive(props.required ?? false);
+  const readOnlyRef = /* pseudo */ toReactive(props.readOnly ?? false);
+  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
   const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = toReactive(props.helperText ?? '');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const rowsRef = toReactive(props.rows ?? 3);
-  const sizeRef = toReactive(props.size ?? 'medium');
+  const helperTextRef = /* pseudo */ toReactive(props.helperText ?? '');
+  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const rowsRef = /* pseudo */ toReactive(props.rows ?? 3);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
 
-  const placeholder = toReactive(props.placeholder ?? '').map(
+  const placeholder = /* pseudo */ toReactive(props.placeholder ?? '').map(
     (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
     [labelRef, isFocusedRef, modelRef],
   );
@@ -141,8 +141,8 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
       ) as HTMLInputElement);
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  const style = toReactive($parseStyle(props.style));
-  const customClass = toReactive(props.class ?? '');
+  const style = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClass = /* pseudo */ toReactive(props.class ?? '');
   const className = computed(
     () =>
       [

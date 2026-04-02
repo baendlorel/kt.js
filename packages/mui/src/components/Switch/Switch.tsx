@@ -33,10 +33,10 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   const onChange = props['on:change'] ?? $emptyFn;
 
   // # ref props
-  const labelRef = toReactive(props.label ?? '');
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
   const valueRef = toReactive(props.value ?? '');
-  const colorRef = toReactive(props.color ?? 'primary');
-  const sizeRef = toReactive(props.size ?? 'medium');
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
   const disabledRef = toReactive(props.disabled ?? false).addOnChange((v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
@@ -48,8 +48,8 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     thumb.classList.toggle('mui-switch-thumb-checked', newValue);
   });
 
-  const styleRef = toReactive($parseStyle(props.style));
-  const classRef = toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
 
   const className = computed(() => {
     return `mui-switch-wrapper mui-switch-size-${sizeRef.value} ${disabledRef.value ? 'mui-switch-disabled' : ''} mui-switch-color-${colorRef.value} ${classRef.value}`;

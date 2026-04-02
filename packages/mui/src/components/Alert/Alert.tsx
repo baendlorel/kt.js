@@ -3,6 +3,7 @@ import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiAlertSeverity = 'error' | 'warning' | 'info' | 'success';
 export type KTMuiAlertVariant = 'standard' | 'filled' | 'outlined';
@@ -89,14 +90,14 @@ const severityToIcon = {
 
 // todo 尝试使用pseudoref来实现更轻量级的ref，避免直接的变量创建过多的大对象
 export function Alert(props: KTMuiAlertProps): JSX.Element {
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
   const childrenRef = toReactive(props.children);
-  const severityRef = toReactive(props.severity ?? 'info');
-  const variantRef = toReactive(props.variant ?? 'standard');
+  const severityRef = toPseudoRef(props.severity ?? 'info');
+  const variantRef = toPseudoRef(props.variant ?? 'standard');
   const iconRef = toReactive(props.icon ?? true);
-  const iconSizeRef = toReactive(props.iconSize ?? '22px');
+  const iconSizeRef = toPseudoRef(props.iconSize ?? '22px');
   const onClose = props['on:close'];
 
   const className = computed(

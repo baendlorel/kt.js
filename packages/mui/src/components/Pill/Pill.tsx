@@ -45,15 +45,15 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const onClick = props['on:click'] ?? $emptyFn;
   const onDelete = props['on:delete'];
 
-  const labelRef = toReactive(props.label ?? '');
-  const colorRef = toReactive(props.color ?? 'default');
-  const variantRef = toReactive(props.variant ?? 'filled');
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const clickableRef = toReactive(props.clickable ?? !!props['on:click']);
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'default');
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'filled');
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const clickableRef = /* pseudo */ toReactive(props.clickable ?? !!props['on:click']);
   const disabledRef = toReactive(props.disabled ?? false);
-  const autoRemoveOnDeleteRef = toReactive(props.autoRemoveOnDelete ?? true);
-  const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const autoRemoveOnDeleteRef = /* pseudo */ toReactive(props.autoRemoveOnDelete ?? true);
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const className = computed(() => {
     return [

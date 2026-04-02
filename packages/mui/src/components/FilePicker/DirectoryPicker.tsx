@@ -47,16 +47,16 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   const modelRef = assertModel(props, props.value ?? []);
 
   // Create refs for all reactive properties
-  const labelRef = toReactive(props.label ?? '');
-  const placeholderRef = toReactive(props.placeholder ?? 'Select directory...');
+  const labelRef = /* pseudo */ toReactive(props.label ?? '');
+  const placeholderRef = /* pseudo */ toReactive(props.placeholder ?? 'Select directory...');
   const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = toReactive(props.readOnly ?? false);
-  const requiredRef = toReactive(props.required ?? false);
+  const readOnlyRef = /* pseudo */ toReactive(props.readOnly ?? false);
+  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
   const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = toReactive(props.helperText ?? '');
-  const fullWidthRef = toReactive(props.fullWidth ?? false);
-  const sizeRef = toReactive(props.size ?? 'medium');
-  const buttonTextRef = toReactive(props.buttonText ?? 'Select');
+  const helperTextRef = /* pseudo */ toReactive(props.helperText ?? '');
+  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const buttonTextRef = /* pseudo */ toReactive(props.buttonText ?? 'Select');
 
   // # computed directory path
   const directoryPath = computed(() => {
@@ -146,8 +146,8 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   };
 
   // # styles
-  const style = toReactive($parseStyle(props.style));
-  const customClass = toReactive(props.class ?? '');
+  const style = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClass = /* pseudo */ toReactive(props.class ?? '');
   const className = computed(
     () =>
       [

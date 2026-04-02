@@ -30,12 +30,12 @@ export type KTMuiCheckboxGroup = JSX.Element & {};
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const optionsRef = toReactive(props.options);
-  const rowRef = toReactive(props.row ?? true);
-  const sizeRef = toReactive(props.size ?? 'medium');
+  const rowRef = /* pseudo */ toReactive(props.row ?? true);
+  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
   const model = assertModel(props, [] as string[]);
   let internalChange = false;
   model.addOnChange((newValues) => {

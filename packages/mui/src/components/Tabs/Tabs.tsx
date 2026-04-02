@@ -41,15 +41,15 @@ export type KTMuiTabs = JSX.Element & {};
 export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const optionsRef = toReactive(props.options);
-  const variantRef = toReactive(props.variant ?? 'standard');
-  const textColorRef = toReactive(props.textColor ?? 'primary');
-  const indicatorColorRef = toReactive(props.indicatorColor ?? 'primary');
-  const orientationRef = toReactive(props.orientation ?? 'horizontal');
-  const centeredRef = toReactive(props.centered ?? false);
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'standard');
+  const textColorRef = /* pseudo */ toReactive(props.textColor ?? 'primary');
+  const indicatorColorRef = /* pseudo */ toReactive(props.indicatorColor ?? 'primary');
+  const orientationRef = /* pseudo */ toReactive(props.orientation ?? 'horizontal');
+  const centeredRef = /* pseudo */ toReactive(props.centered ?? false);
   const modelRef = assertModel<string>(props, optionsRef.value[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();

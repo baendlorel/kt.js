@@ -42,11 +42,11 @@ const findFirstEnabledAction = (options: KTMuiBottomNavigationAction[]) => {
 export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottomNavigation {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const classRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const classRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
 
   const optionsRef = toReactive(props.options);
-  const showLabelsRef = toReactive(props.showLabels ?? false);
+  const showLabelsRef = /* pseudo */ toReactive(props.showLabels ?? false);
 
   const initialValue = typeof props.value === 'string' ? props.value : '';
   const modelRef = assertModel<string>(props, initialValue);

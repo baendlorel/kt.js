@@ -45,18 +45,18 @@ const DEFAULT_ANCHOR_ORIGIN: KTMuiBadgeAnchorOrigin = {
  * Badge component - mimics MUI Badge appearance and behavior
  */
 export function Badge(props: KTMuiBadgeProps): KTMuiBadge {
-  const customClassRef = toReactive(props.class ?? '');
-  const styleRef = toReactive($parseStyle(props.style));
+  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
+  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
   const rootClassRef = customClassRef.map((v) => 'mui-badge-root ' + v);
 
   const contentRef = toReactive<KTMuiBadgeContent>(props.badgeContent ?? '');
-  const maxRef = toReactive(props.max ?? 99);
-  const showZeroRef = toReactive(props.showZero ?? false);
+  const maxRef = /* pseudo */ toReactive(props.max ?? 99);
+  const showZeroRef = /* pseudo */ toReactive(props.showZero ?? false);
   const invisibleRef = toReactive(props.invisible ?? false);
-  const colorRef = toReactive(props.color ?? 'default');
-  const variantRef = toReactive(props.variant ?? 'standard');
-  const overlapRef = toReactive(props.overlap ?? 'rectangular');
-  const anchorOriginRef = toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
+  const colorRef = /* pseudo */ toReactive(props.color ?? 'default');
+  const variantRef = /* pseudo */ toReactive(props.variant ?? 'standard');
+  const overlapRef = /* pseudo */ toReactive(props.overlap ?? 'rectangular');
+  const anchorOriginRef = /* pseudo */ toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
 
   const contentText = computed(() => {
     if (variantRef.value === 'dot') {

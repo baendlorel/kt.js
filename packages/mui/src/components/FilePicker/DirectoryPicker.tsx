@@ -1,10 +1,12 @@
-import { assertModel, computed, ref, toReactive, KTConditional } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
-
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './FilePicker.css.js';
+
+import { assertModel, computed, ref, KTConditional } from '@ktjs/core';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './FilePicker.css.js';
 
 export type KTMuiDirectoryPickerSize = 'small' | 'medium';
 
@@ -47,16 +49,16 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   const modelRef = assertModel(props, props.value ?? []);
 
   // Create refs for all reactive properties
-  const labelRef = /* pseudo */ toReactive(props.label ?? '');
-  const placeholderRef = /* pseudo */ toReactive(props.placeholder ?? 'Select directory...');
-  const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = /* pseudo */ toReactive(props.readOnly ?? false);
-  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
-  const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = /* pseudo */ toReactive(props.helperText ?? '');
-  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const buttonTextRef = /* pseudo */ toReactive(props.buttonText ?? 'Select');
+  const labelRef = toPseudoRef(props.label ?? '');
+  const placeholderRef = toPseudoRef(props.placeholder ?? 'Select directory...');
+  const disabledRef = toPseudoRef(props.disabled ?? false);
+  const readOnlyRef = toPseudoRef(props.readOnly ?? false);
+  const requiredRef = toPseudoRef(props.required ?? false);
+  const errorRef = toPseudoRef(props.error ?? false);
+  const helperTextRef = toPseudoRef(props.helperText ?? '');
+  const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const buttonTextRef = toPseudoRef(props.buttonText ?? 'Select');
 
   // # computed directory path
   const directoryPath = computed(() => {
@@ -146,8 +148,8 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
   };
 
   // # styles
-  const style = /* pseudo */ toReactive($parseStyle(props.style));
-  const customClass = /* pseudo */ toReactive(props.class ?? '');
+  const style = toPseudoRef($parseStyle(props.style));
+  const customClass = toPseudoRef(props.class ?? '');
   const className = computed(
     () =>
       [

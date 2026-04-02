@@ -1,10 +1,12 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { KTConditional, computed, toReactive } from '@ktjs/core';
+import { KTConditional, computed } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import './Pill.css.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './Pill.css.js';
 
 export type KTMuiPillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 export type KTMuiPillVariant = 'filled' | 'outlined';
@@ -45,15 +47,15 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
   const onClick = props['on:click'] ?? $emptyFn;
   const onDelete = props['on:delete'];
 
-  const labelRef = /* pseudo */ toReactive(props.label ?? '');
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'default');
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'filled');
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
-  const clickableRef = /* pseudo */ toReactive(props.clickable ?? !!props['on:click']);
-  const disabledRef = toReactive(props.disabled ?? false);
-  const autoRemoveOnDeleteRef = /* pseudo */ toReactive(props.autoRemoveOnDelete ?? true);
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const labelRef = toPseudoRef(props.label ?? '');
+  const colorRef = toPseudoRef(props.color ?? 'default');
+  const variantRef = toPseudoRef(props.variant ?? 'filled');
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const clickableRef = toPseudoRef(props.clickable ?? !!props['on:click']);
+  const disabledRef = toPseudoRef(props.disabled ?? false);
+  const autoRemoveOnDeleteRef = toPseudoRef(props.autoRemoveOnDelete ?? true);
+  const classRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
   const className = computed(() => {
     return [

@@ -1,8 +1,9 @@
 import type { JSX } from '@ktjs/core';
-import { computed, isRefLike, KTFor, ref, toReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
+
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { computed, isRefLike, KTFor, ref, toReactive } from '@ktjs/core';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 import {
   Popover,
   type KTMuiPopoverAnchorEl,
@@ -11,6 +12,8 @@ import {
   type KTMuiPopoverHorizontalOrigin,
   type KTMuiPopoverVerticalOrigin,
 } from '../Popover/Popover.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
 import './Menu.css.js';
 
 export type KTMuiMenuCloseReason = KTMuiPopoverCloseReason | 'itemClick';
@@ -69,18 +72,18 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
   const onClose = props['on:close'] ?? $emptyFn;
   const onSelect = props['on:select'] ?? $emptyFn;
 
-  const classRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const classRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
   const openRef = toReactive(props.open ?? false);
-  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>);
-  const optionsRef = toReactive<KTMuiMenuContent[]>(props.options ?? []);
-  const anchorOriginRef = /* pseudo */ toReactive(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
-  const transformOriginRef = /* pseudo */ toReactive(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);
-  const marginThresholdRef = /* pseudo */ toReactive(props.marginThreshold ?? 16);
-  const elevationRef = /* pseudo */ toReactive(props.elevation ?? 8);
-  const autoCloseRef = /* pseudo */ toReactive(props.autoClose ?? true);
-  const disableAutoFocusItemRef = /* pseudo */ toReactive(props.disableAutoFocusItem ?? false);
+  const anchorElRef = toPseudoRef(props.anchorEl as TAnchor); // ?? 也许弄清楚anchor的作用更好
+  const optionsRef = toPseudoRef<KTMuiMenuContent[]>(props.options ?? []);
+  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
+  const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);
+  const marginThresholdRef = toPseudoRef(props.marginThreshold ?? 16);
+  const elevationRef = toPseudoRef(props.elevation ?? 8);
+  const autoCloseRef = toPseudoRef(props.autoClose ?? true);
+  const disableAutoFocusItemRef = toPseudoRef(props.disableAutoFocusItem ?? false);
 
   const menuListRef = ref<HTMLUListElement>();
   const menuItemElements: HTMLElement[] = [];

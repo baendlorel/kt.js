@@ -1,9 +1,12 @@
-import { $defines, $parseStyle } from '@ktjs/shared';
-import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, isRefLike, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
-import './LinearProgress.css.js';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
+
+import { $defines, $parseStyle } from '@ktjs/shared';
+import { computed, isRefLike } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './LinearProgress.css.js';
 
 export type KTMuiLinearProgressVariant = 'determinate' | 'indeterminate';
 export type KTMuiLinearProgressColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
@@ -38,12 +41,12 @@ export type KTMuiLinearProgress = JSX.Element & {
 };
 
 export function LinearProgress(props: LinearProgressProps): KTMuiLinearProgress {
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const style = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const style = toPseudoRef($parseStyle(props.style));
 
-  const valueRef = toReactive(props.value ?? 0);
-  const colorRef = /* pseudo */ toReactive(props.color ?? 'primary');
-  const variantRef = /* pseudo */ toReactive(props.variant ?? 'indeterminate');
+  const valueRef = toPseudoRef(props.value ?? 0);
+  const colorRef = toPseudoRef(props.color ?? 'primary');
+  const variantRef = toPseudoRef(props.variant ?? 'indeterminate');
   const className = computed(() => {
     return `mui-linear-progress mui-linear-progress-${variantRef.value} mui-linear-progress-${colorRef.value} ${customClassRef.value}`;
   }, [customClassRef, colorRef, variantRef]);

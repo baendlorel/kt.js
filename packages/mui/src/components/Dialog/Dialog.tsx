@@ -1,10 +1,12 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { computed, effect, ref, toReactive, KTConditional } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
-
 import type { KTMuiProps } from '../../types/component.js';
-import './Dialog.css.js';
+
+import { computed, effect, ref, KTConditional } from '@ktjs/core';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './Dialog.css.js';
 
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
@@ -57,18 +59,18 @@ const SUPPORTS_DIALOG =
 export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const { 'on:close': onClose = $emptyFn, children } = props;
 
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const actionsRef = toReactive(props.actions);
-  const titleRef = toReactive(props.title ?? '');
+  const actionsRef = toPseudoRef(props.actions);
+  const titleRef = toPseudoRef(props.title ?? '');
   const visibleRef = ref(false);
   const activeRef = ref(false);
   let enterTimer: ReturnType<typeof setTimeout> | undefined;
   let exitTimer: ReturnType<typeof setTimeout> | undefined;
 
   // Mode selection
-  const modeRef = /* pseudo */ toReactive(props.mode ?? 'dialog');
+  const modeRef = toPseudoRef(props.mode ?? 'dialog');
 
   const clearTimers = () => {
     if (enterTimer) {
@@ -128,8 +130,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const openRef = ensureRefLike(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'sm');
-  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
+  const sizeRef = toPseudoRef(props.size ?? 'sm');
+  const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
 
   const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 

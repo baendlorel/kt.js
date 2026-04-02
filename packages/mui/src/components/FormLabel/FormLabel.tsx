@@ -1,7 +1,8 @@
-import { KTConditional, computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
+import { KTConditional, computed, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import './FormLabel.css.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiFormLabelComponent = 'label' | 'legend';
 
@@ -51,12 +52,12 @@ interface KTMuiFormLabelProps extends Omit<KTMuiProps, 'children'> {
  * FormLabel component - mimics MUI FormLabel appearance and behavior
  */
 export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
-  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
-  const errorRef = toReactive(props.error ?? false);
-  const disabledRef = toReactive(props.disabled ?? false);
-  const focusedRef = toReactive(props.focused ?? false);
-  const filledRef = toReactive(props.filled ?? false);
-  const htmlForRef = /* pseudo */ toReactive(props.htmlFor ?? '');
+  const requiredRef = toPseudoRef(props.required ?? false);
+  const errorRef = toPseudoRef(props.error ?? false);
+  const disabledRef = toPseudoRef(props.disabled ?? false);
+  const focusedRef = toPseudoRef(props.focused ?? false);
+  const filledRef = toPseudoRef(props.filled ?? false);
+  const htmlForRef = toPseudoRef(props.htmlFor ?? '');
 
   const classes = computed(
     () =>

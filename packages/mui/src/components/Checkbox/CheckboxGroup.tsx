@@ -1,12 +1,14 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import type { KTMuiCheckbox, KTMuiCheckboxProps, KTMuiCheckboxSize } from './Checkbox.js';
 
+import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
+import { assertModel, computed, KTFor } from '@ktjs/core';
+import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
 import './Checkbox.css.js';
 import { Checkbox } from './Checkbox.js';
-import { registerPrefixedEvents } from '../../common/attribute.js';
 
 export { Checkbox };
 
@@ -30,12 +32,13 @@ export type KTMuiCheckboxGroup = JSX.Element & {};
 export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGroup {
   const onChange = props['on:change'] ?? $emptyFn;
 
-  const customClassRef = /* pseudo */ toReactive(props.class ?? '');
-  const styleRef = /* pseudo */ toReactive($parseStyle(props.style));
+  const customClassRef = toPseudoRef(props.class ?? '');
+  const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const optionsRef = toReactive(props.options);
-  const rowRef = /* pseudo */ toReactive(props.row ?? true);
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const optionsRef = toPseudoRef(props.options);
+  const rowRef = toPseudoRef(props.row ?? true);
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
+
   const model = assertModel(props, [] as string[]);
   let internalChange = false;
   model.addOnChange((newValues) => {

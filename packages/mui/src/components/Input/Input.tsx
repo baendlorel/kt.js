@@ -1,11 +1,14 @@
-import { assertModel, KTConditional, computed, dereactive, ref, toReactive } from '@ktjs/core';
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './Input.css.js';
+
+import { assertModel, KTConditional, computed, dereactive, ref } from '@ktjs/core';
+import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
+import { toPseudoRef } from '../../common/pseudo-ref.js';
+
+import './Input.css.js';
 
 export type KTMuiTextFieldType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 export type KTMuiTextFieldSize = 'small' | 'medium';
@@ -93,17 +96,17 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   const modelRef = assertModel(props, props.value ?? '');
 
   // Create refs for all reactive properties
-  const labelRef = /* pseudo */ toReactive(props.label ?? '');
-  const disabledRef = toReactive(props.disabled ?? false);
-  const readOnlyRef = /* pseudo */ toReactive(props.readOnly ?? false);
-  const requiredRef = /* pseudo */ toReactive(props.required ?? false);
-  const errorRef = toReactive(props.error ?? false);
-  const helperTextRef = /* pseudo */ toReactive(props.helperText ?? '');
-  const fullWidthRef = /* pseudo */ toReactive(props.fullWidth ?? false);
-  const rowsRef = /* pseudo */ toReactive(props.rows ?? 3);
-  const sizeRef = /* pseudo */ toReactive(props.size ?? 'medium');
+  const labelRef = toPseudoRef(props.label ?? '');
+  const disabledRef = toPseudoRef(props.disabled ?? false);
+  const readOnlyRef = toPseudoRef(props.readOnly ?? false);
+  const requiredRef = toPseudoRef(props.required ?? false);
+  const errorRef = toPseudoRef(props.error ?? false);
+  const helperTextRef = toPseudoRef(props.helperText ?? '');
+  const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
+  const rowsRef = toPseudoRef(props.rows ?? 3);
+  const sizeRef = toPseudoRef(props.size ?? 'medium');
 
-  const placeholder = /* pseudo */ toReactive(props.placeholder ?? '').map(
+  const placeholder = toPseudoRef(props.placeholder ?? '').map(
     (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
     [labelRef, isFocusedRef, modelRef],
   );
@@ -141,8 +144,8 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
       ) as HTMLInputElement);
   modelRef.addOnChange((newValue) => (inputEl.value = newValue));
 
-  const style = /* pseudo */ toReactive($parseStyle(props.style));
-  const customClass = /* pseudo */ toReactive(props.class ?? '');
+  const style = toPseudoRef($parseStyle(props.style));
+  const customClass = toPseudoRef(props.class ?? '');
   const className = computed(
     () =>
       [

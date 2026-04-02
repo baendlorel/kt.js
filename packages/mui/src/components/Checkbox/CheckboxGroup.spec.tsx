@@ -62,6 +62,6 @@ describe('MUI CheckboxGroup component reactivity', () => {
     inputs[0].dispatchEvent(new Event('change'));
 
     expect(onChange).toHaveBeenCalled();
-    expect(onChange).toHaveBeenCalledWith(['a'], []);
+    expect(onChange).toHaveBeenCalledWith(['a']);
   });
 });

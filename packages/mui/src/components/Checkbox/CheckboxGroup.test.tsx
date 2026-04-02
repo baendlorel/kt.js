@@ -93,6 +93,6 @@ describe('MUI CheckboxGroup component', () => {
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     inputs[0].checked = true;
     inputs[0].dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(['a'], []);
+    expect(onChange).toHaveBeenCalledWith(['a']);
   });
 });

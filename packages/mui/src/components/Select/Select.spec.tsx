@@ -57,6 +57,6 @@ describe('MUI Select component reactivity', () => {
     options.value = [{ label: 'Closed', value: 'closed' }];
 
     expect(hiddenInput.value).toBe('');
-    expect(onChange).toHaveBeenCalledWith('', 'open');
+    expect(onChange).toHaveBeenCalledWith('');
   });
 });

@@ -25,6 +25,13 @@ export interface KTForProps<T> {
   map?: (item: T, index: number, array: T[]) => JSX.Element;
 }
 
+const setForNodeMap = (nodeMap: Map<any, JSX.Element>, key: any, node: JSX.Element, index: number) => {
+  if (nodeMap.has(key)) {
+    $error(`[KTFor] Duplicate key detected at index ${index}. Later items override earlier ones. key=${String(key)}`);
+  }
+  nodeMap.set(key, node);
+};
+
 // TASK 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
 /**
  * KTFor - List rendering component with key-based optimization
@@ -42,7 +49,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         const item = newList[index];
         const itemKey = currentKey(item, index, newList);
         const node = currentMap(item, index, newList);
-        nodeMap.set(itemKey, node);
+        setForNodeMap(nodeMap, itemKey, node, index);
         anchor.list.push(node);
       }
       return anchor;
@@ -65,7 +72,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
         const item = newList[i];
         const itemKey = currentKey(item, i, newList);
         const node = currentMap(item, i, newList);
-        nodeMap.set(itemKey, node);
+        setForNodeMap(nodeMap, itemKey, node, i);
         anchor.list.push(node);
         fragment.appendChild(node);
       }
@@ -107,7 +114,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     for (let i = 0; i < newLength; i++) {
       const itemKey = currentKey(newList[i], i, newList);
       const node = newElements[i];
-      nodeMap.set(itemKey, node);
+      setForNodeMap(nodeMap, itemKey, node, i);
       anchor.list.push(node);
     }
     return anchor;
@@ -124,7 +131,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     const item = listRef.value[index];
     const itemKey = currentKey(item, index, listRef.value);
     const node = currentMap(item, index, listRef.value);
-    nodeMap.set(itemKey, node);
+    setForNodeMap(nodeMap, itemKey, node, index);
     anchor.list.push(node);
   }
 

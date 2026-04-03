@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { KTFor, KTForAnchor, KTForElement } from '../src/jsx/for.js';
 import { h } from '../src/h/index.js';
 import { ref } from '@ktjs/core';
@@ -235,6 +235,29 @@ describe('KTFor Component', () => {
     const items = Array.from(container.querySelectorAll('.item'));
     expect(items.map((item) => item.textContent)).toEqual(['d', 'b', 'a', 'c']);
     expect(items.map((item) => (item as HTMLDivElement).dataset.__test_id__)).toEqual(['4', '2', '1', '3']);
+  });
+
+  it('should warn when duplicate keys are present', () => {
+    const warnSpy = vi.fn();
+    const oldWarn = (globalThis as any).$warn;
+    (globalThis as any).$warn = warnSpy;
+    try {
+      const list = ref([
+        { id: '1', value: 'a' },
+        { id: '1', value: 'b' },
+      ]);
+      const anchor = KTFor({
+        list,
+        key: (item) => item.id,
+        map: (item) => h('div', { class: 'item' }, item.value),
+      });
+      expect(anchor.list.length).toBe(2);
+
+      expect(warnSpy).toHaveBeenCalled();
+      expect(warnSpy.mock.calls.some((args: any[]) => String(args[0]).includes('Duplicate key detected'))).toBe(true);
+    } finally {
+      (globalThis as any).$warn = oldWarn;
+    }
   });
 
   it('should remove elements not in new list', () => {

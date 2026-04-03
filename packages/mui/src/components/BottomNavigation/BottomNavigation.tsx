@@ -46,7 +46,7 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
   const classRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const optionsRef = toPseudoRef(props.options); // ?? 我认为options不一定要响应式，实际上也有很多直接放入数组的
+  const optionsRef = toPseudoRef(props.options);
   const showLabelsRef = toPseudoRef(props.showLabels ?? false);
 
   const initialValue = typeof props.value === 'string' ? props.value : '';

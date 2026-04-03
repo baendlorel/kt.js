@@ -88,7 +88,6 @@ const severityToIcon = {
   ),
 };
 
-// todo 尝试使用pseudoref来实现更轻量级的ref，避免直接的变量创建过多的大对象
 export function Alert(props: KTMuiAlertProps): JSX.Element {
   const customClassRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));

@@ -76,7 +76,7 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
   const styleRef = toPseudoRef($parseStyle(props.style));
 
   const openRef = toReactive(props.open ?? false);
-  const anchorElRef = toPseudoRef(props.anchorEl as TAnchor); // ?? 也许弄清楚anchor的作用更好
+  const anchorElRef = toPseudoRef(props.anchorEl as TAnchor);
   const optionsRef = toPseudoRef<KTMuiMenuContent[]>(props.options ?? []);
   const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
   const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);

@@ -240,7 +240,7 @@ function resolveCallNamespace(path: NodePath<t.CallExpression>): NamespaceKind |
     return ownNamespace;
   }
 
-  let current: NodePath<t.Node> | null = path.parentPath; // ?? is `NodePath<t.Node> | null` right?
+  let current: NodePath<t.Node> | null = path.parentPath;
   while (current) {
     if (current.isCallExpression() && isRuntimeFactoryCall(current as NodePath<t.CallExpression>)) {
       const currentNamespace = resolveOwnCallNamespace(current as NodePath<t.CallExpression>);

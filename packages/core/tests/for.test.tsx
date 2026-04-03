@@ -240,7 +240,7 @@ describe('KTFor Component', () => {
   it('should warn when duplicate keys are present', () => {
     const warnSpy = vi.fn();
     const oldWarn = (globalThis as any).$warn;
-    (globalThis as any).$warn = warnSpy;
+    (globalThis as any).$error = warnSpy;
     try {
       const list = ref([
         { id: '1', value: 'a' },

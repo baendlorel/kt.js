@@ -2,7 +2,6 @@ import '@ktjs/shared';
 import './main.css.js';
 
 // todo P系列大改
-// todo 现在这些都是函数，是否可以用class的方式让它减少一些函数的创建，或者采取把函数提取到外面去的办法来实现
 // UI Components
 export { Alert } from './components/Alert/Alert.js';
 export { Button } from './components/Button/Button.js';

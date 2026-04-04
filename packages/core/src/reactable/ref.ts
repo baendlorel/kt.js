@@ -91,7 +91,7 @@ export class KTRef<T> extends KTReactive<T> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }
-    return new KTSubRef(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
+    return new KTSubRef(this, keys);
   }
 }
 
@@ -104,7 +104,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
    */
   protected readonly _setter: (s: object, newValue: T) => void;
 
-  constructor(source: KTRef<any>, paths: string) {
+  constructor(source: KTRef<any>, paths: Array<string | number>) {
     super(source, paths);
     this._setter = $createSubSetter(paths);
   }

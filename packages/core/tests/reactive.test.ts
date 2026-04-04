@@ -112,6 +112,25 @@ describe('reactive helpers', () => {
     expect(() => ref<any>({ user: null }).get('user', 'profile').value).toThrow(TypeError);
   });
 
+  it('get should support more than 5 path keys', () => {
+    const state = ref<any>({
+      a: {
+        b: {
+          c: {
+            d: {
+              e: {
+                f: 7,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const deep = (state as any).get('a', 'b', 'c', 'd', 'e', 'f');
+    expect(deep.value).toBe(7);
+  });
+
   it('subref should create writable nested refs with exact types', () => {
     const state = ref({
       user: {
@@ -165,6 +184,28 @@ describe('reactive helpers', () => {
 
   it('subref should throw when keys are empty', () => {
     expect(() => (ref({ a: 1 }) as any).subref()).toThrow();
+  });
+
+  it('subref should support more than 5 path keys and escaped string keys', () => {
+    const state = ref<any>({
+      a: {
+        b: {
+          c: {
+            d: {
+              e: {
+                'x]y"z': 1,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const deepRef = (state as any).subref('a', 'b', 'c', 'd', 'e', 'x]y"z');
+    expect(deepRef.value).toBe(1);
+
+    deepRef.value = 9;
+    expect(state.value.a.b.c.d.e['x]y"z']).toBe(9);
   });
 
   it('computed notify should force callback even when value is unchanged', () => {

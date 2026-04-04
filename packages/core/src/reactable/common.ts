@@ -74,27 +74,59 @@ export function isReactive<T = any>(obj: any): obj is KTReactive<T> {
 
 type SubGetter = (s: any) => any;
 type SubSetter = (s: any, newValue: any) => void;
-const _getters = new Map<string, SubGetter>();
-const _setters = new Map<string, SubSetter>();
 
-export const $createSubGetter = (path: string): SubGetter => {
-  const exist = _getters.get(path);
-  if (exist) {
-    return exist;
-  } else {
-    const cache = new Function('s', `return s${path}`) as SubGetter;
-    _getters.set(path, cache);
-    return cache;
+/**
+ * Create a value getter which params is `reactive.value`(or `ref.draft`)
+ */
+export const $createSubGetter = (path: Array<string | number>): SubGetter => {
+  // & path.length is guaranteed to be greater than 0 in `KTReactive.get` and `KTRef.get`
+  switch (path.length) {
+    // ? Does it use less memory if we write this:
+    // const [k2_0, k2_1] = path;
+    // return (s) => s[k2_0][k2_1];
+    case 1:
+      return (s) => s[path[0]];
+    case 2:
+      return (s) => s[path[0]][path[1]];
+    case 3:
+      return (s) => s[path[0]][path[1]][path[2]];
+    case 4:
+      return (s) => s[path[0]][path[1]][path[2]][path[3]];
+    case 5:
+      return (s) => s[path[0]][path[1]][path[2]][path[3]][path[4]];
+    default:
+      return (s) => {
+        let r = s[path[0]][path[1]][path[2]][path[3]][path[4]];
+        for (let i = 5; i < path.length; i++) {
+          r = r[path[i]];
+        }
+        return r;
+      };
   }
 };
 
-export const $createSubSetter = (path: string): SubSetter => {
-  const exist = _setters.get(path);
-  if (exist) {
-    return exist;
-  } else {
-    const cache = new Function('s', 'v', `s${path}=v`) as SubSetter;
-    _setters.set(path, cache);
-    return cache;
+/**
+ * Create a value setter which params is `reactive.value`(or `ref.draft`)
+ */
+export const $createSubSetter = (path: Array<string | number>): SubSetter => {
+  switch (path.length) {
+    case 1:
+      return (s, newValue) => (s[path[0]] = newValue);
+    case 2:
+      return (s, newValue) => (s[path[0]][path[1]] = newValue);
+    case 3:
+      return (s, newValue) => (s[path[0]][path[1]][path[2]] = newValue);
+    case 4:
+      return (s, newValue) => (s[path[0]][path[1]][path[2]][path[3]] = newValue);
+    case 5:
+      return (s, newValue) => (s[path[0]][path[1]][path[2]][path[3]][path[4]] = newValue);
+    default:
+      return (s, newValue) => {
+        let r = s[path[0]][path[1]][path[2]][path[3]][path[4]];
+        for (let i = 5; i < path.length - 1; i++) {
+          r = r[path[i]];
+        }
+        r[path[path.length - 1]] = newValue;
+      };
   }
 };

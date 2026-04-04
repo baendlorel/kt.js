@@ -58,7 +58,7 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
   if (keys.length === 0) {
     $throw('At least one key is required to get a sub-computed.');
   }
-  return new KTSubComputed(this, keys.map((key) => `[${$stringify(key)}]`).join(''));
+  return new KTSubComputed(this, keys);
 };
 
 export class KTSubComputed<T> extends KTSubReactive<T> {

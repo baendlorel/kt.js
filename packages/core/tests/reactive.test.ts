@@ -208,6 +208,60 @@ describe('reactive helpers', () => {
     expect(state.value.a.b.c.d.e['x]y"z']).toBe(9);
   });
 
+  it('map should work on subref and track extra dependencies', () => {
+    const state = ref({ nested: { n: 1 } });
+    const extra = ref(10);
+    const n = state.subref('nested', 'n');
+    const sum = n.map((v) => v + extra.value, [extra]);
+
+    expect(sum.value).toBe(11);
+
+    n.value = 2;
+    expect(sum.value).toBe(12);
+
+    extra.value = 20;
+    expect(sum.value).toBe(22);
+  });
+
+  it('is should support subref and reactive-like targets', () => {
+    const state = ref({ left: 1, right: 1 });
+    const left = state.subref('left');
+    const right = state.get('right');
+    const equal = left.is(right);
+
+    expect(equal.value).toBe(true);
+
+    left.value = 2;
+    expect(equal.value).toBe(false);
+
+    state.value = { left: 2, right: 2 };
+    expect(equal.value).toBe(true);
+  });
+
+  it('is should use Object.is semantics', () => {
+    const v = ref(NaN);
+    const isNaN = v.is(NaN);
+
+    expect(isNaN.value).toBe(true);
+    v.value = 1;
+    expect(isNaN.value).toBe(false);
+  });
+
+  it('match should support subcomputed and reactive-like matchers', () => {
+    const state = ref({ user: { name: 'kt', age: 1 } });
+    const user = state.get('user');
+    const matcher = ref({ name: 'kt' });
+    const matched = user.match(matcher);
+
+    expect(matched.value).toBe(true);
+
+    state.value = { user: { name: 'js', age: 1 } };
+    expect(matched.value).toBe(false);
+
+    matcher.value = { name: 'js' };
+    expect(matched.value).toBe(true);
+  });
+
   it('computed notify should force callback even when value is unchanged', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);

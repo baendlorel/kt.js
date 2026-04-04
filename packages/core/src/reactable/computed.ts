@@ -57,9 +57,9 @@ KTReactiveLike.prototype.map = function <U>(
 
 KTReactiveLike.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
   if (isReactiveLike(o)) {
-    return new KTComputed(() => $is(this._value, o.value), [this, o]);
+    return new KTComputed(() => $is(this.value, o.value), [this, o]);
   } else {
-    return new KTComputed(() => $is(this._value, o), [this]);
+    return new KTComputed(() => $is(this.value, o), [this]);
   }
 };
 
@@ -70,8 +70,8 @@ KTReactiveLike.prototype.match = function (this: KTReactive<object>, o: object) 
       const keys = $keys(v);
       for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
-        if (k in this._value) {
-          if (!$is((this._value as any)[k], v[k])) {
+        if (k in this.value) {
+          if (!$is((this.value as any)[k], v[k])) {
             return false;
           }
         } else {
@@ -85,8 +85,8 @@ KTReactiveLike.prototype.match = function (this: KTReactive<object>, o: object) 
       const keys = $keys(o);
       for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
-        if (k in this._value) {
-          if (!$is((this._value as any)[k], o[k])) {
+        if (k in this.value) {
+          if (!$is((this.value as any)[k], o[k])) {
             return false;
           }
         } else {

@@ -1,5 +1,6 @@
-import { $is, $stringify } from '@ktjs/shared';
+import { $is, $keys } from '@ktjs/shared';
 import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive } from './reactive.js';
+import { isReactiveLike } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
@@ -52,6 +53,49 @@ KTReactiveLike.prototype.map = function <U>(
   dep?: Array<KTReactiveLike<any>>,
 ) {
   return new KTComputed(() => c(this.value), dep ? [this, ...dep] : [this]);
+};
+
+KTReactiveLike.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
+  if (isReactiveLike(o)) {
+    return new KTComputed(() => $is(this._value, o.value), [this, o]);
+  } else {
+    return new KTComputed(() => $is(this._value, o), [this]);
+  }
+};
+
+KTReactiveLike.prototype.match = function (this: KTReactive<object>, o: object) {
+  if (isReactiveLike(o)) {
+    return new KTComputed(() => {
+      const v = o.value;
+      const keys = $keys(v);
+      for (let i = 0; i < keys.length; i++) {
+        const k = keys[i];
+        if (k in this._value) {
+          if (!$is((this._value as any)[k], v[k])) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+      return true;
+    }, [this, o]);
+  } else {
+    return new KTComputed(() => {
+      const keys = $keys(o);
+      for (let i = 0; i < keys.length; i++) {
+        const k = keys[i];
+        if (k in this._value) {
+          if (!$is((this._value as any)[k], o[k])) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+      return true;
+    }, [this]);
+  }
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {

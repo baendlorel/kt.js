@@ -39,6 +39,24 @@ export abstract class KTReactiveLike<T> {
   map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
     return null as any;
   }
+
+  /**
+   * Make a computed value that checks if the reactive value is strictly equal to a specific value.
+   * - Use `Object.is` for comparison.
+   * - if `o` is reactive-like, it will be added to dependencies
+   */
+  is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
+    return null as any;
+  }
+
+  /**
+   * Make a computed value that checks if the reactive value matches a specific object structure.
+   * - Only checks shallowly.
+   * - if `o` is reactive-like, it will be added to dependencies
+   */
+  match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
+    return null as any;
+  }
 }
 
 export abstract class KTReactive<T> extends KTReactiveLike<T> {

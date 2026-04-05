@@ -93,6 +93,8 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
   addOnChange(handler: ChangeHandler<T>, key?: any): this {
     key ??= handlerId++;
+    // Internal computed/effect may use function key as an idempotent slot.
+    // For sub-reactives sharing one source, the same function key can be registered repeatedly.
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
     }

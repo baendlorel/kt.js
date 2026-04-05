@@ -223,19 +223,49 @@ describe('reactive helpers', () => {
     expect(sum.value).toBe(22);
   });
 
+  it('computed should allow duplicated function key when dependencies share the same source', () => {
+    const state = ref({ left: 1, right: 2 });
+    const left = state.subref('left');
+    const right = state.get('right');
+
+    // NOTE:
+    // - left/right are different reactive-like objects,
+    // - but both forward addOnChange/removeOnChange to the same source ref (`state`).
+    // In KTComputed constructor, each dependency registers with the same function key
+    // (`_recalculateListener`), so the source sees duplicated key writes.
+    // This case used to throw "Overriding existing change handler..." before function-key special handling.
+    const sum = computed(() => left.value + right.value, [left, right]);
+
+    expect(sum.value).toBe(3);
+
+    state.value = { left: 3, right: 4 };
+    expect(sum.value).toBe(7);
+  });
+
+  it('duplicated non-function key should still throw', () => {
+    const n = ref(1);
+    n.addOnChange(() => {}, 'same-key');
+    expect(() => n.addOnChange(() => {}, 'same-key')).toThrow();
+  });
+
   it('is should support subref and reactive-like targets', () => {
     const state = ref({ left: 1, right: 1 });
     const left = state.subref('left');
     const right = state.get('right');
     const equal = left.is(right);
+    const onChange = vi.fn();
+    equal.addOnChange(onChange);
 
     expect(equal.value).toBe(true);
 
     left.value = 2;
     expect(equal.value).toBe(false);
+    expect(onChange).toHaveBeenLastCalledWith(false, true);
 
     state.value = { left: 2, right: 2 };
     expect(equal.value).toBe(true);
+    expect(onChange).toHaveBeenLastCalledWith(true, false);
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 
   it('is should use Object.is semantics', () => {
@@ -247,19 +277,25 @@ describe('reactive helpers', () => {
     expect(isNaN.value).toBe(false);
   });
 
-  it('match should support subcomputed and reactive-like matchers', () => {
+  it('match should support subcomputed matcher and reactive updates', () => {
     const state = ref({ user: { name: 'kt', age: 1 } });
+    const rule = ref({ matcher: { name: 'kt' } });
     const user = state.get('user');
-    const matcher = ref({ name: 'kt' });
+    const matcher = rule.get('matcher');
     const matched = user.match(matcher);
+    const onChange = vi.fn();
+    matched.addOnChange(onChange);
 
     expect(matched.value).toBe(true);
 
     state.value = { user: { name: 'js', age: 1 } };
     expect(matched.value).toBe(false);
+    expect(onChange).toHaveBeenLastCalledWith(false, true);
 
-    matcher.value = { name: 'js' };
+    rule.value = { matcher: { name: 'js' } };
     expect(matched.value).toBe(true);
+    expect(onChange).toHaveBeenLastCalledWith(true, false);
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 
   it('computed notify should force callback even when value is unchanged', () => {

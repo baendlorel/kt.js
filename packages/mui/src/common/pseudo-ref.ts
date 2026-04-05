@@ -1,15 +1,16 @@
-import { isReactive, isReactiveLike } from '@ktjs/core';
-import { KTMaybeReactive } from '@ktjs/core';
-import { ChangeHandler, isComputedLike, isRefLike, KTComputed, KTReactiveLike, KTReactiveType } from '@ktjs/core';
+import type { KTMaybeReactive } from '@ktjs/core';
+
+import { $deepMatch } from '@ktjs/shared';
+import { isReactiveLike } from '@ktjs/core';
+import { ChangeHandler, KTComputed, KTReactiveLike, KTReactiveType } from '@ktjs/core';
 
 class PseudoRef<T> implements KTReactiveLike<T> {
   kid: number = -1;
-  ktype = KTReactiveType.ReactiveLike;
+  ktype = KTReactiveType.Pseudo;
   public value: T;
   constructor(value: T) {
     this.value = value;
   }
-
   addOnChange(handler: ChangeHandler<T>, key?: any): this {
     return this;
   }
@@ -20,6 +21,22 @@ class PseudoRef<T> implements KTReactiveLike<T> {
 
   map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
     return new PseudoRef(calculator(this.value)) as KTComputed<U>;
+  }
+
+  is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
+    if (isReactiveLike(o)) {
+      return new PseudoRef(o.value === this.value) as any;
+    } else {
+      return new PseudoRef(o === this.value) as any;
+    }
+  }
+
+  match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
+    if (isReactiveLike(o)) {
+      return new PseudoRef($deepMatch(this.value, o.value)) as any;
+    } else {
+      return new PseudoRef($deepMatch(this.value, o)) as any;
+    }
   }
 }
 

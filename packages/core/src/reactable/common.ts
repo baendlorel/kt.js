@@ -70,6 +70,14 @@ export function isReactive<T = any>(obj: any): obj is KTReactive<T> {
   }
 }
 
+export function isSubReactive<T = any>(obj: any): obj is KTSubComputed<T> {
+  if (typeof obj?.ktype === 'number') {
+    return (obj.ktype & KTReactiveType.SubReactive) !== 0;
+  } else {
+    return false;
+  }
+}
+
 // # sub getter/setter factory
 
 type SubGetter = (s: any) => any;

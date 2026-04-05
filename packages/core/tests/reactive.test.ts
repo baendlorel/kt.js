@@ -234,6 +234,7 @@ describe('reactive helpers', () => {
     // In KTComputed constructor, each dependency registers with the same function key
     // (`_recalculateListener`), so the source sees duplicated key writes.
     // This case used to throw "Overriding existing change handler..." before function-key special handling.
+    // fixme computed创建的时候会对left和right都addOnChange。left和right都会实际上给source增加，而针对computed而言，这份增加是重复的，甚至其实是没关系的，重复也能运行
     const sum = computed(() => left.value + right.value, [left, right]);
 
     expect(sum.value).toBe(3);

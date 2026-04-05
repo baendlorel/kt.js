@@ -12,6 +12,7 @@ export const enum KTReactiveType {
   RefLike = Ref | SubRef,
   Computed = 0b01000,
   SubComputed = 0b10000,
+  SubReactive = SubRef | SubComputed,
   ComputedLike = Computed | SubComputed,
   Reactive = Ref | Computed,
 }

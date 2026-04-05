@@ -1,13 +1,13 @@
 import { $is, $keys } from '@ktjs/shared';
 import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive } from './reactive.js';
-import { isReactiveLike } from './common.js';
+import { isReactiveLike, isSubComputed, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
 
   private readonly _calculator: () => T;
   private readonly _dependencies: Array<KTReactiveLike<any>>;
-  private readonly _recalculateListener: () => void;
+  private readonly _handler: () => void;
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
@@ -24,9 +24,16 @@ export class KTComputed<T> extends KTReactive<T> {
     super(calculator());
     this._calculator = calculator;
     this._dependencies = dependencies;
-    this._recalculateListener = () => this._recalculate();
+    this._handler = () => this._recalculate();
     for (let i = 0; i < dependencies.length; i++) {
-      dependencies[i].addOnChange(this._recalculateListener, this._recalculateListener);
+      const dep = dependencies[i];
+      if (isSubReactive(dep)) {
+        // @ts-expect-error _changeHandlers is protected
+        dep.source._changeHandlers.set(this._handler, this._handler);
+      } else {
+        // @ts-expect-error _changeHandlers is protected
+        dep._changeHandlers.set(this._handler, this._handler);
+      }
     }
   }
 
@@ -41,8 +48,12 @@ export class KTComputed<T> extends KTReactive<T> {
 
     this._disposed = true;
     for (let i = 0; i < this._dependencies.length; i++) {
-      this._dependencies[i].removeOnChange(this._recalculateListener);
+      this._dependencies[i].removeOnChange(this._handler);
     }
+
+    this._dependencies.length = 0;
+    this._changeHandlers.clear();
+
     return this;
   }
 }

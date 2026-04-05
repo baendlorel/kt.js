@@ -1,5 +1,8 @@
 // String manipulation utilities
 
+import { static_cast } from 'type-narrow';
+import { $is, $isArray, $keys } from './native.js';
+
 /**
  * Default empty function
  */
@@ -49,4 +52,47 @@ export const $arrayDelete = (array: unknown[], item: unknown): void => {
     array[index] = array[array.length - 1];
     array.pop();
   }
+};
+
+export const $deepMatch = (obj: any, pattern: any): boolean => {
+  const keys = $keys(pattern);
+
+  for (const key of keys) {
+    const patternValue = pattern[key];
+    const objValue = obj[key];
+
+    if ($isArray(patternValue)) {
+      if (!$isArray(objValue)) {
+        return false;
+      }
+      if (patternValue.length !== objValue.length) {
+        return false;
+      }
+      for (let i = 0; i < patternValue.length; i++) {
+        if (typeof patternValue[i] === 'object' && patternValue[i] !== null) {
+          if (typeof objValue[i] !== 'object' || objValue[i] === null) {
+            return false;
+          }
+          if (!$deepMatch(objValue[i], patternValue[i])) {
+            return false;
+          }
+        } else if (!$is(patternValue[i], objValue[i])) {
+          return false;
+        }
+      }
+    } else if (typeof patternValue === 'object' && patternValue !== null) {
+      if (typeof objValue !== 'object' || objValue === null) {
+        return false;
+      }
+      if (!$deepMatch(objValue, patternValue)) {
+        return false;
+      }
+    } else {
+      if (!$is(patternValue, objValue)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 };

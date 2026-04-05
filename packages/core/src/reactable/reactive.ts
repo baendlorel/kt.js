@@ -52,7 +52,7 @@ export abstract class KTReactiveLike<T> {
 
   /**
    * Make a computed value that checks if the reactive value matches a specific object structure.
-   * - Only checks shallowly.
+   * - Deeply match.
    * - if `o` is reactive-like, it will be added to dependencies
    */
   match(o: object | KTReactiveLike<object>): KTComputed<boolean> {

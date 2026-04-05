@@ -1,4 +1,4 @@
-import { $is, $keys } from '@ktjs/shared';
+import { $deepMatch, $is, $keys } from '@ktjs/shared';
 import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive } from './reactive.js';
 import { isReactiveLike, isSubComputed, isSubReactive } from './common.js';
 
@@ -75,36 +75,10 @@ KTReactiveLike.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
 
 KTReactiveLike.prototype.match = function (this: KTReactive<object>, o: object) {
   if (isReactiveLike(o)) {
-    return new KTComputed(() => {
-      const v = o.value;
-      const keys = $keys(v);
-      for (let i = 0; i < keys.length; i++) {
-        const k = keys[i];
-        if (k in this.value) {
-          if (!$is((this.value as any)[k], v[k])) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      }
-      return true;
-    }, [this, o]);
+    return new KTComputed(() => $deepMatch(this.value, o.value), [this, o]);
   } else {
-    return new KTComputed(() => {
-      const keys = $keys(o);
-      for (let i = 0; i < keys.length; i++) {
-        const k = keys[i];
-        if (k in this.value) {
-          if (!$is((this.value as any)[k], o[k])) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      }
-      return true;
-    }, [this]);
+    // todo 考虑到这种情况o极大概率是固定的，因此可以记录下其所有path和value，形成固定的函数来更高效地对比？
+    return new KTComputed(() => $deepMatch(this.value, o), [this]);
   }
 };
 

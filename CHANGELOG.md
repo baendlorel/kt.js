@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.38.x - 2026-04-06
+
+### API
+
+- Added **`reactive.is(target)`** to create boolean computed values based on `Object.is` comparison.
+- Added **`reactive.match(pattern)`** to create boolean computed values via deep object/array pattern matching.
+
 ## 0.37.x - 2026-03-31
 
 - Fixed an issue where schedulers would not clear properly if a handler threw an error, which could lead to unexpected behavior in subsequent updates.

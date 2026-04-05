@@ -172,14 +172,12 @@ export function replaceOpts(packagePath?: string): RollupReplaceOptions {
 
       // global flags
       ...globalDefines,
-
-      // global error/warn/debug
-      "$throw('": `throw new Error('[${__NAME__} error] `,
-      '$throw(`': `throw new Error(\`[${__NAME__} error] `,
-      '$throw("': `throw new Error("[${__NAME__} error] `,
-      '$warn(': `console.warn('[${__NAME__} warn]',`,
-      '$error(': `console.error('[${__NAME__} error]',`,
-      '$debug(': `console.debug('[${__NAME__} debug]',`,
+      "$throw('": `throw new Error('[kt.js error] `,
+      '$throw(`': `throw new Error(\`[kt.js error] `,
+      '$throw("': `throw new Error("[kt.js error] `,
+      '$warn(': `console.warn('[kt.js warn]',`,
+      '$error(': `console.error('[kt.js error]',`,
+      '$debug(': `console.debug('[kt.js debug]',`,
     },
   };
 }

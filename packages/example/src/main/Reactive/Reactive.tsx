@@ -5,6 +5,7 @@ import { Code } from '../../components/Code.js';
 import reactiveCode from './__ref-computed.tsx?raw';
 import subrefCode from './__subref.tsx?raw';
 import mapCode from './__map.tsx?raw';
+import isMatchCode from './__is-match.tsx?raw';
 import deepCode from './__deep.tsx?raw';
 import deepComplexCode from './__deep-complex.tsx?raw';
 
@@ -50,6 +51,10 @@ export function Reactivity() {
   const profileBadge = profile.map(
     (value) => `${value.name} / ${value.settings.theme} / volume ${value.settings.volume}`,
   );
+  const salaryTarget = ref(12000);
+  const salaryEqualsTarget = salary.is(salaryTarget);
+  const profileMatcher = ref({ settings: { theme: 'light' } });
+  const profileMatched = profile.match(profileMatcher);
 
   const draftState = ref({
     stats: {
@@ -118,6 +123,15 @@ export function Reactivity() {
           通过<code>map</code>函数派生出computed对象
         </p>
         <Code code={mapCode} />
+      </div>
+      <div class="demo-section">
+        <h3>
+          <code>is</code> 与 <code>match</code>
+        </h3>
+        <p>
+          <code>is</code>用于生成“是否相等”的布尔computed，<code>match</code>用于对象结构匹配（深度匹配）。
+        </p>
+        <Code code={isMatchCode} />
       </div>
       <div class="demo-section">
         <h3>深度响应</h3>
@@ -212,6 +226,40 @@ export function Reactivity() {
             <div class="demo-result">
               <div>salary band: {salaryBand}</div>
               <div>profile badge: {profileBadge}</div>
+            </div>
+          </div>
+
+          <div class="controls-panel">
+            <h4>
+              <code>is</code> + <code>match</code>
+            </h4>
+            <p>用布尔 computed 做状态判断，支持 reactive 目标和 matcher。</p>
+            <div class="demo-flex-gap">
+              <Button variant="contained" color="primary" on:click={() => (salaryTarget.value += 1000)}>
+                target +1000
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                on:click={() => (profileMatcher.value = { settings: { theme: theme.value } })}
+              >
+                matcher 同步当前主题
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                on:click={() =>
+                  (profileMatcher.value = { settings: { theme: theme.value === 'dark' ? 'light' : 'dark' } })
+                }
+              >
+                matcher 切换主题
+              </Button>
+            </div>
+            <div class="demo-result">
+              <div>salary target: {salaryTarget}</div>
+              <div>salary.is(target): {salaryEqualsTarget.map((v) => (v ? 'true' : 'false'))}</div>
+              <div>matcher: {profileMatcher.map((v) => JSON.stringify(v))}</div>
+              <div>profile.match(matcher): {profileMatched.map((v) => (v ? 'true' : 'false'))}</div>
             </div>
           </div>
 

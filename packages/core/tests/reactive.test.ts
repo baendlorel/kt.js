@@ -298,6 +298,41 @@ describe('reactive helpers', () => {
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
+  it('match should support deep nested object and array pattern', () => {
+    const state = ref({
+      user: {
+        profile: { name: 'kt', tags: ['a', 'b'] },
+        age: 1,
+      },
+    });
+    const user = state.get('user');
+    const matched = user.match({ profile: { name: 'kt', tags: ['a', 'b'] } });
+
+    expect(matched.value).toBe(true);
+
+    state.value = {
+      user: {
+        profile: { name: 'kt', tags: ['a', 'x'] },
+        age: 1,
+      },
+    };
+    expect(matched.value).toBe(false);
+  });
+
+  it('match should support deep reactive matcher', () => {
+    const state = ref({ a: { b: 1, c: [1, 2] } });
+    const pattern = ref({ a: { b: 1, c: [1, 2] } });
+    const matched = state.match(pattern);
+
+    expect(matched.value).toBe(true);
+
+    pattern.value = { a: { b: 2, c: [1, 2] } };
+    expect(matched.value).toBe(false);
+
+    state.value = { a: { b: 2, c: [1, 2] } };
+    expect(matched.value).toBe(true);
+  });
+
   it('computed notify should force callback even when value is unchanged', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);

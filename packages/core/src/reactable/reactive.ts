@@ -38,7 +38,7 @@ export abstract class KTReactiveLike<T> {
    * @param dependencies optional other dependencies that the computed value depends on.
    */
   map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
-    return null as any;
+    return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
   /**
@@ -47,7 +47,7 @@ export abstract class KTReactiveLike<T> {
    * - if `o` is reactive-like, it will be added to dependencies
    */
   is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
-    return null as any;
+    return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
   /**
@@ -56,7 +56,7 @@ export abstract class KTReactiveLike<T> {
    * - if `o` is reactive-like, it will be added to dependencies
    */
   match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
-    return null as any;
+    return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 }
 
@@ -94,8 +94,6 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
   addOnChange(handler: ChangeHandler<T>, key?: any): this {
     key ??= handlerId++;
-    // Internal computed/effect may use function key as an idempotent slot.
-    // For sub-reactives sharing one source, the same function key can be registered repeatedly.
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
     }

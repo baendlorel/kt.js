@@ -31,8 +31,7 @@ export class KTComputed<T> extends KTReactive<T> {
         // @ts-expect-error _changeHandlers is protected
         dep.source._changeHandlers.set(this._handler, this._handler);
       } else {
-        // @ts-expect-error _changeHandlers is protected
-        dep._changeHandlers.set(this._handler, this._handler);
+        dep.addOnChange(this._handler, this._handler);
       }
     }
   }

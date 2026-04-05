@@ -1,5 +1,6 @@
 import { $emptyFn } from '@ktjs/shared';
 import type { KTReactiveLike } from './reactive.js';
+import { isSubReactive } from './common.js';
 
 interface KTEffectOptions {
   lazy: boolean;
@@ -42,7 +43,13 @@ export function effect(
   // subscribe to dependencies
   for (let i = 0; i < reactives.length; i++) {
     listenerKeys[i] = i;
-    reactives[i].addOnChange(run, effectFn);
+    const r = reactives[i];
+    if (isSubReactive(r)) {
+      // @ts-expect-error _changeHandlers is protected
+      r.source._changeHandlers.set(listenerKeys[i], run);
+    } else {
+      r.addOnChange(run, effectFn);
+    }
   }
 
   // auto run unless lazy

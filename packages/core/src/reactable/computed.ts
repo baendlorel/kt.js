@@ -1,12 +1,12 @@
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive } from './reactive.js';
-import { isReactiveLike, isSubReactive } from './common.js';
+import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
 
   private readonly _calculator: () => T;
-  private readonly _dependencies: Array<KTReactiveLike<any>>;
+  private readonly _dependencies: Array<KTReactive<any>>;
   private readonly _handler: () => void;
   private _disposed = false;
 
@@ -20,7 +20,7 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
+  constructor(calculator: () => T, dependencies: Array<KTReactive<any>>) {
     super(calculator());
     this._calculator = calculator;
     this._dependencies = dependencies;
@@ -57,24 +57,24 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 }
 
-KTReactiveLike.prototype.map = function <U>(
+KTReactive.prototype.map = function <U>(
   this: KTReactive<unknown>,
   c: (value: unknown) => U,
-  dep?: Array<KTReactiveLike<any>>,
+  dep?: Array<KTReactive<any>>,
 ) {
   return new KTComputed(() => c(this.value), dep ? [this, ...dep] : [this]);
 };
 
-KTReactiveLike.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  if (isReactiveLike(o)) {
+KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
+  if (isReactive(o)) {
     return new KTComputed(() => $is(this.value, o.value), [this, o]);
   } else {
     return new KTComputed(() => $is(this.value, o), [this]);
   }
 };
 
-KTReactiveLike.prototype.match = function (this: KTReactive<object>, o: object) {
-  if (isReactiveLike(o)) {
+KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
+  if (isReactive(o)) {
     return new KTComputed(() => $deepMatch(this.value, o.value), [this, o]);
   } else {
     // todo 考虑到这种情况o极大概率是固定的，因此可以记录下其所有path和value，形成固定的函数来更高效地对比？
@@ -100,5 +100,5 @@ export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
  * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
  */
-export const computed = <T>(calculator: () => T, dependencies: Array<KTReactiveLike<any>>): KTComputed<T> =>
+export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);

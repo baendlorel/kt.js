@@ -24,6 +24,7 @@ class MutableBadge {
   }
 }
 
+// fixme这里有多重key bug
 export function Reactivity() {
   const salary = ref(12000);
   const bonusRate = ref(0.12);

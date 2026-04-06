@@ -27,39 +27,6 @@ export abstract class KTReactiveLike<T> {
   abstract readonly ktype: KTReactiveType;
 
   abstract get value(): T;
-
-  abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
-
-  abstract removeOnChange(key: any): this;
-
-  /**
-   * Create a computed value via current reactive value.
-   * - No matter `this` is added to `dependencies` or not, it is always listened.
-   * @param calculator A function that generates a new value based on current value.
-   * @param dependencies optional other dependencies that the computed value depends on.
-   */
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
-    return null as any; // & implemented in computed.ts to avoid circular dependency
-  }
-
-  /**
-   * Make a computed value that checks if the reactive value is strictly equal to a specific value.
-   * - Use `Object.is` for comparison.
-   * - if `o` is reactive-like, it will be added to dependencies
-   */
-  is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
-    // todo 这里的is和match的返回值是否可以改为sub系列以节省？
-    return null as any; // & implemented in computed.ts to avoid circular dependency
-  }
-
-  /**
-   * Make a computed value that checks if the reactive value matches a specific object structure.
-   * - Deeply match.
-   * - if `o` is reactive-like, it will be added to dependencies
-   */
-  match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
-    return null as any; // & implemented in computed.ts to avoid circular dependency
-  }
 }
 
 export abstract class KTReactive<T> extends KTReactiveLike<T> {
@@ -115,6 +82,35 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
   notify(): this {
     return this._emit(this._value, this._value);
+  }
+
+  /**
+   * Create a computed value via current reactive value.
+   * - No matter `this` is added to `dependencies` or not, it is always listened.
+   * @param calculator A function that generates a new value based on current value.
+   * @param dependencies optional other dependencies that the computed value depends on.
+   */
+  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+    return null as any; // & implemented in computed.ts to avoid circular dependency
+  }
+
+  /**
+   * Make a computed value that checks if the reactive value is strictly equal to a specific value.
+   * - Use `Object.is` for comparison.
+   * - if `o` is reactive-like, it will be added to dependencies
+   */
+  is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
+    // todo 这里的is和match的返回值是否可以改为sub系列以节省？
+    return null as any; // & implemented in computed.ts to avoid circular dependency
+  }
+
+  /**
+   * Make a computed value that checks if the reactive value matches a specific object structure.
+   * - Deeply match.
+   * - if `o` is reactive-like, it will be added to dependencies
+   */
+  match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
+    return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
   /**
@@ -190,47 +186,5 @@ export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
   get value() {
     // @ts-expect-error _value is private
     return this._getter(this.source._value);
-  }
-
-  /**
-   * @internal
-   */
-  addOnChange(handler: ChangeHandler<T>, key?: any): this {
-    $throw('Please add change handler to the source reactive instead.');
-  }
-
-  /**
-   * @internal
-   */
-  removeOnChange(key: any): this {
-    $throw('Please remove change handler from the source reactive instead.');
-  }
-
-  /**
-   * @internal
-   */
-  notify(): this {
-    $throw('Please call notify on the source reactive instead.');
-  }
-
-  /**
-   * @internal
-   */
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
-    $throw('Sub-reactive does not support `map`. Please use computed with explicit dependencies instead.');
-  }
-
-  /**
-   * @internal
-   */
-  is(o: T | KTReactiveLike<T>): KTComputed<boolean> {
-    $throw('Sub-reactive does not support `is`. Please use computed with explicit dependencies instead.');
-  }
-
-  /**
-   * @internal
-   */
-  match(o: object | KTReactiveLike<object>): KTComputed<boolean> {
-    $throw('Sub-reactive does not support `match`. Please use computed with explicit dependencies instead.');
   }
 }

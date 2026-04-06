@@ -64,20 +64,11 @@ KTReactive.prototype.map = function <U>(
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  if (isReactive(o)) {
-    return new KTComputed(() => $is(this.value, o.value), [this, o]);
-  } else {
-    return new KTComputed(() => $is(this.value, o), [this]);
-  }
+  return new KTSubComputed(this, (v) => $is(v, o));
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
-  if (isReactive(o)) {
-    return new KTComputed(() => $deepMatch(this.value, o.value), [this, o]);
-  } else {
-    // todo 考虑到这种情况o极大概率是固定的，因此可以记录下其所有path和value，形成固定的函数来更高效地对比？
-    return new KTComputed(() => $deepMatch(this.value, o), [this]);
-  }
+  return new KTSubComputed(this, (v) => $deepMatch(v, o));
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {

@@ -89,12 +89,6 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
   return new KTSubComputed(this, $createSubGetter(keys));
 };
 
-export class KTSubComputed<T> extends KTSubReactive<T> {
-  readonly ktype = KTReactiveType.SubComputed;
-}
-
-export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
-
 /**
  * Create a computed value that automatically updates when its dependencies change.
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
@@ -102,3 +96,11 @@ export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
  */
 export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);
+
+// # SubComputed
+
+export class KTSubComputed<T> extends KTSubReactive<T> {
+  readonly ktype = KTReactiveType.SubComputed;
+}
+
+export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;

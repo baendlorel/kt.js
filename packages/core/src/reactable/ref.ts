@@ -95,48 +95,6 @@ export class KTRef<T> extends KTReactive<T> {
   }
 }
 
-export class KTSubRef<T> extends KTSubReactive<T> {
-  readonly ktype = KTReactiveType.SubRef;
-  declare readonly source: KTRef<any>;
-
-  /**
-   * @internal
-   */
-  protected readonly _setter: (s: object, newValue: T) => void;
-
-  constructor(
-    source: KTRef<any>,
-    getter: (sv: KTReactive<any>['value']) => T,
-    setter: (s: object, newValue: T) => void,
-  ) {
-    super(source, getter);
-    this._setter = setter;
-  }
-
-  get value() {
-    // @ts-expect-error _value is private
-    return this._getter(this.source._value);
-  }
-
-  set value(newValue: T) {
-    // @ts-expect-error _value is private
-    this._setter(this.source._value, newValue);
-    this.source.notify();
-  }
-
-  get draft() {
-    // Same implementation as `draft` in `KTRef`
-    markMutation(this.source);
-    // @ts-expect-error _value is private
-    return this._getter(this.source._value);
-  }
-
-  notify(): this {
-    this.source.notify();
-    return this;
-  }
-}
-
 /**
  * Create a reactive reference to a value. The returned object has a single property `value` that holds the internal value.
  * @param value listened value
@@ -180,3 +138,47 @@ export const $initRef = <T extends Node>(props: { ref?: KTRefLike<T> }, node: T)
     $throw('Fragment: ref must be a KTRef');
   }
 };
+
+// # SubRef
+
+export class KTSubRef<T> extends KTSubReactive<T> {
+  readonly ktype = KTReactiveType.SubRef;
+  declare readonly source: KTRef<any>;
+
+  /**
+   * @internal
+   */
+  protected readonly _setter: (s: object, newValue: T) => void;
+
+  constructor(
+    source: KTRef<any>,
+    getter: (sv: KTReactive<any>['value']) => T,
+    setter: (s: object, newValue: T) => void,
+  ) {
+    super(source, getter);
+    this._setter = setter;
+  }
+
+  get value() {
+    // @ts-expect-error _value is private
+    return this._getter(this.source._value);
+  }
+
+  set value(newValue: T) {
+    // @ts-expect-error _value is private
+    this._setter(this.source._value, newValue);
+    this.source.notify();
+  }
+
+  get draft() {
+    // Same implementation as `draft` in `KTRef`
+    markMutation(this.source);
+    // @ts-expect-error _value is private
+    return this._getter(this.source._value);
+  }
+
+  notify(): this {
+    this.source.notify();
+    return this;
+  }
+}

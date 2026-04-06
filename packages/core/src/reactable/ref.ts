@@ -1,5 +1,5 @@
 import { $emptyFn, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { ChangeHandler, KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
 import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
 
@@ -148,6 +148,16 @@ export class KTSubRef<T> extends KTSubReactive<T> {
   /**
    * @internal
    */
+  private readonly _handler: ChangeHandler<any>;
+
+  /**
+   * @internal
+   */
+  private _value: T;
+
+  /**
+   * @internal
+   */
   protected readonly _setter: (s: object, newValue: T) => void;
 
   constructor(
@@ -155,13 +165,18 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     getter: (sv: KTReactive<any>['value']) => T,
     setter: (s: object, newValue: T) => void,
   ) {
-    super(source, getter);
+    super(source);
+
+    // @ts-expect-error _value is protected
+    this._value = getter(source._value);
+    this._handler = (v) => (this._value = getter(v));
+    source.addOnChange(this._handler, this._handler);
+
     this._setter = setter;
   }
 
   get value() {
-    // @ts-expect-error _value is private
-    return this._getter(this.source._value);
+    return this._value;
   }
 
   set value(newValue: T) {
@@ -177,8 +192,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     return this._getter(this.source._value);
   }
 
-  notify(): this {
-    this.source.notify();
-    return this;
+  dispose(): void {
+    this.source.removeOnChange(this._handler);
   }
 }

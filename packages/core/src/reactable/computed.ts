@@ -1,5 +1,5 @@
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { ChangeHandler, KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { $createSubGetter, isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
@@ -99,6 +99,33 @@ export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<
 
 export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly ktype = KTReactiveType.SubComputed;
+
+  /**
+   * @internal
+   */
+  private readonly _handler: ChangeHandler<any>;
+
+  /**
+   * @internal
+   */
+  private _value: T;
+
+  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
+    super(source);
+    // @ts-expect-error _value is protected
+    this._value = getter(source._value);
+    this._handler = (v) => (this._value = getter(v));
+
+    source.addOnChange(this._handler, this._handler);
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  dispose(): void {
+    this.source.removeOnChange(this._handler);
+  }
 }
 
 export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;

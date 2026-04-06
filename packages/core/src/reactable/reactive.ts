@@ -171,34 +171,8 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
 export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
   readonly source: KTReactive<any>;
-
-  /**
-   * @internal
-   */
-  private readonly _handler: ChangeHandler<any>;
-
-  /**
-   * @internal
-   */
-  protected _value: T;
-
-  // todo 改为懒计算而非总是计算；
-
-  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
+  constructor(source: KTReactive<any>) {
     super();
     this.source = source;
-    // @ts-expect-error _value is protected
-    this._value = getter(source._value);
-    this._handler = (v) => (this._value = getter(v));
-
-    source.addOnChange(this._handler, this._handler);
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  dispose(): void {
-    this.source.removeOnChange(this._handler);
   }
 }

@@ -45,7 +45,7 @@ export function Reactivity() {
   const volume = profile.subref('settings', 'volume');
   const profileSummary = computed(
     () => `${readonlyName.value} / ${profile.value.role} / ${theme.value} / volume ${volume.value}`,
-    [readonlyName, theme, volume, profile],
+    [profile],
   );
 
   const salaryBand = salary.map((value) => (value >= 15000 ? 'senior band' : 'growth band'));
@@ -258,9 +258,14 @@ export function Reactivity() {
             </div>
             <div class="demo-result">
               <div>salary target: {salaryTarget}</div>
-              <div>salary.is(target): {salaryEqualsTarget.map((v) => (v ? 'true' : 'false'))}</div>
+              <div>
+                salary.is(target):
+                <span k-if={salaryEqualsTarget}>true</span>
+                <span k-else>false</span>
+              </div>
               <div>matcher: {profileMatcher.map((v) => JSON.stringify(v))}</div>
-              <div>profile.match(matcher): {profileMatched.map((v) => (v ? 'true' : 'false'))}</div>
+              <span k-if={profileMatched}>true</span>
+              <span k-else>false</span>
             </div>
           </div>
 

@@ -64,11 +64,11 @@ KTReactive.prototype.map = function <U>(
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  return new KTSubComputed(this, (v) => $is(v, o));
+  return new KTSubComputed(this, (v) => $is(v, o), isReactive(o) ? o : undefined);
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
-  return new KTSubComputed(this, (v) => $deepMatch(v, o));
+  return new KTSubComputed(this, (v) => $deepMatch(v, o), isReactive(o) ? o : undefined);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
@@ -97,17 +97,26 @@ export class KTSubComputed<T> extends KTSubReactive<T> {
   private readonly _handler: ChangeHandler<any>;
 
   /**
+   * Used for `reactive.is` and `reactive.match` to track the single dependency.
+   * @internal
+   */
+  private readonly _dependency?: KTReactive<any>;
+
+  /**
    * @internal
    */
   private _value: T;
 
-  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
+  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T, dependency?: KTReactive<any>) {
     super(source);
+    this._dependency = dependency;
+
     // @ts-expect-error _value is protected
     this._value = getter(source._value);
     this._handler = (v) => (this._value = getter(v));
 
     source.addOnChange(this._handler, this._handler);
+    dependency?.addOnChange(this._handler, this._handler);
   }
 
   get value() {
@@ -116,6 +125,7 @@ export class KTSubComputed<T> extends KTSubReactive<T> {
 
   dispose(): void {
     this.source.removeOnChange(this._handler);
+    this._dependency?.addOnChange(this._handler, this._handler);
   }
 }
 

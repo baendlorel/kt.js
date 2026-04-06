@@ -97,8 +97,9 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
   /**
    * Make a computed value that checks if the reactive value is strictly equal to a specific value.
    * - Use `Object.is` for comparison.
+   * - if `o` is reactive-like, it will be added to dependencies
    */
-  is(o: T): KTSubComputed<boolean> {
+  is(o: T | KTReactiveLike<T>): KTSubComputed<boolean> {
     // todo 这里的is和match的返回值是否可以改为sub系列以节省？
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
@@ -106,8 +107,9 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
   /**
    * Make a computed value that checks if the reactive value matches a specific object structure.
    * - Deeply match.
+   * - if `o` is reactive-like, it will be added to dependencies
    */
-  match(o: object): KTSubComputed<boolean> {
+  match(o: object | KTReactiveLike<object>): KTSubComputed<boolean> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 

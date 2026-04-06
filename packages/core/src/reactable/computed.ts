@@ -40,9 +40,9 @@ export class KTComputed<T> extends KTReactive<T> {
     return this._recalculate(true);
   }
 
-  dispose(): this {
+  dispose(): void {
     if (this._disposed) {
-      return this;
+      return;
     }
 
     this._disposed = true;
@@ -52,8 +52,6 @@ export class KTComputed<T> extends KTReactive<T> {
 
     this._dependencies.length = 0;
     this._changeHandlers.clear();
-
-    return this;
   }
 }
 

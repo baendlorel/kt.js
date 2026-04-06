@@ -1,7 +1,7 @@
-import { $emptyFn, $is, $stringify } from '@ktjs/shared';
+import { $emptyFn, $is } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { markMutation } from './scheduler.js';
-import { $createSubSetter, isRefLike } from './common.js';
+import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Ref;
@@ -91,7 +91,7 @@ export class KTRef<T> extends KTReactive<T> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }
-    return new KTSubRef(this, keys);
+    return new KTSubRef(this, $createSubGetter(keys), $createSubSetter(keys));
   }
 }
 
@@ -104,9 +104,13 @@ export class KTSubRef<T> extends KTSubReactive<T> {
    */
   protected readonly _setter: (s: object, newValue: T) => void;
 
-  constructor(source: KTRef<any>, paths: Array<string | number>) {
-    super(source, paths);
-    this._setter = $createSubSetter(paths);
+  constructor(
+    source: KTRef<any>,
+    getter: (sv: KTReactive<any>['value']) => T,
+    setter: (s: object, newValue: T) => void,
+  ) {
+    super(source, getter);
+    this._setter = setter;
   }
 
   get value() {

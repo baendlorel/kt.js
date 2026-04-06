@@ -1,6 +1,6 @@
 import { $deepMatch, $is } from '@ktjs/shared';
 import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
-import { isReactive, isSubReactive } from './common.js';
+import { $createSubGetter, isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
@@ -86,7 +86,7 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
   if (keys.length === 0) {
     $throw('At least one key is required to get a sub-computed.');
   }
-  return new KTSubComputed(this, keys);
+  return new KTSubComputed(this, $createSubGetter(keys));
 };
 
 export class KTSubComputed<T> extends KTSubReactive<T> {

@@ -177,10 +177,10 @@ export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
    */
   protected readonly _getter: (sv: KTReactive<any>['value']) => T;
 
-  constructor(source: KTReactive<any>, paths: Array<string | number>) {
+  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
     super();
     this.source = source;
-    this._getter = $createSubGetter(paths);
+    this._getter = getter;
   }
 
   get value() {

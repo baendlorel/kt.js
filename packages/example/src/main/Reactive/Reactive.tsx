@@ -193,6 +193,9 @@ export function Reactivity() {
               <code>get</code> 提供只读视图，<code>subref</code> 负责把嵌套路径拆成可写的小块。
             </p>
             <div class="demo-flex-gap-column">
+              {
+                // fixme editableName有异常，没有addonchage功能
+              }
               <input
                 k-model={editableName}
                 type="text"

@@ -1,7 +1,7 @@
 import { $emptyFn, $is } from '@ktjs/shared';
 import { ChangeHandler, KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
-import { markMutation } from './scheduler.js';
-import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
+import { $markMutation } from './scheduler.js';
+import { $createSubGetter, $createSubSetter, isRefLike, $ModelPrefix } from './common.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Ref;
@@ -29,7 +29,7 @@ export class KTRef<T> extends KTReactive<T> {
    * - internal value is changed instantly, but the change handlers will be called in the next microtask.
    */
   get draft() {
-    markMutation(this);
+    $markMutation(this);
     return this._value;
   }
 
@@ -93,6 +93,10 @@ export class KTRef<T> extends KTReactive<T> {
     }
     return new KTSubRef(this, $createSubGetter(keys), $createSubSetter(keys));
   }
+
+  dispose(): void {
+    this._changeHandlers.clear();
+  }
 }
 
 /**
@@ -148,12 +152,12 @@ export class KTSubRef<T> extends KTSubReactive<T> {
   /**
    * @internal
    */
-  private readonly _handler: ChangeHandler<any>;
+  private _value: T;
 
   /**
    * @internal
    */
-  private _value: T;
+  private readonly _handler: ChangeHandler<any>;
 
   /**
    * @internal
@@ -185,14 +189,25 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     this.source.notify();
   }
 
+  /**
+   * Only use it for object's nested properties.
+   */
   get draft() {
     // Same implementation as `draft` in `KTRef`
-    markMutation(this.source);
-    // @ts-expect-error _value is private
-    return this._getter(this.source._value);
+    $markMutation(this.source);
+    return this._value;
+  }
+
+  /**
+   * Only use for `k-model` binding.
+   */
+  addOnChange(handler: ChangeHandler<T>): this {
+    this.source.addOnChange(handler, `${$ModelPrefix}-${this.kid}`);
+    return this;
   }
 
   dispose(): void {
     this.source.removeOnChange(this._handler);
+    this.source.removeOnChange(`${$ModelPrefix}-${this.kid}`);
   }
 }

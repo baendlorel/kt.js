@@ -44,7 +44,8 @@ export function Reactivity() {
   const theme = profile.subref('settings', 'theme');
   const volume = profile.subref('settings', 'volume');
   const profileSummary = computed(
-    () => `${readonlyName.value} / ${profile.value.role} / ${theme.value} / ${t('reactive.demo.label.volume')} ${volume.value}`,
+    () =>
+      `${readonlyName.value} / ${profile.value.role} / ${theme.value} / ${t('reactive.demo.label.volume')} ${volume.value}`,
     [profile],
   );
 
@@ -185,9 +186,6 @@ export function Reactivity() {
             <h4 k-html={t('reactive.demo.panel.getSubref.title')}></h4>
             <p k-html={t('reactive.demo.panel.getSubref.description')}></p>
             <div class="demo-flex-gap-column">
-              {
-                // fixme editableName有异常，没有addonchage功能
-              }
               <input
                 k-model={editableName}
                 type="text"

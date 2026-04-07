@@ -1,7 +1,6 @@
 import '@ktjs/shared';
 import './main.css.js';
 
-// todo P系列大改
 // UI Components
 export { Alert } from './components/Alert/Alert.js';
 export { Button } from './components/Button/Button.js';

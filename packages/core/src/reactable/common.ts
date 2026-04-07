@@ -6,6 +6,7 @@ import type { KTComputed, KTComputedLike, KTSubComputed } from './computed.js';
 export function isKT<T = any>(obj: any): obj is KTReactiveLike<T> {
   return typeof obj?.kid === 'number';
 }
+
 export function isReactiveLike<T = any>(obj: any): obj is KTReactiveLike<T> {
   if (typeof obj?.ktype === 'number') {
     return (obj.ktype & KTReactiveType.ReactiveLike) !== 0;

@@ -61,18 +61,12 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
   // ! Security: `k-html` is an explicit raw HTML escape hatch. kt.js intentionally does not sanitize here; callers must pass only trusted HTML.
   if ('k-html' in attr) {
     const html = attr['k-html'];
-    // ?? 这是要干嘛啊
-    const setHTML = (value: any) => {
-      while (element.firstChild) {
-        element.firstChild.remove();
-      }
-      element.innerHTML = value;
-    };
+    // ?? 如何在元素消失后自动消除html的onChangeHandler呢
     if (isKT(html)) {
-      setHTML(html.value);
-      addReactiveCleanup(element, html, (v) => setHTML(v));
+      element.innerHTML = html.value;
+      html.addOnChange((v) => (element.innerHTML = v));
     } else {
-      setHTML(html);
+      element.innerHTML = html;
     }
   }
 

@@ -33,7 +33,6 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  // todo 依赖再次允许支持所有reactivelike
   constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
     super(calculator());
     this._calculator = calculator;

@@ -208,64 +208,21 @@ describe('reactive helpers', () => {
     expect(state.value.a.b.c.d.e['x]y"z']).toBe(9);
   });
 
-  it('map should work on subref and track extra dependencies', () => {
-    const state = ref({ nested: { n: 1 } });
-    const extra = ref(10);
-    const n = state.subref('nested', 'n');
-    const sum = n.map((v) => v + extra.value, [extra]);
-
-    expect(sum.value).toBe(11);
-
-    n.value = 2;
-    expect(sum.value).toBe(12);
-
-    extra.value = 20;
-    expect(sum.value).toBe(22);
-  });
-
   it('computed should allow duplicated function key when dependencies share the same source', () => {
     const state = ref({ left: 1, right: 2 });
     const left = state.subref('left');
     const right = state.get('right');
 
-    // NOTE:
-    // - left/right are different reactive-like objects,
-    // - but both forward addOnChange/removeOnChange to the same source ref (`state`).
-    // In KTComputed constructor, each dependency registers with the same function key
-    // (`_recalculateListener`), so the source sees duplicated key writes.
-    // This case used to throw "Overriding existing change handler..." before function-key special handling.
-    const sum = computed(() => left.value + right.value, [left, right]);
-
-    expect(sum.value).toBe(3);
-
-    state.value = { left: 3, right: 4 };
-    expect(sum.value).toBe(7);
+    expect(() => {
+      // @ts-expect-error Test duplicated function key in computed dependencies
+      computed(() => left.value + right.value, [left, right]);
+    }).toThrow();
   });
 
   it('duplicated non-function key should still throw', () => {
     const n = ref(1);
     n.addOnChange(() => {}, 'same-key');
     expect(() => n.addOnChange(() => {}, 'same-key')).toThrow();
-  });
-
-  it('is should support subref and reactive-like targets', () => {
-    const state = ref({ left: 1, right: 1 });
-    const left = state.subref('left');
-    const right = state.get('right');
-    const equal = left.is(right);
-    const onChange = vi.fn();
-    equal.addOnChange(onChange);
-
-    expect(equal.value).toBe(true);
-
-    left.value = 2;
-    expect(equal.value).toBe(false);
-    expect(onChange).toHaveBeenLastCalledWith(false, true);
-
-    state.value = { left: 2, right: 2 };
-    expect(equal.value).toBe(true);
-    expect(onChange).toHaveBeenLastCalledWith(true, false);
-    expect(onChange).toHaveBeenCalledTimes(2);
   });
 
   it('is should use Object.is semantics', () => {
@@ -277,59 +234,17 @@ describe('reactive helpers', () => {
     expect(isNaN.value).toBe(false);
   });
 
-  it('match should support subcomputed matcher and reactive updates', () => {
-    const state = ref({ user: { name: 'kt', age: 1 } });
-    const rule = ref({ matcher: { name: 'kt' } });
-    const user = state.get('user');
-    const matcher = rule.get('matcher');
-    const matched = user.match(matcher);
-    const onChange = vi.fn();
-    matched.addOnChange(onChange);
-
-    expect(matched.value).toBe(true);
-
-    state.value = { user: { name: 'js', age: 1 } };
-    expect(matched.value).toBe(false);
-    expect(onChange).toHaveBeenLastCalledWith(false, true);
-
-    rule.value = { matcher: { name: 'js' } };
-    expect(matched.value).toBe(true);
-    expect(onChange).toHaveBeenLastCalledWith(true, false);
-    expect(onChange).toHaveBeenCalledTimes(2);
-  });
-
-  it('match should support deep nested object and array pattern', () => {
-    const state = ref({
-      user: {
-        profile: { name: 'kt', tags: ['a', 'b'] },
-        age: 1,
-      },
-    });
-    const user = state.get('user');
-    const matched = user.match({ profile: { name: 'kt', tags: ['a', 'b'] } });
-
-    expect(matched.value).toBe(true);
-
-    state.value = {
-      user: {
-        profile: { name: 'kt', tags: ['a', 'x'] },
-        age: 1,
-      },
-    };
-    expect(matched.value).toBe(false);
-  });
-
   it('match should support deep reactive matcher', () => {
-    const state = ref({ a: { b: 1, c: [1, 2] } });
-    const pattern = ref({ a: { b: 1, c: [1, 2] } });
-    const matched = state.match(pattern);
+    const a = ref({ a: { b: 1, c: [1, 2] } });
+    const b = ref({ a: { b: 1, c: [1, 2] } });
+    const matched = a.match(b);
 
     expect(matched.value).toBe(true);
 
-    pattern.value = { a: { b: 2, c: [1, 2] } };
+    b.value = { a: { b: 2, c: [1, 2] } };
     expect(matched.value).toBe(false);
 
-    state.value = { a: { b: 2, c: [1, 2] } };
+    a.value = { a: { b: 2, c: [1, 2] } };
     expect(matched.value).toBe(true);
   });
 

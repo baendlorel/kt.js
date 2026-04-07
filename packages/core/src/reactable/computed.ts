@@ -28,8 +28,7 @@ export class KTComputed<T> extends KTReactive<T> {
     for (let i = 0; i < dependencies.length; i++) {
       const dep = dependencies[i];
       if (isSubReactive(dep)) {
-        // @ts-expect-error _changeHandlers is protected
-        dep.source._changeHandlers.set(this._handler, this._handler);
+        $throw('sub-reactives cannot be used as dependencies, use their source instead');
       } else {
         dep.addOnChange(this._handler, this._handler);
       }
@@ -64,11 +63,19 @@ KTReactive.prototype.map = function <U>(
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  return new KTSubComputed(this, (v) => $is(v, o), isReactive(o) ? o : undefined);
+  if (isReactive(o)) {
+    return new KTSubComputed(this, (v) => $is(v, o.value), o);
+  } else {
+    return new KTSubComputed(this, (v) => $is(v, o));
+  }
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
-  return new KTSubComputed(this, (v) => $deepMatch(v, o), isReactive(o) ? o : undefined);
+  if (isReactive(o)) {
+    return new KTSubComputed(this, (v) => $deepMatch(v, o.value), o);
+  } else {
+    return new KTSubComputed(this, (v) => $deepMatch(v, o));
+  }
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {

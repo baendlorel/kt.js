@@ -1,6 +1,6 @@
 import { $deepMatch, $is } from '@ktjs/shared';
 import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
-import { $createSubGetter, isReactive } from './common.js';
+import { $createSubGetter, isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
@@ -40,10 +40,20 @@ export class KTComputed<T> extends KTReactive<T> {
     this._dependencies = dependencies;
     this._handler = () => this._recalculate();
     this._handlerKeys = dependencies.map(() => nextHandlerId(this.kid));
+
+    const uniqueSources = new Set<KTReactive<any>>();
     for (let i = 0; i < dependencies.length; i++) {
       const dep = dependencies[i];
+      if (isSubReactive(dep)) {
+        if (uniqueSources.has(dep.source)) {
+          continue;
+        } else {
+          uniqueSources.add(dep.source);
+        }
+      }
       dep.addOnChange(this._handler, this._handlerKeys[i]);
     }
+    uniqueSources.clear();
   }
 
   notify(): this {
@@ -101,7 +111,7 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
  * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
  */
-export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
+export const computed = <T>(calculator: () => T, dependencies: Array<KTReactiveLike<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);
 
 // # SubComputed

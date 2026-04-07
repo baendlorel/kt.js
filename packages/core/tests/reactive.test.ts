@@ -213,10 +213,9 @@ describe('reactive helpers', () => {
     const left = state.subref('left');
     const right = state.get('right');
 
-    expect(() => {
-      // @ts-expect-error Test duplicated function key in computed dependencies
-      computed(() => left.value + right.value, [left, right]);
-    }).toThrow();
+    const c = computed(() => left.value + right.value, [left, right]);
+
+    expect(c.value).toBe(3);
   });
 
   it('duplicated non-function key should still throw', () => {

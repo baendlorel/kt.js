@@ -31,6 +31,7 @@ export abstract class KTReactiveLike<T> {
   abstract get value(): T;
 
   abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
+  abstract removeOnChange(key: any): this;
 
   abstract dispose(): void;
 }
@@ -204,16 +205,21 @@ export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
 
     // @ts-expect-error _value is protected
     this._value = this._getter(source._value);
-    this._handler = () => (this._value = this._getter(this.source.value));
+    // @ts-expect-error _value is protected
+    this._handler = () => (this._value = getter(source._value));
 
     this._handlerKeys.push(nextHandlerId(this.kid));
     source.addOnChange(this._handler, this._handlerKeys[0]);
   }
 
-  addOnChange(handler: ChangeHandler<T>): this {
-    const key = nextHandlerId(this.kid);
+  addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
     this._handlerKeys.push(key);
     this.source.addOnChange((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)), key);
+    return this;
+  }
+
+  removeOnChange(key: any): this {
+    this.source.removeOnChange(key);
     return this;
   }
 

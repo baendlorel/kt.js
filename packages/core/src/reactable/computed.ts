@@ -1,13 +1,26 @@
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
-import { $createSubGetter, isReactive, isSubReactive } from './common.js';
+import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
+import { $createSubGetter, isReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
 
+  /**
+   * @internal
+   */
   private readonly _calculator: () => T;
-  private readonly _dependencies: Array<KTReactive<any>>;
+  /**
+   * @internal
+   */
+  private readonly _dependencies: Array<KTReactiveLike<any>>;
+  /**
+   * @internal
+   */
   private readonly _handler: () => void;
+  /**
+   * @internal
+   */
+  protected readonly _handlerKeys: string[];
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
@@ -20,18 +33,16 @@ export class KTComputed<T> extends KTReactive<T> {
     return this;
   }
 
-  constructor(calculator: () => T, dependencies: Array<KTReactive<any>>) {
+  // todo 依赖再次允许支持所有reactivelike
+  constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
     super(calculator());
     this._calculator = calculator;
     this._dependencies = dependencies;
     this._handler = () => this._recalculate();
+    this._handlerKeys = dependencies.map(() => nextHandlerId(this.kid));
     for (let i = 0; i < dependencies.length; i++) {
       const dep = dependencies[i];
-      if (isSubReactive(dep)) {
-        $throw('sub-reactives cannot be used as dependencies, use their source instead');
-      } else {
-        dep.addOnChange(this._handler, this._handler);
-      }
+      dep.addOnChange(this._handler, this._handlerKeys[i]);
     }
   }
 
@@ -46,7 +57,7 @@ export class KTComputed<T> extends KTReactive<T> {
 
     this._disposed = true;
     for (let i = 0; i < this._dependencies.length; i++) {
-      this._dependencies[i].removeOnChange(this._handler);
+      this._dependencies[i].removeOnChange(this._handlerKeys[i]);
     }
 
     this._dependencies.length = 0;

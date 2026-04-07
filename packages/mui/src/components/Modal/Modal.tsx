@@ -11,6 +11,8 @@ interface KTMuiModalCommonOptions extends Pick<KTMuiProps, 'class' | 'style'> {
   title?: string;
   size?: KTMuiDialogSize;
   fullWidth?: boolean;
+  showClose?: any;
+  backdropClosable?: any;
   confirmText?: string;
   cancelText?: string;
 }
@@ -97,6 +99,8 @@ export function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOption
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,
+          showClose: options.showClose,
+          backdropClosable: options.backdropClosable ?? false,
           actions: createActions([confirmButton]),
           'on:close': finish,
         }}
@@ -145,6 +149,8 @@ export function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOp
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,
+          showClose: options.showClose,
+          backdropClosable: options.backdropClosable ?? false,
           actions: createActions([cancelButton, confirmButton]),
           'on:close': () => settle(false),
         }}
@@ -239,6 +245,8 @@ export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOpti
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,
+          showClose: options.showClose,
+          backdropClosable: options.backdropClosable ?? false,
           actions: createActions([cancelButton, confirmButton]),
           'on:close': () => settle(null),
         }}

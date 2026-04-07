@@ -54,13 +54,33 @@ describe('MUI Modal helpers', () => {
     vi.runAllTimers();
   });
 
-  it('modalConfirm should resolve false on backdrop close', async () => {
+  it('modalConfirm should resolve false on backdrop close when enabled', async () => {
     vi.useFakeTimers();
-    const done = modalConfirm('Close by backdrop');
+    const done = modalConfirm('Close by backdrop', { backdropClosable: true });
 
     const backdrop = document.querySelector('.kt-dialog-backdrop') as HTMLDivElement;
     backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
+    await expect(done).resolves.toBe(false);
+    vi.runAllTimers();
+  });
+
+  it('modalConfirm should ignore backdrop click by default', async () => {
+    vi.useFakeTimers();
+    const done = modalConfirm('Default backdrop behavior');
+    let resolved = false;
+    done.then(() => {
+      resolved = true;
+    });
+
+    const backdrop = document.querySelector('.kt-dialog-backdrop') as HTMLDivElement;
+    backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await Promise.resolve();
+
+    expect(resolved).toBe(false);
+
+    const buttons = document.querySelectorAll('.mui-modal-actions .mui-button');
+    (buttons[0] as HTMLButtonElement).click();
     await expect(done).resolves.toBe(false);
     vi.runAllTimers();
   });

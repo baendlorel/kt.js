@@ -57,6 +57,36 @@ describe('MUI Dialog component', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('should not close by backdrop when backdropClosable is falsy', () => {
+    const onClose = vi.fn();
+    const dialog = <Dialog {...{ open: true, backdropClosable: false, 'on:close': onClose }} />;
+    dialog.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(onClose).toHaveBeenCalledTimes(0);
+  });
+
+  it('should render close button by default and hide it when showClose is falsy', () => {
+    const shown = <Dialog {...{ open: true }} />;
+    expect(shown.querySelector('.kt-dialog-close')).toBeTruthy();
+
+    const hidden = <Dialog {...{ open: true, showClose: false }} />;
+    expect(hidden.querySelector('.kt-dialog-close')).toBeFalsy();
+  });
+
+  it('should close when top-right close button is clicked', () => {
+    vi.useFakeTimers();
+    const onClose = vi.fn();
+    const openRef = ref(true);
+    const dialog = (<Dialog {...{ open: openRef, 'on:close': onClose }} />) as HTMLElement;
+    const closeButton = dialog.querySelector('.kt-dialog-close') as HTMLButtonElement;
+    closeButton.click();
+    vi.advanceTimersByTime(250);
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(dialog.style.display).toBe('none');
+    dialog.remove();
+    vi.useRealTimers();
+  });
+
   it('should close on Escape key', () => {
     vi.useFakeTimers();
     const onClose = vi.fn();

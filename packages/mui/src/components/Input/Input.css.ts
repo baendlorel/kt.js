@@ -180,7 +180,7 @@ textarea.mui-textfield-input {
 }
 
 .mui-textfield-wrapper:hover .mui-textfield-fieldset {
-  border-color: rgba(0, 0, 0, 0.87);
+  border-color: #1976d2;
 }
 
 .mui-textfield-focused .mui-textfield-fieldset {
@@ -279,7 +279,7 @@ textarea.mui-textfield-input {
   }
 
   .mui-textfield-wrapper:hover .mui-textfield-fieldset {
-    border-color: rgba(255, 255, 255, 0.87);
+    border-color: #90caf9;
   }
 
   .mui-textfield-focused .mui-textfield-fieldset {

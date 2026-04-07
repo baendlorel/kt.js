@@ -36,6 +36,22 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
    */
   mode?: KTMaybeReactive<'dialog' | 'div'>;
 
+  /**
+   * Whether to show the top-right close button.
+   * - truthy: show
+   * - falsy: hide
+   * - default: true
+   */
+  showClose?: KTMaybeReactive<any>;
+
+  /**
+   * Whether clicking on the backdrop closes the dialog.
+   * - truthy: close on backdrop click
+   * - falsy: ignore backdrop click
+   * - default: true
+   */
+  backdropClosable?: any;
+
   'on:close'?: () => void;
 
   // # native events
@@ -71,6 +87,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
 
   // Mode selection
   const modeRef = toPseudoRef(props.mode ?? 'dialog');
+  const showCloseRef = toPseudoRef(props.showClose ?? true);
+  const backdropClosableRef = toPseudoRef(props.backdropClosable ?? true);
 
   const clearTimers = () => {
     if (enterTimer) {
@@ -150,24 +168,43 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   );
   const backdropStyle = computed<string>(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
 
+  const closeDialog = () => {
+    openRef.value = false;
+    onClose();
+  };
+
   // Handle ESC key - store handler for cleanup
   const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      openRef.value = false;
-      onClose();
+      closeDialog();
     }
   };
 
   const handleBackdropClick = (e: MouseEvent) => {
-    if (e.target === container) {
-      onClose();
+    if (!backdropClosableRef.value) {
+      return;
+    }
+    if (e.target === e.currentTarget) {
+      closeDialog();
     }
   };
+
+  const renderCloseButton = () =>
+    KTConditional(showCloseRef, 'button', {
+      class: 'kt-dialog-close',
+      type: 'button',
+      'aria-label': 'Close dialog',
+      children: '×',
+      'on:click': (e: MouseEvent) => {
+        e.stopPropagation();
+        closeDialog();
+      },
+    });
 
   const assignContainer = () => {
     if (modeRef.value === 'dialog' && SUPPORTS_DIALOG) {
       return (
-        <div class={backdropClass} style={backdropStyle}>
+        <div class={backdropClass} style={backdropStyle} on:click={handleBackdropClick}>
           <dialog
             ref={dialogEl}
             class={className}
@@ -175,6 +212,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             tabIndex={-1}
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
+            {renderCloseButton()}
             {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
             {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
             {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}
@@ -191,6 +229,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             tabIndex={-1}
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
+            {renderCloseButton()}
             {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
             {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
             {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}

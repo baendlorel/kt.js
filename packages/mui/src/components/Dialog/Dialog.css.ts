@@ -26,8 +26,10 @@ void injectGlobal`
 }
 
 .kt-dialog-paper {
+  margin: auto;
   background-color: #fff;
   border-radius: 4px;
+  position: relative;
   box-shadow:
     0px 11px 15px -7px rgba(0, 0, 0, 0.2),
     0px 24px 38px 3px rgba(0, 0, 0, 0.14),
@@ -41,6 +43,32 @@ void injectGlobal`
   opacity: 0;
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1), opacity 225ms cubic-bezier(0.4, 0, 0.2, 1);
   outline: 0;
+}
+
+.kt-dialog-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.kt-dialog-close:hover {
+  background-color: rgba(25, 118, 210, 0.12);
+  color: #1976d2;
 }
 
 .kt-dialog-backdrop-open .kt-dialog-paper {
@@ -132,6 +160,15 @@ void injectGlobal`
 
   .kt-dialog-title h2 {
     color: rgba(255, 255, 255, 0.87);
+  }
+
+  .kt-dialog-close {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .kt-dialog-close:hover {
+    background-color: rgba(144, 202, 249, 0.16);
+    color: #90caf9;
   }
 
   .kt-dialog-content {

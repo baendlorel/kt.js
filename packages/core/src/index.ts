@@ -30,4 +30,4 @@ export type {
 } from './types/h.js';
 export type * from './types/jsx.js';
 
-// epic 可以考虑加入SSR服务端渲染
+// EPIC 可以考虑加入SSR服务端渲染

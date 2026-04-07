@@ -114,12 +114,7 @@ const $runNodeCleanups = (node: Node) => {
 
 export const $addNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
   $ensureAnchorObserver();
-  const cleanups = nodeToCleanups.get(node);
-  if (cleanups) {
-    cleanups.push(cleanup);
-  } else {
-    nodeToCleanups.set(node, [cleanup]);
-  }
+  nodeToCleanups.getOrInsert(node, []).push(cleanup);
   return cleanup;
 };
 

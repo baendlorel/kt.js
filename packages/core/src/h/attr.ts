@@ -1,6 +1,7 @@
 import type { KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
+import { nextHandlerId } from '../reactable/reactive.js';
 import { $addNodeCleanup } from '../jsx/anchor.js';
 import { handlers } from './attr-helpers.js';
 
@@ -64,7 +65,9 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     // ?? 如何在元素消失后自动消除html的onChangeHandler呢
     if (isKT(html)) {
       element.innerHTML = html.value;
-      html.addOnChange((v) => (element.innerHTML = v));
+      const key = nextHandlerId(html.kid);
+      html.addOnChange((v) => (element.innerHTML = v), key);
+      $addNodeCleanup(element, () => html.removeOnChange(key));
     } else {
       element.innerHTML = html;
     }

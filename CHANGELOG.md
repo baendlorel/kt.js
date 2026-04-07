@@ -1,11 +1,23 @@
 # Changelog
 
-## 0.38.x - 2026-04-06
+## 0.38.x - 2026-04-06 ~ 2026-04-07
 
 ### API
 
 - Added **`reactive.is(target)`** to create boolean computed values based on `Object.is` comparison.
 - Added **`reactive.match(pattern)`** to create boolean computed values via deep object/array pattern matching.
+- Updated **`reactive.is(target)`** and **`reactive.match(pattern)`** to accept reactive targets/matchers (such as `ref` / `computed`) and keep results synced with both sides.
+- Updated **`computed(() => ..., dependencies)`** to accept `KTReactiveLike` dependencies and support sub-reactive inputs.
+
+### Fixes
+
+- Fixed an update bug where `reactive.match(reactivePattern)` could stop reacting after the matcher changed.
+- Fixed a stale-value issue in sub-reactive handlers so `is` / `match` recomputation always reads from the source reactive.
+- Fixed duplicated listener registration when multiple sub-reactive dependencies share the same source in one computed.
+
+### Refactor
+
+- Unified internal reactive handler key generation (`nextHandlerId`) to avoid function-key collisions and simplify listener lifecycle management.
 
 ## 0.37.x - 2026-03-31
 

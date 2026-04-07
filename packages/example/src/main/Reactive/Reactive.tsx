@@ -1,6 +1,7 @@
 import { computed, ref } from 'kt.js';
 import { Button } from '@ktjs/mui';
 import { Code } from '../../components/Code.js';
+import { t } from '../../i18n/index.js';
 
 import reactiveCode from './__ref-computed.tsx?raw';
 import subrefCode from './__subref.tsx?raw';
@@ -24,7 +25,6 @@ class MutableBadge {
   }
 }
 
-// fixme这里有多重key bug
 export function Reactivity() {
   const salary = ref(12000);
   const bonusRate = ref(0.12);
@@ -44,13 +44,15 @@ export function Reactivity() {
   const theme = profile.subref('settings', 'theme');
   const volume = profile.subref('settings', 'volume');
   const profileSummary = computed(
-    () => `${readonlyName.value} / ${profile.value.role} / ${theme.value} / volume ${volume.value}`,
+    () => `${readonlyName.value} / ${profile.value.role} / ${theme.value} / ${t('reactive.demo.label.volume')} ${volume.value}`,
     [profile],
   );
 
-  const salaryBand = salary.map((value) => (value >= 15000 ? 'senior band' : 'growth band'));
+  const salaryBand = salary.map((value) =>
+    value >= 15000 ? t('reactive.demo.band.senior') : t('reactive.demo.band.growth'),
+  );
   const profileBadge = profile.map(
-    (value) => `${value.name} / ${value.settings.theme} / volume ${value.settings.volume}`,
+    (value) => `${value.name} / ${value.settings.theme} / ${t('reactive.demo.label.volume')} ${value.settings.volume}`,
   );
   const salaryTarget = ref(12000);
   const salaryEqualsTarget = salary.is(salaryTarget);
@@ -105,66 +107,51 @@ export function Reactivity() {
   return (
     <div>
       <div class="demo-section">
-        <h3>响应式数据</h3>
-        <p>
-          <code>ref</code> 与 <code>computed</code>用于创建响应式数据和计算属性。
-        </p>
+        <h3 k-html={t('reactive.demo.section.data.title')}></h3>
+        <p k-html={t('reactive.demo.section.data.description')}></p>
         <Code code={reactiveCode} />
       </div>
       <div class="demo-section">
-        <h3>响应式子属性</h3>
-        <p>
-          通过<code>get</code>和<code>subref</code>导出轻量级响应式的子属性
-        </p>
+        <h3 k-html={t('reactive.demo.section.subpath.title')}></h3>
+        <p k-html={t('reactive.demo.section.subpath.description')}></p>
         <Code code={subrefCode} />
       </div>
       <div class="demo-section">
-        <h3>派生computed</h3>
-        <p>
-          通过<code>map</code>函数派生出computed对象
-        </p>
+        <h3 k-html={t('reactive.demo.section.map.title')}></h3>
+        <p k-html={t('reactive.demo.section.map.description')}></p>
         <Code code={mapCode} />
       </div>
       <div class="demo-section">
-        <h3>
-          <code>is</code> 与 <code>match</code>
-        </h3>
-        <p>
-          <code>is</code>用于生成“是否相等”的布尔computed，<code>match</code>用于对象结构匹配（深度匹配）。
-        </p>
+        <h3 k-html={t('reactive.isMatch.section.title')}></h3>
+        <p k-html={t('reactive.isMatch.section.description')}></p>
         <Code code={isMatchCode} />
       </div>
       <div class="demo-section">
-        <h3>深度响应</h3>
-        <p>
-          <code>ref.value</code>只接收本身的变化，若要深度响应，则使用api<code>ref.draft</code>
-          。它会标记当前ref对象，将响应变化在微队列中执行，以实现简单高效的深度响应。
-        </p>
+        <h3 k-html={t('reactive.demo.section.deep.title')}></h3>
+        <p k-html={t('reactive.demo.section.deep.description')}></p>
         <Code code={deepCode} />
-        <p>天然支持复杂的自定义对象</p>
+        <p k-html={t('reactive.demo.section.deep.extra')}></p>
         <Code code={deepComplexCode} />
       </div>
 
       <div class="demo-section">
-        <h3>实时综合演示</h3>
-        <p>下面这块是真实运行的 playground，直接把本页提到的能力串在一起：修改后会立即联动更新。</p>
+        <h3 k-html={t('reactive.demo.section.playground.title')}></h3>
+        <p k-html={t('reactive.demo.section.playground.description')}></p>
 
         <div class="demo-container">
           <div class="controls-panel">
-            <h4>
-              <code>ref</code> + <code>computed</code>
-            </h4>
-            <p>基础状态和计算属性都由真实 reactive 对象驱动。</p>
+            <h4 k-html={t('reactive.demo.panel.refComputed.title')}></h4>
+            <p k-html={t('reactive.demo.panel.refComputed.description')}></p>
             <div class="demo-flex-gap">
               <Button variant="contained" color="primary" on:click={() => (salary.value += 1000)}>
-                薪资 +1000
+                {t('reactive.demo.panel.refComputed.button.salaryPlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (bonusRate.value = Math.min(0.3, +(bonusRate.value + 0.01).toFixed(2)))}
               >
-                奖金比例 +1%
+                {t('reactive.demo.panel.refComputed.button.bonusPlus')}
               </Button>
               <Button
                 variant="contained"
@@ -174,24 +161,29 @@ export function Reactivity() {
                   bonusRate.value = 0.12;
                 }}
               >
-                重置
+                {t('reactive.demo.panel.refComputed.button.reset')}
               </Button>
             </div>
             <div class="demo-result">
-              <div>base salary: {salary}</div>
-              <div>bonus rate: {bonusRate.map((value) => `${Math.round(value * 100)}%`)}</div>
-              <div>annual bonus: {annualBonus}</div>
-              <div>total income: {totalIncome}</div>
+              <div>
+                {t('reactive.demo.panel.refComputed.label.baseSalary')}: {salary}
+              </div>
+              <div>
+                {t('reactive.demo.panel.refComputed.label.bonusRate')}:{' '}
+                {bonusRate.map((value) => `${Math.round(value * 100)}%`)}
+              </div>
+              <div>
+                {t('reactive.demo.panel.refComputed.label.annualBonus')}: {annualBonus}
+              </div>
+              <div>
+                {t('reactive.demo.panel.refComputed.label.totalIncome')}: {totalIncome}
+              </div>
             </div>
           </div>
 
           <div class="controls-panel">
-            <h4>
-              <code>get</code> + <code>subref</code>
-            </h4>
-            <p>
-              <code>get</code> 提供只读视图，<code>subref</code> 负责把嵌套路径拆成可写的小块。
-            </p>
+            <h4 k-html={t('reactive.demo.panel.getSubref.title')}></h4>
+            <p k-html={t('reactive.demo.panel.getSubref.description')}></p>
             <div class="demo-flex-gap-column">
               {
                 // fixme editableName有异常，没有addonchage功能
@@ -199,55 +191,61 @@ export function Reactivity() {
               <input
                 k-model={editableName}
                 type="text"
-                aria-label="subref name"
+                aria-label={t('reactive.demo.panel.getSubref.inputAria')}
                 style="padding: 10px 12px; border: 1px solid #d8e2f0; border-radius: 10px; background: #fff; font-size: 0.95rem;"
               />
             </div>
             <div class="demo-flex-gap">
               <Button variant="contained" color="primary" on:click={toggleTheme}>
-                切换主题
+                {t('reactive.demo.panel.getSubref.button.toggleTheme')}
               </Button>
               <Button variant="contained" color="primary" on:click={() => adjustVolume(-5)}>
-                音量 -5
+                {t('reactive.demo.panel.getSubref.button.volumeDown')}
               </Button>
               <Button variant="contained" color="primary" on:click={() => adjustVolume(5)}>
-                音量 +5
+                {t('reactive.demo.panel.getSubref.button.volumeUp')}
               </Button>
             </div>
             <div class="demo-result">
-              <div>get('name'): {readonlyName}</div>
-              <div>theme subref: {theme}</div>
-              <div>volume subref: {volume}</div>
+              <div>
+                {t('reactive.demo.panel.getSubref.label.getName')}: {readonlyName}
+              </div>
+              <div>
+                {t('reactive.demo.panel.getSubref.label.themeSubref')}: {theme}
+              </div>
+              <div>
+                {t('reactive.demo.panel.getSubref.label.volumeSubref')}: {volume}
+              </div>
               <div>{profileSummary}</div>
             </div>
           </div>
 
           <div class="controls-panel">
-            <h4>
-              <code>map</code>
-            </h4>
-            <p>派生出来的 computed 会随着原 ref 或子路径变化自动刷新。</p>
+            <h4 k-html={t('reactive.demo.panel.map.title')}></h4>
+            <p k-html={t('reactive.demo.panel.map.description')}></p>
             <div class="demo-result">
-              <div>salary band: {salaryBand}</div>
-              <div>profile badge: {profileBadge}</div>
+              <div>
+                {t('reactive.demo.panel.map.label.salaryBand')}: {salaryBand}
+              </div>
+              <div>
+                {t('reactive.demo.panel.map.label.profileBadge')}: {profileBadge}
+              </div>
             </div>
           </div>
 
           <div class="controls-panel">
-            <h4>
-              <code>is</code> + <code>match</code>
-            </h4>
-            <p>用布尔 computed 做状态判断，支持 reactive 目标和 matcher。</p>
+            <h4 k-html={t('reactive.isMatch.playground.title')}></h4>
+            <p k-html={t('reactive.isMatch.playground.description')}></p>
             <div class="demo-flex-gap">
               <Button variant="contained" color="primary" on:click={() => (salaryTarget.value += 1000)}>
-                target +1000
+                {t('reactive.isMatch.button.targetPlus')}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 on:click={() => (profileMatcher.value = { settings: { theme: theme.value } })}
               >
-                matcher 同步当前主题
+                {t('reactive.isMatch.button.syncMatcher')}
               </Button>
               <Button
                 variant="contained"
@@ -256,52 +254,57 @@ export function Reactivity() {
                   (profileMatcher.value = { settings: { theme: theme.value === 'dark' ? 'light' : 'dark' } })
                 }
               >
-                matcher 切换主题
+                {t('reactive.isMatch.button.toggleMatcher')}
               </Button>
             </div>
             <div class="demo-result">
-              <div>salary target: {salaryTarget}</div>
               <div>
-                salary.is(target):
-                <span k-if={salaryEqualsTarget}>true</span>
-                <span k-else>false</span>
+                {t('reactive.isMatch.label.target')}: {salaryTarget}
               </div>
-              <div>matcher: {profileMatcher.map((v) => JSON.stringify(v))}</div>
-              <span k-if={profileMatched}>true</span>
-              <span k-else>false</span>
+              <div>
+                {t('reactive.isMatch.label.is')}:<span k-if={salaryEqualsTarget}>{t('reactive.demo.bool.true')}</span>
+                <span k-else>{t('reactive.demo.bool.false')}</span>
+              </div>
+              <div>
+                {t('reactive.isMatch.label.matcher')}: {profileMatcher.map((v) => JSON.stringify(v))}
+              </div>
+              <span k-if={profileMatched}>{t('reactive.demo.bool.true')}</span>
+              <span k-else>{t('reactive.demo.bool.false')}</span>
             </div>
           </div>
 
           <div class="controls-panel">
-            <h4>
-              <code>draft</code> + 复杂对象
-            </h4>
-            <p>
-              深层对象、数组、Map 和自定义可变对象都通过 <code>draft</code> 进行内部修改。
-            </p>
+            <h4 k-html={t('reactive.demo.panel.draft.title')}></h4>
+            <p k-html={t('reactive.demo.panel.draft.description')}></p>
             <div class="demo-flex-gap">
               <Button variant="contained" color="primary" on:click={() => (draftState.draft.stats.visits += 1)}>
-                visits +1
+                {t('reactive.demo.panel.draft.button.visitsPlus')}
               </Button>
               <Button variant="contained" color="primary" on:click={addTag}>
-                添加标签
+                {t('reactive.demo.panel.draft.button.addTag')}
               </Button>
               <Button variant="contained" color="primary" on:click={raiseMarySalary}>
-                Mary 涨薪 +500
+                {t('reactive.demo.panel.draft.button.raiseMary')}
               </Button>
               <Button variant="contained" color="primary" on:click={pulseBadge}>
-                badge pulse
+                {t('reactive.demo.panel.draft.button.badgePulse')}
               </Button>
               <Button variant="contained" color="primary" on:click={renameBadge}>
-                badge rename
+                {t('reactive.demo.panel.draft.button.badgeRename')}
               </Button>
             </div>
             <div class="demo-result">
-              <div>visits: {visits}</div>
-              <div>tags: {tagsText}</div>
-              <div>Mary salary from Map: {marySalary}</div>
               <div>
-                custom object: {badgeLabel} / {badgeCount}
+                {t('reactive.demo.panel.draft.label.visits')}: {visits}
+              </div>
+              <div>
+                {t('reactive.demo.panel.draft.label.tags')}: {tagsText}
+              </div>
+              <div>
+                {t('reactive.demo.panel.draft.label.marySalary')}: {marySalary}
+              </div>
+              <div>
+                {t('reactive.demo.panel.draft.label.customObject')}: {badgeLabel} / {badgeCount}
               </div>
             </div>
           </div>

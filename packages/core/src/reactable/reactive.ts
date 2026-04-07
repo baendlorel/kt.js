@@ -105,7 +105,6 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * - if `o` is reactive-like, it will be added to dependencies
    */
   is(o: T | KTReactiveLike<T>): KTSubComputed<boolean> {
-    // todo 这里的is和match的返回值是否可以改为sub系列以节省？
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
@@ -205,7 +204,7 @@ export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
 
     // @ts-expect-error _value is protected
     this._value = this._getter(source._value);
-    this._handler = (v) => (this._value = this._getter(v));
+    this._handler = () => (this._value = this._getter(this.source.value));
 
     this._handlerKeys.push(nextHandlerId(this.kid));
     source.addOnChange(this._handler, this._handlerKeys[0]);

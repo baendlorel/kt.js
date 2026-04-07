@@ -138,6 +138,3 @@ export const $createSubSetter = (path: Array<string | number>): SubSetter => {
       };
   }
 };
-
-// todo 是不是再用在别的地方
-export const $ModelPrefix = '@@k-model';

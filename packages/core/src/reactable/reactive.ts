@@ -1,7 +1,6 @@
 import type { KTComputed, KTSubComputed } from './computed.js';
 
 import { $stringify } from '@ktjs/shared';
-import { $createSubGetter } from './common.js';
 
 export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
@@ -21,12 +20,19 @@ export const enum KTReactiveType {
 let kid = 1;
 let handlerId = 1;
 
+export const nextKid = () => kid++;
+export const nextHandlerId = (kid: number) => `@@k-handler-${kid}-${handlerId++}`;
+
 export abstract class KTReactiveLike<T> {
-  readonly kid = kid++;
+  readonly kid = nextKid();
 
   abstract readonly ktype: KTReactiveType;
 
   abstract get value(): T;
+
+  abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
+
+  abstract dispose(): void;
 }
 
 export abstract class KTReactive<T> extends KTReactiveLike<T> {
@@ -61,8 +67,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
     return this;
   }
 
-  addOnChange(handler: ChangeHandler<T>, key?: any): this {
-    key ??= handlerId++;
+  addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
     }
@@ -171,8 +176,49 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 
 export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
   readonly source: KTReactive<any>;
-  constructor(source: KTReactive<any>) {
+
+  /**
+   * @internal
+   */
+  protected _value: T;
+
+  /**
+   * @internal
+   */
+  protected readonly _getter: (sv: KTReactive<any>['value']) => T;
+
+  /**
+   * @internal
+   */
+  protected readonly _handler: ChangeHandler<any>;
+
+  /**
+   * @internal
+   */
+  protected readonly _handlerKeys: string[];
+
+  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
     super();
     this.source = source;
+    this._getter = getter;
+    this._handlerKeys = [];
+
+    // @ts-expect-error _value is protected
+    this._value = this._getter(source._value);
+    this._handler = (v) => (this._value = this._getter(v));
+
+    this._handlerKeys.push(nextHandlerId(this.kid));
+    source.addOnChange(this._handler, this._handlerKeys[0]);
+  }
+
+  addOnChange(handler: ChangeHandler<T>): this {
+    const key = nextHandlerId(this.kid);
+    this._handlerKeys.push(key);
+    this.source.addOnChange((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)), key);
+    return this;
+  }
+
+  dispose(): void {
+    this._handlerKeys.forEach((key) => this.source.removeOnChange(key));
   }
 }

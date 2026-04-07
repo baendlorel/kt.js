@@ -1,7 +1,7 @@
 import { $emptyFn, $is } from '@ktjs/shared';
-import { ChangeHandler, KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
+import { KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
 import { $markMutation } from './scheduler.js';
-import { $createSubGetter, $createSubSetter, isRefLike, $ModelPrefix } from './common.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Ref;
@@ -152,16 +152,6 @@ export class KTSubRef<T> extends KTSubReactive<T> {
   /**
    * @internal
    */
-  private _value: T;
-
-  /**
-   * @internal
-   */
-  private readonly _handler: ChangeHandler<any>;
-
-  /**
-   * @internal
-   */
   protected readonly _setter: (s: object, newValue: T) => void;
 
   constructor(
@@ -169,13 +159,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     getter: (sv: KTReactive<any>['value']) => T,
     setter: (s: object, newValue: T) => void,
   ) {
-    super(source);
-
-    // @ts-expect-error _value is protected
-    this._value = getter(source._value);
-    this._handler = (v) => (this._value = getter(v));
-    source.addOnChange(this._handler, this._handler);
-
+    super(source, getter);
     this._setter = setter;
   }
 
@@ -184,6 +168,7 @@ export class KTSubRef<T> extends KTSubReactive<T> {
   }
 
   set value(newValue: T) {
+    this._value = newValue;
     // @ts-expect-error _value is private
     this._setter(this.source._value, newValue);
     this.source.notify();
@@ -196,18 +181,5 @@ export class KTSubRef<T> extends KTSubReactive<T> {
     // Same implementation as `draft` in `KTRef`
     $markMutation(this.source);
     return this._value;
-  }
-
-  /**
-   * Only use for `k-model` binding.
-   */
-  addOnChange(handler: ChangeHandler<T>): this {
-    this.source.addOnChange(handler, `${$ModelPrefix}-${this.kid}`);
-    return this;
-  }
-
-  dispose(): void {
-    this.source.removeOnChange(this._handler);
-    this.source.removeOnChange(`${$ModelPrefix}-${this.kid}`);
   }
 }

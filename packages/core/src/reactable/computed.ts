@@ -1,5 +1,5 @@
 import { $deepMatch, $is } from '@ktjs/shared';
-import { ChangeHandler, KTReactive, KTReactiveType, KTSubReactive } from './reactive.js';
+import { KTReactive, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
 import { $createSubGetter, isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
@@ -92,31 +92,19 @@ export class KTSubComputed<T> extends KTSubReactive<T> {
   readonly ktype = KTReactiveType.SubComputed;
 
   /**
-   * @internal
-   */
-  private readonly _handler: ChangeHandler<any>;
-
-  /**
    * Used for `reactive.is` and `reactive.match` to track the single dependency.
    * @internal
    */
   private readonly _dependency?: KTReactive<any>;
 
-  /**
-   * @internal
-   */
-  private _value: T;
-
   constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T, dependency?: KTReactive<any>) {
-    super(source);
+    super(source, getter);
     this._dependency = dependency;
 
-    // @ts-expect-error _value is protected
-    this._value = getter(source._value);
-    this._handler = (v) => (this._value = getter(v));
-
-    source.addOnChange(this._handler, this._handler);
-    dependency?.addOnChange(this._handler, this._handler);
+    if (dependency) {
+      this._handlerKeys.push(nextHandlerId(this.kid));
+      dependency.addOnChange(this._handler, this._handlerKeys[1]);
+    }
   }
 
   get value() {
@@ -124,8 +112,8 @@ export class KTSubComputed<T> extends KTSubReactive<T> {
   }
 
   dispose(): void {
-    this.source.removeOnChange(this._handler);
-    this._dependency?.addOnChange(this._handler, this._handler);
+    this._handlerKeys.forEach((key) => this.source.removeOnChange(key));
+    this._dependency?.removeOnChange(this._handlerKeys[1]);
   }
 }
 

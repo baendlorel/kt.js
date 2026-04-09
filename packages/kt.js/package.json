@@ -30,7 +30,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "instruction.md"
   ],
   "homepage": "https://github.com/baendlorel/kt.js#readme",
   "repository": {

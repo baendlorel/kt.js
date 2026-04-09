@@ -1,99 +1,84 @@
-# KT.js JSX 编写指令
+# KT.js JSX 编写指令（基于 `@ktjs/core@0.38.x`）
 
-本文用于指导生成KT.js 的JSX **前端代码**。
+## 1. 核心认知（必须遵守）
 
-## 0. 先决条件（必须）
+- KT.js JSX 直接操作真实 DOM（无虚拟 DOM）。
+- 组件函数默认执行一次；UI 更新依赖响应式绑定，而不是 React 式整组件重跑。
+- 响应式读写契约：
+  - 读取：`reactive.value`
+  - 整体替换：`ref.value = nextValue` / `subref.value = nextValue`
+  - 深层变更：`ref.draft.xxx = ...`、`ref.draft.list.push(...)`
+- `draft` 本身不可整体赋值（禁止 `ref.draft = ...`）。
+- `addOnChange((newValue, oldValue) => ...)` 的 `oldValue` 是旧引用，不是深拷贝快照。
+- 事件绑定统一用 `on:事件名`（如 `on:click`），不要用 `onClick`。
 
-1. TypeScript JSX 配置：
+---
 
-```json
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "kt.js",
-    "plugins": [{ "name": "@ktjs/ts-plugin" }]
-  }
-}
-```
+## 2. 响应式能力
 
-2. 构建插件（否则 `k-if` / `k-for` 等指令不会按预期编译）：
-
-```ts
-import { defineConfig } from 'vite';
-import ktjsx from '@ktjs/vite-plugin-ktjsx';
-
-export default defineConfig({
-  plugins: [ktjsx()],
-});
-```
-
-## 1. 核心认知（生成代码时要遵守）
-
-- KT.js JSX 直接产出真实 DOM 节点，不是虚拟 DOM。
-- 组件函数默认执行一次，不会像 React 一样因 state 自动重跑。
-- 响应式对象用 `ref()` 和 `computed()` 表达。
-- **普通 JS 中读取响应式值用 `.state`，写入用 `.mutable`。**
-- JSX 中优先直接传 `ref/computed` 本身，例如 `{count}`、`class={className}`，不要习惯性展开成 `.state`。
-- `computed(() => ..., deps)` 需要显式提供依赖数组。
-- 事件名使用 `on:事件名`，例如 `on:click`，不是 `onClick`。
-
-### 1.1 写口契约
-
-- `.mutable` 只能就地使用，不要缓存、解构、返回，也不要跨 `await` 传递。
-- `addOnChange((newValue, oldValue) => ...)` 里的 `oldValue` 只是旧引用，不是深拷贝快照。
-
-## 2. JSX 基础语法
-
-### 2.1 元素与组件
+### 2.1 `get(...keys)`：只读子路径
 
 ```tsx
-import { ref } from 'kt.js';
-
-function Counter() {
-  const count = ref(0);
-  return <button on:click={() => count.mutable++}>Count: {count}</button>;
-}
+const profile = ref({ user: { name: 'Ada' } });
+const name = profile.get('user', 'name'); // KTSubComputed<string>
 ```
 
-### 2.2 属性绑定
-
-- `class` 和 `className` 都可用。
-- `style` 支持字符串或对象，也支持传入响应式值。
-- 普通属性可直接传响应式对象（`ref/computed`）。
+### 2.2 `subref(...keys)`：可写子路径（支持 `k-model`）
 
 ```tsx
-import { computed, ref } from 'kt.js';
-
-const active = ref(true);
-const cls = computed(() => (active.state ? 'btn btn-on' : 'btn btn-off'), [active]);
-const styleRef = ref({ color: 'tomato', fontWeight: 'bold' as const });
-
-const el = (
-  <div class={cls} style={styleRef} data-role="status">
-    Hello
-  </div>
-);
+const form = ref({ user: { name: 'Ada' } });
+const nameRef = form.subref('user', 'name'); // KTSubRef<string>
+nameRef.value = 'Linus';
 ```
 
-### 2.3 事件绑定
+### 2.3 `reactive.is(target)` / `reactive.match(pattern)`
 
 ```tsx
-const output = ref('idle');
+const salary = ref(12000);
+const target = ref(12000);
+const same = salary.is(target);
 
-const el = (
-  <button
-    on:click={() => (output.mutable = 'clicked')}
-    on:mouseenter={() => (output.mutable = 'hover')}
-    on:mouseleave={() => (output.mutable = 'idle')}
-  >
-    Trigger
+const settings = ref({ theme: 'dark', region: 'cn' });
+const matcher = ref({ theme: 'dark' });
+const matched = settings.match(matcher);
+```
+
+### 2.4 `computed` 依赖
+
+- `computed(() => ..., deps)` 仍需显式依赖数组。
+- 依赖可传 `KTReactiveLike`（含 `ref` / `computed` / `subref` / `get(...)` 结果）。
+
+---
+
+### 2.5 `reactive.map`
+
+```tsx
+const a = ref(true);
+const b = a.map((v) => (v ? 'A' : 'B')); // KTComputed<string>
+```
+
+## 3. JSX 绑定规则
+
+- JSX 中优先直接传响应式对象本身：`{count}`、`class={cls}`、`open={openRef}`。
+- 普通逻辑里再用 `.value` / `.draft`。
+- `class`、`className` 均可；`style` 支持字符串、对象、响应式值。
+
+```tsx
+const count = ref(0);
+const cls = computed(() => (count.value > 0 ? 'ok' : 'idle'), [count]);
+
+const view = (
+  <button class={cls} on:click={() => count.value++}>
+    Count: {count}
   </button>
 );
 ```
 
-## 3. JSX 指令语法（KT.js 重点）
+---
 
-### 3.1 `k-if` / `k-else`
+## 4. 指令
+
+### 4.1 `k-if` / `k-else`
 
 ```tsx
 const show = ref(true);
@@ -104,17 +89,15 @@ const view = (
     <div k-else>B</div>
   </>
 );
-
-show.mutable = false;
 ```
 
 规则：
 
-- `k-else` 必须与前一个 `k-if` 元素相邻（中间只能有空白）。
-- `k-else-if` 当前不支持（会告警且不转换）。
-- 不要在同一元素同时写 `k-if` 和 `k-else`。
+- `k-else` 必须紧邻前一个同级 `k-if`（中间仅允许空白）。
+- 不支持`k-else-if`。
+- 同一元素不能同时写 `k-if` 与 `k-else`。
 
-### 3.2 `k-for` / `k-key`
+### 4.2 `k-for` / `k-key`
 
 ```tsx
 const users = ref([
@@ -131,33 +114,28 @@ const list = (
 
 规则：
 
-- `k-for` 必须是字符串表达式：`"item in list"`、`"(item, index) in list"`（`of` 也支持）。
-- `k-key` 推荐始终提供，避免列表重排问题。
-- 不要在同一元素混用 `k-for` 与 `k-if/k-else`。
+- `k-for` 必须是字符串表达式：
+  - `"item in list"`
+  - `"(item, index) in list"`
+- `k-key` 强烈建议始终提供稳定键；可写字符串表达式或函数。
+- 同一元素不能混用 `k-for` 与 `k-if/k-else`。
+- `<template k-for>` 可用于返回多个兄弟节点。
 
-`template` 形式（一个循环返回多个兄弟节点）：
-
-```tsx
-<template k-for="(item, i) in users" k-key="item.id">
-  <li>{item.name}</li>
-  <small>#{i}</small>
-</template>
-```
-
-### 3.3 `k-model`
+### 4.3 `k-model`
 
 ```tsx
-const text = ref('');
+const form = ref({ user: { name: 'Ada' } });
+const nameRef = form.subref('user', 'name');
 
-const input = <input k-model={text} placeholder="type here" />;
+const input = <input k-model={nameRef} />;
 ```
 
 规则：
 
-- `k-model` 值必须是 `ref(...)`。
-- 常用于 `input/select/textarea`。
+- `k-model` 必须传 `KTRefLike`（`ref` 或 `subref`）。
+- 常用于 `input` / `select` / `textarea`。
 
-### 3.4 `k-html`
+### 4.4 `k-html`
 
 ```tsx
 const html = ref('<strong>trusted html</strong>');
@@ -166,102 +144,63 @@ const box = <div k-html={html} />;
 
 规则：
 
-- 直接写入 `innerHTML`，kt.js 不做任何净化。
-- 仅用于可信内容。
-- 不要把用户输入、URL 参数、富文本原文等未经消毒的字符串直接传给 `k-html`。
-- 若必须渲染外部 HTML，请先在业务层完成白名单过滤或消毒。
+- 直接写 `innerHTML`，框架不做净化。
+- 仅传可信 HTML；外部输入必须先由业务层消毒。
 
-## 4. Fragment、children、ref
+---
 
-### 4.1 Fragment
-
-```tsx
-const frag = (
-  <>
-    <h3>Title</h3>
-    <p>desc</p>
-  </>
-);
-```
-
-也可显式使用：
+## 5. Fragment 与元素 `ref`
 
 ```tsx
 import { Fragment, ref } from 'kt.js';
 
 const childrenRef = ref([<span>A</span>, <span>B</span>]);
 const frag = <Fragment children={childrenRef} />;
-childrenRef.mutable = [<span>C</span>];
-```
 
-### 4.2 `children` 透传
-
-```tsx
-function Card(props: { title: string; children?: any }) {
-  return (
-    <section class="card">
-      <h4>{props.title}</h4>
-      <div>{props.children}</div>
-    </section>
-  );
-}
-```
-
-### 4.3 元素 `ref`
-
-```tsx
 const inputRef = ref<HTMLInputElement>();
-const view = <input ref={inputRef} />;
-
-inputRef.state?.focus();
+const input = <input ref={inputRef} />;
+inputRef.value?.focus();
 ```
 
 规则：
 
-- `ref` 必须是 KT.js 的 `ref` 对象。
+- `ref` 需使用 KT.js 的 `ref/subref`（不可传 computed）。
 
-## 5. SVG / MathML JSX
+---
 
-可直接写：
+## 6. 常见坑位（生成代码时自检）
 
-```tsx
-const icon = (
-  <svg width="16" height="16" viewBox="0 0 16 16">
-    <circle cx="8" cy="8" r="7" />
-  </svg>
-);
-```
+1. 事件必须写 `on:click`，不是 `onClick`。
+2. `computed` 记得写依赖数组。
+3. 深层修改对象/数组/Map/Set 优先走 `draft`。
+4. vite未启用 `@ktjs/vite-plugin-ktjsx` 时，`k-if` / `k-for` 等指令不会按预期编译。
 
-但前提是启用 `@ktjs/vite-plugin-ktjsx`（会自动处理命名空间运行时）。
+---
 
-## 6. 与 React/Vue JSX 的关键差异（AI 易踩坑）
-
-1. 事件写法是 `on:click`，不是 `onClick`。
-2. JSX 中优先传 `ref/computed` 本身，不是每次都写 `.state`。
-3. 普通 JS 中读取响应式值用 `.state`，写入统一用 `.mutable`。
-4. `.mutable` 不能逃逸、不能缓存，也不要跨 `await` 使用。
-5. `oldValue` 不是深快照，而是旧引用。
-6. 条件/循环建议用 `k-if` / `k-else`、`k-for` 指令语法。
-7. `computed` 必须显式写依赖数组。
-8. `k-else-if` 目前不要用。
-9. 没有 ktjsx 转换插件时，指令基本不会生效（尤其 `k-if`、`k-for`、SVG / MathML）。
-
-## 7. AI 生成 KT.js JSX 的最小模板
+## 7. AI 生成最小模板
 
 ```tsx
-import { ref } from 'kt.js';
+import { computed, ref } from 'kt.js';
 
 function App() {
   const count = ref(0);
-  const visible = ref(true);
+  const show = ref(true);
+  const profile = ref({ user: { name: 'Ada' } });
+  const nameRef = profile.subref('user', 'name');
+
+  const label = computed(() => (show.value ? 'Visible' : 'Hidden'), [show]);
 
   return (
     <main>
       <h1>KT.js JSX</h1>
-      <button on:click={() => count.mutable++}>Count: {count}</button>
-      <button on:click={() => (visible.mutable = !visible.state)}>Toggle</button>
-      <p k-if={visible}>Visible</p>
+      <button on:click={() => count.value++}>Count: {count}</button>
+      <button on:click={() => (show.value = !show.value)}>Toggle</button>
+      <p>{label}</p>
+
+      <p k-if={show}>Hello {nameRef}</p>
       <p k-else>Hidden</p>
+
+      <input k-model={nameRef} />
     </main>
   );
 }

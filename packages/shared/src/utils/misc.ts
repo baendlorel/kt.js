@@ -1,6 +1,5 @@
 // String manipulation utilities
 
-import { static_cast } from 'type-narrow';
 import { $is, $isArray, $keys } from './native.js';
 
 /**

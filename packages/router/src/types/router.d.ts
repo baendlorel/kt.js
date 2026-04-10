@@ -81,8 +81,11 @@ export interface NavOptions extends NavBaseOptions {
  * Router configuration
  */
 export interface RouterConfig {
+  /** Routing mode. Default is history mode */
+  mode?: 'history' | 'hash';
+
   /**
-   * Might not be needed while using hash routing
+   * Optional route prefix (for deployments under sub-paths)
    */
   prefix?: string;
 

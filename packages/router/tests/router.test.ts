@@ -13,6 +13,7 @@ const waitForNavigation = () => new Promise((resolve) => setTimeout(resolve, 0))
 describe('Router', () => {
   beforeEach(() => {
     window.history.replaceState(null, '', '/');
+    window.location.hash = '';
   });
 
   describe('basic routing', () => {
@@ -245,8 +246,8 @@ describe('Router', () => {
     });
   });
 
-  describe('hash navigation', () => {
-    it('should apply guards on hashchange', async () => {
+  describe('history navigation (default)', () => {
+    it('should apply guards on popstate', async () => {
       const beforeEach = vi.fn((to: { path: string }) => to.path !== '/blocked');
 
       const router = createRouter({
@@ -258,25 +259,41 @@ describe('Router', () => {
       });
 
       await router.push('/');
-      window.location.hash = '/blocked';
+      window.history.pushState(null, '', '/blocked');
+      window.dispatchEvent(new PopStateEvent('popstate'));
       await waitForNavigation();
       await waitForNavigation();
 
       expect(beforeEach).toHaveBeenCalledWith(expect.objectContaining({ path: '/blocked' }), expect.anything());
       expect(router.current?.path).toBe('/');
-      expect(window.location.hash).not.toBe('#/blocked');
+      expect(window.location.pathname).toBe('/');
     });
 
-    it('should update query when only hash query changes', async () => {
+    it('should update query when only search query changes', async () => {
       const router = createRouter({
         routes: [{ path: '/search', name: 'search', component }],
       });
 
       await router.push('/search?q=1');
-      window.location.hash = '/search?q=2';
+      window.history.pushState(null, '', '/search?q=2');
+      window.dispatchEvent(new PopStateEvent('popstate'));
       await waitForNavigation();
 
       expect(router.current?.query).toEqual({ q: '2' });
+    });
+  });
+
+  describe('hash navigation', () => {
+    it('should work when mode is hash', async () => {
+      const router = createRouter({
+        mode: 'hash',
+        routes: [{ path: '/search', name: 'search', component }],
+      });
+
+      await router.push('/search?q=1');
+
+      expect(window.location.hash).toBe('#/search?q=1');
+      expect(router.current?.query).toEqual({ q: '1' });
     });
   });
 

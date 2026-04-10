@@ -12,6 +12,7 @@ export const createRouter = ({
   afterEach = $emptyFn,
   onNotFound = $emptyFn,
   onError = $emptyFn,
+  mode = 'history',
   prefix = '',
   routes: rawRoutes,
 }: RouterConfig): Router => {
@@ -20,6 +21,7 @@ export const createRouter = ({
   const matchedMap = new Map<RouteConfig, RouteConfig[]>();
   const history: RouteContext[] = [];
   const prefixPath = prefix ? normalizePath(prefix) : '';
+  const isHashMode = mode === 'hash';
   let routerView: HTMLElement | null = null;
   let current: RouteContext | null = null;
   let ignoreNextHashChange = false;
@@ -149,15 +151,28 @@ export const createRouter = ({
     to: RouteContext,
     fullPath: string,
     replaceHistory: boolean,
-    hashMode: 'push' | 'replace' | null,
+    urlMode: 'push' | 'replace' | null,
   ): Promise<void> => {
-    if (hashMode && window.location.hash.slice(1) !== fullPath) {
-      ignoreNextHashChange = true;
-      const hashUrl = '#' + fullPath;
-      if (hashMode === 'replace') {
-        window.location.replace(hashUrl);
+    if (urlMode) {
+      if (isHashMode) {
+        if (window.location.hash.slice(1) !== fullPath) {
+          ignoreNextHashChange = true;
+          const hashUrl = '#' + fullPath;
+          if (urlMode === 'replace') {
+            window.location.replace(hashUrl);
+          } else {
+            window.location.hash = fullPath;
+          }
+        }
       } else {
-        window.location.hash = fullPath;
+        const currentFullPath = window.location.pathname + window.location.search;
+        if (currentFullPath !== fullPath) {
+          if (urlMode === 'replace') {
+            window.history.replaceState(null, '', fullPath);
+          } else {
+            window.history.pushState(null, '', fullPath);
+          }
+        }
       }
     }
 
@@ -241,6 +256,30 @@ export const createRouter = ({
 
   const { findByName, match } = createMatcher(routes, matchedMap);
 
+  const handlePopState = async () => {
+    const fullPath = window.location.pathname + window.location.search;
+    const prep = navigatePrepare(normalizeLocation(fullPath));
+    if (!prep) {
+      return;
+    }
+
+    const { guardLevel, to } = prep;
+    const guardResult = await guard(to, current, guardLevel);
+    if (!guardResult.continue) {
+      if (guardResult.redirectTo) {
+        await navigate({ ...guardResult.redirectTo, replace: true });
+        return;
+      }
+
+      if (current) {
+        window.history.pushState(null, '', current.path + buildQuery(current.query));
+      }
+      return;
+    }
+
+    await commit(to, fullPath, false, null);
+  };
+
   const handleHashChange = async () => {
     if (ignoreNextHashChange) {
       ignoreNextHashChange = false;
@@ -278,9 +317,15 @@ export const createRouter = ({
   };
 
   // # register events
-  window.addEventListener('hashchange', () => {
-    void handleHashChange();
-  });
+  if (isHashMode) {
+    window.addEventListener('hashchange', () => {
+      void handleHashChange();
+    });
+  } else {
+    window.addEventListener('popstate', () => {
+      void handlePopState();
+    });
+  }
 
   // # initialize
   const instance: Router = {
@@ -319,9 +364,16 @@ export const createRouter = ({
       window.history.forward();
     },
   };
-  const currentHash = window.location.hash.slice(1);
-  if (currentHash) {
-    void handleHashChange();
+  if (isHashMode) {
+    const currentHash = window.location.hash.slice(1);
+    if (currentHash) {
+      void handleHashChange();
+    }
+  } else {
+    const currentPath = window.location.pathname + window.location.search;
+    if (currentPath !== '/' || window.location.search) {
+      void handlePopState();
+    }
   }
 
   return instance;

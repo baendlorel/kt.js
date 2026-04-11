@@ -13,7 +13,7 @@ import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
 import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
 import { getKForQuickInfoAtPosition } from './quickinfo';
-import { collectBindingsAtPosition, getFileAnalysis, isSuppressed } from './scope-analysis';
+import { collectBindingsAtPosition, getFileAnalysis, getKForMemberDiagnostics, isSuppressed } from './scope-analysis';
 import { resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
 
@@ -61,11 +61,14 @@ function init(modules: { typescript: typeof tsModule }) {
         : diagnostics;
 
       const draftDiagnostics = getDraftEscapeDiagnostics(sourceFile, checker, ts);
-      if (draftDiagnostics.length === 0) {
+      const kforMemberDiagnostics = analysis?.scopes.length
+        ? getKForMemberDiagnostics(sourceFile, checker, analysis.scopes, ts)
+        : [];
+      if (draftDiagnostics.length === 0 && kforMemberDiagnostics.length === 0) {
         return filteredDiagnostics;
       }
 
-      return [...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...draftDiagnostics])];
+      return [...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...kforMemberDiagnostics, ...draftDiagnostics])];
     };
 
     proxy.getEncodedSemanticClassifications = (

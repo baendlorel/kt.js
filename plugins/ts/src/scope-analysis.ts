@@ -1,7 +1,9 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
+import { createBindingTypeMap } from './completion';
+import { DIAGNOSTIC_KFOR_INVALID_MEMBER, DIAGNOSTIC_SOURCE } from './constants';
 import { getAttributeText, getJsxAttribute } from './jsx-attributes';
 import { parseKForExpression } from './kfor-parser';
-import { resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
+import { formatTypeList, resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
 import type {
   FileAnalysis,
   JsxOpeningLikeElement,
@@ -80,6 +82,48 @@ export function resolveBindingsForForAttribute(
   ts: typeof tsModule,
 ): KForBinding[] {
   return resolveScopeBindings(opening, forAttr, checker, config, ts);
+}
+
+export function getKForMemberDiagnostics(
+  sourceFile: tsModule.SourceFile,
+  checker: tsModule.TypeChecker,
+  scopes: KForScope[],
+  ts: typeof tsModule,
+): tsModule.DiagnosticWithLocation[] {
+  if (scopes.length === 0) {
+    return [];
+  }
+
+  const diagnostics: tsModule.DiagnosticWithLocation[] = [];
+
+  const visit = (node: tsModule.Node) => {
+    let diagnostic: tsModule.DiagnosticWithLocation | undefined;
+
+    if (ts.isPropertyAccessExpression(node) && !node.questionDotToken) {
+      diagnostic = getMemberAccessDiagnostic(node, node.name.text, node.name, sourceFile, checker, scopes, ts);
+    } else if (ts.isElementAccessExpression(node) && !node.questionDotToken && node.argumentExpression) {
+      if (ts.isStringLiteralLike(node.argumentExpression) || ts.isNumericLiteral(node.argumentExpression)) {
+        diagnostic = getMemberAccessDiagnostic(
+          node,
+          node.argumentExpression.text,
+          node.argumentExpression,
+          sourceFile,
+          checker,
+          scopes,
+          ts,
+        );
+      }
+    }
+
+    if (diagnostic) {
+      diagnostics.push(diagnostic);
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return diagnostics;
 }
 
 function collectKForScopes(
@@ -249,9 +293,6 @@ function inferBindingTypes(
       if (bindingCount > 1) {
         slots[1].push(elementType ? checker.getNumberType() : checker.getStringType());
       }
-      if (bindingCount > 2) {
-        slots[2].push(checker.getNumberType());
-      }
     }
   }
 
@@ -309,5 +350,100 @@ function isReactiveLikeType(sourceType: tsModule.Type, checker: tsModule.TypeChe
   if (!hasValue) {
     return false;
   }
-  return !!checker.getPropertyOfType(sourceType, 'isKT');
+  return !!checker.getPropertyOfType(sourceType, 'kid') && !!checker.getPropertyOfType(sourceType, 'ktype');
+}
+
+function getMemberAccessDiagnostic(
+  node: tsModule.PropertyAccessExpression | tsModule.ElementAccessExpression,
+  memberName: string,
+  highlightNode: tsModule.Node,
+  sourceFile: tsModule.SourceFile,
+  checker: tsModule.TypeChecker,
+  scopes: KForScope[],
+  ts: typeof tsModule,
+): tsModule.DiagnosticWithLocation | undefined {
+  const bindings = collectBindingsAtPosition(node.getStart(sourceFile), scopes);
+  if (bindings.size === 0) {
+    return undefined;
+  }
+
+  const root = getRootIdentifier(node.expression, ts);
+  if (!root || !bindings.has(root.text)) {
+    return undefined;
+  }
+
+  const localBindings = createBindingTypeMap(bindings);
+  const receiverTypes = resolveExpressionTypesFromText(node.expression.getText(sourceFile), {
+    checker,
+    ts,
+    scopeNode: node,
+    localBindings,
+  });
+  if (receiverTypes.length === 0) {
+    return undefined;
+  }
+
+  const accessTypes = resolveExpressionTypesFromText(node.getText(sourceFile), {
+    checker,
+    ts,
+    scopeNode: node,
+    localBindings,
+  });
+  if (accessTypes.length > 0) {
+    return undefined;
+  }
+
+  const start = highlightNode.getStart(sourceFile);
+  return {
+    file: sourceFile,
+    start,
+    length: highlightNode.end - start,
+    category: ts.DiagnosticCategory.Error,
+    code: DIAGNOSTIC_KFOR_INVALID_MEMBER,
+    messageText: `Property '${memberName}' does not exist on type '${formatTypeList(receiverTypes, checker, node, ts)}'.`,
+    source: DIAGNOSTIC_SOURCE,
+  };
+}
+
+function getRootIdentifier(expr: tsModule.Expression, ts: typeof tsModule): tsModule.Identifier | undefined {
+  let current = unwrapExpression(expr, ts);
+
+  while (true) {
+    if (ts.isIdentifier(current)) {
+      return current;
+    }
+    if (ts.isPropertyAccessExpression(current)) {
+      current = unwrapExpression(current.expression, ts);
+      continue;
+    }
+    if (ts.isElementAccessExpression(current)) {
+      current = unwrapExpression(current.expression, ts);
+      continue;
+    }
+    if (ts.isCallExpression(current)) {
+      current = unwrapExpression(current.expression, ts);
+      continue;
+    }
+    return undefined;
+  }
+}
+
+function unwrapExpression(expr: tsModule.Expression, ts: typeof tsModule): tsModule.Expression {
+  let current = expr;
+
+  while (true) {
+    if (ts.isParenthesizedExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isAsExpression(current) || ts.isTypeAssertionExpression(current) || ts.isSatisfiesExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isNonNullExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    return current;
+  }
 }

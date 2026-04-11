@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import ts from 'typescript/lib/tsserverlibrary';
 
+import { DIAGNOSTIC_KFOR_INVALID_MEMBER } from '../src/constants.js';
 import { resolveConfig } from '../src/config.js';
-import { collectBindingsAtPosition, getFileAnalysis } from '../src/scope-analysis.js';
+import {
+  collectBindingsAtPosition,
+  getFileAnalysis,
+  getKForMemberDiagnostics,
+} from '../src/scope-analysis.js';
 
 interface InMemoryFile {
   text: string;
@@ -64,6 +69,27 @@ function getBindingsAtSnippet(code: string, snippet: string): Map<string, { name
   return collectBindingsAtPosition(position, analysis.scopes);
 }
 
+function getBindingTypeTexts(code: string, snippet: string, name: string): string[] {
+  const fileName = '/src/view.tsx';
+  const languageService = createLanguageService(fileName, code);
+  const analysis = getFileAnalysis(fileName, languageService, ts, resolveConfig());
+  if (!analysis) {
+    throw new Error('Expected k-for analysis to be available.');
+  }
+
+  const index = code.indexOf(snippet);
+  if (index < 0) {
+    throw new Error(`Snippet not found: ${snippet}`);
+  }
+
+  const binding = collectBindingsAtPosition(index + 1, analysis.scopes).get(name);
+  if (!binding) {
+    return [];
+  }
+
+  return binding.types.map((type) => analysis.checker.typeToString(type, analysis.sourceFile, ts.TypeFormatFlags.NoTruncation));
+}
+
 describe('scope-analysis attribute scopes', () => {
   it('includes k-for aliases inside normal JSX attribute expressions', () => {
     const code = `
@@ -89,5 +115,78 @@ describe('scope-analysis attribute scopes', () => {
 
     expect(itemBinding).toBeDefined();
     expect(itemBinding?.types.length).toBeGreaterThan(0);
+  });
+
+  it('infers tuple aliases as item + index:number', () => {
+    const code = `
+      const users = [{ id: 1, name: 'A' }];
+      const view = <li k-for="(item, index) in users">{item.id}-{index}</li>;
+    `;
+
+    expect(getBindingTypeTexts(code, 'item.id', 'item')).toEqual(['{ id: number; name: string; }']);
+    expect(getBindingTypeTexts(code, 'item.id', 'index')).toEqual(['number']);
+  });
+
+  it('infers tuple aliases from kt reactive-like list (kid + ktype + value)', () => {
+    const code = `
+      interface R<T> { value: T; kid: number; ktype: number }
+      const listRef = { value: [{ id: 1, name: 'A' }], kid: 1, ktype: 2 } as R<Array<{ id: number; name: string }>>;
+      const view = <li k-for="(item, index) in listRef">{item.id}-{index}</li>;
+    `;
+
+    expect(getBindingTypeTexts(code, 'item.id', 'item')).toEqual(['{ id: number; name: string; }']);
+    expect(getBindingTypeTexts(code, 'item.id', 'index')).toEqual(['number']);
+  });
+
+  it('does not parse 3-argument tuple aliases anymore', () => {
+    const fileName = '/src/view.tsx';
+    const code = `
+      const users = [{ id: 1, name: 'A' }];
+      const view = <li k-for="(item, index, arr) in users">{item.id}</li>;
+    `;
+
+    const languageService = createLanguageService(fileName, code);
+    const analysis = getFileAnalysis(fileName, languageService, ts, resolveConfig());
+
+    expect(analysis).toBeUndefined();
+  });
+});
+
+describe('scope-analysis k-for member diagnostics', () => {
+  it('reports invalid item member access', () => {
+    const fileName = '/src/view.tsx';
+    const code = `
+      const users = [{ id: 1, name: 'A' }];
+      const view = <li k-for="(item, index) in users">{item.id}-{item.missing}-{index}</li>;
+    `;
+
+    const languageService = createLanguageService(fileName, code);
+    const analysis = getFileAnalysis(fileName, languageService, ts, resolveConfig());
+    if (!analysis) {
+      throw new Error('Expected k-for analysis to be available.');
+    }
+
+    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, ts);
+    const memberDiagnostic = diagnostics.find((diagnostic) => diagnostic.code === DIAGNOSTIC_KFOR_INVALID_MEMBER);
+
+    expect(memberDiagnostic).toBeDefined();
+    expect(String(memberDiagnostic?.messageText)).toContain(`'missing'`);
+  });
+
+  it('does not report diagnostics for valid member access', () => {
+    const fileName = '/src/view.tsx';
+    const code = `
+      const users = [{ id: 1, name: 'A' }];
+      const view = <li k-for="(item, index) in users">{item.id}-{item.name}-{index}</li>;
+    `;
+
+    const languageService = createLanguageService(fileName, code);
+    const analysis = getFileAnalysis(fileName, languageService, ts, resolveConfig());
+    if (!analysis) {
+      throw new Error('Expected k-for analysis to be available.');
+    }
+
+    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, ts);
+    expect(diagnostics).toHaveLength(0);
   });
 });

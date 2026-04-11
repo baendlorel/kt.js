@@ -10,14 +10,14 @@ export function parseKForExpression(raw: string, allowOfKeyword: boolean): Parse
 
   const tupleMatch = KFOR_TUPLE_PATTERN.exec(value);
   if (tupleMatch) {
-    const keyword = tupleMatch[4];
-    const source = tupleMatch[5]?.trim();
+    const keyword = tupleMatch[3];
+    const source = tupleMatch[4]?.trim();
     if ((!allowOfKeyword && keyword === 'of') || !source) {
       return null;
     }
 
     return {
-      aliases: uniqueIdentifiers([tupleMatch[1], tupleMatch[2], tupleMatch[3]].filter(Boolean) as string[]),
+      aliases: uniqueIdentifiers([tupleMatch[1], tupleMatch[2]]),
       source,
     };
   }

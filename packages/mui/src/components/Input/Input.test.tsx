@@ -100,6 +100,18 @@ describe('MUI TextField component', () => {
     expect(onInput).toHaveBeenCalledWith('new value');
   });
 
+  it('should trim value before input callback and model update when trim is enabled', () => {
+    const onInput = vi.fn();
+    const model = ref('');
+    const textfield = <TextField {...({ 'k-model': model, trim: true, 'on:input': onInput } as any)} />;
+    const input = textfield.querySelector('input') as HTMLInputElement;
+    input.value = '  abc  ';
+    input.dispatchEvent(new Event('input'));
+    expect(model.value).toBe('abc');
+    expect(input.value).toBe('abc');
+    expect(onInput).toHaveBeenCalledWith('abc');
+  });
+
   it('should handle change events', () => {
     const onChange = vi.fn();
     const model = ref('');
@@ -108,6 +120,18 @@ describe('MUI TextField component', () => {
     input.value = 'changed';
     input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('change'));
+    expect(onChange).toHaveBeenCalledWith('changed');
+  });
+
+  it('should trim value before change callback and model update when trim is enabled', () => {
+    const onChange = vi.fn();
+    const model = ref('');
+    const textfield = <TextField {...({ 'k-model': model, trim: true, 'on:change': onChange } as any)} />;
+    const input = textfield.querySelector('input') as HTMLInputElement;
+    input.value = '  changed  ';
+    input.dispatchEvent(new Event('change'));
+    expect(model.value).toBe('changed');
+    expect(input.value).toBe('changed');
     expect(onChange).toHaveBeenCalledWith('changed');
   });
 

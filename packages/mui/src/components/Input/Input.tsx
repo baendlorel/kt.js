@@ -18,6 +18,7 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
   'k-model'?: T extends 'number' ? KTRefLike<number> : KTRefLike<string>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
+  trim?: KTMaybeReactive<boolean>;
   value?: any;
   type?: KTMaybeReactive<T>;
   disabled?: KTMaybeReactive<boolean>;
@@ -58,13 +59,27 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
    * ! This would work only when model is registered before this3
    * ! which is determined by `core/src/h/index.ts`
    */
-  const handleInput = () => onInput(modelRef.value);
+  const handleInput = () => {
+    if (trimRef.value) {
+      const value = inputEl.value.trim();
+      inputEl.value = value;
+      modelRef.value = value;
+    }
+    onInput(modelRef.value);
+  };
 
   /**
    * ! This would work only when model is registered before this3
    * ! which is determined by `core/src/h/index.ts`
    */
-  const handleChange = () => onChange(modelRef.value);
+  const handleChange = () => {
+    if (trimRef.value) {
+      const value = inputEl.value.trim();
+      inputEl.value = value;
+      modelRef.value = value;
+    }
+    onChange(modelRef.value);
+  };
 
   const handleFocus = () => {
     isFocusedRef.value = true;
@@ -105,10 +120,12 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
   const rowsRef = toPseudoRef(props.rows ?? 3);
   const sizeRef = toPseudoRef(props.size ?? 'medium');
+  const trimRef = toPseudoRef(props.trim ?? false);
 
-  const placeholder = toPseudoRef(props.placeholder ?? '').map(
-    (v) => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : v),
-    [labelRef, isFocusedRef, modelRef],
+  const rawPlaceholder = toPseudoRef(props.placeholder ?? '');
+  const placeholder = computed(
+    () => (labelRef.value && !isFocusedRef.value && !hasInputValue(modelRef.value) ? '' : rawPlaceholder.value),
+    [labelRef, isFocusedRef, modelRef, rawPlaceholder],
   );
 
   const inputEl = multiline

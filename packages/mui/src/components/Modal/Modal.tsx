@@ -93,7 +93,7 @@ export function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOption
     const dialog = (
       <Dialog
         {...{
-          open: openRef,
+          'k-model': openRef,
           title: options.title ?? '提醒',
           size: options.size ?? 'xs',
           fullWidth: options.fullWidth ?? true,
@@ -143,7 +143,7 @@ export function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOp
     const dialog = (
       <Dialog
         {...{
-          open: openRef,
+          'k-model': openRef,
           title: options.title ?? '请确认',
           size: options.size ?? 'xs',
           fullWidth: options.fullWidth ?? true,
@@ -239,7 +239,7 @@ export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOpti
     const dialog = (
       <Dialog
         {...{
-          open: openRef,
+          'k-model': openRef,
           title: options.title ?? '请输入',
           size: options.size ?? 'xs',
           fullWidth: options.fullWidth ?? true,

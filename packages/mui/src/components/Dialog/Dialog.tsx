@@ -164,11 +164,8 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''} ${customClassRef.value}`,
     [sizeRef, fullWidthRef, customClassRef],
   );
-  const backdropClass = computed(
-    () => `kt-dialog-backdrop ${activeRef.value ? 'kt-dialog-backdrop-open' : ''}`,
-    [activeRef],
-  );
-  const backdropStyle = computed<string>(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
+  const backdropClass = activeRef.map((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
+  const backdropStyle = visibleRef.map<string>((v) => (v ? 'display:flex' : 'display:none'));
 
   const closeDialog = () => {
     modelRef.value = false;

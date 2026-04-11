@@ -7,7 +7,7 @@ describe('MUI Dialog component reactivity', () => {
     vi.useFakeTimers();
     const open = ref(false);
 
-    const dialog = (<Dialog {...{ open, children: 'Body' }} />) as HTMLElement;
+    const dialog = (<Dialog {...{ 'k-model': open, children: 'Body' }} />) as HTMLElement;
     expect(dialog.style.display).toBe('none');
 
     open.value = true;
@@ -31,7 +31,7 @@ describe('MUI Dialog component reactivity', () => {
     const dialog = (
       <Dialog
         {...{
-          open: true,
+          'k-model': ref(true),
           size,
           fullWidth,
           children: 'Body',

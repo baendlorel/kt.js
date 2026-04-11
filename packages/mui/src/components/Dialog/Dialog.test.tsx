@@ -18,9 +18,9 @@ describe('MUI Dialog component', () => {
     expect(dialog.querySelector('.kt-dialog-actions')?.textContent).toContain('OK');
   });
 
-  it('should open when open is true', () => {
+  it('should open when k-model is true', () => {
     vi.useFakeTimers();
-    const dialog = (<Dialog {...{ open: true }} />) as HTMLElement;
+    const dialog = (<Dialog {...{ 'k-model': ref(true) }} />) as HTMLElement;
     expect(dialog.style.display).toBe('flex');
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(false);
 
@@ -34,7 +34,7 @@ describe('MUI Dialog component', () => {
   it('should animate out before hiding when closed', () => {
     vi.useFakeTimers();
     const openRef = ref(true);
-    const dialog = (<Dialog {...{ open: openRef }} />) as HTMLElement;
+    const dialog = (<Dialog {...{ 'k-model': openRef }} />) as HTMLElement;
 
     vi.advanceTimersByTime(20);
     expect(dialog.classList.contains('kt-dialog-backdrop-open')).toBe(true);
@@ -52,23 +52,23 @@ describe('MUI Dialog component', () => {
 
   it('should call on:close when backdrop clicked', () => {
     const onClose = vi.fn();
-    const dialog = <Dialog {...{ open: true, 'on:close': onClose }} />;
+    const dialog = <Dialog {...{ 'k-model': ref(true), 'on:close': onClose }} />;
     dialog.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('should not close by backdrop when backdropClosable is falsy', () => {
     const onClose = vi.fn();
-    const dialog = <Dialog {...{ open: true, backdropClosable: false, 'on:close': onClose }} />;
+    const dialog = <Dialog {...{ 'k-model': ref(true), backdropClosable: false, 'on:close': onClose }} />;
     dialog.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClose).toHaveBeenCalledTimes(0);
   });
 
   it('should render close button by default and hide it when showClose is falsy', () => {
-    const shown = <Dialog {...{ open: true }} />;
+    const shown = <Dialog {...{ 'k-model': ref(true) }} />;
     expect(shown.querySelector('.kt-dialog-close')).toBeTruthy();
 
-    const hidden = <Dialog {...{ open: true, showClose: false }} />;
+    const hidden = <Dialog {...{ 'k-model': ref(true), showClose: false }} />;
     expect(hidden.querySelector('.kt-dialog-close')).toBeFalsy();
   });
 
@@ -76,7 +76,7 @@ describe('MUI Dialog component', () => {
     vi.useFakeTimers();
     const onClose = vi.fn();
     const openRef = ref(true);
-    const dialog = (<Dialog {...{ open: openRef, 'on:close': onClose }} />) as HTMLElement;
+    const dialog = (<Dialog {...{ 'k-model': openRef, 'on:close': onClose }} />) as HTMLElement;
     const closeButton = dialog.querySelector('.kt-dialog-close') as HTMLButtonElement;
     closeButton.click();
     vi.advanceTimersByTime(250);
@@ -91,7 +91,7 @@ describe('MUI Dialog component', () => {
     vi.useFakeTimers();
     const onClose = vi.fn();
     const openRef = ref(true);
-    const dialog = (<Dialog {...{ open: openRef, 'on:close': onClose }} />) as HTMLElement;
+    const dialog = (<Dialog {...{ 'k-model': openRef, 'on:close': onClose }} />) as HTMLElement;
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     vi.advanceTimersByTime(250);
     expect(onClose).toHaveBeenCalledTimes(1);

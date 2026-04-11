@@ -1,9 +1,9 @@
-import type { JSX, KTMaybeReactive } from '@ktjs/core';
+import type { JSX, KTMaybeReactive, KTRefLike } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { computed, effect, ref, KTConditional } from '@ktjs/core';
+import { assertModel, computed, effect, ref, KTConditional } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
+import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Dialog.css.js';
@@ -12,10 +12,12 @@ export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
 interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
   /**
-   * Controls whether the dialog is open or closed
-   * - Provide a `KTReactive` to make it reactive
+   * Two-way binding for dialog open state.
+   * - Set `model.value = true` to open dialog.
+   * - Dialog close actions write `false` back to model.
    */
-  open?: KTMaybeReactive<boolean>;
+  'k-model'?: KTRefLike<boolean>;
+
   title?: KTMaybeReactive<string>;
   children?:
     | JSX.Element
@@ -111,7 +113,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       clearTimeout(enterTimer);
     }
     enterTimer = setTimeout(() => {
-      if (openRef.value) {
+      if (modelRef.value) {
         activeRef.value = true;
         // Native dialog: show()
         if (dialogEl.value instanceof HTMLDialogElement) {
@@ -135,7 +137,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
       clearTimeout(exitTimer);
     }
     exitTimer = setTimeout(() => {
-      if (!openRef.value) {
+      if (!modelRef.value) {
         visibleRef.value = false;
         // Native dialog: close()
         if (dialogEl.value instanceof HTMLDialogElement) {
@@ -147,13 +149,13 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }, DIALOG_EXIT_MS);
   };
 
-  const openRef = ensureRefLike(props.open ?? false).addOnChange((v) => (v ? queueEnter() : queueExit()));
+  const modelRef = assertModel(props, false).addOnChange((v) => (v ? queueEnter() : queueExit()));
   const sizeRef = toPseudoRef(props.size ?? 'sm');
   const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
 
   const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 
-  if (openRef.value) {
+  if (modelRef.value) {
     queueEnter();
   }
 
@@ -169,7 +171,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const backdropStyle = computed<string>(() => (visibleRef.value ? 'display:flex' : 'display:none'), [visibleRef]);
 
   const closeDialog = () => {
-    openRef.value = false;
+    modelRef.value = false;
     onClose();
   };
 
@@ -249,9 +251,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   const originalRemove = container.remove;
   container.remove = () => {
     clearTimers();
-    if (keyDownHandler) {
-      document.removeEventListener('keydown', keyDownHandler);
-    }
+    document.removeEventListener('keydown', keyDownHandler);
     // Unlock scroll
     document.body.style.overflow = '';
     return originalRemove.call(container);

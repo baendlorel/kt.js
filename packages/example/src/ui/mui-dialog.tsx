@@ -5,26 +5,24 @@ import { Dialog, Button } from '@ktjs/mui';
 export function MuiDialogDemo() {
   const open = ref(false);
 
-  const openDialog = () => {
-    open.value = true;
-  };
-
-  const handleClose = () => {
-    console.log('Dialog closed');
-    open.value = false;
-  };
-
   setInterval(() => {
     console.log('Dialog open state:', open.value);
   }, 1200);
 
   return (
     <div class="demo-section">
-      <Button variant="contained" on:click={openDialog}>
+      <Button variant="contained" on:click={() => (open.value = true)}>
         Open Dialog
       </Button>
 
-      <Dialog open={open} title="Dialog Title" on:close={handleClose}>
+      <Dialog
+        k-model={open}
+        title="Dialog Title"
+        on:close={() => {
+          console.log('Dialog closed');
+          open.value = false;
+        }}
+      >
         <div style="padding: 20px;">
           <p>This is a dialog with some content inside.</p>
           <p style="margin-top: 12px;">You can close it by clicking outside or the close button.</p>

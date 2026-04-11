@@ -7,6 +7,8 @@ import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 import terser from '@rollup/plugin-terser';
 import { rimraf } from 'rimraf';
+import { replaceOpts } from '../../configs/rollup.config.base.js';
+import replace from '@rollup/plugin-replace';
 
 const pkgDir = path.resolve(import.meta.dirname);
 const srcEntry = path.join(pkgDir, 'src', 'index.ts');
@@ -26,6 +28,7 @@ export default async () => {
         resolve(),
         commonjs(),
         json(),
+        replace(replaceOpts(pkgDir)),
         typescript({
           tsconfig: path.join(pkgDir, 'tsconfig.build.json'),
           declaration: false,

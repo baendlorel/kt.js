@@ -260,6 +260,39 @@ describe('KTFor Component', () => {
     }
   });
 
+  it('should not treat re-mount as duplicate keys', async () => {
+    const errorSpy = vi.fn();
+    const oldError = (globalThis as any).$error;
+    (globalThis as any).$error = errorSpy;
+    try {
+      const list = ref([
+        { id: '1', value: 'a' },
+        { id: '2', value: 'b' },
+      ]);
+      const anchor = KTFor({
+        list,
+        key: (item) => item.id,
+        map: (item) => h('div', { class: 'item' }, item.value),
+      });
+
+      container.appendChild(anchor);
+      await Promise.resolve();
+      await Promise.resolve();
+
+      anchor.remove();
+      await Promise.resolve();
+      await Promise.resolve();
+
+      container.appendChild(anchor);
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(errorSpy.mock.calls.some((args: any[]) => String(args[0]).includes('Duplicate key detected'))).toBe(false);
+    } finally {
+      (globalThis as any).$error = oldError;
+    }
+  });
+
   it('should remove elements not in new list', () => {
     const list = ref([1, 2, 3, 4, 5]);
     const anchor = KTFor({

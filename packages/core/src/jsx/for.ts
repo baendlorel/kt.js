@@ -67,6 +67,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
     if (oldLength === 0) {
       anchor.list.length = 0;
+      nodeMap.clear();
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
         const item = newList[i];

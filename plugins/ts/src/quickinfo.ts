@@ -25,6 +25,14 @@ interface KForStringContext {
   token: KForStringToken;
 }
 
+interface KForAliasDeclaration {
+  name: string;
+  start: number;
+  length: number;
+  scopeStart: number;
+  scopeEnd: number;
+}
+
 const IDENTIFIER_PATTERN = /[A-Za-z_$][A-Za-z0-9_$]*/g;
 const KEYWORD_DELIMITER_PATTERN = /\s+(in|of)\s+/;
 
@@ -60,6 +68,47 @@ export function getKForQuickInfoAtPosition(
   }
 
   return undefined;
+}
+
+export function getKForDefinitionAndBoundSpan(
+  analysis: FileAnalysis,
+  position: number,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): tsModule.DefinitionInfoAndBoundSpan | undefined {
+  const context = findKForStringContextAtPosition(analysis.sourceFile, position, ts, config);
+  if (context?.token.kind === 'alias') {
+    return {
+      textSpan: {
+        start: context.token.start,
+        length: context.token.length,
+      },
+      definitions: [createDefinitionInfo(analysis.sourceFile, context.token.text, context.token.start, context.token.length, ts)],
+    };
+  }
+
+  const identifier = findIdentifierAtPosition(analysis.sourceFile, position, ts);
+  if (!identifier) {
+    return undefined;
+  }
+
+  const bindings = collectBindingsAtPosition(position, analysis.scopes);
+  if (!bindings.has(identifier.text)) {
+    return undefined;
+  }
+
+  const declaration = findKForAliasDeclaration(analysis.sourceFile, identifier.text, identifier.getStart(), ts, config);
+  if (!declaration) {
+    return undefined;
+  }
+
+  return {
+    textSpan: {
+      start: identifier.getStart(),
+      length: identifier.getWidth(),
+    },
+    definitions: [createDefinitionInfo(analysis.sourceFile, declaration.name, declaration.start, declaration.length, ts)],
+  };
 }
 
 function getKForStringQuickInfo(
@@ -268,6 +317,128 @@ function findTokenInForAttribute(
   }
 
   return undefined;
+}
+
+function findKForAliasDeclaration(
+  sourceFile: tsModule.SourceFile,
+  name: string,
+  position: number,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): KForAliasDeclaration | undefined {
+  const declarations = collectKForAliasDeclarations(sourceFile, ts, config);
+  for (let i = declarations.length - 1; i >= 0; i--) {
+    const declaration = declarations[i];
+    if (declaration.name !== name) {
+      continue;
+    }
+    if (position >= declaration.scopeStart && position < declaration.scopeEnd) {
+      return declaration;
+    }
+  }
+  return declarations.find((declaration) => declaration.name === name);
+}
+
+function collectKForAliasDeclarations(
+  sourceFile: tsModule.SourceFile,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): KForAliasDeclaration[] {
+  const declarations: KForAliasDeclaration[] = [];
+
+  const visit = (node: tsModule.Node) => {
+    let opening: JsxOpeningLikeElement | undefined;
+    let bodyStart: number | undefined;
+    let bodyEnd: number | undefined;
+
+    if (ts.isJsxElement(node)) {
+      opening = node.openingElement;
+      bodyStart = opening.end;
+      bodyEnd = node.closingElement.getStart(sourceFile);
+    } else if (ts.isJsxSelfClosingElement(node)) {
+      opening = node;
+    }
+
+    if (opening) {
+      const attr = getJsxAttribute(opening, config.forAttr, ts);
+      if (attr) {
+        const content = getAttributeRawContent(attr, sourceFile, ts);
+        if (content) {
+          const raw = content.text;
+          const value = raw.trim();
+          const parsed = value ? parseKForExpression(value, config.allowOfKeyword) : null;
+          if (parsed) {
+            const delimiterMatch = KEYWORD_DELIMITER_PATTERN.exec(value);
+            if (delimiterMatch) {
+              const trimStart = raw.length - raw.trimStart().length;
+              const leftSegment = value.slice(0, delimiterMatch.index);
+              const leftLeading = leftSegment.length - leftSegment.trimStart().length;
+              const leftTrimmed = leftSegment.trim();
+
+              let aliasText = leftTrimmed;
+              let aliasStartInRaw = trimStart + leftLeading;
+              if (leftTrimmed.startsWith('(') && leftTrimmed.endsWith(')')) {
+                aliasText = leftTrimmed.slice(1, -1);
+                aliasStartInRaw += 1;
+              }
+
+              const aliasTokens = collectAliasTokens(aliasText, aliasStartInRaw, parsed.aliases, content.start);
+              if (aliasTokens.length > 0) {
+                const ranges: Array<{ start: number; end: number }> = [];
+
+                if (bodyStart !== undefined && bodyEnd !== undefined && bodyStart < bodyEnd) {
+                  ranges.push({ start: bodyStart, end: bodyEnd });
+                }
+
+                const attrs = opening.attributes.properties;
+                for (let i = 0; i < attrs.length; i++) {
+                  const item = attrs[i];
+                  if (ts.isJsxSpreadAttribute(item)) {
+                    const start = item.getStart(sourceFile);
+                    const end = item.end;
+                    if (start < end) {
+                      ranges.push({ start, end });
+                    }
+                    continue;
+                  }
+
+                  if (!ts.isJsxAttribute(item) || item === attr || !item.initializer) {
+                    continue;
+                  }
+                  if (!ts.isJsxExpression(item.initializer) || !item.initializer.expression) {
+                    continue;
+                  }
+
+                  const start = item.initializer.getStart(sourceFile);
+                  const end = item.initializer.end;
+                  if (start < end) {
+                    ranges.push({ start, end });
+                  }
+                }
+
+                for (let i = 0; i < aliasTokens.length; i++) {
+                  for (let j = 0; j < ranges.length; j++) {
+                    declarations.push({
+                      name: aliasTokens[i].text,
+                      start: aliasTokens[i].start,
+                      length: aliasTokens[i].length,
+                      scopeStart: ranges[j].start,
+                      scopeEnd: ranges[j].end,
+                    });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return declarations;
 }
 
 function collectAliasTokens(
@@ -486,5 +657,22 @@ function createQuickInfoForSpan(
     kindModifiers: '',
     textSpan: { start, length },
     displayParts: [{ text: `${label}: ${formatTypeList(types, checker, scopeNode, ts)}`, kind: 'text' }],
+  };
+}
+
+function createDefinitionInfo(
+  sourceFile: tsModule.SourceFile,
+  name: string,
+  start: number,
+  length: number,
+  ts: typeof tsModule,
+): tsModule.DefinitionInfo {
+  return {
+    fileName: sourceFile.fileName,
+    textSpan: { start, length },
+    kind: ts.ScriptElementKind.localVariableElement,
+    name,
+    containerKind: ts.ScriptElementKind.unknown,
+    containerName: '(k-for)',
   };
 }

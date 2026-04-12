@@ -12,7 +12,7 @@ import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
 import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
-import { getKForQuickInfoAtPosition } from './quickinfo';
+import { getKForDefinitionAndBoundSpan, getKForQuickInfoAtPosition } from './quickinfo';
 import { collectBindingsAtPosition, getFileAnalysis, getKForMemberDiagnostics, isSuppressed } from './scope-analysis';
 import { resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
@@ -116,6 +116,36 @@ function init(modules: { typescript: typeof tsModule }) {
 
       const pluginQuickInfo = getKForQuickInfoAtPosition(analysis, position, ts, config);
       return pluginQuickInfo || quickInfo;
+    };
+
+    proxy.getDefinitionAndBoundSpan = (fileName: string, position: number) => {
+      const base = languageService.getDefinitionAndBoundSpan(fileName, position);
+      if (!isJsxLikeFile(fileName)) {
+        return base;
+      }
+
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      if (!analysis) {
+        return base;
+      }
+
+      const pluginDefinition = getKForDefinitionAndBoundSpan(analysis, position, ts, config);
+      return pluginDefinition || base;
+    };
+
+    proxy.getDefinitionAtPosition = (fileName: string, position: number) => {
+      const base = languageService.getDefinitionAtPosition(fileName, position);
+      if (!isJsxLikeFile(fileName)) {
+        return base;
+      }
+
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      if (!analysis) {
+        return base;
+      }
+
+      const pluginDefinition = getKForDefinitionAndBoundSpan(analysis, position, ts, config);
+      return pluginDefinition?.definitions || base;
     };
 
     proxy.getCompletionsAtPosition = (

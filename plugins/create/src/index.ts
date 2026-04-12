@@ -76,6 +76,7 @@ const parsePackageManager = (value: string, flagName: string): PackageManager =>
     default:
       fail(`Invalid value for ${flagName}: "${value}". Expected npm | pnpm | yarn | bun.`);
   }
+  return 'npm';
 };
 
 const detectPackageManager = (): PackageManager => {
@@ -255,7 +256,8 @@ const promptProjectSetup = async (options: CliOptions): Promise<ProjectSetup> =>
   }
 };
 
-const applyProjectName = (source: string, packageName: string): string => source.replaceAll(PROJECT_NAME_TOKEN, packageName);
+const applyProjectName = (source: string, packageName: string): string =>
+  source.replaceAll(PROJECT_NAME_TOKEN, packageName);
 
 const toStringMap = (value: unknown): Record<string, string> => {
   const out: Record<string, string> = {};

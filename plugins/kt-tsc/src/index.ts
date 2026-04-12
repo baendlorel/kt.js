@@ -4,6 +4,12 @@ import path from 'node:path';
 import process from 'node:process';
 import ts from 'typescript';
 
+/**
+ * How to use:
+ * 1) Install in your project: `pnpm add -D @ktjs/kt-tsc typescript`
+ * 2) Run with project mode: `kt-tsc -p ./tsconfig.json`
+ * 3) Or let it auto-find tsconfig.json in current directory: `kt-tsc`
+ */
 const HELP_TEXT = `kt-tsc
 
 Usage:
@@ -132,7 +138,8 @@ function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForCo
   const scopeCache = new Map<string, KForScope[]>();
 
   return diagnostics.filter((diagnostic) => {
-    if (!diagnostic.file || diagnostic.start === null || diagnostic.start === undefined || diagnostic.length === 0) {
+    const length = diagnostic.length ?? 0;
+    if (!diagnostic.file || diagnostic.start === null || diagnostic.start === undefined || length === 0) {
       return true;
     }
     if (!SUPPRESSED_DIAGNOSTIC_CODES.has(diagnostic.code)) {
@@ -142,7 +149,7 @@ function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForCo
       return true;
     }
 
-    const name = diagnostic.file.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+    const name = diagnostic.file.text.slice(diagnostic.start, diagnostic.start + length).trim();
     if (!IDENTIFIER_RE.test(name)) {
       return true;
     }

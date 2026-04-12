@@ -59,25 +59,53 @@ function main() {
 
   const projectPath = resolveProjectPath(commandLine.options.project);
   const parsed = loadProject(projectPath, commandLine.options);
-  for (let i = 0; i < parsed.fileNames.length; i++) {
-    const relativePath = path.relative(process.cwd(), parsed.fileNames[i]) || '.';
-    console.log(relativePath);
+  const projects = parsed.projectReferences?.length ? [] : [parsed];
+  if (parsed.projectReferences?.length) {
+    const visited = new Set([projectPath]);
+    const queue = [...parsed.projectReferences];
+    while (queue.length > 0) {
+      const reference = queue.shift();
+      if (!reference) {
+        continue;
+      }
+      const referencePath = resolveProjectPath(reference.path);
+      if (visited.has(referencePath)) {
+        continue;
+      }
+      visited.add(referencePath);
+      const referencedParsed = loadProject(referencePath, commandLine.options);
+      projects.push(referencedParsed);
+      if (referencedParsed.projectReferences?.length) {
+        queue.push(...referencedParsed.projectReferences);
+      }
+    }
   }
-  const config = resolveKForConfig(parsed.options.plugins);
-  const program = ts.createProgram({
-    rootNames: parsed.fileNames,
-    options: {
-      ...parsed.options,
-      noEmit: true,
-      incremental: false,
-    },
-    projectReferences: parsed.projectReferences,
-  });
 
-  const diagnostics = ts.sortAndDeduplicateDiagnostics([...parsed.errors, ...ts.getPreEmitDiagnostics(program)]);
-  const filtered = filterDiagnostics(diagnostics, config);
-  if (filtered.length > 0) {
-    report(filtered, parsed.options.pretty !== false);
+  const diagnostics: ts.Diagnostic[] = [];
+  for (let i = 0; i < projects.length; i++) {
+    const project = projects[i];
+    for (let j = 0; j < project.fileNames.length; j++) {
+      const relativePath = path.relative(process.cwd(), project.fileNames[j]) || '.';
+      console.log(relativePath);
+    }
+    const config = resolveKForConfig(project.options.plugins);
+    const program = ts.createProgram({
+      rootNames: project.fileNames,
+      options: {
+        ...project.options,
+        noEmit: true,
+        incremental: false,
+      },
+    });
+    const projectDiagnostics = ts.sortAndDeduplicateDiagnostics([...project.errors, ...ts.getPreEmitDiagnostics(program)]);
+    const filtered = filterDiagnostics(projectDiagnostics, config);
+    if (filtered.length > 0) {
+      diagnostics.push(...filtered);
+    }
+  }
+
+  if (diagnostics.length > 0) {
+    report(ts.sortAndDeduplicateDiagnostics(diagnostics), commandLine.options.pretty !== false);
     process.exit(1);
   }
 }

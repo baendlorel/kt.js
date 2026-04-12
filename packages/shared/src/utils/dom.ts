@@ -40,10 +40,11 @@ export type ChangeHandler<T = string> = (value: T, ...args: any[]) => void;
  * [INFO]  document.contains\isConnected\getRootNode can be used to check if an element is still in the DOM.
  * - `document.contains` is widely supported but slow.
  * - `node.isConnected` is much faster but not supported in IE.
+ * - `getRootNode` shared with isConnected the same compatibility but the same speed as `contains`
  *
  * So we combine them as this function
  */
-export const $inDom: (node: Node) => boolean = (() => {
+export const $indom: (node: Node) => boolean = (() => {
   const descriptor = Object.getOwnPropertyDescriptor(Node.prototype, 'isConnected');
 
   if (descriptor && descriptor.get) {

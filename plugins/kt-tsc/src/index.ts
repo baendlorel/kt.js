@@ -59,6 +59,10 @@ function main() {
 
   const projectPath = resolveProjectPath(commandLine.options.project);
   const parsed = loadProject(projectPath, commandLine.options);
+  for (let i = 0; i < parsed.fileNames.length; i++) {
+    const relativePath = path.relative(process.cwd(), parsed.fileNames[i]) || '.';
+    console.log(relativePath);
+  }
   const config = resolveKForConfig(parsed.options.plugins);
   const program = ts.createProgram({
     rootNames: parsed.fileNames,

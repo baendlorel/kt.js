@@ -523,6 +523,7 @@ function findTokenInForAttribute(
   };
 
   const allTokens = [...aliasTokens, keywordToken, ...sourceTokens];
+  let boundaryToken: KForStringToken | undefined;
   for (let i = 0; i < allTokens.length; i++) {
     const token = allTokens[i];
     if (position >= token.start && position < token.start + token.length) {
@@ -534,6 +535,19 @@ function findTokenInForAttribute(
         token,
       };
     }
+    if (position === token.start + token.length) {
+      boundaryToken = token;
+    }
+  }
+
+  if (boundaryToken) {
+    return {
+      opening,
+      attr,
+      sourceText,
+      sourceStart: rawStart + sourceStartInRaw,
+      token: boundaryToken,
+    };
   }
 
   return undefined;

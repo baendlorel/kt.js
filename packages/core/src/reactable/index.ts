@@ -1,4 +1,5 @@
-import type { KTReactive, KTReactiveLike } from './reactive.js';
+import type { KTReactiveLike } from './types.js';
+import type { KTReactive } from './reactive.js';
 import { isKT } from './common.js';
 import { ref } from './ref.js';
 

@@ -1,5 +1,6 @@
+import type { KTReactiveLike } from './types.js';
+
 import { $emptyFn } from '@ktjs/shared';
-import type { KTReactiveLike } from './reactive.js';
 import { isSubReactive } from './common.js';
 
 interface KTEffectOptions {

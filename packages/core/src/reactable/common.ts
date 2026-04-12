@@ -1,6 +1,7 @@
-import { KTReactiveLike, KTReactiveType, type KTReactive } from './reactive.js';
+import type { KTReactiveLike } from './types.js';
 import type { KTRef, KTRefLike, KTSubRef } from './ref.js';
 import type { KTComputed, KTComputedLike, KTSubComputed } from './computed.js';
+import { KTReactiveType, type KTReactive } from './reactive.js';
 
 // # type guards
 export function isKT<T = any>(obj: any): obj is KTReactiveLike<T> {

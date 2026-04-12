@@ -1,8 +1,7 @@
 import type { KTComputed, KTSubComputed } from './computed.js';
+import { KTReactiveLike, type ChangeHandler } from './types.js';
 
 import { $stringify } from '@ktjs/shared';
-
-export type ChangeHandler<T> = (newValue: T, oldValue: T) => void;
 
 export const enum KTReactiveType {
   Pseudo = 0b000001,
@@ -23,20 +22,9 @@ let handlerId = 1;
 export const nextKid = () => kid++;
 export const nextHandlerId = (kid: number) => `@@k-handler-${kid}-${handlerId++}`;
 
-export abstract class KTReactiveLike<T> {
+export abstract class KTReactive<T> extends KTReactiveLike<T> {
   readonly kid = nextKid();
 
-  abstract readonly ktype: KTReactiveType;
-
-  abstract get value(): T;
-
-  abstract addOnChange(handler: ChangeHandler<T>, key?: any): this;
-  abstract removeOnChange(key: any): this;
-
-  abstract dispose(): void;
-}
-
-export abstract class KTReactive<T> extends KTReactiveLike<T> {
   /**
    * @internal
    */
@@ -45,6 +33,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
   /**
    * @internal
    */
+  // TODO 用isConnected去判定并清理handler
   protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
 
   constructor(value: T) {
@@ -175,6 +164,8 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
 }
 
 export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
+  readonly kid = nextKid();
+
   readonly source: KTReactive<any>;
 
   /**

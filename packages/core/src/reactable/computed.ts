@@ -1,5 +1,7 @@
+import type { KTReactiveLike } from './types.js';
+
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveLike, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
+import { KTReactive, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
 import { $createSubGetter, isReactive, isSubReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {

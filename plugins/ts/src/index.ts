@@ -12,7 +12,12 @@ import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
 import { addKForSemanticClassifications, addKForSyntacticClassifications } from './kfor-highlighting';
-import { getKForDefinitionAndBoundSpan, getKForQuickInfoAtPosition } from './quickinfo';
+import {
+  getKForDefinitionAndBoundSpan,
+  getKForQuickInfoAtPosition,
+  getKForRenameInfo,
+  getKForRenameLocations,
+} from './quickinfo';
 import { collectBindingsAtPosition, getFileAnalysis, getKForMemberDiagnostics, isSuppressed } from './scope-analysis';
 import { resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
@@ -146,6 +151,109 @@ function init(modules: { typescript: typeof tsModule }) {
 
       const pluginDefinition = getKForDefinitionAndBoundSpan(analysis, position, ts, config);
       return pluginDefinition?.definitions || base;
+    };
+
+    proxy.getRenameInfo = (
+      fileName: string,
+      position: number,
+      preferences?: tsModule.UserPreferences,
+    ): tsModule.RenameInfo => {
+      const base = languageService.getRenameInfo(fileName, position, preferences);
+      if (!isJsxLikeFile(fileName)) {
+        return base;
+      }
+
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      if (!analysis) {
+        return base;
+      }
+
+      const pluginRenameInfo = getKForRenameInfo(analysis, position, ts, config);
+      if (pluginRenameInfo) {
+        return pluginRenameInfo;
+      }
+
+      const pluginDefinition = getKForDefinitionAndBoundSpan(analysis, position, ts, config);
+      const symbolDefinition = pluginDefinition?.definitions?.[0];
+      if (!pluginDefinition || !symbolDefinition) {
+        return base;
+      }
+
+      const symbolRenameInfo = languageService.getRenameInfo(symbolDefinition.fileName, symbolDefinition.textSpan.start, preferences);
+      if (!symbolRenameInfo.canRename) {
+        return symbolRenameInfo;
+      }
+
+      return {
+        ...symbolRenameInfo,
+        triggerSpan: pluginDefinition.textSpan,
+      };
+    };
+
+    proxy.findRenameLocations = (
+      fileName: string,
+      position: number,
+      findInStrings: boolean,
+      findInComments: boolean,
+      preferencesOrProvidePrefixAndSuffixTextForRename?: tsModule.UserPreferences | boolean,
+    ): readonly tsModule.RenameLocation[] | undefined => {
+      const base = (languageService.findRenameLocations as any)(
+        fileName,
+        position,
+        findInStrings,
+        findInComments,
+        preferencesOrProvidePrefixAndSuffixTextForRename,
+      ) as readonly tsModule.RenameLocation[] | undefined;
+      if (!isJsxLikeFile(fileName)) {
+        return base;
+      }
+
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      if (!analysis) {
+        return base;
+      }
+
+      const pluginRenameLocations = getKForRenameLocations(analysis, position, ts, config);
+      if (pluginRenameLocations) {
+        return pluginRenameLocations;
+      }
+
+      const pluginDefinition = getKForDefinitionAndBoundSpan(analysis, position, ts, config);
+      const symbolDefinition = pluginDefinition?.definitions?.[0];
+      if (!pluginDefinition || !symbolDefinition) {
+        return base;
+      }
+
+      const symbolLocations =
+        ((languageService.findRenameLocations as any)(
+          symbolDefinition.fileName,
+          symbolDefinition.textSpan.start,
+          findInStrings,
+          findInComments,
+          preferencesOrProvidePrefixAndSuffixTextForRename,
+        ) as readonly tsModule.RenameLocation[] | undefined) || [];
+
+      const keySet = new Set<string>();
+      const result: tsModule.RenameLocation[] = [];
+      for (let i = 0; i < symbolLocations.length; i++) {
+        const location = symbolLocations[i];
+        const key = `${location.fileName}:${location.textSpan.start}:${location.textSpan.length}`;
+        if (keySet.has(key)) {
+          continue;
+        }
+        keySet.add(key);
+        result.push(location);
+      }
+
+      const tokenKey = `${fileName}:${pluginDefinition.textSpan.start}:${pluginDefinition.textSpan.length}`;
+      if (!keySet.has(tokenKey)) {
+        result.push({
+          fileName,
+          textSpan: pluginDefinition.textSpan,
+        });
+      }
+
+      return result;
     };
 
     proxy.getCompletionsAtPosition = (

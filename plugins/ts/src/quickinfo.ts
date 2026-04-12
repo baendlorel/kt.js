@@ -33,6 +33,13 @@ interface KForAliasDeclaration {
   scopeEnd: number;
 }
 
+interface KForRenameTarget {
+  name: string;
+  triggerStart: number;
+  triggerLength: number;
+  declaration: KForAliasDeclaration;
+}
+
 const IDENTIFIER_PATTERN = /[A-Za-z_$][A-Za-z0-9_$]*/g;
 const KEYWORD_DELIMITER_PATTERN = /\s+(in|of)\s+/;
 
@@ -86,6 +93,18 @@ export function getKForDefinitionAndBoundSpan(
       definitions: [createDefinitionInfo(analysis.sourceFile, context.token.text, context.token.start, context.token.length, ts)],
     };
   }
+  if (context?.token.kind === 'source') {
+    const definitions = getSourceTokenDefinitions(context, analysis.checker, ts);
+    if (definitions.length > 0) {
+      return {
+        textSpan: {
+          start: context.token.start,
+          length: context.token.length,
+        },
+        definitions,
+      };
+    }
+  }
 
   const identifier = findIdentifierAtPosition(analysis.sourceFile, position, ts);
   if (!identifier) {
@@ -109,6 +128,78 @@ export function getKForDefinitionAndBoundSpan(
     },
     definitions: [createDefinitionInfo(analysis.sourceFile, declaration.name, declaration.start, declaration.length, ts)],
   };
+}
+
+export function getKForRenameInfo(
+  analysis: FileAnalysis,
+  position: number,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): tsModule.RenameInfo | undefined {
+  const target = getKForAliasRenameTarget(analysis, position, ts, config);
+  if (!target) {
+    return undefined;
+  }
+
+  return {
+    canRename: true,
+    displayName: target.name,
+    fullDisplayName: `(k-for) ${target.name}`,
+    kind: ts.ScriptElementKind.localVariableElement,
+    kindModifiers: '',
+    triggerSpan: {
+      start: target.triggerStart,
+      length: target.triggerLength,
+    },
+  };
+}
+
+export function getKForRenameLocations(
+  analysis: FileAnalysis,
+  position: number,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): readonly tsModule.RenameLocation[] | undefined {
+  const target = getKForAliasRenameTarget(analysis, position, ts, config);
+  if (!target) {
+    return undefined;
+  }
+
+  const declarations = collectKForAliasDeclarations(analysis.sourceFile, ts, config);
+  const locations: tsModule.RenameLocation[] = [];
+  const seen = new Set<string>();
+
+  const add = (start: number, length: number) => {
+    const key = `${start}:${length}`;
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    locations.push({
+      fileName: analysis.sourceFile.fileName,
+      textSpan: { start, length },
+    });
+  };
+
+  add(target.declaration.start, target.declaration.length);
+
+  const visit = (node: tsModule.Node) => {
+    if (ts.isIdentifier(node) && node.text === target.name) {
+      const start = node.getStart(analysis.sourceFile);
+      const owner = findKForAliasDeclaration(analysis.sourceFile, target.name, start, ts, config, declarations);
+      if (
+        owner &&
+        owner.start === target.declaration.start &&
+        owner.length === target.declaration.length
+      ) {
+        add(start, node.getWidth(analysis.sourceFile));
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+
+  visit(analysis.sourceFile);
+  return locations;
 }
 
 function getKForStringQuickInfo(
@@ -168,6 +259,135 @@ function getKForStringQuickInfo(
     );
   }
 
+  return undefined;
+}
+
+function getKForAliasRenameTarget(
+  analysis: FileAnalysis,
+  position: number,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): KForRenameTarget | undefined {
+  const context = findKForStringContextAtPosition(analysis.sourceFile, position, ts, config);
+  if (context?.token.kind === 'alias') {
+    const declaration = findKForAliasDeclaration(analysis.sourceFile, context.token.text, context.token.start, ts, config);
+    if (!declaration) {
+      return undefined;
+    }
+    return {
+      name: context.token.text,
+      triggerStart: context.token.start,
+      triggerLength: context.token.length,
+      declaration,
+    };
+  }
+
+  const identifier = findIdentifierAtPosition(analysis.sourceFile, position, ts);
+  if (!identifier) {
+    return undefined;
+  }
+
+  const bindings = collectBindingsAtPosition(position, analysis.scopes);
+  if (!bindings.has(identifier.text)) {
+    return undefined;
+  }
+
+  const declaration = findKForAliasDeclaration(analysis.sourceFile, identifier.text, identifier.getStart(), ts, config);
+  if (!declaration) {
+    return undefined;
+  }
+
+  return {
+    name: identifier.text,
+    triggerStart: identifier.getStart(),
+    triggerLength: identifier.getWidth(),
+    declaration,
+  };
+}
+
+function getSourceTokenDefinitions(
+  context: KForStringContext,
+  checker: tsModule.TypeChecker,
+  ts: typeof tsModule,
+): tsModule.DefinitionInfo[] {
+  const symbol = resolveSymbolInScope(context.token.text, checker, context.opening, ts);
+  if (!symbol) {
+    return [];
+  }
+  return resolveDefinitionInfosFromSymbol(symbol, checker, ts);
+}
+
+function resolveSymbolInScope(
+  name: string,
+  checker: tsModule.TypeChecker,
+  scopeNode: tsModule.Node,
+  ts: typeof tsModule,
+): tsModule.Symbol | undefined {
+  const symbols = checker.getSymbolsInScope(scopeNode, ts.SymbolFlags.Value | ts.SymbolFlags.Alias);
+
+  for (let i = 0; i < symbols.length; i++) {
+    const symbol = symbols[i];
+    if (symbol.getName() !== name) {
+      continue;
+    }
+
+    if (symbol.flags & ts.SymbolFlags.Alias) {
+      const aliased = checker.getAliasedSymbol(symbol);
+      if (aliased.flags & ts.SymbolFlags.Value) {
+        return aliased;
+      }
+      continue;
+    }
+
+    if (symbol.flags & ts.SymbolFlags.Value) {
+      return symbol;
+    }
+  }
+
+  return undefined;
+}
+
+function resolveDefinitionInfosFromSymbol(
+  symbol: tsModule.Symbol,
+  checker: tsModule.TypeChecker,
+  ts: typeof tsModule,
+): tsModule.DefinitionInfo[] {
+  const targetSymbol = symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+  const declarations = targetSymbol.declarations || [];
+  const result: tsModule.DefinitionInfo[] = [];
+
+  for (let i = 0; i < declarations.length; i++) {
+    const declaration = declarations[i];
+    const sourceFile = declaration.getSourceFile();
+    if (!sourceFile) {
+      continue;
+    }
+
+    const spanNode = getDeclarationNameNode(declaration) || declaration;
+    const start = spanNode.getStart(sourceFile);
+    const length = spanNode.getWidth(sourceFile);
+    if (length <= 0) {
+      continue;
+    }
+
+    result.push({
+      fileName: sourceFile.fileName,
+      textSpan: { start, length },
+      kind: ts.ScriptElementKind.localVariableElement,
+      name: targetSymbol.getName(),
+      containerKind: ts.ScriptElementKind.unknown,
+      containerName: '',
+    });
+  }
+
+  return result;
+}
+
+function getDeclarationNameNode(node: tsModule.Declaration): tsModule.Node | undefined {
+  const namedNode = node as tsModule.Declaration & { name?: tsModule.Node };
+  if (namedNode.name) {
+    return namedNode.name;
+  }
   return undefined;
 }
 
@@ -325,8 +545,9 @@ function findKForAliasDeclaration(
   position: number,
   ts: typeof tsModule,
   config: ResolvedConfig,
+  declarationsInput?: KForAliasDeclaration[],
 ): KForAliasDeclaration | undefined {
-  const declarations = collectKForAliasDeclarations(sourceFile, ts, config);
+  const declarations = declarationsInput || collectKForAliasDeclarations(sourceFile, ts, config);
   for (let i = declarations.length - 1; i >= 0; i--) {
     const declaration = declarations[i];
     if (declaration.name !== name) {

@@ -7,6 +7,9 @@
 > - 罗马音以常见 Hepburn / 官方常用写法为主；`KAFU`、`OИE`、`ROSA`、`#kzn`、`WhiteCUL`、`Ci flower` 等保留惯用官方写法。
 > - 我**没有**顺手检查 npm 是否已占用，这份先只当名字池。
 
+## 候选
+ Meika Hime 。 npm还没有hime
+
 ## 1. VOICEROID / A.I.VOICE 系常见角色
 
 | 名字            | Romaji           | 备注                          |

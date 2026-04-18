@@ -174,7 +174,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
     return (
       <label class="mui-filepicker-label">
         {labelRef}
-        {KTConditional(requiredRef, 'span', { class: 'mui-filepicker-required', children: '*' })}
+        {KTConditional(requiredRef, 'span', () => ({ class: 'mui-filepicker-required', children: '*' }))}
       </label>
     );
   }, [labelRef, requiredRef]);
@@ -188,7 +188,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
       <legend class="mui-filepicker-legend">
         <span>
           {labelRef}
-          {KTConditional(requiredRef, 'span', { children: '*' })}
+          {KTConditional(requiredRef, 'span', () => ({ children: '*' }))}
         </span>
       </legend>
     );

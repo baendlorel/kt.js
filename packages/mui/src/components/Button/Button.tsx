@@ -112,9 +112,9 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       disabled={disabledRef}
       on:click={handleClick}
     >
-      {KTConditional(startIconRef, 'span', { class: 'mui-button-start-icon', children: startIconRef })}
+      {KTConditional(startIconRef, 'span', () => ({ class: 'mui-button-start-icon', children: startIconRef }))}
       <span class="mui-button-label">{props.children}</span>
-      {KTConditional(endIconRef, 'span', { class: 'mui-button-end-icon', children: endIconRef })}
+      {KTConditional(endIconRef, 'span', () => ({ class: 'mui-button-end-icon', children: endIconRef }))}
       <span ref={rippleContainerRef} class="mui-button-ripple"></span>
     </button>
   ) as HTMLButtonElement;

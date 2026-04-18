@@ -187,7 +187,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
     return (
       <label class="mui-textfield-label">
         {labelRef}
-        {KTConditional(requiredRef, 'span', { class: 'mui-textfield-required', children: '*' })}
+        {KTConditional(requiredRef, 'span', () => ({ class: 'mui-textfield-required', children: '*' }))}
       </label>
     );
   }, [labelRef, requiredRef]);
@@ -201,7 +201,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
       <legend class="mui-textfield-legend">
         <span>
           {labelRef}
-          {KTConditional(requiredRef, 'span', { children: '*' })}
+          {KTConditional(requiredRef, 'span', () => ({ children: '*' }))}
         </span>
       </legend>
     );

@@ -88,7 +88,7 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
         {track}
         {thumb}
       </span>
-      {KTConditional(labelRef, 'span', { class: 'mui-switch-label', children: labelRef })}
+      {KTConditional(labelRef, 'span', () => ({ class: 'mui-switch-label', children: labelRef }))}
     </label>
   ) as KTMuiSwitch;
 

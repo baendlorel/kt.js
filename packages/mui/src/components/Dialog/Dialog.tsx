@@ -189,7 +189,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const renderCloseButton = () =>
-    KTConditional(showCloseRef, 'button', {
+    KTConditional(showCloseRef, 'button', () => ({
       class: 'kt-dialog-close',
       type: 'button',
       'aria-label': 'Close dialog',
@@ -198,7 +198,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
         e.stopPropagation();
         closeDialog();
       },
-    });
+    }));
 
   const assignContainer = () => {
     if (modeRef.value === 'dialog' && SUPPORTS_DIALOG) {
@@ -212,9 +212,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
             {renderCloseButton()}
-            {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
-            {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
-            {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}
+            {KTConditional(titleRef, 'div', () => ({ class: 'kt-dialog-title', children: <h2>{titleRef}</h2> }))}
+            {KTConditional(children, 'div', () => ({ class: 'kt-dialog-content', children }))}
+            {KTConditional(actionsRef, 'div', () => ({ class: 'kt-dialog-actions', children: actionsRef }))}
           </dialog>
         </div>
       ) as KTMuiDialog;
@@ -229,9 +229,9 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             on:click={(e: MouseEvent) => e.stopPropagation()}
           >
             {renderCloseButton()}
-            {KTConditional(titleRef, 'div', { class: 'kt-dialog-title', children: <h2>{titleRef}</h2> })}
-            {KTConditional(children, 'div', { class: 'kt-dialog-content', children })}
-            {KTConditional(actionsRef, 'div', { class: 'kt-dialog-actions', children: actionsRef })}
+            {KTConditional(titleRef, 'div', () => ({ class: 'kt-dialog-title', children: <h2>{titleRef}</h2> }))}
+            {KTConditional(children, 'div', () => ({ class: 'kt-dialog-content', children }))}
+            {KTConditional(actionsRef, 'div', () => ({ class: 'kt-dialog-actions', children: actionsRef }))}
           </div>
         </div>
       ) as KTMuiDialog;

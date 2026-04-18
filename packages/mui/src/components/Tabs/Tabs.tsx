@@ -235,7 +235,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
           tabIndex={selected ? 0 : -1}
           on:click={handleTabClick}
         >
-          {KTConditional(option.icon, 'span', { class: 'mui-tab-icon', children: option.icon })}
+          {KTConditional(option.icon, 'span', () => ({ class: 'mui-tab-icon', children: option.icon }))}
           <span class="mui-tab-label">{option.label}</span>
         </button>
       ) as HTMLButtonElement;

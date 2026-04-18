@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { h } from '../src/h/index.js';
 import { KTConditional } from '../src/jsx/if.js';
 import { ref } from '../src/reactable/index.js';
@@ -16,8 +16,8 @@ describe('KTConditional', () => {
   });
 
   it('renders element/comment correctly for static conditions without else branch', () => {
-    const rendered = KTConditional(true, 'div', { children: 'if-branch' }) as Node;
-    const hidden = KTConditional(false, 'div', { children: 'if-branch' }) as Node;
+    const rendered = KTConditional(true, 'div', () => ({ children: 'if-branch' })) as Node;
+    const hidden = KTConditional(false, 'div', () => ({ children: 'if-branch' })) as Node;
 
     expect(rendered.nodeType).toBe(Node.ELEMENT_NODE);
     expect(rendered.textContent).toBe('if-branch');
@@ -27,9 +27,13 @@ describe('KTConditional', () => {
   });
 
   it('returns the else branch when static condition is false', () => {
-    const rendered = KTConditional(false, 'div', { children: 'if-branch' }, 'span', {
-      children: 'else-branch',
-    }) as HTMLElement;
+    const rendered = KTConditional(
+      false,
+      'div',
+      () => ({ children: 'if-branch' }),
+      'span',
+      () => ({ children: 'else-branch' }),
+    ) as HTMLElement;
 
     expect(rendered.tagName).toBe('SPAN');
     expect(rendered.textContent).toBe('else-branch');
@@ -37,7 +41,7 @@ describe('KTConditional', () => {
 
   it('updates between element and placeholder when reactive condition changes', () => {
     const visible = ref(true);
-    const node = KTConditional(visible, 'div', { id: 'if-node', children: 'if-branch' }) as Node;
+    const node = KTConditional(visible, 'div', () => ({ id: 'if-node', children: 'if-branch' })) as Node;
 
     container.appendChild(node);
     expect(container.textContent).toBe('if-branch');
@@ -55,10 +59,13 @@ describe('KTConditional', () => {
 
   it('switches between if/else branches when reactive condition changes', () => {
     const visible = ref(true);
-    const node = KTConditional(visible, 'div', { class: 'if-branch', children: 'if-branch' }, 'div', {
-      class: 'else-branch',
-      children: 'else-branch',
-    }) as Node;
+    const node = KTConditional(
+      visible,
+      'div',
+      () => ({ class: 'if-branch', children: 'if-branch' }),
+      'div',
+      () => ({ class: 'else-branch', children: 'else-branch' }),
+    ) as Node;
 
     container.appendChild(node);
     expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
@@ -76,10 +83,42 @@ describe('KTConditional', () => {
   it('supports component tags for both branches', () => {
     const IfComp = (props: { children?: string }) => h('p', { class: 'if-component' }, props.children);
     const ElseComp = (props: { children?: string }) => h('p', { class: 'else-component' }, props.children);
-    const node = KTConditional(false, IfComp, { children: 'if-text' }, ElseComp, { children: 'else-text' }) as Node;
+    const node = KTConditional(
+      false,
+      IfComp,
+      () => ({ children: 'if-text' }),
+      ElseComp,
+      () => ({ children: 'else-text' }),
+    ) as Node;
 
     container.appendChild(node);
     expect(container.querySelector('.if-component')).toBeNull();
     expect(container.querySelector('.else-component')?.textContent).toBe('else-text');
+  });
+
+  it('only evaluates the rendered props factory', () => {
+    const ifProps = vi.fn(() => ({ children: 'if-branch' }));
+    const elseProps = vi.fn(() => ({ children: 'else-branch' }));
+
+    const node = KTConditional(false, 'div', ifProps, 'span', elseProps) as HTMLElement;
+
+    expect(node.tagName).toBe('SPAN');
+    expect(ifProps).not.toHaveBeenCalled();
+    expect(elseProps).toHaveBeenCalledTimes(1);
+  });
+
+  it('evaluates props factories on each reactive branch creation', () => {
+    const visible = ref(false);
+    const ifProps = vi.fn(() => ({ children: 'if-branch' }));
+    const elseProps = vi.fn(() => ({ children: 'else-branch' }));
+    const node = KTConditional(visible, 'div', ifProps, 'span', elseProps) as Node;
+
+    container.appendChild(node);
+    expect(ifProps).not.toHaveBeenCalled();
+    expect(elseProps).toHaveBeenCalledTimes(1);
+
+    visible.value = true;
+    expect(ifProps).toHaveBeenCalledTimes(1);
+    expect(elseProps).toHaveBeenCalledTimes(1);
   });
 });

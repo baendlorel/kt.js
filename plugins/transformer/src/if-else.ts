@@ -363,11 +363,15 @@ function buildKTConditionalCall(
 ): t.CallExpression {
   const helperIdentifier = ensureKTConditionalIdentifier(path);
   const ifArgs = buildConditionalCallArgs(ifElement);
-  const callArgs: t.Expression[] = [getConditionExpression(condition), ifArgs.tag, ifArgs.props];
+  const callArgs: t.Expression[] = [
+    getConditionExpression(condition),
+    ifArgs.tag,
+    t.arrowFunctionExpression([], ifArgs.props),
+  ];
 
   if (elseElement) {
     const elseArgs = buildConditionalCallArgs(elseElement);
-    callArgs.push(elseArgs.tag, elseArgs.props);
+    callArgs.push(elseArgs.tag, t.arrowFunctionExpression([], elseArgs.props));
   }
 
   return t.callExpression(helperIdentifier, callArgs);
@@ -383,11 +387,15 @@ function buildKTConditionalCallFromCallExpression(
 ): t.CallExpression {
   const helperIdentifier = ensureKTConditionalIdentifier(path);
   const ifArgs = buildConditionalCallArgsFromCallExpression(ifCallExpression, ifDirective);
-  const callArgs: t.Expression[] = [getConditionExpression(condition), ifArgs.tag, ifArgs.props];
+  const callArgs: t.Expression[] = [
+    getConditionExpression(condition),
+    ifArgs.tag,
+    t.arrowFunctionExpression([], ifArgs.props),
+  ];
 
   if (elseCallExpression && elseDirective) {
     const elseArgs = buildConditionalCallArgsFromCallExpression(elseCallExpression, elseDirective);
-    callArgs.push(elseArgs.tag, elseArgs.props);
+    callArgs.push(elseArgs.tag, t.arrowFunctionExpression([], elseArgs.props));
   }
 
   return t.callExpression(helperIdentifier, callArgs);

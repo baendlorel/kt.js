@@ -44,7 +44,7 @@ describe('vite-plugin-ktjsx', () => {
     expect(code).toContain(`${svgAlias}("svg"`);
     expect(code).toContain(`${svgAlias}("circle"`);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('_KTConditional(ok, "div", () => ({');
     expect(code).not.toContain('k-if');
     expect(code).not.toContain('k-else');
   });
@@ -55,7 +55,7 @@ describe('vite-plugin-ktjsx', () => {
     );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('_KTConditional(ok, "div", () => ({');
     expect(code).not.toContain('k-if');
     expect(code).not.toContain('k-else');
   });
@@ -64,8 +64,8 @@ describe('vite-plugin-ktjsx', () => {
     const result = await runTransform('const view = <><div k-if={a}>A</div><div k-if={b}>B</div></>;');
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(a, "div"');
-    expect(code).toContain('_KTConditional(b, "div"');
+    expect(code).toContain('_KTConditional(a, "div", () => ({');
+    expect(code).toContain('_KTConditional(b, "div", () => ({');
     expect(code).not.toContain('k-if');
   });
 
@@ -73,7 +73,7 @@ describe('vite-plugin-ktjsx', () => {
     const result = await runTransform('const view = <div id="box" k-if={ok}>A</div>;');
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('_KTConditional(ok, "div", () => ({');
     expect(code).toContain('id: "box"');
     expect(code).not.toContain('k-if');
   });
@@ -84,7 +84,7 @@ describe('vite-plugin-ktjsx', () => {
     );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('_KTConditional(ok, "div", () => ({');
     expect(code).toContain('id: "box"');
     expect(code).not.toContain('"k-if"');
   });
@@ -100,7 +100,7 @@ describe('vite-plugin-ktjsx', () => {
     );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div"');
+    expect(code).toContain('_KTConditional(ok, "div", () => ({');
     expect(code).not.toContain('"k-if"');
     expect(code).not.toContain('"k-else"');
   });
@@ -116,8 +116,8 @@ describe('vite-plugin-ktjsx', () => {
     );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(a, "div"');
-    expect(code).toContain('_KTConditional(b, "div"');
+    expect(code).toContain('_KTConditional(a, "div", () => ({');
+    expect(code).toContain('_KTConditional(b, "div", () => ({');
     expect(code).not.toContain('"k-if"');
   });
 
@@ -143,7 +143,7 @@ describe('vite-plugin-ktjsx', () => {
       const code = toCode(result);
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
       expect(code).toContain('KTConditional as _KTConditional');
-      expect(code).toContain('_KTConditional(ok, "div"');
+      expect(code).toContain('_KTConditional(ok, "div", () => ({');
       expect(code).toContain('k-else-if');
     } finally {
       warnSpy.mockRestore();
@@ -299,7 +299,7 @@ describe('vite-plugin-ktjsx', () => {
     );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, \"div\"');
+    expect(code).toContain('_KTConditional(ok, \"div\", () => ({');
     expect(code).not.toContain('\"k-if\"');
   });
 
@@ -314,7 +314,7 @@ describe('vite-plugin-ktjsx', () => {
     });
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, \"div\"');
+    expect(code).toContain('_KTConditional(ok, \"div\", () => ({');
     expect(code).not.toContain('k-if');
   });
 });

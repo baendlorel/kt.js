@@ -79,10 +79,10 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
     labelProps.for = htmlForRef;
   }
 
-  const requiredMarker = KTConditional(requiredRef, 'span', {
+  const requiredMarker = KTConditional(requiredRef, 'span', () => ({
     class: 'mui-form-label-asterisk',
     children: '*',
-  });
+  }));
 
   const container =
     props.component === 'legend' ? (

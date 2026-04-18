@@ -112,16 +112,16 @@ export function Pill(props: KTMuiPillProps): KTMuiPill {
       on:click={handleClick}
       on:keydown={handleKeydown}
     >
-      {KTConditional(props.icon, 'span', { class: 'mui-pill-icon', children: props.icon })}
+      {KTConditional(props.icon, 'span', () => ({ class: 'mui-pill-icon', children: props.icon }))}
       <span class="mui-pill-label">{props.children ?? labelRef}</span>
-      {KTConditional(onDelete, 'button', {
+      {KTConditional(onDelete, 'button', () => ({
         class: 'mui-pill-delete',
         type: 'button',
         tabIndex: -1,
         'aria-label': 'Delete',
         'on:click': handleDelete,
         children: props.deleteIcon ?? defaultDeleteIcon,
-      })}
+      }))}
     </span>
   ) as KTMuiPill;
 

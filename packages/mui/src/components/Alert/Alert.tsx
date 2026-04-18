@@ -123,7 +123,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
     <div class={className} style={styleRef} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{childrenRef}</div>
-      {KTConditional(onClose, 'button', {
+      {KTConditional(onClose, 'button', () => ({
         class: 'mui-alert-close',
         'on:click': onClose!,
         'aria-label': 'Close',
@@ -135,7 +135,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
             />
           </svg>
         ),
-      })}
+      }))}
     </div>
   );
 

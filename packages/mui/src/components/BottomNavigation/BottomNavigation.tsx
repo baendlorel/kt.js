@@ -140,7 +140,7 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
               tabIndex={selectedRef.map((selected) => (selected ? 0 : -1))}
               on:click={handleActionClick}
             >
-              {KTConditional(iconRef, 'span', { class: 'mui-bottom-navigation-action-icon', children: iconRef })}
+              {KTConditional(iconRef, 'span', () => ({ class: 'mui-bottom-navigation-action-icon', children: iconRef }))}
               <span class="mui-bottom-navigation-action-label">{labelRef}</span>
             </button>
           );

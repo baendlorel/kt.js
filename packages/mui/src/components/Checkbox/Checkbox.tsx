@@ -99,7 +99,7 @@ export function Checkbox(
         {checkedIcon}
         {indeterminateIcon}
       </span>
-      {KTConditional(labelRef, 'span', { class: 'mui-checkbox-label', children: labelRef })}
+      {KTConditional(labelRef, 'span', () => ({ class: 'mui-checkbox-label', children: labelRef }))}
     </label>
   ) as KTMuiCheckbox;
 

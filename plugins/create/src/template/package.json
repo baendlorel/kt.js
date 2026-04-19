@@ -14,7 +14,7 @@
     "kt.js": "^0.38.8"
   },
   "devDependencies": {
-    "@ktjs/vite-plugin-ktjsx": "^0.4.6",
+    "@ktjs/vite-plugin-ktjsx": "^0.5.0",
     "@ktjs/ts-plugin": "^0.3.1",
     "@ktjs/kt-tsc": "^0.2.0",
     "typescript": "^6.0.3",

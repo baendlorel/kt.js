@@ -118,7 +118,9 @@ describe('ts plugin k-if narrowing', () => {
     const position = code.indexOf('data-id={o.prop.id}') + 'data-id={'.length + 1;
     const narrowed = collectIfNarrowingsAtPosition(position, analysis.ifScopes);
     const propTypes = narrowed.get('o.prop') || [];
-    const texts = propTypes.map((type) => analysis.checker.typeToString(type, analysis.sourceFile, ts.TypeFormatFlags.NoTruncation));
+    const texts = propTypes.map((type) =>
+      analysis.checker.typeToString(type, analysis.sourceFile, ts.TypeFormatFlags.NoTruncation),
+    );
 
     expect(texts).toEqual(['{ id: number; }']);
   });

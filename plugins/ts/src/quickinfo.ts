@@ -4,7 +4,7 @@ import { createBindingTypeMap } from './completion';
 import { getAttributeExpression, getJsxAttribute } from './jsx-attributes';
 import { isValidIdentifier } from './identifiers';
 import { parseKForExpression } from './kfor-parser';
-import { collectBindingsAtPosition, resolveBindingsForForAttribute } from './scope-analysis';
+import { collectBindingsAtPosition, collectIfNarrowingsAtPosition, resolveBindingsForForAttribute } from './scope-analysis';
 import { formatTypeList, resolveExpressionTypesFromText } from './type-resolution';
 import type { FileAnalysis, JsxOpeningLikeElement, ResolvedConfig } from './types';
 
@@ -69,7 +69,14 @@ export function getKForQuickInfoAtPosition(
     return createQuickInfo(identifier, `(k-for) ${aliasBinding.name}`, aliasBinding.types, analysis.checker, ts);
   }
 
-  const memberTypes = resolveMemberQuickInfoTypes(identifier, bindings, analysis.sourceFile, analysis.checker, ts);
+  const memberTypes = resolveMemberQuickInfoTypes(
+    identifier,
+    bindings,
+    analysis.sourceFile,
+    analysis.checker,
+    analysis.ifScopes,
+    ts,
+  );
   if (memberTypes.length > 0) {
     return createQuickInfo(identifier, `(k-for) ${identifier.text}`, memberTypes, analysis.checker, ts);
   }
@@ -214,7 +221,14 @@ function getKForStringQuickInfo(
   }
 
   if (context.token.kind === 'alias') {
-    const bindings = resolveBindingsForForAttribute(context.opening, context.attr, analysis.checker, config, ts);
+    const bindings = resolveBindingsForForAttribute(
+      context.opening,
+      context.attr,
+      analysis.checker,
+      config,
+      ts,
+      analysis.ifScopes,
+    );
     for (let i = 0; i < bindings.length; i++) {
       const binding = bindings[i];
       if (binding.name === context.token.text) {
@@ -242,6 +256,7 @@ function getKForStringQuickInfo(
       checker: analysis.checker,
       ts,
       scopeNode: context.opening,
+      narrowedExpressions: collectIfNarrowingsAtPosition(context.token.start, analysis.ifScopes),
     });
 
     if (types.length === 0) {
@@ -396,6 +411,7 @@ function resolveMemberQuickInfoTypes(
   bindings: Map<string, { name: string; types: tsModule.Type[] }>,
   sourceFile: tsModule.SourceFile,
   checker: tsModule.TypeChecker,
+  ifScopes: FileAnalysis['ifScopes'],
   ts: typeof tsModule,
 ): tsModule.Type[] {
   const parent = identifier.parent;
@@ -416,6 +432,7 @@ function resolveMemberQuickInfoTypes(
     ts,
     scopeNode: identifier,
     localBindings: createBindingTypeMap(bindings),
+    narrowedExpressions: collectIfNarrowingsAtPosition(identifier.getStart(sourceFile), ifScopes),
   });
 }
 

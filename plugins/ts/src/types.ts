@@ -33,6 +33,17 @@ export interface KForScope {
   bindings: KForBinding[];
 }
 
+export interface KIfNarrowing {
+  text: string;
+  types: tsModule.Type[];
+}
+
+export interface KIfScope {
+  start: number;
+  end: number;
+  narrowings: KIfNarrowing[];
+}
+
 export interface ParsedKForExpression {
   aliases: string[];
   source: string;
@@ -43,6 +54,7 @@ export interface TypeResolutionContext {
   ts: typeof tsModule;
   scopeNode: tsModule.Node;
   localBindings?: ReadonlyMap<string, readonly tsModule.Type[]>;
+  narrowedExpressions?: ReadonlyMap<string, readonly tsModule.Type[]>;
 }
 
 export interface MemberCompletionContext {
@@ -54,6 +66,7 @@ export interface FileAnalysis {
   sourceFile: tsModule.SourceFile;
   checker: tsModule.TypeChecker;
   scopes: KForScope[];
+  ifScopes: KIfScope[];
 }
 
 export type JsxOpeningLikeElement = tsModule.JsxOpeningElement | tsModule.JsxSelfClosingElement;

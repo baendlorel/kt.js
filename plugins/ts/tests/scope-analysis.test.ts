@@ -176,7 +176,7 @@ describe('scope-analysis k-for member diagnostics', () => {
       throw new Error('Expected k-for analysis to be available.');
     }
 
-    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, ts);
+    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, analysis.ifScopes, ts);
     const memberDiagnostic = diagnostics.find((diagnostic) => diagnostic.code === DIAGNOSTIC_KFOR_INVALID_MEMBER);
 
     expect(memberDiagnostic).toBeDefined();
@@ -196,7 +196,7 @@ describe('scope-analysis k-for member diagnostics', () => {
       throw new Error('Expected k-for analysis to be available.');
     }
 
-    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, ts);
+    const diagnostics = getKForMemberDiagnostics(analysis.sourceFile, analysis.checker, analysis.scopes, analysis.ifScopes, ts);
     expect(diagnostics).toHaveLength(0);
   });
 });

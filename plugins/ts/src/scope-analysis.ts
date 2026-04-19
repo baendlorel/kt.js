@@ -1,11 +1,13 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
 import { createBindingTypeMap } from './completion';
 import { DIAGNOSTIC_KFOR_INVALID_MEMBER, DIAGNOSTIC_SOURCE } from './constants';
-import { getAttributeText, getJsxAttribute } from './jsx-attributes';
+import { getAttributeExpression, getAttributeText, getJsxAttribute } from './jsx-attributes';
 import { parseKForExpression } from './kfor-parser';
 import { formatTypeList, resolveExpressionTypesFromText, uniqueTypes } from './type-resolution';
 import type {
   FileAnalysis,
+  KIfNarrowing,
+  KIfScope,
   JsxOpeningLikeElement,
   KForBinding,
   KForScope,
@@ -29,12 +31,13 @@ export function getFileAnalysis(
   }
 
   const checker = program.getTypeChecker();
-  const scopes = collectKForScopes(sourceFile, checker, ts, config);
-  if (scopes.length === 0) {
+  const ifScopes = collectKIfScopes(sourceFile, checker, ts, config);
+  const scopes = collectKForScopes(sourceFile, checker, ts, config, ifScopes);
+  if (scopes.length === 0 && ifScopes.length === 0) {
     return undefined;
   }
 
-  return { sourceFile, checker, scopes };
+  return { sourceFile, checker, scopes, ifScopes };
 }
 
 export function isSuppressed(position: number, diagnosticName: string, scopes: KForScope[]): boolean {
@@ -74,20 +77,45 @@ export function collectBindingsAtPosition(position: number, scopes: KForScope[])
   return bindings;
 }
 
+export function collectIfNarrowingsAtPosition(
+  position: number,
+  ifScopes: KIfScope[],
+): Map<string, readonly tsModule.Type[]> {
+  const narrowings = new Map<string, readonly tsModule.Type[]>();
+
+  for (let i = ifScopes.length - 1; i >= 0; i--) {
+    const scope = ifScopes[i];
+    if (position < scope.start || position >= scope.end) {
+      continue;
+    }
+
+    for (let j = 0; j < scope.narrowings.length; j++) {
+      const narrowing = scope.narrowings[j];
+      if (!narrowings.has(narrowing.text)) {
+        narrowings.set(narrowing.text, narrowing.types);
+      }
+    }
+  }
+
+  return narrowings;
+}
+
 export function resolveBindingsForForAttribute(
   opening: JsxOpeningLikeElement,
   forAttr: tsModule.JsxAttribute,
   checker: tsModule.TypeChecker,
   config: ResolvedConfig,
   ts: typeof tsModule,
+  ifScopes?: KIfScope[],
 ): KForBinding[] {
-  return resolveScopeBindings(opening, forAttr, checker, config, ts);
+  return resolveScopeBindings(opening, forAttr, checker, config, ts, ifScopes);
 }
 
 export function getKForMemberDiagnostics(
   sourceFile: tsModule.SourceFile,
   checker: tsModule.TypeChecker,
   scopes: KForScope[],
+  ifScopes: KIfScope[],
   ts: typeof tsModule,
 ): tsModule.DiagnosticWithLocation[] {
   if (scopes.length === 0) {
@@ -100,7 +128,7 @@ export function getKForMemberDiagnostics(
     let diagnostic: tsModule.DiagnosticWithLocation | undefined;
 
     if (ts.isPropertyAccessExpression(node) && !node.questionDotToken) {
-      diagnostic = getMemberAccessDiagnostic(node, node.name.text, node.name, sourceFile, checker, scopes, ts);
+      diagnostic = getMemberAccessDiagnostic(node, node.name.text, node.name, sourceFile, checker, scopes, ifScopes, ts);
     } else if (ts.isElementAccessExpression(node) && !node.questionDotToken && node.argumentExpression) {
       if (ts.isStringLiteralLike(node.argumentExpression) || ts.isNumericLiteral(node.argumentExpression)) {
         diagnostic = getMemberAccessDiagnostic(
@@ -110,6 +138,7 @@ export function getKForMemberDiagnostics(
           sourceFile,
           checker,
           scopes,
+          ifScopes,
           ts,
         );
       }
@@ -161,6 +190,7 @@ function collectKForScopes(
   checker: tsModule.TypeChecker,
   ts: typeof tsModule,
   config: ResolvedConfig,
+  ifScopes: KIfScope[],
 ): KForScope[] {
   const scopes: KForScope[] = [];
 
@@ -178,7 +208,7 @@ function collectKForScopes(
     if (opening) {
       const forAttr = getJsxAttribute(opening, config.forAttr, ts);
       if (forAttr) {
-        const bindings = resolveScopeBindings(opening, forAttr, checker, config, ts);
+        const bindings = resolveScopeBindings(opening, forAttr, checker, config, ts, ifScopes);
         if (bindings.length > 0) {
           if (bodyScope) {
             scopes.push({ start: bodyScope.start, end: bodyScope.end, bindings });
@@ -187,6 +217,49 @@ function collectKForScopes(
           const attributeScopes = resolveAttributeExpressionScopes(opening, forAttr, sourceFile, ts);
           for (let i = 0; i < attributeScopes.length; i++) {
             scopes.push({ start: attributeScopes[i].start, end: attributeScopes[i].end, bindings });
+          }
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return scopes;
+}
+
+function collectKIfScopes(
+  sourceFile: tsModule.SourceFile,
+  checker: tsModule.TypeChecker,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): KIfScope[] {
+  const scopes: KIfScope[] = [];
+
+  const visit = (node: tsModule.Node) => {
+    let opening: JsxOpeningLikeElement | undefined;
+    let bodyScope: { start: number; end: number } | undefined;
+
+    if (ts.isJsxElement(node)) {
+      opening = node.openingElement;
+      bodyScope = resolveElementBodyScope(node, sourceFile);
+    } else if (ts.isJsxSelfClosingElement(node)) {
+      opening = node;
+    }
+
+    if (opening) {
+      const ifAttr = getJsxAttribute(opening, config.ifAttr, ts);
+      if (ifAttr) {
+        const narrowings = resolveIfAttributeNarrowings(ifAttr, checker, sourceFile, ts);
+        if (narrowings.length > 0) {
+          if (bodyScope) {
+            scopes.push({ start: bodyScope.start, end: bodyScope.end, narrowings });
+          }
+
+          const attributeScopes = resolveAttributeExpressionScopes(opening, ifAttr, sourceFile, ts);
+          for (let i = 0; i < attributeScopes.length; i++) {
+            scopes.push({ start: attributeScopes[i].start, end: attributeScopes[i].end, narrowings });
           }
         }
       }
@@ -213,7 +286,7 @@ function resolveElementBodyScope(
 
 function resolveAttributeExpressionScopes(
   opening: JsxOpeningLikeElement,
-  forAttr: tsModule.JsxAttribute,
+  excludedAttr: tsModule.JsxAttribute,
   sourceFile: tsModule.SourceFile,
   ts: typeof tsModule,
 ): Array<{ start: number; end: number }> {
@@ -231,7 +304,7 @@ function resolveAttributeExpressionScopes(
       continue;
     }
 
-    if (!ts.isJsxAttribute(attr) || attr === forAttr || !attr.initializer) {
+    if (!ts.isJsxAttribute(attr) || attr === excludedAttr || !attr.initializer) {
       continue;
     }
 
@@ -249,12 +322,103 @@ function resolveAttributeExpressionScopes(
   return scopes;
 }
 
+function resolveIfAttributeNarrowings(
+  ifAttr: tsModule.JsxAttribute,
+  checker: tsModule.TypeChecker,
+  sourceFile: tsModule.SourceFile,
+  ts: typeof tsModule,
+): KIfNarrowing[] {
+  const expression = getAttributeExpression(ifAttr, ts);
+  if (!expression) {
+    return [];
+  }
+
+  const target = getStableIfNarrowingTarget(expression, ts);
+  if (!target) {
+    return [];
+  }
+
+  const types = getTruthyIfTypes(checker.getTypeAtLocation(target), checker, target, ts);
+  if (types.length === 0) {
+    return [];
+  }
+
+  return [
+    {
+      text: target.getText(sourceFile),
+      types,
+    },
+  ];
+}
+
+function getStableIfNarrowingTarget(
+  expression: tsModule.Expression,
+  ts: typeof tsModule,
+): tsModule.Expression | undefined {
+  let current = expression;
+
+  while (true) {
+    if (ts.isParenthesizedExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isAsExpression(current) || ts.isTypeAssertionExpression(current) || ts.isSatisfiesExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isNonNullExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    break;
+  }
+
+  if (ts.isIdentifier(current)) {
+    return current;
+  }
+
+  if (ts.isPropertyAccessExpression(current) && !current.questionDotToken) {
+    const object = getStableIfNarrowingTarget(current.expression, ts);
+    return object ? current : undefined;
+  }
+
+  return undefined;
+}
+
+function getTruthyIfTypes(
+  sourceType: tsModule.Type,
+  checker: tsModule.TypeChecker,
+  scopeNode: tsModule.Node,
+  ts: typeof tsModule,
+): tsModule.Type[] {
+  const candidates =
+    sourceType.flags & ts.TypeFlags.Union ? (sourceType as tsModule.UnionType).types : [sourceType];
+  const result: tsModule.Type[] = [];
+
+  for (let i = 0; i < candidates.length; i++) {
+    const candidate = candidates[i];
+    if (candidate.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) {
+      continue;
+    }
+    if (
+      candidate.flags & ts.TypeFlags.BooleanLiteral &&
+      (candidate as tsModule.Type & { intrinsicName?: string }).intrinsicName === 'false'
+    ) {
+      continue;
+    }
+    result.push(candidate);
+  }
+
+  return uniqueTypes(result, checker, scopeNode, ts);
+}
+
 function resolveScopeBindings(
   opening: JsxOpeningLikeElement,
   forAttr: tsModule.JsxAttribute,
   checker: tsModule.TypeChecker,
   config: ResolvedConfig,
   ts: typeof tsModule,
+  ifScopes?: KIfScope[],
 ): KForBinding[] {
   const forExpression = getAttributeText(forAttr, ts);
   if (forExpression === undefined) {
@@ -270,6 +434,7 @@ function resolveScopeBindings(
     checker,
     ts,
     scopeNode: opening,
+    narrowedExpressions: ifScopes ? collectIfNarrowingsAtPosition(opening.getStart(), ifScopes) : undefined,
   });
   return createBindings(parsed.aliases, sourceTypes, checker, opening, ts);
 }
@@ -432,6 +597,7 @@ function getMemberAccessDiagnostic(
   sourceFile: tsModule.SourceFile,
   checker: tsModule.TypeChecker,
   scopes: KForScope[],
+  ifScopes: KIfScope[],
   ts: typeof tsModule,
 ): tsModule.DiagnosticWithLocation | undefined {
   const bindings = collectBindingsAtPosition(node.getStart(sourceFile), scopes);
@@ -450,6 +616,7 @@ function getMemberAccessDiagnostic(
     ts,
     scopeNode: node,
     localBindings,
+    narrowedExpressions: collectIfNarrowingsAtPosition(node.getStart(sourceFile), ifScopes),
   });
   if (receiverTypes.length === 0) {
     return undefined;
@@ -460,6 +627,7 @@ function getMemberAccessDiagnostic(
     ts,
     scopeNode: node,
     localBindings,
+    narrowedExpressions: collectIfNarrowingsAtPosition(node.getStart(sourceFile), ifScopes),
   });
   if (accessTypes.length > 0) {
     return undefined;

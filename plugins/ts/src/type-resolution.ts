@@ -73,6 +73,10 @@ export function uniqueTypes(
 function resolveExpressionTypes(expr: tsModule.Expression, context: TypeResolutionContext): tsModule.Type[] {
   const ts = context.ts;
   const target = unwrapExpression(expr, ts);
+  const narrowedTypes = context.narrowedExpressions?.get(target.getText());
+  if (narrowedTypes && narrowedTypes.length > 0) {
+    return [...narrowedTypes];
+  }
 
   if (ts.isIdentifier(target)) {
     return resolveIdentifierTypes(target.text, context);

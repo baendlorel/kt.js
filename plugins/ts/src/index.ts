@@ -7,7 +7,10 @@ import {
   getMemberCompletionContext,
   mergeCompletionInfo,
 } from './completion';
-import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
+import {
+  DIAGNOSTIC_CANNOT_FIND_NAME,
+  DIAGNOSTIC_UNUSED_LOCAL,
+} from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
@@ -20,6 +23,7 @@ import {
 } from './quickinfo';
 import {
   collectBindingsAtPosition,
+  collectIfNarrowingsAtPosition,
   collectUsedSourceDeclarationSpans,
   getFileAnalysis,
   getKForMemberDiagnostics,
@@ -56,7 +60,7 @@ function init(modules: { typescript: typeof tsModule }) {
         ? collectUsedSourceDeclarationSpans(sourceFile, checker, ts, config)
         : undefined;
 
-      return analysis?.scopes.length
+      return analysis
         ? diagnostics.filter((diagnostic) => {
             if (diagnostic.start == null || diagnostic.length == null) {
               return true;
@@ -75,6 +79,23 @@ function init(modules: { typescript: typeof tsModule }) {
 
             if (diagnostic.code === DIAGNOSTIC_UNUSED_LOCAL && usedSourceDeclarationSpans) {
               return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
+            }
+
+            if (
+              (diagnostic.code === 2531 || diagnostic.code === 2532 || diagnostic.code === 2533) &&
+              analysis.ifScopes.length > 0
+            ) {
+              const text = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+              if (!text) {
+                return true;
+              }
+
+              const narrowings = collectIfNarrowingsAtPosition(diagnostic.start, analysis.ifScopes);
+              for (const narrowedText of narrowings.keys()) {
+                if (text === narrowedText || text.startsWith(`${narrowedText}.`)) {
+                  return false;
+                }
+              }
             }
 
             return true;
@@ -99,7 +120,7 @@ function init(modules: { typescript: typeof tsModule }) {
       const draftDiagnostics = getDraftEscapeDiagnostics(sourceFile, checker, ts);
       const analysis = getFileAnalysis(fileName, languageService, ts, config);
       const kforMemberDiagnostics = analysis?.scopes.length
-        ? getKForMemberDiagnostics(sourceFile, checker, analysis.scopes, ts)
+        ? getKForMemberDiagnostics(sourceFile, checker, analysis.scopes, analysis.ifScopes, ts)
         : [];
       if (draftDiagnostics.length === 0 && kforMemberDiagnostics.length === 0) {
         return filteredDiagnostics;
@@ -325,6 +346,7 @@ function init(modules: { typescript: typeof tsModule }) {
         findInnermostNode(analysis.sourceFile, normalizePosition(position, analysis.sourceFile), ts) ||
         analysis.sourceFile;
       const localBindings = createBindingTypeMap(bindings);
+      const narrowedExpressions = collectIfNarrowingsAtPosition(position, analysis.ifScopes);
       const memberContext = getMemberCompletionContext(analysis.sourceFile.text, position);
       if (memberContext) {
         const receiverTypes = resolveExpressionTypesFromText(memberContext.receiver, {
@@ -332,6 +354,7 @@ function init(modules: { typescript: typeof tsModule }) {
           ts,
           scopeNode: contextNode,
           localBindings,
+          narrowedExpressions,
         });
         const memberEntries = createMemberCompletionEntries(
           receiverTypes,

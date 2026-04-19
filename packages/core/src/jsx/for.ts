@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
 import type { KTRefLike } from '../reactable/ref.js';
-import type { KTReactiveLike } from '../reactable/reactive.js';
+import type { KTReactiveLike } from '../reactable/types.js';
 
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';

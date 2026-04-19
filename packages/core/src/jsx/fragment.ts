@@ -1,4 +1,4 @@
-import type { KTReactiveLike } from '../reactable/reactive.js';
+import type { KTReactiveLike } from '../reactable/types.js';
 import type { KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import { $initRef, type KTRefLike } from '../reactable/ref.js';

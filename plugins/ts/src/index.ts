@@ -63,7 +63,9 @@ function init(modules: { typescript: typeof tsModule }) {
             }
 
             if (diagnostic.code === DIAGNOSTIC_CANNOT_FIND_NAME) {
-              const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+              const name = analysis.sourceFile.text
+                .slice(diagnostic.start, diagnostic.start + diagnostic.length)
+                .trim();
               if (!isValidIdentifier(name)) {
                 return true;
               }
@@ -91,7 +93,7 @@ function init(modules: { typescript: typeof tsModule }) {
       const sourceFile = program?.getSourceFile(fileName);
       const checker = program?.getTypeChecker();
       if (!sourceFile || !checker) {
-        return filteredDiagnostics as tsModule.Diagnostic[];
+        return filteredDiagnostics as any;
       }
 
       const draftDiagnostics = getDraftEscapeDiagnostics(sourceFile, checker, ts);
@@ -103,11 +105,16 @@ function init(modules: { typescript: typeof tsModule }) {
         return filteredDiagnostics;
       }
 
-      return [...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...kforMemberDiagnostics, ...draftDiagnostics])];
+      return [
+        ...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...kforMemberDiagnostics, ...draftDiagnostics]),
+      ];
     };
 
     proxy.getSuggestionDiagnostics = (fileName: string) =>
-      filterKForDiagnostics(fileName, languageService.getSuggestionDiagnostics(fileName)) as tsModule.DiagnosticWithLocation[];
+      filterKForDiagnostics(
+        fileName,
+        languageService.getSuggestionDiagnostics(fileName),
+      ) as tsModule.DiagnosticWithLocation[];
 
     proxy.getEncodedSemanticClassifications = (
       fileName: string,
@@ -212,7 +219,11 @@ function init(modules: { typescript: typeof tsModule }) {
         return base;
       }
 
-      const symbolRenameInfo = languageService.getRenameInfo(symbolDefinition.fileName, symbolDefinition.textSpan.start, preferences);
+      const symbolRenameInfo = languageService.getRenameInfo(
+        symbolDefinition.fileName,
+        symbolDefinition.textSpan.start,
+        preferences,
+      );
       if (!symbolRenameInfo.canRename) {
         return symbolRenameInfo;
       }

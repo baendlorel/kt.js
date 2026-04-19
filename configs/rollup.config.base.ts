@@ -81,23 +81,26 @@ const getTSConfig = (libPath: string) => {
 
 export const getAliases = () => {
   const packagesDir = path.join(import.meta.dirname, '..', 'packages');
-  const packageDirs = fs.readdirSync(packagesDir);
+  const pluginDir = path.join(import.meta.dirname, '..', 'plugins');
+  const packageDirs = [packagesDir, pluginDir];
   const aliasMap: Record<string, string> = {};
-  for (const dir of packageDirs) {
-    const jsonPath = path.join(packagesDir, dir, 'package.json');
-    if (!fs.existsSync(jsonPath)) {
-      continue;
-    }
-    const json = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-    aliasMap[json.name] = path.join(packagesDir, dir, 'src', 'index.ts');
-    if (json.name === '@ktjs/core') {
-      aliasMap[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'index.ts');
-      aliasMap[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
-      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
-    } else if (json.name === 'kt.js') {
-      aliasMap[json.name + '/jsx'] = path.join(packagesDir, dir, 'src', 'jsx.ts');
-      aliasMap[json.name + '/jsx-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
-      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(packagesDir, dir, 'src', 'jsx-runtime.ts');
+  for (const baseDir of packageDirs) {
+    for (const dir of fs.readdirSync(baseDir)) {
+      const jsonPath = path.join(baseDir, dir, 'package.json');
+      if (!fs.existsSync(jsonPath)) {
+        continue;
+      }
+      const json = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+      aliasMap[json.name] = path.join(baseDir, dir, 'src', 'index.ts');
+      if (json.name === '@ktjs/core') {
+        aliasMap[json.name + '/jsx'] = path.join(baseDir, dir, 'src', 'index.ts');
+        aliasMap[json.name + '/jsx-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
+        aliasMap[json.name + '/jsx-dev-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
+      } else if (json.name === 'kt.js') {
+        aliasMap[json.name + '/jsx'] = path.join(baseDir, dir, 'src', 'jsx.ts');
+        aliasMap[json.name + '/jsx-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
+        aliasMap[json.name + '/jsx-dev-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
+      }
     }
   }
 

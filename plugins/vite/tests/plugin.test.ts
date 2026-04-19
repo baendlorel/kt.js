@@ -26,11 +26,12 @@ const readRuntimeFactoryAlias = (code: string, factoryName: 'svg' | 'mathml') =>
 describe('vite-plugin-ktjsx', () => {
   const runTransform = async (code: string, id = '/src/view.tsx', options = {}) => {
     const plugin = viteKTjsx(options);
-    if (!plugin.transform) {
+    const transform = plugin.transform;
+    if (typeof transform !== 'function') {
       throw new Error('transform hook is not available');
     }
 
-    return plugin.transform.call({} as never, code, id);
+    return transform.call({} as never, code, id);
   };
 
   it('applies the same JSX transforms as babel-plugin-ktjsx', async () => {
@@ -302,14 +303,21 @@ describe('vite-plugin-ktjsx', () => {
   });
 
   it('still skips non-kt packages in node_modules by default', async () => {
-    const result = await runTransform('const view = <div k-if={ok}>A</div>;', '/other-lib/view.tsx');
+    const result = await runTransform(
+      'const view = <div k-if={ok}>A</div>;',
+      '/workspace/node_modules/other-lib/view.tsx',
+    );
     expect(result).toBeNull();
   });
 
   it('allows include filter to opt in non-kt node_modules files', async () => {
-    const result = await runTransform('const view = <div k-if={ok}>A</div>;', '/other-lib/view.tsx', {
-      include: /other-lib[\\/]view\.tsx$/,
-    });
+    const result = await runTransform(
+      'const view = <div k-if={ok}>A</div>;',
+      '/workspace/node_modules/other-lib/view.tsx',
+      {
+        include: /other-lib[\\/]view\.tsx$/,
+      },
+    );
     const code = toCode(result);
     expect(code).toContain('KTConditional as _KTConditional');
     expect(code).toContain('_KTConditional(ok, \"div\", () => ({');

@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite';
-import { transformWithKTjsx, type KTjsxTransformOptions } from '@ktjs/transformer';
+import { transformWithKTjsx, type KTjsxTransformOptions } from '../../transformer/src/transform.js';
 
 type Filter = RegExp | ((id: string) => boolean);
 
@@ -11,6 +11,7 @@ export interface ViteKTjsxOptions {
 
 const DEFAULT_INCLUDE_RE = /\.[cm]?[jt]sx$/;
 const NODE_MODULES_RE = /\/node_modules\//;
+const KT_NODE_MODULES_RE = /\/node_modules\/(?:\.pnpm\/[^/]+\/node_modules\/)?@ktjs\//;
 const QUERY_RE = /\?.*$/;
 type InternalTransformOptions = Omit<KTjsxTransformOptions, 'filename' | 'sourceFileName'>;
 
@@ -30,7 +31,7 @@ const matchFilter = (filter: Filter | undefined, id: string): boolean => {
 };
 
 const shouldTransform = (id: string, include?: Filter, exclude?: Filter): boolean => {
-  if (id.startsWith('\0') || NODE_MODULES_RE.test(id)) {
+  if (id.startsWith('\0')) {
     return false;
   }
 
@@ -38,11 +39,16 @@ const shouldTransform = (id: string, include?: Filter, exclude?: Filter): boolea
     return false;
   }
 
-  if (include) {
-    return matchFilter(include, id);
+  if (include && matchFilter(include, id)) {
+    return true;
   }
 
-  return DEFAULT_INCLUDE_RE.test(id);
+  // & compiles modules only in @ktjs packages by default.
+  if (NODE_MODULES_RE.test(id)) {
+    return KT_NODE_MODULES_RE.test(id);
+  }
+
+  return DEFAULT_INCLUDE_RE.test(id) && !include;
 };
 
 export function viteKTjsx(options: ViteKTjsxOptions = {}): Plugin {

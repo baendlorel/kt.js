@@ -11,12 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "kt.js": "^0.38.8"
+    "kt.js": "__VERSION_KT_JS__"
   },
   "devDependencies": {
-    "@ktjs/vite-plugin-ktjsx": "^0.5.0",
-    "@ktjs/ts-plugin": "^0.3.1",
-    "@ktjs/kt-tsc": "^0.2.0",
+    "@ktjs/vite-plugin-ktjsx": "__VERSION_KTJS_VITE_PLUGIN_KTJSX__",
+    "@ktjs/ts-plugin": "__VERSION_KTJS_TS_PLUGIN__",
+    "@ktjs/kt-tsc": "__VERSION_KTJS_KT_TSC__",
     "typescript": "^6.0.3",
     "vite": "^8.0.8"
   }

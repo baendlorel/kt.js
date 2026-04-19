@@ -43,6 +43,7 @@ interface ProjectSetup {
 }
 
 const PROJECT_NAME_TOKEN = '__PROJECT_NAME__';
+const KTJS_DEPENDENCY_VERSIONS: Record<string, string> = __KTJS_DEPENDENCY_VERSIONS__;
 
 const HELP_TEXT = `create-kt.js
 
@@ -272,6 +273,14 @@ const toStringMap = (value: unknown): Record<string, string> => {
   return out;
 };
 
+const getKtjsDependencyVersion = (packageName: string): string => {
+  const version = KTJS_DEPENDENCY_VERSIONS[packageName];
+  if (!version) {
+    fail(`Missing bundled version for ${packageName}.`);
+  }
+  return version;
+};
+
 const createPackageJson = (projectName: string, useMui: boolean, supportIE11: boolean): string => {
   const packageJson = JSON.parse(projectPackageJson) as {
     name?: string;
@@ -287,12 +296,12 @@ const createPackageJson = (projectName: string, useMui: boolean, supportIE11: bo
   const scripts = toStringMap(packageJson.scripts);
 
   if (useMui) {
-    dependencies['@ktjs/mui'] = 'latest';
+    dependencies['@ktjs/mui'] = getKtjsDependencyVersion('@ktjs/mui');
   }
 
   if (supportIE11) {
     dependencies['core-js'] = 'latest';
-    devDependencies['@ktjs/babel-plugin-ktjsx'] = 'latest';
+    devDependencies['@ktjs/babel-plugin-ktjsx'] = getKtjsDependencyVersion('@ktjs/babel-plugin-ktjsx');
     devDependencies['@vitejs/plugin-legacy'] = 'latest';
     devDependencies['@babel/preset-env'] = 'latest';
     devDependencies['@babel/preset-typescript'] = 'latest';

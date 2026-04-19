@@ -36,6 +36,7 @@ function createLanguageService(fileName: string, code: string): ts.LanguageServi
       }
       return ts.ScriptSnapshot.fromString(text);
     },
+    // @ts-expect-error
     getCurrentDirectory: () => process.cwd(),
     getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options),
     fileExists: ts.sys.fileExists,

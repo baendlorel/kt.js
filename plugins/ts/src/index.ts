@@ -81,21 +81,8 @@ function init(modules: { typescript: typeof tsModule }) {
               return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
             }
 
-            if (
-              (diagnostic.code === 2531 || diagnostic.code === 2532 || diagnostic.code === 2533) &&
-              analysis.ifScopes.length > 0
-            ) {
-              const text = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
-              if (!text) {
-                return true;
-              }
-
-              const narrowings = collectIfNarrowingsAtPosition(diagnostic.start, analysis.ifScopes);
-              for (const narrowedText of narrowings.keys()) {
-                if (text === narrowedText || text.startsWith(`${narrowedText}.`)) {
-                  return false;
-                }
-              }
+            if (analysis.ifScopes.length > 0 && isSuppressedByKIfNarrowing(diagnostic, analysis.sourceFile, analysis.ifScopes, ts)) {
+              return false;
             }
 
             return true;
@@ -380,6 +367,65 @@ function init(modules: { typescript: typeof tsModule }) {
   }
 
   return { create };
+}
+
+function isSuppressedByKIfNarrowing(
+  diagnostic: tsModule.Diagnostic,
+  sourceFile: tsModule.SourceFile,
+  ifScopes: import('./types').KIfScope[],
+  ts: typeof tsModule,
+): boolean {
+  if (diagnostic.start == null || diagnostic.length == null) {
+    return false;
+  }
+
+  if (
+    diagnostic.code !== 2531 &&
+    diagnostic.code !== 2532 &&
+    diagnostic.code !== 2533 &&
+    diagnostic.code !== 18049 &&
+    diagnostic.code !== 2339
+  ) {
+    return false;
+  }
+
+  const narrowings = collectIfNarrowingsAtPosition(diagnostic.start, ifScopes);
+  if (narrowings.size === 0) {
+    return false;
+  }
+
+  const text = sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+  for (const narrowedText of narrowings.keys()) {
+    if (text === narrowedText || text.startsWith(`${narrowedText}.`)) {
+      return true;
+    }
+  }
+
+  const node = findInnermostNode(sourceFile, normalizePosition(diagnostic.start, sourceFile), ts);
+  const parent = node?.parent;
+  if (!parent) {
+    return false;
+  }
+
+  if (ts.isPropertyAccessExpression(parent)) {
+    const receiverText = parent.expression.getText(sourceFile);
+    for (const narrowedText of narrowings.keys()) {
+      if (receiverText === narrowedText || receiverText.startsWith(`${narrowedText}.`)) {
+        return true;
+      }
+    }
+  }
+
+  if (ts.isElementAccessExpression(parent) && parent.argumentExpression === node) {
+    const receiverText = parent.expression.getText(sourceFile);
+    for (const narrowedText of narrowings.keys()) {
+      if (receiverText === narrowedText || receiverText.startsWith(`${narrowedText}.`)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 export = init;

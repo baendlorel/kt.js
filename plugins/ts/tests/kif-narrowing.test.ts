@@ -60,6 +60,16 @@ function getPluginDiagnostics(code: string): ts.Diagnostic[] {
   return proxy.getSemanticDiagnostics(fileName);
 }
 
+function isNullishOrFalsyAccessDiagnostic(diagnostic: ts.Diagnostic): boolean {
+  return (
+    diagnostic.code === 2531 ||
+    diagnostic.code === 2532 ||
+    diagnostic.code === 2533 ||
+    diagnostic.code === 18049 ||
+    diagnostic.code === 2339
+  );
+}
+
 describe('ts plugin k-if narrowing', () => {
   it('narrows the same element attributes and children', () => {
     const diagnostics = getPluginDiagnostics(`
@@ -68,7 +78,7 @@ describe('ts plugin k-if narrowing', () => {
       const view = <div k-if={o.prop} data-id={o.prop.id}>{o.prop.id}</div>;
     `);
 
-    expect(diagnostics.filter((diagnostic) => diagnostic.code === 2531 || diagnostic.code === 2532 || diagnostic.code === 2533)).toHaveLength(0);
+    expect(diagnostics.filter(isNullishOrFalsyAccessDiagnostic)).toHaveLength(0);
   });
 
   it('keeps nullish diagnostics outside the k-if scope', () => {
@@ -83,7 +93,7 @@ describe('ts plugin k-if narrowing', () => {
     const outsideStart = code.indexOf('o.prop.id;');
     const nullishDiagnostics = diagnostics.filter(
       (diagnostic) =>
-        (diagnostic.code === 2531 || diagnostic.code === 2532 || diagnostic.code === 2533) &&
+        isNullishOrFalsyAccessDiagnostic(diagnostic) &&
         diagnostic.start != null &&
         diagnostic.start < outsideStart + 'o.prop.id'.length,
     );

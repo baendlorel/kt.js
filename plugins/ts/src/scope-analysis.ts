@@ -126,6 +126,36 @@ export function getKForMemberDiagnostics(
   return diagnostics;
 }
 
+export function collectUsedSourceDeclarationSpans(
+  sourceFile: tsModule.SourceFile,
+  checker: tsModule.TypeChecker,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+): Set<string> {
+  const used = new Set<string>();
+
+  const visit = (node: tsModule.Node) => {
+    let opening: JsxOpeningLikeElement | undefined;
+    if (ts.isJsxElement(node)) {
+      opening = node.openingElement;
+    } else if (ts.isJsxSelfClosingElement(node)) {
+      opening = node;
+    }
+
+    if (opening) {
+      const forAttr = getJsxAttribute(opening, config.forAttr, ts);
+      if (forAttr) {
+        collectUsedSourceDeclarationSpansForAttribute(opening, forAttr, sourceFile, checker, ts, config, used);
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return used;
+}
+
 function collectKForScopes(
   sourceFile: tsModule.SourceFile,
   checker: tsModule.TypeChecker,
@@ -242,6 +272,48 @@ function resolveScopeBindings(
     scopeNode: opening,
   });
   return createBindings(parsed.aliases, sourceTypes, checker, opening, ts);
+}
+
+function collectUsedSourceDeclarationSpansForAttribute(
+  opening: JsxOpeningLikeElement,
+  forAttr: tsModule.JsxAttribute,
+  sourceFile: tsModule.SourceFile,
+  checker: tsModule.TypeChecker,
+  ts: typeof tsModule,
+  config: ResolvedConfig,
+  used: Set<string>,
+) {
+  const forExpression = getAttributeText(forAttr, ts);
+  if (forExpression === undefined) {
+    return;
+  }
+
+  const parsed = parseKForExpression(forExpression, config.allowOfKeyword);
+  if (!parsed) {
+    return;
+  }
+
+  const names = collectExternalSourceIdentifiers(parsed.source, ts);
+  for (let i = 0; i < names.length; i++) {
+    const symbol = resolveSymbolInScope(names[i], checker, opening, ts);
+    if (!symbol?.declarations?.length) {
+      continue;
+    }
+
+    for (let j = 0; j < symbol.declarations.length; j++) {
+      const declaration = symbol.declarations[j];
+      const declarationSource = declaration.getSourceFile();
+      if (declarationSource.fileName !== sourceFile.fileName) {
+        continue;
+      }
+      const nameNode = getDeclarationNameNode(declaration) || declaration;
+      const start = nameNode.getStart(declarationSource);
+      const length = nameNode.getWidth(declarationSource);
+      if (length > 0) {
+        used.add(`${declarationSource.fileName}:${start}:${length}`);
+      }
+    }
+  }
 }
 
 function createBindings(
@@ -426,6 +498,146 @@ function getRootIdentifier(expr: tsModule.Expression, ts: typeof tsModule): tsMo
     }
     return undefined;
   }
+}
+
+function collectExternalSourceIdentifiers(raw: string, ts: typeof tsModule): string[] {
+  const sourceFile = ts.createSourceFile(
+    '__k_for_identifiers.ts',
+    `(${raw});`,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  const statement = sourceFile.statements[0];
+  if (!statement || !ts.isExpressionStatement(statement)) {
+    return [];
+  }
+
+  const identifiers = new Set<string>();
+  const scopes: Array<Set<string>> = [new Set()];
+
+  const isLocal = (name: string) => {
+    for (let i = scopes.length - 1; i >= 0; i--) {
+      if (scopes[i].has(name)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const declareName = (name: tsModule.BindingName) => {
+    if (ts.isIdentifier(name)) {
+      scopes[scopes.length - 1].add(name.text);
+      return;
+    }
+    if (ts.isObjectBindingPattern(name) || ts.isArrayBindingPattern(name)) {
+      for (let i = 0; i < name.elements.length; i++) {
+        const element = name.elements[i];
+        if (ts.isOmittedExpression(element)) {
+          continue;
+        }
+        declareName(element.name);
+      }
+    }
+  };
+
+  const visitFunctionLike = (
+    node: tsModule.FunctionExpression | tsModule.ArrowFunction,
+    body: tsModule.Node,
+  ) => {
+    const scope = new Set<string>();
+    scopes.push(scope);
+    if (ts.isFunctionExpression(node) && node.name) {
+      scope.add(node.name.text);
+    }
+    for (let i = 0; i < node.parameters.length; i++) {
+      declareName(node.parameters[i].name);
+    }
+    visit(body);
+    scopes.pop();
+  };
+
+  const visit = (node: tsModule.Node) => {
+    if (ts.isIdentifier(node)) {
+      if (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) {
+        return;
+      }
+      if (ts.isPropertyAssignment(node.parent) && node.parent.name === node) {
+        return;
+      }
+      if (
+        (ts.isBindingElement(node.parent) && node.parent.name === node) ||
+        (ts.isParameter(node.parent) && node.parent.name === node) ||
+        (ts.isVariableDeclaration(node.parent) && node.parent.name === node)
+      ) {
+        return;
+      }
+      if (!isLocal(node.text)) {
+        identifiers.add(node.text);
+      }
+      return;
+    }
+
+    if (ts.isArrowFunction(node) || ts.isFunctionExpression(node)) {
+      visitFunctionLike(node, node.body);
+      return;
+    }
+
+    if (ts.isBlock(node)) {
+      scopes.push(new Set());
+      ts.forEachChild(node, visit);
+      scopes.pop();
+      return;
+    }
+
+    if (ts.isVariableDeclaration(node)) {
+      declareName(node.name);
+      if (node.initializer) {
+        visit(node.initializer);
+      }
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(statement.expression);
+  return Array.from(identifiers);
+}
+
+function resolveSymbolInScope(
+  name: string,
+  checker: tsModule.TypeChecker,
+  scopeNode: tsModule.Node,
+  ts: typeof tsModule,
+): tsModule.Symbol | undefined {
+  const symbols = checker.getSymbolsInScope(scopeNode, ts.SymbolFlags.Value | ts.SymbolFlags.Alias);
+
+  for (let i = 0; i < symbols.length; i++) {
+    const symbol = symbols[i];
+    if (symbol.getName() !== name) {
+      continue;
+    }
+
+    if (symbol.flags & ts.SymbolFlags.Alias) {
+      const aliased = checker.getAliasedSymbol(symbol);
+      if (aliased.flags & ts.SymbolFlags.Value) {
+        return aliased;
+      }
+      continue;
+    }
+
+    if (symbol.flags & ts.SymbolFlags.Value) {
+      return symbol;
+    }
+  }
+
+  return undefined;
+}
+
+function getDeclarationNameNode(node: tsModule.Declaration): tsModule.Node | undefined {
+  const namedNode = node as tsModule.Declaration & { name?: tsModule.Node };
+  return namedNode.name;
 }
 
 function unwrapExpression(expr: tsModule.Expression, ts: typeof tsModule): tsModule.Expression {

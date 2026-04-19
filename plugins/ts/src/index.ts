@@ -7,7 +7,7 @@ import {
   getMemberCompletionContext,
   mergeCompletionInfo,
 } from './completion';
-import { DIAGNOSTIC_CANNOT_FIND_NAME } from './constants';
+import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
@@ -18,7 +18,13 @@ import {
   getKForRenameInfo,
   getKForRenameLocations,
 } from './quickinfo';
-import { collectBindingsAtPosition, getFileAnalysis, getKForMemberDiagnostics, isSuppressed } from './scope-analysis';
+import {
+  collectBindingsAtPosition,
+  collectUsedSourceDeclarationSpans,
+  getFileAnalysis,
+  getKForMemberDiagnostics,
+  isSuppressed,
+} from './scope-analysis';
 import { resolveExpressionTypesFromText } from './type-resolution';
 import type { KForPluginConfig } from './types';
 
@@ -30,13 +36,10 @@ function init(modules: { typescript: typeof tsModule }) {
     const config = resolveConfig(info.config as KForPluginConfig | undefined);
     const proxy = Object.create(null) as tsModule.LanguageService;
 
-    for (const key of Object.keys(languageService) as Array<keyof tsModule.LanguageService>) {
-      const member = languageService[key];
-      (proxy as any)[key] = (...args: unknown[]) => (member as any).apply(languageService, args);
-    }
-
-    proxy.getSemanticDiagnostics = (fileName: string) => {
-      const diagnostics = languageService.getSemanticDiagnostics(fileName);
+    const filterKForDiagnostics = (
+      fileName: string,
+      diagnostics: readonly tsModule.Diagnostic[],
+    ): readonly tsModule.Diagnostic[] => {
       if (!isJsxLikeFile(fileName)) {
         return diagnostics;
       }
@@ -49,23 +52,50 @@ function init(modules: { typescript: typeof tsModule }) {
       }
 
       const analysis = getFileAnalysis(fileName, languageService, ts, config);
-      const filteredDiagnostics = analysis?.scopes.length
+      const usedSourceDeclarationSpans = analysis
+        ? collectUsedSourceDeclarationSpans(sourceFile, checker, ts, config)
+        : undefined;
+
+      return analysis?.scopes.length
         ? diagnostics.filter((diagnostic) => {
-            // $ origin is diagnostic.start == null and diagnostic.length == null
-            if (diagnostic.code !== DIAGNOSTIC_CANNOT_FIND_NAME || !diagnostic.start || !diagnostic.length) {
+            if (diagnostic.start == null || diagnostic.length == null) {
               return true;
             }
 
-            const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
-            if (!isValidIdentifier(name)) {
-              return true;
+            if (diagnostic.code === DIAGNOSTIC_CANNOT_FIND_NAME) {
+              const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+              if (!isValidIdentifier(name)) {
+                return true;
+              }
+
+              return !isSuppressed(diagnostic.start, name, analysis.scopes);
             }
 
-            return !isSuppressed(diagnostic.start, name, analysis.scopes);
+            if (diagnostic.code === DIAGNOSTIC_UNUSED_LOCAL && usedSourceDeclarationSpans) {
+              return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
+            }
+
+            return true;
           })
         : diagnostics;
+    };
+
+    for (const key of Object.keys(languageService) as Array<keyof tsModule.LanguageService>) {
+      const member = languageService[key];
+      (proxy as any)[key] = (...args: unknown[]) => (member as any).apply(languageService, args);
+    }
+
+    proxy.getSemanticDiagnostics = (fileName: string) => {
+      const filteredDiagnostics = filterKForDiagnostics(fileName, languageService.getSemanticDiagnostics(fileName));
+      const program = languageService.getProgram();
+      const sourceFile = program?.getSourceFile(fileName);
+      const checker = program?.getTypeChecker();
+      if (!sourceFile || !checker) {
+        return filteredDiagnostics as tsModule.Diagnostic[];
+      }
 
       const draftDiagnostics = getDraftEscapeDiagnostics(sourceFile, checker, ts);
+      const analysis = getFileAnalysis(fileName, languageService, ts, config);
       const kforMemberDiagnostics = analysis?.scopes.length
         ? getKForMemberDiagnostics(sourceFile, checker, analysis.scopes, ts)
         : [];
@@ -75,6 +105,9 @@ function init(modules: { typescript: typeof tsModule }) {
 
       return [...ts.sortAndDeduplicateDiagnostics([...filteredDiagnostics, ...kforMemberDiagnostics, ...draftDiagnostics])];
     };
+
+    proxy.getSuggestionDiagnostics = (fileName: string) =>
+      filterKForDiagnostics(fileName, languageService.getSuggestionDiagnostics(fileName)) as tsModule.DiagnosticWithLocation[];
 
     proxy.getEncodedSemanticClassifications = (
       fileName: string,

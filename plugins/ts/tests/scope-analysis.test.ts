@@ -138,6 +138,16 @@ describe('scope-analysis attribute scopes', () => {
     expect(getBindingTypeTexts(code, 'item.id', 'index')).toEqual(['number']);
   });
 
+  it('falls back to the iterable receiver type for chained map expressions', () => {
+    const code = `
+      const someobject = { prop: { arr: [{ id: 1, name: 'A' as string }] } };
+      const f = (v: { id: number; name: string }) => v;
+      const view = <li k-for="item in someobject.prop.arr.map(v => f(v))">{item.id}</li>;
+    `;
+
+    expect(getBindingTypeTexts(code, 'item.id', 'item')).toEqual(['{ id: number; name: string; }']);
+  });
+
   it('does not parse 3-argument tuple aliases anymore', () => {
     const fileName = '/src/view.tsx';
     const code = `

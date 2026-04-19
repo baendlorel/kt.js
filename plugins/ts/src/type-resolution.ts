@@ -1,6 +1,8 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
 import type { TypeResolutionContext } from './types';
 
+const ITERABLE_RECEIVER_FALLBACK_METHODS = new Set(['map']);
+
 export function resolveExpressionTypesFromText(raw: string, context: TypeResolutionContext): tsModule.Type[] {
   const value = raw.trim();
   if (!value) {
@@ -107,7 +109,16 @@ function resolveExpressionTypes(expr: tsModule.Expression, context: TypeResoluti
       }
     }
 
-    return uniqueTypes(result, context.checker, context.scopeNode, ts);
+    const resolvedTypes = uniqueTypes(result, context.checker, context.scopeNode, ts);
+    const receiverIterableTypes = getIterableReceiverFallbackTypes(target, context);
+    if (
+      receiverIterableTypes.length > 0 &&
+      shouldPreferIterableReceiverFallback(target, resolvedTypes, context)
+    ) {
+      return receiverIterableTypes;
+    }
+
+    return resolvedTypes;
   }
 
   if (ts.isConditionalExpression(target)) {
@@ -260,4 +271,91 @@ function resolveIndexedTypes(objectTypes: tsModule.Type[], context: TypeResoluti
   }
 
   return uniqueTypes(result, context.checker, context.scopeNode, context.ts);
+}
+
+function getIterableReceiverFallbackTypes(
+  target: tsModule.CallExpression,
+  context: TypeResolutionContext,
+): tsModule.Type[] {
+  const receiver =
+    context.ts.isPropertyAccessExpression(target.expression) || context.ts.isElementAccessExpression(target.expression)
+      ? target.expression.expression
+      : undefined;
+  if (!receiver) {
+    return [];
+  }
+
+  return resolveExpressionTypes(receiver, context);
+}
+
+function shouldPreferIterableReceiverFallback(
+  target: tsModule.CallExpression,
+  resultTypes: tsModule.Type[],
+  context: TypeResolutionContext,
+): boolean {
+  const methodName = getCallMethodName(target, context.ts);
+  if (!methodName || !ITERABLE_RECEIVER_FALLBACK_METHODS.has(methodName)) {
+    return false;
+  }
+
+  if (resultTypes.length === 0) {
+    return true;
+  }
+
+  for (let i = 0; i < resultTypes.length; i++) {
+    if (!isWeakIterableResultType(resultTypes[i], context)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getCallMethodName(target: tsModule.CallExpression, ts: typeof tsModule): string | undefined {
+  if (ts.isPropertyAccessExpression(target.expression)) {
+    return target.expression.name.text;
+  }
+  if (ts.isElementAccessExpression(target.expression) && target.expression.argumentExpression) {
+    const argument = target.expression.argumentExpression;
+    if (ts.isStringLiteralLike(argument)) {
+      return argument.text;
+    }
+  }
+  return undefined;
+}
+
+function isWeakIterableResultType(type: tsModule.Type, context: TypeResolutionContext): boolean {
+  const apparent = context.checker.getApparentType(type);
+  const elementType =
+    context.checker.getIndexTypeOfType(apparent, context.ts.IndexKind.Number) ||
+    context.checker.getIndexTypeOfType(apparent, context.ts.IndexKind.String);
+  if (!elementType) {
+    return false;
+  }
+
+  return isWeakType(elementType, context);
+}
+
+function isWeakType(type: tsModule.Type, context: TypeResolutionContext): boolean {
+  const flags = type.flags;
+  if (
+    flags & context.ts.TypeFlags.Any ||
+    flags & context.ts.TypeFlags.Unknown ||
+    flags & context.ts.TypeFlags.TypeParameter
+  ) {
+    return true;
+  }
+
+  if (flags & context.ts.TypeFlags.Object) {
+    const apparent = context.checker.getApparentType(type);
+    if (
+      context.checker.getPropertiesOfType(apparent).length === 0 &&
+      !context.checker.getIndexTypeOfType(apparent, context.ts.IndexKind.Number) &&
+      !context.checker.getIndexTypeOfType(apparent, context.ts.IndexKind.String)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }

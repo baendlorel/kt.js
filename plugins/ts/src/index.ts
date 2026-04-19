@@ -383,6 +383,8 @@ function isSuppressedByKIfNarrowing(
     diagnostic.code !== 2531 &&
     diagnostic.code !== 2532 &&
     diagnostic.code !== 2533 &&
+    diagnostic.code !== 18047 &&
+    diagnostic.code !== 18048 &&
     diagnostic.code !== 18049 &&
     diagnostic.code !== 2339
   ) {

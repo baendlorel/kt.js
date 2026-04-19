@@ -102,6 +102,18 @@ describe('ts plugin k-if narrowing', () => {
     expect(nullishDiagnostics.length).toBeGreaterThan(0);
   });
 
+  it('suppresses child expression null diagnostics for identifier k-if guards', () => {
+    const diagnostics = getPluginDiagnostics(`
+      declare namespace JSX { interface IntrinsicElements { div: any } }
+      declare const changed: { yaos: Array<{ x: number }> } | null;
+      const view = <div k-if={changed} class="hexagram">
+        {changed.yaos.map((yao, i) => yao.x + i)}
+      </div>;
+    `);
+
+    expect(diagnostics.filter(isNullishOrFalsyAccessDiagnostic)).toHaveLength(0);
+  });
+
   it('collects narrowed types for property chains', () => {
     const fileName = '/src/view.tsx';
     const code = `
@@ -124,5 +136,29 @@ describe('ts plugin k-if narrowing', () => {
     );
 
     expect(texts).toEqual(['{ id: number; }']);
+  });
+
+  it('shows narrowed quick info for k-if guarded identifiers', () => {
+    const fileName = '/src/view.tsx';
+    const code = `
+      declare namespace JSX { interface IntrinsicElements { div: any } }
+      declare const changed: { yaos: Array<{ x: number }> } | null;
+      const view = <div k-if={changed} class="hexagram">
+        {changed.yaos.map((yao, i) => yao.x + i)}
+      </div>;
+    `;
+
+    const languageService = createLanguageService(fileName, code);
+    const plugin = init({ typescript: ts });
+    const proxy = plugin.create({
+      config: {},
+      languageService,
+    } as ts.server.PluginCreateInfo);
+    const position = code.indexOf('changed.yaos') + 2;
+    const quickInfo = proxy.getQuickInfoAtPosition(fileName, position);
+    const displayText = quickInfo?.displayParts?.map((part) => part.text).join('') || '';
+
+    expect(displayText).toContain('(k-if) changed');
+    expect(displayText).not.toContain('null');
   });
 });

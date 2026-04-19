@@ -1,5 +1,5 @@
 import type tsModule from 'typescript/lib/tsserverlibrary';
-import { findIdentifierAtPosition } from './ast';
+import { findIdentifierAtPosition, findInnermostNode, normalizePosition } from './ast';
 import { createBindingTypeMap } from './completion';
 import { getAttributeExpression, getJsxAttribute } from './jsx-attributes';
 import { isValidIdentifier } from './identifiers';
@@ -54,6 +54,11 @@ export function getKForQuickInfoAtPosition(
     return stringQuickInfo;
   }
 
+  const ifQuickInfo = getKIfQuickInfoAtPosition(analysis, position, ts);
+  if (ifQuickInfo) {
+    return ifQuickInfo;
+  }
+
   const identifier = findIdentifierAtPosition(analysis.sourceFile, position, ts);
   if (!identifier) {
     return undefined;
@@ -79,6 +84,69 @@ export function getKForQuickInfoAtPosition(
   );
   if (memberTypes.length > 0) {
     return createQuickInfo(identifier, `(k-for) ${identifier.text}`, memberTypes, analysis.checker, ts);
+  }
+
+  return undefined;
+}
+
+function getKIfQuickInfoAtPosition(
+  analysis: FileAnalysis,
+  position: number,
+  ts: typeof tsModule,
+): tsModule.QuickInfo | undefined {
+  if (analysis.ifScopes.length === 0) {
+    return undefined;
+  }
+
+  const narrowings = collectIfNarrowingsAtPosition(position, analysis.ifScopes);
+  if (narrowings.size === 0) {
+    return undefined;
+  }
+
+  const node = findInnermostNode(analysis.sourceFile, normalizePosition(position, analysis.sourceFile), ts);
+  if (!node) {
+    return undefined;
+  }
+
+  if (ts.isIdentifier(node)) {
+    const exactTypes = narrowings.get(node.text);
+    if (exactTypes && exactTypes.length > 0) {
+      return createQuickInfo(node, `(k-if) ${node.text}`, [...exactTypes], analysis.checker, ts);
+    }
+
+    const parent = node.parent;
+    if (ts.isPropertyAccessExpression(parent) && parent.name === node) {
+      const exprText = parent.getText(analysis.sourceFile);
+      const types = narrowings.get(exprText);
+      if (types && types.length > 0) {
+        return createQuickInfoForSpan(
+          parent.expression.getStart(),
+          parent.end - parent.expression.getStart(),
+          `(k-if) ${exprText}`,
+          [...types],
+          analysis.checker,
+          parent,
+          ts,
+        );
+      }
+    }
+  }
+
+  if (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) {
+    const exprText = node.getText(analysis.sourceFile);
+    const types = narrowings.get(exprText);
+    if (types && types.length > 0) {
+      const start = node.getStart(analysis.sourceFile);
+      return createQuickInfoForSpan(
+        start,
+        node.end - start,
+        `(k-if) ${exprText}`,
+        [...types],
+        analysis.checker,
+        node,
+        ts,
+      );
+    }
   }
 
   return undefined;

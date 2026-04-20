@@ -8,7 +8,7 @@ import { isKT, toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
 import { AType, KTAnchor } from './anchor.js';
 
-export class KTFragmentAnchor extends KTAnchor<Node> {
+export class KTFragmentAnchor extends KTAnchor {
   constructor() {
     super(AType.Fragment);
   }
@@ -17,8 +17,7 @@ export class KTFragmentAnchor extends KTAnchor<Node> {
    * Remove elements in the list
    */
   removeElements() {
-    const list = this.list.slice();
-    this.list.length = 0;
+    const list = this.list.splice(0);
     for (let i = 0; i < list.length; i++) {
       const node = list[i] as ChildNode;
       if (node.parentNode) {
@@ -60,7 +59,7 @@ export interface FragmentProps<T extends Node = Node> {
  */
 export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & KTFragmentAnchor {
   const anchor = new KTFragmentAnchor();
-  const elements = anchor.list as T[];
+  const elements = anchor.list;
   const childrenRef = toReactive(props.children);
 
   const redraw = () => {

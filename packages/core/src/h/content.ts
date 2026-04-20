@@ -2,7 +2,7 @@ import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
 import { AnchorType } from '../jsx/anchor.js';
-import { $addNodeCleanup, $mountFragmentAnchors } from '../jsx/anchor.js';
+import { $mountFragmentAnchors } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -22,8 +22,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
       oldNode.replaceWith(newNode);
       $mountFragmentAnchors(newNode);
     };
-    c.addOnChange(onChange, onChange);
-    $addNodeCleanup(element, () => c.removeOnChange(onChange));
+    c.addOnChange(onChange);
   } else {
     const node = assureNode(c);
     element.appendChild(node);

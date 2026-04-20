@@ -2,7 +2,6 @@ import type { KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 import { isKT } from '../reactable/common.js';
 import { nextHandlerId } from '../reactable/reactive.js';
-import { $addNodeCleanup } from '../jsx/anchor.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
@@ -22,24 +21,11 @@ const setElementStyle = (
   }
 };
 
-const addReactiveCleanup = (
-  element: HTMLElement | SVGElement | MathMLElement,
-  reactive: {
-    addOnChange: (handler: (value: any) => void, key?: any) => unknown;
-    removeOnChange: (key: any) => unknown;
-  },
-  handler: (value: any) => void,
-) => {
-  reactive.addOnChange(handler, handler);
-  $addNodeCleanup(element, () => reactive.removeOnChange(handler));
-};
-
 function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyProps<KTAttribute>) {
   const classValue = attr.class || attr.className;
   if (classValue !== undefined) {
     if (isKT<string>(classValue)) {
       element.setAttribute('class', classValue.value);
-      addReactiveCleanup(element, classValue, (v) => element.setAttribute('class', v));
     } else {
       element.setAttribute('class', classValue);
     }
@@ -52,7 +38,6 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     } else if (typeof style === 'object') {
       if (isKT(style)) {
         setElementStyle(element, style.value);
-        addReactiveCleanup(element, style, (v: Partial<CSSStyleDeclaration> | string) => setElementStyle(element, v));
       } else {
         setElementStyle(element, style as Partial<CSSStyleDeclaration>);
       }
@@ -67,7 +52,6 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       element.innerHTML = html.value;
       const key = nextHandlerId(html.kid);
       html.addOnChange((v) => (element.innerHTML = v), key);
-      $addNodeCleanup(element, () => html.removeOnChange(key));
     } else {
       element.innerHTML = html;
     }
@@ -98,7 +82,6 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
       if (o) {
         const eventName = key.slice(3);
         element.addEventListener(eventName, o); // chop off the `on:`
-        $addNodeCleanup(element, () => element.removeEventListener(eventName, o));
       }
       continue;
     }
@@ -110,7 +93,6 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     const handler = handlers[key] || defaultHandler;
     if (isKT(o)) {
       handler(element, key, o.value);
-      addReactiveCleanup(element, o, (v) => handler(element, key, v));
     } else {
       handler(element, key, o);
     }

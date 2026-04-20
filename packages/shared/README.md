@@ -23,16 +23,15 @@
 ## Recent Updates
 
 1. Plugins:
-   1. `k-for` now supports `Ctrl + Click` to navigate to the source of the iterable variable and rename by `F2`.
-   2. `kt-tsc` is now available for type checking. (Mainly check whether the `k-for` statement is valid)
+   1. `k-if={value}` now narrows the type of `value` within its block, strips `undefined | null | false`.
+   2. `k-for` now supports `Ctrl + Click` to navigate to the source of the iterable variable and rename by `F2`.
+   3. `kt-tsc` is now available for type checking. (Mainly check whether the `k-for` statement is valid)
 2. Framework: <= 0.38.x - reactive helper additions
-   1. `reactive.is(target)`: create a boolean computed based on `Object.is` comparison.
-   2. `reactive.match(pattern)`: create a boolean computed using deep object/array pattern matching.
-   3. `get(...keys)`: create a `KTSubComputed` object. It is a light version of computed, used to bind values
-   4. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
-   5. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-   6. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.`ref.draft` itself is **not assignable**.
-   7. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
+   1. Reactive values now have `is`, `match`, `get` to be syntactic sugar for `map`.
+   2. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
+   3. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
+   4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.`ref.draft` itself is **not assignable**.
+   5. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
 
 ## Introduction
 

@@ -125,7 +125,7 @@ void injectGlobal`
 /* Radio Label */
 .mui-radio-label {
   margin-left: 8px;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;

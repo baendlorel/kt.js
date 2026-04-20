@@ -13,7 +13,7 @@ void injectGlobal`
   margin: 0;
   border: 0;
   vertical-align: top;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
 }
 
 .mui-textfield-fullwidth {

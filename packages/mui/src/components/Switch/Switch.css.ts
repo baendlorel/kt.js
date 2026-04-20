@@ -13,7 +13,7 @@ void injectGlobal`
   gap: 8px;
   position: relative;
   cursor: pointer;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   user-select: none;
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent;

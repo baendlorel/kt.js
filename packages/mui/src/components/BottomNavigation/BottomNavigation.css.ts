@@ -20,7 +20,7 @@ void injectGlobal`
   padding: 6px 12px 8px;
   background: transparent;
   color: rgba(0, 0, 0, 0.62);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   cursor: pointer;
   display: inline-flex;
   flex-direction: column;

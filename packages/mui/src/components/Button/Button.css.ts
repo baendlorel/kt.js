@@ -16,7 +16,7 @@ void injectGlobal`
   user-select: none;
   vertical-align: middle;
   text-decoration: none;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-weight: 500;
   line-height: 1.75;
   letter-spacing: 0.02857em;

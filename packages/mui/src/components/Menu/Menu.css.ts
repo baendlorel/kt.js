@@ -27,7 +27,7 @@ void injectGlobal`
   padding: 6px 16px;
   border: 0;
   color: rgba(0, 0, 0, 0.87);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;

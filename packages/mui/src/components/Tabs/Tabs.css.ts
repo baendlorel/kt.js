@@ -58,7 +58,7 @@ void injectGlobal`
   border: 0;
   background: transparent;
   color: rgba(0, 0, 0, 0.6);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;

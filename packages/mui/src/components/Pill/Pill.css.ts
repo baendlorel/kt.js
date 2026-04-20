@@ -9,7 +9,7 @@ void injectGlobal`
   gap: 6px;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.2;

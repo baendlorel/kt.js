@@ -114,7 +114,7 @@ void injectGlobal`
 
 .kt-dialog-title h2 {
   margin: 0;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-weight: 500;
   font-size: 1.25rem;
   line-height: 1.6;
@@ -128,7 +128,7 @@ void injectGlobal`
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   color: rgba(0, 0, 0, 0.6);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;

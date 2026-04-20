@@ -5,7 +5,7 @@ void injectGlobal`
 
 .mui-form-label {
   color: rgba(0, 0, 0, 0.6);
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.4375em;

@@ -39,7 +39,7 @@ void injectGlobal`
     max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   z-index: 1;
   pointer-events: none;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.4375em;
   letter-spacing: 0.00938em;
@@ -59,7 +59,7 @@ void injectGlobal`
   user-select: none;
   display: flex;
   align-items: center;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.4375em;
   letter-spacing: 0.00938em;
@@ -223,7 +223,7 @@ void injectGlobal`
   padding: 6px 16px;
   box-sizing: border-box;
   white-space: nowrap;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;

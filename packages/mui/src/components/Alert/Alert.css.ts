@@ -7,7 +7,6 @@ void injectGlobal`
   display: flex;
   padding: 6px 16px;
   font-size: 0.875rem;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 400;
   line-height: 1.43;
   border-radius: 4px;

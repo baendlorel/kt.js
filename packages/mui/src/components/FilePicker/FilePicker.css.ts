@@ -12,7 +12,7 @@ void injectGlobal`
   margin: 0;
   border: 0;
   vertical-align: top;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
 }
 
 .mui-filepicker-fullwidth {
@@ -275,7 +275,7 @@ void injectGlobal`
   transform: translateY(-50%);
   padding: 4px 12px;
   font-size: 0.8125rem;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  
   font-weight: 500;
   line-height: 1.75;
   letter-spacing: 0.02857em;

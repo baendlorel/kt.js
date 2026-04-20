@@ -1,6 +1,5 @@
-import type { KTReactiveLike } from './types.js';
-
 import { $emptyFn } from '@ktjs/shared';
+import { KTReactive } from './reactive.js';
 
 interface KTEffectOptions {
   lazy: boolean;
@@ -15,11 +14,7 @@ interface KTEffectOptions {
  * @param options Effect options: lazy, onCleanup, debugName
  * @returns stop function to remove all listeners
  */
-export function effect(
-  effectFn: () => void,
-  reactives: Array<KTReactiveLike<any>>,
-  options?: Partial<KTEffectOptions>,
-) {
+export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, options?: Partial<KTEffectOptions>) {
   const { lazy = false, onCleanup = $emptyFn, debugName = '' } = Object(options);
   const listenerKeys: Array<string | number> = [];
 

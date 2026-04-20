@@ -1,7 +1,9 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent } from '../types/h.js';
+import type { KTFragmentAnchor } from '../jsx/fragment.js';
+
 import { isKT } from '../reactable/common.js';
-import { AnchorType } from '../jsx/anchor.js';
+import { AType } from '../jsx/anchor.js';
 import { $mountFragmentAnchors } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
@@ -26,8 +28,8 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
   } else {
     const node = assureNode(c);
     element.appendChild(node);
-    const anchor = node as { type?: AnchorType; list?: any[] };
-    if (anchor.type === AnchorType.For) {
+    const anchor = node as KTFragmentAnchor;
+    if (anchor.atype === AType.For) {
       apd(element, anchor.list);
     }
   }

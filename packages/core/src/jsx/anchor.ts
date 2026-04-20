@@ -1,16 +1,16 @@
-export const enum AnchorType {
+export const enum AType {
   Fragment = 'kt-fragment',
   For = 'kt-for',
 }
 
 export abstract class KTAnchor<T extends Node = Node> extends Comment {
-  readonly isKTAnchor: true = true;
   readonly list: T[] = [];
-  abstract readonly type: AnchorType;
+  readonly atype: AType;
   mountCallback?: () => void;
 
-  constructor(data: AnchorType) {
-    super(data);
+  constructor(atype: AType) {
+    super(atype);
+    this.atype = atype;
     $ensureAnchorObserver();
   }
 

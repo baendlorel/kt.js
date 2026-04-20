@@ -6,13 +6,11 @@ import type { KTRef } from '../reactable/ref.js';
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { AnchorType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from './anchor.js';
 
-export class FragmentAnchor extends KTAnchor<Node> {
-  readonly type = AnchorType.Fragment;
-
+export class KTFragmentAnchor extends KTAnchor<Node> {
   constructor() {
-    super(AnchorType.Fragment);
+    super(AType.Fragment);
   }
 
   /**
@@ -60,8 +58,8 @@ export interface FragmentProps<T extends Node = Node> {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & FragmentAnchor {
-  const anchor = new FragmentAnchor();
+export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & KTFragmentAnchor {
+  const anchor = new KTFragmentAnchor();
   const elements = anchor.list as T[];
   const childrenRef = toReactive(props.children);
 
@@ -96,7 +94,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
 
   $initRef(props as { ref?: KTRef<Node> }, anchor);
 
-  return anchor as unknown as JSX.Element & FragmentAnchor;
+  return anchor as unknown as JSX.Element & KTFragmentAnchor;
 }
 
 /**

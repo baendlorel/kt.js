@@ -5,13 +5,11 @@ import type { KTReactive } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { AnchorType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from './anchor.js';
 
 export class KTForAnchor extends KTAnchor<JSX.Element> {
-  readonly type = AnchorType.For;
-
   constructor() {
-    super(AnchorType.For);
+    super(AType.For);
   }
 }
 

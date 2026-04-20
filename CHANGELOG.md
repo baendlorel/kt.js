@@ -1,6 +1,31 @@
 # Changelog
 
-## 0.38.x - 2026-04-06 ~ 2026-04-07
+## 0.39.x - 2026-04-20
+
+### Breaking Changes
+
+- Removed the sub-computed / sub-reactive layer from `@ktjs/core`. `reactive.get(...)`, `reactive.is(...)`, and `reactive.match(...)` now return regular `KTComputed` values built on the same dependency model as `map(...)`.
+- Removed related sub-reactive exports and flags such as `KTSubComputed`, `SubComputed`, `SubReactive`, and `isSubComputed`. `subref(...)` remains the supported lightweight nested write API.
+
+### API
+
+- Simplified `reactive.is(...)` and `reactive.match(...)` into computed sugar built on top of the regular reactive-like dependency path.
+- Aligned `reactive.get(...)` with the rest of the computed helpers so nested reads now behave like a standard computed projection.
+- Hardened `ref.subref(...)` so deriving or writing a sub-ref from a non-object-like source fails fast instead of producing invalid nested access.
+
+### Fixes
+
+- Fixed fragment child conversion so `Fragment` can preserve `Comment` anchors produced by conditional rendering, keeping nested fragment / `k-if` placeholder flows working.
+
+### Styling
+
+- Removed built-in font-family declarations across `@ktjs/mui` components so typography inherits from the host application instead of being forced by the component library.
+
+### Releases
+
+- Published `@ktjs/core@0.39.0`, `kt.js@0.39.0`, `@ktjs/mui@0.39.0`, and `create-kt.js@0.5.2`.
+
+## 0.38.x - 2026-04-06 ~ 2026-04-20
 
 ### API
 
@@ -14,6 +39,8 @@
 - Fixed an update bug where `reactive.match(reactivePattern)` could stop reacting after the matcher changed.
 - Fixed a stale-value issue in sub-reactive handlers so `is` / `match` recomputation always reads from the source reactive.
 - Fixed duplicated listener registration when multiple sub-reactive dependencies share the same source in one computed.
+- Fixed `k-if` narrowing when the guarded value could still be `null`.
+- Fixed fragment child conversion for conditional placeholder anchors so fragment-based trees keep rendering correctly.
 
 ### Refactor
 

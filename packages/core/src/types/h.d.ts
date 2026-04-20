@@ -1,6 +1,6 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
-import type { KTReactiveLike } from '../reactable/types.js';
-import type { KTRefLike } from '../reactable/ref.js';
+import type { KTReactive } from '../reactable/reactive.js';
+import type { KTRef } from '../reactable/ref.js';
 import type { JSX } from './jsx.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
@@ -11,7 +11,7 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
       ? MathMLElementTagNameMap[T]
       : HTMLElement;
 
-type SingleContent = KTReactiveLike<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
+type SingleContent = KTReactive<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
 export type KTRawAttr = KTAttribute | null | undefined | '' | false;
@@ -34,7 +34,7 @@ interface KTBaseAttribute {
   [k: string]: any;
 
   // # kt-specific attributes
-  ref?: KTRefLike<any>;
+  ref?: KTRef<any>;
 
   /**
    * If a `KTRefLike` is bound, it will be reactive; otherwise, it will be static.
@@ -45,7 +45,7 @@ interface KTBaseAttribute {
    * Register two-way data binding between an input element and a KTRefLike.
    * - Default to regist `input` event and `value` property(`checked` for checkboxes and radios).
    */
-  'k-model'?: KTRefLike<any>;
+  'k-model'?: KTRef<any>;
 
   /**
    * Raw HTML escape hatch. Directly assigns to `innerHTML`.
@@ -121,7 +121,7 @@ export type KTAttribute = KTBaseAttribute & KTPrefixedEventAttribute;
 
 export type KTComponent = (
   props: {
-    ref?: KTRefLike<JSX.Element>;
+    ref?: KTRef<JSX.Element>;
     children?: KTRawContent;
   } & KTAttribute &
     any,

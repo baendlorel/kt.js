@@ -1,12 +1,12 @@
 import type { InputElementTag } from '@ktjs/shared';
-import type { KTRefLike } from '../reactable/ref.js';
+import type { KTRef } from '../reactable/ref.js';
 
 import { static_cast } from 'type-narrow';
-import { isRefLike } from '../reactable/common.js';
+import { isRef } from '../reactable/common.js';
 import { $addNodeCleanup } from '../jsx/anchor.js';
 
-export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRefLike<any>) {
-  if (!isRefLike(valueRef)) {
+export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], valueRef: KTRef<any>) {
+  if (!isRef(valueRef)) {
     $throw('k-model value must be a KTRefLike.');
   }
 

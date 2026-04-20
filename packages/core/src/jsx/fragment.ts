@@ -6,7 +6,7 @@ import type { KTRef } from '../reactable/ref.js';
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { $addNodeCleanup, AnchorType, KTAnchor } from './anchor.js';
+import { AnchorType, KTAnchor } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
   readonly type = AnchorType.Fragment;
@@ -90,8 +90,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
     parent.insertBefore(fragment, anchor.nextSibling);
   };
 
-  childrenRef.addOnChange(redraw, redraw);
-  $addNodeCleanup(anchor, () => childrenRef.removeOnChange(redraw));
+  childrenRef.addOnChange(redraw);
   anchor.mountCallback = redraw;
   redraw();
 

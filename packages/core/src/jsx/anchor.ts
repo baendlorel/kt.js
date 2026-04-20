@@ -28,39 +28,13 @@ type MountableKTAnchor = Node & {
   isKTAnchor?: true;
   mount?: (parent?: Node) => void;
 };
-type NodeCleanup = () => void;
 
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';
 const CANNOT_OBSERVE = CANNOT_MOUNT || typeof MutationObserver === 'undefined';
 const COMMENT_FILTER = typeof NodeFilter === 'undefined' ? 0x80 : NodeFilter.SHOW_COMMENT;
 const ELEMENT_NODE = 1;
 const DOCUMENT_FRAGMENT_NODE = 11;
-const nodeToCleanups = new WeakMap<Node, NodeCleanup[]>();
 let anchorObserver: MutationObserver | undefined;
-
-const $cleanupRemovedNode = (node: Node) => {
-  if (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE) {
-    const children = Array.from(node.childNodes);
-    for (let i = 0; i < children.length; i++) {
-      $cleanupRemovedNode(children[i]);
-    }
-  }
-
-  const anchor = node as KTAnchor<Node>;
-  if (anchor.isKTAnchor === true) {
-    const list = anchor.list.slice();
-    anchor.list.length = 0;
-    for (let i = 0; i < list.length; i++) {
-      const listNode = list[i] as ChildNode;
-      if (listNode.parentNode) {
-        listNode.remove();
-      }
-      $cleanupRemovedNode(listNode);
-    }
-  }
-
-  $runNodeCleanups(node);
-};
 
 const $ensureAnchorObserver = () => {
   if (CANNOT_OBSERVE || anchorObserver || !document.body) {
@@ -80,10 +54,7 @@ const $ensureAnchorObserver = () => {
         $mountFragmentAnchors(addedNodes[j]);
       }
 
-      const removedNodes = records[i].removedNodes;
-      for (let j = 0; j < removedNodes.length; j++) {
-        $cleanupRemovedNode(removedNodes[j]);
-      }
+      // const removedNodes = records[i].removedNodes;
     }
   });
   anchorObserver.observe(document.body, { childList: true, subtree: true });
@@ -93,50 +64,6 @@ const $mountIfFragmentAnchor = (node: Node) => {
   const anchor = node as MountableKTAnchor;
   if (anchor.isKTAnchor === true && typeof anchor.mount === 'function') {
     anchor.mount();
-  }
-};
-
-const $runNodeCleanups = (node: Node) => {
-  const cleanups = nodeToCleanups.get(node);
-  if (!cleanups) {
-    return;
-  }
-
-  nodeToCleanups.delete(node);
-  for (let i = cleanups.length - 1; i >= 0; i--) {
-    try {
-      cleanups[i]();
-    } catch (error) {
-      $error('KTNodeCleanup:', error);
-    }
-  }
-};
-
-export const $addNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
-  $ensureAnchorObserver();
-  const cleanups = nodeToCleanups.get(node);
-  if (cleanups) {
-    cleanups.push(cleanup);
-  } else {
-    nodeToCleanups.set(node, [cleanup]);
-  }
-  return cleanup;
-};
-
-export const $removeNodeCleanup = (node: Node, cleanup: NodeCleanup) => {
-  const cleanups = nodeToCleanups.get(node);
-  if (!cleanups) {
-    return;
-  }
-
-  const index = cleanups.indexOf(cleanup);
-  if (index === -1) {
-    return;
-  }
-
-  cleanups.splice(index, 1);
-  if (cleanups.length === 0) {
-    nodeToCleanups.delete(node);
   }
 };
 

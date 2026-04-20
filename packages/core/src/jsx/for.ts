@@ -5,7 +5,6 @@ import type { KTReactive } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $initRef } from '../reactable/ref.js';
-import { $addNodeCleanup } from './anchor.js';
 import { AnchorType, KTAnchor } from './anchor.js';
 
 export class KTForAnchor extends KTAnchor<JSX.Element> {
@@ -137,7 +136,6 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
   }
 
   listRef.addOnChange(redraw, redraw);
-  $addNodeCleanup(anchor, () => listRef.removeOnChange(redraw));
   anchor.mountCallback = redraw;
   $initRef(props, anchor);
 

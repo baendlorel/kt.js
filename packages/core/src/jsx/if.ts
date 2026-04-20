@@ -2,7 +2,7 @@ import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
 
 import { isKT, type KTReactive } from '../reactable/index.js';
-import { $addNodeCleanup, $mountFragmentAnchors, $removeNodeCleanup } from './anchor.js';
+import { $mountFragmentAnchors } from './anchor.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTIf(
@@ -21,16 +21,12 @@ export function KTIf(
   }
 
   let current = condition.value ? renderIf() : renderElse();
-  const cleanup = () => condition.removeOnChange(onChange);
   const onChange = (newValue: any) => {
     const old = current;
     current = newValue ? renderIf() : renderElse();
-    $removeNodeCleanup(old, cleanup);
-    $addNodeCleanup(current, cleanup);
     old.replaceWith(current);
     $mountFragmentAnchors(current);
   };
-  condition.addOnChange(onChange, onChange);
-  $addNodeCleanup(current, cleanup);
+  condition.addOnChange(onChange);
   return current;
 }

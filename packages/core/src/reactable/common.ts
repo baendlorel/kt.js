@@ -26,7 +26,7 @@ export function isSubRef<T = any>(obj: any): obj is KTSubRef<T> {
   }
 }
 
-export function isRefOnly<T = any>(obj: any): obj is KTRef<T> {
+export function isRefExact<T = any>(obj: any): obj is KTRef<T> {
   if (typeof obj?.ktype === 'number') {
     return obj.ktype === KType.Ref;
   } else {

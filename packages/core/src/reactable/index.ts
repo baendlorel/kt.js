@@ -13,13 +13,14 @@ export const toReactive = <T>(o: T | KTReactive<T>): KTReactive<T> =>
  */
 export const dereactive = <T>(value: T | KTReactive<T>): T => (isKT<T>(value) ? value.value : value);
 
-export type { KTRef, KTSubRef, KTRefLike } from './ref.js';
+export type { KTRef, KTSubRef } from './ref.js';
 export { ref, assertModel } from './ref.js';
 export type { KTComputed, KTComputedLike } from './computed.js';
 export { computed } from './computed.js';
-export { KType as KTReactiveType } from './reactive.js';
-export type * from './reactive.js';
 
-export { isKT, isReactiveLike, isRef, isSubRef, isRefLike, isComputed, isReactive } from './common.js';
+export { KType } from './reactive.js';
+export type { KTReactive } from './reactive.js';
+
+export { isKT, isReactiveLike, isRef, isSubRef, isRefExact, isComputed, isReactive } from './common.js';
 export { effect } from './effect.js';
 export type * from './types.js';

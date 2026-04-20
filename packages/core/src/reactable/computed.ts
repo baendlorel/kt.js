@@ -1,6 +1,6 @@
 import { $deepMatch, $is } from '@ktjs/shared';
 import { KTReactive, KType, nextHandlerId } from './reactive.js';
-import { $createSubGetter, isReactiveLike } from './common.js';
+import { $createSubGetter, isReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KType.Computed;
@@ -80,11 +80,11 @@ KTReactive.prototype.map = function <U>(
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  return isReactiveLike(o) ? new C(() => $is(this.v, o.value), [this, o]) : new C(() => $is(this.v, o), [this]);
+  return isReactive(o) ? new C(() => $is(this.v, o.value), [this, o]) : new C(() => $is(this.v, o), [this]);
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
-  return isReactiveLike(o)
+  return isReactive(o)
     ? new C(() => $deepMatch(this.v, o.value), [this, o])
     : new C(() => $deepMatch(this.v, o), [this]);
 };

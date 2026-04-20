@@ -16,7 +16,7 @@ export { computed } from './computed.js';
 export { KType } from './reactive.js';
 export type { KTReactive } from './reactive.js';
 
-export { isKT, isReactiveLike, isRef, isSubRef, isRefExact, isComputed, isReactive } from './common.js';
+export { isKT, isRef, isSubRef, isRefExact, isComputed } from './common.js';
 
 export { effect } from './effect.js';
 export type * from './types.js';

@@ -2,55 +2,40 @@ import type { KTRef, KTSubRef } from './ref.js';
 import type { KTComputed } from './computed.js';
 import { KType, type KTReactive } from './reactive.js';
 
-// # type guards
-export function isKT<T = any>(obj: any): obj is KTReactive<T> {
-  return typeof obj?.kid === 'number';
-}
+// #region type guards
 
-export function isReactiveLike<T = any>(obj: any): obj is KTReactive<T> {
-  return typeof obj?.ktype === 'number' ? (obj.ktype & KType.ReactiveLike) !== 0 : false;
-}
+// & Shockingly, using `typeof` first is about 2~4 times faster than directly `o?.ktype === KType.XXX`.
 
 /**
  * @returns `true` for both `KTRef` and `KTSubRef`, since `KTSubRef` is a subclass of `KTRef`
  */
-export function isRef<T = any>(obj: any): obj is KTRef<T> {
-  return typeof obj?.ktype === 'number' ? obj.ktype === KType.Ref || obj.ktype === KType.SubRef : false;
-}
+export const isRef = <T = any>(o: any): o is KTRef<T> =>
+  typeof o?.ktype === 'number' ? o.ktype === KType.Ref || o.ktype === KType.SubRef : false;
 
-export function isSubRef<T = any>(obj: any): obj is KTSubRef<T> {
-  if (typeof obj?.ktype === 'number') {
-    return obj.ktype === KType.SubRef;
-  } else {
-    return false;
-  }
-}
+export const isSubRef = <T = any>(o: any): o is KTSubRef<T> =>
+  typeof o?.ktype === 'number' ? o.ktype === KType.SubRef : false;
 
-export function isRefExact<T = any>(obj: any): obj is KTRef<T> {
-  if (typeof obj?.ktype === 'number') {
-    return obj.ktype === KType.Ref;
-  } else {
-    return false;
-  }
-}
+export const isRefExact = <T = any>(o: any): o is KTRef<T> =>
+  typeof o?.ktype === 'number' ? o.ktype === KType.Ref : false;
 
-export function isComputed<T = any>(obj: any): obj is KTComputed<T> {
-  if (typeof obj?.ktype === 'number') {
-    return obj.ktype === KType.Computed;
-  } else {
-    return false;
-  }
-}
+export const isComputed = <T = any>(o: any): o is KTComputed<T> =>
+  typeof o?.ktype === 'number' ? o.ktype === KType.Computed : false;
 
-export function isReactive<T = any>(obj: any): obj is KTReactive<T> {
-  if (typeof obj?.ktype === 'number') {
-    return (obj.ktype & KType.Reactive) !== 0;
-  } else {
-    return false;
-  }
-}
+/**
+ * A little different from `isKT`
+ * @returns true if `o` is computed\ref\subref
+ */
+export const isReactive = <T = any>(o: any): o is KTReactive<T> =>
+  typeof o?.ktype === 'number' ? (o.ktype & KType.Reactive) !== 0 : false;
 
-// # sub getter/setter factory
+/**
+ * Only checks if `ktype` is a number, which is the common property of all KTReactive instances.
+ */
+export const isKT = <T = any>(o: any): o is KTReactive<T> => typeof o?.ktype === 'number';
+
+// #endregion
+
+// #region sub getter/setter factory
 
 type SubGetter = (s: any) => any;
 type SubSetter = (s: any, newValue: any) => void;
@@ -99,3 +84,5 @@ export const $createSubSetter = (path: Array<string | number>): SubSetter => {
       };
   }
 };
+
+// #endregion

@@ -4,12 +4,10 @@ import { type ChangeHandler } from './types.js';
 import { $stringify } from '@ktjs/shared';
 
 export const enum KType {
-  Pseudo /*-------*/ = 1 << 0,
   Ref /*----------*/ = 1 << 1,
   SubRef /*-------*/ = 1 << 2,
   Computed /*-----*/ = 1 << 3,
   Reactive /*-----*/ = Ref | Computed,
-  ReactiveLike /*-*/ = Reactive | Pseudo,
 }
 
 let kid = 1;

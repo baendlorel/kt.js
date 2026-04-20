@@ -129,6 +129,12 @@ export function convertChildrenToElements(children: KTRawContent): Element[] {
       return;
     }
 
+    // & must allow KTAnchor, or Fragments won't be nestable
+    if (child instanceof KTAnchor) {
+      elements.push(child as any);
+      return;
+    }
+
     if (isKT(child)) {
       processChild(child.value);
       return;

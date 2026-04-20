@@ -10,7 +10,7 @@ export const toReactive = <T>(o: T | KTReactive<T>): KTReactive<T> => (isKT<T>(o
 export type { KTRef, KTSubRef } from './ref.js';
 export { ref, assertModel } from './ref.js';
 
-export type { KTComputed, KTComputedLike } from './computed.js';
+export type { KTComputed } from './computed.js';
 export { computed } from './computed.js';
 
 export { KType } from './reactive.js';

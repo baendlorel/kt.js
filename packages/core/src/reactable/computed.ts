@@ -1,8 +1,6 @@
-import type { KTReactiveLike } from './types.js';
-
 import { $deepMatch, $is } from '@ktjs/shared';
 import { KTReactive, KType, nextHandlerId } from './reactive.js';
-import { $createSubGetter, isReactiveLike, isSubRef } from './common.js';
+import { $createSubGetter, isReactiveLike } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KType.Computed;
@@ -11,14 +9,17 @@ export class KTComputed<T> extends KTReactive<T> {
    * @internal
    */
   private readonly _calculator: () => T;
+
   /**
    * @internal
    */
-  private readonly _dependencies: Array<KTReactiveLike<any>>;
+  private readonly _dependencies: Array<KTReactive<any>>;
+
   /**
    * @internal
    */
   private readonly _handler: () => void;
+
   /**
    * @internal
    */
@@ -27,15 +28,15 @@ export class KTComputed<T> extends KTReactive<T> {
 
   private _recalculate(forced: boolean = false): this {
     const newValue = this._calculator();
-    const oldValue = this._value;
+    const oldValue = this.v;
     if (!$is(oldValue, newValue) || forced) {
-      this._value = newValue;
+      this.v = newValue;
       this._emit(newValue, oldValue);
     }
     return this;
   }
 
-  constructor(calculator: () => T, dependencies: Array<KTReactiveLike<any>>) {
+  constructor(calculator: () => T, dependencies: Array<KTReactive<any>>) {
     super(calculator());
     this._calculator = calculator;
     this._dependencies = dependencies;
@@ -68,24 +69,24 @@ export class KTComputed<T> extends KTReactive<T> {
   }
 }
 
+const C = KTComputed;
+
 KTReactive.prototype.map = function <U>(
   this: KTReactive<unknown>,
   getter: (value: unknown) => U,
   dep?: Array<KTReactive<any>>,
 ) {
-  return new KTComputed(() => getter(this._value), dep ? [this, ...dep] : [this]);
+  return new C(() => getter(this.v), dep ? [this, ...dep] : [this]);
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  return isReactiveLike(o)
-    ? new KTComputed(() => $is(this._value, o.value), [this, o])
-    : new KTComputed(() => $is(this._value, o), [this]);
+  return isReactiveLike(o) ? new C(() => $is(this.v, o.value), [this, o]) : new C(() => $is(this.v, o), [this]);
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
   return isReactiveLike(o)
-    ? new KTComputed(() => $deepMatch(this._value, o.value), [this, o])
-    : new KTComputed(() => $deepMatch(this._value, o), [this]);
+    ? new C(() => $deepMatch(this.v, o.value), [this, o])
+    : new C(() => $deepMatch(this.v, o), [this]);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
@@ -93,7 +94,7 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
     $throw('At least one key is required to get a sub-computed.');
   }
   const getter = $createSubGetter(keys);
-  return new KTComputed(() => getter(this._value), [this]);
+  return new C(() => getter(this.v), [this]);
 };
 
 /**
@@ -101,6 +102,5 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
  * @param calculator synchronous function that calculates the value of the computed. It should not have side effects.
  * @param dependencies an array of reactive dependencies that the computed value depends on. The computed value will automatically update when any of these dependencies change.
  */
-export const computed = <T>(calculator: () => T, dependencies: Array<KTReactiveLike<any>>): KTComputed<T> =>
-  new KTComputed(calculator, dependencies);
-export type KTComputedLike<T> = KTComputed<T>;
+export const computed = <T>(calculator: () => T, dependencies: Array<KTReactive<any>>): KTComputed<T> =>
+  new C(calculator, dependencies);

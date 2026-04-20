@@ -22,9 +22,10 @@ export abstract class KTReactive<T> {
   readonly kid = nextKid();
 
   /**
+   * Internal value storage.
    * @internal
    */
-  protected _value: T;
+  protected v: T;
 
   /**
    * @internal
@@ -33,11 +34,11 @@ export abstract class KTReactive<T> {
   protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
 
   constructor(value: T) {
-    this._value = value;
+    this.v = value;
   }
 
   get value() {
-    return this._value;
+    return this.v;
   }
 
   set value(_newValue: T) {
@@ -71,7 +72,7 @@ export abstract class KTReactive<T> {
   }
 
   notify(): this {
-    return this._emit(this._value, this._value);
+    return this._emit(this.v, this.v);
   }
 
   /**

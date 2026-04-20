@@ -9,7 +9,7 @@ let scheduled = false;
 export const $markMutation = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
     // @ts-expect-error accessing protected property
-    reactiveToOldValue.set(reactive, reactive._value);
+    reactiveToOldValue.set(reactive, reactive.v);
 
     // # schedule by microqueue
     if (scheduled) {

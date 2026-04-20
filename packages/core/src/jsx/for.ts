@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
-import type { KTRefLike } from '../reactable/ref.js';
-import type { KTReactiveLike } from '../reactable/types.js';
+import type { KTRef } from '../reactable/ref.js';
+import type { KTReactive } from '../reactable/reactive.js';
 
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
@@ -19,8 +19,8 @@ export class KTForAnchor extends KTAnchor<JSX.Element> {
 export type KTForElement = JSX.Element & KTForAnchor;
 
 export interface KTForProps<T> {
-  ref?: KTRefLike<KTForElement>;
-  list: T[] | KTReactiveLike<T[]>;
+  ref?: KTRef<KTForElement>;
+  list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
   map?: (item: T, index: number, array: T[]) => JSX.Element;
 }

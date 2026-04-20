@@ -2,7 +2,7 @@ import { $isThenable } from '@ktjs/shared';
 import type { KTComponent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 import type { KTRef } from '../reactable/ref.js';
-import { $mountFragmentAnchors, AType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from './anchor.js';
 
 /**
  * Extract component props type (excluding ref and children)
@@ -25,10 +25,7 @@ export function KTAsync<T extends KTComponent>(props: {
   let temp = props.skeleton ?? new KTAsyncAnchor();
 
   if ($isThenable(raw)) {
-    raw.then((resolved) => {
-      temp.replaceWith(resolved);
-      $mountFragmentAnchors(resolved);
-    });
+    raw.then((resolved) => temp.replaceWith(resolved));
   } else {
     temp = raw;
   }

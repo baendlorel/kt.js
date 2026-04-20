@@ -1,13 +1,12 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { KTAttribute } from '../types/h.js';
-import type { KTReactiveLike } from '../reactable/types.js';
 
-import { isKT } from '../reactable/index.js';
+import { isKT, type KTReactive } from '../reactable/index.js';
 import { $addNodeCleanup, $mountFragmentAnchors, $removeNodeCleanup } from './anchor.js';
 import { jsxh, placeholder } from './common.js';
 
 export function KTIf(
-  condition: any | KTReactiveLike<any>,
+  condition: any | KTReactive<any>,
   tagIf: JSXTag,
   propsIf: () => KTAttribute,
   tagElse?: JSXTag,

@@ -1,11 +1,12 @@
+import type { ChangeHandler } from './types.js';
+
 import { $emptyFn, $is } from '@ktjs/shared';
-import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
-import { KTReactive, KTReactiveType, nextHandlerId, nextKid } from './reactive.js';
-import { type ChangeHandler } from './types.js';
+import { $createSubGetter, $createSubSetter, isRef } from './common.js';
+import { KTReactive, KType, nextHandlerId, nextKid } from './reactive.js';
 import { $markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
-  readonly ktype: KTReactiveType = KTReactiveType.Ref;
+  readonly ktype: KType = KType.Ref;
 
   constructor(_value: T) {
     super(_value);
@@ -114,11 +115,11 @@ export const ref = <T>(value?: T): KTRef<T> => new KTRef(value as any);
 /**
  * Assert `k-model` to be a ref-like object
  */
-export const assertModel = <T = any>(props: any, defaultValue?: T): KTRefLike<T> => {
+export const assertModel = <T = any>(props: any, defaultValue?: T): KTRef<T> => {
   // & props is an object. Won't use it in any other place
   if ('k-model' in props) {
     const model = props['k-model'];
-    if (isRefLike(model)) {
+    if (isRef(model)) {
       return model;
     } else {
       $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
@@ -130,18 +131,16 @@ export const assertModel = <T = any>(props: any, defaultValue?: T): KTRefLike<T>
 const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.value = node);
 type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
 
-export type KTRefLike<T> = KTRef<T> | KTSubRef<T>;
-
 /**
  * Whether `props.ref` is a `KTRef` only needs to be checked in the initial render
  */
-export const $initRef = <T extends Node>(props: { ref?: KTRefLike<T> }, node: T): RefSetter<T> => {
+export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): RefSetter<T> => {
   if (!('ref' in props)) {
     return $emptyFn;
   }
 
   const r = props.ref;
-  if (isRefLike(r)) {
+  if (isRef(r)) {
     r.value = node;
     return $refSetter;
   } else {
@@ -153,7 +152,7 @@ export const $initRef = <T extends Node>(props: { ref?: KTRefLike<T> }, node: T)
 
 export class KTSubRef<T> extends KTRef<T> {
   readonly kid = nextKid();
-  readonly ktype: KTReactiveType = KTReactiveType.SubRef;
+  readonly ktype: KType = KType.SubRef;
   readonly source: KTRef<any>;
 
   /**

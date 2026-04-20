@@ -1,17 +1,15 @@
 import type { KTComputed } from './computed.js';
-import { KTReactiveLike, type ChangeHandler } from './types.js';
+import { type ChangeHandler } from './types.js';
 
 import { $stringify } from '@ktjs/shared';
 
-export const enum KTReactiveType {
-  Pseudo = 0b000001,
-  Ref = 0b000010,
-  SubRef = 0b000100,
-  RefLike = Ref | SubRef,
-  Computed = 0b001000,
-  ComputedLike = Computed,
-  Reactive = Ref | Computed,
-  ReactiveLike = RefLike | Computed | Pseudo,
+export const enum KType {
+  Pseudo /*-------*/ = 1 << 0,
+  Ref /*----------*/ = 1 << 1,
+  SubRef /*-------*/ = 1 << 2,
+  Computed /*-----*/ = 1 << 3,
+  Reactive /*-----*/ = Ref | Computed,
+  ReactiveLike /*-*/ = Reactive | Pseudo,
 }
 
 let kid = 1;
@@ -20,7 +18,7 @@ let handlerId = 1;
 export const nextKid = () => kid++;
 export const nextHandlerId = (kid: number) => `@@k-handler-${kid}-${handlerId++}`;
 
-export abstract class KTReactive<T> extends KTReactiveLike<T> {
+export abstract class KTReactive<T> {
   readonly kid = nextKid();
 
   /**
@@ -35,7 +33,6 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
   protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
 
   constructor(value: T) {
-    super();
     this._value = value;
   }
 
@@ -83,7 +80,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * @param calculator A function that generates a new value based on current value.
    * @param dependencies optional other dependencies that the computed value depends on.
    */
-  map<U>(_calculator: (value: T) => U, _dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+  map<U>(_calculator: (value: T) => U, _dependencies?: Array<KTReactive<any>>): KTComputed<U> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
@@ -92,7 +89,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * - Use `Object.is` for comparison.
    * - if `o` is reactive-like, it will be added to dependencies
    */
-  is(_o: T | KTReactiveLike<T>): KTComputed<boolean> {
+  is(_o: T | KTReactive<T>): KTComputed<boolean> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
@@ -101,7 +98,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * - Deeply match.
    * - if `o` is reactive-like, it will be added to dependencies
    */
-  match(_o: object | KTReactiveLike<object>): KTComputed<boolean> {
+  match(_o: object | KTReactive<object>): KTComputed<boolean> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 

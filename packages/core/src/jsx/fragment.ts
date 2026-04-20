@@ -1,10 +1,11 @@
-import type { KTReactiveLike } from '../reactable/types.js';
 import type { KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
-import { $initRef, type KTRefLike } from '../reactable/ref.js';
+import type { KTReactive } from '../reactable/reactive.js';
+import type { KTRef } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
+import { $initRef } from '../reactable/ref.js';
 import { $addNodeCleanup, AnchorType, KTAnchor } from './anchor.js';
 
 export class FragmentAnchor extends KTAnchor<Node> {
@@ -31,13 +32,13 @@ export class FragmentAnchor extends KTAnchor<Node> {
 
 export interface FragmentProps<T extends Node = Node> {
   /** Array of child elements, supports reactive arrays */
-  children: T[] | KTReactiveLike<T[]>;
+  children: T[] | KTReactive<T[]>;
 
   /** element key function for optimization (future enhancement) */
   key?: (element: T, index: number, array: T[]) => any;
 
   /** ref to get the anchor node */
-  ref?: KTRefLike<JSX.Element>;
+  ref?: KTRef<JSX.Element>;
 }
 
 /**
@@ -94,7 +95,7 @@ export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.El
   anchor.mountCallback = redraw;
   redraw();
 
-  $initRef(props as { ref?: KTRefLike<Node> }, anchor);
+  $initRef(props as { ref?: KTRef<Node> }, anchor);
 
   return anchor as unknown as JSX.Element & FragmentAnchor;
 }

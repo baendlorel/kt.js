@@ -1,11 +1,11 @@
 import type { KTReactiveLike } from './types.js';
 
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, nextHandlerId } from './reactive.js';
+import { KTReactive, KType, nextHandlerId } from './reactive.js';
 import { $createSubGetter, isReactiveLike, isSubRef } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
-  readonly ktype = KTReactiveType.Computed;
+  readonly ktype = KType.Computed;
 
   /**
    * @internal

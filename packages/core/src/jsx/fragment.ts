@@ -129,8 +129,10 @@ export function convertChildrenToElements(children: KTRawContent): Element[] {
       return;
     }
 
-    // & must allow KTAnchor, or Fragments won't be nestable
-    if (child instanceof KTAnchor) {
+    // TODO 也许可以让k-if也使用KTAnchor以统一
+    // & Allows KTAnchor(Comment), this is pretty natural.
+    // & If not allowed, Fragments won't be nestable
+    if (child instanceof Comment) {
       elements.push(child as any);
       return;
     }

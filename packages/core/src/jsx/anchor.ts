@@ -1,15 +1,23 @@
+import type { JSX } from '../types/jsx.js';
+
 export const enum AType {
   Fragment = 'kt-fragment',
   For = 'kt-for',
+  If = 'kt-if',
+  Async = 'kt-async',
 }
 
-export abstract class KTAnchor<T extends Node = Node> extends Comment {
-  readonly list: T[] = [];
+/**
+ * This is made to be the core of every anchor
+ */
+// TODO 也许应该在content的append处加入对Anchor的处理
+export abstract class KTAnchor extends Comment {
+  readonly list: Array<Node | JSX.Element> = [];
   readonly atype: AType;
   mountCallback?: () => void;
 
   constructor(atype: AType) {
-    super(atype);
+    super();
     this.atype = atype;
     $ensureAnchorObserver();
   }
@@ -18,16 +26,13 @@ export abstract class KTAnchor<T extends Node = Node> extends Comment {
     if (parent && this.parentNode !== parent) {
       parent.appendChild(this);
     }
+
+    // & This will be different as its last call because of mounting
     if (this.parentNode) {
       this.mountCallback?.();
     }
   }
 }
-
-type MountableKTAnchor = Node & {
-  isKTAnchor?: true;
-  mount?: (parent?: Node) => void;
-};
 
 const CANNOT_MOUNT = typeof document === 'undefined' || typeof Node === 'undefined';
 const CANNOT_OBSERVE = CANNOT_MOUNT || typeof MutationObserver === 'undefined';
@@ -61,8 +66,8 @@ const $ensureAnchorObserver = () => {
 };
 
 const $mountIfFragmentAnchor = (node: Node) => {
-  const anchor = node as MountableKTAnchor;
-  if (anchor.isKTAnchor === true && typeof anchor.mount === 'function') {
+  const anchor = node as KTAnchor;
+  if (typeof anchor.atype === 'number' && typeof anchor.mount === 'function') {
     anchor.mount();
   }
 };

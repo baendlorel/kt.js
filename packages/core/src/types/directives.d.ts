@@ -1,4 +1,4 @@
-import type { KTReactiveLike } from '../reactable/reactive.js';
+import type { KTReactiveLike } from '../reactable/types.js';
 import type { JSX } from './jsx.js';
 
 export type KIfElement = JSX.Element & {

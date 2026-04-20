@@ -1,4 +1,4 @@
-import type { KTComputed, KTSubComputed } from './computed.js';
+import type { KTComputed } from './computed.js';
 import { KTReactiveLike, type ChangeHandler } from './types.js';
 
 import { $stringify } from '@ktjs/shared';
@@ -9,11 +9,9 @@ export const enum KTReactiveType {
   SubRef = 0b000100,
   RefLike = Ref | SubRef,
   Computed = 0b001000,
-  SubComputed = 0b010000,
-  ComputedLike = Computed | SubComputed,
+  ComputedLike = Computed,
   Reactive = Ref | Computed,
-  SubReactive = SubRef | SubComputed,
-  ReactiveLike = RefLike | ComputedLike | Pseudo,
+  ReactiveLike = RefLike | Computed | Pseudo,
 }
 
 let kid = 1;
@@ -85,7 +83,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * @param calculator A function that generates a new value based on current value.
    * @param dependencies optional other dependencies that the computed value depends on.
    */
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
+  map<U>(_calculator: (value: T) => U, _dependencies?: Array<KTReactiveLike<any>>): KTComputed<U> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
@@ -94,7 +92,7 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * - Use `Object.is` for comparison.
    * - if `o` is reactive-like, it will be added to dependencies
    */
-  is(o: T | KTReactiveLike<T>): KTSubComputed<boolean> {
+  is(_o: T | KTReactiveLike<T>): KTComputed<boolean> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
@@ -103,14 +101,13 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
    * - Deeply match.
    * - if `o` is reactive-like, it will be added to dependencies
    */
-  match(o: object | KTReactiveLike<object>): KTSubComputed<boolean> {
+  match(_o: object | KTReactiveLike<object>): KTComputed<boolean> {
     return null as any; // & implemented in computed.ts to avoid circular dependency
   }
 
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
   get<
     K0 extends keyof T,
@@ -118,103 +115,42 @@ export abstract class KTReactive<T> extends KTReactiveLike<T> {
     K2 extends keyof T[K0][K1],
     K3 extends keyof T[K0][K1][K2],
     K4 extends keyof T[K0][K1][K2][K3],
-  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTSubComputed<T[K0][K1][K2][K3][K4]>;
+  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
   get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
     key0: K0,
     key1: K1,
     key2: K2,
     key3: K3,
-  ): KTSubComputed<T[K0][K1][K2][K3]>;
+  ): KTComputed<T[K0][K1][K2][K3]>;
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
   get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
     key0: K0,
     key1: K1,
     key2: K2,
-  ): KTSubComputed<T[K0][K1][K2]>;
+  ): KTComputed<T[K0][K1][K2]>;
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
-  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTSubComputed<T[K0][K1]>;
+  get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
-  get<K0 extends keyof T>(key0: K0): KTSubComputed<T[K0]>;
+  get<K0 extends keyof T>(key0: K0): KTComputed<T[K0]>;
   /**
-   * Generate a sub-computed value based on this reactive, using keys to access nested properties.
+   * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   * - `KTSubComputed` is lighter than `KTComputed` because it only listens to changes on the source reactive, while `KTComputed` listens to all its dependencies. So it's better to use `get` when you only need to access nested properties without doing any calculation.
    */
-  get(..._keys: Array<string | number>): KTSubComputed<any> {
+  get(..._keys: Array<string | number>): KTComputed<any> {
     // & Will be implemented in computed.ts to avoid circular dependency
     return null as any;
-  }
-}
-
-export abstract class KTSubReactive<T> extends KTReactiveLike<T> {
-  readonly kid = nextKid();
-
-  readonly source: KTReactive<any>;
-
-  /**
-   * @internal
-   */
-  protected _value: T;
-
-  /**
-   * @internal
-   */
-  protected readonly _getter: (sv: KTReactive<any>['value']) => T;
-
-  /**
-   * @internal
-   */
-  protected readonly _handler: ChangeHandler<any>;
-
-  /**
-   * @internal
-   */
-  protected readonly _handlerKeys: string[];
-
-  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T) {
-    super();
-    this.source = source;
-    this._getter = getter;
-    this._handlerKeys = [];
-
-    // @ts-expect-error _value is protected
-    this._value = this._getter(source._value);
-    // @ts-expect-error _value is protected
-    this._handler = () => (this._value = getter(source._value));
-
-    this._handlerKeys.push(nextHandlerId(this.kid));
-    source.addOnChange(this._handler, this._handlerKeys[0]);
-  }
-
-  addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
-    this._handlerKeys.push(key);
-    this.source.addOnChange((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)), key);
-    return this;
-  }
-
-  removeOnChange(key: any): this {
-    this.source.removeOnChange(key);
-    return this;
-  }
-
-  dispose(): void {
-    this._handlerKeys.forEach((key) => this.source.removeOnChange(key));
   }
 }

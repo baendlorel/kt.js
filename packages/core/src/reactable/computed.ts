@@ -1,8 +1,8 @@
 import type { KTReactiveLike } from './types.js';
 
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KTReactiveType, KTSubReactive, nextHandlerId } from './reactive.js';
-import { $createSubGetter, isReactive, isSubReactive } from './common.js';
+import { KTReactive, KTReactiveType, nextHandlerId } from './reactive.js';
+import { $createSubGetter, isReactiveLike, isSubRef } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KTReactiveType.Computed;
@@ -40,21 +40,13 @@ export class KTComputed<T> extends KTReactive<T> {
     this._calculator = calculator;
     this._dependencies = dependencies;
     this._handler = () => this._recalculate();
-    this._handlerKeys = dependencies.map(() => nextHandlerId(this.kid));
+    this._handlerKeys = [];
+    this._handlerKeys.length = dependencies.length;
 
-    const uniqueSources = new Set<KTReactive<any>>();
     for (let i = 0; i < dependencies.length; i++) {
-      const dep = dependencies[i];
-      if (isSubReactive(dep)) {
-        if (uniqueSources.has(dep.source)) {
-          continue;
-        } else {
-          uniqueSources.add(dep.source);
-        }
-      }
-      dep.addOnChange(this._handler, this._handlerKeys[i]);
+      // & Maybe use ? nextHandlerId(isSubRef(dep) ? dep.source.kid : dep.kid));
+      dependencies[i].addOnChange(this._handler, (this._handlerKeys[i] = nextHandlerId(dependencies[i].kid)));
     }
-    uniqueSources.clear();
   }
 
   notify(): this {
@@ -78,33 +70,30 @@ export class KTComputed<T> extends KTReactive<T> {
 
 KTReactive.prototype.map = function <U>(
   this: KTReactive<unknown>,
-  c: (value: unknown) => U,
+  getter: (value: unknown) => U,
   dep?: Array<KTReactive<any>>,
 ) {
-  return new KTComputed(() => c(this.value), dep ? [this, ...dep] : [this]);
+  return new KTComputed(() => getter(this._value), dep ? [this, ...dep] : [this]);
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  if (isReactive(o)) {
-    return new KTSubComputed(this, (v) => $is(v, o.value), o);
-  } else {
-    return new KTSubComputed(this, (v) => $is(v, o));
-  }
+  return isReactiveLike(o)
+    ? new KTComputed(() => $is(this._value, o.value), [this, o])
+    : new KTComputed(() => $is(this._value, o), [this]);
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
-  if (isReactive(o)) {
-    return new KTSubComputed(this, (v) => $deepMatch(v, o.value), o);
-  } else {
-    return new KTSubComputed(this, (v) => $deepMatch(v, o));
-  }
+  return isReactiveLike(o)
+    ? new KTComputed(() => $deepMatch(this._value, o.value), [this, o])
+    : new KTComputed(() => $deepMatch(this._value, o), [this]);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
   if (keys.length === 0) {
     $throw('At least one key is required to get a sub-computed.');
   }
-  return new KTSubComputed(this, $createSubGetter(keys));
+  const getter = $createSubGetter(keys);
+  return new KTComputed(() => getter(this._value), [this]);
 };
 
 /**
@@ -114,36 +103,4 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
  */
 export const computed = <T>(calculator: () => T, dependencies: Array<KTReactiveLike<any>>): KTComputed<T> =>
   new KTComputed(calculator, dependencies);
-
-// # SubComputed
-
-export class KTSubComputed<T> extends KTSubReactive<T> {
-  readonly ktype = KTReactiveType.SubComputed;
-
-  /**
-   * Used for `reactive.is` and `reactive.match` to track the single dependency.
-   * @internal
-   */
-  private readonly _dependency?: KTReactive<any>;
-
-  constructor(source: KTReactive<any>, getter: (sv: KTReactive<any>['value']) => T, dependency?: KTReactive<any>) {
-    super(source, getter);
-    this._dependency = dependency;
-
-    if (dependency) {
-      this._handlerKeys.push(nextHandlerId(this.kid));
-      dependency.addOnChange(this._handler, this._handlerKeys[1]);
-    }
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  dispose(): void {
-    this._handlerKeys.forEach((key) => this.source.removeOnChange(key));
-    this._dependency?.removeOnChange(this._handlerKeys[1]);
-  }
-}
-
-export type KTComputedLike<T> = KTComputed<T> | KTSubComputed<T>;
+export type KTComputedLike<T> = KTComputed<T>;

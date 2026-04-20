@@ -1,6 +1,6 @@
 import type { KTReactiveLike } from './types.js';
 import type { KTRef, KTRefLike, KTSubRef } from './ref.js';
-import type { KTComputed, KTComputedLike, KTSubComputed } from './computed.js';
+import type { KTComputed, KTComputedLike } from './computed.js';
 import { KTReactiveType, type KTReactive } from './reactive.js';
 
 // # type guards
@@ -48,14 +48,6 @@ export function isComputed<T = any>(obj: any): obj is KTComputed<T> {
   }
 }
 
-export function isSubComputed<T = any>(obj: any): obj is KTSubComputed<T> {
-  if (typeof obj?.ktype === 'number') {
-    return obj.ktype === KTReactiveType.SubComputed;
-  } else {
-    return false;
-  }
-}
-
 export function isComputedLike<T = any>(obj: any): obj is KTComputedLike<T> {
   if (typeof obj?.ktype === 'number') {
     return (obj.ktype & KTReactiveType.ComputedLike) !== 0;
@@ -67,14 +59,6 @@ export function isComputedLike<T = any>(obj: any): obj is KTComputedLike<T> {
 export function isReactive<T = any>(obj: any): obj is KTReactive<T> {
   if (typeof obj?.ktype === 'number') {
     return (obj.ktype & KTReactiveType.Reactive) !== 0;
-  } else {
-    return false;
-  }
-}
-
-export function isSubReactive<T = any>(obj: any): obj is KTSubComputed<T> {
-  if (typeof obj?.ktype === 'number') {
-    return (obj.ktype & KTReactiveType.SubReactive) !== 0;
   } else {
     return false;
   }

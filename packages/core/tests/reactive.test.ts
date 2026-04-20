@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ref, computed } from '../src/reactable/index.js';
-import type { KTSubComputed } from '../src/reactable/computed.js';
+import type { KTComputed } from '../src/reactable/computed.js';
 import type { KTRef, KTSubRef } from '../src/reactable/ref.js';
 
 type IsEqual<A, B> =
@@ -57,8 +57,8 @@ describe('reactive helpers', () => {
     const user = state.get('user');
     const level = state.get('user', 'profile', 'level');
 
-    const _user: Assert<IsEqual<typeof user, KTSubComputed<{ name: string; profile: { level: number } }>>> = true;
-    const _level: Assert<IsEqual<typeof level, KTSubComputed<number>>> = true;
+    const _user: Assert<IsEqual<typeof user, KTComputed<{ name: string; profile: { level: number } }>>> = true;
+    const _level: Assert<IsEqual<typeof level, KTComputed<number>>> = true;
 
     expect(user.value.name).toBe('kt');
     expect(level.value).toBe(3);
@@ -87,7 +87,7 @@ describe('reactive helpers', () => {
     const user = computed(() => state.value.user, [state]);
     const name = user.get('name');
 
-    const _name: Assert<IsEqual<typeof name, KTSubComputed<string>>> = true;
+    const _name: Assert<IsEqual<typeof name, KTComputed<string>>> = true;
 
     expect(name.value).toBe('kt');
     state.value = { user: { name: 'js' } };
@@ -101,7 +101,7 @@ describe('reactive helpers', () => {
 
     const length = state.get('name', 'length');
 
-    const _length: Assert<IsEqual<typeof length, KTSubComputed<number>>> = true;
+    const _length: Assert<IsEqual<typeof length, KTComputed<number>>> = true;
 
     expect(length.value).toBe(4);
   });
@@ -184,6 +184,10 @@ describe('reactive helpers', () => {
 
   it('subref should throw when keys are empty', () => {
     expect(() => (ref({ a: 1 }) as any).subref()).toThrow();
+  });
+
+  it('subref should reject primitive refs', () => {
+    expect(() => (ref('kt') as any).subref('length')).toThrow('Sub-ref only supports object-like ref values.');
   });
 
   it('subref should support more than 5 path keys and escaped string keys', () => {

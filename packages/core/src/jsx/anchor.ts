@@ -65,10 +65,10 @@ const $ensureAnchorObserver = () => {
   anchorObserver.observe(document.body, { childList: true, subtree: true });
 };
 
+// TODO 两个mount完全不需要，是重复操作
 const $mountIfFragmentAnchor = (node: Node) => {
-  const anchor = node as KTAnchor;
-  if (typeof anchor.atype === 'number' && typeof anchor.mount === 'function') {
-    anchor.mount();
+  if (node instanceof KTAnchor && typeof node.mount === 'function') {
+    node.mount();
   }
 };
 

@@ -2,7 +2,7 @@ import type { JSX, KTRefLike } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, KTConditional, KTFor, computed, ref } from '@ktjs/core';
+import { assertModel, KTIf, KTFor, computed, ref } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -235,7 +235,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
           tabIndex={selected ? 0 : -1}
           on:click={handleTabClick}
         >
-          {KTConditional(option.icon, 'span', () => ({ class: 'mui-tab-icon', children: option.icon }))}
+          {KTIf(option.icon, 'span', () => ({ class: 'mui-tab-icon', children: option.icon }))}
           <span class="mui-tab-label">{option.label}</span>
         </button>
       ) as HTMLButtonElement;

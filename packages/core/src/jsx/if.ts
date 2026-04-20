@@ -6,7 +6,7 @@ import { isKT } from '../reactable/index.js';
 import { $addNodeCleanup, $mountFragmentAnchors, $removeNodeCleanup } from './anchor.js';
 import { jsxh, placeholder } from './common.js';
 
-export function KTConditional(
+export function KTIf(
   condition: any | KTReactiveLike<any>,
   tagIf: JSXTag,
   propsIf: () => KTAttribute,

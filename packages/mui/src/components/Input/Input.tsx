@@ -3,7 +3,7 @@ import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { assertModel, KTConditional, computed, dereactive, ref } from '@ktjs/core';
+import { assertModel, KTIf, computed, dereactive, ref } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -187,7 +187,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
     return (
       <label class="mui-textfield-label">
         {labelRef}
-        {KTConditional(requiredRef, 'span', () => ({ class: 'mui-textfield-required', children: '*' }))}
+        {KTIf(requiredRef, 'span', () => ({ class: 'mui-textfield-required', children: '*' }))}
       </label>
     );
   }, [labelRef, requiredRef]);
@@ -201,7 +201,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
       <legend class="mui-textfield-legend">
         <span>
           {labelRef}
-          {KTConditional(requiredRef, 'span', () => ({ children: '*' }))}
+          {KTIf(requiredRef, 'span', () => ({ children: '*' }))}
         </span>
       </legend>
     );

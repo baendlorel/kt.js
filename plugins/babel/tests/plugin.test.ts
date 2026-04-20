@@ -104,19 +104,19 @@ describe('babel-plugin-ktjsx', () => {
   });
 
   describe('conditional directive transformation', () => {
-    it('should compile standalone k-if to KTConditional call', () => {
+    it('should compile standalone k-if to KTIf call', () => {
       const code = `const el = <div k-if={condition}>Content</div>;`;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(condition, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(condition, "div", () => ({');
       expect(result).not.toContain('k-if');
     });
 
-    it('should compile adjacent k-if + k-else chain to KTConditional call', () => {
+    it('should compile adjacent k-if + k-else chain to KTIf call', () => {
       const code = `const el = <><div k-if={condition}>A</div><div k-else>B</div></>;`;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(condition, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(condition, "div", () => ({');
       expect(result).not.toContain('k-else');
       expect(result).not.toContain('k-if');
     });
@@ -124,8 +124,8 @@ describe('babel-plugin-ktjsx', () => {
     it('should compile k-if + k-else chain with whitespace between siblings', () => {
       const code = `const el = (<>\n  <div k-if={condition}>A</div>\n  <div k-else>B</div>\n</>);`;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(condition, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(condition, "div", () => ({');
       expect(result).not.toContain('k-else');
       expect(result).not.toContain('k-if');
     });
@@ -133,9 +133,9 @@ describe('babel-plugin-ktjsx', () => {
     it('should compile adjacent standalone k-if siblings independently', () => {
       const code = `const el = <><div k-if={a}>A</div><div k-if={b}>B</div></>;`;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(a, "div", () => ({');
-      expect(result).toContain('_KTConditional(b, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(a, "div", () => ({');
+      expect(result).toContain('_KTIf(b, "div", () => ({');
       expect(result).not.toContain('k-if');
     });
 
@@ -147,7 +147,7 @@ describe('babel-plugin-ktjsx', () => {
         expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
         expect(result).toContain('k-else-if');
         expect(result).toContain('k-else');
-        expect(result).not.toContain('KTConditional as _KTConditional');
+        expect(result).not.toContain('KTIf as _KTIf');
       } finally {
         warnSpy.mockRestore();
       }
@@ -159,8 +159,8 @@ describe('babel-plugin-ktjsx', () => {
         const code = `const el = <><div k-if={a}>A</div><div k-else>B</div><div k-else-if={b}>C</div></>;`;
         const result = transform(code);
         expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
-        expect(result).toContain('KTConditional as _KTConditional');
-        expect(result).toContain('_KTConditional(a, "div", () => ({');
+        expect(result).toContain('KTIf as _KTIf');
+        expect(result).toContain('_KTIf(a, "div", () => ({');
         expect(result).toContain('k-else-if');
       } finally {
         warnSpy.mockRestore();
@@ -170,8 +170,8 @@ describe('babel-plugin-ktjsx', () => {
     it('should preserve other attributes in standalone k-if transform', () => {
       const code = `const el = <div id="box" class="icon" data-role="demo" k-if={show}>A</div>;`;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(show, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(show, "div", () => ({');
       expect(result).toContain('id: "box"');
       expect(result).toContain('"class": "icon"');
       expect(result).toContain('"data-role": "demo"');
@@ -184,8 +184,8 @@ describe('babel-plugin-ktjsx', () => {
         const el = _jsx("div", { id: "box", "k-if": show, children: "A" });
       `;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(show, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(show, "div", () => ({');
       expect(result).toContain('id: "box"');
       expect(result).not.toContain('"k-if"');
     });
@@ -198,8 +198,8 @@ describe('babel-plugin-ktjsx', () => {
         });
       `;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(show, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(show, "div", () => ({');
       expect(result).not.toContain('"k-if"');
       expect(result).not.toContain('"k-else"');
     });
@@ -212,9 +212,9 @@ describe('babel-plugin-ktjsx', () => {
         });
       `;
       const result = transform(code);
-      expect(result).toContain('KTConditional as _KTConditional');
-      expect(result).toContain('_KTConditional(a, "div", () => ({');
-      expect(result).toContain('_KTConditional(b, "div", () => ({');
+      expect(result).toContain('KTIf as _KTIf');
+      expect(result).toContain('_KTIf(a, "div", () => ({');
+      expect(result).toContain('_KTIf(b, "div", () => ({');
       expect(result).not.toContain('"k-if"');
     });
   });

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { h } from '../src/h/index.js';
 import { Fragment } from '../src/jsx/fragment.js';
-import { KTConditional } from '../src/jsx/if.js';
+import { KTIf } from '../src/jsx/if.js';
 import { ref, computed } from '../src/reactable/index.js';
 
 describe('core cleanup lifecycle', () => {
@@ -19,7 +19,7 @@ describe('core cleanup lifecycle', () => {
   it('should cleanup event listeners when conditional branches are replaced', async () => {
     const visible = ref(true);
     const onClick = vi.fn();
-    const node = KTConditional(
+    const node = KTIf(
       visible,
       'button',
       () => ({ 'on:click': onClick, children: 'if' }),
@@ -40,7 +40,7 @@ describe('core cleanup lifecycle', () => {
   it('should cleanup reactive attribute listeners when conditional branches are replaced', async () => {
     const visible = ref(true);
     const className = ref('before');
-    const node = KTConditional(
+    const node = KTIf(
       visible,
       'div',
       () => ({ class: className as any, children: 'if' }),
@@ -60,7 +60,13 @@ describe('core cleanup lifecycle', () => {
   it('should cleanup k-model bindings when a branch is removed', async () => {
     const visible = ref(true);
     const model = ref('hello');
-    const node = KTConditional(visible, 'input', () => ({ 'k-model': model }), 'div', () => ({ children: 'else' })) as Node;
+    const node = KTIf(
+      visible,
+      'input',
+      () => ({ 'k-model': model }),
+      'div',
+      () => ({ children: 'else' }),
+    ) as Node;
 
     container.appendChild(node);
     const input = container.querySelector('input')!;
@@ -93,7 +99,13 @@ describe('core cleanup lifecycle', () => {
     const visible = ref(true);
     const children = ref([h('div', {}, 'fragment')]);
     const Frag = (() => Fragment({ children })) as any;
-    const node = KTConditional(visible, Frag, () => ({}), 'div', () => ({ children: 'else' })) as Node;
+    const node = KTIf(
+      visible,
+      Frag,
+      () => ({}),
+      'div',
+      () => ({ children: 'else' }),
+    ) as Node;
 
     container.appendChild(node);
     expect((children as any)._changeHandlers.size).toBe(1);

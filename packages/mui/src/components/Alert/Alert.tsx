@@ -1,4 +1,4 @@
-import { KTConditional, computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
+import { KTIf, computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css.js';
@@ -123,7 +123,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
     <div class={className} style={styleRef} role="alert">
       {alertIcon && <div class="mui-alert-icon-wrapper">{alertIcon}</div>}
       <div class="mui-alert-message">{childrenRef}</div>
-      {KTConditional(onClose, 'button', () => ({
+      {KTIf(onClose, 'button', () => ({
         class: 'mui-alert-close',
         'on:click': onClose!,
         'aria-label': 'Close',

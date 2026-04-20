@@ -1,7 +1,7 @@
 import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { assertModel, computed, ref, KTConditional } from '@ktjs/core';
+import { assertModel, computed, ref, KTIf } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -174,7 +174,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
     return (
       <label class="mui-filepicker-label">
         {labelRef}
-        {KTConditional(requiredRef, 'span', () => ({ class: 'mui-filepicker-required', children: '*' }))}
+        {KTIf(requiredRef, 'span', () => ({ class: 'mui-filepicker-required', children: '*' }))}
       </label>
     );
   }, [labelRef, requiredRef]);
@@ -188,7 +188,7 @@ export function DirectoryPicker(props: KTMuiDirectoryPickerProps): KTMuiDirector
       <legend class="mui-filepicker-legend">
         <span>
           {labelRef}
-          {KTConditional(requiredRef, 'span', () => ({ children: '*' }))}
+          {KTIf(requiredRef, 'span', () => ({ children: '*' }))}
         </span>
       </legend>
     );

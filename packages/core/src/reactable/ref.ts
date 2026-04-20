@@ -1,11 +1,11 @@
 import { $emptyFn, $is } from '@ktjs/shared';
 import { $createSubGetter, $createSubSetter, isRefLike } from './common.js';
 import { KTReactive, KTReactiveType, nextHandlerId, nextKid } from './reactive.js';
-import { KTReactiveLike, type ChangeHandler } from './types.js';
+import { type ChangeHandler } from './types.js';
 import { $markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
-  readonly ktype = KTReactiveType.Ref;
+  readonly ktype: KTReactiveType = KTReactiveType.Ref;
 
   constructor(_value: T) {
     super(_value);
@@ -78,11 +78,7 @@ export class KTRef<T> extends KTReactive<T> {
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
    * - `KTSubRef` is lighter than `KTRef`.
    */
-  subref<K0 extends keyof T, K1 extends keyof T[K0]>(
-    this: KTRef<T & object>,
-    key0: K0,
-    key1: K1,
-  ): KTSubRef<T[K0][K1]>;
+  subref<K0 extends keyof T, K1 extends keyof T[K0]>(this: KTRef<T & object>, key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
@@ -121,9 +117,9 @@ export const ref = <T>(value?: T): KTRef<T> => new KTRef(value as any);
 export const assertModel = <T = any>(props: any, defaultValue?: T): KTRefLike<T> => {
   // & props is an object. Won't use it in any other place
   if ('k-model' in props) {
-    const kmodel = props['k-model'];
-    if (isRefLike(kmodel)) {
-      return kmodel;
+    const model = props['k-model'];
+    if (isRefLike(model)) {
+      return model;
     } else {
       $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
     }
@@ -155,15 +151,11 @@ export const $initRef = <T extends Node>(props: { ref?: KTRefLike<T> }, node: T)
 
 // # SubRef
 
-export class KTSubRef<T> extends KTReactiveLike<T> {
+export class KTSubRef<T> extends KTRef<T> {
   readonly kid = nextKid();
-  readonly ktype = KTReactiveType.SubRef;
+  readonly ktype: KTReactiveType = KTReactiveType.SubRef;
   readonly source: KTRef<any>;
 
-  /**
-   * @internal
-   */
-  protected _value: T;
   /**
    * @internal
    */
@@ -186,11 +178,10 @@ export class KTSubRef<T> extends KTReactiveLike<T> {
     getter: (sv: KTReactive<any>['value']) => T,
     setter: (s: object, newValue: T) => void,
   ) {
-    super();
+    super(getter(source.value));
     this.source = source;
     this._getter = getter;
     this._setter = setter;
-    this._value = getter(source.value);
     this._handler = () => (this._value = getter(source.value));
     this._handlerKeys = [nextHandlerId(this.kid)];
     source.addOnChange(this._handler, this._handlerKeys[0]);
@@ -201,7 +192,10 @@ export class KTSubRef<T> extends KTReactiveLike<T> {
   }
 
   set value(newValue: T) {
-    if (this.source.value === null || (typeof this.source.value !== 'object' && typeof this.source.value !== 'function')) {
+    if (
+      this.source.value === null ||
+      (typeof this.source.value !== 'object' && typeof this.source.value !== 'function')
+    ) {
       $throw('Sub-ref only supports object-like ref values.');
     }
     this._value = newValue;

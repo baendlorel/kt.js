@@ -1,5 +1,5 @@
 import type { JSX } from '@ktjs/core';
-import { computed, ref, toReactive, KTConditional } from '@ktjs/core';
+import { computed, ref, toReactive, KTIf } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -112,9 +112,9 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       disabled={disabledRef}
       on:click={handleClick}
     >
-      {KTConditional(startIconRef, 'span', () => ({ class: 'mui-button-start-icon', children: startIconRef }))}
+      {KTIf(startIconRef, 'span', () => ({ class: 'mui-button-start-icon', children: startIconRef }))}
       <span class="mui-button-label">{props.children}</span>
-      {KTConditional(endIconRef, 'span', () => ({ class: 'mui-button-end-icon', children: endIconRef }))}
+      {KTIf(endIconRef, 'span', () => ({ class: 'mui-button-end-icon', children: endIconRef }))}
       <span ref={rippleContainerRef} class="mui-button-ripple"></span>
     </button>
   ) as HTMLButtonElement;

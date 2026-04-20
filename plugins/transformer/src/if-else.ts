@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import { warn } from './logger.js';
 
 const KTCONDITIONAL_HELPER_CACHE_KEY = '__kt_conditional_component_identifier__';
-const KTCONDITIONAL_COMPONENT_IMPORT_NAME = 'KTConditional';
+const KTCONDITIONAL_COMPONENT_IMPORT_NAME = 'KTIf';
 const KTUNSUPPORTED_ELSEIF_WARNING_CACHE_KEY = '__kt_unsupported_else_if_warning_cache__';
 const CONDITIONAL_DIRECTIVES = new Set(['k-if', 'k-else-if', 'k-else']);
 
@@ -355,13 +355,13 @@ function isCompatTag(tagName: string): boolean {
   return /^[a-z]/.test(tagName) || tagName.includes('-');
 }
 
-function buildKTConditionalCall(
+function buildKTIfCall(
   path: NodePath<t.JSXElement>,
   condition: ConditionalValue,
   ifElement: t.JSXElement,
   elseElement?: t.JSXElement,
 ): t.CallExpression {
-  const helperIdentifier = ensureKTConditionalIdentifier(path);
+  const helperIdentifier = ensureKTIfIdentifier(path);
   const ifArgs = buildConditionalCallArgs(ifElement);
   const callArgs: t.Expression[] = [
     getConditionExpression(condition),
@@ -377,7 +377,7 @@ function buildKTConditionalCall(
   return t.callExpression(helperIdentifier, callArgs);
 }
 
-function buildKTConditionalCallFromCallExpression(
+function buildKTIfCallFromCallExpression(
   path: NodePath<t.CallExpression>,
   condition: ConditionalValue,
   ifCallExpression: t.CallExpression,
@@ -385,7 +385,7 @@ function buildKTConditionalCallFromCallExpression(
   elseCallExpression?: t.CallExpression,
   elseDirective?: ConditionalCallDirective,
 ): t.CallExpression {
-  const helperIdentifier = ensureKTConditionalIdentifier(path);
+  const helperIdentifier = ensureKTIfIdentifier(path);
   const ifArgs = buildConditionalCallArgsFromCallExpression(ifCallExpression, ifDirective);
   const callArgs: t.Expression[] = [
     getConditionExpression(condition),
@@ -448,7 +448,7 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
   const nextDirective = nextSibling ? getConditionalDirective(nextSibling.node) : null;
 
   if (!nextDirective || nextDirective.type === 'k-if') {
-    const conditionalCall = buildKTConditionalCall(path, currentDirective.condition, path.node);
+    const conditionalCall = buildKTIfCall(path, currentDirective.condition, path.node);
     if (isInsideJSXChildren(path)) {
       path.replaceWith(t.jsxExpressionContainer(conditionalCall));
     } else {
@@ -463,7 +463,7 @@ export function transformConditionalChains(path: NodePath<t.JSXElement>) {
   }
 
   const trailingSibling = getNextSignificantJSXSibling(nextSibling!);
-  const conditionalCall = buildKTConditionalCall(path, currentDirective.condition, path.node, nextSibling!.node);
+  const conditionalCall = buildKTIfCall(path, currentDirective.condition, path.node, nextSibling!.node);
   if (isInsideJSXChildren(path)) {
     path.replaceWith(t.jsxExpressionContainer(conditionalCall));
   } else {
@@ -506,7 +506,7 @@ export function transformConditionalCallChains(path: NodePath<t.CallExpression>)
   const nextDirective = nextSibling ? getConditionalCallDirective(nextSibling.node) : null;
 
   if (!nextDirective || nextDirective.type === 'k-if') {
-    const conditionalCall = buildKTConditionalCallFromCallExpression(
+    const conditionalCall = buildKTIfCallFromCallExpression(
       path,
       currentDirective.condition,
       path.node,
@@ -522,7 +522,7 @@ export function transformConditionalCallChains(path: NodePath<t.CallExpression>)
   }
 
   const trailingSibling = getNextSignificantCallSibling(nextSibling!);
-  const conditionalCall = buildKTConditionalCallFromCallExpression(
+  const conditionalCall = buildKTIfCallFromCallExpression(
     path,
     currentDirective.condition,
     path.node,
@@ -663,7 +663,7 @@ function isInsideJSXChildren(path: NodePath<t.JSXElement>): boolean {
   return !!parent && (parent.isJSXElement() || parent.isJSXFragment());
 }
 
-function ensureKTConditionalIdentifier(path: NodePath<t.Node>): t.Identifier {
+function ensureKTIfIdentifier(path: NodePath<t.Node>): t.Identifier {
   const programPath = getProgramPath(path);
   const cached = programPath.getData(KTCONDITIONAL_HELPER_CACHE_KEY);
   if (t.isIdentifier(cached)) {

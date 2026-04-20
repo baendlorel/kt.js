@@ -44,8 +44,8 @@ describe('vite-plugin-ktjsx', () => {
     expect(svgAlias).toBeTruthy();
     expect(code).toContain(`${svgAlias}("svg"`);
     expect(code).toContain(`${svgAlias}("circle"`);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, "div", () => ({');
     expect(code).not.toContain('k-if');
     expect(code).not.toContain('k-else');
   });
@@ -53,8 +53,8 @@ describe('vite-plugin-ktjsx', () => {
   it('compiles k-if + k-else chain with whitespace between siblings', async () => {
     const result = await runTransform('const view = (<>\n  <div k-if={ok}>A</div>\n  <div k-else>B</div>\n</>);');
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, "div", () => ({');
     expect(code).not.toContain('k-if');
     expect(code).not.toContain('k-else');
   });
@@ -62,17 +62,17 @@ describe('vite-plugin-ktjsx', () => {
   it('compiles adjacent standalone k-if siblings independently', async () => {
     const result = await runTransform('const view = <><div k-if={a}>A</div><div k-if={b}>B</div></>;');
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(a, "div", () => ({');
-    expect(code).toContain('_KTConditional(b, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(a, "div", () => ({');
+    expect(code).toContain('_KTIf(b, "div", () => ({');
     expect(code).not.toContain('k-if');
   });
 
-  it('compiles standalone k-if into KTConditional call', async () => {
+  it('compiles standalone k-if into KTIf call', async () => {
     const result = await runTransform('const view = <div id="box" k-if={ok}>A</div>;');
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, "div", () => ({');
     expect(code).toContain('id: "box"');
     expect(code).not.toContain('k-if');
   });
@@ -82,8 +82,8 @@ describe('vite-plugin-ktjsx', () => {
       `import { jsx as _jsx } from '@ktjs/core/jsx-runtime'; const view = _jsx("div", { id: "box", "k-if": ok, children: "A" });`,
     );
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, "div", () => ({');
     expect(code).toContain('id: "box"');
     expect(code).not.toContain('"k-if"');
   });
@@ -98,8 +98,8 @@ describe('vite-plugin-ktjsx', () => {
       ].join(' '),
     );
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, "div", () => ({');
     expect(code).not.toContain('"k-if"');
     expect(code).not.toContain('"k-else"');
   });
@@ -114,9 +114,9 @@ describe('vite-plugin-ktjsx', () => {
       ].join(' '),
     );
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(a, "div", () => ({');
-    expect(code).toContain('_KTConditional(b, "div", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(a, "div", () => ({');
+    expect(code).toContain('_KTIf(b, "div", () => ({');
     expect(code).not.toContain('"k-if"');
   });
 
@@ -127,7 +127,7 @@ describe('vite-plugin-ktjsx', () => {
       const code = toCode(result);
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
       expect(code).toContain('k-else-if');
-      expect(code).not.toContain('KTConditional as _KTConditional');
+      expect(code).not.toContain('KTIf as _KTIf');
     } finally {
       warnSpy.mockRestore();
     }
@@ -141,8 +141,8 @@ describe('vite-plugin-ktjsx', () => {
       );
       const code = toCode(result);
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`k-else-if` is not supported'));
-      expect(code).toContain('KTConditional as _KTConditional');
-      expect(code).toContain('_KTConditional(ok, "div", () => ({');
+      expect(code).toContain('KTIf as _KTIf');
+      expect(code).toContain('_KTIf(ok, "div", () => ({');
       expect(code).toContain('k-else-if');
     } finally {
       warnSpy.mockRestore();
@@ -297,8 +297,8 @@ describe('vite-plugin-ktjsx', () => {
       '/workspace/node_modules/.pnpm/@ktjs+mui@0.0.0/node_modules/@ktjs/mui/dist/index.mjs',
     );
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, \"div\", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, \"div\", () => ({');
     expect(code).not.toContain('\"k-if\"');
   });
 
@@ -319,8 +319,8 @@ describe('vite-plugin-ktjsx', () => {
       },
     );
     const code = toCode(result);
-    expect(code).toContain('KTConditional as _KTConditional');
-    expect(code).toContain('_KTConditional(ok, \"div\", () => ({');
+    expect(code).toContain('KTIf as _KTIf');
+    expect(code).toContain('_KTIf(ok, \"div\", () => ({');
     expect(code).not.toContain('k-if');
   });
 });

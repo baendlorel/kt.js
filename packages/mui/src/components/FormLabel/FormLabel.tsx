@@ -1,4 +1,4 @@
-import { KTConditional, computed, type JSX, type KTMaybeReactive } from '@ktjs/core';
+import { KTIf, computed, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import './FormLabel.css.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -79,7 +79,7 @@ export function FormLabel(props: KTMuiFormLabelProps): JSX.Element {
     labelProps.for = htmlForRef;
   }
 
-  const requiredMarker = KTConditional(requiredRef, 'span', () => ({
+  const requiredMarker = KTIf(requiredRef, 'span', () => ({
     class: 'mui-form-label-asterisk',
     children: '*',
   }));

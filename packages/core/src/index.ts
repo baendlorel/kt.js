@@ -15,7 +15,7 @@ export * from './reactable/index.js';
 export { KTAsync } from './jsx/async.js';
 export { KTFor } from './jsx/for.js';
 export type { KTForProps, KTForElement } from './jsx/for.js';
-export { KTConditional } from './jsx/if.js';
+export { KTIf } from './jsx/if.js';
 
 // # types
 export type { HTMLTag, SVGTag, MathMLTag, InputElementTag } from '@ktjs/shared';

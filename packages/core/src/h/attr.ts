@@ -1,10 +1,9 @@
-import type { KTMaybeReactive, KTReactifyProps } from '../reactable/types.js';
 import type { JSX } from '../types/jsx.js';
+import type { KTMaybeReactive, KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 
 import { $assign, $isArray } from '@ktjs/shared';
 import { isKT } from '../reactable/common.js';
-import { nextHandlerId } from '../reactable/reactive.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: JSX.Element, key: string, value: any) => element.setAttribute(key, value);
@@ -41,6 +40,7 @@ const setClass = (
     return;
   }
 
+  // TODO 此处写法非常固定，都是一个setter一个element一个value，下面也还有，可以抽象吗？
   const setter = (v: string | string[]) => (element.classList = $isArray(v) ? v.join(' ') : v);
   if (isKT(classValue)) {
     setter(classValue.value);
@@ -50,7 +50,7 @@ const setClass = (
   }
 };
 
-function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyProps<KTAttribute>) {
+function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) {
   setClass(element, attr.class ?? attr.className);
   setStyle(element, attr.style);
 
@@ -101,13 +101,14 @@ function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: K
     const handler = handlers[key] || defaultHandler;
     if (isKT(o)) {
       handler(element, key, o.value);
+      o.addOnChange((v) => handler(element, key, v));
     } else {
       handler(element, key, o);
     }
   }
 }
 
-export function applyAttr(element: HTMLElement | SVGElement | MathMLElement, attr: KTRawAttr) {
+export function applyAttr(element: JSX.Element, attr: KTRawAttr) {
   if (!attr) {
     return;
   }

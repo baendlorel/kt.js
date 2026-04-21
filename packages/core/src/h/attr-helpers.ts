@@ -1,4 +1,6 @@
-const booleanHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => {
+import type { JSX } from '../types/jsx.js';
+
+const booleanHandler = (element: JSX.Element, key: string, value: any) => {
   if (key in element) {
     (element as any)[key] = !!value;
   } else {
@@ -6,7 +8,7 @@ const booleanHandler = (element: HTMLElement | SVGElement | MathMLElement, key: 
   }
 };
 
-const valueHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => {
+const valueHandler = (element: JSX.Element, key: string, value: any) => {
   if (key in element) {
     (element as any)[key] = value;
   } else {
@@ -15,10 +17,7 @@ const valueHandler = (element: HTMLElement | SVGElement | MathMLElement, key: st
 };
 
 // Attribute handlers map for optimized lookup
-export const handlers: Record<
-  string,
-  (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) => void
-> = {
+export const handlers: Record<string, (element: JSX.Element, key: string, value: any) => void> = {
   checked: booleanHandler,
   selected: booleanHandler,
   value: valueHandler,

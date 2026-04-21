@@ -1,9 +1,16 @@
 import type { JSXTag } from '@ktjs/shared';
+import type { JSX } from '../types/jsx.js';
 import type { KTAttribute } from '../types/h.js';
 
 import { isKT, type KTReactive } from '../reactable/index.js';
-import { $mountFragmentAnchors } from './anchor.js';
-import { jsxh, placeholder } from './common.js';
+import { jsxh } from './common.js';
+import { AType, KTAnchor } from './anchor.js';
+
+class KTIfAnchor extends KTAnchor {
+  constructor() {
+    super(AType.If);
+  }
+}
 
 export function KTIf(
   condition: any | KTReactive<any>,
@@ -11,8 +18,8 @@ export function KTIf(
   propsIf: () => KTAttribute,
   tagElse?: JSXTag,
   propsElse?: () => KTAttribute,
-) {
-  const dummy = placeholder('kt-conditional') as HTMLElement;
+): JSX.Element {
+  const dummy = new KTIfAnchor() as unknown as JSX.Element;
   const renderIf = () => jsxh(tagIf, propsIf());
   const renderElse = tagElse && propsElse ? () => jsxh(tagElse, propsElse()) : () => dummy;
 
@@ -24,8 +31,7 @@ export function KTIf(
   const onChange = (newValue: any) => {
     const old = current;
     current = newValue ? renderIf() : renderElse();
-    old.replaceWith(current);
-    $mountFragmentAnchors(current);
+    old.replaceWith(current); // $mountFragmentAnchors(current);
   };
   condition.addOnChange(onChange);
   return current;

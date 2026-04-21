@@ -119,10 +119,15 @@ export type KTPrefixedEventAttribute = {
 
 export type KTAttribute = KTBaseAttribute & KTPrefixedEventAttribute;
 
-export type KTComponent = (
+type KTComponent = (
   props: {
     ref?: KTRef<JSX.Element>;
     children?: KTRawContent;
   } & KTAttribute &
     any,
 ) => JSX.Element | Promise<JSX.Element> | any;
+
+/**
+ * Extract component props type (excluding ref and children)
+ */
+type ExtractComponentProps<T> = T extends (props: infer P) => any ? Omit<P, 'ref' | 'children'> : {};

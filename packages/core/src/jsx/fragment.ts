@@ -1,5 +1,5 @@
-import type { KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
+import type { KTRawContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 import type { KTRef } from '../reactable/ref.js';
 

@@ -1,6 +1,11 @@
+import type { JSXTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRef } from '../reactable/ref.js';
 import type { AttributesMap, SVGAttributesMap } from './attribute.js';
-import type { KTRawContent } from './h.js';
+import type { KTAttribute, KTRawContent } from './h.js';
+
+export type JSXCreator = (tag: JSXTag, props: KTAttribute) => JSX.Element;
+export type SVGCreator = (tag: SVGTag, props: KTAttribute) => JSX.Element;
+export type MathMLCreator = (tag: MathMLTag, props: KTAttribute) => JSX.Element;
 
 type AliasElement = Element;
 export namespace JSX {

@@ -1,33 +1,23 @@
-import type { JSXTag, MathMLTag, SVGTag } from '@ktjs/shared';
-import type { KTAttribute, KTRawContent } from '../types/h.js';
-import type { JSX } from '../types/jsx.js';
+import type { JSXCreator, MathMLCreator, SVGCreator } from '../types/jsx.js';
 
 import { h, mathml as _mathml, svg as _svg } from '../h/index.js';
 import { $refToSelf } from '../reactable/ref.js';
 
-import { createFragment, type FragmentProps } from './fragment.js';
+import { createFragment } from './fragment.js';
 import { jsxh } from './common.js';
 
-function create(
-  creator: (tag: any, props: KTAttribute, content?: KTRawContent) => JSX.Element,
-  tag: any,
-  props: KTAttribute,
-) {
-  return $refToSelf(props, creator(tag, props, props.children));
-}
+// ?? 考虑到大部分元素不会有ref，是不是不可以让编译时直接完成ref的绑定？但可能有困难比如Anchor
+export const jsx: JSXCreator = (tag, props) => $refToSelf(props, jsxh(tag, props));
+export const svg: SVGCreator = (tag, props) => $refToSelf(props, _svg(tag, props, props.children));
+export const mathml: MathMLCreator = (tag, props) => $refToSelf(props, _mathml(tag, props, props.children));
 
-export const jsx = (tag: JSXTag, props: KTAttribute): JSX.Element => create(jsxh, tag, props);
-export const svg = (tag: SVGTag, props: KTAttribute): JSX.Element => create(_svg, tag, props);
-export const mathml = (tag: MathMLTag, props: KTAttribute): JSX.Element => create(_mathml, tag, props);
 export { svg as svgRuntime, mathml as mathmlRuntime };
 
 /**
  * Fragment support - returns an array of children
  * Enhanced Fragment component that manages arrays of elements
  */
-export function Fragment(props: FragmentProps): JSX.Element {
-  return createFragment(props);
-}
+export const Fragment = createFragment;
 
 /**
  * JSX Development runtime - same as jsx but with additional dev checks

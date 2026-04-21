@@ -115,9 +115,8 @@ export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): Re
     return $emptyFn;
   }
 
-  const r = props.ref;
-  if (isRef(r)) {
-    r.value = node;
+  if (isRef(props.ref)) {
+    props.ref.value = node;
     return $refSetter;
   } else {
     $throw('Fragment: ref must be a KTRef');

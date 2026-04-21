@@ -6,8 +6,8 @@ import { h, mathml as _mathml, svg as _svg } from '../h/index.js';
 import { $initRef } from '../reactable/ref.js';
 import { isComputed } from '../reactable/common.js';
 
-import { convertChildrenToElements, Fragment as FragmentArray } from './fragment.js';
-import { jsxh, placeholder } from './common.js';
+import { createFragment, type FragmentProps } from './fragment.js';
+import { jsxh } from './common.js';
 
 function create(
   creator: (tag: any, props: KTAttribute, content?: KTRawContent) => JSX.Element,
@@ -31,16 +31,8 @@ export { svg as svgRuntime, mathml as mathmlRuntime };
  * Fragment support - returns an array of children
  * Enhanced Fragment component that manages arrays of elements
  */
-export function Fragment(props: { children?: KTRawContent }): JSX.Element {
-  const { children } = props ?? {};
-
-  if (!children) {
-    return placeholder('kt-fragment-empty');
-  }
-
-  const elements = convertChildrenToElements(children);
-
-  return FragmentArray({ children: elements });
+export function Fragment(props: FragmentProps): JSX.Element {
+  return createFragment(props);
 }
 
 /**

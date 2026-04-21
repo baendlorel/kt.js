@@ -30,7 +30,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     element.appendChild(node);
     const anchor = node as KTFragmentAnchor;
     if (anchor.atype === AType.For) {
-      apd(element, anchor.list);
+      apd(element, anchor.nodes);
     }
   }
 }

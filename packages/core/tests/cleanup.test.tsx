@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { h } from '../src/h/index.js';
-import { Fragment } from '../src/jsx/fragment.js';
+import { createFragment } from '../src/jsx/fragment.js';
 import { KTIf } from '../src/jsx/if.js';
 import { ref, computed } from '../src/reactable/index.js';
 
@@ -98,7 +98,7 @@ describe('core cleanup lifecycle', () => {
   it('should cleanup fragment subscriptions when removed by conditional replacement', async () => {
     const visible = ref(true);
     const children = ref([h('div', {}, 'fragment')]);
-    const Frag = (() => Fragment({ children })) as any;
+    const Frag = (() => createFragment({ children })) as any;
     const node = KTIf(
       visible,
       Frag,

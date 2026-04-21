@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { computed, type JSX, ref } from '@ktjs/core';
-import { Fragment, convertChildrenToElements } from '../src/jsx/fragment.js';
+import { createFragment, convertChildrenToElements, KTFragmentAnchor } from '../src/jsx/fragment.js';
 import { h } from '../src/h/index.js';
 
 describe('Fragment Component', () => {
@@ -13,7 +13,7 @@ describe('Fragment Component', () => {
 
   it('should create anchor comment node', () => {
     const children = [h('div', {}, 'A'), h('div', {}, 'B')];
-    const anchor = Fragment({ children });
+    const anchor = createFragment({ children });
 
     expect(anchor.nodeType).toBe(Node.COMMENT_NODE);
     expect(anchor.textContent).toBe('kt-fragment');
@@ -21,16 +21,15 @@ describe('Fragment Component', () => {
 
   it('anchor.list is defined as an array', () => {
     const children = [h('div', {}, 'A'), h('div', {}, 'B')];
-    const anchor = Fragment({ children });
-
-    expect(anchor.list).toBeDefined();
-    expect(Array.isArray(anchor.list)).toBe(true);
-    expect(anchor.list.length).toBe(2);
+    const anchor = createFragment({ children });
+    expect(anchor.nodes).toBeDefined();
+    expect(Array.isArray(anchor.nodes)).toBe(true);
+    expect(anchor.nodes.length).toBe(2);
   });
 
   it('should render children elements when anchor is in DOM', async () => {
     const children = [h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')];
-    const anchor = Fragment({ children });
+    const anchor = createFragment({ children });
 
     container.appendChild(anchor);
     await Promise.resolve();
@@ -46,7 +45,7 @@ describe('Fragment Component', () => {
 
   it('should support reactive children array', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = Fragment({ children: childrenRef });
+    const anchor = createFragment({ children: childrenRef });
 
     container.appendChild(anchor);
     await Promise.resolve();
@@ -70,12 +69,12 @@ describe('Fragment Component', () => {
 
   it('should update internal state when not in DOM', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = Fragment({ children: childrenRef });
+    const anchor = createFragment({ children: childrenRef });
 
     // Update while anchor not in DOM
     childrenRef.value = [h('div', { class: 'item' }, 'C')];
 
-    expect(anchor.list.length).toBe(1);
+    expect(anchor.nodes.length).toBe(1);
 
     // Now add to DOM
     container.appendChild(anchor);
@@ -89,14 +88,14 @@ describe('Fragment Component', () => {
   it('should support ref prop', () => {
     const children = [h('div', {}, 'A')];
     const fragmentRef = ref<JSX.Element>();
-    const anchor = Fragment({ children, ref: fragmentRef });
+    const anchor = createFragment({ children, ref: fragmentRef });
 
     expect(fragmentRef.value).toBe(anchor);
   });
 
   it('should auto mount when appended directly into raw DOM parent', async () => {
     const children = [h('div', { class: 'item' }, 'A')];
-    const anchor = Fragment({ children });
+    const anchor = createFragment({ children });
 
     expect(container.querySelectorAll('.item').length).toBe(0);
 
@@ -106,9 +105,9 @@ describe('Fragment Component', () => {
   });
 
   it('should handle empty children array', async () => {
-    const anchor = Fragment({ children: [] });
+    const anchor = createFragment({ children: [] });
 
-    expect(anchor.list.length).toBe(0);
+    expect(anchor.nodes.length).toBe(0);
 
     container.appendChild(anchor);
     await Promise.resolve();
@@ -119,14 +118,14 @@ describe('Fragment Component', () => {
 
   it('should handle null/undefined children', () => {
     // TypeScript should prevent this, but test with type assertion
-    const anchor = Fragment({ children: [] });
+    const anchor = createFragment({ children: [] });
 
-    expect(anchor.list.length).toBe(0);
+    expect(anchor.nodes.length).toBe(0);
   });
 
   it('should remove old elements and insert new ones on update', async () => {
     const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = Fragment({ children: childrenRef });
+    const anchor = createFragment({ children: childrenRef });
 
     container.appendChild(anchor);
     await Promise.resolve();
@@ -154,23 +153,13 @@ describe('Fragment Component', () => {
   it('should work with JSX syntax', async () => {
     // Test that Fragment works with JSX children
     const children = [<div className="item">A</div>, <div className="item">B</div>];
-    const anchor = Fragment({ children });
+    const anchor = createFragment({ children });
 
     container.appendChild(anchor);
     await Promise.resolve();
 
     const items = container.querySelectorAll('.item');
     expect(items.length).toBe(2);
-  });
-
-  it('should ignore key parameter (reserved for future use)', () => {
-    const children = [h('div', {}, 'A')];
-    const keyFn = vi.fn();
-    const anchor = Fragment({ children, key: keyFn });
-
-    // Should not throw and key function should not be called
-    expect(anchor.nodeType).toBe(Node.COMMENT_NODE);
-    expect(keyFn).not.toHaveBeenCalled();
   });
 
   it('should throw error when ref is not a KTRef', () => {
@@ -181,7 +170,7 @@ describe('Fragment Component', () => {
 
     // Try to call with invalid ref
     expect(() => {
-      Fragment({ children, ref: {} as any });
+      createFragment({ children, ref: {} as any });
     }).toThrow();
 
     consoleErrorSpy.mockRestore();

@@ -9,6 +9,8 @@ import { $initRef } from '../reactable/ref.js';
 import { AType, KTAnchor } from './anchor.js';
 
 export class KTFragmentAnchor extends KTAnchor {
+  readonly nodes: any[] = [];
+
   constructor() {
     super(AType.Fragment);
   }
@@ -17,9 +19,9 @@ export class KTFragmentAnchor extends KTAnchor {
    * Remove elements in the list
    */
   removeElements() {
-    const list = this.list.splice(0);
-    for (let i = 0; i < list.length; i++) {
-      const node = list[i] as ChildNode;
+    const nodes = this.nodes.splice(0);
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i] as ChildNode;
       if (node.parentNode) {
         node.remove();
       }
@@ -27,15 +29,9 @@ export class KTFragmentAnchor extends KTAnchor {
   }
 }
 
-export interface FragmentProps<T extends Node = Node> {
-  /** Array of child elements, supports reactive arrays */
-  children: T[] | KTReactive<T[]>;
-
-  /** element key function for optimization (future enhancement) */
-  key?: (element: T, index: number, array: T[]) => any;
-
-  /** ref to get the anchor node */
+export interface FragmentProps {
   ref?: KTRef<JSX.Element>;
+  children: KTRawContent;
 }
 
 /**
@@ -57,30 +53,30 @@ export interface FragmentProps<T extends Node = Node> {
  * children.value = [<div>C</div>, <div>D</div>];
  * ```
  */
-export function Fragment<T extends Node = Node>(props: FragmentProps<T>): JSX.Element & KTFragmentAnchor {
+export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAnchor {
   const anchor = new KTFragmentAnchor();
-  const elements = anchor.list;
+  const nodes = anchor.nodes;
   const childrenRef = toReactive(props.children);
 
   const redraw = () => {
-    const newElements = childrenRef.value;
+    const newNodes = childrenRef.value;
     const parent = anchor.parentNode;
 
     if (!parent) {
-      elements.length = 0;
-      for (let i = 0; i < newElements.length; i++) {
-        elements.push(newElements[i]);
+      nodes.length = 0;
+      for (let i = 0; i < newNodes.length; i++) {
+        nodes.push(newNodes[i]);
       }
       return;
     }
 
     anchor.removeElements();
-    elements.length = 0;
+    nodes.length = 0;
 
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < newElements.length; i++) {
-      const element = newElements[i];
-      elements.push(element);
+    for (let i = 0; i < newNodes.length; i++) {
+      const element = newNodes[i];
+      nodes.push(element);
       fragment.appendChild(element);
     }
 

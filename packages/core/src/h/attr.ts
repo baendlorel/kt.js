@@ -82,12 +82,11 @@ function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) 
 }
 
 export function applyAttr(element: JSX.Element, attr: KTRawAttr) {
-  if (!attr) {
-    return;
-  }
-  if (typeof attr === 'object') {
-    attrIsObject(element, attr as KTAttribute);
-  } else {
-    $throw('attr must be an object.');
+  if (attr) {
+    if (typeof attr === 'object') {
+      attrIsObject(element, attr as KTAttribute);
+    } else {
+      $throw('attr must be an object.');
+    }
   }
 }

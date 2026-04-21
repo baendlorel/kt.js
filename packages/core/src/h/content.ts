@@ -13,6 +13,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     return;
   }
 
+  // TODO 我认为不需要assureNode，因为append不需要，IE是用不了所以polyfill
   if (isKT(c)) {
     let node = assureNode(c.value);
     element.appendChild(node);

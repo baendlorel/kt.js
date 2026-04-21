@@ -1,57 +1,65 @@
-import type { KTReactifyProps } from '../reactable/types.js';
+import type { KTMaybeReactive, KTReactifyProps } from '../reactable/types.js';
+import type { JSX } from '../types/jsx.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
+
+import { $assign, $isArray } from '@ktjs/shared';
 import { isKT } from '../reactable/common.js';
 import { nextHandlerId } from '../reactable/reactive.js';
 import { handlers } from './attr-helpers.js';
 
-const defaultHandler = (element: HTMLElement | SVGElement | MathMLElement, key: string, value: any) =>
-  element.setAttribute(key, value);
+const defaultHandler = (element: JSX.Element, key: string, value: any) => element.setAttribute(key, value);
 
-const setElementStyle = (
-  element: HTMLElement | SVGElement | MathMLElement,
-  style: Partial<CSSStyleDeclaration> | string,
+const setStyle = (
+  element: JSX.Element,
+  style: KTMaybeReactive<Partial<CSSStyleDeclaration>> | KTMaybeReactive<string> | undefined,
 ) => {
-  if (typeof style === 'string') {
-    (element as HTMLElement).style.cssText = style;
+  if (!style || !(element instanceof HTMLElement)) {
     return;
   }
 
-  for (const key in style) {
-    (element as any).style[key as any] = style[key];
+  const setter = (v: Partial<CSSStyleDeclaration> | string) => {
+    if (typeof v === 'string') {
+      element.style.cssText = v;
+    } else if (typeof v === 'object') {
+      $assign(element.style, v);
+    }
+  };
+
+  if (isKT(style)) {
+    setter(style.value);
+    style.addOnChange(setter);
+  } else {
+    setter(style);
+  }
+};
+
+const setClass = (
+  element: JSX.Element,
+  classValue: KTMaybeReactive<string> | KTMaybeReactive<string[]> | undefined,
+) => {
+  if (!classValue) {
+    return;
+  }
+
+  const setter = (v: string | string[]) => (element.classList = $isArray(v) ? v.join(' ') : v);
+  if (isKT(classValue)) {
+    setter(classValue.value);
+    classValue.addOnChange(setter);
+  } else {
+    setter(classValue);
   }
 };
 
 function attrIsObject(element: HTMLElement | SVGElement | MathMLElement, attr: KTReactifyProps<KTAttribute>) {
-  const classValue = attr.class || attr.className;
-  if (classValue !== undefined) {
-    if (isKT<string>(classValue)) {
-      element.setAttribute('class', classValue.value);
-    } else {
-      element.setAttribute('class', classValue);
-    }
-  }
+  setClass(element, attr.class ?? attr.className);
+  setStyle(element, attr.style);
 
-  const style = attr.style;
-  if (style) {
-    if (typeof style === 'string') {
-      element.setAttribute('style', style);
-    } else if (typeof style === 'object') {
-      if (isKT(style)) {
-        setElementStyle(element, style.value);
-      } else {
-        setElementStyle(element, style as Partial<CSSStyleDeclaration>);
-      }
-    }
-  }
-
-  // ! Security: `k-html` is an explicit raw HTML escape hatch. kt.js intentionally does not sanitize here; callers must pass only trusted HTML.
   if ('k-html' in attr) {
     const html = attr['k-html'];
     // ?? 如何在元素消失后自动消除html的onChangeHandler呢
     if (isKT(html)) {
       element.innerHTML = html.value;
-      const key = nextHandlerId(html.kid);
-      html.addOnChange((v) => (element.innerHTML = v), key);
+      html.addOnChange((v) => (element.innerHTML = v));
     } else {
       element.innerHTML = html;
     }

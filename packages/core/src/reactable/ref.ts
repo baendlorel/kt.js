@@ -104,23 +104,19 @@ export const assertModel = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
   return ref(defaultValue) as KTRef<T>;
 };
 
-const $refSetter = <T>(props: { ref?: KTRef<T> }, node: T) => (props.ref!.value = node);
-type RefSetter<T> = (props: { ref?: KTRef<T> }, node: T) => void;
-
 /**
- * Whether `props.ref` is a `KTRef` only needs to be checked in the initial render
+ * @returns the pointed node itself
  */
-export const $initRef = <T extends Node>(props: { ref?: KTRef<T> }, node: T): RefSetter<T> => {
+export const $refToSelf = <T extends Node>(props: { ref?: KTRef<T> }, node: T): T => {
   if (!('ref' in props)) {
-    return $emptyFn;
+    return node;
   }
 
   if (isRef(props.ref)) {
-    props.ref.value = node;
-    return $refSetter;
-  } else {
-    $throw('Fragment: ref must be a KTRef');
+    return (props.ref.value = node);
   }
+
+  $throw('props.ref must be a KTRef');
 };
 
 // # SubRef

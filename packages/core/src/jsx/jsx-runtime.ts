@@ -3,8 +3,7 @@ import type { KTAttribute, KTRawContent } from '../types/h.js';
 import type { JSX } from '../types/jsx.js';
 
 import { h, mathml as _mathml, svg as _svg } from '../h/index.js';
-import { $initRef } from '../reactable/ref.js';
-import { isComputed } from '../reactable/common.js';
+import { $refToSelf } from '../reactable/ref.js';
 
 import { createFragment, type FragmentProps } from './fragment.js';
 import { jsxh } from './common.js';
@@ -14,12 +13,7 @@ function create(
   tag: any,
   props: KTAttribute,
 ) {
-  if (isComputed(props.ref)) {
-    $throw('Cannot assign a computed value to an element.');
-  }
-  const el = creator(tag, props, props.children);
-  $initRef(props, el);
-  return el;
+  return $refToSelf(props, creator(tag, props, props.children));
 }
 
 export const jsx = (tag: JSXTag, props: KTAttribute): JSX.Element => create(jsxh, tag, props);

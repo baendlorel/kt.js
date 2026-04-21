@@ -1,11 +1,10 @@
 import type { JSX } from '../types/jsx.js';
 import type { KTRawContent } from '../types/h.js';
-import type { KTReactive } from '../reactable/reactive.js';
 import type { KTRef } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
-import { $initRef } from '../reactable/ref.js';
+import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from './anchor.js';
 
 export class KTFragmentAnchor extends KTAnchor {
@@ -83,13 +82,12 @@ export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAn
     parent.insertBefore(fragment, anchor.nextSibling);
   };
 
+  // ?? redraw应该属于旧版内容，这里还需要吗？
   childrenRef.addOnChange(redraw);
   anchor.mountCallback = redraw;
   redraw();
 
-  $initRef(props as { ref?: KTRef<Node> }, anchor);
-
-  return anchor as unknown as JSX.Element & KTFragmentAnchor;
+  return $refToSelf(props, anchor as unknown as JSX.Element) as JSX.Element & KTFragmentAnchor;
 }
 
 /**

@@ -4,10 +4,11 @@ import type { KTReactive } from '../reactable/reactive.js';
 
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
-import { $initRef } from '../reactable/ref.js';
+import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from './anchor.js';
 
-export class KTForAnchor extends KTAnchor<JSX.Element> {
+export class KTForAnchor extends KTAnchor {
+  readonly list: JSX.Element[] = [];
   constructor() {
     super(AType.For);
   }
@@ -135,7 +136,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
 
   listRef.addOnChange(redraw, redraw);
   anchor.mountCallback = redraw;
-  $initRef(props, anchor);
+  $refToSelf(props, anchor);
 
   return anchor;
 }

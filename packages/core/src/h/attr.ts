@@ -103,7 +103,7 @@ export function applyAttr(element: HTMLElement | SVGElement | MathMLElement, att
   if (!attr) {
     return;
   }
-  if (typeof attr === 'object' && attr !== null) {
+  if (typeof attr === 'object') {
     attrIsObject(element, attr as KTAttribute);
   } else {
     $throw('attr must be an object.');

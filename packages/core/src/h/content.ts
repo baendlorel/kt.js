@@ -4,7 +4,6 @@ import type { KTFragmentAnchor } from '../jsx/fragment.js';
 
 import { isKT } from '../reactable/common.js';
 import { AType } from '../jsx/anchor.js';
-import { $mountFragmentAnchors } from '../jsx/anchor.js';
 
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
@@ -21,8 +20,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
       const newNode = assureNode(newValue);
       const oldNode = node;
       node = newNode;
-      oldNode.replaceWith(newNode);
-      $mountFragmentAnchors(newNode);
+      oldNode.replaceWith(newNode); // $mountFragmentAnchors(newNode);
     };
     c.addOnChange(onChange);
   } else {
@@ -48,12 +46,10 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
         ci.then((awaited) => {
           if ($isNode(awaited)) {
             // ?? 难道不能都在observer回调里做吗
-            comment.replaceWith(awaited);
-            $mountFragmentAnchors(awaited);
+            comment.replaceWith(awaited); // $mountFragmentAnchors(awaited);
           } else {
             const awaitedNode = assureNode(awaited);
-            comment.replaceWith(awaitedNode);
-            $mountFragmentAnchors(awaitedNode);
+            comment.replaceWith(awaitedNode); // $mountFragmentAnchors(awaitedNode);
           }
         });
       } else {
@@ -61,7 +57,7 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
       }
     }
   } else {
-    // & here is thened, so must be a simple elementj
+    // & here is thened, so must be a simple element
     apdSingle(element, c);
   }
 }

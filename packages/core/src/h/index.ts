@@ -19,17 +19,11 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
   attr?: KTRawAttr,
   content?: KTRawContent,
 ): HTML<T> => {
-  if (typeof tag !== 'string') {
-    $throw('tagName must be a string.');
-  }
-
-  // * start creating the element
   const element = document.createElement(tag) as HTML<T>;
   if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
     applyKModel(element as any, attr['k-model'] as any);
   }
 
-  // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
@@ -37,14 +31,7 @@ export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
 };
 
 export const svg = <T extends SVGTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
-  if (typeof tag !== 'string') {
-    $throw('tagName must be a string.');
-  }
-
-  // * start creating the element
   const element = document.createElementNS('http://www.w3.org/2000/svg', tag) as HTML<T>;
-
-  // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 
@@ -56,14 +43,7 @@ export const svg = <T extends SVGTag>(tag: T, attr?: KTRawAttr, content?: KTRawC
 };
 
 export const mathml = <T extends MathMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
-  if (typeof tag !== 'string') {
-    $throw('tagName must be a string.');
-  }
-
-  // * start creating the element
   const element = document.createElementNS('http://www.w3.org/1998/Math/MathML', tag) as HTML<T>;
-
-  // * Handle content
   applyAttr(element, attr);
   applyContent(element, content);
 

@@ -1,69 +1,49 @@
 import type { JSX } from '../types/jsx.js';
-import type { KTMaybeReactive, KTReactifyProps } from '../reactable/types.js';
+import type { KTReactifyProps } from '../reactable/types.js';
 import type { KTRawAttr, KTAttribute } from '../types/h.js';
 
 import { $assign, $isArray } from '@ktjs/shared';
+import { static_cast } from 'type-narrow';
 import { isKT } from '../reactable/common.js';
 import { handlers } from './attr-helpers.js';
 
 const defaultHandler = (element: JSX.Element, key: string, value: any) => element.setAttribute(key, value);
 
-const setStyle = (
-  element: JSX.Element,
-  style: KTMaybeReactive<Partial<CSSStyleDeclaration>> | KTMaybeReactive<string> | undefined,
-) => {
-  if (!style || !(element instanceof HTMLElement)) {
-    return;
-  }
-
-  const setter = (v: Partial<CSSStyleDeclaration> | string) => {
-    if (typeof v === 'string') {
-      element.style.cssText = v;
-    } else if (typeof v === 'object') {
-      $assign(element.style, v);
-    }
-  };
-
-  if (isKT(style)) {
-    setter(style.value);
-    style.addOnChange(setter);
+const setAttr = (value: any, setter: (value: any, oldValue: any) => void) => {
+  if (isKT(value)) {
+    setter(value.value, value.value);
+    value.addOnChange(setter);
   } else {
-    setter(style);
+    setter(value, value);
   }
 };
-
-const setClass = (
-  element: JSX.Element,
-  classValue: KTMaybeReactive<string> | KTMaybeReactive<string[]> | undefined,
-) => {
-  if (!classValue) {
+const setNonNullableAttr = (value: any, setter: (value: any, oldValue: any) => void) => {
+  if (value === undefined) {
     return;
   }
-
-  // TODO 此处写法非常固定，都是一个setter一个element一个value，下面也还有，可以抽象吗？
-  const setter = (v: string | string[]) => (element.classList = $isArray(v) ? v.join(' ') : v);
-  if (isKT(classValue)) {
-    setter(classValue.value);
-    classValue.addOnChange(setter);
+  if (isKT(value)) {
+    setter(value.value, value.value);
+    value.addOnChange(setter);
   } else {
-    setter(classValue);
+    setter(value, value);
   }
 };
 
 function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) {
-  setClass(element, attr.class ?? attr.className);
-  setStyle(element, attr.style);
-
-  if ('k-html' in attr) {
-    const html = attr['k-html'];
-    // ?? 如何在元素消失后自动消除html的onChangeHandler呢
-    if (isKT(html)) {
-      element.innerHTML = html.value;
-      html.addOnChange((v) => (element.innerHTML = v));
-    } else {
-      element.innerHTML = html;
-    }
+  setNonNullableAttr(attr.class ?? attr.className, (v) => (element.classList = $isArray(v) ? v.join(' ') : v));
+  if ('style' in element) {
+    static_cast<HTMLElement>(element);
+    setNonNullableAttr(attr.style, (v: Partial<CSSStyleDeclaration> | string) => {
+      if (typeof v === 'string') {
+        element.style.cssText = v;
+      } else if (typeof v === 'object') {
+        $assign(element.style, v);
+      }
+    });
   }
+
+  // ?? 如何在元素消失后自动消除html的onChangeHandler呢
+  setNonNullableAttr(attr['k-html'], (v) => (element.innerHTML = v));
 
   for (const key in attr) {
     // & Arranged in order of usage frequency
@@ -78,33 +58,26 @@ function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) 
       key === 'className' ||
       key === 'style' ||
       key === 'children' ||
-      key === 'k-html'
+      key === 'k-html' ||
+      // & Clearly indicate that we do nothing when its undefined
+      attr[key] === undefined
     ) {
       continue;
     }
 
-    const o = attr[key];
-
     // normal event handler
     if (key.startsWith('on:')) {
-      if (o) {
-        const eventName = key.slice(3);
-        element.addEventListener(eventName, o); // chop off the `on:`
-      }
+      const eventName = key.slice(3);
+      // & It is weird but we can make listeners reactable
+      setAttr(attr[key], (v, old) => {
+        element.removeEventListener(eventName, old);
+        element.addEventListener(eventName, v);
+      });
       continue;
     }
 
-    // normal attributes
-    // Security: all non-`on:` attributes are forwarded as-is.
-    // Dangerous values such as raw `on*`, `href`, `src`, `srcdoc`, SVG href, etc.
-    // remain the caller's responsibility.
-    const handler = handlers[key] || defaultHandler;
-    if (isKT(o)) {
-      handler(element, key, o.value);
-      o.addOnChange((v) => handler(element, key, v));
-    } else {
-      handler(element, key, o);
-    }
+    const handler = handlers[key] ?? defaultHandler;
+    setAttr(attr[key], (v) => handler(element, key, v));
   }
 }
 

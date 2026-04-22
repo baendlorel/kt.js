@@ -17,7 +17,8 @@ let fileCount = 0;
 
 function countLines(filePath: string): number {
   const content = fs.readFileSync(filePath, 'utf8');
-  return content.split(/\r\n|\n|\r/).length;
+  // static_cast will be removed in the build process, so we should not count lines that include it
+  return content.split(/\r\n|\n|\r/).filter((line) => !line.includes('static_cast')).length;
 }
 
 function resolveFiles(rootDir: string): string[] {

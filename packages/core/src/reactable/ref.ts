@@ -1,8 +1,8 @@
-import type { ChangeHandler } from './types.js';
+import type { ChangeListener } from './types.js';
 
 import { $is } from '@ktjs/shared';
 import { $createSubGetter, $createSubSetter, isRef } from './common.js';
-import { KTReactive, KType, nextHandlerId, nextKid } from './reactive.js';
+import { KTReactive, KType, nextKid } from './reactive.js';
 import { _markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
@@ -28,7 +28,7 @@ export class KTRef<T> extends KTReactive<T> {
 
   /**
    * Used to mutate the value in-place.
-   * - internal value is changed instantly, but the change handlers will be called in the next microtask.
+   * - internal value is changed instantly, but the change listeners will be called in the next microtask.
    */
   get draft() {
     _markMutation(this);
@@ -41,7 +41,7 @@ export class KTRef<T> extends KTReactive<T> {
 
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
-   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
   subref<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
@@ -52,19 +52,19 @@ export class KTRef<T> extends KTReactive<T> {
   ): KTSubRef<T[K0][K1][K2]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
-   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
   subref<K0 extends keyof T, K1 extends keyof T[K0]>(this: KTRef<T & object>, key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
-   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
   subref<K0 extends keyof T>(this: KTRef<T & object>, key0: K0): KTSubRef<T[K0]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
-   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the handlers.
+   * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
   subref(...keys: Array<string | number>): KTSubRef<any> {
@@ -137,7 +137,7 @@ export class KTSubRef<T> extends KTRef<T> {
   /**
    * @internal
    */
-  protected readonly _handler: ChangeHandler<any>;
+  protected readonly _listener: ChangeListener<any>;
 
   constructor(
     source: KTRef<any>,
@@ -148,8 +148,8 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source = source;
     this._getter = getter;
     this._setter = setter;
-    this._handler = () => (this.v = getter(source.value));
-    source.listen(this._handler);
+    this._listener = () => (this.v = getter(source.value));
+    source.listen(this._listener);
   }
 
   get value() {
@@ -169,18 +169,18 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source.notify();
   }
 
-  listen(handler: ChangeHandler<T>): this {
-    this.source.listen((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)));
+  listen(listener: ChangeListener<T>): this {
+    this.source.listen((newValue, oldValue) => listener(this._getter(newValue), this._getter(oldValue)));
     return this;
   }
 
-  unlisten(handler: ChangeHandler<T>): this {
-    this.source.unlisten(handler);
+  unlisten(listener: ChangeListener<T>): this {
+    this.source.unlisten(listener);
     return this;
   }
 
   dispose(): void {
-    this.source.unlisten(this._handler);
+    this.source.unlisten(this._listener);
   }
 
   /**

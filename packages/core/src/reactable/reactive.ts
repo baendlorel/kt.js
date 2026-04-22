@@ -1,5 +1,5 @@
 import type { KTComputed } from './computed.js';
-import { type ChangeHandler } from './types.js';
+import { type ChangeListener } from './types.js';
 
 export const enum KType {
   Ref /*----------*/ = 1 << 1,
@@ -14,10 +14,7 @@ export const enum KType {
 }
 
 let kid = 1;
-let handlerId = 1;
-
 export const nextKid = () => kid++;
-export const nextHandlerId = (_kid: number) => handlerId++;
 
 export abstract class KTReactive<T> {
   readonly kid = nextKid();
@@ -29,9 +26,8 @@ export abstract class KTReactive<T> {
   protected v: T;
 
   /* @internal */
-  // TODO 用isConnected去判定并清理handler
-  // TODO 改名为_listeners，并改为Set
-  protected readonly _listeners = new Set<ChangeHandler<any>>();
+  // TODO 用isConnected去判定并清理
+  protected readonly _listeners = new Set<ChangeListener<any>>();
 
   constructor(value: T) {
     this.v = value;
@@ -47,21 +43,20 @@ export abstract class KTReactive<T> {
 
   /* @internal */
   protected _emit(newValue: T, oldValue: T): this {
-    this._listeners.forEach((handler) => handler(newValue, oldValue));
+    this._listeners.forEach((f) => f(newValue, oldValue));
     return this;
   }
 
-  // TODO 这里改为listen和unlisten
-  listen(handler: ChangeHandler<T>): this {
-    if (this._listeners.has(handler)) {
-      $throw(`Overriding existing change handler with ${handler.toString()}.`);
+  listen(listener: ChangeListener<T>): this {
+    if (this._listeners.has(listener)) {
+      $throw(`Overriding existing change handler with ${listener.toString()}.`);
     }
-    this._listeners.add(handler);
+    this._listeners.add(listener);
     return this;
   }
 
-  unlisten(handler: ChangeHandler<T>): this {
-    this._listeners.delete(handler);
+  unlisten(listener: ChangeListener<T>): this {
+    this._listeners.delete(listener);
     return this;
   }
 

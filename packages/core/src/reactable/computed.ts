@@ -1,5 +1,5 @@
 import { $deepMatch, $is } from '@ktjs/shared';
-import { KTReactive, KType, nextHandlerId } from './reactive.js';
+import { KTReactive, KType } from './reactive.js';
 import { $createSubGetter, isReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
@@ -12,8 +12,9 @@ export class KTComputed<T> extends KTReactive<T> {
   private readonly _dependencies: Array<KTReactive<any>>;
 
   /* @internal */
-  private readonly _handler: () => void;
+  private readonly _listener: () => void;
 
+  /* @internal */
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
@@ -30,10 +31,10 @@ export class KTComputed<T> extends KTReactive<T> {
     super(calculator());
     this._calculator = calculator;
     this._dependencies = dependencies;
-    this._handler = () => this._recalculate();
+    this._listener = () => this._recalculate();
 
     for (let i = 0; i < dependencies.length; i++) {
-      dependencies[i].listen(this._handler);
+      dependencies[i].listen(this._listener);
     }
   }
 
@@ -48,7 +49,7 @@ export class KTComputed<T> extends KTReactive<T> {
 
     this._disposed = true;
     for (let i = 0; i < this._dependencies.length; i++) {
-      this._dependencies[i].unlisten(this._handler);
+      this._dependencies[i].unlisten(this._listener);
     }
 
     this._dependencies.length = 0;

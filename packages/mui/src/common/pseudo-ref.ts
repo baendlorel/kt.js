@@ -1,5 +1,5 @@
 import type { KTMaybeReactive } from '@ktjs/core';
-import type { ChangeHandler, KTComputed, KTReactive } from '@ktjs/core';
+import type { ChangeListener, KTComputed, KTReactive } from '@ktjs/core';
 
 import { $deepMatch } from '@ktjs/shared';
 import { isKT, KType } from '@ktjs/core';
@@ -16,7 +16,7 @@ class PseudoRef<T> {
     throw new Error('Method not implemented.');
   }
 
-  clearOnChange(): this {
+  unlistenAll(): this {
     throw new Error('Method not implemented.');
   }
 
@@ -32,11 +32,11 @@ class PseudoRef<T> {
     throw new Error('Method not implemented.');
   }
 
-  addOnChange(_handler: ChangeHandler<T>, _key?: any): this {
+  listen(_listener: ChangeListener<T>, _key?: any): this {
     return this;
   }
 
-  removeOnChange(_key: any): this {
+  unlisten(_key: any): this {
     return this;
   }
 

@@ -17,12 +17,18 @@ class KTContentAnchor extends KTAnchor {
   /**
    * When it is `Node[]`, it is created by `.map`.
    * So `newValue !== _current` is definite.
+   * @internal
    */
   _current!: this | Node | Node[];
+
+  /* @internal */
   _insertTo!: (parent: any) => void;
+
+  /* @internal */
   _remove!: () => void;
 
   // ?? 这里也许可以做ref事件清理
+  /* @internal */
   private _load(value: PrimaryContent | PrimaryContent[]) {
     if (_isNull(value)) {
       this._current = this;
@@ -58,12 +64,14 @@ class KTContentAnchor extends KTAnchor {
     });
   }
 
+  /* @internal */
   _insertOneTo(parent: Node): void {
     if (this._current !== this) {
       parent.insertBefore(this._current as Node, this);
     }
   }
 
+  /* @internal */
   _insertArrayTo(parent: Node): void {
     if (this._current !== this) {
       static_cast<Node[]>(this._current);
@@ -73,12 +81,14 @@ class KTContentAnchor extends KTAnchor {
     }
   }
 
+  /* @internal */
   _removeOne(): void {
     if (this._current !== this) {
       (this._current as ChildNode).remove();
     }
   }
 
+  /* @internal */
   _removeArray(): void {
     static_cast<ChildNode[]>(this._current);
     for (let i = 0; i < this._current.length; i++) {
@@ -86,6 +96,7 @@ class KTContentAnchor extends KTAnchor {
     }
   }
 
+  /* @internal */
   _appendTo(parent: Node): void {
     parent.appendChild(this);
     this._insertTo.call(this, parent);

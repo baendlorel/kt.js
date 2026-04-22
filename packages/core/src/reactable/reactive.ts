@@ -30,10 +30,9 @@ export abstract class KTReactive<T> {
    */
   protected v: T;
 
-  /**
-   * @internal
-   */
+  /* @internal */
   // TODO 用isConnected去判定并清理handler
+  // TODO 改名为_listeners，并改为Set
   protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
 
   constructor(value: T) {
@@ -48,14 +47,13 @@ export abstract class KTReactive<T> {
     $warn('Setting value to a non-ref instance takes no effect.');
   }
 
-  /**
-   * @internal
-   */
+  /* @internal */
   protected _emit(newValue: T, oldValue: T): this {
     this._changeHandlers.forEach((handler) => handler(newValue, oldValue));
     return this;
   }
 
+  // TODO 这里改为listen和unlisten
   addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
     if (this._changeHandlers.has(key)) {
       $throw(`Overriding existing change handler with key ${$stringify(key)}.`);

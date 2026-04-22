@@ -12,4 +12,9 @@ declare global {
      */
     _appendTo(parent: Node): void;
   }
+
+  interface Versioned {
+    /* @internal */
+    _version: number;
+  }
 }

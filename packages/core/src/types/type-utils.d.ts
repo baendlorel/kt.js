@@ -21,10 +21,9 @@ export type PickMethod<T> = {
   [K in keyof T as T[K] extends (...args: any[]) => any ? K : never]: T[K];
 };
 
-export type Publicify<T> = {
-  -readonly [P in keyof T]: T[P];
-};
-
 export interface Thenable<T> {
   then: (onfulfilled?: (value: T) => any) => any;
+
+  /* @internal */
+  _version: number;
 }

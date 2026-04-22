@@ -27,3 +27,34 @@ kt.js is a web framework with a tiny runtime that renders real DOM directly (no 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
 
 ## Coding Instructions
+
+### Prerequisites
+
+- **Node.js**: >= 22.0.0
+- **TypeScript**: 6.0.2
+- **Package Manager**: pnpm
+
+### Setup
+
+Install dependencies:
+```bash
+pnpm install
+```
+
+### Available Scripts
+
+> `<name>` can be the dirname in packages/plugins folder. Can also be group name given in `scripts/common/package-info.ts`
+
+| Command             | Description                              |
+| ------------------- | ---------------------------------------- |
+| `pnpm exp`          | Start the example development server     |
+| `pnpm build <name>` | Build all packages in the monorepo       |
+| `pnpm check <name>` | Run type checking across all packages    |
+| `pnpm test <name>`  | Run the test suite                       |
+| `pnpm cover`        | Generate test coverage reports           |
+| `pnpm lint`         | Run linter (oxlint) on the codebase      |
+| `pnpm sync-readme`  | Synchronize README files across packages |
+| `pnpm pub <name>`   | Publish packages to npm                  |
+| `pnpm lines <name>` | Count lines of code                      |
+| `pnpm repolist`     | Generate repository list                 |
+

@@ -1,3 +1,6 @@
+// TASK 用于所有校验完成后无所谓类型的地方
+export type Satisfied = any;
+
 export type IsSameType<A, B> =
   (<T>() => T extends A ? 1 : 2) extends <T>() => T extends B ? 1 : 2
     ? (<T>() => T extends B ? 1 : 2) extends <T>() => T extends A ? 1 : 2

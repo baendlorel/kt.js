@@ -1,4 +1,5 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
+import type { Satisfied } from '../types/type-utils.js';
 import type { KTAvailableContent, KTRawContent, PrimaryContent } from '../types/h.js';
 import type { KTFragmentAnchor } from '../jsx/fragment.js';
 
@@ -32,7 +33,7 @@ const apd = (element: Element, c: PrimaryContent) => {
     anchor._appendTo(element);
     c.addOnChange((v) => anchor._switchTo(v));
   } else {
-    element.append(c as Node); // & append can handle everything
+    element.append(c as Satisfied); // & append can handle everything
   }
 };
 

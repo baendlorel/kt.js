@@ -15,29 +15,42 @@ const _node = (c: PrimaryContent): Node =>
 
 // TODO 改成无论是否为数组都能准确处理的情况。可能为Fragment、For带来空前效果
 class KTContentAnchor extends KTAnchor {
-  _current: this | Node | Node[];
-  _insert: (parent: Node) => void;
+  /**
+   * When it is `Node[]`, it is created by `.map`.
+   * So `newValue !== _current` is definite.
+   */
+  _current!: this | Node | Node[];
+  _insert!: (parent: Node) => void;
+  _remove!: () => void;
+
+  // ?? 这里也许可以做ref事件清理
+  private _load(value: PrimaryContent | PrimaryContent[]) {
+    if (_isNull(value)) {
+      this._current = this;
+      this._insert = this._insertOne;
+      this._remove = this._removeOne;
+    } else if ($isArray(value)) {
+      this._current = value.map(_node);
+      this._insert = this._insertArray;
+      this._remove = this._removeArray;
+    } else {
+      this._current = _node(value);
+      this._insert = this._insertOne;
+      this._remove = this._removeOne;
+    }
+  }
 
   constructor(r: KTReactive<PrimaryContent>) {
     super(AType.Content);
 
-    if (_isNull(r.value)) {
-      this._current = this;
-      this._insert = this._insertOne;
-    } else if ($isArray(r.value)) {
-      this._current = r.value;
-    }
+    this._load(r.value);
 
     r.addOnChange((v) => {
-      // ?? 这里也许可以做ref事件清理
-      if (_isNull(v)) {
-        (this._current as ChildNode).remove();
-        this._current = this;
-        return;
+      this._remove.call(this);
+      this._load(v);
+      if (this.parentNode) {
+        this._insert.call(this, this.parentNode);
       }
-
-      v = _node(v);
-      this._current = this._current.parentNode?.insertBefore(v, this._current) ?? v;
     });
   }
 
@@ -56,6 +69,20 @@ class KTContentAnchor extends KTAnchor {
     static_cast<Node[]>(this._current);
     for (let i = 0; i < this._current.length; i++) {
       parent.insertBefore(this, this._current[i]);
+    }
+  }
+
+  _removeOne(): void {
+    if (this._current !== this) {
+      static_cast<ChildNode>(this._current);
+      this._current.remove();
+    }
+  }
+
+  _removeArray(): void {
+    static_cast<ChildNode[]>(this._current);
+    for (let i = 0; i < this._current.length; i++) {
+      this._current[i].remove();
     }
   }
 

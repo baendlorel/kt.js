@@ -52,6 +52,22 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
             beautify: true,
           },
         }),
+        void terser({
+          compress: {
+            dead_code: true,
+          },
+          mangle: {
+            toplevel: true,
+            properties: {
+              regex: /^_/,
+            },
+            keep_classnames: /^([^_].*)?$/,
+            keep_fnames: /^([^_].*)?$/,
+          },
+          output: {
+            beautify: true,
+          },
+        }),
       ].filter(Boolean),
       external: [/^@ktjs\//, /^@babel\//],
     },

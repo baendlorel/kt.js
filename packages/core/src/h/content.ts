@@ -29,7 +29,12 @@ class KTContentAnchor extends KTAnchor {
       this._insertTo = this._insertOneTo;
       this._remove = this._removeOne;
     } else if ($isArray(value)) {
-      this._current = value.map(_node);
+      this._current = [];
+      for (let i = 0; i < value.length; i++) {
+        if (!_isNull(value[i])) {
+          this._current.push(_node(value[i]));
+        }
+      }
       this._insertTo = this._insertArrayTo;
       this._remove = this._removeArray;
     } else {

@@ -110,27 +110,6 @@ export abstract class KTReactive<T> {
    * Generate a computed value based on this reactive, using keys to access nested properties.
    * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
    */
-  get<
-    K0 extends keyof T,
-    K1 extends keyof T[K0],
-    K2 extends keyof T[K0][K1],
-    K3 extends keyof T[K0][K1][K2],
-    K4 extends keyof T[K0][K1][K2][K3],
-  >(key0: K0, key1: K1, key2: K2, key3: K3, key4: K4): KTComputed<T[K0][K1][K2][K3][K4]>;
-  /**
-   * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   */
-  get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1], K3 extends keyof T[K0][K1][K2]>(
-    key0: K0,
-    key1: K1,
-    key2: K2,
-    key3: K3,
-  ): KTComputed<T[K0][K1][K2][K3]>;
-  /**
-   * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
-   */
   get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
     key0: K0,
     key1: K1,

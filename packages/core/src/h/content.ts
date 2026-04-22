@@ -1,4 +1,4 @@
-import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
+import { $isArray } from '@ktjs/shared';
 import type { Satisfied } from '../types/type-utils.js';
 import type { KTAvailableContent, KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 
@@ -53,31 +53,12 @@ const apd = (element: Element, c: SingleContent) => {
 };
 
 function append(element: Element, c: KTAvailableContent) {
-  if ($isThenable(c)) {
-    c.then((r) => append(element, r));
-  } else if ($isArray(c)) {
+  if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
-      // & might be thenable here too
-      const ci = c[i];
-      if ($isThenable(ci)) {
-        const comment = document.createComment('ktjs-promise-placeholder');
-        element.appendChild(comment);
-        ci.then((awaited) => {
-          if ($isNode(awaited)) {
-            // ?? 难道不能都在observer回调里做吗
-            comment.replaceWith(awaited); // $mountFragmentAnchors(awaited);
-          } else {
-            const awaitedNode = assureNode(awaited);
-            comment.replaceWith(awaitedNode); // $mountFragmentAnchors(awaitedNode);
-          }
-        });
-      } else {
-        apdSingle(element, ci);
-      }
+      apd(element, c[i]);
     }
   } else {
-    // & here is thened, so must be a simple element
-    apdSingle(element, c);
+    apd(element, c);
   }
 }
 

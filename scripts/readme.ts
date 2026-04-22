@@ -3,7 +3,7 @@ import path from 'node:path';
 
 export function syncReadme(_who?: string) {
   const rootPath = path.join(import.meta.dirname, '..');
-  const rootReadmePath = path.join(rootPath, 'README.md');
+  const rootReadmePath = path.join(rootPath, 'documents', 'README.SYNC.md');
   const rootReadme = readFileSync(rootReadmePath, 'utf-8');
   const readmePaths = [rootReadmePath];
 

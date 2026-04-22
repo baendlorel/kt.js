@@ -3,20 +3,24 @@ import path from 'node:path';
 
 function generate() {
   const packagesDir = path.join(import.meta.dirname, '..', 'packages');
-  const names = readdirSync(packagesDir, { withFileTypes: true })
+  const pluginsDir = path.join(import.meta.dirname, '..', 'plugins');
+  const packagesDirNames = readdirSync(packagesDir, { withFileTypes: true });
+  const pluginsDirNames = readdirSync(pluginsDir, { withFileTypes: true });
+
+  const pkgPaths = [...packagesDirNames, ...pluginsDirNames]
     .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
+    .map((dirent) => path.join(dirent.parentPath, dirent.name));
 
   const list: any[] = [];
-  for (const name of names) {
-    const pkgPath = path.join(packagesDir, name, 'package.json');
-    if (!existsSync(pkgPath)) {
+  for (const pkgPath of pkgPaths) {
+    const pkgJson = path.join(pkgPath, 'package.json');
+    if (!existsSync(pkgJson)) {
       continue;
     }
 
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-    pkg.isMonorepo = true;
-    list.push(pkg);
+    const data = JSON.parse(readFileSync(pkgJson, 'utf-8'));
+    data.isMonorepo = true;
+    list.push(data);
   }
 
   const packages = { packages: list };

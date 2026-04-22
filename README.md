@@ -20,44 +20,10 @@
 - QQ Group: `1070434849`
 - Telegram: https://t.me/kt_js
 
-## Recent Updates
-
-1. Plugins:
-   1. `k-if={value}` now narrows the type of `value` within its block, strips `undefined | null | false`.
-   2. `k-for` now supports `Ctrl + Click` to navigate to the source of the iterable variable and rename by `F2`.
-   3. `kt-tsc` is now available for type checking. (Mainly check whether the `k-for` statement is valid)
-2. Framework: <= 0.38.x - reactive helper additions
-   1. Reactive values now have `is`, `match`, `get` to be syntactic sugar for `map`.
-   2. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
-   3. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-   4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.`ref.draft` itself is **not assignable**.
-   5. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
-
 ## Introduction
 
 kt.js is a web framework with a tiny runtime that renders real DOM directly (no virtual DOM), uses explicit reactivity variables and gives you manual control over refs, bindings, and redraw timing.
 
 KT.js focuses on one principle: keep direct control of the DOM and avoid unnecessary repainting.
 
-## Quick Start
-
-```bash
-pnpm create kt.js my-app
-cd my-app
-pnpm install
-pnpm dev
-```
-
-## Security model
-
-kt.js intentionally trusts application code and keeps DOM operations explicit.
-
-- Text children are inserted as text nodes by default.
-- `k-html` is a raw HTML escape hatch that writes to `innerHTML` without sanitization.
-- Prefer `on:*` event bindings. Do not pass raw `onclick` / `onerror` style strings.
-- Attributes such as `href`, `src`, `srcdoc`, `action`, and SVG URL attributes are forwarded as-is.
-- If you bind untrusted input, sanitization and validation must be handled by your application.
-
-## License
-
-MIT License.
+## Coding Instructions

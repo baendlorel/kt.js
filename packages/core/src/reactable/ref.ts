@@ -1,6 +1,6 @@
 import type { ChangeHandler } from './types.js';
 
-import { $emptyFn, $is } from '@ktjs/shared';
+import { $is } from '@ktjs/shared';
 import { $createSubGetter, $createSubSetter, isRef } from './common.js';
 import { KTReactive, KType, nextHandlerId, nextKid } from './reactive.js';
 import { $markMutation } from './scheduler.js';

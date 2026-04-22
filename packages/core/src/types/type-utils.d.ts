@@ -25,6 +25,6 @@ export type Publicify<T> = {
   -readonly [P in keyof T]: T[P];
 };
 
-export type Thenable<T> = {
+export interface Thenable<T> {
   then: (onfulfilled?: (value: T) => any) => any;
-};
+}

@@ -1,8 +1,8 @@
 import type { KTMaybeReactive } from '@ktjs/core';
+import type { ChangeHandler, KTComputed, KTReactive } from '@ktjs/core';
 
 import { $deepMatch } from '@ktjs/shared';
-import { isKT } from '@ktjs/core';
-import { ChangeHandler, KTComputed, KTReactive, KType } from '@ktjs/core';
+import { isKT, KType } from '@ktjs/core';
 
 class PseudoRef<T> {
   kid: number = -1;
@@ -12,7 +12,7 @@ class PseudoRef<T> {
     this.value = value;
   }
 
-  protected _emit(newValue: T, oldValue: T): this {
+  protected _emit(_newValue: T, _oldValue: T): this {
     throw new Error('Method not implemented.');
   }
 
@@ -32,15 +32,15 @@ class PseudoRef<T> {
     throw new Error('Method not implemented.');
   }
 
-  addOnChange(handler: ChangeHandler<T>, key?: any): this {
+  addOnChange(_handler: ChangeHandler<T>, _key?: any): this {
     return this;
   }
 
-  removeOnChange(key: any): this {
+  removeOnChange(_key: any): this {
     return this;
   }
 
-  map<U>(calculator: (value: T) => U, dependencies?: Array<KTReactive<any>>): PseudoRef<U> {
+  map<U>(calculator: (value: T) => U, _dependencies?: Array<KTReactive<any>>): PseudoRef<U> {
     return new PseudoRef(calculator(this.value));
   }
 

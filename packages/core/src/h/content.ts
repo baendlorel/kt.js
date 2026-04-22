@@ -13,14 +13,9 @@ const _isNull = (c: unknown): c is undefined | null | false => c === undefined |
 const _node = (c: PrimaryContent): Node =>
   typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);
 
-const _remove = (nodes: ChildNode[]) => {
-  for (let i = 0; i < nodes.length; i++) {
-    nodes[i].remove();
-  }
-};
-
+// TODO 改成无论是否为数组都能准确处理的情况
 class KTContentAnchor extends KTAnchor {
-  _current: Node | KTAnchor;
+  _current: this | Node | Node[];
 
   constructor(r: KTReactive<PrimaryContent>) {
     super(AType.Content);
@@ -41,7 +36,7 @@ class KTContentAnchor extends KTAnchor {
   }
 
   _appendTo(parent: Node): void {
-    parent.appendChild(this._current);
+    parent.appendChild(this);
   }
 }
 
@@ -64,7 +59,9 @@ class KTContentsAnchor extends KTAnchor {
 
         // !The order these 3 lines cannot be changed
         this._current[0].parentNode?.insertBefore(this, this._current[0]);
-        _remove(this._current);
+        for (let i = 0; i < this._current.length; i++) {
+          this._current[i].remove();
+        }
         this._current = this;
         return;
       }
@@ -95,7 +92,7 @@ class KTContentsAnchor extends KTAnchor {
   }
 }
 
-const apd = (element: Element, c: SingleContent) => {
+const appendOne = (element: Element, c: SingleContent) => {
   if (_isNull(c)) {
     return;
   }
@@ -109,22 +106,14 @@ const apd = (element: Element, c: SingleContent) => {
   }
 };
 
-function append(element: Element, c: KTAvailableContent) {
+function append(element: Element, c: KTRawContent) {
   if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
-      apd(element, c[i]);
+      append(element, c[i]);
     }
   } else {
-    apd(element, c);
+    appendOne(element, c);
   }
 }
 
-export function applyContent(element: Element, content: KTRawContent): void {
-  if ($isArray(content)) {
-    for (let i = 0; i < content.length; i++) {
-      append(element, content[i]);
-    }
-  } else {
-    append(element, content as KTAvailableContent);
-  }
-}
+export const applyContent = append;

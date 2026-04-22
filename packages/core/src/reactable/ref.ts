@@ -141,7 +141,7 @@ export class KTSubRef<T> extends KTRef<T> {
   /**
    * @internal
    */
-  protected readonly _handlerKeys: string[];
+  protected readonly _handlerKeys: any[];
 
   constructor(
     source: KTRef<any>,

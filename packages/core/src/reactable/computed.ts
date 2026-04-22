@@ -23,7 +23,7 @@ export class KTComputed<T> extends KTReactive<T> {
   /**
    * @internal
    */
-  protected readonly _handlerKeys: string[];
+  protected readonly _handlerKeys: any[];
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {

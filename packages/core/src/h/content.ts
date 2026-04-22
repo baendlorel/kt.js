@@ -12,7 +12,7 @@ const _isNull = (c: unknown): c is undefined | null | false => c === undefined |
 const _node = (c: PrimaryContent): Node =>
   typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);
 
-// TODO 改成无论是否为数组都能准确处理的情况
+// TODO 改成无论是否为数组都能准确处理的情况。可能为Fragment、For带来空前效果
 class KTContentAnchor extends KTAnchor {
   _current: this | Node | Node[];
 

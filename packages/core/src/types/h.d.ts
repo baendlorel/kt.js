@@ -1,6 +1,7 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
 import type { KTReactive } from '../reactable/reactive.js';
 import type { KTRef } from '../reactable/ref.js';
+import type { KTMaybeReactive } from '../reactable/types.js';
 import type { JSX } from './jsx.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag
@@ -15,7 +16,11 @@ export type KTRawAttr = KTAttribute | null | undefined | '' | false;
 
 export type PrimaryContent = Node | string | number | boolean | null | undefined;
 export type SingleContent = PrimaryContent | KTReactive<PrimaryContent>;
-export type KTRawContent = SingleContent | SingleContent[];
+export type KTRawContent =
+  | PrimaryContent
+  | KTReactive<PrimaryContent>
+  | PrimaryContent[]
+  | KTReactive<PrimaryContent[]>;
 
 /**
  * Used to create enhanced HTML elements
@@ -38,7 +43,7 @@ interface KTBaseAttribute {
 
   /**
    * Register two-way data binding between an input element and a KTRefLike.
-   * - Default to regist `input` event and `value` property(`checked` for checkboxes and radios).
+   * - Default to register `input` event and `value` property(`checked` for checkboxes and radios).
    */
   'k-model'?: KTRef<any>;
 

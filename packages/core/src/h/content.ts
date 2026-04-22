@@ -5,6 +5,7 @@ import type { KTReactive } from '../reactable/reactive.js';
 
 import { _isAnchor, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
+import { static_cast } from 'type-narrow';
 
 // EPIC 将所有可以terser混淆的名字都以下划线开头命名
 const _isNull = (c: unknown): c is undefined | null | false => c === undefined || c === null || c === false;
@@ -15,11 +16,17 @@ const _node = (c: PrimaryContent): Node =>
 // TODO 改成无论是否为数组都能准确处理的情况。可能为Fragment、For带来空前效果
 class KTContentAnchor extends KTAnchor {
   _current: this | Node | Node[];
+  _insert: (parent: Node) => void;
 
   constructor(r: KTReactive<PrimaryContent>) {
     super(AType.Content);
 
-    this._current = _isNull(r.value) ? this : _node(r.value);
+    if (_isNull(r.value)) {
+      this._current = this;
+      this._insert = this._insertOne;
+    } else if ($isArray(r.value)) {
+      this._current = r.value;
+    }
 
     r.addOnChange((v) => {
       // ?? 这里也许可以做ref事件清理
@@ -32,6 +39,24 @@ class KTContentAnchor extends KTAnchor {
       v = _node(v);
       this._current = this._current.parentNode?.insertBefore(v, this._current) ?? v;
     });
+  }
+
+  _insertOne(parent: Node): void {
+    if (this._current === this) {
+      return;
+    }
+    static_cast<Node>(this._current);
+    parent.insertBefore(this, this._current);
+  }
+
+  _insertArray(parent: Node): void {
+    if (this._current === this) {
+      return;
+    }
+    static_cast<Node[]>(this._current);
+    for (let i = 0; i < this._current.length; i++) {
+      parent.insertBefore(this, this._current[i]);
+    }
   }
 
   _appendTo(parent: Node): void {

@@ -1,6 +1,6 @@
 import { $isArray } from '@ktjs/shared';
 import type { Satisfied } from '../types/type-utils.js';
-import type { KTAvailableContent, KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
+import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 
 import { _isAnchor, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
@@ -119,7 +119,7 @@ function append(element: Element, c: KTAvailableContent) {
   }
 }
 
-export function applyContent(element: HTMLElement | SVGElement | MathMLElement, content: KTRawContent): void {
+export function applyContent(element: Element, content: KTRawContent): void {
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
       append(element, content[i]);

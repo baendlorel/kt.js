@@ -7,10 +7,7 @@ import {
   getMemberCompletionContext,
   mergeCompletionInfo,
 } from './completion';
-import {
-  DIAGNOSTIC_CANNOT_FIND_NAME,
-  DIAGNOSTIC_UNUSED_LOCAL,
-} from './constants';
+import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
@@ -30,7 +27,7 @@ import {
   isSuppressed,
 } from './scope-analysis';
 import { resolveExpressionTypesFromText } from './type-resolution';
-import type { KForPluginConfig } from './types';
+import type { KForPluginConfig, KIfScope } from './types';
 
 function init(modules: { typescript: typeof tsModule }) {
   const ts = modules.typescript;
@@ -62,7 +59,7 @@ function init(modules: { typescript: typeof tsModule }) {
 
       return analysis
         ? diagnostics.filter((diagnostic) => {
-            if (diagnostic.start == null || diagnostic.length == null) {
+            if (!hasDiagnosticSpan(diagnostic)) {
               return true;
             }
 
@@ -81,7 +78,10 @@ function init(modules: { typescript: typeof tsModule }) {
               return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
             }
 
-            if (analysis.ifScopes.length > 0 && isSuppressedByKIfNarrowing(diagnostic, analysis.sourceFile, analysis.ifScopes, ts)) {
+            if (
+              analysis.ifScopes.length > 0 &&
+              isSuppressedByKIfNarrowing(diagnostic, analysis.sourceFile, analysis.ifScopes, ts)
+            ) {
               return false;
             }
 
@@ -372,10 +372,10 @@ function init(modules: { typescript: typeof tsModule }) {
 function isSuppressedByKIfNarrowing(
   diagnostic: tsModule.Diagnostic,
   sourceFile: tsModule.SourceFile,
-  ifScopes: import('./types').KIfScope[],
+  ifScopes: KIfScope[],
   ts: typeof tsModule,
 ): boolean {
-  if (diagnostic.start == null || diagnostic.length == null) {
+  if (!hasDiagnosticSpan(diagnostic)) {
     return false;
   }
 
@@ -428,6 +428,12 @@ function isSuppressedByKIfNarrowing(
   }
 
   return false;
+}
+
+function hasDiagnosticSpan(
+  diagnostic: tsModule.Diagnostic,
+): diagnostic is tsModule.Diagnostic & { start: number; length: number } {
+  return typeof diagnostic.start === 'number' && typeof diagnostic.length === 'number';
 }
 
 export = init;

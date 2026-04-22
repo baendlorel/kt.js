@@ -58,3 +58,8 @@ pnpm install
 | `pnpm lines <name>` | Count lines of code                      |
 | `pnpm repolist`     | Generate repository list                 |
 
+## Variable Naming
+
+- Private methods in a package should be named with prefix `_`. 
+- Shared private methods should be named with prefix `$`.
+- Specific classes should be named with prefix `KT`

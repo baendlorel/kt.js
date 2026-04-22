@@ -13,7 +13,7 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
 
 type SingleContent = KTReactive<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
-export type KTRawContent = KTAvailableContent | Promise<KTAvailableContent>;
+export type KTRawContent = KTAvailableContent;
 export type KTRawAttr = KTAttribute | null | undefined | '' | false;
 export type KTRawContents = KTAvailableContent;
 
@@ -125,7 +125,7 @@ type KTComponent = (
     children?: KTRawContent;
   } & KTAttribute &
     any,
-) => JSX.Element | Promise<JSX.Element> | any;
+) => JSX.Element | any;
 
 /**
  * Extract component props type (excluding ref and children)

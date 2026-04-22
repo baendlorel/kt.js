@@ -16,6 +16,8 @@ const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
   3、先不要管是不是anchor
 `;
 
+const apd = (element: Element, c: KTAvailableContent) => {};
+
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & Ignores falsy values, consistent with React's behavior
   if (c === undefined || c === null || c === false) {
@@ -37,14 +39,14 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     element.append(c);
     const anchor = node as KTFragmentAnchor;
     if (anchor.atype === AType.For) {
-      apd(element, anchor.nodes);
+      append(element, anchor.nodes);
     }
   }
 }
 
-function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
+function append(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   if ($isThenable(c)) {
-    c.then((r) => apd(element, r));
+    c.then((r) => append(element, r));
   } else if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
       // & might be thenable here too
@@ -74,9 +76,9 @@ function apd(element: HTMLElement | DocumentFragment | SVGElement | MathMLElemen
 export function applyContent(element: HTMLElement | SVGElement | MathMLElement, content: KTRawContent): void {
   if ($isArray(content)) {
     for (let i = 0; i < content.length; i++) {
-      apd(element, content[i]);
+      append(element, content[i]);
     }
   } else {
-    apd(element, content as KTAvailableContent);
+    append(element, content as KTAvailableContent);
   }
 }

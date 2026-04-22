@@ -5,7 +5,16 @@ import type { KTFragmentAnchor } from '../jsx/fragment.js';
 import { isKT } from '../reactable/common.js';
 import { AType } from '../jsx/anchor.js';
 
+// TODO 不需要assureNode，因为append不需要，IE是用不了所以polyfill
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
+
+`
+1、首先要写普通的apd函数，不需要考虑promise因为promise的需要ktasync完成
+  apd函数满足：
+  1、跳过undefined、null和false三个值
+  2、使用append而非appendChild以避免转化的麻烦
+  3、先不要管是不是anchor
+`;
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & Ignores falsy values, consistent with React's behavior
@@ -13,10 +22,9 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     return;
   }
 
-  // TODO 我认为不需要assureNode，因为append不需要，IE是用不了所以polyfill
   if (isKT(c)) {
     let node = assureNode(c.value);
-    element.appendChild(node);
+    element.append(node);
     const onChange = (newValue: KTAvailableContent) => {
       const newNode = assureNode(newValue);
       const oldNode = node;
@@ -26,7 +34,7 @@ function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathML
     c.addOnChange(onChange);
   } else {
     const node = assureNode(c);
-    element.appendChild(node);
+    element.append(c);
     const anchor = node as KTFragmentAnchor;
     if (anchor.atype === AType.For) {
       apd(element, anchor.nodes);

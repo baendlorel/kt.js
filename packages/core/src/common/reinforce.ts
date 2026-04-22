@@ -1,6 +1,6 @@
 export {};
 
-Node.prototype.$appendTo = function (this: Node, parent: Node) {
+Node.prototype._appendTo = function (this: Node, parent: Node) {
   parent.appendChild(this);
 };
 
@@ -10,6 +10,6 @@ declare global {
      * Only `Node` and `KTAnchor` are implemented with this method
      * @internal
      */
-    $appendTo(parent: Node): void;
+    _appendTo(parent: Node): void;
   }
 }

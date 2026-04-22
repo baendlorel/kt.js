@@ -5,7 +5,7 @@ import type { KTReactive } from '../reactable/reactive.js';
 import { $identity } from '@ktjs/shared';
 import { toReactive } from '../reactable/index.js';
 import { $refToSelf } from '../reactable/ref.js';
-import { AType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from '../common/anchor.js';
 
 export class KTForAnchor extends KTAnchor {
   readonly list: JSX.Element[] = [];

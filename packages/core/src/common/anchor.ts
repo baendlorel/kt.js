@@ -1,4 +1,5 @@
 export const enum AType {
+  Content = 'kt-content',
   Fragment = 'kt-fragment',
   For = 'kt-for',
   If = 'kt-if',

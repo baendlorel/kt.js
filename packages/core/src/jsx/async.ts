@@ -4,9 +4,8 @@ import type { KTRef } from '../reactable/ref.js';
 import type { KTMaybeReactive } from '../reactable/types.js';
 
 import { $refToSelf } from '../reactable/ref.js';
-import { AType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from '../common/anchor.js';
 import { isReactive } from '../reactable/common.js';
-import { $indom } from '@ktjs/shared';
 
 interface KTAsyncProps {
   /**

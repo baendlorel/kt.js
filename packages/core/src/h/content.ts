@@ -2,22 +2,38 @@ import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { KTAvailableContent, KTRawContent, PrimaryContent } from '../types/h.js';
 import type { KTFragmentAnchor } from '../jsx/fragment.js';
 
+import { AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
-import { AType } from '../jsx/anchor.js';
+
+// EPIC 将所有可以terser混淆的名字都以下划线开头命名
+const _isNull = (c: unknown): c is undefined | null | false => c === undefined || c === null || c === false;
+class KTContentAnchor extends KTAnchor {
+  _current: Node | KTAnchor;
+  constructor(current: Node | undefined | null | false) {
+    super(AType.Content);
+    this._current = _isNull(current) ? this : current;
+  }
+  _switchTo(newNode: Node) {
+    (this._current as ChildNode).replaceWith(newNode);
+    this._current = _isNull(newNode) ? this : newNode;
+  }
+}
 
 // TODO 不需要assureNode，因为append不需要，IE是用不了所以polyfill
 const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
 
-`
-1、首先要写普通的apd函数，不需要考虑promise因为promise的需要ktasync完成
-  apd函数满足：
-  1、跳过undefined、null和false三个值
-  2、使用append而非appendChild以避免转化的麻烦
-  3、先不要管是不是anchor
-`;
-
 const apd = (element: Element, c: PrimaryContent) => {
-  const fn = (c: PrimaryContent)
+  if (_isNull(c)) {
+    return;
+  }
+
+  if (isKT(c)) {
+    const anchor = new KTContentAnchor(c.value);
+    anchor._appendTo(element);
+    c.addOnChange((v) => anchor._switchTo(v));
+  } else {
+    element.append(c as Node); // & append can handle everything
+  }
 };
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {

@@ -5,7 +5,7 @@ import type { KTRef } from '../reactable/ref.js';
 import { $forEach, $isArray } from '@ktjs/shared';
 import { isKT, toReactive } from '../reactable/index.js';
 import { $refToSelf } from '../reactable/ref.js';
-import { AType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from '../common/anchor.js';
 
 export class KTFragmentAnchor extends KTAnchor {
   readonly nodes: any[] = [];

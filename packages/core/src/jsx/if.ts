@@ -4,7 +4,7 @@ import type { KTAttribute } from '../types/h.js';
 
 import { isKT, type KTReactive } from '../reactable/index.js';
 import { jsxh } from './common.js';
-import { AType, KTAnchor } from './anchor.js';
+import { AType, KTAnchor } from '../common/anchor.js';
 
 class KTIfAnchor extends KTAnchor {
   constructor() {

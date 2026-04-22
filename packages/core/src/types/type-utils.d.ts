@@ -23,7 +23,4 @@ export type PickMethod<T> = {
 
 export interface Thenable<T> {
   then: (onfulfilled?: (value: T) => any) => any;
-
-  /* @internal */
-  _version: number;
 }

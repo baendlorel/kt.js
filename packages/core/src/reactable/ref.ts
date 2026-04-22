@@ -107,7 +107,7 @@ export const assertModel = <T = any>(props: any, defaultValue?: T): KTRef<T> => 
 /**
  * @returns the pointed node itself
  */
-export const $refToSelf = <T extends Node>(props: { ref?: KTRef<T> }, node: T): T => {
+export const $refToSelf = <T>(props: { ref?: KTRef<any> }, node: T): T => {
   if (!('ref' in props)) {
     return node;
   }

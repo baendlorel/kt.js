@@ -7,27 +7,17 @@ export const enum AType {
 }
 
 // TODO 也许应该在content的append处加入对Anchor的处理
-// TODO 现在默认不提供list，子类自己加list
 export abstract class KTAnchor extends Comment {
-  readonly isKTAnchor: true = true;
   readonly atype: AType;
 
-  mountCallback?: () => void;
-
-  constructor(atype: AType, mountCallback?: () => void) {
+  constructor(atype: AType) {
     super();
     this.atype = atype;
-    this.mountCallback = mountCallback;
   }
 
-  mount(parent?: Node) {
-    if (parent && this.parentNode !== parent) {
-      parent.appendChild(this);
-    }
-
-    // & This will be different as its last call because of mounting
-    if (this.parentNode) {
-      this.mountCallback?.();
-    }
+  _appendTo(parent: Node): void {
+    parent.appendChild(this);
   }
 }
+
+export const _isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';

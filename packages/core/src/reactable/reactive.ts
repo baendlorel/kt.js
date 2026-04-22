@@ -8,13 +8,18 @@ export const enum KType {
   SubRef /*-------*/ = 1 << 2,
   Computed /*-----*/ = 1 << 3,
   Reactive /*-----*/ = Ref | Computed,
+
+  /**
+   * Used for custom reactive-like objects.
+   */
+  Custom /*-------*/ = 1 << 30,
 }
 
 let kid = 1;
 let handlerId = 1;
 
 export const nextKid = () => kid++;
-export const nextHandlerId = (kid: number) => `@@k-handler-${kid}-${handlerId++}`;
+export const nextHandlerId = (_kid: number) => handlerId++;
 
 export abstract class KTReactive<T> {
   readonly kid = nextKid();

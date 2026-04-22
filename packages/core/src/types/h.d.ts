@@ -14,8 +14,7 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
 export type KTRawAttr = KTAttribute | null | undefined | '' | false;
 
 export type PrimaryContent = Node | string | number | boolean | null | undefined;
-type PrimaryContentReactive = KTReactive<SingleContent>;
-type SingleContent = PrimaryContent | PrimaryContentReactive;
+export type SingleContent = PrimaryContent | KTReactive<PrimaryContent>;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent;
 

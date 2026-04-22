@@ -1,69 +1,58 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
 import type { Satisfied } from '../types/type-utils.js';
-import type { KTAvailableContent, KTRawContent, PrimaryContent } from '../types/h.js';
-import type { KTFragmentAnchor } from '../jsx/fragment.js';
+import type { KTAvailableContent, KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 
-import { AType, KTAnchor } from '../common/anchor.js';
+import { _isAnchor, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
+import { KTReactive } from '../reactable/reactive.js';
 
 // EPIC 将所有可以terser混淆的名字都以下划线开头命名
 const _isNull = (c: unknown): c is undefined | null | false => c === undefined || c === null || c === false;
+
+const _node = (c: PrimaryContent): Node =>
+  typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);
+
 class KTContentAnchor extends KTAnchor {
   _current: Node | KTAnchor;
-  constructor(current: Node | undefined | null | false) {
+
+  constructor(r: KTReactive<PrimaryContent>) {
     super(AType.Content);
-    this._current = _isNull(current) ? this : current;
+
+    this._current = _isNull(r.value) ? this : _node(r.value);
+
+    r.addOnChange((v) => {
+      // ?? 这里也许可以做ref事件清理
+      if (_isNull(v)) {
+        (this._current as ChildNode).remove();
+        this._current = this;
+        return;
+      }
+
+      v = _node(v);
+      this._current = this._current.parentNode?.insertBefore(v, this._current) ?? v;
+    });
   }
-  _switchTo(newNode: Node) {
-    (this._current as ChildNode).replaceWith(newNode);
-    this._current = _isNull(newNode) ? this : newNode;
+
+  _appendTo(parent: Node): void {
+    parent.appendChild(this._current);
   }
 }
 
-// TODO 不需要assureNode，因为append不需要，IE是用不了所以polyfill
-const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
-
-const apd = (element: Element, c: PrimaryContent) => {
+const apd = (element: Element, c: SingleContent) => {
   if (_isNull(c)) {
     return;
   }
 
   if (isKT(c)) {
-    const anchor = new KTContentAnchor(c.value);
-    anchor._appendTo(element);
-    c.addOnChange((v) => anchor._switchTo(v));
+    new KTContentAnchor(c)._appendTo(element);
+  } else if (_isAnchor(c)) {
+    c._appendTo(element);
   } else {
     element.append(c as Satisfied); // & append can handle everything
   }
 };
 
-function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
-  // & Ignores falsy values, consistent with React's behavior
-  if (c === undefined || c === null || c === false) {
-    return;
-  }
-
-  if (isKT(c)) {
-    let node = assureNode(c.value);
-    element.append(node);
-    const onChange = (newValue: KTAvailableContent) => {
-      const newNode = assureNode(newValue);
-      const oldNode = node;
-      node = newNode;
-      oldNode.replaceWith(newNode); // $mountFragmentAnchors(newNode);
-    };
-    c.addOnChange(onChange);
-  } else {
-    const node = assureNode(c);
-    element.append(c);
-    const anchor = node as KTFragmentAnchor;
-    if (anchor.atype === AType.For) {
-      append(element, anchor.nodes);
-    }
-  }
-}
-
-function append(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
+function append(element: Element, c: KTAvailableContent) {
   if ($isThenable(c)) {
     c.then((r) => append(element, r));
   } else if ($isArray(c)) {

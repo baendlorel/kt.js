@@ -20,15 +20,7 @@ export { KTIf } from './jsx/if.js';
 
 // # types
 export type { HTMLTag, SVGTag, MathMLTag, InputElementTag } from '@ktjs/shared';
-export type {
-  KTRawContent,
-  KTRawContents,
-  KTRawAttr,
-  EventHandler,
-  KTAttribute,
-  KTPrefixedEventAttribute,
-  HTML,
-} from './types/h.js';
+export type { KTRawContent, KTRawAttr, KTAttribute, KTPrefixedEventAttribute, HTML } from './types/h.js';
 export type * from './types/jsx.js';
 
 // EPIC 可以考虑加入SSR服务端渲染

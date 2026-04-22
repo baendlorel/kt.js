@@ -1,5 +1,5 @@
 import { $isArray, $isNode, $isThenable } from '@ktjs/shared';
-import type { KTAvailableContent, KTRawContent } from '../types/h.js';
+import type { KTAvailableContent, KTRawContent, PrimaryContent } from '../types/h.js';
 import type { KTFragmentAnchor } from '../jsx/fragment.js';
 
 import { isKT } from '../reactable/common.js';
@@ -16,7 +16,9 @@ const assureNode = (o: any) => ($isNode(o) ? o : document.createTextNode(o));
   3、先不要管是不是anchor
 `;
 
-const apd = (element: Element, c: KTAvailableContent) => {};
+const apd = (element: Element, c: PrimaryContent) => {
+  const fn = (c: PrimaryContent)
+};
 
 function apdSingle(element: HTMLElement | DocumentFragment | SVGElement | MathMLElement, c: KTAvailableContent) {
   // & Ignores falsy values, consistent with React's behavior

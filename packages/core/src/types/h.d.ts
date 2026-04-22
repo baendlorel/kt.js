@@ -11,16 +11,13 @@ export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T ext
       ? MathMLElementTagNameMap[T]
       : HTMLElement;
 
-type SingleContent = KTReactive<any> | HTMLElement | Element | Node | string | number | boolean | null | undefined;
+export type KTRawAttr = KTAttribute | null | undefined | '' | false;
+
+export type PrimaryContent = Node | string | number | boolean | null | undefined;
+type PrimaryContentReactive = KTReactive<SingleContent>;
+type SingleContent = PrimaryContent | PrimaryContentReactive;
 type KTAvailableContent = SingleContent | KTAvailableContent[];
 export type KTRawContent = KTAvailableContent;
-export type KTRawAttr = KTAttribute | null | undefined | '' | false;
-export type KTRawContents = KTAvailableContent;
-
-/**
- * Event handler type for DOM events
- */
-export type EventHandler<T extends Event = Event> = (this: HTMLElement, ev: T) => any;
 
 /**
  * Used to create enhanced HTML elements

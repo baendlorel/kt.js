@@ -13,34 +13,33 @@ const _isNull = (c: unknown): c is undefined | null | false => c === undefined |
 const _node = (c: PrimaryContent): Node =>
   typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);
 
-// TODO 改成无论是否为数组都能准确处理的情况。可能为Fragment、For带来空前效果
 class KTContentAnchor extends KTAnchor {
   /**
    * When it is `Node[]`, it is created by `.map`.
    * So `newValue !== _current` is definite.
    */
   _current!: this | Node | Node[];
-  _insert!: (parent: Node) => void;
+  _insertTo!: (parent: any) => void;
   _remove!: () => void;
 
   // ?? 这里也许可以做ref事件清理
   private _load(value: PrimaryContent | PrimaryContent[]) {
     if (_isNull(value)) {
       this._current = this;
-      this._insert = this._insertOne;
+      this._insertTo = this._insertOneTo;
       this._remove = this._removeOne;
     } else if ($isArray(value)) {
       this._current = value.map(_node);
-      this._insert = this._insertArray;
+      this._insertTo = this._insertArrayTo;
       this._remove = this._removeArray;
     } else {
       this._current = _node(value);
-      this._insert = this._insertOne;
+      this._insertTo = this._insertOneTo;
       this._remove = this._removeOne;
     }
   }
 
-  constructor(r: KTReactive<PrimaryContent>) {
+  constructor(r: KTReactive<PrimaryContent | PrimaryContent[]>) {
     super(AType.Content);
 
     this._load(r.value);
@@ -49,33 +48,29 @@ class KTContentAnchor extends KTAnchor {
       this._remove.call(this);
       this._load(v);
       if (this.parentNode) {
-        this._insert.call(this, this.parentNode);
+        this._insertTo.call(this, this.parentNode);
       }
     });
   }
 
-  _insertOne(parent: Node): void {
-    if (this._current === this) {
-      return;
+  _insertOneTo(parent: Node): void {
+    if (this._current !== this) {
+      parent.insertBefore(this, this._current as Node);
     }
-    static_cast<Node>(this._current);
-    parent.insertBefore(this, this._current);
   }
 
-  _insertArray(parent: Node): void {
-    if (this._current === this) {
-      return;
-    }
-    static_cast<Node[]>(this._current);
-    for (let i = 0; i < this._current.length; i++) {
-      parent.insertBefore(this, this._current[i]);
+  _insertArrayTo(parent: Node): void {
+    if (this._current !== this) {
+      static_cast<Node[]>(this._current);
+      for (let i = 0; i < this._current.length; i++) {
+        parent.insertBefore(this, this._current[i]);
+      }
     }
   }
 
   _removeOne(): void {
     if (this._current !== this) {
-      static_cast<ChildNode>(this._current);
-      this._current.remove();
+      (this._current as ChildNode).remove();
     }
   }
 
@@ -88,10 +83,11 @@ class KTContentAnchor extends KTAnchor {
 
   _appendTo(parent: Node): void {
     parent.appendChild(this);
+    this._insertTo.call(this, parent);
   }
 }
 
-const appendOne = (element: Element, c: SingleContent) => {
+const appendOne = (element: Element, c: PrimaryContent | KTReactive<PrimaryContent> | KTReactive<PrimaryContent[]>) => {
   if (_isNull(c)) {
     return;
   }
@@ -99,9 +95,9 @@ const appendOne = (element: Element, c: SingleContent) => {
   if (isKT(c)) {
     new KTContentAnchor(c)._appendTo(element);
   } else if (_isAnchor(c)) {
-    c._appendTo(element);
+    c._appendTo(element); // TODO 这里就有说法了，要_appendTo的多态
   } else {
-    element.append(c as Satisfied); // & append can handle everything
+    element.append(c as Satisfied);
   }
 };
 

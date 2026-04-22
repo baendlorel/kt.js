@@ -41,7 +41,7 @@ export function CheckboxGroup(props: KTMuiCheckboxGroupProps): KTMuiCheckboxGrou
 
   const model = assertModel(props, [] as string[]);
   let internalChange = false;
-  model.addOnChange((newValues) => {
+  model.listen((newValues) => {
     if (internalChange) {
       internalChange = false;
       return;

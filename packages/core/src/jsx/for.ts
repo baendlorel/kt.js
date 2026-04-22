@@ -134,7 +134,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     anchor.list.push(node);
   }
 
-  listRef.addOnChange(redraw, redraw);
+  listRef.listen(redraw, redraw);
   anchor.mountCallback = redraw;
   $refToSelf(props, anchor);
 

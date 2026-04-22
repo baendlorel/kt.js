@@ -185,14 +185,14 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     }
   });
 
-  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).addOnChange(
+  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).listen(
     scheduleUpdatePosition,
   );
-  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).addOnChange(scheduleUpdatePosition);
-  const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).addOnChange(
+  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).listen(scheduleUpdatePosition);
+  const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).listen(
     scheduleUpdatePosition,
   );
-  const marginThresholdRef = toPseudoRef(props.marginThreshold ?? 16).addOnChange(scheduleUpdatePosition);
+  const marginThresholdRef = toPseudoRef(props.marginThreshold ?? 16).listen(scheduleUpdatePosition);
   const elevationRef = toPseudoRef(props.elevation ?? 8);
 
   const paperClassName = customClassRef.map((v) => `mui-popover-paper ${v}`);

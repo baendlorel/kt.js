@@ -3,7 +3,7 @@ import type { ChangeHandler } from './types.js';
 import { $is } from '@ktjs/shared';
 import { $createSubGetter, $createSubSetter, isRef } from './common.js';
 import { KTReactive, KType, nextHandlerId, nextKid } from './reactive.js';
-import { $markMutation } from './scheduler.js';
+import { _markMutation } from './scheduler.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype: KType = KType.Ref;
@@ -31,7 +31,7 @@ export class KTRef<T> extends KTReactive<T> {
    * - internal value is changed instantly, but the change handlers will be called in the next microtask.
    */
   get draft() {
-    $markMutation(this);
+    _markMutation(this);
     return this.v;
   }
 
@@ -78,7 +78,7 @@ export class KTRef<T> extends KTReactive<T> {
   }
 
   dispose(): void {
-    this._changeHandlers.clear();
+    this._listeners.clear();
   }
 }
 
@@ -138,10 +138,6 @@ export class KTSubRef<T> extends KTRef<T> {
    * @internal
    */
   protected readonly _handler: ChangeHandler<any>;
-  /**
-   * @internal
-   */
-  protected readonly _handlerKeys: any[];
 
   constructor(
     source: KTRef<any>,
@@ -153,8 +149,7 @@ export class KTSubRef<T> extends KTRef<T> {
     this._getter = getter;
     this._setter = setter;
     this._handler = () => (this.v = getter(source.value));
-    this._handlerKeys = [nextHandlerId(this.kid)];
-    source.addOnChange(this._handler, this._handlerKeys[0]);
+    source.listen(this._handler);
   }
 
   get value() {
@@ -174,19 +169,18 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source.notify();
   }
 
-  addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
-    this._handlerKeys.push(key);
-    this.source.addOnChange((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)), key);
+  listen(handler: ChangeHandler<T>): this {
+    this.source.listen((newValue, oldValue) => handler(this._getter(newValue), this._getter(oldValue)));
     return this;
   }
 
-  removeOnChange(key: any): this {
-    this.source.removeOnChange(key);
+  unlisten(handler: ChangeHandler<T>): this {
+    this.source.unlisten(handler);
     return this;
   }
 
   dispose(): void {
-    this._handlerKeys.forEach((key) => this.source.removeOnChange(key));
+    this.source.unlisten(this._handler);
   }
 
   /**
@@ -194,7 +188,7 @@ export class KTSubRef<T> extends KTRef<T> {
    */
   get draft() {
     // Same implementation as `draft` in `KTRef`
-    $markMutation(this.source);
+    _markMutation(this.source);
     return this.v;
   }
 }

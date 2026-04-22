@@ -55,7 +55,7 @@ class KTContentAnchor extends KTAnchor {
 
     this._load(r.value);
 
-    r.addOnChange((v) => {
+    r.listen((v) => {
       this._remove.call(this);
       this._load(v);
       if (this.parentNode) {

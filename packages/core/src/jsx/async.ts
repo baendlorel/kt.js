@@ -58,7 +58,7 @@ class KTAsyncAnchor extends KTAnchor {
       this._version = resolver._version = 1;
       this._component.value.then(resolver);
 
-      this._component.addOnChange((v) => {
+      this._component.listen((v) => {
         (this._current as ChildNode).replaceWith(this._skeleton);
         this._current = this._skeleton;
         this._version = ++resolver._version;

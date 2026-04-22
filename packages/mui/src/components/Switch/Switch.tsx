@@ -40,12 +40,12 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
   const valueRef = toPseudoRef(props.value ?? '');
   const colorRef = toPseudoRef(props.color ?? 'primary');
   const sizeRef = toPseudoRef(props.size ?? 'medium');
-  const disabledRef = toPseudoRef(props.disabled ?? false).addOnChange((v) => {
+  const disabledRef = toPseudoRef(props.disabled ?? false).listen((v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });
   const modelRef = assertModel(props, false);
-  modelRef.addOnChange((newValue) => {
+  modelRef.listen((newValue) => {
     inputEl.checked = newValue;
     track.classList.toggle('mui-switch-track-checked', newValue);
     thumb.classList.toggle('mui-switch-thumb-checked', newValue);

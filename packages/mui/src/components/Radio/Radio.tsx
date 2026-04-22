@@ -177,7 +177,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
       return Radio(o);
     }),
   );
-  model.addOnChange((value) => radios.value.forEach((radio) => (radio.checked = radio.value === value)));
+  model.listen((value) => radios.value.forEach((radio) => (radio.checked = radio.value === value)));
 
   const container = (
     <div class={className} style={styleRef} role="radiogroup">

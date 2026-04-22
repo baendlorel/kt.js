@@ -149,7 +149,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     }, DIALOG_EXIT_MS);
   };
 
-  const modelRef = assertModel(props, false).addOnChange((v) => (v ? queueEnter() : queueExit()));
+  const modelRef = assertModel(props, false).listen((v) => (v ? queueEnter() : queueExit()));
   const sizeRef = toPseudoRef(props.size ?? 'sm');
   const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
 

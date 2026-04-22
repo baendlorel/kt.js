@@ -159,7 +159,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
           on:blur={handleBlur}
         />
       ) as HTMLInputElement);
-  modelRef.addOnChange((newValue) => (inputEl.value = newValue));
+  modelRef.listen((newValue) => (inputEl.value = newValue));
 
   const style = toPseudoRef($parseStyle(props.style));
   const customClass = toPseudoRef(props.class ?? '');

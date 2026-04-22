@@ -12,7 +12,7 @@ const defaultHandler = (element: JSX.Element, key: string, value: any) => elemen
 const setAttr = (value: any, setter: (value: any, oldValue: any) => void) => {
   if (isKT(value)) {
     setter(value.value, value.value);
-    value.addOnChange(setter);
+    value.listen(setter);
   } else {
     setter(value, value);
   }
@@ -23,7 +23,7 @@ const setNonNullableAttr = (value: any, setter: (value: any, oldValue: any) => v
   }
   if (isKT(value)) {
     setter(value.value, value.value);
-    value.addOnChange(setter);
+    value.listen(setter);
   } else {
     setter(value, value);
   }

@@ -14,11 +14,11 @@ export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], val
     if (element.type === 'radio' || element.type === 'checkbox') {
       element.checked = Boolean(valueRef.value);
       element.addEventListener('change', () => (valueRef.value = element.checked));
-      valueRef.addOnChange((newValue: boolean) => (element.checked = newValue));
+      valueRef.listen((newValue: boolean) => (element.checked = newValue));
     } else {
       element.value = valueRef.value ?? '';
       element.addEventListener('input', () => (valueRef.value = element.value));
-      valueRef.addOnChange((newValue: string) => (element.value = newValue));
+      valueRef.listen((newValue: string) => (element.value = newValue));
     }
     return;
   }
@@ -26,7 +26,7 @@ export function applyKModel(element: HTMLElementTagNameMap[InputElementTag], val
   if (element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
     element.value = valueRef.value ?? '';
     element.addEventListener('change', () => (valueRef.value = element.value));
-    valueRef.addOnChange((newValue: string) => (element.value = newValue));
+    valueRef.listen((newValue: string) => (element.value = newValue));
     return;
   }
 

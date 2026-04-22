@@ -83,7 +83,7 @@ export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAn
   };
 
   // ?? redraw应该属于旧版内容，这里还需要吗？
-  childrenRef.addOnChange(redraw);
+  childrenRef.listen(redraw);
   anchor.mountCallback = redraw;
   redraw();
 

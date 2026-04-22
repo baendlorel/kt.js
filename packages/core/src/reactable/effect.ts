@@ -16,7 +16,6 @@ interface KTEffectOptions {
  */
 export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, options?: Partial<KTEffectOptions>) {
   const { lazy = false, onCleanup = $emptyFn, debugName = '' } = Object(options);
-  const listenerKeys: Array<string | number> = [];
 
   let active = true;
 
@@ -37,8 +36,7 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
 
   // subscribe to dependencies
   for (let i = 0; i < reactives.length; i++) {
-    listenerKeys[i] = i;
-    reactives[i].addOnChange(run, listenerKeys[i]);
+    reactives[i].listen(run);
   }
 
   // auto run unless lazy
@@ -54,7 +52,7 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
     active = false;
 
     for (let i = 0; i < reactives.length; i++) {
-      reactives[i].removeOnChange(listenerKeys[i]);
+      reactives[i].unlisten(run);
     }
 
     // final cleanup

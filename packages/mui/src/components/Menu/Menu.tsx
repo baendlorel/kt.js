@@ -248,13 +248,13 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
     </Popover>
   ) as KTMuiMenu;
 
-  openRef.addOnChange((isOpen) => {
+  openRef.listen((isOpen) => {
     if (isOpen) {
       scheduleFocusFirstItem();
     }
   });
 
-  optionsRef.addOnChange(() => {
+  optionsRef.listen(() => {
     if (openRef.value) {
       scheduleFocusFirstItem();
     }

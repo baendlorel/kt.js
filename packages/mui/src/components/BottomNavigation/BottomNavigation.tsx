@@ -150,7 +150,7 @@ export function BottomNavigation(props: KTMuiBottomNavigationProps): KTMuiBottom
   ) as KTMuiBottomNavigation;
 
   ensureValidModelValue(false);
-  optionsRef.addOnChange(() => ensureValidModelValue(true));
+  optionsRef.listen(() => ensureValidModelValue(true));
 
   registerPrefixedEvents(container, props, ['on:change']);
   return container;

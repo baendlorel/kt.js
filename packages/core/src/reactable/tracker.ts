@@ -5,11 +5,11 @@ import type { KTReactive } from './reactive.js';
  *
  * @issue How could `computed(() => a.value ? b.value : c.value)` to be tracked correctly?
  */
-export const $startTracking = () => {
+export const _startTracking = () => {
   const reactives = new Set<KTReactive<unknown>>();
   const read = <T extends KTReactive<unknown>>(reactiveObj: T) => reactives.add(reactiveObj);
   const end = (handler: (newValue: unknown, unknown: any) => void) => {
-    reactives.forEach((r) => r.addOnChange(handler));
+    reactives.forEach((r) => r.listen(handler));
     reactives.clear();
   };
 

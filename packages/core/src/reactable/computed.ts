@@ -5,25 +5,15 @@ import { $createSubGetter, isReactive } from './common.js';
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KType.Computed;
 
-  /**
-   * @internal
-   */
+  /* @internal */
   private readonly _calculator: () => T;
 
-  /**
-   * @internal
-   */
+  /* @internal */
   private readonly _dependencies: Array<KTReactive<any>>;
 
-  /**
-   * @internal
-   */
+  /* @internal */
   private readonly _handler: () => void;
 
-  /**
-   * @internal
-   */
-  protected readonly _handlerKeys: any[];
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
@@ -41,12 +31,9 @@ export class KTComputed<T> extends KTReactive<T> {
     this._calculator = calculator;
     this._dependencies = dependencies;
     this._handler = () => this._recalculate();
-    this._handlerKeys = [];
-    this._handlerKeys.length = dependencies.length;
 
     for (let i = 0; i < dependencies.length; i++) {
-      // & Maybe use ? nextHandlerId(isSubRef(dep) ? dep.source.kid : dep.kid));
-      dependencies[i].addOnChange(this._handler, (this._handlerKeys[i] = nextHandlerId(dependencies[i].kid)));
+      dependencies[i].listen(this._handler);
     }
   }
 
@@ -61,11 +48,11 @@ export class KTComputed<T> extends KTReactive<T> {
 
     this._disposed = true;
     for (let i = 0; i < this._dependencies.length; i++) {
-      this._dependencies[i].removeOnChange(this._handlerKeys[i]);
+      this._dependencies[i].unlisten(this._handler);
     }
 
     this._dependencies.length = 0;
-    this._changeHandlers.clear();
+    this._listeners.clear();
   }
 }
 

@@ -58,7 +58,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // # refs
   const isFocusedRef = ref(false);
-  const open = ref(false).addOnChange((isOpen) => {
+  const open = ref(false).listen((isOpen) => {
     if (isOpen) {
       menu.value.style.display = 'block';
       void menu.value.offsetHeight;
@@ -76,13 +76,13 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   // # ref props
   const placeholderRef = toPseudoRef(props.placeholder ?? '');
   const labelRef = toPseudoRef(props.label ?? '');
-  const optionsRef = toPseudoRef(props.options).addOnChange((newOptions) => {
+  const optionsRef = toPseudoRef(props.options).listen((newOptions) => {
     if (!newOptions.find((o) => (o as any).value === modelRef.value)) {
       modelRef.value = '';
       onChange(modelRef.value);
     }
   });
-  const disabledRef = toPseudoRef(props.disabled ?? false).addOnChange((v) =>
+  const disabledRef = toPseudoRef(props.disabled ?? false).listen((v) =>
     container.classList.toggle('mui-select-disabled', v),
   );
   const modelRef = assertModel(props, props.value ?? '');

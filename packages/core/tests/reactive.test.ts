@@ -24,7 +24,7 @@ describe('reactive helpers', () => {
   it('notify should trigger listeners for in-place mutation', () => {
     const list = ref<number[]>([1, 2]);
     const onChange = vi.fn();
-    list.addOnChange(onChange);
+    list.listen(onChange);
 
     list.value.push(3);
     list.notify();
@@ -167,7 +167,7 @@ describe('reactive helpers', () => {
     });
     const level = state.subref('user', 'profile', 'level');
     const onChange = vi.fn();
-    level.addOnChange(onChange);
+    level.listen(onChange);
 
     state.value = {
       user: {
@@ -224,8 +224,8 @@ describe('reactive helpers', () => {
 
   it('duplicated non-function key should still throw', () => {
     const n = ref(1);
-    n.addOnChange(() => {}, 'same-key');
-    expect(() => n.addOnChange(() => {}, 'same-key')).toThrow();
+    n.listen(() => {}, 'same-key');
+    expect(() => n.listen(() => {}, 'same-key')).toThrow();
   });
 
   it('is should use Object.is semantics', () => {
@@ -255,7 +255,7 @@ describe('reactive helpers', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);
     const onChange = vi.fn();
-    doubled.addOnChange(onChange);
+    doubled.listen(onChange);
 
     doubled.notify();
 

@@ -1,8 +1,6 @@
 import type { KTComputed } from './computed.js';
 import { type ChangeHandler } from './types.js';
 
-import { $stringify } from '@ktjs/shared';
-
 export const enum KType {
   Ref /*----------*/ = 1 << 1,
   SubRef /*-------*/ = 1 << 2,
@@ -33,7 +31,7 @@ export abstract class KTReactive<T> {
   /* @internal */
   // TODO 用isConnected去判定并清理handler
   // TODO 改名为_listeners，并改为Set
-  protected readonly _changeHandlers = new Map<any, ChangeHandler<any>>();
+  protected readonly _listeners = new Set<ChangeHandler<any>>();
 
   constructor(value: T) {
     this.v = value;
@@ -49,26 +47,26 @@ export abstract class KTReactive<T> {
 
   /* @internal */
   protected _emit(newValue: T, oldValue: T): this {
-    this._changeHandlers.forEach((handler) => handler(newValue, oldValue));
+    this._listeners.forEach((handler) => handler(newValue, oldValue));
     return this;
   }
 
   // TODO 这里改为listen和unlisten
-  addOnChange(handler: ChangeHandler<T>, key: any = nextHandlerId(this.kid)): this {
-    if (this._changeHandlers.has(key)) {
-      $throw(`Overriding existing change handler with key ${$stringify(key)}.`);
+  listen(handler: ChangeHandler<T>): this {
+    if (this._listeners.has(handler)) {
+      $throw(`Overriding existing change handler with ${handler.toString()}.`);
     }
-    this._changeHandlers.set(key, handler);
+    this._listeners.add(handler);
     return this;
   }
 
-  removeOnChange(key: any): this {
-    this._changeHandlers.delete(key);
+  unlisten(handler: ChangeHandler<T>): this {
+    this._listeners.delete(handler);
     return this;
   }
 
-  clearOnChange(): this {
-    this._changeHandlers.clear();
+  unlistenAll(): this {
+    this._listeners.clear();
     return this;
   }
 
@@ -106,7 +104,7 @@ export abstract class KTReactive<T> {
 
   /**
    * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
+   * - `reactive.get('a', 'b')` means a computed value to `this.value.a.b`.
    */
   get<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
     key0: K0,
@@ -115,17 +113,17 @@ export abstract class KTReactive<T> {
   ): KTComputed<T[K0][K1][K2]>;
   /**
    * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
+   * - `reactive.get('a', 'b')` means a computed value to `this.value.a.b`.
    */
   get<K0 extends keyof T, K1 extends keyof T[K0]>(key0: K0, key1: K1): KTComputed<T[K0][K1]>;
   /**
    * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
+   * - `reactive.get('a', 'b')` means a computed value to `this.value.a.b`.
    */
   get<K0 extends keyof T>(key0: K0): KTComputed<T[K0]>;
   /**
    * Generate a computed value based on this reactive, using keys to access nested properties.
-   * - `reactive.get('a', 'b')` means a sub-computed value to `this.value.a.b`.
+   * - `reactive.get('a', 'b')` means a computed value to `this.value.a.b`.
    */
   get(..._keys: Array<string | number>): KTComputed<any> {
     // & Will be implemented in computed.ts to avoid circular dependency

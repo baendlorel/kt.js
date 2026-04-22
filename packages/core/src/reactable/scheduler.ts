@@ -6,7 +6,7 @@ const reactiveToOldValue = new Map<KTRef<any>, any>();
 
 let scheduled = false;
 
-export const $markMutation = (reactive: KTRef<any>) => {
+export const _markMutation = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
     // @ts-expect-error accessing protected property
     reactiveToOldValue.set(reactive, reactive.v);
@@ -22,7 +22,7 @@ export const $markMutation = (reactive: KTRef<any>) => {
       reactiveToOldValue.forEach((oldValue, reactive) => {
         try {
           // @ts-expect-error accessing protected property
-          reactive._changeHandlers.forEach((handler) => handler(reactive.value, oldValue));
+          reactive._listeners.forEach((handler) => handler(reactive.value, oldValue));
         } catch (error) {
           $error('KTScheduler:', error);
         }

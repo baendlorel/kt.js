@@ -33,6 +33,6 @@ export function KTIf(
     current = newValue ? renderIf() : renderElse();
     old.replaceWith(current); // $mountFragmentAnchors(current);
   };
-  condition.addOnChange(onChange);
+  condition.listen(onChange);
   return current;
 }

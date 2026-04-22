@@ -259,13 +259,13 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   ) as KTMuiTabs;
 
   ensureValidModelValue(false);
-  modelRef.addOnChange(() => scheduleUpdateIndicator());
-  optionsRef.addOnChange(() => {
+  modelRef.listen(() => scheduleUpdateIndicator());
+  optionsRef.listen(() => {
     ensureValidModelValue(true);
     scheduleUpdateIndicator();
   });
-  variantRef.addOnChange(() => scheduleUpdateIndicator());
-  orientationRef.addOnChange(() => scheduleUpdateIndicator());
+  variantRef.listen(() => scheduleUpdateIndicator());
+  orientationRef.listen(() => scheduleUpdateIndicator());
 
   window.addEventListener('resize', scheduleUpdateIndicator);
   scheduleUpdateIndicator();

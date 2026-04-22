@@ -60,7 +60,7 @@ class KTContentAnchor extends KTAnchor {
 
   _insertOneTo(parent: Node): void {
     if (this._current !== this) {
-      parent.insertBefore(this, this._current as Node);
+      parent.insertBefore(this._current as Node, this);
     }
   }
 
@@ -68,7 +68,7 @@ class KTContentAnchor extends KTAnchor {
     if (this._current !== this) {
       static_cast<Node[]>(this._current);
       for (let i = 0; i < this._current.length; i++) {
-        parent.insertBefore(this, this._current[i]);
+        parent.insertBefore(this._current[i], this);
       }
     }
   }

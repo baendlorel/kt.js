@@ -24,7 +24,7 @@ export class KTFragmentAnchor extends KTAnchor {
   }
 
   _appendTo(parent: Node): void {
-    (parent as Element).append(this, ...this._current);
+    (parent as Element).append(...this._current, this);
   }
 }
 

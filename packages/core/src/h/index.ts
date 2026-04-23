@@ -1,9 +1,18 @@
+import type { JSX } from '../types/jsx.js';
 import type { HTMLTag, MathMLTag, SVGTag } from '@ktjs/shared';
 import type { KTRawAttr, KTRawContent, HTML } from '../types/h.js';
 
 import { applyAttr } from './attr.js';
-import { applyContent } from './content.js';
+import { append } from './content.js';
 import { applyKModel } from './model.js';
+
+const apply = <T extends JSX.Element>(element: T, attr: KTRawAttr, content: KTRawContent): T => {
+  if (attr !== null && typeof attr === 'object') {
+    applyKModel(element, attr);
+    applyAttr(element, attr);
+  }
+  return (append(element, content), element);
+};
 
 /**
  * Create an enhanced HTMLElement.
@@ -14,42 +23,11 @@ import { applyKModel } from './model.js';
  *
  * __PKG_INFO__
  */
-export const h = <T extends HTMLTag | SVGTag | MathMLTag>(
-  tag: T,
-  attr?: KTRawAttr,
-  content?: KTRawContent,
-): HTML<T> => {
-  const element = document.createElement(tag) as HTML<T>;
-  if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
-    applyKModel(element as any, attr['k-model'] as any);
-  }
+export const h = <T extends HTMLTag | SVGTag | MathMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> =>
+  apply(document.createElement(tag), attr, content) as HTML<T>;
 
-  applyAttr(element, attr);
-  applyContent(element, content);
+export const svg = <T extends SVGTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> =>
+  apply(document.createElementNS('http://www.w3.org/2000/svg', tag), attr, content) as HTML<T>;
 
-  return element;
-};
-
-export const svg = <T extends SVGTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
-  const element = document.createElementNS('http://www.w3.org/2000/svg', tag) as HTML<T>;
-  applyAttr(element, attr);
-  applyContent(element, content);
-
-  if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
-    applyKModel(element as any, attr['k-model'] as any);
-  }
-
-  return element;
-};
-
-export const mathml = <T extends MathMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> => {
-  const element = document.createElementNS('http://www.w3.org/1998/Math/MathML', tag) as HTML<T>;
-  applyAttr(element, attr);
-  applyContent(element, content);
-
-  if (typeof attr === 'object' && attr !== null && 'k-model' in attr) {
-    applyKModel(element as any, attr['k-model'] as any);
-  }
-
-  return element;
-};
+export const mathml = <T extends MathMLTag>(tag: T, attr?: KTRawAttr, content?: KTRawContent): HTML<T> =>
+  apply(document.createElementNS('http://www.w3.org/1998/Math/MathML', tag), attr, content) as HTML<T>;

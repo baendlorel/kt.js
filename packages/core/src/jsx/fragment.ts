@@ -8,23 +8,21 @@ import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from '../common/anchor.js';
 
 export class KTFragmentAnchor extends KTAnchor {
-  readonly nodes: any[] = [];
+  readonly _current: Node[] = [];
 
   constructor() {
     super(AType.Fragment);
   }
 
-  /**
-   * Remove elements in the list
-   */
-  removeElements() {
-    const nodes = this.nodes.splice(0);
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as ChildNode;
-      if (node.parentNode) {
-        node.remove();
-      }
+  _remove() {
+    for (let i = 0; i < this._current.length; i++) {
+      (this._current[i] as ChildNode).remove();
     }
+    this._current.length = 0;
+  }
+
+  _appendTo(parent: Node): void {
+    (parent as Element).append(this, ...this._current);
   }
 }
 
@@ -54,7 +52,7 @@ export interface FragmentProps {
  */
 export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAnchor {
   const anchor = new KTFragmentAnchor();
-  const nodes = anchor.nodes;
+  const nodes = anchor._current;
   const childrenRef = toReactive(props.children);
 
   const redraw = () => {
@@ -69,7 +67,7 @@ export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAn
       return;
     }
 
-    anchor.removeElements();
+    anchor._remove();
     nodes.length = 0;
 
     const fragment = document.createDocumentFragment();

@@ -117,7 +117,7 @@ const appendOne = (element: Element, c: PrimaryContent | KTReactive<PrimaryConte
   }
 };
 
-function append(element: Element, c: KTRawContent) {
+export function append(element: Element, c: KTRawContent) {
   if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
       append(element, c[i]);
@@ -126,5 +126,3 @@ function append(element: Element, c: KTRawContent) {
     appendOne(element, c);
   }
 }
-
-export const applyContent = append;

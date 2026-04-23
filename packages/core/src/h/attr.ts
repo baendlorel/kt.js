@@ -1,6 +1,6 @@
 import type { JSX } from '../types/jsx.js';
 import type { KTReactifyProps } from '../reactable/types.js';
-import type { KTRawAttr, KTAttribute } from '../types/h.js';
+import type { KTAttribute } from '../types/h.js';
 
 import { $assign, $isArray } from '@ktjs/shared';
 import { static_cast } from 'type-narrow';
@@ -18,31 +18,22 @@ const setAttr = (value: any, setter: (value: any, oldValue: any) => void) => {
   }
 };
 const setNonNullableAttr = (value: any, setter: (value: any, oldValue: any) => void) => {
-  if (value === undefined) {
-    return;
-  }
-  if (isKT(value)) {
-    setter(value.value, value.value);
-    value.listen(setter);
-  } else {
-    setter(value, value);
+  if (value !== undefined) {
+    setAttr(value, setter);
   }
 };
 
-function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) {
+export function applyAttr(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) {
+  // & Since JSX.Element is Element, Element has only 3 sub-classes.
+  static_cast<HTMLElement | SVGElement | MathMLElement>(element);
   setNonNullableAttr(attr.class ?? attr.className, (v) => (element.classList = $isArray(v) ? v.join(' ') : v));
-  if ('style' in element) {
-    static_cast<HTMLElement>(element);
-    setNonNullableAttr(attr.style, (v: Partial<CSSStyleDeclaration> | string) => {
-      if (typeof v === 'string') {
-        element.style.cssText = v;
-      } else if (typeof v === 'object') {
-        $assign(element.style, v);
-      }
-    });
-  }
-
-  // ?? 如何在元素消失后自动消除html的onChangeHandler呢
+  setNonNullableAttr(attr.style, (v: Partial<CSSStyleDeclaration> | string) => {
+    if (typeof v === 'string') {
+      element.style.cssText = v;
+    } else if (typeof v === 'object') {
+      $assign(element.style, v);
+    }
+  });
   setNonNullableAttr(attr['k-html'], (v) => (element.innerHTML = v));
 
   for (const key in attr) {
@@ -78,15 +69,5 @@ function attrIsObject(element: JSX.Element, attr: KTReactifyProps<KTAttribute>) 
 
     const handler = handlers[key] ?? defaultHandler;
     setAttr(attr[key], (v) => handler(element, key, v));
-  }
-}
-
-export function applyAttr(element: JSX.Element, attr: KTRawAttr) {
-  if (attr) {
-    if (typeof attr === 'object') {
-      attrIsObject(element, attr as KTAttribute);
-    } else {
-      $throw('attr must be an object.');
-    }
   }
 }

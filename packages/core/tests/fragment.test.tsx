@@ -22,9 +22,9 @@ describe('Fragment Component', () => {
   it('anchor.list is defined as an array', () => {
     const children = [h('div', {}, 'A'), h('div', {}, 'B')];
     const anchor = createFragment({ children });
-    expect(anchor.nodes).toBeDefined();
-    expect(Array.isArray(anchor.nodes)).toBe(true);
-    expect(anchor.nodes.length).toBe(2);
+    expect(anchor._current).toBeDefined();
+    expect(Array.isArray(anchor._current)).toBe(true);
+    expect(anchor._current.length).toBe(2);
   });
 
   it('should render children elements when anchor is in DOM', async () => {
@@ -74,7 +74,7 @@ describe('Fragment Component', () => {
     // Update while anchor not in DOM
     childrenRef.value = [h('div', { class: 'item' }, 'C')];
 
-    expect(anchor.nodes.length).toBe(1);
+    expect(anchor._current.length).toBe(1);
 
     // Now add to DOM
     container.appendChild(anchor);
@@ -107,7 +107,7 @@ describe('Fragment Component', () => {
   it('should handle empty children array', async () => {
     const anchor = createFragment({ children: [] });
 
-    expect(anchor.nodes.length).toBe(0);
+    expect(anchor._current.length).toBe(0);
 
     container.appendChild(anchor);
     await Promise.resolve();
@@ -120,7 +120,7 @@ describe('Fragment Component', () => {
     // TypeScript should prevent this, but test with type assertion
     const anchor = createFragment({ children: [] });
 
-    expect(anchor.nodes.length).toBe(0);
+    expect(anchor._current.length).toBe(0);
   });
 
   it('should remove old elements and insert new ones on update', async () => {

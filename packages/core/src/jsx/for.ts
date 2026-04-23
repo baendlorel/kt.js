@@ -119,7 +119,7 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     return anchor;
   };
 
-  const currentKey: NonNullable<KTForProps<T>['key']> = props.key ?? ((item: T) => item);
+  const currentKey: NonNullable<KTForProps<T>['key']> = props.key ?? $identity;
   const currentMap: NonNullable<KTForProps<T>['map']> =
     props.map ?? ((item: T) => $identity(item) as unknown as JSX.Element);
   const listRef = toReactive(props.list);
@@ -134,9 +134,6 @@ export function KTFor<T>(props: KTForProps<T>): KTForElement {
     anchor.list.push(node);
   }
 
-  listRef.listen(redraw, redraw);
-  anchor.mountCallback = redraw;
-  $refToSelf(props, anchor);
-
-  return anchor;
+  listRef.listen(redraw);
+  return $refToSelf(props, anchor);
 }

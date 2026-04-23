@@ -1,3 +1,6 @@
+import type { PrimaryContent } from '../types/h.js';
+import type { Satisfied } from '../types/type-utils.js';
+
 export const enum AType {
   Content = 'kt-content',
   Fragment = 'kt-fragment',
@@ -25,3 +28,6 @@ export abstract class KTAnchor extends Comment {
 }
 
 export const _isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';
+
+export const _node = (c: PrimaryContent): Node =>
+  typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);

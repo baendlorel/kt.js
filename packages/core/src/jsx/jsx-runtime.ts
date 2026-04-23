@@ -32,7 +32,10 @@ export const jsxDEV: typeof jsx = (...args) => {
  * JSX runtime for React 17+ automatic runtime
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
-export const jsxs = jsx;
+export const jsxs: typeof jsx = (...args) => {
+  console.log('JSX DEV (jsxs) called:', args[1]?.children?.length);
+  return jsx(...args);
+};
 
 // Export h as the classic JSX factory for backward compatibility
 export { h, h as createElement };

@@ -8,11 +8,6 @@ import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
 // EPIC 将所有可以terser混淆的名字都以下划线开头命名
-const _isNull = (c: unknown): c is undefined | null | false => c === undefined || c === null || c === false;
-
-const _node = (c: PrimaryContent): Node =>
-  typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);
-
 class KTContentAnchor extends KTAnchor {
   /**
    * When it is `Node[]`, it is created by `.map`.

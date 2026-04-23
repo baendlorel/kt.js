@@ -1,4 +1,4 @@
-// incase that symbol is not supported
+// in case that symbol is not supported
 import './misc/symbol-polyfill.js';
 import './misc/dom-polyfill.js';
 

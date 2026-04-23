@@ -59,6 +59,10 @@ export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAn
     const newNodes = childrenRef.value;
     const parent = anchor.parentNode;
 
+    if (!$isArray(newNodes)) {
+      return;
+    }
+
     if (!parent) {
       nodes.length = 0;
       for (let i = 0; i < newNodes.length; i++) {

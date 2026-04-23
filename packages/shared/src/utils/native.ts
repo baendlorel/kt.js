@@ -22,3 +22,4 @@ export const $round = Math.round;
 export const $clamp = (value: number, min: number, max: number) => $max(min, $min(max, value));
 
 export const $isThenable = (o: any): o is Promise<any> => typeof o?.then === 'function';
+export const $isNull = (c: unknown): c is undefined | null | false => c === undefined || c === null || c === false;

@@ -1,8 +1,8 @@
-import { $defines, $parseStyle } from '@ktjs/shared';
-import { KTIf, toReactive, assertModel, computed, effect, isRefLike } from '@ktjs/core';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
-
 import type { KTMuiProps } from '../../types/component.js';
+
+import { $defines, $parseStyle } from '@ktjs/shared';
+import { KTIf, toReactive, assertModel, computed, effect, isRef } from '@ktjs/core';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -46,7 +46,7 @@ export function Checkbox(
       return;
     }
     model.value = inputEl.checked;
-    if (isRefLike(interminateRef)) {
+    if (isRef(interminateRef)) {
       interminateRef.value = false;
     }
   };
@@ -128,7 +128,7 @@ export function Checkbox(
       get() {
         return valueRef.value;
       },
-      set: isRefLike(valueRef)
+      set: isRef(valueRef)
         ? (v: string) => {
             valueRef.value = v;
           }
@@ -138,7 +138,7 @@ export function Checkbox(
       get() {
         return disabledRef.value;
       },
-      set: isRefLike(disabledRef)
+      set: isRef(disabledRef)
         ? (v: boolean) => {
             disabledRef.value = v;
           }

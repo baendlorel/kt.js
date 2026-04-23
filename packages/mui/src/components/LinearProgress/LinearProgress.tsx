@@ -2,7 +2,7 @@ import type { KTMuiProps } from '../../types/component.js';
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { computed, isRefLike } from '@ktjs/core';
+import { computed, isRef } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
@@ -67,7 +67,7 @@ export function LinearProgress(props: LinearProgressProps): KTMuiLinearProgress 
       get() {
         return valueRef.value;
       },
-      set: isRefLike(valueRef)
+      set: isRef(valueRef)
         ? (v: number) => {
             valueRef.value = v;
           }

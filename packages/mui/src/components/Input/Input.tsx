@@ -1,9 +1,9 @@
-import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
+import type { JSX, KTReactive, KTRef } from '@ktjs/core';
 
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { assertModel, KTIf, computed, dereactive, ref } from '@ktjs/core';
+import { assertModel, KTIf, computed, ref, isKT } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -15,7 +15,7 @@ export type KTMuiTextFieldSize = 'small' | 'medium';
 export type InputTypes = KTMuiTextFieldType;
 
 export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> extends KTMuiProps {
-  'k-model'?: T extends 'number' ? KTRefLike<number> : KTRefLike<string>;
+  'k-model'?: T extends 'number' ? KTRef<number> : KTRef<string>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
   trim?: KTMaybeReactive<boolean>;
@@ -29,7 +29,7 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
   fullWidth?: KTMaybeReactive<boolean>;
   multiline?: boolean;
   rows?: KTMaybeReactive<number>;
-  size?: KTMuiTextFieldSize | KTReactiveLike<KTMuiTextFieldSize>;
+  size?: KTMuiTextFieldSize | KTReactive<KTMuiTextFieldSize>;
   'on:input'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:change'?: ComponentChangeHandler<T extends 'number' ? number : T extends 'date' ? Date : string>;
   'on:blur'?: () => void;
@@ -103,7 +103,7 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
   };
 
   // # non-refs
-  const inputType = dereactive(props.type ?? ('text' as T));
+  const inputType = (isKT(props.type) ? props.type.value : props.type) ?? ('text' as T);
   const multiline = props.multiline;
 
   // # refs

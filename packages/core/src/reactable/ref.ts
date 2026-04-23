@@ -4,6 +4,7 @@ import { $is } from '@ktjs/shared';
 import { $createSubGetter, $createSubSetter, isRef } from './common.js';
 import { KTReactive, KType, nextKid } from './reactive.js';
 import { _markMutation } from './scheduler.js';
+import { KTComputed } from './computed.js';
 
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype: KType = KType.Ref;
@@ -181,6 +182,10 @@ export class KTSubRef<T> extends KTRef<T> {
 
   dispose(): void {
     this.source.unlisten(this._listener);
+  }
+
+  get(..._args: any[]): KTComputed<any> {
+    $throw('Sub-ref does not support get() method.');
   }
 
   /**

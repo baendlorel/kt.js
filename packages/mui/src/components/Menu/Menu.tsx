@@ -2,7 +2,7 @@ import type { JSX } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { computed, isRefLike, KTFor, ref, toReactive } from '@ktjs/core';
+import { computed, isRef, KTFor, ref, toReactive } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import {
   Popover,
@@ -105,7 +105,7 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
   const paperClassName = classRef.map((v) => `mui-menu-paper ${v}`);
 
   const closeMenu = (reason: KTMuiMenuCloseReason) => {
-    if (isRefLike(openRef)) {
+    if (isRef(openRef)) {
       openRef.value = false;
     }
     onClose(reason);

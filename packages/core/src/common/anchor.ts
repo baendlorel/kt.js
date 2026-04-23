@@ -22,6 +22,9 @@ export abstract class KTAnchor extends Comment {
     parent.appendChild(this);
   }
 
+  /**
+   * [WARN] Overrides should also remove itself.
+   */
   _remove(): void {
     this.remove();
   }

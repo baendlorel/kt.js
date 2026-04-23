@@ -16,11 +16,8 @@ export type KTRawAttr = KTAttribute | null | undefined | '' | false;
 
 export type PrimaryContent = Node | string | number | boolean | null | undefined;
 export type SingleContent = PrimaryContent | KTReactive<PrimaryContent>;
-export type KTRawContent =
-  | PrimaryContent
-  | KTReactive<PrimaryContent>
-  | PrimaryContent[]
-  | KTReactive<PrimaryContent[]>;
+export type MultiContent = PrimaryContent[] | KTReactive<PrimaryContent[]>;
+export type KTRawContent = SingleContent | MultiContent;
 
 /**
  * Used to create enhanced HTML elements

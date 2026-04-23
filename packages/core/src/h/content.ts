@@ -1,9 +1,10 @@
 import { $isArray } from '@ktjs/shared';
 import type { Satisfied } from '../types/type-utils.js';
-import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
+import type { KTRawContent, PrimaryContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
-import { _isAnchor, AType, KTAnchor } from '../common/anchor.js';
+import { $isNull } from '@ktjs/shared';
+import { _isAnchor, _node, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
@@ -25,14 +26,14 @@ class KTContentAnchor extends KTAnchor {
   // ?? 这里也许可以做ref事件清理
   /* @internal */
   private _load(value: PrimaryContent | PrimaryContent[]) {
-    if (_isNull(value)) {
+    if ($isNull(value)) {
       this._current = this;
       this._insertTo = this._insertOneTo;
       this._remove = this._removeOne;
     } else if ($isArray(value)) {
       this._current = [];
       for (let i = 0; i < value.length; i++) {
-        if (!_isNull(value[i])) {
+        if (!$isNull(value[i])) {
           this._current.push(_node(value[i]));
         }
       }
@@ -99,7 +100,7 @@ class KTContentAnchor extends KTAnchor {
 }
 
 const appendOne = (element: Element, c: PrimaryContent | KTReactive<PrimaryContent> | KTReactive<PrimaryContent[]>) => {
-  if (_isNull(c)) {
+  if ($isNull(c)) {
     return;
   }
 

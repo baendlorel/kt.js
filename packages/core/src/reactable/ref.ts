@@ -46,7 +46,7 @@ export class KTRef<T> extends KTReactive<T> {
    * - `KTSubRef` is lighter than `KTRef`.
    */
   subref<K0 extends keyof T, K1 extends keyof T[K0], K2 extends keyof T[K0][K1]>(
-    this: KTRef<T & object>,
+    this: KTRef<T>,
     key0: K0,
     key1: K1,
     key2: K2,
@@ -56,13 +56,13 @@ export class KTRef<T> extends KTReactive<T> {
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
-  subref<K0 extends keyof T, K1 extends keyof T[K0]>(this: KTRef<T & object>, key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
+  subref<K0 extends keyof T, K1 extends keyof T[K0]>(this: KTRef<T>, key0: K0, key1: K1): KTSubRef<T[K0][K1]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.
    * - `KTSubRef` is lighter than `KTRef`.
    */
-  subref<K0 extends keyof T>(this: KTRef<T & object>, key0: K0): KTSubRef<T[K0]>;
+  subref<K0 extends keyof T>(this: KTRef<T>, key0: K0): KTSubRef<T[K0]>;
   /**
    * Derive a lighter sub-ref from this ref, using keys to access nested properties.
    * - `ref.subref('a', 'b')` means a sub-ref to `this.value.a.b`. Change it will also change `this.value` and trigger the listeners.

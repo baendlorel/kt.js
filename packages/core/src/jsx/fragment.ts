@@ -1,18 +1,19 @@
 import type { JSX } from '../types/jsx.js';
-import type { KTRawContent, MultiContent, PrimaryContent } from '../types/h.js';
+import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 import type { KTRef } from '../reactable/ref.js';
 
 import { $forEach, $isArray } from '@ktjs/shared';
-import { isKT, toReactive } from '../reactable/index.js';
+import { isKT } from '../reactable/index.js';
 import { $refToSelf } from '../reactable/ref.js';
 import { _node, AType, KTAnchor } from '../common/anchor.js';
+import { append } from '../h/content.js';
 
 export class KTFragmentAnchor extends KTAnchor {
-  _current: Node[] = [];
+  _current: SingleContent[] = [];
 
-  constructor(children: MultiContent) {
+  constructor(children: SingleContent[]) {
     super(AType.Fragment);
-    this._current = isKT(children) ? children.value.map(_node) : children.map(_node);
+    this._current = children;
   }
 
   _remove(): void {
@@ -23,14 +24,14 @@ export class KTFragmentAnchor extends KTAnchor {
     this.remove();
   }
 
-  _appendTo(parent: Node): void {
-    (parent as Element).append(...this._current, this);
+  _appendTo(parent: Element): void {
+    append(parent, this._current);
   }
 }
 
 export interface FragmentProps {
   ref?: KTRef<JSX.Element>;
-  children: MultiContent;
+  children: SingleContent[];
 }
 
 /**
@@ -53,32 +54,7 @@ export interface FragmentProps {
  * ```
  */
 export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAnchor {
-  const childrenRef = toReactive(props.children);
-  const anchor = new KTFragmentAnchor(childrenRef);
-  const nodes = anchor._current;
-
-  const redraw = (v: PrimaryContent[]) => {
-    const newNodes = v.map(_node);
-
-    anchor._remove();
-    if (!anchor.parentNode) {
-      anchor._current = newNodes;
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < newNodes.length; i++) {
-      const element = newNodes[i];
-      nodes.push(element);
-      fragment.appendChild(element);
-    }
-
-    anchor.parentNode.insertBefore(fragment, anchor.nextSibling);
-  };
-
-  // ?? redraw应该属于旧版内容，这里还需要吗？
-  childrenRef.listen(redraw);
-  redraw(childrenRef.value);
+  const anchor = new KTFragmentAnchor(props.children);
 
   return $refToSelf(props, anchor as unknown as JSX.Element) as JSX.Element & KTFragmentAnchor;
 }

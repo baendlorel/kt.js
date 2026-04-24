@@ -1,6 +1,6 @@
 import { $isArray } from '@ktjs/shared';
 import type { Satisfied } from '../types/type-utils.js';
-import type { KTRawContent, PrimaryContent } from '../types/h.js';
+import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
 import { $isNull } from '@ktjs/shared';
@@ -24,7 +24,7 @@ class KTContentAnchor extends KTAnchor {
   _remove!: () => void;
 
   /* @internal */
-  private _load(value: PrimaryContent | PrimaryContent[]) {
+  private _load(value: PrimaryContent | SingleContent[]) {
     if ($isNull(value)) {
       this._current = this;
       this._insertTo = this._insertOneTo;
@@ -32,8 +32,9 @@ class KTContentAnchor extends KTAnchor {
     } else if ($isArray(value)) {
       this._current = [];
       for (let i = 0; i < value.length; i++) {
-        if (!$isNull(value[i])) {
-          this._current.push(_node(value[i]));
+        const v = value[i];
+        if (!$isNull(v)) {
+          this._current.push(isKT(v) ? new KTContentAnchor(v) : _node(v));
         }
       }
       this._insertTo = this._insertArrayTo;
@@ -45,7 +46,7 @@ class KTContentAnchor extends KTAnchor {
     }
   }
 
-  constructor(r: KTReactive<PrimaryContent | PrimaryContent[]>) {
+  constructor(r: KTReactive<PrimaryContent> | KTReactive<SingleContent[]>) {
     super(AType.Content);
 
     this._load(r.value);
@@ -98,7 +99,7 @@ class KTContentAnchor extends KTAnchor {
   }
 }
 
-const appendOne = (element: Element, c: PrimaryContent | KTReactive<PrimaryContent> | KTReactive<PrimaryContent[]>) => {
+const appendOne = (element: Element, c: SingleContent | KTReactive<SingleContent[]>) => {
   if ($isNull(c)) {
     return;
   }

@@ -23,4 +23,4 @@ export type { HTMLTag, SVGTag, MathMLTag, InputElementTag } from '@ktjs/shared';
 export type { KTRawContent, KTRawAttr, KTAttribute, KTPrefixedEventAttribute, HTML } from './types/h.js';
 export type * from './types/jsx.js';
 
-// EPIC 可以考虑加入SSR服务端渲染
+// EPIC 服务端渲染

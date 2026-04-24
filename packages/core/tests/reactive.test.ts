@@ -222,10 +222,11 @@ describe('reactive helpers', () => {
     expect(c.value).toBe(3);
   });
 
-  it('duplicated non-function key should still throw', () => {
+  it('duplicated listener should still throw', () => {
     const n = ref(1);
-    n.listen(() => {}, 'same-key');
-    expect(() => n.listen(() => {}, 'same-key')).toThrow();
+    const fn = () => {};
+    n.listen(fn);
+    expect(() => n.listen(fn)).toThrow();
   });
 
   it('is should use Object.is semantics', () => {

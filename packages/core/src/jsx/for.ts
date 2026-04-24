@@ -3,8 +3,8 @@ import type { KTRef } from '../reactable/ref.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
 import { $identity } from '@ktjs/shared';
-import { toReactive } from '../reactable/index.js';
 import { $refToSelf } from '../reactable/ref.js';
+import { toReactive } from '../reactable/index.js';
 import { AType, KTAnchor } from '../common/anchor.js';
 
 export class KTForAnchor extends KTAnchor {
@@ -15,13 +15,21 @@ export class KTForAnchor extends KTAnchor {
 }
 
 export type KTForElement = JSX.Element & KTForAnchor;
-
 export interface KTForProps<T> {
   ref?: KTRef<KTForElement>;
-  list: T[] | KTReactive<T[]>;
+  list: T[];
   key?: (item: T, index: number, array: T[]) => any;
   map?: (item: T, index: number, array: T[]) => JSX.Element;
 }
+export interface KTForPropsReactive<T> {
+  ref?: KTRef<KTForElement>;
+  list: KTReactive<T[]>;
+  key?: (item: T, index: number, array: T[]) => any;
+  map?: (item: T, index: number, array: T[]) => JSX.Element;
+}
+
+const a = {} as KTForProps<number[]>;
+a.key;
 
 const setForNodeMap = (nodeMap: Map<any, JSX.Element>, key: any, node: JSX.Element, index: number) => {
   if (nodeMap.has(key)) {
@@ -35,7 +43,7 @@ const setForNodeMap = (nodeMap: Map<any, JSX.Element>, key: any, node: JSX.Eleme
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in anchor.list
  */
-export function KTFor<T>(props: KTForProps<T>): KTForElement {
+export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): KTForElement {
   const redraw = () => {
     const newList = listRef.value;
     const parent = anchor.parentNode;

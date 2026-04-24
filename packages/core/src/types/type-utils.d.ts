@@ -8,6 +8,8 @@ export type IsSameType<A, B> =
       : false
     : false;
 
+export type ArrayItem<A> = A extends (infer T)[] ? T : never;
+
 /**
  * Pick non-symbol and non-method property of a type
  */

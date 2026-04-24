@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { h } from '../src/h/index.js';
-import { KTIf } from '../src/jsx/if.js';
+import { KTIf, type KTIfAnchor } from '../src/jsx/if.js';
 import { ref } from '../src/reactable/index.js';
+import { AType } from '../src/common/anchor.js';
 
 describe('KTIf', () => {
   let container: HTMLDivElement;
@@ -23,7 +24,7 @@ describe('KTIf', () => {
     expect(rendered.textContent).toBe('if-branch');
 
     expect(hidden.nodeType).toBe(Node.COMMENT_NODE);
-    expect((hidden as Comment).data).toBe('kt-conditional');
+    expect((hidden as KTIfAnchor).atype).toBe(AType.If);
   });
 
   it('returns the else branch when static condition is false', () => {
@@ -41,16 +42,17 @@ describe('KTIf', () => {
 
   it('updates between element and placeholder when reactive condition changes', () => {
     const visible = ref(true);
-    const node = KTIf(visible, 'div', () => ({ id: 'if-node', children: 'if-branch' })) as Node;
+    const node = KTIf(visible, 'div', () => ({ id: 'if-node', children: 'if-branch' }));
 
     container.appendChild(node);
+    console.log(container.textContent);
     expect(container.textContent).toBe('if-branch');
     expect(container.querySelector('#if-node')).toBeTruthy();
 
     visible.value = false;
     expect(container.textContent).toBe('');
     expect(container.firstChild?.nodeType).toBe(Node.COMMENT_NODE);
-    expect((container.firstChild as Comment).data).toBe('kt-conditional');
+    expect((container.firstChild as KTIfAnchor).atype).toBe(AType.If);
 
     visible.value = true;
     expect(container.textContent).toBe('if-branch');

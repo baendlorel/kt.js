@@ -18,10 +18,11 @@ export abstract class KTAnchor extends Comment {
     this.atype = atype;
   }
 
-  abstract _appendTo(parent: Node): void; // parent.appendChild(this);
+  abstract _appendTo(parent: Element): void; // parent.appendChild(this);
 
   /**
    * Remove the elements related but **not itself**.
+   * - Will be called when the anchor is removed.
    */
   abstract _remove(): void;
 

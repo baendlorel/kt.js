@@ -1,8 +1,7 @@
 import type { JSX } from '../types/jsx.js';
-import type { Thenable } from '../types/type-utils.js';
+import type { Satisfied, Thenable } from '../types/type-utils.js';
 import type { KTRef } from '../reactable/ref.js';
 import type { KTMaybeReactive } from '../reactable/types.js';
-import type { KTReactive } from '../reactable/reactive.js';
 
 import { static_cast } from 'type-narrow';
 import { $refToSelf } from '../reactable/ref.js';
@@ -71,8 +70,18 @@ class KTAsyncAnchor extends KTAnchor {
       });
     }
   }
+
+  _remove(): void {
+    if (this._current !== this) {
+      (this._current as ChildNode).remove();
+    }
+  }
+
+  _appendTo(parent: Element): void {
+    parent.append(this, this._skeleton);
+  }
 }
 
 export function KTAsync(props: KTAsyncProps): JSX.Element {
-  return $refToSelf(props, new KTAsyncAnchor(props))._skeleton as JSX.Element;
+  return $refToSelf(props, new KTAsyncAnchor(props)) as Satisfied;
 }

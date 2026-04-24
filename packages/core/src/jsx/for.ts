@@ -39,7 +39,6 @@ export class KTForAnchor<T> extends KTAnchor {
     for (let i = 0; i < this._current.length; i++) {
       (this._current[i] as ChildNode).remove();
     }
-    this.remove();
   }
 }
 

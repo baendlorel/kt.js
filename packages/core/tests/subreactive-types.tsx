@@ -15,7 +15,7 @@ const nameModel = state.subref('form', 'name');
 
 const _content: KTRawContent = [, 'literal', 1];
 const _divAttr: JSX.IntrinsicElements['div'] = { class: classSub };
-const _modelAttr: JSX.IntrinsicAttributes = { 'k-model': nameModel }; // FIXME 这里居然需要断言，为什么Sub的类型不能直接嵌入
+const _modelAttr: JSX.IntrinsicAttributes = { 'k-model': nameModel };
 const _modelIsRefLike: Assert<IsAssignable<typeof nameModel, KTRef<string>>> = true;
 
 <div class={classSub}></div>;

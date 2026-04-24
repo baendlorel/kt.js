@@ -12,6 +12,7 @@ export class KTIfAnchor extends KTAnchor {
   }
 }
 
+// TODO 逻辑放到 KTIfAnchor 内部
 export function KTIf(
   condition: any | KTReactive<any>,
   tagIf: JSXTag,

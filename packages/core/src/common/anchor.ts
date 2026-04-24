@@ -17,16 +17,12 @@ export abstract class KTAnchor extends Comment {
     this.atype = atype;
   }
 
-  _appendTo(parent: Node): void {
-    parent.appendChild(this);
-  }
+  abstract _appendTo(parent: Node): void; // parent.appendChild(this);
 
   /**
    * [WARN] Overrides should also remove itself.
    */
-  _remove(): void {
-    this.remove();
-  }
+  abstract _remove(): void; // this.remove();
 }
 
 export const isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';

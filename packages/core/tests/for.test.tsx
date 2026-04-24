@@ -30,8 +30,8 @@ describe('KTFor Component', () => {
     });
 
     expect(anchor).toBeInstanceOf(KTForAnchor);
-    expect(Array.isArray(anchor.list)).toBe(true);
-    expect(anchor.list.length).toBe(3);
+    expect(Array.isArray(anchor._current)).toBe(true);
+    expect(anchor._current.length).toBe(3);
   });
 
   it('should auto mount when appended directly by raw DOM', async () => {
@@ -79,7 +79,7 @@ describe('KTFor Component', () => {
       map: (item) => h('div', {}, String(item)),
     });
 
-    expect(anchor.list.length).toBe(3);
+    expect(anchor._current.length).toBe(3);
   });
 
   it('should use custom key function', () => {
@@ -251,7 +251,7 @@ describe('KTFor Component', () => {
         key: (item) => item.id,
         map: (item) => h('div', { class: 'item' }, item.value),
       });
-      expect(anchor.list.length).toBe(2);
+      expect(anchor._current.length).toBe(2);
 
       expect(warnSpy).toHaveBeenCalled();
       expect(warnSpy.mock.calls.some((args: any[]) => String(args[0]).includes('Duplicate key detected'))).toBe(true);
@@ -295,10 +295,6 @@ describe('KTFor Component', () => {
 
   it('should remove elements not in new list', () => {
     const list = ref([1, 2, 3, 4, 5]);
-    const anchor = KTFor({
-      list,
-      map: (item) => h('div', { class: 'item' }, String(item)),
-    });
 
     const forEl = (
       <div>
@@ -331,7 +327,7 @@ describe('KTFor Component', () => {
 
     const items = container.querySelectorAll('div');
     expect(items.length).toBe(0);
-    expect(anchor.list.length).toBe(0);
+    expect(anchor._current.length).toBe(0);
   });
 
   it('should work before being added to DOM', () => {
@@ -344,12 +340,12 @@ describe('KTFor Component', () => {
       </div>
     );
 
-    expect(anchor.value.list.length).toBe(3);
+    expect(anchor.value._current.length).toBe(3);
 
     // Redraw before adding to DOM
     list.value = [4, 5];
 
-    expect(anchor.value.list.length).toBe(2);
+    expect(anchor.value._current.length).toBe(2);
 
     // Now add to DOM
     container.appendChild(forEl);

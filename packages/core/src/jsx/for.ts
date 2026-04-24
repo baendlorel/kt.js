@@ -6,11 +6,26 @@ import { $identity } from '@ktjs/shared';
 import { $refToSelf } from '../reactable/ref.js';
 import { toReactive } from '../reactable/index.js';
 import { AType, KTAnchor } from '../common/anchor.js';
+import { append } from '../h/content.js';
 
 export class KTForAnchor extends KTAnchor {
-  readonly list: JSX.Element[] = [];
+  _current: Node[] = [];
   constructor() {
     super(AType.For);
+  }
+
+  // TODO 逻辑放到内部，优化先不做，有AI完成
+  _appendTo(parent: Element): void {
+    parent.appendChild(this);
+    append(parent, this._current);
+    // TODO 其他appendTo也要用append做吗？
+  }
+
+  _remove(): void {
+    for (let i = 0; i < this._current.length; i++) {
+      (this._current[i] as ChildNode).remove();
+    }
+    this.remove();
   }
 }
 
@@ -38,7 +53,6 @@ const setForNodeMap = (nodeMap: Map<any, JSX.Element>, key: any, node: JSX.Eleme
   nodeMap.set(key, node);
 };
 
-// TASK 对于template标签的for和if，会编译为fragment，可特殊处理，让它们保持原样
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in anchor.list
@@ -49,30 +63,30 @@ export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): KTForEle
     const parent = anchor.parentNode;
 
     if (!parent) {
-      anchor.list.length = 0;
+      anchor._current.length = 0;
       nodeMap.clear();
       for (let index = 0; index < newList.length; index++) {
         const item = newList[index];
         const itemKey = currentKey(item, index, newList);
         const node = currentMap(item, index, newList);
         setForNodeMap(nodeMap, itemKey, node, index);
-        anchor.list.push(node);
+        anchor._current.push(node);
       }
       return anchor;
     }
 
-    const oldLength = anchor.list.length;
+    const oldLength = anchor._current.length;
     const newLength = newList.length;
 
     if (newLength === 0) {
       nodeMap.forEach((node) => node.remove());
       nodeMap.clear();
-      anchor.list.length = 0;
+      anchor._current.length = 0;
       return anchor;
     }
 
     if (oldLength === 0) {
-      anchor.list.length = 0;
+      anchor._current.length = 0;
       nodeMap.clear();
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < newLength; i++) {
@@ -80,7 +94,7 @@ export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): KTForEle
         const itemKey = currentKey(item, i, newList);
         const node = currentMap(item, i, newList);
         setForNodeMap(nodeMap, itemKey, node, i);
-        anchor.list.push(node);
+        anchor._current.push(node);
         fragment.appendChild(node);
       }
       parent.insertBefore(fragment, anchor.nextSibling);
@@ -117,12 +131,12 @@ export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): KTForEle
     }
 
     nodeMap.clear();
-    anchor.list.length = 0;
+    anchor._current.length = 0;
     for (let i = 0; i < newLength; i++) {
       const itemKey = currentKey(newList[i], i, newList);
       const node = newElements[i];
       setForNodeMap(nodeMap, itemKey, node, i);
-      anchor.list.push(node);
+      anchor._current.push(node);
     }
     return anchor;
   };
@@ -139,7 +153,7 @@ export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): KTForEle
     const itemKey = currentKey(item, index, listRef.value);
     const node = currentMap(item, index, listRef.value);
     setForNodeMap(nodeMap, itemKey, node, index);
-    anchor.list.push(node);
+    anchor._current.push(node);
   }
 
   listRef.listen(redraw);

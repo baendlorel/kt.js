@@ -9,7 +9,6 @@ export const enum AType {
   Async = 'kt-async',
 }
 
-// TODO 也许应该在content的append处加入对Anchor的处理
 export abstract class KTAnchor extends Comment {
   readonly atype: AType;
 
@@ -30,7 +29,7 @@ export abstract class KTAnchor extends Comment {
   }
 }
 
-export const _isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';
+export const isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';
 
 export const _node = (c: PrimaryContent): Node =>
   typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);

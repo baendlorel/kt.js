@@ -4,7 +4,7 @@ import type { KTRawContent, PrimaryContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
 import { $isNull } from '@ktjs/shared';
-import { _isAnchor, _node, AType, KTAnchor } from '../common/anchor.js';
+import { isAnchor, _node, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
@@ -23,7 +23,6 @@ class KTContentAnchor extends KTAnchor {
   /* @internal */
   _remove!: () => void;
 
-  // ?? 这里也许可以做ref事件清理
   /* @internal */
   private _load(value: PrimaryContent | PrimaryContent[]) {
     if ($isNull(value)) {
@@ -106,7 +105,7 @@ const appendOne = (element: Element, c: PrimaryContent | KTReactive<PrimaryConte
 
   if (isKT(c)) {
     new KTContentAnchor(c)._appendTo(element);
-  } else if (_isAnchor(c)) {
+  } else if (isAnchor(c)) {
     c._appendTo(element); // TODO 这里就有说法了，要_appendTo的多态
   } else {
     element.append(c as Satisfied);

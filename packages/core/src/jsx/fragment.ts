@@ -15,16 +15,15 @@ export class KTFragmentAnchor extends KTAnchor {
     this._current = children;
   }
 
+  _appendTo(parent: Element): void {
+    append(parent, this._current);
+  }
+
   _remove(): void {
     for (let i = 0; i < this._current.length; i++) {
       (this._current[i] as ChildNode).remove();
     }
     this._current.length = 0;
-    this.remove();
-  }
-
-  _appendTo(parent: Element): void {
-    append(parent, this._current);
   }
 }
 

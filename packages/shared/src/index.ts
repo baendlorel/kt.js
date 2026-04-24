@@ -2,7 +2,6 @@
 import './misc/symbol-polyfill.js';
 import './misc/dom-polyfill.js';
 
-export * from './misc/comment.js';
 export * from './utils/native.js';
 export * from './utils/dom.js';
 export * from './utils/misc.js';

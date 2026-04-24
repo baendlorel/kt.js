@@ -9,6 +9,7 @@ export const enum AType {
   Async = 'kt-async',
 }
 
+const rm = Comment.prototype.remove;
 export abstract class KTAnchor extends Comment {
   readonly atype: AType;
 
@@ -20,9 +21,17 @@ export abstract class KTAnchor extends Comment {
   abstract _appendTo(parent: Node): void; // parent.appendChild(this);
 
   /**
-   * [WARN] Overrides should also remove itself.
+   * Remove the elements related but **not itself**.
    */
-  abstract _remove(): void; // this.remove();
+  abstract _remove(): void;
+
+  /**
+   * [WARN] Different from `_remove`, removes the elements **and itself**.
+   */
+  remove(): void {
+    this._remove.call(this);
+    rm.call(this);
+  }
 }
 
 export const isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';

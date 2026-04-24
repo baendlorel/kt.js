@@ -31,30 +31,24 @@ if (typeof Node !== 'undefined') {
   };
 
   installMethod('remove', function (this: Node) {
-    const parent = this.parentNode;
-    if (parent) {
-      parent.removeChild(this);
+    if (this.parentNode) {
+      this.parentNode.removeChild(this);
     }
   });
 
   installMethod('replaceWith', function (this: Node, ...newNodes: Array<Node | string>) {
-    const parent = this.parentNode;
-    if (!parent) {
+    if (!this.parentNode) {
       return;
     }
 
     if (newNodes.length === 0) {
-      parent.removeChild(this);
+      this.parentNode.removeChild(this);
       return;
     }
 
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < newNodes.length; i++) {
-      const node = newNodes[i];
-      fragment.appendChild(typeof node === 'string' ? document.createTextNode(node) : node);
-    }
-
-    parent.insertBefore(fragment, this);
-    parent.removeChild(this);
+    fragment.append.apply(fragment, newNodes);
+    this.parentNode.insertBefore(fragment, this);
+    this.parentNode.removeChild(this);
   });
 }

@@ -8,7 +8,6 @@ import { isAnchor, _node, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
-// EPIC 将所有可以terser混淆的名字都以下划线开头命名
 class KTContentAnchor extends KTAnchor {
   /**
    * When it is `Node[]`, it is created by `.map`.

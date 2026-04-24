@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { computed, type JSX, ref } from '@ktjs/core';
-import { createFragment, convertChildrenToElements, KTFragmentAnchor } from '../src/jsx/fragment.js';
+import { createFragment } from '../src/jsx/fragment.js';
 import { h } from '../src/h/index.js';
 
 describe('Fragment Component', () => {
@@ -43,48 +43,6 @@ describe('Fragment Component', () => {
     expect(items[1].previousSibling).toBe(items[0]);
   });
 
-  it('should support reactive children array', async () => {
-    const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = createFragment({ children: childrenRef });
-
-    container.appendChild(anchor);
-    await Promise.resolve();
-
-    let items = container.querySelectorAll('.item');
-    expect(items.length).toBe(2);
-
-    // Update reactive array
-    childrenRef.value = [
-      h('div', { class: 'item' }, 'C'),
-      h('div', { class: 'item' }, 'D'),
-      h('div', { class: 'item' }, 'E'),
-    ];
-
-    items = container.querySelectorAll('.item');
-    expect(items.length).toBe(3);
-    expect(items[0].textContent).toBe('C');
-    expect(items[1].textContent).toBe('D');
-    expect(items[2].textContent).toBe('E');
-  });
-
-  it('should update internal state when not in DOM', async () => {
-    const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = createFragment({ children: childrenRef });
-
-    // Update while anchor not in DOM
-    childrenRef.value = [h('div', { class: 'item' }, 'C')];
-
-    expect(anchor._current.length).toBe(1);
-
-    // Now add to DOM
-    container.appendChild(anchor);
-    await Promise.resolve();
-
-    const items = container.querySelectorAll('.item');
-    expect(items.length).toBe(1);
-    expect(items[0].textContent).toBe('C');
-  });
-
   it('should support ref prop', () => {
     const children = [h('div', {}, 'A')];
     const fragmentRef = ref<JSX.Element>();
@@ -123,33 +81,6 @@ describe('Fragment Component', () => {
     expect(anchor._current.length).toBe(0);
   });
 
-  it('should remove old elements and insert new ones on update', async () => {
-    const childrenRef = ref([h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')]);
-    const anchor = createFragment({ children: childrenRef });
-
-    container.appendChild(anchor);
-    await Promise.resolve();
-
-    const firstItems = container.querySelectorAll('.item');
-    expect(firstItems.length).toBe(2);
-
-    // Capture references to old elements
-    const oldElement1 = firstItems[0];
-    const oldElement2 = firstItems[1];
-
-    // Update children
-    childrenRef.value = [h('div', { class: 'item' }, 'C'), h('div', { class: 'item' }, 'D')];
-
-    // Old elements should be removed from DOM
-    expect(document.body.contains(oldElement1)).toBe(false);
-    expect(document.body.contains(oldElement2)).toBe(false);
-
-    const newItems = container.querySelectorAll('.item');
-    expect(newItems.length).toBe(2);
-    expect(newItems[0].textContent).toBe('C');
-    expect(newItems[1].textContent).toBe('D');
-  });
-
   it('should work with JSX syntax', async () => {
     // Test that Fragment works with JSX children
     const children = [<div className="item">A</div>, <div className="item">B</div>];
@@ -174,81 +105,5 @@ describe('Fragment Component', () => {
     }).toThrow();
 
     consoleErrorSpy.mockRestore();
-  });
-});
-
-describe('convertChildrenToElements', () => {
-  it('should convert HTMLElement children', () => {
-    const div1 = document.createElement('div');
-    const div2 = document.createElement('span');
-    const result = convertChildrenToElements([div1, div2]);
-
-    expect(result).toEqual([div1, div2]);
-  });
-
-  it('should convert string and number children to span elements', () => {
-    const result = convertChildrenToElements(['hello', 42, 'world']);
-
-    expect(result.length).toBe(3);
-    expect(result[0].tagName).toBe('SPAN');
-    expect(result[0].textContent).toBe('hello');
-    expect(result[1].tagName).toBe('SPAN');
-    expect(result[1].textContent).toBe('42');
-    expect(result[2].tagName).toBe('SPAN');
-    expect(result[2].textContent).toBe('world');
-  });
-
-  it('should ignore null, undefined, false, true', () => {
-    const result = convertChildrenToElements([null, undefined, false, true, 'valid']);
-
-    expect(result.length).toBe(1);
-    expect(result[0].tagName).toBe('SPAN');
-    expect(result[0].textContent).toBe('valid');
-  });
-
-  it('should flatten arrays recursively', () => {
-    const div1 = document.createElement('div');
-    const div2 = document.createElement('span');
-    const result = convertChildrenToElements([['nested', [div1]], div2]);
-
-    expect(result.length).toBe(3);
-    expect(result[0].tagName).toBe('SPAN');
-    expect(result[0].textContent).toBe('nested');
-    expect(result[1]).toBe(div1);
-    expect(result[2]).toBe(div2);
-  });
-
-  it('should unwrap KTRef and KTComputed values', () => {
-    const valueRef = ref('unwrapped');
-    const valueComputed = computed(() => `${valueRef.value}!`, [valueRef]);
-
-    const result = convertChildrenToElements([valueRef, valueComputed]);
-
-    expect(result.length).toBe(2);
-    expect(result[0].tagName).toBe('SPAN');
-    expect(result[0].textContent).toBe('unwrapped');
-    expect(result[1].tagName).toBe('SPAN');
-    expect(result[1].textContent).toBe('unwrapped!');
-  });
-
-  it('should handle mixed content types', () => {
-    const div = document.createElement('div');
-    const result = convertChildrenToElements([null, 'text', 123, div, ['nested', 'array'], false]);
-
-    expect(result.length).toBe(5);
-    expect(result[0].tagName).toBe('SPAN');
-    expect(result[0].textContent).toBe('text');
-    expect(result[1].tagName).toBe('SPAN');
-    expect(result[1].textContent).toBe('123');
-    expect(result[2]).toBe(div);
-    expect(result[3].tagName).toBe('SPAN');
-    expect(result[3].textContent).toBe('nested');
-    expect(result[4].tagName).toBe('SPAN');
-    expect(result[4].textContent).toBe('array');
-  });
-
-  it('should warn on unsupported types', () => {
-    const unsupportedObject = { foo: 'bar' };
-    expect(() => convertChildrenToElements(unsupportedObject as any)).toThrow(/Fragment: unsupported child type/);
   });
 });

@@ -1,12 +1,11 @@
 import type { JSX } from '../types/jsx.js';
-import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
+import type { SingleContent } from '../types/h.js';
 import type { KTRef } from '../reactable/ref.js';
 
-import { $forEach, $isArray } from '@ktjs/shared';
-import { isKT } from '../reactable/index.js';
 import { $refToSelf } from '../reactable/ref.js';
 import { _node, AType, KTAnchor } from '../common/anchor.js';
 import { append } from '../h/content.js';
+import { Satisfied } from '../types/type-utils.js';
 
 export class KTFragmentAnchor extends KTAnchor {
   _current: SingleContent[] = [];
@@ -54,60 +53,5 @@ export interface FragmentProps {
  * ```
  */
 export function createFragment(props: FragmentProps): JSX.Element & KTFragmentAnchor {
-  const anchor = new KTFragmentAnchor(props.children);
-
-  return $refToSelf(props, anchor as unknown as JSX.Element) as JSX.Element & KTFragmentAnchor;
-}
-
-/**
- * Convert KTRawContent to HTMLElement array
- */
-export function convertChildrenToElements(children: KTRawContent): Element[] {
-  const elements: Element[] = [];
-
-  const processChild = (child: any): void => {
-    if (child === undefined || child === null || child === false || child === true) {
-      // Ignore null, undefined, false, true
-      return;
-    }
-
-    if ($isArray(child)) {
-      // Recursively process array
-      $forEach(child, processChild);
-      return;
-    }
-
-    if (typeof child === 'string' || typeof child === 'number') {
-      const span = document.createElement('span');
-      span.textContent = String(child);
-      elements.push(span);
-      return;
-    }
-
-    if (child instanceof Element) {
-      elements.push(child);
-      return;
-    }
-
-    // TODO 也许可以让k-if也使用KTAnchor以统一
-    // & Allows KTAnchor(Comment), this is pretty natural.
-    // & If not allowed, Fragments won't be nestable
-    if (child instanceof Comment) {
-      elements.push(child as any);
-      return;
-    }
-
-    if (isKT(child)) {
-      processChild(child.value);
-      return;
-    }
-
-    $warn('Fragment: unsupported child type', child);
-    if (process.env.IS_DEV) {
-      throw new Error(`Fragment: unsupported child type`);
-    }
-  };
-
-  processChild(children);
-  return elements;
+  return $refToSelf(props, new KTFragmentAnchor(props.children) as Satisfied);
 }

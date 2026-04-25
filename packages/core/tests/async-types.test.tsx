@@ -17,17 +17,11 @@ describe('KTAsync type inference', () => {
     };
 
     // This should work - all required props provided
-    const result1 = <KTAsync component={MyComponent} name="Alice" age={30} on:click={() => console.log('clicked')} />;
+    const result1 = (
+      <KTAsync component={MyComponent} props={{ name: 'Alice', age: 30, 'on:click': () => console.log('clicked') }} />
+    );
 
     expect(result1).toBeInstanceOf(Comment);
-
-    // This should also work - component with no extra props
-    const SimpleComponent = (): HTMLElement => {
-      return document.createElement('div');
-    };
-
-    const result2 = <KTAsync component={SimpleComponent} />;
-    expect(result2).toBeInstanceOf(HTMLElement);
   });
 
   it('should work with async components', async () => {
@@ -38,7 +32,7 @@ describe('KTAsync type inference', () => {
       return div;
     };
 
-    const result = <KTAsync component={AsyncComponent} title="Test Title" />;
+    const result = <KTAsync component={AsyncComponent} props={{ title: 'ASA' }} />;
     expect(result).toBeInstanceOf(Comment);
 
     // Wait for async resolution

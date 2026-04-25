@@ -1,14 +1,11 @@
 import type { JSX } from '../types/jsx.js';
 import type { Satisfied, Thenable } from '../types/type-utils.js';
 import type { KTRef } from '../reactable/ref.js';
-import type { KTMaybeReactive } from '../reactable/types.js';
 
-import { static_cast } from 'type-narrow';
 import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from '../common/anchor.js';
-import { isKT } from '../reactable/common.js';
 
-interface KTAsyncProps {
+interface KTAsyncProps<P> {
   /**
    * Will be assigned as this Anchor
    */
@@ -22,15 +19,17 @@ interface KTAsyncProps {
   /**
    * Async Component(a promise holds an component)
    */
-  component: KTMaybeReactive<Thenable<JSX.Element>>;
+  component: (props: P) => Thenable<JSX.Element>;
+
+  props?: P;
 }
 
-class KTAsyncAnchor extends KTAnchor {
+class KTAsyncAnchor<P> extends KTAnchor {
   /* @internal */
   _skeleton: JSX.Element | this;
 
   /* @internal */
-  _component: KTMaybeReactive<Thenable<JSX.Element>>;
+  _promise: Thenable<JSX.Element>;
 
   /* @internal */
   _version: number = NaN;
@@ -38,37 +37,18 @@ class KTAsyncAnchor extends KTAnchor {
   /* @internal */
   private _current: Node;
 
-  constructor(props: KTAsyncProps) {
+  constructor(props: KTAsyncProps<P>) {
     super(AType.Async);
     this._skeleton = props.skeleton ?? this;
-    this._component = props.component;
+    this._promise = props.component(props.props ?? ({} as P));
 
     // first render, the current node is the skeleton
     this._current = this._skeleton;
 
-    if (isKT(this._component)) {
-      const resolver = (v: JSX.Element) => {
-        if (this._version === resolver._version && this._current === this._skeleton) {
-          this._skeleton.replaceWith(v);
-          this._current = v;
-        }
-      };
-      static_cast<typeof resolver & Versioned>(resolver);
-      this._version = resolver._version = 1;
-      this._component.value.then(resolver);
-
-      this._component.listen((v) => {
-        (this._current as ChildNode).replaceWith(this._skeleton);
-        this._current = this._skeleton;
-        this._version = ++resolver._version;
-        v.then(resolver);
-      });
-    } else {
-      this._component.then((v) => {
-        this._skeleton.replaceWith(v);
-        this._current = v;
-      });
-    }
+    this._promise.then((v) => {
+      this._skeleton.replaceWith(v);
+      this._current = v;
+    });
   }
 
   _remove(): void {
@@ -83,6 +63,6 @@ class KTAsyncAnchor extends KTAnchor {
   }
 }
 
-export function KTAsync(props: KTAsyncProps): JSX.Element {
-  return $refToSelf(props, new KTAsyncAnchor(props)) as Satisfied;
+export function KTAsync<P>(props: KTAsyncProps<P>): JSX.Element {
+  return $refToSelf(props, new KTAsyncAnchor<P>(props)) as Satisfied;
 }

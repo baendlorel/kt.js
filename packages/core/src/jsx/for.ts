@@ -37,16 +37,23 @@ export class KTForAnchor<TList extends readonly unknown[]> extends KTAnchor {
       list.listen((v) => {
         this._remove();
         this._load(v, key, map);
+        if (this.parentNode) {
+          this._insertTo(this.parentNode as Element);
+        }
       });
     } else {
       this._load(list, key, map);
     }
   }
 
-  _appendTo(parent: Element): this {
+  _insertTo(parent: Element): void {
     for (let i = 0; i < this._current.length; i++) {
       this._current[i]._appendTo(parent);
     }
+  }
+
+  _appendTo(parent: Element): this {
+    this._insertTo(parent);
     return parent.appendChild(this);
   }
 

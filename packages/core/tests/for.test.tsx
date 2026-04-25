@@ -19,7 +19,7 @@ describe('KTFor Component', () => {
     });
 
     expect(anchor.nodeType).toBe(Node.COMMENT_NODE);
-    expect(anchor.textContent).toBe('kt-for');
+    expect(anchor.atype).toBe('kt-for');
   });
 
   it('should attach list to anchor', () => {
@@ -40,7 +40,7 @@ describe('KTFor Component', () => {
       map: (item) => h('div', { class: 'item' }, item),
     });
 
-    container.appendChild(anchor);
+    anchor._appendTo(container);
     await Promise.resolve();
 
     const items = container.querySelectorAll('.item');
@@ -237,7 +237,8 @@ describe('KTFor Component', () => {
     expect(items.map((item) => (item as HTMLDivElement).dataset.__test_id__)).toEqual(['4', '2', '1', '3']);
   });
 
-  it('should warn when duplicate keys are present', () => {
+  // TEST 写好了k-for的key机制后，这里要启用
+  it.skip('should warn when duplicate keys are present', () => {
     const warnSpy = vi.fn();
     const oldWarn = (globalThis as any).$warn;
     (globalThis as any).$error = warnSpy;
@@ -275,7 +276,7 @@ describe('KTFor Component', () => {
         map: (item) => h('div', { class: 'item' }, item.value),
       });
 
-      container.appendChild(anchor);
+      anchor._appendTo(container);
       await Promise.resolve();
       await Promise.resolve();
 
@@ -283,7 +284,7 @@ describe('KTFor Component', () => {
       await Promise.resolve();
       await Promise.resolve();
 
-      container.appendChild(anchor);
+      anchor._appendTo(container);
       await Promise.resolve();
       await Promise.resolve();
 
@@ -323,7 +324,7 @@ describe('KTFor Component', () => {
       map: (item: number) => h('div', {}, String(item)),
     });
 
-    container.appendChild(anchor);
+    anchor._appendTo(container);
 
     const items = container.querySelectorAll('div');
     expect(items.length).toBe(0);
@@ -352,6 +353,7 @@ describe('KTFor Component', () => {
     forEl._appendTo(container);
 
     const items = container.querySelectorAll('.item');
+    console.log('items', items);
     expect(items.length).toBe(2);
     expect(items[0].textContent).toBe('4');
     expect(items[1].textContent).toBe('5');

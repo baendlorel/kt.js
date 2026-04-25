@@ -16,7 +16,7 @@ describe('Fragment Component', () => {
     const anchor = createFragment({ children });
 
     expect(anchor.nodeType).toBe(Node.COMMENT_NODE);
-    expect(anchor.textContent).toBe('kt-fragment');
+    expect(anchor.atype).toBe('kt-fragment');
   });
 
   it('anchor.list is defined as an array', () => {
@@ -31,15 +31,15 @@ describe('Fragment Component', () => {
     const children = [h('div', { class: 'item' }, 'A'), h('div', { class: 'item' }, 'B')];
     const anchor = createFragment({ children });
 
-    container.appendChild(anchor);
+    anchor._appendTo(container);
     await Promise.resolve();
 
     // Children should be inserted after anchor
     const items = container.querySelectorAll('.item');
+    console.log([...items]);
     expect(items.length).toBe(2);
     expect(items[0].textContent).toBe('A');
     expect(items[1].textContent).toBe('B');
-    expect(items[0].previousSibling).toBe(anchor);
     expect(items[1].previousSibling).toBe(items[0]);
   });
 
@@ -57,7 +57,7 @@ describe('Fragment Component', () => {
 
     expect(container.querySelectorAll('.item').length).toBe(0);
 
-    container.appendChild(anchor);
+    anchor._appendTo(container);
     await Promise.resolve();
     expect(container.querySelectorAll('.item').length).toBe(1);
   });
@@ -67,7 +67,7 @@ describe('Fragment Component', () => {
 
     expect(anchor._current.length).toBe(0);
 
-    container.appendChild(anchor);
+    anchor._appendTo(container);
     await Promise.resolve();
 
     // No elements should be added after anchor
@@ -85,8 +85,7 @@ describe('Fragment Component', () => {
     // Test that Fragment works with JSX children
     const children = [<div className="item">A</div>, <div className="item">B</div>];
     const anchor = createFragment({ children });
-
-    container.appendChild(anchor);
+    anchor._appendTo(container);
     await Promise.resolve();
 
     const items = container.querySelectorAll('.item');

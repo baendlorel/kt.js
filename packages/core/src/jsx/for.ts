@@ -8,13 +8,15 @@ import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable } from '../h/content.js';
 import { isKT } from '../reactable/common.js';
 
-export class KTForAnchor<T> extends KTAnchor {
+type KTForList<TList extends readonly unknown[]> = TList | KTReactive<TList>;
+
+export class KTForAnchor<TList extends readonly unknown[]> extends KTAnchor {
   /* @internal */
   _current!: Node[];
 
   // TODO key用于未来的优化
   /* @internal */
-  private _load(list: T[], key: Required<KTForProps<T>>['key'], map: Required<KTForProps<T>>['map']) {
+  private _load(list: TList, key: Required<KTForProps<TList>>['key'], map: Required<KTForProps<TList>>['map']) {
     const result: Node[] = [];
     for (let i = 0; i < list.length; i++) {
       if (!$isNull(list[i])) {
@@ -24,7 +26,11 @@ export class KTForAnchor<T> extends KTAnchor {
     this._current = result;
   }
 
-  constructor(list: T[] | KTReactive<T[]>, key: Required<KTForProps<T>>['key'], map: Required<KTForProps<T>>['map']) {
+  constructor(
+    list: KTForList<TList>,
+    key: Required<KTForProps<TList>>['key'],
+    map: Required<KTForProps<TList>>['map'],
+  ) {
     super(AType.For);
     if (isKT(list)) {
       this._load(list.value, key, map);
@@ -51,16 +57,20 @@ export class KTForAnchor<T> extends KTAnchor {
   }
 }
 
-export interface KTForProps<T> {
-  list: T[] | KTReactive<T[]>;
-  key?: (item: T, index: number, array: T[]) => any;
-  map?: (item: T, index: number, array: T[]) => SingleContent;
+export interface KTForProps<TList extends readonly unknown[]> {
+  list: KTForList<TList>;
+  key?: (item: TList[number], index: number, array: TList) => any;
+  map?: (item: TList[number], index: number, array: TList) => SingleContent;
 }
+
+export type KTForElement<TList extends readonly unknown[] = readonly unknown[]> = JSX.Element & KTForAnchor<TList>;
 
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in anchor.list
  */
-export function KTFor<T>(props: KTForProps<T>): JSX.Element & KTForAnchor<T> {
+export function KTFor<TList extends readonly unknown[] = readonly unknown[]>(
+  props: KTForProps<TList>,
+): KTForElement<TList> {
   return new KTForAnchor(props.list, props.key ?? $identity, props.map ?? ($identity as Satisfied)) as Satisfied;
 }

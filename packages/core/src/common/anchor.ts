@@ -21,6 +21,7 @@ export abstract class KTAnchor extends Comment {
     this.atype = atype;
   }
 
+  // TASK 对于此函数，需要让parentAppend的时候也能触发它，能做到吗？
   abstract _appendTo(parent: Element): this; // parent.appendChild(this);
 
   /**

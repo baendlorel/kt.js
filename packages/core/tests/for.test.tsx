@@ -348,7 +348,7 @@ describe('KTFor Component', () => {
     expect(anchor.value._current.length).toBe(2);
 
     // Now add to DOM
-    console.log(forEl.innerHTML);
+    console.log('for元素', forEl.innerHTML);
     forEl._appendTo(container);
 
     const items = container.querySelectorAll('.item');

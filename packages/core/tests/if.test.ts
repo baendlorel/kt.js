@@ -20,11 +20,11 @@ describe('KTIf', () => {
     const rendered = KTIf(true, 'div', () => ({ children: 'if-branch' })) as Node;
     const hidden = KTIf(false, 'div', () => ({ children: 'if-branch' })) as Node;
 
+    rendered._appendTo(container);
+
     expect(rendered.nodeType).toBe(Node.ELEMENT_NODE);
     expect(rendered.textContent).toBe('if-branch');
-
-    expect(hidden.nodeType).toBe(Node.COMMENT_NODE);
-    expect((hidden as KTIfAnchor).atype).toBe(AType.If);
+    expect(hidden).toBe(null);
   });
 
   it('returns the else branch when static condition is false', () => {
@@ -44,7 +44,7 @@ describe('KTIf', () => {
     const visible = ref(true);
     const node = KTIf(visible, 'div', () => ({ id: 'if-node', children: 'if-branch' }));
 
-    container.appendChild(node);
+    node._appendTo(container);
     console.log(container.textContent);
     expect(container.textContent).toBe('if-branch');
     expect(container.querySelector('#if-node')).toBeTruthy();
@@ -67,9 +67,9 @@ describe('KTIf', () => {
       () => ({ class: 'if-branch', children: 'if-branch' }),
       'div',
       () => ({ class: 'else-branch', children: 'else-branch' }),
-    ) as Node;
+    );
+    node._appendTo(container);
 
-    container.appendChild(node);
     expect(container.querySelector('.if-branch')?.textContent).toBe('if-branch');
     expect(container.querySelector('.else-branch')).toBeNull();
 
@@ -115,7 +115,7 @@ describe('KTIf', () => {
     const elseProps = vi.fn(() => ({ children: 'else-branch' }));
     const node = KTIf(visible, 'div', ifProps, 'span', elseProps) as Node;
 
-    container.appendChild(node);
+    node._appendTo(container);
     expect(ifProps).not.toHaveBeenCalled();
     expect(elseProps).toHaveBeenCalledTimes(1);
 

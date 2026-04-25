@@ -8,7 +8,7 @@ import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable } from '../h/content.js';
 import { isKT } from '../reactable/common.js';
 
-export class KTForAnchor<T extends SingleContent> extends KTAnchor {
+export class KTForAnchor<T> extends KTAnchor {
   /* @internal */
   _current!: Node[];
 
@@ -51,7 +51,7 @@ export class KTForAnchor<T extends SingleContent> extends KTAnchor {
   }
 }
 
-export interface KTForProps<T extends SingleContent> {
+export interface KTForProps<T> {
   list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
   map?: (item: T, index: number, array: T[]) => SingleContent;
@@ -61,6 +61,6 @@ export interface KTForProps<T extends SingleContent> {
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in anchor.list
  */
-export function KTFor<T extends SingleContent>(props: KTForProps<T>): JSX.Element & KTForAnchor<T> {
-  return new KTForAnchor(props.list, props.key ?? $identity, props.map ?? $identity) as Satisfied;
+export function KTFor<T>(props: KTForProps<T>): JSX.Element & KTForAnchor<T> {
+  return new KTForAnchor(props.list, props.key ?? $identity, props.map ?? ($identity as Satisfied)) as Satisfied;
 }

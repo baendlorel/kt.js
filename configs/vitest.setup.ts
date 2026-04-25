@@ -1,3 +1,5 @@
+import '../packages/core/src/common/reinforce.js';
+
 Reflect.set(globalThis, '$throw', (message?: string) => {
   throw new Error(message);
 });

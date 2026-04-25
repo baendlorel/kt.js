@@ -1,11 +1,11 @@
 import type { JSX } from '../types/jsx.js';
 import type { SingleContent } from '../types/h.js';
 import type { KTRef } from '../reactable/ref.js';
+import type { Satisfied } from '../types/type-utils.js';
 
 import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable, append } from '../h/content.js';
-import { Satisfied } from '../types/type-utils.js';
 
 export class KTFragmentAnchor extends KTAnchor {
   _current: SingleContent[] = [];

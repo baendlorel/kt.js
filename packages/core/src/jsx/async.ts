@@ -77,8 +77,9 @@ class KTAsyncAnchor extends KTAnchor {
     }
   }
 
-  _appendTo(parent: Element): void {
+  _appendTo(parent: Element): this {
     parent.append(this, this._skeleton);
+    return this;
   }
 }
 

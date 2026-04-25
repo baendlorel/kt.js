@@ -1,10 +1,9 @@
 import { $isArray } from '@ktjs/shared';
-import type { Satisfied } from '../types/type-utils.js';
 import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
 import { $isNull } from '@ktjs/shared';
-import { isAnchor, _node, AType, KTAnchor } from '../common/anchor.js';
+import { isAppendable, _node, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
@@ -31,9 +30,8 @@ class KTContentAnchor extends KTAnchor {
     } else if ($isArray(value)) {
       this._current = [];
       for (let i = 0; i < value.length; i++) {
-        const v = value[i];
-        if (!$isNull(v)) {
-          this._current.push(isKT(v) ? new KTContentAnchor(v) : _node(v));
+        if (!$isNull(value[i])) {
+          this._current.push(_toAppendable(value[i]));
         }
       }
       this._insertTo = this._insertArrayTo;
@@ -92,32 +90,31 @@ class KTContentAnchor extends KTAnchor {
   }
 
   /* @internal */
-  _appendTo(parent: Node): void {
+  _appendTo(parent: Node): this {
     parent.appendChild(this);
     this._insertTo.call(this, parent);
+    return this;
   }
 }
 
-const appendOne = (element: Element, c: SingleContent | KTReactive<SingleContent[]>) => {
-  if ($isNull(c)) {
-    return;
-  }
-
+export const _toAppendable = (c: SingleContent | KTReactive<SingleContent[]>): Node => {
   if (isKT(c)) {
-    new KTContentAnchor(c)._appendTo(element);
-  } else if (isAnchor(c)) {
-    c._appendTo(element); // TODO 这里就有说法了，要_appendTo的多态
+    return new KTContentAnchor(c);
+  } else if (isAppendable(c)) {
+    return c;
   } else {
-    element.append(c as Satisfied);
+    return _node(c);
   }
 };
 
-export function append(element: Element, c: KTRawContent) {
-  if ($isArray(c)) {
+export function append(element: Element, c: KTRawContent): void {
+  if ($isNull(c)) {
+    return;
+  } else if ($isArray(c)) {
     for (let i = 0; i < c.length; i++) {
       append(element, c[i]);
     }
   } else {
-    appendOne(element, c);
+    _toAppendable(c)._appendTo(element);
   }
 }

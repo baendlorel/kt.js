@@ -1,7 +1,7 @@
 export {};
 
 Node.prototype._appendTo = function (this: Node, parent: Node) {
-  parent.appendChild(this);
+  return parent.appendChild(this);
 };
 
 declare global {
@@ -10,7 +10,7 @@ declare global {
      * Only `Node` and `KTAnchor` are implemented with this method
      * @internal
      */
-    _appendTo(parent: Node): void;
+    _appendTo(parent: Node): this;
   }
 
   interface Versioned {

@@ -1,38 +1,48 @@
 import type { JSX } from '../types/jsx.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
-import { $identity } from '@ktjs/shared';
-import { AType, KTAnchor } from '../common/anchor.js';
-import { append } from '../h/content.js';
+import { $identity, $isNull } from '@ktjs/shared';
 import { Satisfied } from '../types/type-utils.js';
+import { SingleContent } from '../types/h.js';
+import { _node, AType, KTAnchor } from '../common/anchor.js';
+import { _toAppendable } from '../h/content.js';
 import { isKT } from '../reactable/common.js';
 
-export class KTForAnchor<T> extends KTAnchor {
+export class KTForAnchor<T extends SingleContent> extends KTAnchor {
   /* @internal */
-  _current: Node[];
+  _current!: Node[];
 
-  constructor(
-    list: T[] | KTReactive<T[]>,
-    key: KTForProps<T>['key'] = $identity,
-    map: KTForProps<T>['map'] = $identity as Satisfied,
-  ) {
+  // TODO key用于未来的优化
+  /* @internal */
+  private _load(list: T[], key: Required<KTForProps<T>>['key'], map: Required<KTForProps<T>>['map']) {
+    const result: Node[] = [];
+    for (let i = 0; i < list.length; i++) {
+      if (!$isNull(list[i])) {
+        result.push(_toAppendable(map(list[i], i, list)));
+      }
+    }
+    this._current = result;
+  }
+
+  constructor(list: T[] | KTReactive<T[]>, key: Required<KTForProps<T>>['key'], map: Required<KTForProps<T>>['map']) {
     super(AType.For);
     if (isKT(list)) {
-      this._current = list.value.map(map);
-      list.listen((v)=>{
-        const 
-        this._current = v.map(map);
-      })
-
+      this._load(list.value, key, map);
+      list.listen((v) => {
+        this._remove();
+        this._load(v, key, map);
+      });
     } else {
-      this._current = list.map(map);
+      this._load(list, key, map);
     }
   }
 
-  _appendTo(parent: Element): void {
+  _appendTo(parent: Element): this {
     parent.appendChild(this);
-    append(parent, this._current);
-    // TODO 其他appendTo也要用append做吗？
+    for (let i = 0; i < this._current.length; i++) {
+      this._current[i]._appendTo(parent);
+    }
+    return this;
   }
 
   _remove(): void {
@@ -42,23 +52,16 @@ export class KTForAnchor<T> extends KTAnchor {
   }
 }
 
-export interface KTForProps<T> {
-  list: T[];
+export interface KTForProps<T extends SingleContent> {
+  list: T[] | KTReactive<T[]>;
   key?: (item: T, index: number, array: T[]) => any;
-  map?: (item: T, index: number, array: T[]) => JSX.Element;
-}
-export interface KTForPropsReactive<T> {
-  list: KTReactive<T[]>;
-  key?: (item: T, index: number, array: T[]) => any;
-  map?: (item: T, index: number, array: T[]) => JSX.Element;
+  map?: (item: T, index: number, array: T[]) => SingleContent;
 }
 
 /**
  * KTFor - List rendering component with key-based optimization
  * Returns a Comment anchor node with rendered elements in anchor.list
  */
-export function KTFor<T>(props: KTForProps<T> | KTForPropsReactive<T>): JSX.Element & KTForAnchor<T> {
-  const { list, key = $identity, map = $identity } = props;
-
-  return anchor;
+export function KTFor<T extends SingleContent>(props: KTForProps<T>): JSX.Element & KTForAnchor<T> {
+  return new KTForAnchor(props.list, props.key ?? $identity, props.map ?? $identity) as Satisfied;
 }

@@ -1,7 +1,6 @@
 import type { HTMLTag, MathMLTag, SVGTag, otherstring } from '@ktjs/shared';
 import type { KTReactive } from '../reactable/reactive.js';
 import type { KTRef } from '../reactable/ref.js';
-import type { KTMaybeReactive } from '../reactable/types.js';
 import type { JSX } from './jsx.js';
 
 export type HTML<T extends (HTMLTag | SVGTag | MathMLTag) & otherstring> = T extends SVGTag

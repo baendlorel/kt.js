@@ -1,4 +1,4 @@
-import type { PrimaryContent } from '../types/h.js';
+import type { PrimaryContent, SingleContent } from '../types/h.js';
 import type { Satisfied } from '../types/type-utils.js';
 
 export const enum AType {
@@ -18,7 +18,7 @@ export abstract class KTAnchor extends Comment {
     this.atype = atype;
   }
 
-  abstract _appendTo(parent: Element): void; // parent.appendChild(this);
+  abstract _appendTo(parent: Element): this; // parent.appendChild(this);
 
   /**
    * Remove the elements related but **not itself**.
@@ -36,6 +36,11 @@ export abstract class KTAnchor extends Comment {
 }
 
 export const isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';
+
+/**
+ * @alias isAppendable Can be appended to DOM, has `_appendTo` method. Not necessarily a KTAnchor.
+ */
+export const isAppendable = (o: any): o is KTAnchor => typeof o?._appendTo === 'function';
 
 export const _node = (c: PrimaryContent): Node =>
   typeof (c as any)?.nodeType === 'number' ? (c as Node) : document.createTextNode(c as Satisfied);

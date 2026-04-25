@@ -7,10 +7,17 @@ export type HTMLTag = keyof HTMLElementTagNameMap;
 export type SVGTag = keyof SVGElementTagNameMap;
 export type MathMLTag = keyof MathMLElementTagNameMap;
 
-type HTMLJSXTag = HTMLTag | ((props?: any) => HTMLElement) | ((props?: any) => Promise<HTMLElement>);
-type SVGJSXTag = HTMLTag | ((props?: any) => SVGElement) | ((props?: any) => Promise<SVGElement>);
-type MathMLJSXTag = HTMLTag | ((props?: any) => MathMLElement) | ((props?: any) => Promise<MathMLElement>);
+type HTMLJSXTag = HTMLTag | ((props?: any) => HTMLElement);
+type SVGJSXTag = SVGTag | ((props?: any) => SVGElement);
+type MathMLJSXTag = MathMLTag | ((props?: any) => MathMLElement);
 export type JSXTag = HTMLJSXTag | SVGJSXTag | MathMLJSXTag;
+
+type HTMLJSXAsyncTag = (props?: any) => Promise<HTMLElement>;
+type SVGJSXAsyncTag = (props?: any) => Promise<SVGElement>;
+type MathMLJSXAsyncTag = (props?: any) => Promise<MathMLElement>;
+export type JSXAsyncTag = HTMLJSXAsyncTag | SVGJSXAsyncTag | MathMLJSXAsyncTag;
+
+export type JSXAllTag = HTMLJSXTag | SVGJSXTag | MathMLJSXTag | HTMLJSXAsyncTag | SVGJSXAsyncTag | MathMLJSXAsyncTag;
 
 /**
  * Get the tags that makes HTMLElementTagNameMap[tag] = HTMLElement

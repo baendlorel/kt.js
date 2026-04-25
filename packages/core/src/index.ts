@@ -15,7 +15,7 @@ export * from './reactable/index.js';
 // # special JSX Components
 export { KTAsync } from './jsx/async.js';
 export { KTFor } from './jsx/for.js';
-export type { KTForProps, KTForElement } from './jsx/for.js';
+export type { KTForProps } from './jsx/for.js';
 export { KTIf } from './jsx/if.js';
 
 // # types
@@ -24,4 +24,3 @@ export type { KTRawContent, KTRawAttr, KTAttribute, KTPrefixedEventAttribute, HT
 export type * from './types/jsx.js';
 
 // EPIC 服务端渲染
-// TODO 改为全部都用vite来打包

@@ -38,11 +38,10 @@ export class KTForAnchor<T extends SingleContent> extends KTAnchor {
   }
 
   _appendTo(parent: Element): this {
-    parent.appendChild(this);
     for (let i = 0; i < this._current.length; i++) {
       this._current[i]._appendTo(parent);
     }
-    return this;
+    return parent.appendChild(this);
   }
 
   _remove(): void {

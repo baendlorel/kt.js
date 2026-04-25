@@ -1,7 +1,9 @@
-import type { PrimaryContent, SingleContent } from '../types/h.js';
+import type { JSX } from '../types/jsx.js';
+import type { PrimaryContent } from '../types/h.js';
 import type { Satisfied } from '../types/type-utils.js';
 
 export const enum AType {
+  Null = 'kt-null',
   Content = 'kt-content',
   Fragment = 'kt-fragment',
   For = 'kt-for',
@@ -9,6 +11,7 @@ export const enum AType {
   Async = 'kt-async',
 }
 
+// # Main Anchor class
 const rm = Comment.prototype.remove;
 export abstract class KTAnchor extends Comment {
   readonly atype: AType;
@@ -34,6 +37,28 @@ export abstract class KTAnchor extends Comment {
     rm.call(this);
   }
 }
+
+// # NullAnchor
+
+class NullAnchor extends KTAnchor {
+  constructor() {
+    super(AType.Null);
+  }
+
+  _appendTo(_parent: Element): this {
+    return this;
+  }
+
+  _remove(): void {}
+}
+
+/**
+ * A special anchor that renders nothing. Used for `KTIf` when the condition is false.
+ * - There'is only one instance of `NullAnchor` in the whole app.
+ */
+export const NULL_ANCHOR = new NullAnchor() as JSX.Element & NullAnchor;
+
+// # Utils
 
 export const isAnchor = (o: any): o is KTAnchor => typeof o?.atype === 'string';
 

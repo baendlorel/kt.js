@@ -1,10 +1,10 @@
 import type { JSX } from '../types/jsx.js';
 import type { KTReactive } from '../reactable/reactive.js';
+import type { Satisfied } from '../types/type-utils.js';
 
 import { $identity, $isNull } from '@ktjs/shared';
-import { Satisfied } from '../types/type-utils.js';
 import { SingleContent } from '../types/h.js';
-import { _node, AType, KTAnchor } from '../common/anchor.js';
+import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable } from '../h/content.js';
 import { isKT } from '../reactable/common.js';
 

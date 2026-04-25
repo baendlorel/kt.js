@@ -3,8 +3,8 @@ import type { SingleContent } from '../types/h.js';
 import type { KTRef } from '../reactable/ref.js';
 
 import { $refToSelf } from '../reactable/ref.js';
-import { _node, AType, KTAnchor } from '../common/anchor.js';
-import { append } from '../h/content.js';
+import { AType, KTAnchor } from '../common/anchor.js';
+import { _toAppendable, append } from '../h/content.js';
 import { Satisfied } from '../types/type-utils.js';
 
 export class KTFragmentAnchor extends KTAnchor {
@@ -12,18 +12,18 @@ export class KTFragmentAnchor extends KTAnchor {
 
   constructor(children: SingleContent[]) {
     super(AType.Fragment);
-    this._current = children;
+    this._current = children.map(_toAppendable);
   }
 
-  _appendTo(parent: Element): void {
-    append(parent, this._current);
+  _appendTo(parent: Element): this {
+    return (append(parent, this._current), this);
   }
 
+  // TODO _是否remove统一不要设_current的length为0
   _remove(): void {
     for (let i = 0; i < this._current.length; i++) {
       (this._current[i] as ChildNode).remove();
     }
-    this._current.length = 0;
   }
 }
 

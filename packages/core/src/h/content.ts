@@ -1,8 +1,7 @@
-import { $isArray } from '@ktjs/shared';
 import type { KTRawContent, PrimaryContent, SingleContent } from '../types/h.js';
 import type { KTReactive } from '../reactable/reactive.js';
 
-import { $isNull } from '@ktjs/shared';
+import { $isNull, $isArray } from '@ktjs/shared';
 import { isAppendable, _node, AType, KTAnchor } from '../common/anchor.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
@@ -37,7 +36,7 @@ class KTContentAnchor extends KTAnchor {
       this._insertTo = this._insertArrayTo;
       this._remove = this._removeArray;
     } else {
-      this._current = _node(value);
+      this._current = _node(value); // & _node is enough because this anchor only used for reactive...
       this._insertTo = this._insertOneTo;
       this._remove = this._removeOne;
     }

@@ -1,12 +1,14 @@
 import type { JSXTag } from '@ktjs/shared';
 import type { JSX } from '../types/jsx.js';
 import type { KTAttribute } from '../types/h.js';
+import type { Satisfied } from '../types/type-utils.js';
 
 import { h } from '../h/index.js';
 import { isKT, type KTReactive } from '../reactable/index.js';
 import { jsxh } from './common.js';
 import { AType, KTAnchor } from '../common/anchor.js';
-import { Satisfied } from '../types/type-utils.js';
+
+type PropGetter = () => KTAttribute;
 
 export class KTIfAnchor extends KTAnchor {
   private _condition: KTReactive<any>;
@@ -14,40 +16,25 @@ export class KTIfAnchor extends KTAnchor {
   private _if: () => Node;
   private _else: () => Node;
 
-  constructor(
-    condition: KTReactive<any>,
-    tagIf: JSXTag,
-    propsIf: () => KTAttribute,
-    tagElse?: JSXTag,
-    propsElse?: () => KTAttribute,
-  ) {
-    super(AType.If);
-    this._condition = condition;
-    this._current = this;
-
-    if (typeof tagIf === 'function') {
-      this._if = () => tagIf(propsIf());
+  private _createRenderer(tag: JSXTag, props: PropGetter): () => Node {
+    if (typeof tag === 'function') {
+      return () => tag(props());
     } else {
-      this._if = () => {
-        const p = propsIf();
-        return h(tagIf, p, p.children);
+      return () => {
+        const p = props();
+        return h(tag, p, p.children);
       };
     }
+  }
 
-    if (tagElse === undefined) {
-      this._else = () => this;
-    } else {
-      if (typeof tagElse === 'function') {
-        this._else = () => tagElse(propsElse!());
-      } else {
-        this._else = () => {
-          const p = propsElse!();
-          return h(tagElse, p, p.children);
-        };
-      }
-    }
+  constructor(cond: KTReactive<any>, a: JSXTag, pa: PropGetter, b?: JSXTag, pb?: PropGetter) {
+    super(AType.If);
+    this._condition = cond;
+    this._current = this;
+    this._if = this._createRenderer(a, pa);
+    this._else = b === undefined ? () => this : this._createRenderer(b, pb!);
 
-    condition.listen((v) => {
+    cond.listen((v) => {
       const old = this._current;
       this._current = v ? this._if() : this._else();
       (old as ChildNode).replaceWith(this._current);
@@ -64,25 +51,15 @@ export class KTIfAnchor extends KTAnchor {
   }
 }
 
-// TODO 逻辑放到 KTIfAnchor 内部
-export function KTIf(
-  condition: any | KTReactive<any>,
-  tagIf: JSXTag,
-  propsIf: () => KTAttribute,
-  tagElse?: JSXTag,
-  propsElse?: () => KTAttribute,
-): JSX.Element {
-  if (isKT(condition)) {
-    return new KTIfAnchor(condition, tagIf, propsIf, tagElse, propsElse) as JSX.Element & KTIfAnchor;
+/**
+ * @param cond Can be reactive or static.
+ */
+export function KTIf(cond: any, tagIf: JSXTag, pIf: PropGetter, tagElse?: JSXTag, pElse?: PropGetter): JSX.Element {
+  if (isKT(cond)) {
+    return new KTIfAnchor(cond, tagIf, pIf, tagElse, pElse) as JSX.Element & KTIfAnchor;
+  } else if (cond) {
+    return jsxh(tagIf, pIf());
   } else {
-    if (condition) {
-      return jsxh(tagIf, propsIf());
-    } else {
-      if (tagElse) {
-        return jsxh(tagElse, propsElse!());
-      } else {
-        return null as Satisfied; // !This should be filtered by `append` and `_appendTo`
-      }
-    }
+    return tagElse === undefined ? (null as Satisfied) : jsxh(tagElse, pElse!());
   }
 }

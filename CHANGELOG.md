@@ -2,6 +2,39 @@
 
 ## 0.40.x - 2026-04-26
 
+### Breaking Changes
+
+- `KTConditional` renamed to `KTIf`
+- `KTSubRef` is now a subclass of `KTRef` (previously independent)
+- *`addOnChange` methods renamed to `listener`*
+- Anchor classes refactored with unified `_appendTo` method pattern
+
+### Refactor
+
+- Unified `KTAnchor` implementation across all anchor types (`KTIfAnchor`, `KTForAnchor`, `KTFragmentAnchor`, `KTAsyncAnchor`)
+- Simplified `Fragment` implementation for plain array children
+- Removed `handlerKeys`, `handlers` changed to `Set`
+- Merged `KTRawContent` and `MultiContent` types
+- Removed internal markers and added `hidePrivate` rollup plugin
+- `subref` no longer supports `get` method
+
+### Fixes
+
+- Fixed `k-for` not inserting updated list items to DOM
+- Fixed `KTIf` infinitely appending itself
+- Fixed `KTSubRef<string>` assigned to `KTRef<any>` type error
+
+### Features
+
+- `style` and `class` props now fully reactive
+- `KTAsync` updated to handle reactive values as component
+
+### Other
+
+- Reduced icon bundle size by 32.7%
+- Removed sourcemaps from `@ktjs/mui`
+- Added husky and lint-staged
+
 ## 0.39.x - 2026-04-20
 
 ### Breaking Changes

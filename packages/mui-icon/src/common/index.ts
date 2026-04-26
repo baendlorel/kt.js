@@ -1,3 +1,5 @@
+import { applyAttr } from '@ktjs/core';
+
 export function svg(svgElements: SVGElement[], title?: string): SVGElement;
 export function svg(svgElement: SVGElement, title?: string): SVGElement;
 export function svg(props: { children: SVGElement[] }, title?: string): SVGElement;
@@ -63,5 +65,10 @@ const commonAttr = {
 const create = () => {
   const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   Object.entries(commonAttr).forEach(([k, v]) => s.setAttribute(k, v));
+  return s;
+};
+
+export const clone = (s: SVGElement, props: any) => {
+  applyAttr(s, props);
   return s;
 };

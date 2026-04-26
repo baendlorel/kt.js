@@ -21,7 +21,7 @@ Usage:
 Notes:
   - project mode only
   - check only, never emit files
-  - only suppresses k-for alias false positives
+  - suppresses k-for alias false positives and k-if narrowing false positives
 `;
 
 const IDENTIFIER_RE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
@@ -32,6 +32,7 @@ const SUPPRESSED_DIAGNOSTIC_CODES = new Set([2304, 2552]);
 
 interface KForConfig {
   forAttr: string;
+  ifAttr: string;
   allowOfKeyword: boolean;
 }
 
@@ -46,6 +47,17 @@ interface KForScope {
   bindings: KForBinding[];
 }
 
+interface KIfNarrowing {
+  text: string;
+  types: ts.Type[];
+}
+
+interface KIfScope {
+  start: number;
+  end: number;
+  narrowings: KIfNarrowing[];
+}
+
 interface ParsedKFor {
   aliases: string[];
   source: string;
@@ -55,6 +67,7 @@ interface TypeResolutionContext {
   checker: ts.TypeChecker;
   scopeNode: ts.Node;
   localBindings?: Map<string, readonly ts.Type[]>;
+  narrowedExpressions?: Map<string, readonly ts.Type[]>;
 }
 
 function main() {
@@ -129,7 +142,10 @@ function main() {
     });
 
     const checker = program.getTypeChecker();
-    const projectDiagnostics = ts.sortAndDeduplicateDiagnostics([...project.errors, ...ts.getPreEmitDiagnostics(program)]);
+    const projectDiagnostics = ts.sortAndDeduplicateDiagnostics([
+      ...project.errors,
+      ...ts.getPreEmitDiagnostics(program),
+    ]);
     const { diagnostics, memberDiagnostics } = filterDiagnostics(projectDiagnostics, config, checker);
 
     if (diagnostics.length > 0) {
@@ -202,24 +218,36 @@ function resolveKForConfig(plugins: unknown): KForConfig {
   const plugin = pluginList.find((item) => item?.name === '@ktjs/ts-plugin');
   return {
     forAttr: typeof plugin?.forAttr === 'string' && plugin.forAttr ? plugin.forAttr : 'k-for',
+    ifAttr: typeof plugin?.ifAttr === 'string' && plugin.ifAttr ? plugin.ifAttr : 'k-if',
     allowOfKeyword: plugin?.allowOfKeyword !== false,
   };
 }
 
 function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForConfig, checker: ts.TypeChecker) {
-  const scopeCache = new Map<string, KForScope[]>();
-  const memberCache = new Map<string, ts.DiagnosticWithLocation[]>();
+  const analysisCache = new Map<
+    string,
+    {
+      scopes: KForScope[];
+      ifScopes: KIfScope[];
+      memberDiagnostics: ts.DiagnosticWithLocation[];
+    }
+  >();
 
-  const getFileScopes = (sourceFile: ts.SourceFile) => {
-    let scopes = scopeCache.get(sourceFile.fileName);
-    if (scopes) {
-      return scopes;
+  const getFileAnalysis = (sourceFile: ts.SourceFile) => {
+    let analysis = analysisCache.get(sourceFile.fileName);
+    if (analysis) {
+      return analysis;
     }
 
-    scopes = collectKForScopes(sourceFile, config, checker);
-    scopeCache.set(sourceFile.fileName, scopes);
-    memberCache.set(sourceFile.fileName, getKForMemberDiagnostics(sourceFile, checker, scopes));
-    return scopes;
+    const ifScopes = collectKIfScopes(sourceFile, config, checker);
+    const scopes = collectKForScopes(sourceFile, config, checker);
+    analysis = {
+      scopes,
+      ifScopes,
+      memberDiagnostics: getKForMemberDiagnostics(sourceFile, checker, scopes, ifScopes),
+    };
+    analysisCache.set(sourceFile.fileName, analysis);
+    return analysis;
   };
 
   const filteredDiagnostics = diagnostics.filter((diagnostic) => {
@@ -227,10 +255,15 @@ function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForCo
     if (!diagnostic.file || diagnostic.start === null || diagnostic.start === undefined || length === 0) {
       return true;
     }
-    if (!SUPPRESSED_DIAGNOSTIC_CODES.has(diagnostic.code)) {
+    if (!isJsxLikeFile(diagnostic.file.fileName)) {
       return true;
     }
-    if (!isJsxLikeFile(diagnostic.file.fileName)) {
+
+    const analysis = getFileAnalysis(diagnostic.file);
+    if (analysis.ifScopes.length > 0 && isSuppressedByKIfNarrowing(diagnostic, diagnostic.file, analysis.ifScopes)) {
+      return false;
+    }
+    if (!SUPPRESSED_DIAGNOSTIC_CODES.has(diagnostic.code)) {
       return true;
     }
 
@@ -239,14 +272,13 @@ function filterDiagnostics(diagnostics: readonly ts.Diagnostic[], config: KForCo
       return true;
     }
 
-    const scopes = getFileScopes(diagnostic.file);
-    return !isSuppressed(diagnostic.start, name, scopes);
+    return !isSuppressed(diagnostic.start, name, analysis.scopes);
   });
 
   const memberDiagnostics: ts.DiagnosticWithLocation[] = [];
-  for (const diagnostics of memberCache.values()) {
-    if (diagnostics.length > 0) {
-      memberDiagnostics.push(...diagnostics);
+  for (const analysis of analysisCache.values()) {
+    if (analysis.memberDiagnostics.length > 0) {
+      memberDiagnostics.push(...analysis.memberDiagnostics);
     }
   }
 
@@ -262,11 +294,7 @@ function collectKForScopes(sourceFile: ts.SourceFile, config: KForConfig, checke
 
     if (ts.isJsxElement(node)) {
       opening = node.openingElement;
-      const start = opening.end;
-      const end = node.closingElement.getStart(sourceFile);
-      if (start < end) {
-        bodyScope = { start, end };
-      }
+      bodyScope = resolveElementBodyScope(node, sourceFile);
     } else if (ts.isJsxSelfClosingElement(node)) {
       opening = node;
     }
@@ -317,6 +345,170 @@ function collectKForScopes(sourceFile: ts.SourceFile, config: KForConfig, checke
 
   visit(sourceFile);
   return scopes;
+}
+
+function collectKIfScopes(sourceFile: ts.SourceFile, config: KForConfig, checker: ts.TypeChecker) {
+  const scopes: KIfScope[] = [];
+
+  const visit = (node: ts.Node) => {
+    let opening: ts.JsxOpeningElement | ts.JsxSelfClosingElement | undefined;
+    let bodyScope: { start: number; end: number } | undefined;
+
+    if (ts.isJsxElement(node)) {
+      opening = node.openingElement;
+      bodyScope = resolveElementBodyScope(node, sourceFile);
+    } else if (ts.isJsxSelfClosingElement(node)) {
+      opening = node;
+    }
+
+    if (opening) {
+      const ifAttr = getJsxAttribute(opening, config.ifAttr);
+      if (ifAttr) {
+        const narrowings = resolveIfAttributeNarrowings(ifAttr, checker, sourceFile);
+        if (narrowings.length > 0) {
+          if (bodyScope) {
+            scopes.push({ start: bodyScope.start, end: bodyScope.end, narrowings });
+          }
+
+          const attributeScopes = resolveAttributeExpressionScopes(opening, ifAttr, sourceFile);
+          for (let i = 0; i < attributeScopes.length; i++) {
+            scopes.push({
+              start: attributeScopes[i].start,
+              end: attributeScopes[i].end,
+              narrowings,
+            });
+          }
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return scopes;
+}
+
+function resolveElementBodyScope(node: ts.JsxElement, sourceFile: ts.SourceFile) {
+  const start = node.openingElement.end;
+  const end = node.closingElement.getStart(sourceFile);
+  if (start >= end) {
+    return undefined;
+  }
+  return { start, end };
+}
+
+function resolveAttributeExpressionScopes(
+  opening: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+  excludedAttr: ts.JsxAttribute,
+  sourceFile: ts.SourceFile,
+) {
+  const scopes: Array<{ start: number; end: number }> = [];
+  const attrs = opening.attributes.properties;
+
+  for (let i = 0; i < attrs.length; i++) {
+    const attr = attrs[i];
+    if (ts.isJsxSpreadAttribute(attr)) {
+      const start = attr.getStart(sourceFile);
+      const end = attr.end;
+      if (start < end) {
+        scopes.push({ start, end });
+      }
+      continue;
+    }
+
+    if (!ts.isJsxAttribute(attr) || attr === excludedAttr || !attr.initializer) {
+      continue;
+    }
+
+    if (!ts.isJsxExpression(attr.initializer) || !attr.initializer.expression) {
+      continue;
+    }
+
+    const start = attr.initializer.getStart(sourceFile);
+    const end = attr.initializer.end;
+    if (start < end) {
+      scopes.push({ start, end });
+    }
+  }
+
+  return scopes;
+}
+
+function resolveIfAttributeNarrowings(ifAttr: ts.JsxAttribute, checker: ts.TypeChecker, sourceFile: ts.SourceFile) {
+  const expression = getAttributeExpression(ifAttr);
+  if (!expression) {
+    return [];
+  }
+
+  const target = getStableIfNarrowingTarget(expression);
+  if (!target) {
+    return [];
+  }
+
+  const types = getTruthyIfTypes(checker.getTypeAtLocation(target), checker, target);
+  if (types.length === 0) {
+    return [];
+  }
+
+  return [
+    {
+      text: target.getText(sourceFile),
+      types,
+    },
+  ];
+}
+
+function getStableIfNarrowingTarget(expression: ts.Expression): ts.Expression | undefined {
+  let current = expression;
+
+  while (true) {
+    if (ts.isParenthesizedExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isAsExpression(current) || ts.isTypeAssertionExpression(current) || ts.isSatisfiesExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    if (ts.isNonNullExpression(current)) {
+      current = current.expression;
+      continue;
+    }
+    break;
+  }
+
+  if (ts.isIdentifier(current)) {
+    return current;
+  }
+
+  if (ts.isPropertyAccessExpression(current) && !current.questionDotToken) {
+    const object = getStableIfNarrowingTarget(current.expression);
+    return object ? current : undefined;
+  }
+
+  return undefined;
+}
+
+function getTruthyIfTypes(sourceType: ts.Type, checker: ts.TypeChecker, scopeNode: ts.Node) {
+  const candidates = sourceType.flags & ts.TypeFlags.Union ? (sourceType as ts.UnionType).types : [sourceType];
+  const result: ts.Type[] = [];
+
+  for (let i = 0; i < candidates.length; i++) {
+    const candidate = candidates[i];
+    if (candidate.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) {
+      continue;
+    }
+    if (
+      candidate.flags & ts.TypeFlags.BooleanLiteral &&
+      (candidate as ts.Type & { intrinsicName?: string }).intrinsicName === 'false'
+    ) {
+      continue;
+    }
+    result.push(candidate);
+  }
+
+  return uniqueTypes(result, checker, scopeNode);
 }
 
 function createBindings(parsed: ParsedKFor, checker: ts.TypeChecker, scopeNode: ts.Node) {
@@ -395,7 +587,12 @@ function isReactiveLikeType(sourceType: ts.Type, checker: ts.TypeChecker) {
   return !!checker.getPropertyOfType(sourceType, 'kid') && !!checker.getPropertyOfType(sourceType, 'ktype');
 }
 
-function getKForMemberDiagnostics(sourceFile: ts.SourceFile, checker: ts.TypeChecker, scopes: KForScope[]) {
+function getKForMemberDiagnostics(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+  scopes: KForScope[],
+  ifScopes: KIfScope[],
+) {
   if (scopes.length === 0) {
     return [];
   }
@@ -406,7 +603,7 @@ function getKForMemberDiagnostics(sourceFile: ts.SourceFile, checker: ts.TypeChe
     let diagnostic: ts.DiagnosticWithLocation | undefined;
 
     if (ts.isPropertyAccessExpression(node) && !node.questionDotToken) {
-      diagnostic = getMemberAccessDiagnostic(node, node.name.text, node.name, sourceFile, checker, scopes);
+      diagnostic = getMemberAccessDiagnostic(node, node.name.text, node.name, sourceFile, checker, scopes, ifScopes);
     } else if (ts.isElementAccessExpression(node) && !node.questionDotToken && node.argumentExpression) {
       if (ts.isStringLiteralLike(node.argumentExpression) || ts.isNumericLiteral(node.argumentExpression)) {
         diagnostic = getMemberAccessDiagnostic(
@@ -416,6 +613,7 @@ function getKForMemberDiagnostics(sourceFile: ts.SourceFile, checker: ts.TypeChe
           sourceFile,
           checker,
           scopes,
+          ifScopes,
         );
       }
     }
@@ -438,6 +636,7 @@ function getMemberAccessDiagnostic(
   sourceFile: ts.SourceFile,
   checker: ts.TypeChecker,
   scopes: KForScope[],
+  ifScopes: KIfScope[],
 ) {
   const bindings = collectBindingsAtPosition(node.getStart(sourceFile), scopes);
   if (bindings.size === 0) {
@@ -450,10 +649,12 @@ function getMemberAccessDiagnostic(
   }
 
   const localBindings = createBindingTypeMap(bindings);
+  const narrowedExpressions = collectIfNarrowingsAtPosition(node.getStart(sourceFile), ifScopes);
   const receiverTypes = resolveExpressionTypesFromText(node.expression.getText(sourceFile), {
     checker,
     scopeNode: node,
     localBindings,
+    narrowedExpressions,
   });
   if (receiverTypes.length === 0 || canSkipMemberCheck(receiverTypes)) {
     return undefined;
@@ -463,6 +664,7 @@ function getMemberAccessDiagnostic(
     checker,
     scopeNode: node,
     localBindings,
+    narrowedExpressions,
   });
   if (accessTypes.length > 0) {
     return undefined;
@@ -514,6 +716,26 @@ function createBindingTypeMap(bindings: Map<string, KForBinding>) {
     map.set(binding.name, binding.types);
   }
   return map;
+}
+
+function collectIfNarrowingsAtPosition(position: number, ifScopes: KIfScope[]) {
+  const narrowings = new Map<string, readonly ts.Type[]>();
+
+  for (let i = ifScopes.length - 1; i >= 0; i--) {
+    const scope = ifScopes[i];
+    if (position < scope.start || position >= scope.end) {
+      continue;
+    }
+
+    for (let j = 0; j < scope.narrowings.length; j++) {
+      const narrowing = scope.narrowings[j];
+      if (!narrowings.has(narrowing.text)) {
+        narrowings.set(narrowing.text, narrowing.types);
+      }
+    }
+  }
+
+  return narrowings;
 }
 
 function getRootIdentifier(expr: ts.Expression): ts.Identifier | undefined {
@@ -568,6 +790,10 @@ function resolveExpressionTypesFromText(raw: string, context: TypeResolutionCont
 
 function resolveExpressionTypes(expr: ts.Expression, context: TypeResolutionContext): ts.Type[] {
   const target = unwrapExpression(expr);
+  const narrowedTypes = context.narrowedExpressions?.get(target.getText());
+  if (narrowedTypes && narrowedTypes.length > 0) {
+    return [...narrowedTypes];
+  }
 
   if (ts.isIdentifier(target)) {
     return resolveIdentifierTypes(target.text, context);
@@ -798,6 +1024,66 @@ function isJsxLikeFile(fileName: string) {
   return extension === '.tsx' || extension === '.jsx';
 }
 
+function hasDiagnosticSpan(diagnostic: ts.Diagnostic): diagnostic is ts.Diagnostic & { start: number; length: number } {
+  return typeof diagnostic.start === 'number' && typeof diagnostic.length === 'number';
+}
+
+function isSuppressedByKIfNarrowing(diagnostic: ts.Diagnostic, sourceFile: ts.SourceFile, ifScopes: KIfScope[]) {
+  if (!hasDiagnosticSpan(diagnostic)) {
+    return false;
+  }
+
+  if (
+    diagnostic.code !== 2531 &&
+    diagnostic.code !== 2532 &&
+    diagnostic.code !== 2533 &&
+    diagnostic.code !== 18047 &&
+    diagnostic.code !== 18048 &&
+    diagnostic.code !== 18049 &&
+    diagnostic.code !== 2339
+  ) {
+    return false;
+  }
+
+  const narrowings = collectIfNarrowingsAtPosition(diagnostic.start, ifScopes);
+  if (narrowings.size === 0) {
+    return false;
+  }
+
+  const text = sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+  for (const narrowedText of narrowings.keys()) {
+    if (text === narrowedText || text.startsWith(`${narrowedText}.`)) {
+      return true;
+    }
+  }
+
+  const node = findInnermostNode(sourceFile, normalizePosition(diagnostic.start, sourceFile));
+  const parent = node?.parent;
+  if (!parent) {
+    return false;
+  }
+
+  if (ts.isPropertyAccessExpression(parent)) {
+    const receiverText = parent.expression.getText(sourceFile);
+    for (const narrowedText of narrowings.keys()) {
+      if (receiverText === narrowedText || receiverText.startsWith(`${narrowedText}.`)) {
+        return true;
+      }
+    }
+  }
+
+  if (ts.isElementAccessExpression(parent) && parent.argumentExpression === node) {
+    const receiverText = parent.expression.getText(sourceFile);
+    for (const narrowedText of narrowings.keys()) {
+      if (receiverText === narrowedText || receiverText.startsWith(`${narrowedText}.`)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 function getJsxAttribute(opening: ts.JsxOpeningElement | ts.JsxSelfClosingElement, attrName: string) {
   const attrs = opening.attributes.properties;
   for (let i = 0; i < attrs.length; i++) {
@@ -832,6 +1118,13 @@ function getAttributeText(attr: ts.JsxAttribute | undefined) {
     return attr.initializer.expression.text;
   }
   return undefined;
+}
+
+function getAttributeExpression(attr: ts.JsxAttribute | undefined) {
+  if (!attr?.initializer || !ts.isJsxExpression(attr.initializer)) {
+    return undefined;
+  }
+  return attr.initializer.expression;
 }
 
 function parseKForExpression(raw: string | undefined, allowOfKeyword: boolean): ParsedKFor | undefined {
@@ -893,6 +1186,33 @@ function unwrapExpression(expr: ts.Expression): ts.Expression {
     }
     return current;
   }
+}
+
+function normalizePosition(position: number, sourceFile: ts.SourceFile) {
+  const max = Math.max(sourceFile.text.length - 1, 0);
+  if (position < 0) {
+    return 0;
+  }
+  if (position > max) {
+    return max;
+  }
+  return position;
+}
+
+function findInnermostNode(node: ts.Node, position: number): ts.Node | undefined {
+  if (position < node.getFullStart() || position >= node.end) {
+    return undefined;
+  }
+
+  let match: ts.Node | undefined;
+  ts.forEachChild(node, (child) => {
+    const childMatch = findInnermostNode(child, position);
+    if (childMatch) {
+      match = childMatch;
+    }
+  });
+
+  return match || node;
 }
 
 function report(diagnostics: readonly ts.Diagnostic[], pretty: boolean) {

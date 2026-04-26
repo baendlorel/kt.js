@@ -1,3 +1,4 @@
+import './path-join.js';
 import path from 'node:path';
 import fs from 'node:fs';
 import { defineConfig } from 'vite';
@@ -9,21 +10,29 @@ import hidePrivate from 'rollup-plugin-hide-private';
 import { getTSConfig } from './utils.js';
 import { replace } from './replace.js';
 
-export const createDtsConfig = (libPath: string) => {
+export const declaration = defineConfig(() => {
+  const lib = process.env.CURRENT_PKG_PATH;
+  if (!lib) {
+    throw new Error('CURRENT_PKG_PATH environment variable is not set.');
+  }
+
   return {
-    input: libPath.join('src', 'index.ts'),
+    input: lib.join('src', 'index.ts'),
     output: {
       entryFileNames: 'index.d.ts',
-      dir: libPath.join('dist'),
+      dir: lib.join('dist'),
+    },
+    build: {
+      sourcemap: needSourceMap(lib),
     },
     external: [/^@ktjs/],
     plugins: [
-      replace(libPath),
+      replace(lib),
       hidePrivate({
         allNames: [/^_/],
       }),
       dts({
-        tsconfigPath: getTSConfig(libPath),
+        tsconfigPath: getTSConfig(lib),
         compilerOptions: {
           composite: false,
           incremental: false,
@@ -33,11 +42,11 @@ export const createDtsConfig = (libPath: string) => {
       }),
     ],
   };
-};
+});
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
-export default defineConfig(() => {
+export const main = defineConfig(() => {
   const lib = process.env.CURRENT_PKG_PATH;
   if (!lib) {
     throw new Error('CURRENT_PKG_PATH environment variable is not set.');
@@ -66,6 +75,15 @@ export default defineConfig(() => {
       },
     },
     plugins: [
+      dts({
+        tsconfigPath: getTSConfig(lib),
+        compilerOptions: {
+          composite: false,
+          incremental: false,
+          stripInternal: true,
+        },
+        rollupTypes: true,
+      }),
       replace(lib),
       typescript({
         tsconfig,

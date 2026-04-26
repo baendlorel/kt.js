@@ -1,5 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {},
-  "include": ["src/**/*.*"]
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

@@ -5,6 +5,7 @@ import { check } from './check.js';
 import { publish } from './publish.js';
 import { syncReadme } from './readme.js';
 import { test } from './test.js';
+import { vitebuild } from './vitebuild.js';
 
 const taskHandler = {
   '--publish': publish,
@@ -12,6 +13,7 @@ const taskHandler = {
   '--test': test,
   '--check': check,
   '--readme': syncReadme,
+  '--vitebuild': vitebuild,
 };
 
 async function main() {

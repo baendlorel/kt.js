@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import path from 'node:path';
 
 export interface CommonPackageJson {
   name: string;
@@ -29,29 +28,18 @@ export function dtm(dt = new Date()) {
 }
 
 export const getTSConfig = (p: string) => {
-  const tsconfigBuildPath = path.join(p, 'tsconfig.build.json');
-  const tsconfigPath = path.join(p, 'tsconfig.json');
-  return fs.existsSync(tsconfigBuildPath) ? tsconfigBuildPath : tsconfigPath;
+  const tsconfigBuild = p.join('tsconfig.build.json');
+  return fs.existsSync(tsconfigBuild) ? tsconfigBuild : p.join('tsconfig.json');
 };
 
 export const loadJson = (filePath: string) => JSON.parse(fs.readFileSync(filePath, 'utf-8')) as CommonPackageJson;
 
-export const Root = path.join(import.meta.dirname, '..');
+export const Root = import.meta.dirname.join('..');
 export const Packages = ['packages', 'plugins']
   .map((t) => {
-    const p = path.join(Root, t);
+    const p = Root.join(t);
     const ls = fs.readdirSync(p);
-    return ls.map((l) => path.join(p, l));
+    return ls.map((l) => p.join(l));
   })
   .flat()
-  .filter((p) => fs.existsSync(path.join(p, 'package.json')));
-
-declare global {
-  interface String {
-    join(...paths: string[]): string;
-  }
-}
-
-String.prototype.join = function (...paths: string[]) {
-  return path.join(this.toString(), ...paths);
-};
+  .filter((p) => fs.existsSync(p.join('package.json')));

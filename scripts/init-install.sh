@@ -21,4 +21,5 @@ pnpm add -D \
  oxlint \
  rollup-plugin-func-macro \
  rollup-plugin-const-enum \
+ rollup-plugin-hide-private \
  rollup-plugin-conditional-compilation 

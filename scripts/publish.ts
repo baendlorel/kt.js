@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
-import { ask, getPackageInfo, PackageInfo, Version } from './common/index.js';
+import { ask, getPackageInfo, PackageInfo, syncRootPackageVersionFromCore, Version } from './common/index.js';
 import { buildWithInfo } from './build.js';
 import { syncReadme } from './readme.js';
 
@@ -37,13 +37,16 @@ export async function publish(who: string | undefined) {
     info.json.version = newVer;
     writeFileSync(info.jsonPath, JSON.stringify(info.json, null, 2), 'utf-8');
   });
+  const syncedRootPath = syncRootPackageVersionFromCore(group);
 
   // ! Ensure all versions are bumped. Otherwise inter-dependencies may cause build failures
   group.forEach(buildWithInfo);
   group.forEach(gitTag);
 
   const releaseInfo = group.map((info, i) => `${i}.${info.name}@${info.json.version}`).join('\n');
-  const changedPaths = [...new Set([...group.map((info) => info.jsonPath), ...readmePaths])];
+  const changedPaths = [
+    ...new Set([...group.map((info) => info.jsonPath), ...readmePaths, ...(syncedRootPath ? [syncedRootPath] : [])]),
+  ];
   execSync(`git add ${changedPaths.map((item) => JSON.stringify(item)).join(' ')}`, { stdio: 'inherit' });
   execSync(`git commit -m "release: \n${releaseInfo}"`, { stdio: 'inherit' });
   console.log('Committed :', releaseInfo);

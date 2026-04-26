@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { Version } from './version.js';
 
@@ -21,6 +21,8 @@ const publishGroupMap = new Map<string | undefined, string[]>([
   ['plugin', ['vite', 'babel', 'transformer', 'create']],
   ['all', ['shared', 'core', 'kt.js', 'mui', 'mui-icon', 'router']],
 ]);
+
+export const rootPackageJsonPath = path.join(import.meta.dirname, '..', '..', 'package.json');
 
 const getAbsolutePath = (who: string) => {
   const path1 = path.join(import.meta.dirname, '..', '..', 'packages', who);
@@ -62,3 +64,20 @@ export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
       env: { ...process.env, CURRENT_PKG_PATH: absolutePath },
     };
   });
+
+export function syncRootPackageVersionFromCore(group: PackageInfo[]): string | undefined {
+  const coreInfo = group.find((info) => info.name === '@ktjs/core');
+  if (!coreInfo) {
+    return undefined;
+  }
+
+  const rootPackageJson = JSON.parse(readFileSync(rootPackageJsonPath, 'utf-8'));
+  if (rootPackageJson.version === coreInfo.json.version) {
+    return undefined;
+  }
+
+  rootPackageJson.version = coreInfo.json.version;
+  writeFileSync(rootPackageJsonPath, `${JSON.stringify(rootPackageJson, null, 2)}\n`, 'utf-8');
+  console.log(`Synced root package version to ${coreInfo.json.version} from @ktjs/core`);
+  return rootPackageJsonPath;
+}

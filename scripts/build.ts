@@ -1,10 +1,11 @@
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
-import { getPackageInfo, PackageInfo } from './common/index.js';
+import { getPackageInfo, PackageInfo, syncRootPackageVersionFromCore } from './common/index.js';
 
 export function build(who: string | undefined) {
   const group = getPackageInfo(who);
+  syncRootPackageVersionFromCore(group);
   group.forEach(buildWithInfo);
 }
 

@@ -26,6 +26,7 @@
 2. Value listeners are now stored in a `Set` instead of `Map`.
 3. `KTFor`, `KTIf`,`KTAsync`,`Fragment` are completely refactored by using `KTAnchor`. More reliable, efficient and safe. (Lifecycle mechanism is under design)
 4. sub-getters are now using `KTComputed`, subref is unchanged.
+5. Add `KType.Custom` for custom reactive classes.
 
 ## Introduction
 

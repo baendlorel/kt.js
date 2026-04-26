@@ -80,7 +80,7 @@ export const main = defineConfig(() => {
       },
     },
     plugins: [
-      replace(lib),
+      replace(lib), // only works for js, not for dts.
       hidePrivate({
         mode: 'write-files',
         filePatterns: ['dist/index.d.ts'],

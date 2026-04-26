@@ -7,9 +7,9 @@ const globalDefines = {
   'process.env.IS_DEV': JSON.stringify('false'),
 };
 
-export function replace(pkg?: string): ReturnType<typeof rp.default> {
+function getOptions(pkg?: string): rp.RollupReplaceOptions {
   if (!pkg) {
-    return rp.default({ values: globalDefines, preventAssignment: true });
+    return { values: globalDefines, preventAssignment: true };
   }
 
   const json = loadJson(pkg.join('package.json'));
@@ -19,7 +19,7 @@ export function replace(pkg?: string): ReturnType<typeof rp.default> {
   const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_0, _1, c) => c.toUpperCase());
   const __PKG_INFO__ = loadTemplate(json);
 
-  return rp.default({
+  return {
     preventAssignment: true,
     delimiters: ['', ''],
     values: {
@@ -38,5 +38,11 @@ export function replace(pkg?: string): ReturnType<typeof rp.default> {
       '$error(': `console.error('[kt.js error]',`,
       '$debug(': `console.debug('[kt.js debug]',`,
     },
-  });
+  };
 }
+
+export function replace(pkg?: string): ReturnType<typeof rp.default> {
+  return rp.default(getOptions(pkg));
+}
+
+export function replaceForViteDts() {}

@@ -10,6 +10,7 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
+import hidePrivate from 'rollup-plugin-hide-private';
 
 // TODO 到底为什么不能用vite统一打包
 export default async (_commandLineArgs: Record<string, string[]>): Promise<RollupOptions[]> => {
@@ -83,6 +84,9 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
             incremental: false,
             stripInternal: true,
           },
+        }),
+        hidePrivate({
+          allNames: [/^_/],
         }),
       ],
       external: [/^@ktjs/],

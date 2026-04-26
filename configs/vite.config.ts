@@ -7,7 +7,8 @@ import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'vite-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
-import { getTSConfig, loadJson, Packages } from './utils.js';
+import { dtm, getTSConfig, loadJson, Packages } from './utils.js';
+import { loadTemplate } from './load-template.js';
 
 // 导出类型定义构建配置供单独使用
 export const createDtsConfig = (libPath: string) => {
@@ -108,81 +109,50 @@ export default defineConfig(() => {
 // #region utils
 
 export const getAliases = () => {
-  const aliasMap: Record<string, string> = {};
-  for (const packageDir of Packages) {
-    const json = loadJson(path.join(packageDir, 'package.json'));
-    const src = path.join(packageDir, 'src');
+  const aliases: Array<{ find: string; replacement: string }> = [];
 
-    aliasMap[json.name] = path.join(src, 'index.ts');
-    if (json.name === '@ktjs/core') {
-      aliasMap[json.name + '/jsx'] = path.join(src, 'index.ts');
-      aliasMap[json.name + '/jsx-runtime'] = path.join(src, 'jsx-runtime.ts');
-      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(src, 'jsx-runtime.ts');
-    } else if (json.name === 'kt.js') {
-      aliasMap[json.name + '/jsx'] = path.join(src, 'jsx.ts');
-      aliasMap[json.name + '/jsx-runtime'] = path.join(src, 'jsx-runtime.ts');
-      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(src, 'jsx-runtime.ts');
+  for (const packageDir of Packages) {
+    const { name } = loadJson(packageDir.join('package.json'));
+    const src = packageDir.join('src');
+    aliases.push({ find: name, replacement: src.join('index.ts') });
+
+    if (!['@ktjs/core', 'kt.js'].includes(name)) {
+      continue;
     }
+
+    // Extra aliases for jsx runtimes
+    if (name === '@ktjs/core') {
+      aliases.push({ find: name + '/jsx', replacement: src.join('index.ts') });
+    } else if (name === 'kt.js') {
+      aliases.push({ find: name + '/jsx', replacement: src.join('jsx.ts') });
+    }
+    aliases.push({ find: name + '/jsx-runtime', replacement: src.join('jsx-runtime.ts') });
+    aliases.push({ find: name + '/jsx-dev-runtime', replacement: src.join('jsx-runtime.ts') });
   }
 
-  return Object.entries(aliasMap)
-    .sort(([a], [b]) => b.length - a.length)
-    .map(([find, replacement]) => ({ find, replacement }));
+  // ! Keep longer paths first to ensure correct matching
+  // (e.g. @ktjs/core/jsx should be matched before @ktjs/core)
+  return aliases.sort((a, b) => b.find.length - a.find.length);
 };
 
 // #region replace options
-
-interface CommonPackageJson {
-  name: string;
-  version: string;
-  description: string;
-  description_zh: string;
-  author: {
-    name: string;
-    email: string;
-  };
-  license: string;
-  repository: {
-    type: string;
-    url: string;
-  };
-}
 
 export const globalDefines = {
   'process.env.BASE_URL': JSON.stringify('/'),
   'process.env.IS_DEV': JSON.stringify('false'),
 };
 
-export function replaceOpts(packagePath?: string): RollupReplaceOptions {
-  if (!packagePath) {
+export function replaceOpts(pkg?: string): RollupReplaceOptions {
+  if (!pkg) {
     return { values: globalDefines, preventAssignment: true };
   }
 
-  const pkg = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf-8')) as CommonPackageJson;
-  function formatDateFull(dt = new Date()) {
-    const y = dt.getFullYear();
-    const m = String(dt.getMonth() + 1).padStart(2, '0');
-    const d = String(dt.getDate()).padStart(2, '0');
-    const hh = String(dt.getHours()).padStart(2, '0');
-    const mm = String(dt.getMinutes()).padStart(2, '0');
-    const ss = String(dt.getSeconds()).padStart(2, '0');
-    const ms = String(dt.getMilliseconds()).padStart(3, '0');
-    return `${y}.${m}.${d} ${hh}:${mm}:${ss}.${ms}`;
-  }
+  const json = loadJson(pkg.join('package.json'));
 
-  const __KEBAB_NAME__ = pkg.name.replace('rollup-plugin-', '');
-  const __VERSION__ = pkg.version;
+  const __KEBAB_NAME__ = json.name.replace('rollup-plugin-', '');
+  const __VERSION__ = json.version;
   const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase());
-
-  const __PKG_INFO__ = `## About
- * @package ${__NAME__}
- * @author ${pkg.author.name} <${pkg.author.email}>
- * @version ${pkg.version} (Last Update: ${formatDateFull()})
- * @license ${pkg.license}
- * @link ${pkg.repository.url}
- * @link https://baendlorel.github.io/ Welcome to my site!
- * @description ${pkg.description.replace(/\n/g, '\n * \n * ')}
- * @copyright Copyright (c) ${new Date().getFullYear()} ${pkg.author.name}. All rights reserved.`;
+  const __PKG_INFO__ = loadTemplate(json);
 
   return {
     preventAssignment: true,

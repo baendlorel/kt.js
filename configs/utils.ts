@@ -27,21 +27,12 @@ export function dtm(dt = new Date()) {
   return `${y}.${m}.${d} ${hh}:${mm}:${ss}.${ms}`;
 }
 
-export const getTSConfig = (p: string) => {
-  const tsconfigBuild = p.join('tsconfig.build.json');
-  if (fs.existsSync(tsconfigBuild)) {
-    console.log('Using', tsconfigBuild);
-    return tsconfigBuild;
-  }
-
-  const tsconfigGlobal = Root.join('configs', 'tsconfig.build.json');
-  if (fs.existsSync(tsconfigGlobal)) {
-    console.log('Using', tsconfigGlobal);
-    return tsconfigGlobal;
-  }
-
-  return p.join('tsconfig.json');
-};
+const existOrNull = (p: string) => (fs.existsSync(p) ? p : null);
+export const getTSBuildConfig = (p: string) => ({
+  global: Root.join('configs', 'tsconfig.build.json'),
+  build: existOrNull(p.join('tsconfig.build.json')),
+  local: p.join('tsconfig.json'),
+});
 
 export const loadJson = (filePath: string) => JSON.parse(fs.readFileSync(filePath, 'utf-8')) as CommonPackageJson;
 

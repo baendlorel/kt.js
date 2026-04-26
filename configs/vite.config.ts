@@ -8,42 +8,8 @@ import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
-import { getTSConfig } from './utils.js';
+import { getTSBuildConfig } from './utils.js';
 import { replace } from './replace.js';
-
-export const declaration = defineConfig(() => {
-  const lib = process.env.CURRENT_PKG_PATH;
-  if (!lib) {
-    throw new Error('CURRENT_PKG_PATH environment variable is not set.');
-  }
-
-  return {
-    input: lib.join('src', 'index.ts'),
-    output: {
-      entryFileNames: 'index.d.ts',
-      dir: lib.join('dist'),
-    },
-    build: {
-      sourcemap: needSourceMap(lib),
-    },
-    external: [/^@ktjs/],
-    plugins: [
-      replace(lib),
-      hidePrivate({
-        allNames: [/^_/],
-      }),
-      dts({
-        tsconfigPath: getTSConfig(lib),
-        compilerOptions: {
-          composite: false,
-          incremental: false,
-          stripInternal: true,
-        },
-        rollupTypes: true,
-      }),
-    ],
-  };
-});
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
@@ -55,7 +21,7 @@ export const main = defineConfig(() => {
 
   console.log('Building:', lib);
 
-  const tsconfig = getTSConfig(lib);
+  const tsBuildConfig = getTSBuildConfig(lib);
   fs.rmSync(path.join(lib, 'dist'), { recursive: true, force: true });
 
   return {
@@ -77,7 +43,7 @@ export const main = defineConfig(() => {
     },
     plugins: [
       dts({
-        tsconfigPath: getTSConfig(lib),
+        tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
           target: ts.ScriptTarget.ESNext,
           module: ts.ModuleKind.NodeNext,
@@ -92,7 +58,7 @@ export const main = defineConfig(() => {
       }),
       replace(lib),
       void typescript({
-        tsconfig,
+        tsconfig: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
           composite: false,
           incremental: false,

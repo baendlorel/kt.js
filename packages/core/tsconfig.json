@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsxImportSource": "@ktjs/core",
     "lib": ["DOM", "ESNext"],
@@ -10,5 +9,5 @@
       "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["src/**/*", "tests/**/*", "../shared/src/**/*"]
+  "include": ["./src/**/*", "./tests/**/*", "../shared/src/**/*"]
 }

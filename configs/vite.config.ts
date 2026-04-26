@@ -1,15 +1,16 @@
 import path from 'node:path';
-import fs, { rmSync } from 'node:fs';
+import fs from 'node:fs';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
+import dts from 'vite-plugin-dts';
+import hidePrivate from 'rollup-plugin-hide-private';
+
+import { getTSConfig, loadJson, Packages } from './utils.js';
 
 // 导出类型定义构建配置供单独使用
 export const createDtsConfig = (libPath: string) => {
-  const dts = require('vite-plugin-dts');
-  const { hidePrivate } = require('rollup-plugin-hide-private');
-
   return {
     input: path.join(libPath, 'src', 'index.ts'),
     output: {
@@ -23,7 +24,7 @@ export const createDtsConfig = (libPath: string) => {
         allNames: [/^_/],
       }),
       dts({
-        tsconfig: getTSConfig(libPath),
+        tsconfigPath: getTSConfig(libPath),
         compilerOptions: {
           composite: false,
           incremental: false,
@@ -44,7 +45,7 @@ export default defineConfig(() => {
   console.log('Building:', libPath);
 
   const tsconfig = getTSConfig(libPath);
-  rmSync(path.join(libPath, 'dist'));
+  fs.rmSync(path.join(libPath, 'dist'), { recursive: true, force: true });
 
   return {
     build: {
@@ -106,34 +107,21 @@ export default defineConfig(() => {
 
 // #region utils
 
-const getTSConfig = (libPath: string) => {
-  const tsconfigBuildPath = path.join(libPath, 'tsconfig.build.json');
-  const tsconfigPath = path.join(libPath, 'tsconfig.json');
-  return fs.existsSync(tsconfigBuildPath) ? tsconfigBuildPath : tsconfigPath;
-};
-
 export const getAliases = () => {
-  const packagesDir = path.join(import.meta.dirname, 'packages');
-  const pluginDir = path.join(import.meta.dirname, 'plugins');
-  const packageDirs = [packagesDir, pluginDir];
   const aliasMap: Record<string, string> = {};
-  for (const baseDir of packageDirs) {
-    for (const dir of fs.readdirSync(baseDir)) {
-      const jsonPath = path.join(baseDir, dir, 'package.json');
-      if (!fs.existsSync(jsonPath)) {
-        continue;
-      }
-      const json = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-      aliasMap[json.name] = path.join(baseDir, dir, 'src', 'index.ts');
-      if (json.name === '@ktjs/core') {
-        aliasMap[json.name + '/jsx'] = path.join(baseDir, dir, 'src', 'index.ts');
-        aliasMap[json.name + '/jsx-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
-        aliasMap[json.name + '/jsx-dev-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
-      } else if (json.name === 'kt.js') {
-        aliasMap[json.name + '/jsx'] = path.join(baseDir, dir, 'src', 'jsx.ts');
-        aliasMap[json.name + '/jsx-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
-        aliasMap[json.name + '/jsx-dev-runtime'] = path.join(baseDir, dir, 'src', 'jsx-runtime.ts');
-      }
+  for (const packageDir of Packages) {
+    const json = loadJson(path.join(packageDir, 'package.json'));
+    const src = path.join(packageDir, 'src');
+
+    aliasMap[json.name] = path.join(src, 'index.ts');
+    if (json.name === '@ktjs/core') {
+      aliasMap[json.name + '/jsx'] = path.join(src, 'index.ts');
+      aliasMap[json.name + '/jsx-runtime'] = path.join(src, 'jsx-runtime.ts');
+      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(src, 'jsx-runtime.ts');
+    } else if (json.name === 'kt.js') {
+      aliasMap[json.name + '/jsx'] = path.join(src, 'jsx.ts');
+      aliasMap[json.name + '/jsx-runtime'] = path.join(src, 'jsx-runtime.ts');
+      aliasMap[json.name + '/jsx-dev-runtime'] = path.join(src, 'jsx-runtime.ts');
     }
   }
 

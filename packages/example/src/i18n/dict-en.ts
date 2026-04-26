@@ -82,15 +82,15 @@ export const en: typeof zh = {
   'reactive.api.method.notify': 'Force listeners to run.',
   'reactive.api.method.map': 'Derive a <code>computed</code> from current reactive with optional extra dependencies.',
   'reactive.api.method.get':
-    'Read a nested path from the current reactive and get a lightweight read-only <code>KTSubComputed</code>.',
+    'Read a nested path from the current reactive and get a lightweight read-only <code>KTComputed</code>.',
   'reactive.api.method.subref':
     'Get a writable nested field from a <code>ref</code>; updating the subref also updates the parent ref.',
   'reactive.api.method.is':
-    'Build a boolean <code>KTSubComputed</code> that checks equality with <code>Object.is</code> semantics.',
+    'Build a boolean <code>KTComputed</code> that checks equality with <code>Object.is</code> semantics.',
   'reactive.api.method.match':
-    'Build a boolean <code>KTSubComputed</code> that performs deep object/array pattern matching.',
-  'reactive.api.method.addOnChange': 'Register a value-change listener with optional custom key.',
-  'reactive.api.method.removeOnChange': 'Remove a listener by key.',
+    'Build a boolean <code>KTComputed</code> that performs deep object/array pattern matching.',
+  'reactive.api.method.listen': 'Register a value-change listener.',
+  'reactive.api.method.unlisten': 'Remove a listener.',
   'reactive.api.value.title': '<code>value</code>: read + whole-value replace',
   'reactive.api.value.description':
     'Use it to read the current value, or to replace the whole outer value with <code>ref.value = nextValue</code>. Deep mutations such as <code>ref.value.user.name = "Jane"</code> are not tracked through <code>value</code>.',
@@ -139,9 +139,9 @@ export const en: typeof zh = {
   'reactive.api.subref.toggleTheme': 'Toggle Theme',
   'reactive.api.subref.volumeUp': 'Volume +5',
   'reactive.api.subref.volumeDown': 'Volume -5',
-  'reactive.api.listeners.title': '<code>addOnChange</code> / <code>removeOnChange</code>',
+  'reactive.api.listeners.title': '<code>listen</code> / <code>unlisten</code>',
   'reactive.api.listeners.description':
-    'Manage listener lifecycle via key; once removed, no further updates are received.',
+    'Manage listener lifecycle via function reference; once removed, no further updates are received.',
   'reactive.api.listeners.enable': 'Enable listener',
   'reactive.api.listeners.disable': 'Disable listener',
   'reactive.api.listeners.bump': 'Trigger +1',
@@ -151,12 +151,12 @@ export const en: typeof zh = {
   'reactive.api.listeners.status.off': 'OFF',
   'reactive.api.listeners.value': 'Observed value: {{1}}',
   'reactive.api.listeners.log.empty': 'No logs yet.',
-  'reactive.api.listeners.log.listenerOn': 'Listener registered.',
-  'reactive.api.listeners.log.listenerOff': 'Listener removed.',
+  'reactive.api.listeners.log.listenerOn': 'Listener added.',
+  'reactive.api.listeners.log.listenerOff': 'Listener unlistened.',
   'reactive.api.listeners.log.changed': '[{{3}}] Value changed: {{1}} -> {{2}}',
   'reactive.isMatch.section.title': '<code>is</code> and <code>match</code>',
   'reactive.isMatch.section.description':
-    '<code>is</code> creates a boolean <code>KTSubComputed</code> for equality checks, and <code>match</code> performs deep object/array pattern matching.',
+    '<code>is</code> creates a boolean <code>KTComputed</code> for equality checks, and <code>match</code> performs deep object/array pattern matching.',
   'reactive.isMatch.playground.title': '<code>is</code> + <code>match</code>',
   'reactive.isMatch.playground.description':
     'Use boolean computed values for state checks; reactive targets and matchers are supported.',

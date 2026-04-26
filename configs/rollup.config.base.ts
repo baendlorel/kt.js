@@ -77,6 +77,10 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
       input: path.join(libPath, 'src', 'index.ts'),
       output: [{ file: path.join(libPath, 'dist', 'index.d.ts'), format: 'es' }],
       plugins: [
+        replace(replaceOpts(libPath)),
+        hidePrivate({
+          allNames: [/^_/],
+        }),
         dts({
           tsconfig,
           compilerOptions: {
@@ -84,9 +88,6 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
             incremental: false,
             stripInternal: true,
           },
-        }),
-        hidePrivate({
-          allNames: [/^_/],
         }),
       ],
       external: [/^@ktjs/],

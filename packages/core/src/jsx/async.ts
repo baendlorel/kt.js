@@ -25,17 +25,10 @@ interface KTAsyncProps<P> {
 }
 
 class KTAsyncAnchor<P> extends KTAnchor {
-  /* @internal */
   _skeleton: JSX.Element | this;
-
-  /* @internal */
   _promise: Thenable<JSX.Element>;
-
-  /* @internal */
   _version: number = NaN;
-
-  /* @internal */
-  private _current: Node;
+  _current: Node;
 
   constructor(props: KTAsyncProps<P>) {
     super(AType.Async);

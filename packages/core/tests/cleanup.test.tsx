@@ -47,13 +47,11 @@ describe('core cleanup lifecycle', () => {
     ) as Node;
 
     node._appendTo(container);
-    // @ts-expect-error
     expect(className._listeners.size).toBe(1);
 
     visible.value = false;
     await Promise.resolve();
 
-    // @ts-expect-error
     expect(className._listeners.size).toBe(0);
   });
 
@@ -77,7 +75,6 @@ describe('core cleanup lifecycle', () => {
     input.dispatchEvent(new Event('input'));
 
     expect(model.value).toBe('hello');
-    // @ts-expect-error
     expect(model._listeners.size).toBe(0);
   });
 
@@ -102,13 +99,11 @@ describe('core cleanup lifecycle', () => {
     const base = ref(2);
     const doubled = computed(() => base.value * 2, [base]);
 
-    // @ts-expect-error
     expect(base._listeners.size).toBe(1);
 
     doubled.dispose();
     base.value = 3;
 
-    // @ts-expect-error
     expect(base._listeners.size).toBe(0);
     expect(doubled.value).toBe(4);
   });

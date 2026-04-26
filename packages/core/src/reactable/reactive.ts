@@ -21,27 +21,24 @@ export abstract class KTReactive<T> {
 
   /**
    * Internal value storage.
-   * @internal
    */
-  protected v: T;
+  _value: T;
 
-  /* @internal */
   // TODO 用isConnected去判定并清理
-  protected readonly _listeners = new Set<ChangeListener<any>>();
+  readonly _listeners = new Set<ChangeListener<any>>();
 
   constructor(value: T) {
-    this.v = value;
+    this._value = value;
   }
 
   get value() {
-    return this.v;
+    return this._value;
   }
 
   set value(_newValue: T) {
     $warn('Setting value to a non-ref instance takes no effect.');
   }
 
-  /* @internal */
   protected _emit(newValue: T, oldValue: T): this {
     this._listeners.forEach((f) => f(newValue, oldValue));
     return this;
@@ -66,7 +63,7 @@ export abstract class KTReactive<T> {
   }
 
   notify(): this {
-    return this._emit(this.v, this.v);
+    return this._emit(this._value, this._value);
   }
 
   /**

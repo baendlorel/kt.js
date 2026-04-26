@@ -15,15 +15,15 @@ export class KTRef<T> extends KTReactive<T> {
 
   // ! Cannot be omitted, otherwise this will override `KTReactive` with only setter. And getter will return undefined.
   get value() {
-    return this.v;
+    return this._value;
   }
 
   set value(newValue: T) {
-    if ($is(newValue, this.v)) {
+    if ($is(newValue, this._value)) {
       return;
     }
-    const oldValue = this.v;
-    this.v = newValue;
+    const oldValue = this._value;
+    this._value = newValue;
     this._emit(newValue, oldValue);
   }
 
@@ -33,11 +33,11 @@ export class KTRef<T> extends KTReactive<T> {
    */
   get draft() {
     _markMutation(this);
-    return this.v;
+    return this._value;
   }
 
   notify(): this {
-    return this._emit(this.v, this.v);
+    return this._emit(this._value, this._value);
   }
 
   /**
@@ -72,7 +72,7 @@ export class KTRef<T> extends KTReactive<T> {
     if (keys.length === 0) {
       $throw('At least one key is required to get a sub-ref.');
     }
-    if (this.v === null || (typeof this.v !== 'object' && typeof this.v !== 'function')) {
+    if (this._value === null || (typeof this._value !== 'object' && typeof this._value !== 'function')) {
       $throw('Sub-ref only supports object-like ref values.');
     }
     return new KTSubRef(this, $createSubGetter(keys), $createSubSetter(keys));
@@ -127,17 +127,8 @@ export class KTSubRef<T> extends KTRef<T> {
   readonly ktype: KType = KType.SubRef;
   readonly source: KTRef<any>;
 
-  /**
-   * @internal
-   */
   protected readonly _getter: (sv: KTReactive<any>['value']) => T;
-  /**
-   * @internal
-   */
   protected readonly _setter: (s: object, newValue: T) => void;
-  /**
-   * @internal
-   */
   protected readonly _listener: ChangeListener<any>;
 
   constructor(
@@ -149,12 +140,12 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source = source;
     this._getter = getter;
     this._setter = setter;
-    this._listener = () => (this.v = getter(source.value));
+    this._listener = () => (this._value = getter(source.value));
     source.listen(this._listener);
   }
 
   get value() {
-    return this.v;
+    return this._value;
   }
 
   set value(newValue: T) {
@@ -164,9 +155,8 @@ export class KTSubRef<T> extends KTRef<T> {
     ) {
       $throw('Sub-ref only supports object-like ref values.');
     }
-    this.v = newValue;
-    // @ts-expect-error _value is private
-    this._setter(this.source.v, newValue);
+    this._value = newValue;
+    this._setter(this.source._value, newValue);
     this.source.notify();
   }
 
@@ -194,6 +184,6 @@ export class KTSubRef<T> extends KTRef<T> {
   get draft() {
     // Same implementation as `draft` in `KTRef`
     _markMutation(this.source);
-    return this.v;
+    return this._value;
   }
 }

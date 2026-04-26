@@ -8,8 +8,7 @@ let scheduled = false;
 
 export const _markMutation = (reactive: KTRef<any>) => {
   if (!reactiveToOldValue.has(reactive)) {
-    // @ts-expect-error accessing protected property
-    reactiveToOldValue.set(reactive, reactive.v);
+    reactiveToOldValue.set(reactive, reactive._value);
 
     // # schedule by microqueue
     if (scheduled) {
@@ -21,7 +20,6 @@ export const _markMutation = (reactive: KTRef<any>) => {
       scheduled = false;
       reactiveToOldValue.forEach((oldValue, reactive) => {
         try {
-          // @ts-expect-error accessing protected property
           reactive._listeners.forEach((f) => f(reactive.value, oldValue));
         } catch (error) {
           $error('KTScheduler:', error);

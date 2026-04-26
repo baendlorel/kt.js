@@ -4,24 +4,16 @@ import { $createSubGetter, isReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
   readonly ktype = KType.Computed;
-
-  /* @internal */
   private readonly _calculator: () => T;
-
-  /* @internal */
   private readonly _dependencies: Array<KTReactive<any>>;
-
-  /* @internal */
   private readonly _listener: () => void;
-
-  /* @internal */
   private _disposed = false;
 
   private _recalculate(forced: boolean = false): this {
     const newValue = this._calculator();
-    const oldValue = this.v;
+    const oldValue = this._value;
     if (!$is(oldValue, newValue) || forced) {
-      this.v = newValue;
+      this._value = newValue;
       this._emit(newValue, oldValue);
     }
     return this;
@@ -64,17 +56,17 @@ KTReactive.prototype.map = function <U>(
   getter: (value: unknown) => U,
   dep?: Array<KTReactive<any>>,
 ) {
-  return new C(() => getter(this.v), dep ? [this, ...dep] : [this]);
+  return new C(() => getter(this._value), dep ? [this, ...dep] : [this]);
 };
 
 KTReactive.prototype.is = function (this: KTReactive<unknown>, o: unknown) {
-  return isReactive(o) ? new C(() => $is(this.v, o.value), [this, o]) : new C(() => $is(this.v, o), [this]);
+  return isReactive(o) ? new C(() => $is(this._value, o.value), [this, o]) : new C(() => $is(this._value, o), [this]);
 };
 
 KTReactive.prototype.match = function (this: KTReactive<object>, o: object) {
   return isReactive(o)
-    ? new C(() => $deepMatch(this.v, o.value), [this, o])
-    : new C(() => $deepMatch(this.v, o), [this]);
+    ? new C(() => $deepMatch(this._value, o.value), [this, o])
+    : new C(() => $deepMatch(this._value, o), [this]);
 };
 
 KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<string | number>) {
@@ -82,7 +74,7 @@ KTReactive.prototype.get = function <T>(this: KTReactive<T>, ...keys: Array<stri
     $throw('At least one key is required to get a sub-computed.');
   }
   const getter = $createSubGetter(keys);
-  return new C(() => getter(this.v), [this]);
+  return new C(() => getter(this._value), [this]);
 };
 
 /**

@@ -43,7 +43,9 @@ export class KTIfAnchor extends KTAnchor {
 
   _appendTo(parent: Element): this {
     this._current = this._condition.value ? this._if() : this._else();
-    this._current._appendTo(parent);
+    if (this._current !== this) {
+      this._current._appendTo(parent);
+    }
     return parent.appendChild(this);
   }
 

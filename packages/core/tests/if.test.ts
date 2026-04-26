@@ -59,6 +59,21 @@ describe('KTIf', () => {
     expect(container.querySelector('#if-node')).toBeTruthy();
   });
 
+  it('renders a placeholder when reactive condition starts false without else branch', () => {
+    const visible = ref(false);
+    const node = KTIf(visible, 'div', () => ({ id: 'if-node', children: 'if-branch' }));
+
+    node._appendTo(container);
+
+    expect(container.textContent).toBe('');
+    expect(container.firstChild?.nodeType).toBe(Node.COMMENT_NODE);
+    expect((container.firstChild as KTIfAnchor).atype).toBe(AType.If);
+
+    visible.value = true;
+    expect(container.textContent).toBe('if-branch');
+    expect(container.querySelector('#if-node')).toBeTruthy();
+  });
+
   it('switches between if/else branches when reactive condition changes', () => {
     const visible = ref(true);
     const node = KTIf(

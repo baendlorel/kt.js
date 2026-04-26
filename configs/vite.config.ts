@@ -3,23 +3,22 @@ import fs from 'node:fs';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'vite-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
-import { getTSConfig, loadJson } from './utils.js';
-import { loadTemplate } from './load-template.js';
+import { getTSConfig } from './utils.js';
+import { replace } from './replace.js';
 
 export const createDtsConfig = (libPath: string) => {
   return {
-    input: path.join(libPath, 'src', 'index.ts'),
+    input: libPath.join('src', 'index.ts'),
     output: {
       entryFileNames: 'index.d.ts',
-      dir: path.join(libPath, 'dist'),
+      dir: libPath.join('dist'),
     },
     external: [/^@ktjs/],
     plugins: [
-      replace(replaceOpts(libPath)),
+      replace(libPath),
       hidePrivate({
         allNames: [/^_/],
       }),
@@ -36,27 +35,29 @@ export const createDtsConfig = (libPath: string) => {
   };
 };
 
+const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
+
 export default defineConfig(() => {
-  const libPath = process.env.CURRENT_PKG_PATH;
-  if (!libPath) {
+  const lib = process.env.CURRENT_PKG_PATH;
+  if (!lib) {
     throw new Error('CURRENT_PKG_PATH environment variable is not set.');
   }
 
-  console.log('Building:', libPath);
+  console.log('Building:', lib);
 
-  const tsconfig = getTSConfig(libPath);
-  fs.rmSync(path.join(libPath, 'dist'), { recursive: true, force: true });
+  const tsconfig = getTSConfig(lib);
+  fs.rmSync(path.join(lib, 'dist'), { recursive: true, force: true });
 
   return {
     build: {
       lib: {
-        entry: path.join(libPath, 'src', 'index.ts'),
+        entry: path.join(lib, 'src', 'index.ts'),
         name: 'index',
         fileName: 'index',
         formats: ['es' as const],
       },
-      outDir: path.join(libPath, 'dist'),
-      sourcemap: !libPath.includes('mui-icon'),
+      outDir: path.join(lib, 'dist'),
+      sourcemap: needSourceMap(lib),
       rollupOptions: {
         external: [/^@ktjs\//, /^@babel\//],
         output: {
@@ -65,7 +66,7 @@ export default defineConfig(() => {
       },
     },
     plugins: [
-      replace(replaceOpts(libPath)),
+      replace(lib),
       typescript({
         tsconfig,
         compilerOptions: {
@@ -104,46 +105,3 @@ export default defineConfig(() => {
     ],
   };
 });
-
-// # utils
-
-// # replace options
-
-const globalDefines = {
-  'process.env.BASE_URL': JSON.stringify('/'),
-  'process.env.IS_DEV': JSON.stringify('false'),
-};
-
-export function replaceOpts(pkg?: string): RollupReplaceOptions {
-  if (!pkg) {
-    return { values: globalDefines, preventAssignment: true };
-  }
-
-  const json = loadJson(pkg.join('package.json'));
-
-  const __KEBAB_NAME__ = json.name.replace('rollup-plugin-', '');
-  const __VERSION__ = json.version;
-  const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_0, _1, c) => c.toUpperCase());
-  const __PKG_INFO__ = loadTemplate(json);
-
-  return {
-    preventAssignment: true,
-    delimiters: ['', ''],
-    values: {
-      __IS_DEV__: 'false',
-      __NAME__,
-      __KEBAB_NAME__,
-      __PKG_INFO__,
-      __VERSION__,
-
-      // global flags
-      ...globalDefines,
-      "$throw('": `throw new Error('[kt.js error] `,
-      '$throw(`': `throw new Error(\`[kt.js error] `,
-      '$throw("': `throw new Error("[kt.js error] `,
-      '$warn(': `console.warn('[kt.js warn]',`,
-      '$error(': `console.error('[kt.js error]',`,
-      '$debug(': `console.debug('[kt.js debug]',`,
-    },
-  };
-}

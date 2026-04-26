@@ -81,6 +81,11 @@ export const main = defineConfig(() => {
     },
     plugins: [
       replace(lib),
+      hidePrivate({
+        mode: 'write-files',
+        filePatterns: ['dist/index.d.ts'],
+        allNames: [/^_/],
+      }),
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
@@ -95,11 +100,6 @@ export const main = defineConfig(() => {
         copyDtsFiles: true,
         insertTypesEntry: true,
         rollupTypes: shouldRollupTypes(lib),
-      }),
-      hidePrivate({
-        mode: 'write-files',
-        filePatterns: ['dist/index.d.ts'],
-        allNames: [/^_/],
       }),
       // terser: removes dead code
       terser({

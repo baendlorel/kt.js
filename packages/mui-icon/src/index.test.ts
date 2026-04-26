@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 describe('@ktjs/mui-icon exports', () => {
   it('should generate all underscore icon elements', async () => {
-    const icons = await import('./index.js');
-    const underscoreIcons = Object.entries(icons).filter(([name]) => name.startsWith('_'));
+    const defaults = await import('./index.js');
+    const icons = Object.entries(defaults);
 
-    expect(underscoreIcons.length).toBeGreaterThan(0);
+    expect(icons.length).toBeGreaterThan(0);
 
-    for (const [name, icon] of underscoreIcons) {
+    for (const [name, icon] of icons) {
       expect(icon, `${name} should be an SVGElement`).toBeInstanceOf(SVGElement);
-      expect((icon as SVGElement).tagName.toLowerCase(), `${name} should be svg`).toBe('svg');
+      expect(typeof icon).toBe('function');
     }
   });
 });

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import type{KTRawAttr as Attr}from'@ktjs/core'
-import{svg as s,clone as c}from'../common/index.js'
+import{s,c}from'../common/index.js'
 export let HMobiledata=(a?: Attr)=>c(s(s("path",{d:"M15 11H9V7H7v10h2v-4h6v4h2V7h-2z"}), 'HMobiledata'),a)
 export let HMobiledataOutlined=(a?: Attr)=>c(s(s("path",{d:"M15 11H9V7H7v10h2v-4h6v4h2V7h-2z"}), 'HMobiledataOutlined'),a)
 export let HMobiledataRounded=(a?: Attr)=>c(s(s("path",{d:"M15 11H9V8c0-.55-.45-1-1-1s-1 .45-1 1v8c0 .55.45 1 1 1s1-.45 1-1v-3h6v3c0 .55.45 1 1 1s1-.45 1-1V8c0-.55-.45-1-1-1s-1 .45-1 1z"}), 'HMobiledataRounded'),a)

@@ -20,6 +20,8 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
     process.exit(1);
   }
 
+  console.log(libPath, libPath.includes('mui-icon'));
+
   const tsconfig = getTSConfig(libPath);
   await rimraf(path.join(libPath, 'dist'));
   return [
@@ -29,7 +31,7 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
         {
           file: path.join(libPath, 'dist', 'index.mjs'),
           format: 'esm', // ES module output
-          sourcemap: true,
+          sourcemap: !libPath.includes('mui-icon'),
         },
       ],
       plugins: [
@@ -75,7 +77,9 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
     },
     {
       input: path.join(libPath, 'src', 'index.ts'),
-      output: [{ file: path.join(libPath, 'dist', 'index.d.ts'), format: 'es' }],
+      output: [
+        { file: path.join(libPath, 'dist', 'index.d.ts'), format: 'es', sourcemap: !libPath.includes('mui-icon') },
+      ],
       plugins: [
         replace(replaceOpts(libPath)),
         hidePrivate({

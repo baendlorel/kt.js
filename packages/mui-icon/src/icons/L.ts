@@ -1,6 +1,6 @@
 // @ts-nocheck
 import type{KTRawAttr as Attr}from'@ktjs/core'
-import{svg as s,clone as c}from'../common/index.js'
+import{s,c}from'../common/index.js'
 export let Label=(a?: Attr)=>c(s(s("path",{d:"M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12z"}), 'Label'),a)
 export let LabelImportant=(a?: Attr)=>c(s(s("path",{d:"m3.5 18.99 11 .01c.67 0 1.27-.33 1.63-.84L20.5 12l-4.37-6.16c-.36-.51-.96-.84-1.63-.84l-11 .01L8.34 12z"}), 'LabelImportant'),a)
 export let LabelImportantOutline=(a?: Attr)=>c(s(s("path",{d:"M15 19H3l4.5-7L3 5h12c.65 0 1.26.31 1.63.84L21 12l-4.37 6.16c-.37.52-.98.84-1.63.84m-8.5-2H15l3.5-5L15 7H6.5l3.5 5z"}), 'LabelImportantOutline'),a)

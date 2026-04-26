@@ -1,14 +1,14 @@
 import { applyAttr } from '@ktjs/core';
+import { $entries, $isArray } from '@ktjs/shared';
 
-export function svg(svgElements: SVGElement[], title?: string): SVGElement;
-export function svg(svgElement: SVGElement, title?: string): SVGElement;
-export function svg(props: { children: SVGElement[] }, title?: string): SVGElement;
-export function svg(tag: string, attrs: Record<string, string | SVGElement[] | SVGElement>, title?: string): SVGElement;
-export function svg(...args: any[]) {
+export function s(svgElements: SVGElement[], title?: string): SVGElement;
+export function s(svgElement: SVGElement, title?: string): SVGElement;
+export function s(props: { children: SVGElement[] }, title?: string): SVGElement;
+export function s(tag: string, attrs: Record<string, string | SVGElement[] | SVGElement>, title?: string): SVGElement;
+export function s(...args: any[]) {
   const [a0, a1, a2] = args;
   if (a0 instanceof SVGElement) {
     const s = create();
-
     s.appendChild(a0);
     if (typeof a1 === 'string') {
       s.setAttribute('title', a1);
@@ -17,19 +17,19 @@ export function svg(...args: any[]) {
   }
 
   if (typeof a0 === 'object' && a0 !== null && a0.children) {
-    return svg(a0.children, a1);
+    return s(a0.children, a1);
   }
 
   if (typeof a0 === 'string') {
     const s = a0 === 'svg' ? create() : document.createElementNS('http://www.w3.org/2000/svg', a0);
 
     if (a1) {
-      Object.entries(a1).forEach(([k, v]) => {
+      $entries(a1).forEach(([k, v]) => {
         if (k !== 'children') {
-          s.setAttribute(k, v as string);
+          s.setAttribute(k as string, v as string);
           return;
         }
-        if (Array.isArray(v)) {
+        if ($isArray(v)) {
           v.forEach((e) => s.appendChild(e));
         } else if (v instanceof SVGElement) {
           s.appendChild(v);
@@ -68,7 +68,4 @@ const create = () => {
   return s;
 };
 
-export const clone = (s: SVGElement, props: any) => {
-  applyAttr(s, props);
-  return s;
-};
+export const c = (s: SVGElement, props: any) => (applyAttr(s, props), s);

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import type{KTRawAttr as Attr}from'@ktjs/core'
-import{svg as s,clone as c}from'../common/index.js'
+import{s,c}from'../common/index.js'
 export let UTurnLeft=(a?: Attr)=>c(s(s("path",{d:"M18 9v12h-2V9c0-2.21-1.79-4-4-4S8 6.79 8 9v4.17l1.59-1.59L11 13l-4 4-4-4 1.41-1.41L6 13.17V9c0-3.31 2.69-6 6-6s6 2.69 6 6"}), 'UTurnLeft'),a)
 export let UTurnLeftOutlined=(a?: Attr)=>c(s(s("path",{d:"M18 9v12h-2V9c0-2.21-1.79-4-4-4S8 6.79 8 9v4.17l1.59-1.59L11 13l-4 4-4-4 1.41-1.41L6 13.17V9c0-3.31 2.69-6 6-6s6 2.69 6 6"}), 'UTurnLeftOutlined'),a)
 export let UTurnLeftRounded=(a?: Attr)=>c(s(s("path",{d:"M3.71 12.29c.39-.39 1.02-.39 1.41 0l.88.88V9c0-3.31 2.69-6 6-6s6 2.69 6 6v11c0 .55-.45 1-1 1s-1-.45-1-1V9c0-2.21-1.79-4-4-4S8 6.79 8 9v4.17l.88-.88c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41L7.7 16.29c-.39.39-1.02.39-1.41 0L3.7 13.7c-.38-.38-.38-1.02.01-1.41"}), 'UTurnLeftRounded'),a)

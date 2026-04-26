@@ -1,7 +1,6 @@
 import './path-join.js';
 import path from 'node:path';
 import fs from 'node:fs';
-import ts from 'typescript';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
@@ -10,6 +9,41 @@ import hidePrivate from 'rollup-plugin-hide-private';
 
 import { getTSBuildConfig } from './utils.js';
 import { replace } from './replace.js';
+
+const declaration = defineConfig(() => {
+  const lib = process.env.CURRENT_PKG_PATH;
+  if (!lib) {
+    throw new Error('CURRENT_PKG_PATH environment variable is not set.');
+  }
+
+  const tsBuildConfig = getTSBuildConfig(lib);
+  return {
+    input: lib.join('src', 'index.ts'),
+    output: {
+      entryFileNames: 'index.d.ts',
+      dir: lib.join('dist'),
+    },
+    build: {
+      sourcemap: needSourceMap(lib),
+    },
+    external: [/^@ktjs/],
+    plugins: [
+      replace(lib),
+      hidePrivate({
+        allNames: [/^_/],
+      }),
+      dts({
+        tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
+        compilerOptions: {
+          composite: false,
+          incremental: false,
+          stripInternal: true,
+        },
+        rollupTypes: true,
+      }),
+    ],
+  };
+});
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
@@ -45,15 +79,14 @@ export const main = defineConfig(() => {
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
-          target: ts.ScriptTarget.ESNext,
-          module: ts.ModuleKind.NodeNext,
-          moduleResolution: ts.ModuleResolutionKind.NodeNext,
-          composite: false,
-          incremental: false,
-          stripInternal: true,
+          // target: ts.ScriptTarget.ESNext,
+          // module: ts.ModuleKind.NodeNext,
+          // moduleResolution: ts.ModuleResolutionKind.NodeNext,
+          // composite: false,
+          // incremental: false,
+          // stripInternal: true,
           types: ['node', '../types/macros'],
         },
-        include: ['./src/**/*.ts', './src/**/*.tsx'],
         rollupTypes: true,
       }),
       replace(lib),

@@ -4,10 +4,9 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
-    "strict": true,
+    "strict": true
     // ! Shockingly it's not using "types": ["node", "./packages/types/macros"]
     // the paths here is loaded after it's resolved, so it will be resolved to the correct path
-    "types": ["node", "../types/macros"]
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+    // "types": ["node", "../types/macros"]
+  }
 }

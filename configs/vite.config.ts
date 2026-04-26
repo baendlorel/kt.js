@@ -1,6 +1,7 @@
 import './path-join.js';
 import path from 'node:path';
 import fs from 'node:fs';
+import ts from 'typescript';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
@@ -77,6 +78,17 @@ export const main = defineConfig(() => {
     plugins: [
       dts({
         tsconfigPath: getTSConfig(lib),
+        compilerOptions: {
+          target: ts.ScriptTarget.ESNext,
+          module: ts.ModuleKind.NodeNext,
+          moduleResolution: ts.ModuleResolutionKind.NodeNext,
+          composite: false,
+          incremental: false,
+          stripInternal: true,
+          types: ['node', '../types/macros'],
+        },
+        include: ['./src/**/*.ts', './src/**/*.tsx'],
+        rollupTypes: true,
       }),
       replace(lib),
       void typescript({

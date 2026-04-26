@@ -20,18 +20,12 @@
 - QQ Group: `1070434849`
 - Telegram: https://t.me/kt_js
 
-## Recent Updates
+## 0.40.x Breaking Changes ✨
 
-1. Plugins:
-   1. `k-if={value}` now narrows the type of `value` within its block, strips `undefined | null | false`.
-   2. `k-for` now supports `Ctrl + Click` to navigate to the source of the iterable variable and rename by `F2`.
-   3. `kt-tsc` is now available for type checking. (Mainly check whether the `k-for` statement is valid)
-2. Framework: <= 0.38.x - reactive helper additions
-   1. Reactive values now have `is`, `match`, `get` to be syntactic sugar for `map`.
-   2. `subref(...keys)`: create a `KTSubRef` object. It is a light version of ref, used to bind values and also support two-way binding with `k-model`.
-   3. `ref.value` remains the standard read API, and it can also replace the whole outer value with `ref.value = nextValue`.
-   4. 0.33.x - `ref.draft` is the deep-mutation entry for literally any objects. Just use `someRef.draft.a = someValue`, and kt.js will add it to microqueue and redraw it on the next tick. Works for `Map`, `Set`, `Array`, `Date` and your custom objects.`ref.draft` itself is **not assignable**.
-   5. `addOnChange((newValue, oldValue) => ...)` keeps `oldValue` as the previous reference, not a deep snapshot.
+1. `ref.addOnChange` is renamed to `ref.listen`. 
+2. Value listeners are now stored in a `Set` instead of `Map`.
+3. `KTFor`, `KTIf`,`KTAsync`,`Fragment` are completely refactored by using `KTAnchor`. More reliable, efficient and safe. (Lifecycle mechanism is under design)
+4. sub-getters are now using `KTComputed`, subref is unchanged.
 
 ## Introduction
 

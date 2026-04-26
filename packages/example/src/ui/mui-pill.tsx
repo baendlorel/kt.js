@@ -1,7 +1,7 @@
-import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
+import { ref } from '@ktjs/core';
 import { Pill } from '@ktjs/mui';
-import { HomeIcon } from '@ktjs/mui-icon';
+import { Home } from '@ktjs/mui-icon';
 import { Code } from '../components/Code.js';
 
 import muiPillCode from '../code/ui/mui-pill.tsx?raw';
@@ -16,7 +16,7 @@ export function MuiPillDemo() {
         <Pill label="Primary" color="primary" />
         <Pill label="Outlined" color="secondary" variant="outlined" />
         <Pill label="Small" color="info" size="small" />
-        <Pill label="With Icon" color="success" icon={<HomeIcon />} />
+        <Pill label="With Icon" color="success" icon={<Home />} />
         <Pill
           label="Clickable"
           color="warning"

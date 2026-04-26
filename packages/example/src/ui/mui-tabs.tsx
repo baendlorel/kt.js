@@ -1,7 +1,7 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button, type KTMuiTabOption, Tabs } from '@ktjs/mui';
-import { ContentCopyIcon, DownloadIcon, HomeIcon, MenuIcon } from '@ktjs/mui-icon';
+import { ContentCopy, Download, Home, Menu } from '@ktjs/mui-icon';
 import { Code } from '../components/Code.js';
 import muiTabsCode from '../code/ui/mui-tabs.tsx?raw';
 
@@ -11,10 +11,10 @@ export function MuiTabsDemo() {
   const variant = ref<'standard' | 'scrollable' | 'fullWidth'>('standard');
 
   const options = ref<KTMuiTabOption[]>([
-    { value: 'overview', label: 'Overview', icon: <HomeIcon /> },
-    { value: 'files', label: 'Files', icon: <ContentCopyIcon /> },
-    { value: 'downloads', label: 'Downloads', icon: <DownloadIcon /> },
-    { value: 'settings', label: 'Settings', icon: <MenuIcon />, disabled: true },
+    { value: 'overview', label: 'Overview', icon: <Home /> },
+    { value: 'files', label: 'Files', icon: <ContentCopy /> },
+    { value: 'downloads', label: 'Downloads', icon: <Download /> },
+    { value: 'settings', label: 'Settings', icon: <Menu />, disabled: true },
   ]);
 
   return (
@@ -42,9 +42,9 @@ export function MuiTabsDemo() {
           size="small"
           on:click={() => {
             options.value = [
-              { value: 'overview', label: 'Overview', icon: <HomeIcon /> },
-              { value: 'history', label: 'History', icon: <ContentCopyIcon /> },
-              { value: 'downloads', label: 'Downloads', icon: <DownloadIcon /> },
+              { value: 'overview', label: 'Overview', icon: <Home /> },
+              { value: 'history', label: 'History', icon: <ContentCopy /> },
+              { value: 'downloads', label: 'Downloads', icon: <Download /> },
             ];
           }}
         >

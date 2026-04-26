@@ -1,7 +1,7 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { BottomNavigation, Button, KTMuiBottomNavigationAction } from '@ktjs/mui';
-import { ContentCopyIcon, HomeIcon, MenuIcon } from '@ktjs/mui-icon';
+import { ContentCopy, Home, Menu } from '@ktjs/mui-icon';
 import { Code } from '../components/Code.js';
 import muiBottomNavigationCode from '../code/ui/mui-bottom-navigation.tsx?raw';
 
@@ -10,9 +10,9 @@ export function MuiBottomNavigationDemo() {
   const showLabels = ref(false);
 
   const options = ref<KTMuiBottomNavigationAction[]>([
-    { value: 'home', label: 'Home', icon: <HomeIcon /> },
-    { value: 'files', label: 'Files', icon: <ContentCopyIcon /> },
-    { value: 'menu', label: 'Menu', icon: <MenuIcon /> },
+    { value: 'home', label: 'Home', icon: <Home /> },
+    { value: 'files', label: 'Files', icon: <ContentCopy /> },
+    { value: 'menu', label: 'Menu', icon: <Menu /> },
   ]);
 
   return (

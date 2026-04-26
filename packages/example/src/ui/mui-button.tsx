@@ -1,7 +1,7 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
 import { Button } from '@ktjs/mui';
-import { DeleteIcon, DownloadIcon, HomeIcon, MenuIcon } from '@ktjs/mui-icon';
+import { Delete, Download, Home, Menu } from '@ktjs/mui-icon';
 
 export function MuiButtonDemo() {
   const clickCount = ref<number>(0);
@@ -64,17 +64,17 @@ export function MuiButtonDemo() {
 
       <div class="button-group">
         <h3>With Icons</h3>
-        <Button variant="contained" startIcon={<HomeIcon />}>
+        <Button variant="contained" startIcon={<Home />}>
           Home
         </Button>
-        <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+        <Button variant="contained" color="error" startIcon={<Delete />}>
           Delete
         </Button>
-        <Button variant="outlined" endIcon={<DownloadIcon />}>
+        <Button variant="outlined" endIcon={<Download />}>
           Download
         </Button>
         <Button variant="contained" iconOnly>
-          <MenuIcon style="width:20px" />
+          <Menu style="width:20px" />
         </Button>
       </div>
 

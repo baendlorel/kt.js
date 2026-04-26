@@ -1,28 +1,28 @@
 import '@ktjs/core/jsx';
-import { HomeIcon, DeleteIcon, ContentCopyIcon, DownloadIcon, MenuIcon } from '@ktjs/mui-icon';
+import { Home, Delete, ContentCopy, Download, Menu } from '@ktjs/mui-icon';
 
 export function MuiIconsDemo() {
   return (
     <div class="demo-section">
       <div class="icons-grid">
         <div class="icon-item">
-          <HomeIcon />
+          <Home />
           <span>Home</span>
         </div>
         <div class="icon-item">
-          <DeleteIcon />
+          <Delete />
           <span>Delete</span>
         </div>
         <div class="icon-item">
-          <ContentCopyIcon />
+          <ContentCopy />
           <span>Copy</span>
         </div>
         <div class="icon-item">
-          <DownloadIcon />
+          <Download />
           <span>Download</span>
         </div>
         <div class="icon-item">
-          <MenuIcon />
+          <Menu />
           <span>Menu</span>
         </div>
       </div>

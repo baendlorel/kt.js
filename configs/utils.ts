@@ -29,7 +29,18 @@ export function dtm(dt = new Date()) {
 
 export const getTSConfig = (p: string) => {
   const tsconfigBuild = p.join('tsconfig.build.json');
-  return fs.existsSync(tsconfigBuild) ? tsconfigBuild : p.join('tsconfig.json');
+  if (fs.existsSync(tsconfigBuild)) {
+    console.log('Using', tsconfigBuild);
+    return tsconfigBuild;
+  }
+
+  const tsconfigGlobal = Root.join('configs', 'tsconfig.build.json');
+  if (fs.existsSync(tsconfigGlobal)) {
+    console.log('Using', tsconfigGlobal);
+    return tsconfigGlobal;
+  }
+
+  return p.join('tsconfig.json');
 };
 
 export const loadJson = (filePath: string) => JSON.parse(fs.readFileSync(filePath, 'utf-8')) as CommonPackageJson;

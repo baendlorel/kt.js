@@ -77,15 +77,9 @@ export const main = defineConfig(() => {
     plugins: [
       dts({
         tsconfigPath: getTSConfig(lib),
-        compilerOptions: {
-          composite: false,
-          incremental: false,
-          stripInternal: true,
-        },
-        rollupTypes: true,
       }),
       replace(lib),
-      typescript({
+      void typescript({
         tsconfig,
         compilerOptions: {
           composite: false,
@@ -120,6 +114,6 @@ export const main = defineConfig(() => {
           beautify: true,
         },
       }),
-    ],
+    ].filter((t) => t !== undefined),
   };
 });

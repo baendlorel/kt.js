@@ -7,10 +7,9 @@ import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'vite-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
-import { dtm, getTSConfig, loadJson, Packages } from './utils.js';
+import { getTSConfig, loadJson } from './utils.js';
 import { loadTemplate } from './load-template.js';
 
-// 导出类型定义构建配置供单独使用
 export const createDtsConfig = (libPath: string) => {
   return {
     input: path.join(libPath, 'src', 'index.ts'),
@@ -75,7 +74,7 @@ export default defineConfig(() => {
           stripInternal: true,
         },
       }),
-      // 第一个 terser: 移除死代码，不混淆
+      // terser: removes dead code
       terser({
         compress: {
           dead_code: true,
@@ -85,8 +84,8 @@ export default defineConfig(() => {
           beautify: true,
         },
       }),
-      // 第二个 terser: 混淆私有属性
-      terser({
+      //  terser: mangles private members
+      void terser({
         compress: {
           dead_code: true,
         },
@@ -106,38 +105,11 @@ export default defineConfig(() => {
   };
 });
 
-// #region utils
+// # utils
 
-export const getAliases = () => {
-  const aliases: Array<{ find: string; replacement: string }> = [];
+// # replace options
 
-  for (const packageDir of Packages) {
-    const { name } = loadJson(packageDir.join('package.json'));
-    const src = packageDir.join('src');
-    aliases.push({ find: name, replacement: src.join('index.ts') });
-
-    if (!['@ktjs/core', 'kt.js'].includes(name)) {
-      continue;
-    }
-
-    // Extra aliases for jsx runtimes
-    if (name === '@ktjs/core') {
-      aliases.push({ find: name + '/jsx', replacement: src.join('index.ts') });
-    } else if (name === 'kt.js') {
-      aliases.push({ find: name + '/jsx', replacement: src.join('jsx.ts') });
-    }
-    aliases.push({ find: name + '/jsx-runtime', replacement: src.join('jsx-runtime.ts') });
-    aliases.push({ find: name + '/jsx-dev-runtime', replacement: src.join('jsx-runtime.ts') });
-  }
-
-  // ! Keep longer paths first to ensure correct matching
-  // (e.g. @ktjs/core/jsx should be matched before @ktjs/core)
-  return aliases.sort((a, b) => b.find.length - a.find.length);
-};
-
-// #region replace options
-
-export const globalDefines = {
+const globalDefines = {
   'process.env.BASE_URL': JSON.stringify('/'),
   'process.env.IS_DEV': JSON.stringify('false'),
 };
@@ -151,7 +123,7 @@ export function replaceOpts(pkg?: string): RollupReplaceOptions {
 
   const __KEBAB_NAME__ = json.name.replace('rollup-plugin-', '');
   const __VERSION__ = json.version;
-  const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase());
+  const __NAME__ = __KEBAB_NAME__.replace(/(^|-)(\w)/g, (_0, _1, c) => c.toUpperCase());
   const __PKG_INFO__ = loadTemplate(json);
 
   return {
@@ -175,4 +147,3 @@ export function replaceOpts(pkg?: string): RollupReplaceOptions {
     },
   };
 }
-// #endregion

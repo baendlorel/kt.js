@@ -9,9 +9,9 @@ export type MathMLCreator = (tag: MathMLTag, props: KTAttribute) => JSX.Element;
 
 type AliasElement = Element;
 export namespace JSX {
-  type Element = AliasElement;
+  export type Element = AliasElement;
 
-  interface IntrinsicElements {
+  export interface IntrinsicElements {
     [k: string]: AttributesMap['div']; // Allow any element with div attributes as fallback
 
     // Document-level & metadata
@@ -184,7 +184,7 @@ export namespace JSX {
     view: SVGAttributesMap['view'];
   }
 
-  interface IntrinsicAttributes {
+  export interface IntrinsicAttributes {
     /**
      * Make a reference to the created element
      */
@@ -228,7 +228,7 @@ export namespace JSX {
     children?: KTRawContent;
   }
 
-  interface ElementChildrenAttribute {
+  export interface ElementChildrenAttribute {
     children: {};
   }
 }

@@ -10,6 +10,8 @@ import hidePrivate from 'rollup-plugin-hide-private';
 import { getTSBuildConfig } from './utils.js';
 import { replace } from './replace.js';
 
+const shouldRollupTypes = (libPath: string) => true || path.basename(libPath) !== 'core';
+
 const declaration = defineConfig(() => {
   const lib = process.env.CURRENT_PKG_PATH;
   if (!lib) {
@@ -39,7 +41,9 @@ const declaration = defineConfig(() => {
           incremental: false,
           stripInternal: true,
         },
-        rollupTypes: true,
+        copyDtsFiles: true,
+        insertTypesEntry: true,
+        rollupTypes: shouldRollupTypes(lib),
       }),
     ],
   };
@@ -87,7 +91,9 @@ export const main = defineConfig(() => {
           // stripInternal: true,
           types: ['node', '../types/macros'],
         },
-        rollupTypes: true,
+        copyDtsFiles: true,
+        insertTypesEntry: true,
+        rollupTypes: shouldRollupTypes(lib),
       }),
       replace(lib),
       void typescript({

@@ -1,7 +1,6 @@
 import path from 'node:path';
 import fs, { rmSync } from 'node:fs';
 import { defineConfig } from 'vite';
-import { rimraf } from 'rimraf';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';

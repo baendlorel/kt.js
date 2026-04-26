@@ -1,8 +1,7 @@
 import path from 'node:path';
-import fs from 'node:fs';
+import fs, { rmSync } from 'node:fs';
 import type { RollupOptions } from 'rollup';
 
-import { rimraf } from 'rimraf';
 import resolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
@@ -13,7 +12,7 @@ import dts from 'rollup-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
 // TODO 到底为什么不能用vite统一打包
-export default async (_commandLineArgs: Record<string, string[]>): Promise<RollupOptions[]> => {
+export default (_commandLineArgs: Record<string, string[]>): RollupOptions[] => {
   const libPath = process.env.CURRENT_PKG_PATH;
   if (!libPath) {
     console.error('Error: CURRENT_PKG_PATH environment variable is not set.');
@@ -23,7 +22,7 @@ export default async (_commandLineArgs: Record<string, string[]>): Promise<Rollu
   console.log(libPath, libPath.includes('mui-icon'));
 
   const tsconfig = getTSConfig(libPath);
-  await rimraf(path.join(libPath, 'dist'));
+  rmSync(path.join(libPath, 'dist'), { recursive: true, force: true });
   return [
     {
       input: path.join(libPath, 'src', 'index.ts'),

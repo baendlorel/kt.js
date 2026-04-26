@@ -80,6 +80,7 @@ export const main = defineConfig(() => {
       },
     },
     plugins: [
+      replace(lib),
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
@@ -95,14 +96,10 @@ export const main = defineConfig(() => {
         insertTypesEntry: true,
         rollupTypes: shouldRollupTypes(lib),
       }),
-      replace(lib),
-      void typescript({
-        tsconfig: tsBuildConfig.build ?? tsBuildConfig.local,
-        compilerOptions: {
-          composite: false,
-          incremental: false,
-          stripInternal: true,
-        },
+      hidePrivate({
+        mode: 'write-files',
+        filePatterns: ['dist/index.d.ts'],
+        allNames: [/^_/],
       }),
       // terser: removes dead code
       terser({

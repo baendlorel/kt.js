@@ -85,8 +85,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(rollup@4.60.2)
       rollup-plugin-hide-private:
-        specifier: ^0.2.0
-        version: 0.2.0(rollup@4.60.2)(typescript@6.0.2)
+        specifier: ^0.3.0
+        version: 0.3.0(rollup@4.60.2)(typescript@6.0.2)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2512,8 +2512,8 @@ packages:
   rollup-plugin-func-macro@1.2.2:
     resolution: {integrity: sha512-rnJaDgXeqa30NyTH010we/43G5hGa28zrO2dyd+Q2zRk758TULbn4oiD08POLpbmeVQYv3aOTADRWgC5gazKnA==}
 
-  rollup-plugin-hide-private@0.2.0:
-    resolution: {integrity: sha512-eChK/C1b4ZXSwu+JdCl0b3p+JbIF7DAuYsRH0x+yqj8xGcVip9HkYdSqbHBipevBypba59DtNCC8xLHwXRlybQ==}
+  rollup-plugin-hide-private@0.3.0:
+    resolution: {integrity: sha512-xM+h1cClZjYOcOoXcVd7TlabrqtydrRdGGvT55vkdRA6o6DpFfHVVGPP5eTtUHUNGnR1gLnOZGe3pN1QZSuPiw==}
     peerDependencies:
       rollup: '>=4.0.0'
       typescript: '>=4.5.0'
@@ -5318,7 +5318,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  rollup-plugin-hide-private@0.2.0(rollup@4.60.2)(typescript@6.0.2):
+  rollup-plugin-hide-private@0.3.0(rollup@4.60.2)(typescript@6.0.2):
     dependencies:
       magic-string: 0.30.21
       rollup: 4.60.2

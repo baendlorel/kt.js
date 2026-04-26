@@ -5,6 +5,9 @@
 configs/rollup.config.base.js
 configs/rollup.config.base.mjs
 
+# This is transformed from mui-icon. There is no need to publish this.
+# packages/mui-icon/src/icons
+
 # Logs
 logs
 *.log

@@ -20,7 +20,9 @@ export function buildWithInfo(info: PackageInfo) {
 
   if (specialLibs.includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
-  } else {
-    execSync(`vite build --config ${config.safe()} ${info.path.safe()}`, { stdio: 'inherit', env: info.env });
+    return;
   }
+
+  const actualConfig = info.path.tryJoin('vite.config.ts') ?? config;
+  execSync(`vite build --config ${actualConfig.safe()} ${info.path.safe()}`, { stdio: 'inherit', env: info.env });
 }

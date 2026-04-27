@@ -5,4 +5,4 @@
   },
   "include": ["./src/**/*.ts"]
 }
-// FIXME 虽然可以打包了，但是作为tsplugin它必须以commonjs的require加载。
+// FIXME 虽然可以打包了，但是作为ts-plugin它必须以commonjs的require加载。

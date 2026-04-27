@@ -35,6 +35,23 @@ export default defineConfig(() => {
           entryFileNames: 'index.mjs',
         },
       },
+      minify: false,
+      terserOptions: {
+        compress: {
+          dead_code: true,
+        },
+        mangle: void {
+          toplevel: true,
+          properties: {
+            regex: /^_/,
+          },
+          keep_classnames: /^([^_].*)?$/,
+          keep_fnames: /^([^_].*)?$/,
+        },
+        output: {
+          beautify: true,
+        },
+      },
     },
     plugins: [
       dts({
@@ -63,7 +80,7 @@ export default defineConfig(() => {
         insertTypesEntry: true,
         rollupTypes: true,
       }),
-      terser({
+      void terser({
         compress: {
           dead_code: true,
         },

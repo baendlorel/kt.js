@@ -7,7 +7,7 @@ import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 
 import { getTSBuildConfig, Root } from './utils.js';
-import { replace } from './replace.js';
+import { replaceForViteDts } from './replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
@@ -40,17 +40,20 @@ export default defineConfig(() => {
       },
     },
     plugins: [
-      replace(lib), // only works for js, not for dts.
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
           // ! Shockingly this is inherited as a relative path
-          // types: ['node', '../types/macros'],
-          // Or you can write like this, which is more robust
+          // ! Used to write "types: ['node', '../types/macros']"
           types: ['node', Root.join('packages', 'types', 'macros')],
         },
-        beforeWriteFile: (filePath: string, content: string) => {
-          return { content: stripHiddenDeclarations(content, { allNames: [/^_/] }).code, filePath };
+        // & `emittedFiles` will only contain one index.d.ts file.
+        afterBuild: (emittedFiles) => {
+          emittedFiles.forEach((content, filePath) => {
+            content = stripHiddenDeclarations(content, { allNames: [/^_/] }).code;
+            content = replaceForViteDts(lib, content);
+            fs.writeFileSync(filePath, content, 'utf-8');
+          });
         },
         copyDtsFiles: true,
         insertTypesEntry: true,
@@ -72,6 +75,6 @@ export default defineConfig(() => {
           beautify: true,
         },
       }),
-    ].filter((t) => t !== undefined),
+    ],
   };
 });

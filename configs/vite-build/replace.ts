@@ -7,9 +7,16 @@ const globalDefines = {
   'process.env.IS_DEV': JSON.stringify('false'),
 };
 
-function getOptions(pkg?: string): rp.RollupReplaceOptions {
+/**
+ * @param pkg absolute path to the package, e.g. /path/to/kt.js/packages/core
+ */
+function getOptions(pkg?: string): {
+  preventAssignment: boolean;
+  delimiters: [string, string];
+  values: Record<string, string>;
+} {
   if (!pkg) {
-    return { values: globalDefines, preventAssignment: true };
+    return { values: globalDefines, preventAssignment: true, delimiters: ['', ''] };
   }
 
   const json = loadJson(pkg.join('package.json'));
@@ -41,8 +48,24 @@ function getOptions(pkg?: string): rp.RollupReplaceOptions {
   };
 }
 
+/**
+ * @param pkg absolute path to the package, e.g. /path/to/kt.js/packages/core
+ */
 export function replace(pkg?: string): ReturnType<typeof rp.default> {
   return rp.default(getOptions(pkg));
 }
 
-export function replaceForViteDts() {}
+/**
+ * @param pkg absolute path to the package, e.g. /path/to/kt.js/packages/core
+ * @param code the content of the dts file to be processed
+ */
+export function replaceForViteDts(pkg: string, code: string) {
+  const options = Object.entries(getOptions(pkg).values)
+    .map(([form, to]) => ({ form, to }))
+    .sort((a, b) => b.form.length - a.form.length);
+
+  for (const { form, to } of options) {
+    code = code.replaceAll(form, to);
+  }
+  return code;
+}

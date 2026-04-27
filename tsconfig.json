@@ -35,8 +35,7 @@
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
-    "./configs/*.ts",
-, "configs/vite-build/vite.config.ts", "configs/vite-build/replace.ts", "configs/vite-build/path-join.ts", "configs/vite-build/load-template.ts"    "configs/vite-build/alias.ts"
-, "configs/vite-build/utils.ts"  ],
+    "./configs/**/*.ts"
+  ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]
 }

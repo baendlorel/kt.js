@@ -7,8 +7,9 @@ import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
+import { dirs } from '../../common/consts.js';
 
-import { getTSBuildConfig, Root } from './utils.js';
+import { getTSBuildConfig } from './utils.js';
 import { replaceForViteDts } from './replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
@@ -48,7 +49,7 @@ export default defineConfig(() => {
         compilerOptions: {
           // ! Shockingly this is inherited as a relative path
           // ! Used to write "types: ['node', '../types/macros']"
-          types: ['node', Root.join('packages', 'types', 'macros')],
+          types: ['node', dirs.pkgs.join('types', 'macros')],
           sourcemap: needSourceMap(lib),
         },
         // This is required to prevent @ktjs/xxx to be treated as outer dependencies.

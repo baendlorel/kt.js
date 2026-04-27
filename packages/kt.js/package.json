@@ -45,9 +45,7 @@
     "typescript",
     "javascript"
   ],
-  "scripts": {
-    "vitebuild": "vite build --config ../../configs/vite-build/vite.config.ts"
-  },
+  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@ktjs/core": "workspace:^*"

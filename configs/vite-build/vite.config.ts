@@ -9,7 +9,6 @@ import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 import { dirs } from '../../common/consts.js';
 
-import { getTSBuildConfig } from './utils.js';
 import { replaceForViteDts } from './replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');

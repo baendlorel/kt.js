@@ -1,11 +1,11 @@
 import { execSync } from 'node:child_process';
 
 import { dirs } from '../common/consts.js';
-import { getPackageInfo, PackageInfo, syncRootPackageVersionFromCore } from './common/index.js';
+import { getPackageInfo, PackageInfo, syncRootVersion } from './common/index.js';
 
 export function vitebuild(who: string | undefined) {
   const group = getPackageInfo(who);
-  syncRootPackageVersionFromCore(group);
+  syncRootVersion(group);
   group.forEach(buildWithInfo);
 }
 

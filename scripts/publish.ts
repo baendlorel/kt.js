@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
-import { ask, getPackageInfo, PackageInfo, syncRootPackageVersionFromCore, Version } from './common/index.js';
+import { ask, getPackageInfo, PackageInfo, syncRootVersion, Version } from './common/index.js';
 import { buildWithInfo } from './build.js';
 import { syncReadme } from './readme.js';
 
@@ -37,7 +37,7 @@ export async function publish(who: string | undefined) {
     info.json.version = newVer;
     writeFileSync(info.jsonPath, JSON.stringify(info.json, null, 2), 'utf-8');
   });
-  const syncedRootPath = syncRootPackageVersionFromCore(group);
+  const syncedRootPath = syncRootVersion(group);
 
   // ! Ensure all versions are bumped. Otherwise inter-dependencies may cause build failures
   group.forEach(buildWithInfo);

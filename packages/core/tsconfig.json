@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "..", // This is for "../shared/src/**/*"
     "types": ["node", "../types/macros"]
   },
-  "include": ["./src/**/*", "../shared/src/**/*"]
+  "include": ["./src/**/*"]
 }

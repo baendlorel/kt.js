@@ -37,7 +37,7 @@
   "scripts": {
     "build": "rollup --config rollup.config.mjs"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@ktjs/core": "workspace:^*",
     "@ktjs/mui-icon": "workspace:^*",
     "@ktjs/shared": "workspace:^*"

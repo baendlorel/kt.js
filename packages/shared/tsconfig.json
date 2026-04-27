@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["node", "../types/macros"]
   },
-  "include": ["./src/**/*.*"]
+  "include": ["./src/**/*"]
 }

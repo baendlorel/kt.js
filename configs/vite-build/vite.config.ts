@@ -38,6 +38,7 @@ export default defineConfig(() => {
           entryFileNames: 'index.mjs',
         },
       },
+      emptyOutDir: true,
     },
     plugins: [
       dts({
@@ -47,7 +48,9 @@ export default defineConfig(() => {
           // ! Used to write "types: ['node', '../types/macros']"
           types: ['node', Root.join('packages', 'types', 'macros')],
         },
-        // & `emittedFiles` will only contain one index.d.ts file.
+        // This is required to prevent @ktjs/xxx to be treated as outer dependencies.
+        aliasesExclude: [/^@ktjs\//],
+        // `emittedFiles` will only contain one index.d.ts file.
         afterBuild: (emittedFiles) => {
           emittedFiles.forEach((content, filePath) => {
             content = stripHiddenDeclarations(content, { allNames: [/^_/] }).code;

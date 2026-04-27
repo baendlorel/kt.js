@@ -1,11 +1,12 @@
-import { Packages, loadJson } from './utils.js';
+import { dirs } from '../../common/consts.js';
+import { loadPackageJson } from '../../common/utils.js';
 
 export const getAliases = () => {
   const aliases: Array<{ find: string; replacement: string }> = [];
 
-  for (const packageDir of Packages) {
-    const { name } = loadJson(packageDir.join('package.json'));
-    const src = packageDir.join('src');
+  for (const pkg of dirs.publishable) {
+    const { name } = loadPackageJson(pkg)!; // publishable is already filtered to ensure package.json exists
+    const src = pkg.join('src');
     aliases.push({ find: name, replacement: src.join('index.ts') });
 
     if (!['@ktjs/core', 'kt.js'].includes(name)) {

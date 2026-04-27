@@ -26,7 +26,7 @@ declare global {
 String.prototype.join = function (...paths: string[]) {
   const p = path.join(this.toString(), ...paths);
   if (!fs.existsSync(p)) {
-    throw new Error(`Path does not exist: ${p}`);
+    throw new Error(`Path does not exist: ${paths.join(', ')} (resolved to ${p})`);
   }
   return p;
 };

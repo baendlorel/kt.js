@@ -1,6 +1,6 @@
 import * as rp from '@rollup/plugin-replace';
 import { loadTemplate } from './load-template.js';
-import { loadJson } from './utils.js';
+import { loadJson } from '../../common/utils.js';
 
 const globalDefines = {
   'process.env.BASE_URL': JSON.stringify('/'),

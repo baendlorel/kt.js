@@ -22,7 +22,6 @@ export default defineConfig(() => {
 
   console.log('Building:', lib);
 
-  const tsBuildConfig = getTSBuildConfig(lib);
   fs.rmSync(path.join(lib, 'dist'), { recursive: true, force: true });
 
   return {
@@ -45,11 +44,12 @@ export default defineConfig(() => {
     },
     plugins: [
       dts({
-        tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
+        // ! Must have tsconfig.json in the package root for building
+        tsconfigPath: lib.tryJoin('tsconfig.build.json') ?? lib.join('tsconfig.json'),
         compilerOptions: {
           // ! Shockingly this is inherited as a relative path
           // ! Used to write "types: ['node', '../types/macros']"
-          types: ['node', dirs.pkgs.join('types', 'macros')],
+          types: ['node', dirs.packages.join('types', 'macros')],
           sourcemap: needSourceMap(lib),
         },
         // This is required to prevent @ktjs/xxx to be treated as outer dependencies.

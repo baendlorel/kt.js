@@ -1,7 +1,7 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { loadJson, type CommonPackageJson } from '../../common/utils.js';
+import { dirs } from '../../common/consts.js';
 import { Version } from '../../common/version.js';
-import { CommonPackageJson } from '../../configs/vite-build/utils.js';
 
 export interface PackageInfo {
   /**
@@ -32,16 +32,12 @@ const publishGroupMap = new Map<string | undefined, string[]>([
   ['all', ['shared', 'core', 'kt.js', 'mui', 'mui-icon', 'router']],
 ]);
 
-export const rootPackageJsonPath = path.join(import.meta.dirname, '..', '..', 'package.json');
+export const rootPackageJsonPath = dirs.root.join('package.json');
 
 const getAbsolutePath = (who: string) => {
-  const path1 = path.join(import.meta.dirname, '..', '..', 'packages', who);
-  const path2 = path.join(import.meta.dirname, '..', '..', 'plugins', who);
-  if (existsSync(path1)) {
-    return path1;
-  }
-  if (existsSync(path2)) {
-    return path2;
+  const p = dirs.packages.tryJoin(who) ?? dirs.plugins.tryJoin(who);
+  if (p) {
+    return p;
   }
   console.error(`Package "${who}" does not exist in either "packages" or "plugins" directory.`);
   process.exit(1);
@@ -61,19 +57,25 @@ const getGroup = (who: string | undefined): string[] => {
 };
 
 export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
-  getGroup(who).map((absolutePath) => {
-    const packageJsonPath = path.join(absolutePath, 'package.json');
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    return {
-      path: absolutePath,
-      jsonPath: packageJsonPath,
-      version: new Version(packageJson.version),
-      json: packageJson,
-      name: packageJson.name as string,
-      nameVer: `${packageJson.name}@${packageJson.version}`,
-      env: { ...process.env, CURRENT_PKG_PATH: absolutePath },
-    };
-  });
+  getGroup(who)
+    .map((absolutePath) => {
+      const packageJsonPath = absolutePath.tryJoin('package.json');
+      if (!packageJsonPath) {
+        return null;
+      }
+
+      const packageJson = loadJson(packageJsonPath);
+      return {
+        path: absolutePath,
+        jsonPath: packageJsonPath,
+        version: new Version(packageJson.version),
+        json: packageJson,
+        name: packageJson.name as string,
+        nameVer: `${packageJson.name}@${packageJson.version}`,
+        env: { ...process.env, CURRENT_PKG_PATH: absolutePath },
+      };
+    })
+    .filter((info): info is PackageInfo => info !== null);
 
 export function syncRootPackageVersionFromCore(group: PackageInfo[]): string | undefined {
   const coreInfo = group.find((info) => info.name === '@ktjs/core');

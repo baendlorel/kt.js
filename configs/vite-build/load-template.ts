@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { dtm, type CommonPackageJson } from './utils.js';
+import { type CommonPackageJson, dtm } from '../../common/utils.js';
 
 export const loadTemplate = (json: CommonPackageJson) => {
   const text = fs.readFileSync(path.join(import.meta.dirname, 'comment-template.md'), 'utf-8');

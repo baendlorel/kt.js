@@ -20,15 +20,18 @@ export class Version {
     }, versions[0]);
   }
 
-  major: number;
-  minor: number;
-  patch: number;
+  public major: number;
+  public minor: number;
+  public patch: number;
+  public tail: string;
 
   constructor(versionStr: string) {
     const [major, minor, patch] = versionStr.split('.').map(Number);
     this.major = major;
     this.minor = minor;
-    this.patch = patch;
+    const tails = patch.toString().split('-');
+    this.patch = Number(tails[0]);
+    this.tail = tails[1] || '';
   }
 
   bumpPatch() {
@@ -36,8 +39,21 @@ export class Version {
     return this;
   }
 
+  bumpMinor() {
+    this.minor += 1;
+    this.patch = 0;
+    return this;
+  }
+
+  bumpMajor() {
+    this.major += 1;
+    this.minor = 0;
+    this.patch = 0;
+    return this;
+  }
+
   toString() {
-    return `${this.major}.${this.minor}.${this.patch}`;
+    return `${this.major}.${this.minor}.${this.patch}${this.tail ? `-${this.tail}` : ''}`;
   }
 
   duplicate() {

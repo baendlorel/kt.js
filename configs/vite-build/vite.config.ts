@@ -1,4 +1,6 @@
-import './path-join.js';
+//  Only this file needs it because others are not used independently.
+import '../../common/path-join.js';
+
 import path from 'node:path';
 import fs from 'node:fs';
 import { defineConfig } from 'vite';

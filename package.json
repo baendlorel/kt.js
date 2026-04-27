@@ -1,5 +1,5 @@
 {
-  "name": "kt.js",
+  "name": "kt.js-monorepo",
   "version": "0.40.1",
   "private": true,
   "author": {
@@ -8,7 +8,7 @@
   },
   "purpose": "npm",
   "description": "A simple and easy-to-use web framework, never re-render. Abbreviation of Kasukabe Tsumugi.",
-  "description_zh": "KT.js，简单易用的web框架，重不重绘你说了算！给自己一个极致优化的机会！取自Kasukabe Tsumugi的首字母。",
+  "description_zh": "KT.js，简单易用的web框架！给自己一个极致优化的机会！取自Kasukabe Tsumugi的首字母。",
   "type": "module",
   "homepage": "https://github.com/baendlorel/kt.js#readme",
   "repository": {

@@ -9,5 +9,8 @@ export function vitebuild(who: string | undefined) {
 
 function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);
-  execSync(`pnpm --filter ${info.name} run vitebuild`, { stdio: 'inherit', env: info.env });
+  execSync(`vite build --config ./configs/vite-build/vite.config.ts ${info.path}`, {
+    stdio: 'inherit',
+    env: info.env,
+  });
 }

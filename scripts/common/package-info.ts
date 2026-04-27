@@ -1,12 +1,19 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { Version } from './version.js';
+import { Version } from '../../common/version.js';
+import { CommonPackageJson } from '../../configs/vite-build/utils.js';
 
 export interface PackageInfo {
+  /**
+   * Absolute path to the package directory, e.g. ...path-to-kt.js/packages/core
+   */
   path: string;
+  /**
+   * Absolute path to the package.json
+   */
   jsonPath: string;
   version: Version;
-  json: any;
+  json: CommonPackageJson;
   name: string;
   nameVer: string;
   env: {

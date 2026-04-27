@@ -30,12 +30,14 @@
     "plugins": [{ "name": "@ktjs/ts-plugin" }]
   },
   "include": [
+    "./common/**/*.ts",
     "./scripts/**/*.ts",
     "*.config.ts",
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
-    "./configs/**/*.ts"
+    "./configs/**/*.ts",
+    "common/path-join.ts"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]
 }

@@ -1,4 +1,4 @@
-# KT.js JSX 编写指令（基于 `@ktjs/core@0.38.x`）
+# KT.js JSX 编写指令（基于 `@ktjs/core@0.40.x`）
 
 ## 1. 核心认知（必须遵守）
 
@@ -8,8 +8,8 @@
   - 读取：`reactive.value`
   - 整体替换：`ref.value = nextValue` / `subref.value = nextValue`
   - 深层变更：`ref.draft.xxx = ...`、`ref.draft.list.push(...)`
-- `draft` 本身不可整体赋值（禁止 `ref.draft = ...`）。
-- `addOnChange((newValue, oldValue) => ...)` 的 `oldValue` 是旧引用，不是深拷贝快照。
+- `draft` 本身不可整体赋值,禁止 `ref.draft = ...`。
+- `listen((newValue, oldValue) => ...)` 的 `oldValue` 是旧引用，不是深拷贝快照。
 - 事件绑定统一用 `on:事件名`（如 `on:click`），不要用 `onClick`。
 
 ---
@@ -20,7 +20,7 @@
 
 ```tsx
 const profile = ref({ user: { name: 'Ada' } });
-const name = profile.get('user', 'name'); // KTSubComputed<string>
+const name = profile.get('user', 'name'); // KTComputed<string>
 ```
 
 ### 2.2 `subref(...keys)`：可写子路径（支持 `k-model`）
@@ -31,7 +31,7 @@ const nameRef = form.subref('user', 'name'); // KTSubRef<string>
 nameRef.value = 'Linus';
 ```
 
-### 2.3 `reactive.is(target)` / `reactive.match(pattern)`
+### 2.3 `is(target)` / `match(pattern)`
 
 ```tsx
 const salary = ref(12000);
@@ -45,17 +45,29 @@ const matched = settings.match(matcher);
 
 ### 2.4 `computed` 依赖
 
-- `computed(() => ..., deps)` 仍需显式依赖数组。
-- 依赖可传 `KTReactiveLike`（含 `ref` / `computed` / `subref` / `get(...)` 结果）。
+- `computed(() => ..., deps)` 需要显式依赖数组。
+- 依赖可传 `KTReactive`（含 `ref` / `computed` / `subref` / `get(...)` 结果）。
 
----
-
-### 2.5 `reactive.map`
+### 2.5 `map`
 
 ```tsx
 const a = ref(true);
 const b = a.map((v) => (v ? 'A' : 'B')); // KTComputed<string>
 ```
+
+### 2.6 `listen` / `unlisten`
+
+```tsx
+const count = ref(0);
+const handler = (newValue: number, oldValue: number) => {
+  console.log(`Count changed from ${oldValue} to ${newValue}`);
+};
+count.listen(handler);
+// Later...
+count.unlisten(handler);
+```
+
+---
 
 ## 3. JSX 绑定规则
 
@@ -94,7 +106,7 @@ const view = (
 规则：
 
 - `k-else` 必须紧邻前一个同级 `k-if`（中间仅允许空白）。
-- 不支持`k-else-if`。
+- 不支持 `k-else-if`。
 - 同一元素不能同时写 `k-if` 与 `k-else`。
 
 ### 4.2 `k-for` / `k-key`
@@ -168,16 +180,33 @@ inputRef.value?.focus();
 
 ---
 
-## 6. 常见坑位（生成代码时自检）
+## 6. 响应式方法实例化
+
+最新 API 中，响应式方法都是实例方法，而非 `reactive` 命名空间下的方法：
+
+```tsx
+// 旧写法（已弃用）
+const isSame = reactive.is(target);
+const computed = reactive.get('a', 'b');
+
+// 新写法（推荐）
+const isSame = ref.is(target);
+const computed = ref.get('a', 'b');
+```
+
+---
+
+## 7. 常见坑位（生成代码时自检）
 
 1. 事件必须写 `on:click`，不是 `onClick`。
 2. `computed` 记得写依赖数组。
 3. 深层修改对象/数组/Map/Set 优先走 `draft`。
-4. vite未启用 `@ktjs/vite-plugin-ktjsx` 时，`k-if` / `k-for` 等指令不会按预期编译。
+4. vite 未启用 `@ktjs/vite-plugin-ktjsx` 时，`k-if` / `k-for` 等指令不会按预期编译。
+5. 使用 `listen` 而非 `addOnChange` 来添加变化监听器。
 
 ---
 
-## 7. AI 生成最小模板
+## 8. AI 生成最小模板
 
 ```tsx
 import { computed, ref } from 'kt.js';
@@ -207,3 +236,16 @@ function App() {
 
 document.getElementById('app')!.appendChild(<App />);
 ```
+
+---
+
+## 9. API 变更对照表
+
+| 旧 API (0.38.x)           | 新 API (0.40.x)      |
+| ------------------------- | -------------------- |
+| `reactive.is(target)`     | `ref.is(target)`     |
+| `reactive.match(pattern)` | `ref.match(pattern)` |
+| `reactive.get(...keys)`   | `ref.get(...keys)`   |
+| `reactive.map(fn)`        | `ref.map(fn)`        |
+| `addOnChange(handler)`    | `listen(handler)`    |
+| `removeOnChange(handler)` | `unlisten(handler)`  |

@@ -17,6 +17,9 @@ export interface PackageInfo {
   name: string;
   nameVer: string;
   env: {
+    /**
+     * Used to tell the child process which package to build. The vite config will read this variable to determine the entry file and output file name.
+     */
     CURRENT_PKG_PATH: string;
     TZ?: string | undefined;
   };

@@ -1,13 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
-    "rootDir": "..", // This is for "../shared/src/**/*"
-    "paths": {
-      "@ktjs/core": ["../core/src/index.ts"],
-      "@ktjs/core/jsx": ["../core/src/index.ts"],
-      "@ktjs/core/jsx-runtime": ["../core/src/jsx-runtime.ts"],
-      "@ktjs/shared": ["../shared/src/index.ts"]
-    }
+    "rootDir": ".." // This is for "../shared/src/**/*"
   },
   "include": ["./src/**/*.*", "../shared/src/**/*", "../core/src/**/*"]
 }

@@ -47,6 +47,7 @@ export default defineConfig(() => {
           // ! Shockingly this is inherited as a relative path
           // ! Used to write "types: ['node', '../types/macros']"
           types: ['node', Root.join('packages', 'types', 'macros')],
+          sourcemap: needSourceMap(lib),
         },
         // This is required to prevent @ktjs/xxx to be treated as outer dependencies.
         aliasesExclude: [/^@ktjs\//],

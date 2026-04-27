@@ -3,9 +3,7 @@ import { dirs } from '../common/consts.js';
 import { getPackageInfo } from './package-info.js';
 
 export async function test(who: string | undefined) {
-  const info = getPackageInfo(who);
-
-  info.forEach((pkg) => {
+  getPackageInfo(who).forEach((pkg) => {
     const vitestConfigPath = dirs.configs.join('vitest.config.ts');
 
     execSync(`vitest ${pkg.path.safe()} --config ${vitestConfigPath.safe()} --passWithNoTests`, {

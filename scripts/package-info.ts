@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { loadJson, loadPackageJson, type CommonPackageJson } from '../common/utils.js';
 import { dirs } from '../common/consts.js';
 import { Version } from '../common/version.js';
@@ -21,30 +21,21 @@ export interface PackageInfo {
   };
 }
 
-const publishGroupMap = new Map<string | undefined, string[]>([
-  [undefined, ['core', 'kt.js', 'mui']],
+const publishGroupMap = new Map<string, string[]>([
+  ['main', ['core', 'kt.js', 'mui']],
   ['router', ['core', 'kt.js', 'router']],
   ['plugin', ['vite', 'babel', 'transformer', 'create']],
   ['all', ['shared', 'core', 'kt.js', 'mui', 'mui-icon', 'router']],
 ]);
 
 const getAbsolutePath = (who: string) => dirs.packages.tryJoin(who) ?? dirs.plugins.join(who);
-
-const getGroup = (who: string | undefined): string[] => {
+const getGroup = (who: string): string[] => {
   const raw = publishGroupMap.get(who);
-  if (raw) {
-    return raw.map(getAbsolutePath);
-  }
-  if (typeof who === 'string') {
-    return [getAbsolutePath(who)];
-  } else {
-    console.error(`Unknown package group: ${who}`);
-    process.exit(1);
-  }
+  return raw ? raw.map(getAbsolutePath) : [getAbsolutePath(who)];
 };
 
-export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
-  getGroup(who)
+export function getPackageInfo(who: string = 'main'): PackageInfo[] {
+  return getGroup(who)
     .map((absolutePackagePath) => {
       const data = loadPackageJson(absolutePackagePath);
       if (!data) {
@@ -61,6 +52,7 @@ export const getPackageInfo = (who: string | undefined): PackageInfo[] =>
       };
     })
     .filter((info): info is PackageInfo => info !== null);
+}
 
 export function syncRootVersion(group: PackageInfo[]): string | null {
   const coreInfo = group.find((info) => info.name === '@ktjs/core');

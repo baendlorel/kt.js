@@ -120,7 +120,7 @@ function getTopDraftChain(node: tsModule.PropertyAccessExpression, ts: typeof ts
   let current: DraftChain = node;
 
   while (true) {
-    const parent = current.parent;
+    const parent: tsModule.Node = current.parent;
     if (!parent) {
       return current;
     }

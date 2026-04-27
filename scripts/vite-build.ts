@@ -11,8 +11,8 @@ export function vitebuild(who: string | undefined) {
   group.forEach(buildWithInfo);
 }
 
-const config = dirs.root.join('configs', 'vite-build', 'vite.config.ts');
-const specialLibs = ['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'];
+const config = dirs.configs.join('vite.config.ts');
+const specialLibs = [void '@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].filter(Boolean);
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);

@@ -1,5 +1,5 @@
 //  Only this file needs it because others are not used independently.
-import '../../common/path-join.js';
+import '../common/path-join.js';
 
 import path from 'node:path';
 import fs from 'node:fs';
@@ -8,9 +8,10 @@ import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 
-import { replaceForViteDts } from './replace.js';
+import { replaceForViteDts } from './vite-build/replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
+const externals = () => [/^@ktjs\//, /^node:/, /^@babel\//];
 
 export default defineConfig(() => {
   const lib = process.env.CURRENT_PKG_PATH;
@@ -29,7 +30,7 @@ export default defineConfig(() => {
       outDir: path.join(lib, 'dist'),
       sourcemap: needSourceMap(lib),
       rollupOptions: {
-        external: [/^@ktjs\//, /^@babel\//],
+        external: externals(),
         output: {
           entryFileNames: 'index.mjs',
         },
@@ -45,9 +46,11 @@ export default defineConfig(() => {
           // types: ['node', dirs.packages.join('types', 'macros')],
           sourcemap: needSourceMap(lib),
         },
+
         // This is required to prevent @ktjs/xxx to be treated as outer dependencies.
-        aliasesExclude: [/^@ktjs\//],
-        // `emittedFiles` will only contain one index.d.ts file.
+        aliasesExclude: externals(),
+
+        // In our case, `emittedFiles` will only contain one index.d.ts file.
         afterBuild: (emittedFiles) => {
           emittedFiles.forEach((content, filePath) => {
             content = stripHiddenDeclarations(content, { allNames: [/^_/] }).code;

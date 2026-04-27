@@ -1,11 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core",
-    "noCheck": true,
-    "skipLibCheck": true
+    "rootDir": "..", // This is for "../shared/src/**/*"
+    "types": ["node", "../types/macros"]
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.d.ts"],
-  "exclude": ["./**/*.test.tsx", "./**/*.test.ts", "./**/*.spec.tsx", "./**/*.spec.ts"]
+  "include": ["./src/**/*", "../shared/src/**/*"]
 }

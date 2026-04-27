@@ -1,4 +1,4 @@
-import type { JSX, KTMaybeReactive, KTRefLike } from '@ktjs/core';
+import type { JSX, KTMaybeReactive, KTRef } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { assertModel, computed, effect, ref, KTIf } from '@ktjs/core';
@@ -16,7 +16,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
    * - Set `model.value = true` to open dialog.
    * - Dialog close actions write `false` back to model.
    */
-  'k-model'?: KTRefLike<boolean>;
+  'k-model'?: KTRef<boolean>;
 
   title?: KTMaybeReactive<string>;
   children?:

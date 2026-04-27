@@ -12,8 +12,8 @@ const config = dirs.root.join('configs', 'vite-build', 'vite.config.ts');
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);
-
-  if (['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example', '@ktjs/mui'].includes(info.name)) {
+  // , '@ktjs/mui'
+  if (['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
   } else {
     execSync(`vite build --config ${config.safe()} ${info.path.safe()}`, { stdio: 'inherit', env: info.env });

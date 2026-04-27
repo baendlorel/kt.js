@@ -1,4 +1,4 @@
-import type { JSX, KTReactiveLike, KTRefLike } from '@ktjs/core';
+import type { JSX, KTReactive, KTRef } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { assertModel, computed, ref, KTIf } from '@ktjs/core';
@@ -11,7 +11,7 @@ import './FilePicker.css.js';
 export type KTMuiDirectoryPickerSize = 'small' | 'medium';
 
 export interface KTMuiDirectoryPickerProps extends KTMuiProps {
-  'k-model'?: KTRefLike<File[]>;
+  'k-model'?: KTRef<File[]>;
   label?: KTMaybeReactive<string>;
   placeholder?: KTMaybeReactive<string>;
   value?: File[];
@@ -21,7 +21,7 @@ export interface KTMuiDirectoryPickerProps extends KTMuiProps {
   error?: KTMaybeReactive<boolean>;
   helperText?: KTMaybeReactive<string>;
   fullWidth?: KTMaybeReactive<boolean>;
-  size?: KTMuiDirectoryPickerSize | KTReactiveLike<KTMuiDirectoryPickerSize>;
+  size?: KTMuiDirectoryPickerSize | KTReactive<KTMuiDirectoryPickerSize>;
   buttonText?: KTMaybeReactive<string>;
   'on:change'?: (files: File[], directoryPath: string) => void;
   'on:blur'?: () => void;

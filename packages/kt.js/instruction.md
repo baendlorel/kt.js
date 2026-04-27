@@ -144,7 +144,7 @@ const input = <input k-model={nameRef} />;
 
 规则：
 
-- `k-model` 必须传 `KTRefLike`（`ref` 或 `subref`）。
+- `k-model` 必须传 `KTRef`（`ref` 或 `subref`）。
 - 常用于 `input` / `select` / `textarea`。
 
 ### 4.4 `k-html`

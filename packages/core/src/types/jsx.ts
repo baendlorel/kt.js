@@ -192,7 +192,7 @@ export namespace JSX {
 
     /**
      * Conditional rendering
-     * - Provide a `KTRefLike` to make it reactive
+     * - Provide a `KTRef` to make it reactive
      */
     'k-if'?: any;
 
@@ -213,7 +213,7 @@ export namespace JSX {
     'k-key'?: any;
 
     /**
-     * 2-way binding. Must provide a `KTRefLike`
+     * 2-way binding. Must provide a `KTRef`
      */
     'k-model'?: KTRef<any>;
 

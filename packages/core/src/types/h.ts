@@ -33,12 +33,12 @@ interface KTBaseAttribute {
   ref?: KTRef<any>;
 
   /**
-   * If a `KTRefLike` is bound, it will be reactive; otherwise, it will be static.
+   * If a `KTRef` is bound, it will be reactive; otherwise, it will be static.
    */
   'k-if'?: any;
 
   /**
-   * Register two-way data binding between an input element and a KTRefLike.
+   * Register two-way data binding between an input element and a KTRef.
    * - Default to register `input` event and `value` property(`checked` for checkboxes and radios).
    */
   'k-model'?: KTRef<any>;
@@ -56,7 +56,7 @@ interface KTBaseAttribute {
   id?: string;
   class?: string; // KTMaybeReactive<string>;
   className?: string; // KTMaybeReactive<string>;
-  style?: string | Partial<CSSStyleDeclaration>; //  | KTReactiveLike<string | KTReactiveLike<Partial<CSSStyleDeclaration>>>;
+  style?: string | Partial<CSSStyleDeclaration>; //  | KTReactive<string | KTReactive<Partial<CSSStyleDeclaration>>>;
 
   type?:
     | 'text'

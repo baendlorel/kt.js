@@ -1,4 +1,4 @@
-import type { JSX, KTRefLike } from '@ktjs/core';
+import type { JSX, KTRef } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
@@ -22,7 +22,7 @@ export interface KTMuiTabOption {
 }
 
 export interface KTMuiTabsProps extends KTMuiProps {
-  'k-model'?: KTRefLike<string>;
+  'k-model'?: KTRef<string>;
   options: KTMaybeReactive<KTMuiTabOption[]>;
   variant?: KTMaybeReactive<KTMuiTabsVariant>;
   textColor?: KTMaybeReactive<KTMuiTabsTextColor>;

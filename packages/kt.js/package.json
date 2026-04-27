@@ -46,7 +46,7 @@
     "javascript"
   ],
   "scripts": {
-    "vitebuild": "vite build"
+    "vitebuild": "vite build --config ../../configs/vite-build/vite.config.ts"
   },
   "license": "MIT",
   "dependencies": {

@@ -50,7 +50,7 @@
   },
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
-    "vitebuild": "vite build",
+    "vitebuild": "vite build --config ../../configs/vite-build/vite.config.ts",
     "dev": "rollup -c rollup.config.mjs -w"
   }
 }

@@ -1,14 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "paths": {
-      "@ktjs/transformer": ["../transformer/src/index.ts"]
-    },
-    "outDir": "dist",
-    "rootDir": "..",
-    "typeRoots": ["../../packages/types", "../../node_modules/@types"]
+    "rootDir": ".."
   },
-  "include": ["src/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }

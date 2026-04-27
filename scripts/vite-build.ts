@@ -9,7 +9,6 @@ export function vitebuild(who: string | undefined) {
 }
 
 const config = dirs.root.join('configs', 'vite-build', 'vite.config.ts');
-
 const specialLibs = ['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'];
 
 export function buildWithInfo(info: PackageInfo) {

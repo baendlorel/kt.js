@@ -6,12 +6,12 @@ import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 
-import { getTSBuildConfig } from './utils.js';
+import { getTSBuildConfig, Root } from './utils.js';
 import { replace } from './replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
-export const main = defineConfig(() => {
+export default defineConfig(() => {
   const lib = process.env.CURRENT_PKG_PATH;
   if (!lib) {
     throw new Error('CURRENT_PKG_PATH environment variable is not set.');
@@ -44,7 +44,10 @@ export const main = defineConfig(() => {
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
-          types: ['node', '../types/macros'],
+          // ! Shockingly this is inherited as a relative path
+          // types: ['node', '../types/macros'],
+          // Or you can write like this, which is more robust
+          types: ['node', Root.join('packages', 'types', 'macros')],
         },
         beforeWriteFile: (filePath: string, content: string) => {
           return { content: stripHiddenDeclarations(content, { allNames: [/^_/] }).code, filePath };
@@ -53,22 +56,11 @@ export const main = defineConfig(() => {
         insertTypesEntry: true,
         rollupTypes: true,
       }),
-      // terser: removes dead code
       terser({
         compress: {
           dead_code: true,
         },
-        mangle: false,
-        output: {
-          beautify: true,
-        },
-      }),
-      //  terser: mangles private members
-      void terser({
-        compress: {
-          dead_code: true,
-        },
-        mangle: {
+        mangle: void {
           toplevel: true,
           properties: {
             regex: /^_/,

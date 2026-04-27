@@ -3,4 +3,5 @@
     "rootDir": ".." // This is for "../shared/src/**/*"
   },
   "include": ["./src/**/*.*", "../shared/src/**/*", "../core/src/**/*"]
+  // TODO 依赖改为：1、peer的，2、ktjs本体变成一个命令行，它会安装所有人
 }

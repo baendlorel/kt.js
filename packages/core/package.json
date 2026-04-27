@@ -44,7 +44,7 @@
     "url": "https://github.com/baendlorel/kt.js",
     "directory": "packages/core"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@ktjs/shared": "workspace:^*"
   },
   "scripts": {

@@ -1,4 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { execSync } from 'node:child_process';
+
 import { dirs } from '../common/consts.js';
 import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
 
@@ -13,6 +16,8 @@ const specialLibs = ['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'];
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);
+  fs.rmSync(info.path.join('dist'), { recursive: true, force: true });
+
   if (specialLibs.includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
   } else {

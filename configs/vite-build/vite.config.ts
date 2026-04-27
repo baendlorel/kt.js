@@ -7,7 +7,6 @@ import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
-import { dirs } from '../../common/consts.js';
 
 import { replaceForViteDts } from './replace.js';
 
@@ -18,10 +17,6 @@ export default defineConfig(() => {
   if (!lib) {
     throw new Error('CURRENT_PKG_PATH environment variable is not set.');
   }
-
-  console.log('Building:', lib);
-
-  fs.rmSync(path.join(lib, 'dist'), { recursive: true, force: true });
 
   return {
     build: {

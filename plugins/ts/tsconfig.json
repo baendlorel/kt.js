@@ -4,7 +4,8 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "types": ["node"],
-    "rootDir": ".",
+    // ! rootDir and outDir Must be like this if we use `tsc`
+    "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true,
     "noEmit": false,

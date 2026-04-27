@@ -39,7 +39,6 @@ export default defineConfig(() => {
           entryFileNames: 'index.mjs',
         },
       },
-      emptyOutDir: true,
     },
     plugins: [
       dts({

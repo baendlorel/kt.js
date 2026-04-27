@@ -36,6 +36,8 @@
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
+    "./plugins/**/*.ts",
+    "./plugins/**/*.tsx",
     "./configs/**/*.ts"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]

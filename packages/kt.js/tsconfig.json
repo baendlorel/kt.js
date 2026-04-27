@@ -1,7 +1,8 @@
 {
+  // # This is the minimum tsconfig.json for a package.
   "compilerOptions": {
-    "rootDir": ".." // This is for "../shared/src/**/*"
+    "rootDir": ".",
+    "types": ["node", "../types/macros"]
   },
-  "include": ["./src/**/*.*", "../shared/src/**/*", "../core/src/**/*"]
-  // TODO 依赖改为：1、peer的，2、ktjs本体变成一个命令行，它会安装所有人
+  "include": ["./src/**/*"]
 }

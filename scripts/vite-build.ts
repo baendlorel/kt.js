@@ -12,7 +12,7 @@ export function vitebuild(who: string | undefined) {
 }
 
 const config = dirs.configs.join('vite.config.ts');
-const specialLibs = [void '@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].filter(Boolean);
+const specialLibs = [void '@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);

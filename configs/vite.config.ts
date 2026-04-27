@@ -44,6 +44,7 @@ export default defineConfig(() => {
           // ! Shockingly this is inherited as a relative path
           // ! Used to write "types: ['node', '../types/macros']"
           // types: ['node', dirs.packages.join('types', 'macros')],
+          esModuleInterop: true,
           sourcemap: needSourceMap(lib),
         },
 

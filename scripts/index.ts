@@ -1,19 +1,19 @@
 #!/usr/bin/env tsx
 
-import { build } from './build.js';
+import { rollupBuild } from './rollup-build.js';
 import { check } from './check.js';
 import { publish } from './publish.js';
 import { syncReadme } from './readme.js';
 import { test } from './test.js';
-import { vitebuild } from './vitebuild.js';
+import { vitebuild } from './vite-build.js';
 
 const taskHandler = {
   '--publish': publish,
-  '--build': build,
+  '--rollup-build': rollupBuild,
   '--test': test,
   '--check': check,
   '--readme': syncReadme,
-  '--vitebuild': vitebuild,
+  '--vite-build': vitebuild,
 };
 
 async function main() {

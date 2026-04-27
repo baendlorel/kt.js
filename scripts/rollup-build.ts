@@ -1,15 +1,16 @@
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
-import { getPackageInfo, PackageInfo, syncRootVersion } from './common/index.js';
 
-export function build(who: string | undefined) {
+import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
+
+export function rollupBuild(who: string | undefined) {
   const group = getPackageInfo(who);
   syncRootVersion(group);
   group.forEach(buildWithInfo);
 }
 
-export function buildWithInfo(info: PackageInfo) {
+function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
   if (['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example', '@ktjs/mui'].includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });

@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process';
 import { dirs } from '../common/consts.js';
-import { getPackageInfo } from './common/package-info.js';
+import { getPackageInfo } from './package-info.js';
 
 export async function test(who: string | undefined) {
   const info = getPackageInfo(who);

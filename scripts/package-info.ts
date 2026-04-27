@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { loadJson, loadPackageJson, type CommonPackageJson } from '../../common/utils.js';
-import { dirs } from '../../common/consts.js';
-import { Version } from '../../common/version.js';
+import { loadJson, loadPackageJson, type CommonPackageJson } from '../common/utils.js';
+import { dirs } from '../common/consts.js';
+import { Version } from '../common/version.js';
 
 export interface PackageInfo {
   /**

@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process';
-import { getPackageInfo } from './common/package-info.js';
+import { getPackageInfo } from './package-info.js';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 

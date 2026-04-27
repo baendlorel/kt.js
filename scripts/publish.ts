@@ -1,9 +1,11 @@
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 
-import { ask, getPackageInfo, PackageInfo, syncRootVersion, Version } from './common/index.js';
-import { buildWithInfo } from './build.js';
+import { Version } from '../common/version.js';
+import { ask } from './ask.js';
 import { syncReadme } from './readme.js';
+import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
+import { buildWithInfo } from './vite-build.js';
 
 export async function publish(who: string | undefined) {
   const group = getPackageInfo(who);
@@ -35,7 +37,7 @@ export async function publish(who: string | undefined) {
   // * Here we modify group's json data, bump the versions
   group.forEach((info) => {
     info.json.version = newVer;
-    writeFileSync(info.jsonPath, JSON.stringify(info.json, null, 2), 'utf-8');
+    writeFileSync(info.path.join('package.json'), JSON.stringify(info.json, null, 2), 'utf-8');
   });
   const syncedRootPath = syncRootVersion(group);
 
@@ -45,9 +47,13 @@ export async function publish(who: string | undefined) {
 
   const releaseInfo = group.map((info, i) => `${i}.${info.name}@${info.json.version}`).join('\n');
   const changedPaths = [
-    ...new Set([...group.map((info) => info.jsonPath), ...readmePaths, ...(syncedRootPath ? [syncedRootPath] : [])]),
+    ...new Set([
+      ...group.map((info) => info.path.join('package.json')),
+      ...readmePaths,
+      ...(syncedRootPath ? [syncedRootPath] : []),
+    ]),
   ];
-  execSync(`git add ${changedPaths.map((item) => JSON.stringify(item)).join(' ')}`, { stdio: 'inherit' });
+  execSync(`git add ${changedPaths.map((item) => item.safe()).join(' ')}`, { stdio: 'inherit' });
   execSync(`git commit -m "release: \n${releaseInfo}"`, { stdio: 'inherit' });
   console.log('Committed :', releaseInfo);
 }
@@ -55,6 +61,7 @@ export async function publish(who: string | undefined) {
 function gitTag(item: PackageInfo) {
   const publishedVer = `${item.name}@${item.json.version}`;
   execSync('pnpm publish --access public --no-git-checks', { stdio: 'inherit', cwd: item.path });
+
   console.log(`Published ${publishedVer}`);
 
   const tagExists = execSync(`git tag -l "${publishedVer}"`, { encoding: 'utf-8' }).trim().length > 0;

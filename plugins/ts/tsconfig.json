@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
-    "types": ["node"], // # This cannot be omitted. Or you will get a warning.
-    "rootDir": "."
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    // ! rootDir and outDir Must be like this if we use `tsc`
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "noEmit": false,
+    "esModuleInterop": true
   },
   "include": ["./src/**/*.ts"]
 }
-// FIXME 虽然可以打包了，但是作为ts-plugin它必须以commonjs的require加载。

@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "types": ["node"], // # This cannot be omitted. Or you will get a warning.
+    "rootDir": "."
+  },
+  "include": ["./src/**/*.ts"]
+}

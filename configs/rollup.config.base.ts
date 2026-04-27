@@ -21,7 +21,7 @@ export default (_commandLineArgs: Record<string, string[]>): RollupOptions[] => 
   console.log(libPath, libPath.includes('mui-icon'));
 
   const tsconfig = getTSConfig(libPath);
-  rmSync(path.join(libPath, 'dist'), { recursive: true, force: true });
+
   return [
     {
       input: path.join(libPath, 'src', 'index.ts'),

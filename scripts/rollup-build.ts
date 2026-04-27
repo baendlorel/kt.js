@@ -12,7 +12,10 @@ export function rollupBuild(who: string | undefined) {
 
 function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
-  fs.rmSync(info.path.join('dist'), { recursive: true, force: true });
+  const dist = info.path.tryJoin('dist');
+  if (dist) {
+    fs.rmSync(dist, { recursive: true, force: true });
+  }
 
   if (['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example', '@ktjs/mui'].includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });

@@ -12,11 +12,15 @@ export function vitebuild(who: string | undefined) {
 }
 
 const config = dirs.configs.join('vite.config.ts');
-const specialLibs = [void '@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
+const specialLibs = ['@ktjs/ts-plugin', '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);
-  fs.rmSync(info.path.join('dist'), { recursive: true, force: true });
+
+  const dist = info.path.tryJoin('dist');
+  if (dist) {
+    fs.rmSync(dist, { recursive: true, force: true });
+  }
 
   if (specialLibs.includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });

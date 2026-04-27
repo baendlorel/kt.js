@@ -36,8 +36,7 @@
     "./packages/**/*.ts",
     "./packages/**/*.tsx",
     "./packages/**/*.js",
-    "./configs/**/*.ts",
-    "common/path-join.ts"
+    "./configs/**/*.ts"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]
 }

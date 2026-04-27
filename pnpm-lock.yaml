@@ -114,9 +114,6 @@ importers:
       '@ktjs/shared':
         specifier: workspace:^*
         version: link:../shared
-      composition-ts:
-        specifier: ^0.1.2
-        version: 0.1.2
 
   packages/example:
     dependencies:
@@ -157,6 +154,9 @@ importers:
       '@ktjs/core':
         specifier: workspace:^*
         version: link:../core
+      '@ktjs/shared':
+        specifier: workspace:^*
+        version: link:../shared
 
   packages/router:
     dependencies:
@@ -1881,9 +1881,6 @@ packages:
 
   compare-versions@6.1.1:
     resolution: {integrity: sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==}
-
-  composition-ts@0.1.2:
-    resolution: {integrity: sha512-32TeaWH41y1/m3QwecXi/Jc+7IoT2W43S7UPQmuZDnnbQKaV8GVIMxPg3M407S58aD1B8BUNY+P7IDRtvscAaA==}
 
   confbox@0.1.8:
     resolution: {integrity: sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w==}
@@ -4664,8 +4661,6 @@ snapshots:
   commondir@1.0.1: {}
 
   compare-versions@6.1.1: {}
-
-  composition-ts@0.1.2: {}
 
   confbox@0.1.8: {}
 

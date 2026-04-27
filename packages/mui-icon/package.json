@@ -36,7 +36,8 @@
     "url": "https://github.com/baendlorel/kt.js",
     "directory": "packages/mui"
   },
-  "dependencies": {
-    "@ktjs/core": "workspace:^*"
+  "peerDependencies": {
+    "@ktjs/core": "workspace:^*",
+    "@ktjs/shared": "workspace:^*"
   }
 }

@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@ktjs/core"
-  }
+    "jsxImportSource": "@ktjs/core",
+    "rootDir": "..", // This is for "../shared/src/**/*"
+    "types": ["node", "../types/macros"]
+  },
+  "include": ["./src/**/*", "../shared/src/**/*"]
 }

@@ -1,4 +1,3 @@
-// TASK 用于所有校验完成后无所谓类型的地方
 export type Satisfied = any;
 
 export type IsSameType<A, B> =

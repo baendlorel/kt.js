@@ -11,7 +11,6 @@ import { isKT } from '../reactable/common.js';
 type KTForList<TList extends readonly unknown[]> = TList | KTReactive<TList>;
 
 export class KTForAnchor<TList extends readonly unknown[]> extends KTAnchor {
-  // TODO 删除所有internal标记因为有了hidePrivate了
   _current!: Node[];
   // EPIC key用于未来的优化
   private _load(list: TList, key: Required<KTForProps<TList>>['key'], map: Required<KTForProps<TList>>['map']) {

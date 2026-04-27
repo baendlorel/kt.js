@@ -11,7 +11,6 @@ import replace, { type RollupReplaceOptions } from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 import hidePrivate from 'rollup-plugin-hide-private';
 
-// TODO 到底为什么不能用vite统一打包
 export default (_commandLineArgs: Record<string, string[]>): RollupOptions[] => {
   const libPath = process.env.CURRENT_PKG_PATH;
   if (!libPath) {

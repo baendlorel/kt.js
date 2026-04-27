@@ -36,7 +36,7 @@ export const getTSBuildConfig = (p: string) => ({
 
 export const loadJson = (filePath: string) => JSON.parse(fs.readFileSync(filePath, 'utf-8')) as CommonPackageJson;
 
-export const Root = import.meta.dirname.join('..');
+export const Root = import.meta.dirname.join('..', '..');
 export const Packages = ['packages', 'plugins']
   .map((t) => {
     const p = Root.join(t);

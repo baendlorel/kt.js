@@ -2,52 +2,12 @@ import './path-join.js';
 import path from 'node:path';
 import fs from 'node:fs';
 import { defineConfig } from 'vite';
-import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
-import hidePrivate from 'rollup-plugin-hide-private';
+import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 
 import { getTSBuildConfig } from './utils.js';
 import { replace } from './replace.js';
-
-const shouldRollupTypes = (libPath: string) => true || path.basename(libPath) !== 'core';
-
-const declaration = defineConfig(() => {
-  const lib = process.env.CURRENT_PKG_PATH;
-  if (!lib) {
-    throw new Error('CURRENT_PKG_PATH environment variable is not set.');
-  }
-
-  const tsBuildConfig = getTSBuildConfig(lib);
-  return {
-    input: lib.join('src', 'index.ts'),
-    output: {
-      entryFileNames: 'index.d.ts',
-      dir: lib.join('dist'),
-    },
-    build: {
-      sourcemap: needSourceMap(lib),
-    },
-    external: [/^@ktjs/],
-    plugins: [
-      replace(lib),
-      hidePrivate({
-        allNames: [/^_/],
-      }),
-      dts({
-        tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
-        compilerOptions: {
-          composite: false,
-          incremental: false,
-          stripInternal: true,
-        },
-        copyDtsFiles: true,
-        insertTypesEntry: true,
-        rollupTypes: shouldRollupTypes(lib),
-      }),
-    ],
-  };
-});
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 
@@ -81,25 +41,17 @@ export const main = defineConfig(() => {
     },
     plugins: [
       replace(lib), // only works for js, not for dts.
-      hidePrivate({
-        mode: 'write-files',
-        filePatterns: ['dist/index.d.ts'],
-        allNames: [/^_/],
-      }),
       dts({
         tsconfigPath: tsBuildConfig.build ?? tsBuildConfig.local,
         compilerOptions: {
-          // target: ts.ScriptTarget.ESNext,
-          // module: ts.ModuleKind.NodeNext,
-          // moduleResolution: ts.ModuleResolutionKind.NodeNext,
-          // composite: false,
-          // incremental: false,
-          // stripInternal: true,
           types: ['node', '../types/macros'],
+        },
+        beforeWriteFile: (filePath: string, content: string) => {
+          return { content: stripHiddenDeclarations(content, { allNames: [/^_/] }).code, filePath };
         },
         copyDtsFiles: true,
         insertTypesEntry: true,
-        rollupTypes: shouldRollupTypes(lib),
+        rollupTypes: true,
       }),
       // terser: removes dead code
       terser({

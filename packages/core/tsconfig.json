@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "jsxImportSource": "@ktjs/core",
     "lib": ["DOM", "ESNext"],
+    "rootDir": "..", // This is for "../shared/src/**/*"
     "paths": {
       "@ktjs/core": ["./src/index.ts"],
       "@ktjs/core/jsx": ["./src/index.ts"],
@@ -9,5 +9,5 @@
       "@ktjs/shared": ["../shared/src/index.ts"]
     }
   },
-  "include": ["./src/**/*", "./tests/**/*", "../shared/src/**/*"]
+  "include": ["./src/**/*", "../shared/src/**/*"]
 }

@@ -236,12 +236,16 @@ textarea.mui-textfield-input {
 
 /* Helper text */
 .mui-textfield-helper-text {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 14px;
+  right: 14px;
   color: rgba(0, 0, 0, 0.6);
   font-size: 0.75rem;
   line-height: 1.66;
   letter-spacing: 0.03333em;
   text-align: left;
-  margin: 3px 14px 0;
+  margin: 0;
 }
 
 .mui-textfield-error .mui-textfield-helper-text {

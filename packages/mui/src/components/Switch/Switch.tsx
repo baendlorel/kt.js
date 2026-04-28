@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive, KTRef } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed } from '@ktjs/core';
+import { assertModel, computed, KTIf } from '@ktjs/core';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Switch.css.js';
@@ -12,6 +12,7 @@ export type KTMuiSwitchSize = 'small' | 'medium' | 'large';
 
 export interface KTMuiSwitchProps extends KTMuiProps {
   'k-model'?: KTRef<any>;
+  label?: KTMaybeReactive<string | JSX.Element | HTMLElement>;
 
   valueOn?: KTMaybeReactive<any>;
   valueOff?: KTMaybeReactive<any>;
@@ -39,6 +40,7 @@ export function Switch<T>(props: KTMuiSwitchProps): KTMuiSwitch {
   // # ref props
   const valueOffRef = toPseudoRef(props.valueOff ?? false);
   const valueOnRef = toPseudoRef(props.valueOn ?? true);
+  const labelRef = toPseudoRef(props.label ?? '');
 
   const colorRef = toPseudoRef(props.color ?? 'primary');
   const sizeRef = toPseudoRef(props.size ?? 'medium');
@@ -48,9 +50,10 @@ export function Switch<T>(props: KTMuiSwitchProps): KTMuiSwitch {
   });
   const modelRef = assertModel(props, valueOffRef.value);
   modelRef.listen((v) => {
-    inputEl.checked = v;
-    track.classList.toggle('mui-switch-track-checked', v);
-    thumb.classList.toggle('mui-switch-thumb-checked', v);
+    const checked = v === valueOnRef.value;
+    inputEl.checked = checked;
+    track.classList.toggle('mui-switch-track-checked', checked);
+    thumb.classList.toggle('mui-switch-thumb-checked', checked);
   });
 
   const styleRef = toPseudoRef($parseStyle(props.style));
@@ -91,12 +94,13 @@ export function Switch<T>(props: KTMuiSwitchProps): KTMuiSwitch {
         {track}
         {thumb}
       </span>
+      {KTIf(labelRef, 'span', () => ({ class: 'mui-switch-label', children: labelRef }))}
     </label>
   ) as KTMuiSwitch;
 
   // Initialize state
-  track.classList.toggle('mui-switch-track-checked', modelRef.value);
-  thumb.classList.toggle('mui-switch-thumb-checked', modelRef.value);
+  track.classList.toggle('mui-switch-track-checked', modelRef.value === valueOnRef.value);
+  thumb.classList.toggle('mui-switch-thumb-checked', modelRef.value === valueOnRef.value);
 
   return container;
 }

@@ -68,6 +68,7 @@ describe('MUI TextField component', () => {
     const textfield = <TextField {...{ helperText: 'Please enter a value' }} />;
     const helper = textfield.querySelector('.mui-textfield-helper-text');
     expect(helper?.textContent).toBe('Please enter a value');
+    expect(helper ? getComputedStyle(helper).position : '').toBe('absolute');
   });
 
   it('should apply fullWidth class', () => {

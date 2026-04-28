@@ -33,6 +33,7 @@ export const jsxDEV: typeof jsx = (...args) => {
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
 export const jsxs: typeof jsx = (...args) => {
+  // TODO 要检测这里是否震的会有jsxs和jsx因children不同使用不同函数的情况
   console.log('JSX DEV (jsxs) called:', args[1]?.children?.length);
   return jsx(...args);
 };

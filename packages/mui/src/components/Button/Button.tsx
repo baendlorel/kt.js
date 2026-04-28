@@ -1,5 +1,5 @@
 import type { JSX } from '@ktjs/core';
-import { computed, ref, toReactive, KTIf } from '@ktjs/core';
+import { computed, ref, toKT, KTIf } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -43,8 +43,8 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
   // # refs
   const buttonRef = ref<HTMLButtonElement>();
   const rippleContainerRef = ref<HTMLSpanElement>();
-  const startIconRef = toReactive(props.startIcon);
-  const endIconRef = toReactive(props.endIcon);
+  const startIconRef = toKT(props.startIcon);
+  const endIconRef = toKT(props.endIcon);
 
   // # ref props
   const customClassRef = toPseudoRef(props.class ?? '');
@@ -108,7 +108,7 @@ export function Button(props: KTMuiButtonProps): JSX.Element {
       ref={buttonRef}
       class={className}
       style={styleRef}
-      type={toReactive<KTMuiButtonType>(props.type ?? 'button')}
+      type={toKT<KTMuiButtonType>(props.type ?? 'button')}
       disabled={disabledRef}
       on:click={handleClick}
     >

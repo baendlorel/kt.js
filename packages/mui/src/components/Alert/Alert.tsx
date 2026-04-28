@@ -1,4 +1,4 @@
-import { KTIf, computed, toReactive, type JSX, type KTMaybeReactive } from '@ktjs/core';
+import { KTIf, computed, toKT, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
 import './Alert.css.js';
@@ -92,10 +92,10 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
   const customClassRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const childrenRef = toReactive(props.children);
+  const childrenRef = toKT(props.children);
   const severityRef = toPseudoRef(props.severity ?? 'info');
   const variantRef = toPseudoRef(props.variant ?? 'standard');
-  const iconRef = toReactive(props.icon ?? true);
+  const iconRef = toKT(props.icon ?? true);
   const iconSizeRef = toPseudoRef(props.iconSize ?? '22px');
   const onClose = props['on:close'];
 

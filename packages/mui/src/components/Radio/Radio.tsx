@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, KTFor, toReactive } from '@ktjs/core';
+import { assertModel, computed, KTFor, toKT } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -76,8 +76,8 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   const { label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
   let checked = props.checked ?? false;
 
-  const valueRef = toReactive(props.value ?? '');
-  const disabledRef = toReactive(props.disabled ?? false);
+  const valueRef = toKT(props.value ?? '');
+  const disabledRef = toKT(props.disabled ?? false);
 
   const input = (
     <input
@@ -148,7 +148,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     [customClassRef, rowRef],
   );
 
-  const model = assertModel(props, toReactive(props.value ?? '').value);
+  const model = assertModel(props, toKT(props.value ?? '').value);
 
   const onChange = props['on:change'] ?? $emptyFn;
 
@@ -160,7 +160,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     onChange(value);
   };
 
-  const radios = toReactive(props.options).map((options) =>
+  const radios = toKT(props.options).map((options) =>
     options.map((o) => {
       o.size = sizeRef.value;
       o.checked = model.value === o.value;

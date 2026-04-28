@@ -2,7 +2,7 @@ import type { JSX } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { computed, isRef, KTFor, ref, toReactive } from '@ktjs/core';
+import { computed, isRef, KTFor, ref, toKT } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import {
   Popover,
@@ -75,7 +75,7 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
   const classRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));
 
-  const openRef = toReactive(props.open ?? false);
+  const openRef = toKT(props.open ?? false);
   const anchorElRef = toPseudoRef(props.anchorEl as TAnchor);
   const optionsRef = toPseudoRef<KTMuiMenuContent[]>(props.options ?? []);
   const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);

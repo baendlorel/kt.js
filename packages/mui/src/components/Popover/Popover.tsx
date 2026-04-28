@@ -1,7 +1,7 @@
 import type { JSX, KTMaybeReactive, KTReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { computed, toReactive } from '@ktjs/core';
+import { computed, toKT } from '@ktjs/core';
 import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared';
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -185,9 +185,7 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     }
   });
 
-  const anchorElRef = toReactive(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).listen(
-    scheduleUpdatePosition,
-  );
+  const anchorElRef = toKT(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).listen(scheduleUpdatePosition);
   const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).listen(scheduleUpdatePosition);
   const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).listen(
     scheduleUpdatePosition,

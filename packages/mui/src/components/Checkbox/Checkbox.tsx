@@ -2,7 +2,7 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { KTIf, toReactive, assertModel, computed, effect, isRef } from '@ktjs/core';
+import { KTIf, toKT, assertModel, computed, effect, isRef } from '@ktjs/core';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
@@ -60,7 +60,7 @@ export function Checkbox(
   const sizeRef = toPseudoRef(props.size ?? 'medium');
   const disabledRef = toPseudoRef(props.disabled ?? false);
 
-  const interminateRef = toReactive(props.indeterminate ?? false);
+  const interminateRef = toKT(props.indeterminate ?? false);
   const model = assertModel(props, false);
 
   const inputEl = (

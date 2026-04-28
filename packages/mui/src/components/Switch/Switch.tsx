@@ -1,8 +1,8 @@
-import type { JSX, KTMaybeReactive } from '@ktjs/core';
+import type { JSX, KTMaybeReactive, KTRef } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, KTIf, computed } from '@ktjs/core';
+import { assertModel, computed } from '@ktjs/core';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Switch.css.js';
@@ -11,9 +11,10 @@ export type KTMuiSwitchColor = 'primary' | 'secondary' | 'error' | 'warning' | '
 export type KTMuiSwitchSize = 'small' | 'medium' | 'large';
 
 export interface KTMuiSwitchProps extends KTMuiProps {
-  value?: KTMaybeReactive<string>;
+  'k-model'?: KTRef<any>;
 
-  label?: KTMaybeReactive<string>;
+  valueOn?: KTMaybeReactive<any>;
+  valueOff?: KTMaybeReactive<any>;
 
   disabled?: KTMaybeReactive<boolean>;
 
@@ -21,7 +22,7 @@ export interface KTMuiSwitchProps extends KTMuiProps {
 
   size?: KTMaybeReactive<KTMuiSwitchSize>;
 
-  'on:change'?: (checked: boolean, value?: string) => void;
+  'on:change'?: (value: any) => void;
 
   // # native events
   // intentionally omitted: switch uses a label + input pair and does not promise generic root event passthrough.
@@ -32,23 +33,24 @@ export type KTMuiSwitch = JSX.Element & {};
 /**
  * Switch component - mimics MUI Switch appearance and behavior
  */
-export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
+export function Switch<T>(props: KTMuiSwitchProps): KTMuiSwitch {
   const onChange = props['on:change'] ?? $emptyFn;
 
   // # ref props
-  const labelRef = toPseudoRef(props.label ?? '');
-  const valueRef = toPseudoRef(props.value ?? '');
+  const valueOffRef = toPseudoRef(props.valueOff ?? false);
+  const valueOnRef = toPseudoRef(props.valueOn ?? true);
+
   const colorRef = toPseudoRef(props.color ?? 'primary');
   const sizeRef = toPseudoRef(props.size ?? 'medium');
   const disabledRef = toPseudoRef(props.disabled ?? false).listen((v) => {
     inputEl.disabled = v;
     container.classList.toggle('mui-switch-disabled', v);
   });
-  const modelRef = assertModel(props, false);
-  modelRef.listen((newValue) => {
-    inputEl.checked = newValue;
-    track.classList.toggle('mui-switch-track-checked', newValue);
-    thumb.classList.toggle('mui-switch-thumb-checked', newValue);
+  const modelRef = assertModel(props, valueOffRef.value);
+  modelRef.listen((v) => {
+    inputEl.checked = v;
+    track.classList.toggle('mui-switch-track-checked', v);
+    thumb.classList.toggle('mui-switch-thumb-checked', v);
   });
 
   const styleRef = toPseudoRef($parseStyle(props.style));
@@ -63,16 +65,17 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
     if (disabledRef.value) {
       return;
     }
-    modelRef.value = inputEl.checked;
-    onChange(modelRef.value, valueRef.value);
+    const old = modelRef.value;
+    modelRef.value = inputEl.checked ? valueOnRef.value : valueOffRef.value;
+    onChange(modelRef.value, old);
   };
 
   const inputEl = (
     <input
       type="checkbox"
       class="mui-switch-input"
-      checked={modelRef.value}
-      value={valueRef}
+      checked={modelRef.value === valueOnRef.value}
+      value={valueOnRef}
       disabled={disabledRef}
       on:change={handleChange}
     />
@@ -88,7 +91,6 @@ export function Switch(props: KTMuiSwitchProps): KTMuiSwitch {
         {track}
         {thumb}
       </span>
-      {KTIf(labelRef, 'span', () => ({ class: 'mui-switch-label', children: labelRef }))}
     </label>
   ) as KTMuiSwitch;
 

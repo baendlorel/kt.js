@@ -12,28 +12,26 @@ describe('MUI Switch component', () => {
     expect(sw.className).toContain('mui-switch-color-primary');
   });
 
-  it('should render label and apply style/class', () => {
+  it('should apply style/class', () => {
     const sw = (
       <Switch
         {...{
-          label: 'Wi-Fi',
           class: 'custom-switch',
           style: { marginLeft: '12px' },
         }}
       />
     ) as HTMLElement;
-    expect(sw.querySelector('.mui-switch-label')?.textContent).toContain('Wi-Fi');
     expect(sw.className).toContain('custom-switch');
     expect(sw.style.marginLeft).toBe('12px');
   });
 
   it('should call on:change when toggled', () => {
     const onChange = vi.fn();
-    const sw = <Switch {...{ value: 'v1', 'on:change': onChange }} />;
+    const sw = <Switch valueOn="v1" valueOff="v2" on:change={onChange} />;
     const input = sw.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(true, 'v1');
+    expect(onChange).toHaveBeenCalledWith('v1', 'v2');
   });
 
   it('should apply disabled state and block on:change', () => {

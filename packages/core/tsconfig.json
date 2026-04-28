@@ -1,6 +1,8 @@
 {
-  // # This is the minimum tsconfig.json for a package.
   "compilerOptions": {
+    // ! Need jsx runtime to run the test command
+    "jsx": "react-jsx",
+    "jsxImportSource": "@ktjs/core",
     "rootDir": ".",
     "types": ["node", "../types/macros"]
   },

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { computed, type JSX, ref } from '@ktjs/core';
+import { type JSX, ref } from '@ktjs/core';
 import { createFragment } from '../src/jsx/fragment.js';
 import { h } from '../src/h/index.js';
 

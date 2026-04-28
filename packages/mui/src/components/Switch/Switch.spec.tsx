@@ -31,13 +31,11 @@ describe('MUI Switch component reactivity', () => {
     model.value = true;
     size.value = 'large';
     colorSeed.value = 'secondary';
-    label.value = 'Bluetooth';
 
     expect(input.checked).toBe(true);
     expect(track?.className).toContain('mui-switch-track-checked');
     expect(sw.className).toContain('mui-switch-size-large');
     expect(sw.className).toContain('mui-switch-color-secondary');
-    expect(sw.querySelector('.mui-switch-label')?.textContent).toContain('Bluetooth');
   });
 
   it('blocks and restores change callback with disabled ref', () => {

@@ -43,7 +43,7 @@ void injectGlobal`
   max-width: calc(133% - 32px);
   position: absolute;
   left: 0;
-  top: 2px;
+  top: -2px;
   transform: translate(14px, 16px) scale(1);
   transition:
     color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
@@ -53,7 +53,7 @@ void injectGlobal`
   pointer-events: none;
   color: rgba(0, 0, 0, 0.6);
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1.5; /* this is related to top -2px */
 }
 
 .mui-textfield-focused .mui-textfield-label,

@@ -1,8 +1,7 @@
 import { injectGlobal } from '@emotion/css';
 
-void injectGlobal`
+export const injectCss = () => injectGlobal`
 /* TextField Component Styles - MUI-like */
-
 
 .mui-textfield-root {
   display: inline-flex;
@@ -302,5 +301,4 @@ textarea.mui-textfield-input {
     color: rgba(255, 255, 255, 0.38);
   }
 }
-
 `;

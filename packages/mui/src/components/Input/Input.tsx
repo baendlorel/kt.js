@@ -9,6 +9,7 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Input.css.js';
+import { injectCss } from './Input.css.js';
 
 export type KTMuiTextFieldType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 export type KTMuiTextFieldSize = 'small' | 'medium';
@@ -43,7 +44,7 @@ export interface KTMuiTextFieldProps<T extends KTMuiTextFieldType = 'text'> exte
 
 export type KTMuiTextField = JSX.Element;
 
-export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
+function _TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTextFieldProps<T>): KTMuiTextField {
   // # events
   const onInput = props['on:input'] ?? $emptyFn;
   const onChange = props['on:change'] ?? $emptyFn;
@@ -224,3 +225,9 @@ export function TextField<T extends KTMuiTextFieldType = 'text'>(props: KTMuiTex
 
   return container;
 }
+
+export let TextField: typeof _TextField = (...args) => {
+  TextField = _TextField;
+  injectCss();
+  return _TextField(...args);
+};

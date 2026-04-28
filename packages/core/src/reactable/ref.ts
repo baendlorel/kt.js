@@ -174,7 +174,8 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source.unlisten(this._listener);
   }
 
-  get(..._args: any[]): KTComputed<any> {
+  get(...args: any[]): KTComputed<any> {
+    args.length > 0; // avoid lint error, and not let _args appear in index.d.ts
     $throw('Sub-ref does not support get() method.');
   }
 

@@ -93,4 +93,4 @@ export default css`
       --kt-color-divider: rgba(255, 255, 255, 0.12);
     }
   }
-`;
+`();

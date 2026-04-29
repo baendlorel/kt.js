@@ -1,19 +1,47 @@
 import { defineConfig, type Plugin } from 'vite';
+import MagicString from 'magic-string';
 import base from '../../configs/vite.config.js';
+import { dirname } from 'node:path';
+import { readdirSync } from 'node:fs';
+
+function findCssTs(id: string) {
+  const dir = dirname(id);
+  const items = readdirSync(dir);
+  return items.find((i) => i.endsWith('.css.ts'))!.replace(/.ts$/, '.js');
+}
 
 export function onceInjectComponent(): Plugin {
   return {
     name: 'css-ts-transform',
     transform(code, id) {
-      if (id.endsWith('.tsx') && !id.endsWith('test.tsx') && !id.endsWith('spec.tsx')) {
+      if (id.endsWith('.ts') || id.endsWith('test.tsx') || id.endsWith('spec.tsx')) {
+        return null;
+      }
+      const matched = code.match(/export function[\s][A-Z][a-zA-Z0-9]+/g);
+      if (!matched) {
         return null;
       }
 
-      const transformed = code.replace(/void\s+injectGlobal/g, 'export default css');
+      const entries = [...matched].map((s, i) => ({
+        name: s.split(' ')[2],
+        index: code.indexOf(s),
+      }));
+
+      const s = new MagicString(code);
+      s.appendLeft(0, `import c from './${findCssTs(id)}';\n`);
+      // s.replace(`import './${findCssTs(id)}';`, '');
+
+      for (const { name, index } of entries) {
+        const alias = `_${name}`;
+        s.remove(index, index + 'export '.length);
+        s.append(`
+          let ${alias}=(...a)=>(c('${name}'),(${alias}=${name})(...a));
+          export{${alias} as ${name}};`);
+      }
 
       return {
-        code: transformed,
-        map: null,
+        code: s.toString(),
+        map: s.generateMap({ source: id, includeContent: true }),
       };
     },
   };

@@ -3,7 +3,7 @@ import { ref } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import { Button } from '../Button/Button.js';
 import { Dialog, type KTMuiDialogSize } from '../Dialog/Dialog.js';
-import './Modal.css.js';
+import injectCss from './Modal.css.js';
 
 export type KTMuiModalContent = string | JSX.Element | HTMLElement;
 
@@ -69,7 +69,7 @@ const createContainer = (content: KTMuiModalContent) => {
   return body;
 };
 
-export function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOptions = {}): Promise<void> {
+function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOptions = {}): Promise<void> {
   return new Promise((resolve) => {
     const openRef = ref(true);
     let settled = false;
@@ -113,7 +113,7 @@ export function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOption
   });
 }
 
-export function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOptions = {}): Promise<boolean> {
+function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOptions = {}): Promise<boolean> {
   return new Promise((resolve) => {
     const openRef = ref(true);
     let settled = false;
@@ -163,7 +163,7 @@ export function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOp
   });
 }
 
-export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOptions = {}): Promise<string | null> {
+function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOptions = {}): Promise<string | null> {
   return new Promise((resolve) => {
     const openRef = ref(true);
     let settled = false;
@@ -261,11 +261,19 @@ export function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOpti
 }
 
 export const Modal = {
-  alert: modalAlert,
-  confirm: modalConfirm,
-  prompt: modalPrompt,
+  alert: (content: KTMuiModalContent, options?: KTMuiAlertOptions) => {
+    Modal.alert = modalAlert;
+    injectCss('Modal');
+    return modalAlert(content, options);
+  },
+  confirm: (content: KTMuiModalContent, options?: KTMuiConfirmOptions) => {
+    Modal.confirm = modalConfirm;
+    injectCss('Modal');
+    return modalConfirm(content, options);
+  },
+  prompt: (content: KTMuiModalContent, options?: KTMuiPromptOptions) => {
+    Modal.prompt = modalPrompt;
+    injectCss('Modal');
+    return modalPrompt(content, options);
+  },
 };
-
-export const alert = modalAlert;
-export const confirm = modalConfirm;
-export const prompt = modalPrompt;

@@ -2,10 +2,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core",
-    "rootDir": ".", // This is for "../shared/src/**/*"
+    "rootDir": ".",
     "types": ["node", "../types/macros"]
   },
   "include": ["./src/**/*"]
 }
-
-// TODO mui的打包最好要做到一个组件一个文件，这样才能避免直接injectGlobal。

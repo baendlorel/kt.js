@@ -1,6 +1,6 @@
-import { injectGlobal } from '@emotion/css';
+import { css } from '../../common/css-injector.js';
 
-void injectGlobal`
+export default css`
 .mui-badge-root {
   position: relative;
   display: inline-flex;

@@ -1,7 +1,7 @@
 // scripts/transform-css-ts-native.ts
 import { readFileSync, writeFileSync } from 'fs';
 import { readdir, stat } from 'fs/promises';
-import { join, extname, dirname } from 'path';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const CSS_INJECTOR_PATH = '../../common/css-injector.js';
@@ -46,42 +46,13 @@ async function transformCssTsFiles() {
     try {
       const original = readFileSync(file, 'utf-8');
       let modified = original;
-      let hasChanges = false;
 
-      // 处理第一行 import
-      const lines = modified.split('\n');
-      const firstLine = lines[0] || '';
-
-      // 检查并替换现有的 css import
-      const importMatch = firstLine.match(/^import\s*\{\s*css\s*\}\s*from\s*['"][^'"]+['"]/);
-
-      if (importMatch) {
-        // 替换现有 import
-        lines[0] = `import { css } from '${CSS_INJECTOR_PATH}';`;
-        hasChanges = true;
-        console.log(`  ↻ Updated import path in: ${file}`);
-      } else if (!firstLine.includes('import { css }')) {
-        // 没有 css import，插入新行
-        let insertIndex = 0;
-        if (firstLine.startsWith('#!') || firstLine.startsWith('//')) {
-          insertIndex = 1;
-        }
-        lines.splice(insertIndex, 0, `import { css } from '${CSS_INJECTOR_PATH}';`);
-        hasChanges = true;
-        console.log(`  + Added import to: ${file}`);
-      }
-
-      modified = lines.join('\n');
-
-      // 替换 void injectGlobal
-      if (/void\s+injectGlobal/.test(modified)) {
-        modified = modified.replace(/void\s+injectGlobal/g, 'export default css');
-        hasChanges = true;
-        console.log(`  ↻ Replaced injectGlobal in: ${file}`);
-      }
+      modified = modified
+        .replaceAll(`import { injectGlobal } from '@emotion/css';`, `import { css } from '${CSS_INJECTOR_PATH}';`)
+        .replace('void injectGlobal', 'export default css');
 
       // 写入文件
-      if (hasChanges) {
+      if (modified !== original) {
         writeFileSync(file, modified, 'utf-8');
         modifiedCount++;
         results.push(file);

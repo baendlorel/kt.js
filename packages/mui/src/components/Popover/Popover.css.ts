@@ -1,6 +1,6 @@
-import { injectGlobal } from '@emotion/css';
+import { css } from '../../common/css-injector.js';
 
-void injectGlobal`
+export default css`
 .mui-popover-root {
   position: fixed;
   inset: 0;

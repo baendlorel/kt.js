@@ -1,6 +1,6 @@
-import { injectGlobal } from '@emotion/css';
+import { css } from '../../common/css-injector.js';
 
-void injectGlobal`
+export default css`
 /* LinearProgress Component Styles - Mimics MUI LinearProgress */
 
 .mui-linear-progress {

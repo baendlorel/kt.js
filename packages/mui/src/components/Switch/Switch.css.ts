@@ -1,6 +1,6 @@
-import { injectGlobal } from '@emotion/css';
+import { css } from '../../common/css-injector.js';
 
-void injectGlobal`
+export default css`
 /* Switch Component Styles - MUI-like */
 
 .mui-switch-wrapper {

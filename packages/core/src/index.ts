@@ -1,4 +1,3 @@
-import '@ktjs/shared';
 import './common/reinforce.js';
 
 export * from './h/index.js';

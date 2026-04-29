@@ -10,7 +10,7 @@ export { Dialog } from './components/Dialog/Dialog.js';
 export { FormLabel } from './components/FormLabel/FormLabel.js';
 export { LinearProgress } from './components/LinearProgress/LinearProgress.js';
 export { Menu } from './components/Menu/Menu.js';
-export { Modal, modalAlert, modalConfirm, modalPrompt, alert, confirm, prompt } from './components/Modal/Modal.js';
+export { Modal } from './components/Modal/Modal.js';
 export { TextField } from './components/Input/Input.js';
 export { FilePicker } from './components/FilePicker/FilePicker.js';
 export { DirectoryPicker } from './components/FilePicker/DirectoryPicker.js';

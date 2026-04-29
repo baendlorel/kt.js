@@ -1,4 +1,5 @@
 export {};
+// TODO 要看看是否不需要这个polyfill
 
 if (typeof Node !== 'undefined') {
   const targets: Node[] = [];

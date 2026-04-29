@@ -1,5 +1,4 @@
 // in case that symbol is not supported
-import './misc/symbol-polyfill.js';
 import './misc/dom-polyfill.js';
 
 export * from './utils/native.js';

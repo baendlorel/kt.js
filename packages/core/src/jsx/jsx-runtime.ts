@@ -7,7 +7,7 @@ import { createFragment } from './fragment.js';
 import { jsxh } from './common.js';
 
 export const jsx: JSXCreator = (tag, props) => {
-  console.log('JSX:', tag, Array.isArray(props?.children));
+  console.log('JSX:', tag, Array.isArray(props?.children), props?.children);
   return $refToSelf(props, jsxh(tag, props));
 };
 export const svg: SVGCreator = (tag, props) => $refToSelf(props, _svg(tag, props, props.children));

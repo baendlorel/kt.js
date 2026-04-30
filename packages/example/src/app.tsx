@@ -14,7 +14,7 @@ const navs: Nav[] = [...mainNavs, muiNav];
 const navsFlat: NavItem[] = muiNav.items.concat(...mainNavs.map((nav) => ('items' in nav ? nav.items : [nav])));
 const githubRepoUrl = 'https://github.com/baendlorel/kt.js';
 
-function createApp() {
+export function createApp() {
   resolveInitialTheme();
 
   const firstItem = mainNavs[0] as NavItem; // mainNavs is guaranteed to have at least one item
@@ -196,12 +196,6 @@ function createApp() {
   );
 }
 
-function init() {
-  const app = createApp();
-  document.getElementById('app')!.appendChild(app);
-
-  const link = <link rel="shortcut icon" href={icon} type="image/x-icon" />;
-  document.head.appendChild(link);
+export function link() {
+  return <link rel="shortcut icon" href={icon} type="image/x-icon" />;
 }
-
-init();

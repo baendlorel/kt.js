@@ -6,7 +6,10 @@ import { $refToSelf } from '../reactable/ref.js';
 import { createFragment } from './fragment.js';
 import { jsxh } from './common.js';
 
-export const jsx: JSXCreator = (tag, props) => $refToSelf(props, jsxh(tag, props));
+export const jsx: JSXCreator = (tag, props) => {
+  console.log('JSX:', tag, Array.isArray(props?.children));
+  return $refToSelf(props, jsxh(tag, props));
+};
 export const svg: SVGCreator = (tag, props) => $refToSelf(props, _svg(tag, props, props.children));
 export const mathml: MathMLCreator = (tag, props) => $refToSelf(props, _mathml(tag, props, props.children));
 
@@ -22,7 +25,7 @@ export const Fragment = createFragment;
  * JSX Development runtime - same as jsx but with additional dev checks
  */
 export const jsxDEV: typeof jsx = (...args) => {
-  console.log('JSX DEV called:', args[0], Array.isArray(args[1]?.children));
+  // console.log('JSX DEV called:', args[0], Array.isArray(args[1]?.children));
   // console.log('children', (args[1] as any)?.children);
   return jsx(...args);
 };

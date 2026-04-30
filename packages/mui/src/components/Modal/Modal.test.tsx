@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { modalAlert, modalConfirm, modalPrompt } from './Modal.js';
+import { Modal } from './Modal.js';
 
 const removeDialogs = () => {
   const dialogs = document.querySelectorAll('.kt-dialog-backdrop');
@@ -14,9 +14,9 @@ afterEach(() => {
 });
 
 describe('MUI Modal helpers', () => {
-  it('modalAlert should animate in after mounting', async () => {
+  it('Modal.alert should animate in after mounting', async () => {
     vi.useFakeTimers();
-    const done = modalAlert('Animated');
+    const done = Modal.alert('Animated');
 
     const backdrop = document.querySelector('.kt-dialog-backdrop') as HTMLDivElement;
     expect(backdrop.classList.contains('kt-dialog-backdrop-open')).toBe(false);
@@ -31,9 +31,9 @@ describe('MUI Modal helpers', () => {
     vi.runAllTimers();
   });
 
-  it('modalAlert should resolve when confirm button is clicked', async () => {
+  it('Modal.alert should resolve when confirm button is clicked', async () => {
     vi.useFakeTimers();
-    const done = modalAlert('Done');
+    const done = Modal.alert('Done');
 
     const confirmButton = document.querySelector('.mui-modal-actions .mui-button') as HTMLButtonElement;
     confirmButton.click();
@@ -45,7 +45,7 @@ describe('MUI Modal helpers', () => {
 
   it('modalConfirm should resolve false on cancel', async () => {
     vi.useFakeTimers();
-    const done = modalConfirm('Continue?');
+    const done = Modal.confirm('Continue?');
 
     const buttons = document.querySelectorAll('.mui-modal-actions .mui-button');
     (buttons[0] as HTMLButtonElement).click();
@@ -56,7 +56,7 @@ describe('MUI Modal helpers', () => {
 
   it('modalConfirm should resolve false on backdrop close when enabled', async () => {
     vi.useFakeTimers();
-    const done = modalConfirm('Close by backdrop', { backdropClosable: true });
+    const done = Modal.confirm('Close by backdrop', { backdropClosable: true });
 
     const backdrop = document.querySelector('.kt-dialog-backdrop') as HTMLDivElement;
     backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -67,7 +67,7 @@ describe('MUI Modal helpers', () => {
 
   it('modalConfirm should ignore backdrop click by default', async () => {
     vi.useFakeTimers();
-    const done = modalConfirm('Default backdrop behavior');
+    const done = Modal.confirm('Default backdrop behavior');
     let resolved = false;
     done.then(() => {
       resolved = true;
@@ -87,7 +87,7 @@ describe('MUI Modal helpers', () => {
 
   it('modalPrompt should resolve input value when confirmed', async () => {
     vi.useFakeTimers();
-    const done = modalPrompt('Input name', { defaultValue: 'Aldia' });
+    const done = Modal.prompt('Input name', { defaultValue: 'Aldia' });
 
     const input = document.querySelector('.mui-modal-prompt-input') as HTMLInputElement;
     input.value = 'kt.js';
@@ -102,7 +102,7 @@ describe('MUI Modal helpers', () => {
 
   it('modalPrompt should resolve null when canceled', async () => {
     vi.useFakeTimers();
-    const done = modalPrompt('Cancel prompt');
+    const done = Modal.prompt('Cancel prompt');
 
     const buttons = document.querySelectorAll('.mui-modal-actions .mui-button');
     (buttons[0] as HTMLButtonElement).click();

@@ -1,6 +1,6 @@
 import { ref } from '@ktjs/core';
 import '@ktjs/core/jsx';
-import { Button, Modal, modalAlert, modalPrompt } from '@ktjs/mui';
+import { Button, Modal } from '@ktjs/mui';
 import { Code } from '../components/Code.js';
 import muiModalCode from '../code/ui/mui-modal.tsx?raw';
 
@@ -8,7 +8,7 @@ export function MuiModalDemo() {
   const result = ref('No action yet');
 
   const openAlert = async () => {
-    await modalAlert('Saved successfully.', { title: 'System Message' });
+    await Modal.alert('Saved successfully.', { title: 'System Message' });
     result.value = 'Alert closed';
   };
 
@@ -18,7 +18,7 @@ export function MuiModalDemo() {
   };
 
   const openPrompt = async () => {
-    const value = await modalPrompt('Please enter your nickname', {
+    const value = await Modal.prompt('Please enter your nickname', {
       title: 'Prompt',
       defaultValue: 'kt-user',
       validator: (v) => (v.trim().length >= 2 ? true : 'At least 2 characters'),

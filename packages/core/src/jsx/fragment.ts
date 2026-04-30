@@ -19,7 +19,6 @@ export class KTFragmentAnchor extends KTAnchor {
     return (append(parent, this._current), this);
   }
 
-  // TODO _是否remove统一不要设_current的length为0
   _remove(): void {
     for (let i = 0; i < this._current.length; i++) {
       (this._current[i] as ChildNode).remove();

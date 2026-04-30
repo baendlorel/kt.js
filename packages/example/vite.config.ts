@@ -46,6 +46,7 @@ export default defineConfig(({ command }) => {
       'process.env.BASE_URL': JSON.stringify(command === 'build' ? '/kt.js/' : '/'),
     },
     build: {
+      minify: false,
       rollupOptions: {
         output: {
           manualChunks(id) {

@@ -32,7 +32,7 @@ export const jsxDEV: typeof jsx = (...args) => {
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
 export const jsxs: typeof jsx = (...args) => {
-  console.log('JSX (jsxs) called:', args[1]?.children?.length);
+  console.log('JSXS S called:', args[1]?.children?.length);
   return jsx(...args);
 };
 

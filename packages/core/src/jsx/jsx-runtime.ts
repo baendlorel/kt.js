@@ -22,7 +22,7 @@ export const Fragment = createFragment;
  * JSX Development runtime - same as jsx but with additional dev checks
  */
 export const jsxDEV: typeof jsx = (...args) => {
-  // console.log('JSX DEV called:', ...args);
+  console.log('JSX DEV called:', args[0], Array.isArray(args[1]?.children));
   // console.log('children', (args[1] as any)?.children);
   return jsx(...args);
 };
@@ -32,8 +32,7 @@ export const jsxDEV: typeof jsx = (...args) => {
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
 export const jsxs: typeof jsx = (...args) => {
-  // TODO 要检测这里是否真的会有jsxs和jsx因children不同使用不同函数的情况
-  console.log('JSX DEV (jsxs) called:', args[1]?.children?.length);
+  console.log('JSX (jsxs) called:', args[1]?.children?.length);
   return jsx(...args);
 };
 

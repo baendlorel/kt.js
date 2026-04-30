@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
-import { getAliases, globalDefines } from '../../configs/rollup.config.base.js';
 // import ktjsx from '@ktjs/vite-plugin-ktjsx';
 import ktjsx from '../../plugins/vite/src/index.js';
+import { getAliases } from '../../configs/vite-build/alias.js';
+import { globalDefines } from '../../configs/vite-build/replace.js';
 
 const inPackage = (id: string, pkg: string) => {
   const escaped = pkg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

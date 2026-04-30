@@ -7,7 +7,10 @@ import { createFragment } from './fragment.js';
 import { jsxh } from './common.js';
 
 export const jsx: JSXCreator = (tag, props) => {
-  console.log('JSX:', tag, Array.isArray(props?.children), props?.children);
+  const isArrChildren = Array.isArray(props?.children);
+  if (isArrChildren) {
+    console.log('JSX:', tag, props?.children);
+  }
   return $refToSelf(props, jsxh(tag, props));
 };
 export const svg: SVGCreator = (tag, props) => $refToSelf(props, _svg(tag, props, props.children));
@@ -35,7 +38,7 @@ export const jsxDEV: typeof jsx = (...args) => {
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
 export const jsxs: typeof jsx = (...args) => {
-  console.log('JSXS S called:', args[1]?.children?.length);
+  console.log('JSXS:', args[1]?.children?.length);
   return jsx(...args);
 };
 

@@ -1,8 +1,9 @@
 import { defineConfig, type Plugin } from 'vite';
 import MagicString from 'magic-string';
 import base from '../../configs/vite.config.js';
-import { dirname } from 'node:path';
+import path, { dirname } from 'node:path';
 import { readdirSync } from 'node:fs';
+import { dirs } from '../../common/consts.js';
 
 function findCssTs(id: string) {
   const dir = dirname(id);
@@ -10,6 +11,7 @@ function findCssTs(id: string) {
   return items.find((i) => i.endsWith('.css.ts'))!.replace(/.ts$/, '.js');
 }
 
+const muiComponentDir = dirs.packages.join('mui', 'src', 'components');
 export function onceInjectComponent(): Plugin {
   return {
     name: 'css-ts-transform',
@@ -17,6 +19,10 @@ export function onceInjectComponent(): Plugin {
       if (id.endsWith('.ts') || id.endsWith('test.tsx') || id.endsWith('spec.tsx')) {
         return null;
       }
+      if (!id.includes(muiComponentDir)) {
+        return null;
+      }
+
       const matched = code.match(/export function[\s][A-Z][a-zA-Z0-9]+/g);
       if (!matched) {
         return null;

@@ -124,7 +124,7 @@ export default css`
 
 /* Radio Label */
 .mui-radio-label {
-  margin-left: 8px;
+  margin-left: 4px;
   
   font-size: 1rem;
   line-height: 1.5;
@@ -142,6 +142,8 @@ export default css`
 
 .mui-radio-group-row {
   flex-direction: row;
+  column-gap: 16px;
+  row-gap: 8px;
 }
 
 /* Ripple effect on click */

@@ -113,7 +113,7 @@ export function Alert(props: KTMuiAlertProps): JSX.Element {
     // if icon is a custom element, use it directly
     if (iconRef.value === true) {
       const creator = severityToIcon[severityRef.value] || severityToIcon['info'];
-      return creator(iconSizeRef.value, 'mui-alert-icon');
+      return creator('mui-alert-icon', iconSizeRef.value);
     }
 
     return iconRef;

@@ -146,17 +146,18 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const radios = toKT(props.options).map((options) => {
     radioValueMap.clear();
     return options.map((option) => {
-      option.size = sizeRef.value;
-      option.checked = $is(model.value, option.value);
-
       const originalChange = option['on:change'];
-      let radio!: KTMuiRadio;
-      option['on:change'] = (checked: boolean, value: any) => {
-        originalChange?.(checked, value);
-        changeHandler(checked, radio);
+      const o = {
+        'on:change': (checked: boolean, value: any) => {
+          originalChange?.(checked, value);
+          changeHandler(checked, radio);
+        },
+        checked: $is(model.value, option.value),
+        size: sizeRef.value,
+        ...option,
       };
-      radio = Radio(option);
-      radioValueMap.set(radio, option.value);
+      const radio: KTMuiRadio = Radio(o);
+      radioValueMap.set(radio, o.value);
       return radio;
     });
   });

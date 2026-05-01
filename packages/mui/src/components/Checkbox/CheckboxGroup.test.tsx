@@ -41,12 +41,13 @@ describe('MUI Checkbox component', () => {
   });
 
   it('should call on:change on toggle', () => {
+    const value = { id: 'v1' };
     const onChange = vi.fn();
-    const checkbox = <Checkbox {...{ value: 'v1', 'on:change': onChange }} />;
+    const checkbox = <Checkbox {...{ value, 'on:change': onChange }} />;
     const input = checkbox.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(true, 'v1');
+    expect(onChange).toHaveBeenCalledWith(true, value);
   });
 
   it('should keep disabled class and still emit native change payload', () => {
@@ -55,7 +56,7 @@ describe('MUI Checkbox component', () => {
     const input = checkbox.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(true, '');
+    expect(onChange).toHaveBeenCalledWith(true, undefined);
     expect(checkbox.className).toContain('mui-checkbox-disabled');
   });
 });
@@ -77,14 +78,15 @@ describe('MUI CheckboxGroup component', () => {
   });
 
   it('should update value list and call on:change', () => {
+    const valueA = { id: 'a' };
     const onChange = vi.fn();
     const group = (
       <CheckboxGroup
         {...{
           value: [],
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: { id: 'b' } },
           ],
           'on:change': onChange,
         }}
@@ -93,6 +95,6 @@ describe('MUI CheckboxGroup component', () => {
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     inputs[0].checked = true;
     inputs[0].dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(['a']);
+    expect(onChange).toHaveBeenCalledWith([valueA]);
   });
 });

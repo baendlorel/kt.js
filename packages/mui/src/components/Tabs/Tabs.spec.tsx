@@ -4,10 +4,13 @@ import { Tabs } from './Tabs.js';
 
 describe('MUI Tabs component reactivity', () => {
   it('reacts to model and options refs', () => {
-    const model = ref('overview');
+    const overview = { id: 'overview' };
+    const analytics = { id: 'analytics' };
+    const settings = { id: 'settings' };
+    const model = ref(overview);
     const options = ref([
-      { value: 'overview', label: 'Overview' },
-      { value: 'analytics', label: 'Analytics' },
+      { value: overview, label: 'Overview' },
+      { value: analytics, label: 'Analytics' },
     ]);
     const onChange = vi.fn();
 
@@ -21,16 +24,16 @@ describe('MUI Tabs component reactivity', () => {
       />
     );
 
-    expect(tabs.querySelector('.mui-tab-root[data-value="overview"]')?.className).toContain('mui-tab-selected');
+    expect(tabs.querySelectorAll('.mui-tab-root')[0]?.className).toContain('mui-tab-selected');
 
-    model.value = 'analytics';
-    expect(tabs.querySelector('.mui-tab-root[data-value="analytics"]')?.className).toContain('mui-tab-selected');
+    model.value = analytics;
+    expect(tabs.querySelectorAll('.mui-tab-root')[1]?.className).toContain('mui-tab-selected');
 
-    options.value = [{ value: 'settings', label: 'Settings' }];
+    options.value = [{ value: settings, label: 'Settings' }];
 
-    expect(model.value).toBe('settings');
-    expect(tabs.querySelector('.mui-tab-root[data-value="settings"]')?.className).toContain('mui-tab-selected');
-    expect(onChange).toHaveBeenLastCalledWith('settings', 'analytics', 0, options.value[0]);
+    expect(model.value).toBe(settings);
+    expect(tabs.querySelectorAll('.mui-tab-root')[0]?.className).toContain('mui-tab-selected');
+    expect(onChange).toHaveBeenLastCalledWith(settings, analytics, 0, options.value[0]);
   });
 
   it('reacts to variant/orientation refs', () => {

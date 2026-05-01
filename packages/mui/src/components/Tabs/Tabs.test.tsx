@@ -19,15 +19,17 @@ describe('MUI Tabs component', () => {
     expect(tabs.className).toContain('mui-tabs-variant-standard');
 
     const selected = tabs.querySelector('.mui-tab-selected') as HTMLButtonElement;
-    expect(selected?.dataset.value).toBe('overview');
+    expect(selected?.textContent).toContain('Overview');
   });
 
   it('should update model and emit on:change when clicking a tab', () => {
-    const model = ref('overview');
+    const overview = { id: 'overview' };
+    const analytics = { id: 'analytics' };
+    const model = ref(overview);
     const onChange = vi.fn();
     const options = [
-      { value: 'overview', label: 'Overview' },
-      { value: 'analytics', label: 'Analytics' },
+      { value: overview, label: 'Overview' },
+      { value: analytics, label: 'Analytics' },
     ];
 
     const tabs = (
@@ -40,12 +42,12 @@ describe('MUI Tabs component', () => {
       />
     );
 
-    const target = tabs.querySelector('.mui-tab-root[data-value="analytics"]') as HTMLButtonElement;
+    const target = tabs.querySelectorAll('.mui-tab-root')[1] as HTMLButtonElement;
     target.click();
 
-    expect(model.value).toBe('analytics');
-    expect(tabs.querySelector('.mui-tab-root[data-value="analytics"]')?.className).toContain('mui-tab-selected');
-    expect(onChange).toHaveBeenCalledWith('analytics', 'overview', 1, options[1]);
+    expect(model.value).toBe(analytics);
+    expect(tabs.querySelectorAll('.mui-tab-root')[1]?.className).toContain('mui-tab-selected');
+    expect(onChange).toHaveBeenCalledWith(analytics, overview, 1, options[1]);
   });
 
   it('should not switch to disabled tabs', () => {
@@ -65,7 +67,7 @@ describe('MUI Tabs component', () => {
       />
     );
 
-    const disabledTab = tabs.querySelector('.mui-tab-root[data-value="blocked"]') as HTMLButtonElement;
+    const disabledTab = tabs.querySelectorAll('.mui-tab-root')[1] as HTMLButtonElement;
     expect(disabledTab.disabled).toBe(true);
     disabledTab.click();
 
@@ -103,6 +105,6 @@ describe('MUI Tabs component', () => {
       />
     );
 
-    expect(tabs.querySelector('.mui-tab-selected')?.getAttribute('data-value')).toBe('overview');
+    expect(tabs.querySelector('.mui-tab-selected')?.textContent).toContain('Overview');
   });
 });

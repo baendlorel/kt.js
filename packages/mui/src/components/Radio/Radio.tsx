@@ -1,7 +1,7 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
+import { $defines, $emptyFn, $is, $parseStyle } from '@ktjs/shared';
 import { computed, KTFor, toKT } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -12,11 +12,11 @@ export type KTMuiRadioSize = 'small' | 'medium';
 export type KTMuiRadioColor = 'primary' | 'secondary' | 'default';
 
 export interface KTMuiRadioProps extends KTMuiProps {
-  value: string;
+  value: any;
   label: KTMaybeReactive<string | JSX.Element | HTMLElement>;
   checked?: boolean;
   size?: KTMuiRadioSize;
-  'on:change'?: (checked: boolean, value: string) => void;
+  'on:change'?: (checked: boolean, value: any) => void;
   disabled?: boolean;
   color?: KTMuiRadioColor;
 
@@ -27,11 +27,11 @@ export interface KTMuiRadioProps extends KTMuiProps {
 }
 
 export interface KTMuiRadioGroupProps extends KTMuiProps {
-  value?: KTMaybeReactive<string>;
+  value?: KTMaybeReactive<any>;
   name?: string;
   size?: KTMuiRadioSize;
   options: KTMuiRadioProps[];
-  'on:change'?: (value: string) => void;
+  'on:change'?: (value: any) => void;
   row?: boolean;
 
   // # native events
@@ -41,17 +41,14 @@ export interface KTMuiRadioGroupProps extends KTMuiProps {
 }
 
 export type KTMuiRadio = JSX.Element & {
-  readonly value: string;
+  readonly value: any;
   checked: boolean;
 };
 
 export type KTMuiRadioGroup = JSX.Element & {
-  value: string;
+  value: any;
 };
 
-/**
- * Radio component - mimics MUI Radio appearance and behavior
- */
 export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   const onChange = props['on:change'] ?? $emptyFn;
 
@@ -60,7 +57,6 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     checkedIcon.style.display = checked ? '' : 'none';
   };
 
-  // Handle change
   const handleChange = () => {
     if (disabledRef.value) {
       return;
@@ -70,28 +66,19 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
     onChange(checked, valueRef.value);
   };
 
-  // & There is no need to make these reactive.
   const { label: text = '', size = 'small', disabled = false, color = 'primary' } = props;
   let checked = props.checked ?? false;
 
-  const valueRef = toKT(props.value ?? '');
+  const valueRef = toKT(props.value);
   const disabledRef = toKT(props.disabled ?? false);
 
   const input = (
-    <input
-      type="radio"
-      class="mui-radio-input"
-      checked={checked}
-      value={valueRef}
-      disabled={disabledRef}
-      on:change={handleChange}
-    />
+    <input type="radio" class="mui-radio-input" checked={checked} disabled={disabledRef} on:change={handleChange} />
   ) as HTMLInputElement;
 
   const uncheckedIcon = createUnchecked();
   const checkedIcon = createChecked();
 
-  // initialize icon state
   toggleIcon(checked);
 
   const container = (
@@ -131,9 +118,6 @@ export function Radio(props: KTMuiRadioProps): KTMuiRadio {
   return container;
 }
 
-/**
- * RadioGroup component - groups multiple radios together
- */
 export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
   const customClassRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));
@@ -146,36 +130,42 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
     [customClassRef, rowRef],
   );
 
-  const model = assertModel(props, toKT(props.value ?? '').value);
-
+  const model = assertModel(props, toKT(props.value).value);
   const onChange = props['on:change'] ?? $emptyFn;
+  const radioValueMap = new Map<KTMuiRadio, any>();
 
-  const changeHandler = (checked: boolean, value: string) => {
+  const changeHandler = (checked: boolean, radio: KTMuiRadio) => {
     if (!checked) {
       return;
     }
+    const value = radioValueMap.get(radio);
     model.value = value;
     onChange(value);
   };
 
-  const radios = toKT(props.options).map((options) =>
-    options.map((o) => {
-      o.size = sizeRef.value;
-      o.checked = model.value === o.value;
+  const radios = toKT(props.options).map((options) => {
+    radioValueMap.clear();
+    return options.map((option) => {
+      option.size = sizeRef.value;
+      option.checked = $is(model.value, option.value);
 
-      const originalChange = o['on:change'];
-      if (originalChange) {
-        o['on:change'] = (checked: boolean, newValue: string) => {
-          originalChange(checked, newValue);
-          changeHandler(checked, newValue);
-        };
-      } else {
-        o['on:change'] = changeHandler;
-      }
-      return Radio(o);
+      const originalChange = option['on:change'];
+      let radio!: KTMuiRadio;
+      option['on:change'] = (checked: boolean, value: any) => {
+        originalChange?.(checked, value);
+        changeHandler(checked, radio);
+      };
+      radio = Radio(option);
+      radioValueMap.set(radio, option.value);
+      return radio;
+    });
+  });
+
+  model.listen((value) =>
+    radios.value.forEach((radio) => {
+      radio.checked = $is(radioValueMap.get(radio), value);
     }),
   );
-  model.listen((value) => radios.value.forEach((radio) => (radio.checked = radio.value === value)));
 
   const container = (
     <div class={className} style={styleRef} role="radiogroup">
@@ -188,7 +178,7 @@ export function RadioGroup(props: KTMuiRadioGroupProps): KTMuiRadioGroup {
       get() {
         return model.value;
       },
-      set: (newValue: string) => (model.value = newValue),
+      set: (newValue: any) => (model.value = newValue),
     },
   });
 

@@ -38,7 +38,9 @@ describe('MUI Checkbox component reactivity', () => {
 
 describe('MUI CheckboxGroup component reactivity', () => {
   it('syncs external value ref and emits group changes', () => {
-    const value = ref<string[]>([]);
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
+    const value = ref<any[]>([]);
     const onChange = vi.fn();
 
     const group = (
@@ -46,8 +48,8 @@ describe('MUI CheckboxGroup component reactivity', () => {
         {...({
           value,
           options: ref([
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ]),
           'on:change': onChange,
         } as any)}
@@ -62,6 +64,6 @@ describe('MUI CheckboxGroup component reactivity', () => {
     inputs[0].dispatchEvent(new Event('change'));
 
     expect(onChange).toHaveBeenCalled();
-    expect(onChange).toHaveBeenCalledWith(['a']);
+    expect(onChange).toHaveBeenCalledWith([valueA]);
   });
 });

@@ -25,7 +25,9 @@ describe('MUI Radio component reactivity', () => {
 
 describe('MUI RadioGroup component reactivity', () => {
   it('reacts to k-model/row/size refs and computed size', () => {
-    const model = ref('a');
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
+    const model = ref(valueA);
     const row = ref(false);
     const sizeSeed = ref<'small' | 'medium'>('small');
     const size = computed(() => sizeSeed.value, [sizeSeed]);
@@ -37,40 +39,42 @@ describe('MUI RadioGroup component reactivity', () => {
           row,
           size,
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ],
         } as any)}
       />
     );
 
     expect(group.className).not.toContain('mui-radio-group-row');
-    expect((group as any).value).toBe('a');
+    expect((group as any).value).toBe(valueA);
 
     row.value = true;
     sizeSeed.value = 'medium';
-    model.value = 'b';
+    model.value = valueB;
 
     expect(group.className).toContain('mui-radio-group-row');
-    expect((group as any).value).toBe('b');
+    expect((group as any).value).toBe(valueB);
   });
 
   it('treats value as init-only when k-model is absent', () => {
-    const value = ref('a');
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
+    const value = ref(valueA);
     const group = (
       <RadioGroup
         {...({
           value,
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ],
         } as any)}
       />
     );
 
-    expect((group as any).value).toBe('a');
-    value.value = 'b';
-    expect((group as any).value).toBe('a');
+    expect((group as any).value).toBe(valueA);
+    value.value = valueB;
+    expect((group as any).value).toBe(valueA);
   });
 });

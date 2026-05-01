@@ -1,7 +1,7 @@
 import type { JSX, KTRef } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { $emptyFn, $is, $parseStyle } from '@ktjs/shared';
 import { KTIf, KTFor, computed, ref } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
@@ -13,23 +13,22 @@ export type KTMuiTabsIndicatorColor = 'primary' | 'secondary';
 export type KTMuiTabsOrientation = 'horizontal' | 'vertical';
 
 export interface KTMuiTabOption {
-  value: string;
+  value: any;
   label: string | JSX.Element;
   icon?: JSX.Element | HTMLElement;
   disabled?: boolean;
 }
 
 export interface KTMuiTabsProps extends KTMuiProps {
-  'k-model'?: KTRef<string>;
+  'k-model'?: KTRef<any>;
   options: KTMaybeReactive<KTMuiTabOption[]>;
   variant?: KTMaybeReactive<KTMuiTabsVariant>;
   textColor?: KTMaybeReactive<KTMuiTabsTextColor>;
   indicatorColor?: KTMaybeReactive<KTMuiTabsIndicatorColor>;
   orientation?: KTMaybeReactive<KTMuiTabsOrientation>;
   centered?: KTMaybeReactive<boolean>;
-  'on:change'?: (value: string, oldValue: string, index: number, option?: KTMuiTabOption) => void;
+  'on:change'?: (value: any, oldValue: any, index: number, option?: KTMuiTabOption) => void;
 
-  // # native events
   'on:click'?: (event: MouseEvent) => void;
   'on:mouseenter'?: (event: MouseEvent) => void;
   'on:mouseleave'?: (event: MouseEvent) => void;
@@ -37,9 +36,6 @@ export interface KTMuiTabsProps extends KTMuiProps {
 
 export type KTMuiTabs = JSX.Element & {};
 
-/**
- * Tabs component - mimics MUI Tabs appearance and behavior
- */
 export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const onChange = props['on:change'] ?? $emptyFn;
 
@@ -53,10 +49,11 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const orientationRef = toPseudoRef(props.orientation ?? 'horizontal');
   const centeredRef = toPseudoRef(props.centered ?? false);
 
-  const modelRef = assertModel<string>(props, optionsRef.value[0]?.value ?? '');
+  const modelRef = assertModel(props, optionsRef.value[0]?.value ?? '');
 
   const tabsListRef = ref<HTMLDivElement>();
   const tabButtons: HTMLButtonElement[] = [];
+  const tabValueMap = new Map<HTMLButtonElement, any>();
 
   let indicatorTimer = 0;
   const scheduleUpdateIndicator = () => {
@@ -72,15 +69,15 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
   const ensureValidModelValue = (emitChange: boolean) => {
     const currentValue = modelRef.value;
     const options = optionsRef.value;
-    const selected = options.find((option) => option.value === currentValue && !option.disabled);
-    if (selected) {
+    const selectedIndex = options.findIndex((option) => $is(option.value, currentValue) && !option.disabled);
+    if (selectedIndex >= 0) {
       return;
     }
 
     const fallbackIndex = options.findIndex((option) => !option.disabled);
     const fallback = fallbackIndex >= 0 ? options[fallbackIndex] : undefined;
     const nextValue = fallback?.value ?? '';
-    if (nextValue === currentValue) {
+    if ($is(nextValue, currentValue)) {
       return;
     }
 
@@ -132,18 +129,21 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     }
   };
 
-  const selectOption = (option: KTMuiTabOption, index: number) => {
-    if (option.disabled) {
+  const selectOption = (button: HTMLButtonElement) => {
+    const index = Number(button.dataset.index ?? '-1');
+    const option = optionsRef.value[index];
+    if (!option || option.disabled) {
       return;
     }
 
+    const value = tabValueMap.get(button);
     const oldValue = modelRef.value;
-    if (oldValue === option.value) {
+    if ($is(oldValue, value)) {
       return;
     }
 
-    modelRef.value = option.value;
-    onChange(option.value, oldValue, index, option);
+    modelRef.value = value;
+    onChange(value, oldValue, index, option);
   };
 
   const handleTabClick = (e: MouseEvent) => {
@@ -151,14 +151,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     if (!currentTarget) {
       return;
     }
-
-    const index = Number(currentTarget.dataset.index ?? '-1');
-    const option = optionsRef.value[index];
-    if (!option) {
-      return;
-    }
-
-    selectOption(option, index);
+    selectOption(currentTarget);
   };
 
   const focusNeighbor = (startIndex: number, step: 1 | -1) => {
@@ -182,7 +175,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
     const focused = document.activeElement as HTMLButtonElement;
     const focusedIndex = tabButtons.findIndex((button) => button === focused);
     if (focusedIndex < 0) {
-      return; // & excludes the situation where `focused` is null or not a tab button
+      return;
     }
 
     const isVertical = orientationRef.value === 'vertical';
@@ -218,14 +211,14 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
 
   const members = computed(() => {
     tabButtons.length = 0;
+    tabValueMap.clear();
     return optionsRef.value.map((option, index) => {
-      const selected = modelRef.value === option.value;
+      const selected = $is(modelRef.value, option.value);
       const tab = (
         <button
           type="button"
           role="tab"
           class={`mui-tab-root mui-tab-text-color-${textColorRef.value} ${selected ? 'mui-tab-selected' : ''} ${option.disabled ? 'mui-tab-disabled' : ''} ${option.icon ? 'mui-tab-has-icon' : ''}`}
-          data-value={option.value}
           data-index={String(index)}
           aria-selected={selected}
           aria-disabled={option.disabled ? 'true' : 'false'}
@@ -239,6 +232,7 @@ export function Tabs(props: KTMuiTabsProps): KTMuiTabs {
       ) as HTMLButtonElement;
 
       tabButtons.push(tab);
+      tabValueMap.set(tab, option.value);
       return tab;
     });
   }, [optionsRef, modelRef, textColorRef]);

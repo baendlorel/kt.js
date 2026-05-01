@@ -46,15 +46,16 @@ describe('MUI Select component', () => {
     vi.useRealTimers();
   });
 
-  it('should select option and call on:change', () => {
+  it('should select object option and call on:change', () => {
     vi.useFakeTimers();
+    const open = { id: 'open' };
     const onChange = vi.fn();
     const select = (
       <Select
         {...{
           options: [
-            { label: 'Open', value: 'open' },
-            { label: 'Closed', value: 'closed' },
+            { label: 'Open', value: open },
+            { label: 'Closed', value: { id: 'closed' } },
           ],
           'on:change': onChange,
         }}
@@ -66,9 +67,8 @@ describe('MUI Select component', () => {
     const option = select.querySelector<HTMLElement>('.mui-select-option');
     option?.click();
     vi.advanceTimersByTime(250);
-    expect(onChange).toHaveBeenCalledWith('open');
-    const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
-    expect(hiddenInput.value).toBe('open');
+    expect(onChange).toHaveBeenCalledWith(open);
+    expect(select.querySelector('.mui-select-display')?.textContent).toContain('Open');
     select.remove();
     vi.useRealTimers();
   });

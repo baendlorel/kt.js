@@ -1,7 +1,7 @@
 import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { $emptyFn, $parseStyle } from '@ktjs/shared';
+import { $emptyFn, $is, $parseStyle } from '@ktjs/shared';
 import { computed, ref } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
@@ -17,22 +17,14 @@ export type KTMuiSelectContent = KTMuiSelectOption | JSX.Element | HTMLElement |
 
 export interface KTMuiSelectProps extends KTMuiProps {
   size?: KTMaybeReactive<KTMuiSelectSize>;
-
   value?: KTMaybeReactive<any>;
-
   options: KTMaybeReactive<KTMuiSelectContent[]>;
-
   label?: KTMaybeReactive<string>;
-
   placeholder?: KTMaybeReactive<string>;
-
   fullWidth?: KTMaybeReactive<boolean>;
-
   disabled?: KTMaybeReactive<boolean>;
-
   'on:change'?: (value: any) => void;
 
-  // # native events
   'on:click'?: (event: MouseEvent) => void;
   'on:mouseenter'?: (event: MouseEvent) => void;
   'on:mouseleave'?: (event: MouseEvent) => void;
@@ -48,15 +40,10 @@ const selectIcon = (() => {
   return wrapper.firstElementChild as JSX.Element;
 })();
 
-/**
- * Select component - mimics MUI Select appearance and behavior
- */
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const onChange = props['on:change'] ?? $emptyFn;
-
   const valueMap = new Map<JSX.Element, any>();
 
-  // # refs
   const isFocusedRef = ref(false);
   const open = ref(false).listen((isOpen) => {
     if (isOpen) {
@@ -77,11 +64,11 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     container.classList.toggle('mui-select-open', isOpen);
   });
 
-  // # ref props
   const placeholderRef = toPseudoRef(props.placeholder ?? '');
   const labelRef = toPseudoRef(props.label ?? '');
+  const modelRef = assertModel(props, props.value ?? '');
   const optionsRef = toPseudoRef(props.options).listen((newOptions) => {
-    if (!newOptions.find((o) => (o as any).value === modelRef.value)) {
+    if (!newOptions.find((o) => o !== null && typeof o === 'object' && 'value' in o && $is(o.value, modelRef.value))) {
       modelRef.value = '';
       onChange(modelRef.value);
     }
@@ -89,7 +76,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const disabledRef = toPseudoRef(props.disabled ?? false).listen((v) =>
     container.classList.toggle('mui-select-disabled', v),
   );
-  const modelRef = assertModel(props, props.value ?? '');
 
   const styleRef = toPseudoRef($parseStyle(props.style));
   const classRef = toPseudoRef(props.class ?? '');
@@ -113,14 +99,12 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     return '';
   }, [labelRef, modelRef, isFocusedRef, placeholderRef]);
 
-  // Toggle dropdown
   const toggleMenu = () => {
     if (!disabledRef.value) {
       open.value = !open.value;
     }
   };
 
-  // Handle option click
   const handleOptionClick = (e: Event) => {
     const v = valueMap.get(e.currentTarget as JSX.Element);
     modelRef.value = v;
@@ -128,21 +112,21 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     open.value = false;
   };
 
-  // Close menu when clicking outside
   const handleClickOutside = (e: MouseEvent) => {
     if (!container.contains(e.target as Node)) {
       open.value = false;
     }
   };
 
-  // Handle focus
   const handleFocus = () => (isFocusedRef.value = true);
   const handleBlur = () => (isFocusedRef.value = false);
 
   const defaultEmpty = <span class="mui-select-placeholder">{placeholderRef.value || '\u00a0'}</span>;
   const displayedValue = computed(() => {
-    const o = optionsRef.value.find((item) => (item as any)?.value === modelRef.value);
-    return <div class="mui-select-display">{(o as any)?.label ?? defaultEmpty}</div>;
+    const option = optionsRef.value.find(
+      (item) => item !== null && typeof item === 'object' && 'value' in item && $is(item.value, modelRef.value),
+    ) as KTMuiSelectOption | undefined;
+    return <div class="mui-select-display">{option?.label ?? defaultEmpty}</div>;
   }, [modelRef, optionsRef]);
 
   const menu = computed<HTMLDivElement>(() => {
@@ -153,7 +137,7 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
           if (o !== null && typeof o === 'object' && 'value' in o && 'label' in o) {
             const option = (
               <div
-                class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
+                class={`mui-select-option ${$is(o.value, modelRef.value) ? 'selected' : ''}`}
                 on:click={handleOptionClick}
               >
                 {o.label}
@@ -168,7 +152,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     ) as HTMLDivElement;
   }, [optionsRef, modelRef]);
 
-  // Create container
   const container = (
     <div class={className} style={styleRef}>
       {label}
@@ -195,7 +178,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   menu.notify();
 
-  // Add global click listener
   setTimeout(() => {
     document.removeEventListener('click', handleClickOutside);
     document.addEventListener('click', handleClickOutside);

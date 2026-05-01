@@ -14,8 +14,9 @@ describe('MUI Radio component', () => {
   });
 
   it('should toggle icons and call on:change', () => {
+    const value = { id: 1 };
     const onChange = vi.fn();
-    const radio = (<Radio {...{ value: 'a', 'on:change': onChange, label: 'Option' }} />) as HTMLElement;
+    const radio = (<Radio {...{ value, 'on:change': onChange, label: 'Option' }} />) as HTMLElement;
     const input = radio.querySelector('input') as HTMLInputElement;
     const unchecked = radio.querySelector<HTMLElement>('.mui-radio-icon-unchecked');
     const checked = radio.querySelector<HTMLElement>('.mui-radio-icon-checked');
@@ -23,7 +24,7 @@ describe('MUI Radio component', () => {
     expect(checked?.style.display).toBe('none');
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(onChange).toHaveBeenCalledWith(true, 'a');
+    expect(onChange).toHaveBeenCalledWith(true, value);
     expect(unchecked?.style.display).toBe('none');
     expect(checked?.style.display).toBe('');
   });
@@ -66,16 +67,18 @@ describe('MUI RadioGroup component', () => {
     expect(group.textContent).not.toContain('[object HTMLLabelElement]');
   });
 
-  it('should call group on:change with selected value (not Event)', () => {
+  it('should call group on:change with selected object value', () => {
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
     const onChange = vi.fn();
     const group = (
       <RadioGroup
         {...{
-          value: 'a',
+          value: valueA,
           'on:change': onChange,
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ],
         }}
       />
@@ -87,51 +90,55 @@ describe('MUI RadioGroup component', () => {
     second.dispatchEvent(new Event('change', { bubbles: true }));
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenLastCalledWith('b');
-    expect((group as any).value).toBe('b');
+    expect(onChange).toHaveBeenLastCalledWith(valueB);
+    expect((group as any).value).toBe(valueB);
   });
 
   it('should expose value property updates', () => {
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
     const group = (
       <RadioGroup
         {...{
-          value: 'a',
+          value: valueA,
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ],
         }}
       />
     );
 
-    expect((group as any).value).toBe('a');
-    (group as any).value = 'b';
-    expect((group as any).value).toBe('b');
+    expect((group as any).value).toBe(valueA);
+    (group as any).value = valueB;
+    expect((group as any).value).toBe(valueB);
   });
 
   it('should prioritize k-model over value and sync selection', () => {
-    const model = ref('b');
+    const valueA = { id: 'a' };
+    const valueB = { id: 'b' };
+    const model = ref(valueB);
     const group = (
       <RadioGroup
         {...({
-          value: 'a',
+          value: valueA,
           'k-model': model,
           options: [
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
+            { label: 'A', value: valueA },
+            { label: 'B', value: valueB },
           ],
         } as any)}
       />
     );
 
-    expect((group as any).value).toBe('b');
+    expect((group as any).value).toBe(valueB);
     const inputs = group.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
     expect(inputs[0].checked).toBe(false);
     expect(inputs[1].checked).toBe(true);
 
     inputs[0].checked = true;
     inputs[0].dispatchEvent(new Event('change', { bubbles: true }));
-    expect(model.value).toBe('a');
-    expect((group as any).value).toBe('a');
+    expect(model.value).toBe(valueA);
+    expect((group as any).value).toBe(valueA);
   });
 });

@@ -4,7 +4,9 @@ import { Select } from './Select.js';
 
 describe('MUI Select component reactivity', () => {
   it('reacts to value/label/placeholder refs', () => {
-    const model = ref('open');
+    const open = { id: 'open' };
+    const closed = { id: 'closed' };
+    const model = ref(open);
     const label = ref('Status');
     const placeholder = ref('Pick one');
 
@@ -15,8 +17,8 @@ describe('MUI Select component reactivity', () => {
           label,
           placeholder,
           options: [
-            { label: 'Open', value: 'open' },
-            { label: 'Closed', value: 'closed' },
+            { label: 'Open', value: open },
+            { label: 'Closed', value: closed },
           ],
         } as any)}
       />
@@ -25,7 +27,7 @@ describe('MUI Select component reactivity', () => {
     expect(select.querySelector('.mui-select-label')?.textContent).toContain('Status');
     expect(select.querySelector('.mui-select-display')?.textContent).toContain('Open');
 
-    model.value = 'closed';
+    model.value = closed;
     label.value = 'State';
     placeholder.value = 'Choose';
 
@@ -35,10 +37,12 @@ describe('MUI Select component reactivity', () => {
 
   it('resets model when reactive options remove current value', () => {
     const onChange = vi.fn();
-    const model = ref('open');
+    const open = { id: 'open' };
+    const closed = { id: 'closed' };
+    const model = ref(open);
     const options = ref([
-      { label: 'Open', value: 'open' },
-      { label: 'Closed', value: 'closed' },
+      { label: 'Open', value: open },
+      { label: 'Closed', value: closed },
     ]);
 
     const select = (
@@ -51,12 +55,11 @@ describe('MUI Select component reactivity', () => {
       />
     );
 
-    const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
-    expect(hiddenInput.value).toBe('open');
+    expect(select.querySelector('.mui-select-display')?.textContent).toContain('Open');
 
-    options.value = [{ label: 'Closed', value: 'closed' }];
+    options.value = [{ label: 'Closed', value: closed }];
 
-    expect(hiddenInput.value).toBe('');
+    expect(select.querySelector('.mui-select-display')?.textContent).not.toContain('Open');
     expect(onChange).toHaveBeenCalledWith('');
   });
 });

@@ -11,15 +11,14 @@ export type KTMuiCheckboxSize = 'small' | 'medium';
 export type KTMuiCheckboxColor = 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';
 
 export interface KTMuiCheckboxProps extends Omit<KTMuiProps, 'children'> {
-  value?: KTMaybeReactive<string>;
+  value?: KTMaybeReactive<any>;
   label?: KTMaybeReactive<string | JSX.Element | HTMLElement>;
   size?: KTMaybeReactive<KTMuiCheckboxSize>;
   disabled?: KTMaybeReactive<boolean>;
   color?: KTMaybeReactive<KTMuiCheckboxColor>;
   indeterminate?: KTMaybeReactive<boolean>;
-  'on:change'?: (checked: boolean, value: string) => void;
+  'on:change'?: (checked: boolean, value: any) => void;
 
-  // # native events
   'on:click'?: (event: MouseEvent) => void;
   'on:mouseenter'?: (event: MouseEvent) => void;
   'on:mouseleave'?: (event: MouseEvent) => void;
@@ -27,20 +26,14 @@ export interface KTMuiCheckboxProps extends Omit<KTMuiProps, 'children'> {
 
 export type KTMuiCheckbox = JSX.Element & {
   checked: boolean;
-  value: string;
+  value: any;
   disabled: boolean;
 };
 
-/**
- * Create a checkbox component.
- * @param props normal props
- * @param onChangeForGroup onchange event only for checkbox group
- */
 export function Checkbox(
   props: KTMuiCheckboxProps,
-  onChangeForGroup?: (checked: boolean, value: string) => void,
+  onChangeForGroup?: (checked: boolean, value: any) => void,
 ): KTMuiCheckbox {
-  // Handle change
   const handleChange = () => {
     if (disabledRef.value) {
       return;
@@ -55,7 +48,7 @@ export function Checkbox(
   const styleRef = toPseudoRef($parseStyle(props.style));
 
   const labelRef = toPseudoRef(props.label ?? '');
-  const valueRef = toPseudoRef(props.value ?? '');
+  const valueRef = toPseudoRef(props.value);
   const colorRef = toPseudoRef(props.color ?? 'primary');
   const sizeRef = toPseudoRef(props.size ?? 'medium');
   const disabledRef = toPseudoRef(props.disabled ?? false);
@@ -64,17 +57,9 @@ export function Checkbox(
   const model = assertModel(props, false);
 
   const inputEl = (
-    <input
-      type="checkbox"
-      class="mui-checkbox-input"
-      checked={model}
-      value={valueRef}
-      disabled={disabledRef}
-      on:change={handleChange}
-    />
+    <input type="checkbox" class="mui-checkbox-input" checked={model} disabled={disabledRef} on:change={handleChange} />
   ) as HTMLInputElement;
 
-  // # events
   const onChange = props['on:change'];
   if (onChange) {
     inputEl.addEventListener('change', () => onChange(inputEl.checked, valueRef.value));
@@ -129,7 +114,7 @@ export function Checkbox(
         return valueRef.value;
       },
       set: isRef(valueRef)
-        ? (v: string) => {
+        ? (v: any) => {
             valueRef.value = v;
           }
         : undefined,

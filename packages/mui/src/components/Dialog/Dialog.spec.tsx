@@ -24,30 +24,23 @@ describe('MUI Dialog component reactivity', () => {
   });
 
   it('reacts to computed size and fullWidth refs', () => {
-    const sizeSeed = ref<'sm' | 'lg'>('sm');
-    const size = computed(() => sizeSeed.value, [sizeSeed]);
-    const fullWidth = ref(false);
+    const size = ref('600px');
 
     const dialog = (
       <Dialog
         {...{
           'k-model': ref(true),
-          size,
-          fullWidth,
+          width: size,
           children: 'Body',
         }}
       />
     ) as HTMLElement;
 
     const paper = dialog.querySelector<HTMLElement>('.kt-dialog-paper');
-    expect(paper?.className).toContain('kt-dialog-maxWidth-sm');
-    expect(paper?.className).not.toContain('kt-dialog-fullWidth');
 
-    sizeSeed.value = 'lg';
-    fullWidth.value = true;
-
-    expect(paper?.className).toContain('kt-dialog-maxWidth-lg');
-    expect(paper?.className).toContain('kt-dialog-fullWidth');
+    expect(paper?.style.width).toContain('600px');
+    size.value = '800px';
+    expect(paper?.style.width).toContain('800px');
     dialog.remove();
   });
 });

@@ -25,8 +25,7 @@ interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {
     | KTMaybeReactive<JSX.Element>
     | KTMaybeReactive<JSX.Element[]>;
   actions?: KTMaybeReactive<JSX.Element | JSX.Element[] | undefined>;
-  size?: KTMaybeReactive<KTMuiDialogSize>;
-  fullWidth?: KTMaybeReactive<boolean>;
+  width?: KTMaybeReactive<string>;
 
   /**
    * Dialog rendering mode: 'dialog' (native) or 'div' (fallback)
@@ -148,8 +147,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const modelRef = assertModel(props, false).listen((v) => (v ? queueEnter() : queueExit()));
-  const sizeRef = toPseudoRef(props.size ?? 'sm');
-  const fullWidthRef = toPseudoRef(props.fullWidth ?? false);
+  const widthRef = toPseudoRef(props.width ?? '600px');
 
   const dialogEl = ref<HTMLDivElement | HTMLDialogElement>();
 
@@ -157,11 +155,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     queueEnter();
   }
 
-  const className = computed(
-    () =>
-      `kt-dialog-paper ${sizeRef.value ? `kt-dialog-maxWidth-${sizeRef.value}` : ''} ${fullWidthRef.value ? 'kt-dialog-fullWidth' : ''} ${customClassRef.value}`,
-    [sizeRef, fullWidthRef, customClassRef],
-  );
+  const className = computed(() => `kt-dialog-paper ${customClassRef.value}`, [customClassRef]);
   const backdropClass = activeRef.map((v) => `kt-dialog-backdrop ${v ? 'kt-dialog-backdrop-open' : ''}`);
   const backdropStyle = visibleRef.map<string>((v) => (v ? 'display:flex' : 'display:none'));
 
@@ -251,6 +245,14 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
     document.body.style.overflow = '';
     return originalRemove.call(container);
   };
+
+  // set width
+  dialogEl.value.style.width = widthRef.value;
+  widthRef.listen((width) => {
+    if (dialogEl.value) {
+      dialogEl.value.style.width = width;
+    }
+  });
 
   registerPrefixedEvents(container, props, ['on:close']);
   return container;

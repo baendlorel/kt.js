@@ -2,14 +2,14 @@ import type { JSX } from '@ktjs/core';
 import { ref } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 import { Button } from '../Button/Button.js';
-import { Dialog, type KTMuiDialogSize } from '../Dialog/Dialog.js';
+import { Dialog } from '../Dialog/Dialog.js';
 import injectCss from './Modal.css.js';
 
 export type KTMuiModalContent = string | JSX.Element | HTMLElement;
 
 interface KTMuiModalCommonOptions extends Pick<KTMuiProps, 'class' | 'style'> {
   title?: string;
-  size?: KTMuiDialogSize;
+  width?: string;
   fullWidth?: boolean;
   showClose?: any;
   backdropClosable?: any;
@@ -95,7 +95,7 @@ function modalAlert(content: KTMuiModalContent, options: KTMuiAlertOptions = {})
         {...{
           'k-model': openRef,
           title: options.title ?? '提醒',
-          size: options.size ?? 'xs',
+          width: options.width ?? 'xs',
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,
@@ -145,7 +145,7 @@ function modalConfirm(content: KTMuiModalContent, options: KTMuiConfirmOptions =
         {...{
           'k-model': openRef,
           title: options.title ?? '请确认',
-          size: options.size ?? 'xs',
+          width: options.width ?? 'xs',
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,
@@ -241,7 +241,7 @@ function modalPrompt(content: KTMuiModalContent, options: KTMuiPromptOptions = {
         {...{
           'k-model': openRef,
           title: options.title ?? '请输入',
-          size: options.size ?? 'xs',
+          width: options.width ?? 'xs',
           fullWidth: options.fullWidth ?? true,
           class: createDialogClass(options.class),
           style: options.style,

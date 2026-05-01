@@ -62,6 +62,10 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     if (isOpen) {
       menu.value.style.display = 'block';
       void menu.value.offsetHeight;
+      const selectedOption = menu.value.querySelector('.mui-select-option.selected') as HTMLDivElement | null;
+      if (selectedOption) {
+        menu.value.scrollTop = selectedOption.offsetTop - menu.value.clientHeight / 2 + selectedOption.clientHeight / 2;
+      }
     } else {
       setTimeout(() => {
         if (!isOpen) {
@@ -141,7 +145,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
     return <div class="mui-select-display">{(o as any)?.label ?? defaultEmpty}</div>;
   }, [modelRef, optionsRef]);
 
-  const selectOptions: JSX.Element[] = [];
   const menu = computed<HTMLDivElement>(() => {
     valueMap.clear();
     return (
@@ -157,7 +160,6 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
               </div>
             );
             valueMap.set(option, o.value);
-            selectOptions.push(option);
             return option;
           }
           return o as JSX.Element;

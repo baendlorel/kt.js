@@ -6,8 +6,6 @@ import { computed, isRef } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './LinearProgress.css.js';
-
 export type KTMuiLinearProgressVariant = 'determinate' | 'indeterminate';
 export type KTMuiLinearProgressColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 

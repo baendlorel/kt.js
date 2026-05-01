@@ -2,7 +2,6 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import { computed, toKT } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 
-import './Badge.css.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';

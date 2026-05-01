@@ -6,8 +6,6 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Dialog.css.js';
-
 export type KTMuiDialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 
 interface KTMuiDialogProps extends Omit<KTMuiProps, 'children'> {

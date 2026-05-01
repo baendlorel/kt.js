@@ -4,6 +4,7 @@
 export const css =
   (template: TemplateStringsArray, ...args: any[]) =>
   (componentName: string = Math.random().toString(36).substring(2, 9)) => {
+    console.log(`Injecting CSS for ${componentName}...`);
     const injected = document.querySelector(`style[kt-mui-name="${componentName}"]`);
     if (injected) {
       return; // This would occur when the component is used multiple times like Checkbox/CheckboxGroup.

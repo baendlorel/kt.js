@@ -8,8 +8,6 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Input.css.js';
-
 export type KTMuiTextFieldType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 export type KTMuiTextFieldSize = 'small' | 'medium';
 export type InputTypes = KTMuiTextFieldType;

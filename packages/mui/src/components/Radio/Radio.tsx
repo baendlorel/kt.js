@@ -8,8 +8,6 @@ import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 import { createChecked, createUnchecked } from './Icon.js';
 
-import './Radio.css.js';
-
 export type KTMuiRadioSize = 'small' | 'medium';
 export type KTMuiRadioColor = 'primary' | 'secondary' | 'default';
 

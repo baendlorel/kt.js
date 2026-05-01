@@ -6,8 +6,6 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './FilePicker.css.js';
-
 export type KTMuiDirectoryPickerSize = 'small' | 'medium';
 
 export interface KTMuiDirectoryPickerProps extends KTMuiProps {

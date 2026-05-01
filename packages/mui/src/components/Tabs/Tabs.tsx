@@ -7,8 +7,6 @@ import { KTIf, KTFor, computed, ref } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Tabs.css.js';
-
 export type KTMuiTabsVariant = 'standard' | 'scrollable' | 'fullWidth';
 export type KTMuiTabsTextColor = 'primary' | 'secondary' | 'inherit';
 export type KTMuiTabsIndicatorColor = 'primary' | 'secondary';

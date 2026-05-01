@@ -6,8 +6,6 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Pill.css.js';
-
 export type KTMuiPillColor = 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 export type KTMuiPillVariant = 'filled' | 'outlined';
 export type KTMuiPillSize = 'small' | 'medium';

@@ -5,8 +5,6 @@ import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { computed, KTIf } from '@ktjs/core';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Switch.css.js';
-
 export type KTMuiSwitchColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 export type KTMuiSwitchSize = 'small' | 'medium' | 'large';
 

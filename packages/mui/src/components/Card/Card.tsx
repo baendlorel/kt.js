@@ -5,7 +5,6 @@ import { $parseStyle } from '@ktjs/shared';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import './Card.css.js';
 
 export type KTMuiCardVariant = 'elevation' | 'outlined' | 'contained';
 

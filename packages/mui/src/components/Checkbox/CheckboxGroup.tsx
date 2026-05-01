@@ -7,7 +7,6 @@ import { computed, KTFor } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Checkbox.css.js';
 import { Checkbox } from './Checkbox.js';
 
 export { Checkbox };

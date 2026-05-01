@@ -1,7 +1,7 @@
 import { KTIf, computed, toKT, type JSX, type KTMaybeReactive } from '@ktjs/core';
 import { $parseStyle } from '@ktjs/shared';
 import type { KTMuiProps } from '../../types/component.js';
-import './Alert.css.js';
+
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 

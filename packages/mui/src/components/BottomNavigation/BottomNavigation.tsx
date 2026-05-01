@@ -3,7 +3,7 @@ import { KTIf, KTFor, computed } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
-import './BottomNavigation.css.js';
+
 import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 export interface KTMuiBottomNavigationAction {

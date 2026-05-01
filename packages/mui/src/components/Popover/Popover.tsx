@@ -6,8 +6,6 @@ import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared'
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Popover.css.js';
-
 export type KTMuiPopoverVerticalOrigin = 'top' | 'center' | 'bottom';
 export type KTMuiPopoverHorizontalOrigin = 'left' | 'center' | 'right';
 

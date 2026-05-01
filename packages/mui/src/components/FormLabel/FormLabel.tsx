@@ -1,5 +1,5 @@
 import { KTIf, computed, type JSX, type KTMaybeReactive } from '@ktjs/core';
-import './FormLabel.css.js';
+
 import type { KTMuiProps } from '../../types/component.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';

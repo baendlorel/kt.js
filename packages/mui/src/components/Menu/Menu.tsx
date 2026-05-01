@@ -14,8 +14,6 @@ import {
 } from '../Popover/Popover.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
-import './Menu.css.js';
-
 export type KTMuiMenuCloseReason = KTMuiPopoverCloseReason | 'itemClick';
 
 export interface KTMuiMenuOption {

@@ -172,10 +172,19 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
   };
 
   const handleBackdropClick = (e: MouseEvent) => {
-    if (!backdropClosableRef.value) {
+    if (!backdropClosableRef.value || e.target !== e.currentTarget) {
       return;
     }
-    if (e.target === e.currentTarget) {
+    closeDialog();
+  };
+
+  const handleNativeDialogClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!backdropClosableRef.value || !(e.currentTarget instanceof HTMLDialogElement)) {
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
       closeDialog();
     }
   };
@@ -201,7 +210,7 @@ export function Dialog(props: KTMuiDialogProps): KTMuiDialog {
             class={className}
             style={styleRef}
             tabIndex={-1}
-            on:click={(e: MouseEvent) => e.stopPropagation()}
+            on:click={handleNativeDialogClick}
           >
             {renderCloseButton()}
             {KTIf(titleRef, 'div', () => ({ class: 'kt-dialog-title', children: <h2>{titleRef}</h2> }))}

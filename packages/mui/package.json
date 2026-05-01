@@ -34,9 +34,6 @@
     "url": "https://github.com/baendlorel/kt.js",
     "directory": "packages/mui"
   },
-  "scripts": {
-    "build": "rollup --config rollup.config.mjs"
-  },
   "peerDependencies": {
     "@ktjs/core": "workspace:^*",
     "@ktjs/mui-icon": "workspace:^*",

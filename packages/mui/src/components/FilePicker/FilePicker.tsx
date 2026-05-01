@@ -1,10 +1,10 @@
 import type { JSX, KTReactive, KTRef } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { assertModel, computed, ref, KTIf } from '@ktjs/core';
+import { computed, ref, KTIf } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './FilePicker.css.js';
 

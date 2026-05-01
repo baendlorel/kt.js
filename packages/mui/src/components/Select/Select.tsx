@@ -2,14 +2,12 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, ref } from '@ktjs/core';
+import { computed, ref } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
-
-import './Select.css.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 export interface KTMuiSelectOption {
-  value: string;
+  value: any;
   label: string | JSX.Element;
 }
 
@@ -20,7 +18,7 @@ export type KTMuiSelectContent = KTMuiSelectOption | JSX.Element | HTMLElement |
 export interface KTMuiSelectProps extends KTMuiProps {
   size?: KTMaybeReactive<KTMuiSelectSize>;
 
-  value?: KTMaybeReactive<string>;
+  value?: KTMaybeReactive<any>;
 
   options: KTMaybeReactive<KTMuiSelectContent[]>;
 
@@ -32,7 +30,7 @@ export interface KTMuiSelectProps extends KTMuiProps {
 
   disabled?: KTMaybeReactive<boolean>;
 
-  'on:change'?: (value: string) => void;
+  'on:change'?: (value: any) => void;
 
   // # native events
   'on:click'?: (event: MouseEvent) => void;
@@ -55,6 +53,8 @@ const selectIcon = (() => {
  */
 export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const onChange = props['on:change'] ?? $emptyFn;
+
+  const valueMap = new Map<JSX.Element, any>();
 
   // # refs
   const isFocusedRef = ref(false);
@@ -118,9 +118,9 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
 
   // Handle option click
   const handleOptionClick = (e: Event) => {
-    const newValue = (e.currentTarget as HTMLElement).dataset.value as string;
-    modelRef.value = newValue;
-    onChange(newValue);
+    const v = valueMap.get(e.currentTarget as JSX.Element);
+    modelRef.value = v;
+    onChange(v);
     open.value = false;
   };
 
@@ -139,10 +139,11 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
   const displayedValue = computed(() => {
     const o = optionsRef.value.find((item) => (item as any)?.value === modelRef.value);
     return <div class="mui-select-display">{(o as any)?.label ?? defaultEmpty}</div>;
-  }, [modelRef]);
+  }, [modelRef, optionsRef]);
 
   const selectOptions: JSX.Element[] = [];
   const menu = computed<HTMLDivElement>(() => {
+    valueMap.clear();
     return (
       <div class="mui-select-menu" style="display: none;">
         {optionsRef.value.map((o) => {
@@ -150,12 +151,12 @@ export function Select(props: KTMuiSelectProps): KTMuiSelect {
             const option = (
               <div
                 class={`mui-select-option ${o.value === modelRef.value ? 'selected' : ''}`}
-                data-value={o.value}
                 on:click={handleOptionClick}
               >
                 {o.label}
               </div>
             );
+            valueMap.set(option, o.value);
             selectOptions.push(option);
             return option;
           }

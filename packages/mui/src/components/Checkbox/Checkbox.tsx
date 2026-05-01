@@ -2,10 +2,10 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $defines, $parseStyle } from '@ktjs/shared';
-import { KTIf, toKT, assertModel, computed, effect, isRef } from '@ktjs/core';
+import { KTIf, toKT, computed, effect, isRef } from '@ktjs/core';
 import { createUnchecked, createChecked, createIndeterminate } from './Icons.js';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiCheckboxSize = 'small' | 'medium';
 export type KTMuiCheckboxColor = 'primary' | 'secondary' | 'default' | 'success' | 'error' | 'warning';

@@ -1,10 +1,10 @@
 import type { JSX, KTMaybeReactive, KTRef } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
-import { assertModel, computed, effect, ref, KTIf } from '@ktjs/core';
+import { computed, effect, ref, KTIf } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Dialog.css.js';
 

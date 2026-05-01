@@ -3,10 +3,10 @@ import type { JSX, KTReactive, KTRef } from '@ktjs/core';
 import type { ComponentChangeHandler } from '../../common/handler.js';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
-import { assertModel, KTIf, computed, ref, isKT } from '@ktjs/core';
+import { KTIf, computed, ref, isKT } from '@ktjs/core';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Input.css.js';
 

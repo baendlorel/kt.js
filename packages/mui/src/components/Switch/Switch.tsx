@@ -2,8 +2,8 @@ import type { JSX, KTMaybeReactive, KTRef } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, KTIf } from '@ktjs/core';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { computed, KTIf } from '@ktjs/core';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Switch.css.js';
 

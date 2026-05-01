@@ -2,10 +2,10 @@ import type { JSX, KTMaybeReactive } from '@ktjs/core';
 import type { KTMuiProps } from '../../types/component.js';
 
 import { $defines, $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, KTFor, toKT } from '@ktjs/core';
+import { computed, KTFor, toKT } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 import { createChecked, createUnchecked } from './Icon.js';
 
 import './Radio.css.js';

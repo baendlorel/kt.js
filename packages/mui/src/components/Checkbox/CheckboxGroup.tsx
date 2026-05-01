@@ -3,9 +3,9 @@ import type { KTMuiProps } from '../../types/component.js';
 import type { KTMuiCheckbox, KTMuiCheckboxProps, KTMuiCheckboxSize } from './Checkbox.js';
 
 import { $arrayDelete, $arrayPushUnique, $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, computed, KTFor } from '@ktjs/core';
+import { computed, KTFor } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Checkbox.css.js';
 import { Checkbox } from './Checkbox.js';

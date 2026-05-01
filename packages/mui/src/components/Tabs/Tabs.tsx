@@ -2,10 +2,10 @@ import type { JSX, KTRef } from '@ktjs/core';
 import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
-import { assertModel, KTIf, KTFor, computed, ref } from '@ktjs/core';
+import { KTIf, KTFor, computed, ref } from '@ktjs/core';
 
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import { toPseudoRef } from '../../common/pseudo-ref.js';
+import { assertModel, toPseudoRef } from '../../common/pseudo-ref.js';
 
 import './Tabs.css.js';
 

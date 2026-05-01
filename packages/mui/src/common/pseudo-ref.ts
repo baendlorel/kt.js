@@ -1,8 +1,6 @@
-import type { KTMaybeReactive } from '@ktjs/core';
-import type { ChangeListener, KTComputed, KTReactive } from '@ktjs/core';
-
+import type { ChangeListener, KTComputed, KTReactive, KTMaybeReactive, KTRef } from '@ktjs/core';
 import { $deepMatch } from '@ktjs/shared';
-import { isKT, KType } from '@ktjs/core';
+import { isKT, isRef, KType, ref } from '@ktjs/core';
 
 class PseudoRef<T> {
   kid: number = -1;
@@ -70,4 +68,20 @@ export const toPseudoRef = <T>(o: KTMaybeReactive<T>): KTReactive<T> => {
     return o;
   }
   return new PseudoRef(o) as unknown as KTReactive<T>;
+};
+
+/**
+ * Assert `k-model` to be a ref-like object
+ */
+export const assertModel = <T = any>(props: any, defaultValue?: T): KTRef<T> => {
+  // & props is an object. Won't use it in any other place
+  if ('k-model' in props) {
+    const model = props['k-model'];
+    if (isRef(model)) {
+      return model;
+    } else {
+      $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
+    }
+  }
+  return ref(defaultValue) as KTRef<T>;
 };

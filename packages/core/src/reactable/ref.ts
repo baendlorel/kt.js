@@ -90,22 +90,6 @@ export class KTRef<T> extends KTReactive<T> {
 export const ref = <T>(value?: T): KTRef<T> => new KTRef(value as any);
 
 /**
- * Assert `k-model` to be a ref-like object
- */
-export const assertModel = <T = any>(props: any, defaultValue?: T): KTRef<T> => {
-  // & props is an object. Won't use it in any other place
-  if ('k-model' in props) {
-    const model = props['k-model'];
-    if (isRef(model)) {
-      return model;
-    } else {
-      $throw(`k-model data must be a KTRef object, please use 'ref(...)' to wrap it.`);
-    }
-  }
-  return ref(defaultValue) as KTRef<T>;
-};
-
-/**
  * @returns the pointed node itself
  */
 export const $refToSelf = <T>(props: { ref?: KTRef<any> }, node: T): T => {

@@ -8,7 +8,7 @@ import { KTRef } from './ref.js';
 export const toKT = <T>(o: T | KTReactive<T>): KTReactive<T> => (isKT<T>(o) ? o : new KTRef(o as T));
 
 export { KTRef, KTSubRef } from './ref.js';
-export { ref, assertModel } from './ref.js';
+export { ref } from './ref.js';
 
 export { KTComputed } from './computed.js';
 export { computed } from './computed.js';

@@ -63,12 +63,12 @@ describe('MUI Select component', () => {
     document.body.appendChild(select);
     const control = select.querySelector<HTMLElement>('.mui-select-control');
     control?.click();
-    const option = select.querySelector<HTMLElement>('.mui-select-option[data-value="closed"]');
+    const option = select.querySelector<HTMLElement>('.mui-select-option');
     option?.click();
     vi.advanceTimersByTime(250);
-    expect(onChange).toHaveBeenCalledWith('closed');
+    expect(onChange).toHaveBeenCalledWith('open');
     const hiddenInput = select.querySelector('input[type="hidden"]') as HTMLInputElement;
-    expect(hiddenInput.value).toBe('closed');
+    expect(hiddenInput.value).toBe('open');
     select.remove();
     vi.useRealTimers();
   });

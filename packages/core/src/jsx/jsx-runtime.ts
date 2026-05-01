@@ -6,13 +6,7 @@ import { $refToSelf } from '../reactable/ref.js';
 import { createFragment } from './fragment.js';
 import { jsxh } from './common.js';
 
-export const jsx: JSXCreator = (tag, props) => {
-  const isArrChildren = Array.isArray(props?.children);
-  if (isArrChildren) {
-    console.log('JSX:', tag, props?.children);
-  }
-  return $refToSelf(props, jsxh(tag, props));
-};
+export const jsx: JSXCreator = (tag, props) => $refToSelf(props, jsxh(tag, props));
 export const svg: SVGCreator = (tag, props) => $refToSelf(props, _svg(tag, props, props.children));
 export const mathml: MathMLCreator = (tag, props) => $refToSelf(props, _mathml(tag, props, props.children));
 
@@ -37,10 +31,11 @@ export const jsxDEV: typeof jsx = (...args) => {
  * JSX runtime for React 17+ automatic runtime
  * This is called when using jsx: "react-jsx" or "react-jsxdev"
  */
-export const jsxs: typeof jsx = (...args) => {
-  console.log('JSXS:', args[1]?.children?.length);
-  return jsx(...args);
-};
+// export const jsxs: typeof jsx = (...args) => {
+//   console.log('JSXS:', args[1]?.children?.length);
+//   return jsx(...args);
+// };
+export const jsxs = jsx;
 
 // Export h as the classic JSX factory for backward compatibility
 export { h, h as createElement };

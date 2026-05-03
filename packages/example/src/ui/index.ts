@@ -167,5 +167,7 @@ export const muiNav: NavGroup = {
       description: t('nav.mui.icons.description'),
       component: MuiIconsDemo,
     },
-  ].map((item) => ({ ...item, groupId: 'mui' })), // add groupId to each item for reverse lookup
+  ]
+    .map((item) => ({ ...item, groupId: 'mui' }))
+    .sort((a, b) => a.id.localeCompare(b.id)), // add groupId to each item for reverse lookup
 };

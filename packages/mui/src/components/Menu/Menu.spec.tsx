@@ -2,31 +2,16 @@ import { describe, expect, it, vi } from 'vitest';
 import { ref } from '@ktjs/core';
 import { Menu } from './Menu.js';
 
-const createAnchor = () => {
-  const anchor = document.createElement('button');
-  anchor.getBoundingClientRect = () =>
-    ({
-      width: 100,
-      height: 32,
-      top: 80,
-      left: 100,
-      right: 200,
-      bottom: 112,
-      x: 100,
-      y: 80,
-      toJSON: () => ({}),
-    }) as DOMRect;
-  document.body.appendChild(anchor);
-  return anchor;
-};
-
 describe('MUI Menu component reactivity', () => {
   it('reacts to options ref updates', () => {
     vi.useFakeTimers();
-    const anchor = createAnchor();
     const options = ref([{ value: 'one', label: 'One' }]);
 
-    const menu = <Menu {...{ open: true, anchorEl: anchor, options }} />;
+    const menu = (
+      <Menu open={true} options={options}>
+        <button>Anchor</button>
+      </Menu>
+    );
     document.body.appendChild(menu);
     vi.runAllTimers();
 
@@ -37,27 +22,19 @@ describe('MUI Menu component reactivity', () => {
     expect(menu.querySelector('.mui-menu-item')?.textContent).toContain('Two');
 
     menu.remove();
-    anchor.remove();
     vi.useRealTimers();
   });
 
   it('reacts to autoClose ref', () => {
     vi.useFakeTimers();
-    const anchor = createAnchor();
     const open = ref(true);
     const autoClose = ref(false);
     const onClose = vi.fn();
 
     const menu = (
-      <Menu
-        {...{
-          open,
-          anchorEl: anchor,
-          autoClose,
-          options: [{ value: 'save', label: 'Save' }],
-          'on:close': onClose,
-        }}
-      />
+      <Menu open={open} autoClose={autoClose} options={[{ value: 'save', label: 'Save' }]} on:close={onClose}>
+        <button>Anchor</button>
+      </Menu>
     );
     document.body.appendChild(menu);
     vi.runAllTimers();
@@ -73,7 +50,6 @@ describe('MUI Menu component reactivity', () => {
     expect(onClose).toHaveBeenCalledWith('itemClick');
 
     menu.remove();
-    anchor.remove();
     vi.useRealTimers();
   });
 });

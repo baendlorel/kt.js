@@ -4,14 +4,7 @@ import type { KTMaybeReactive, KTMuiProps } from '../../types/component.js';
 import { $emptyFn, $parseStyle } from '@ktjs/shared';
 import { computed, isRef, KTFor, ref, toKT } from '@ktjs/core';
 import { registerPrefixedEvents } from '../../common/attribute.js';
-import {
-  Popover,
-  type KTMuiPopoverAnchorEl,
-  type KTMuiPopoverCloseReason,
-  type KTMuiPopoverOrigin,
-  type KTMuiPopoverHorizontalOrigin,
-  type KTMuiPopoverVerticalOrigin,
-} from '../Popover/Popover.js';
+import { Popover, type KTMuiPopoverCloseReason, type KTMuiPopoverDirection } from '../Popover/Popover.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
 export type KTMuiMenuCloseReason = KTMuiPopoverCloseReason | 'itemClick';
@@ -25,61 +18,31 @@ export interface KTMuiMenuOption {
 
 export type KTMuiMenuContent = KTMuiMenuOption | JSX.Element | HTMLElement | string;
 
-export interface KTMuiMenuProps<TAnchor extends JSX.Element | undefined = JSX.Element | undefined> extends KTMuiProps {
+export interface KTMuiMenuProps extends KTMuiProps {
   open?: KTMaybeReactive<boolean>;
-  anchorEl?: KTMuiPopoverAnchorEl<TAnchor>;
   options?: KTMaybeReactive<KTMuiMenuContent[]>;
-  anchorOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
-  transformOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
-  marginThreshold?: KTMaybeReactive<number>;
-  elevation?: KTMaybeReactive<number>;
+  direction?: KTMaybeReactive<KTMuiPopoverDirection>;
   autoClose?: KTMaybeReactive<boolean>;
   disableAutoFocusItem?: KTMaybeReactive<boolean>;
   'on:close'?: (reason: KTMuiMenuCloseReason) => void;
   'on:select'?: (value: string, option: KTMuiMenuOption) => void;
-
-  // # native events
-  // intentionally omitted: menu is a composite popup component and does not promise generic root event passthrough.
+  children?: JSX.Element;
 }
 
 export type KTMuiMenu = JSX.Element & {};
-
-export type KTMuiMenuVerticalOrigin = KTMuiPopoverVerticalOrigin;
-export type KTMuiMenuHorizontalOrigin = KTMuiPopoverHorizontalOrigin;
-
-const DEFAULT_ANCHOR_ORIGIN: KTMuiPopoverOrigin = {
-  vertical: 'bottom',
-  horizontal: 'left',
-};
-
-const DEFAULT_TRANSFORM_ORIGIN: KTMuiPopoverOrigin = {
-  vertical: 'top',
-  horizontal: 'left',
-};
 
 const isMenuOption = (item: KTMuiMenuContent): item is KTMuiMenuOption => {
   return item !== null && typeof item === 'object' && 'value' in item && 'label' in item;
 };
 
-/**
- * Menu component - mimics MUI Menu appearance and behavior
- */
-export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>(
-  props: KTMuiMenuProps<TAnchor>,
-): KTMuiMenu {
+export function Menu(props: KTMuiMenuProps): KTMuiMenu {
   const onClose = props['on:close'] ?? $emptyFn;
   const onSelect = props['on:select'] ?? $emptyFn;
-
   const classRef = toPseudoRef(props.class ?? '');
   const styleRef = toPseudoRef($parseStyle(props.style));
-
   const openRef = toKT(props.open ?? false);
-  const anchorElRef = toPseudoRef(props.anchorEl as TAnchor);
   const optionsRef = toPseudoRef<KTMuiMenuContent[]>(props.options ?? []);
-  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN);
-  const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN);
-  const marginThresholdRef = toPseudoRef(props.marginThreshold ?? 16);
-  const elevationRef = toPseudoRef(props.elevation ?? 8);
+  const directionRef = toPseudoRef(props.direction ?? 'bottom');
   const autoCloseRef = toPseudoRef(props.autoClose ?? true);
   const disableAutoFocusItemRef = toPseudoRef(props.disableAutoFocusItem ?? false);
 
@@ -100,17 +63,11 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
     }, 0);
   };
 
-  const paperClassName = classRef.map((v) => `mui-menu-paper ${v}`);
-
   const closeMenu = (reason: KTMuiMenuCloseReason) => {
     if (isRef(openRef)) {
       openRef.value = false;
     }
     onClose(reason);
-  };
-
-  const handlePopoverClose = (reason: KTMuiPopoverCloseReason) => {
-    closeMenu(reason);
   };
 
   const handleOptionClick = (e: MouseEvent) => {
@@ -166,31 +123,26 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
       closeMenu('escapeKeyDown');
       return;
     }
-
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       focusNeighbor(focusedIndex < 0 ? -1 : focusedIndex, 1);
       return;
     }
-
     if (e.key === 'ArrowUp') {
       e.preventDefault();
       focusNeighbor(focusedIndex < 0 ? 0 : focusedIndex, -1);
       return;
     }
-
     if (e.key === 'Home') {
       e.preventDefault();
       focusNeighbor(-1, 1);
       return;
     }
-
     if (e.key === 'End') {
       e.preventDefault();
       focusNeighbor(0, -1);
       return;
     }
-
     if ((e.key === 'Enter' || e.key === ' ') && focusedIndex >= 0) {
       e.preventDefault();
       menuItemElements[focusedIndex].click();
@@ -228,21 +180,18 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
 
   const container = (
     <Popover
-      {...{
-        open: openRef,
-        anchorEl: anchorElRef,
-        anchorOrigin: anchorOriginRef,
-        transformOrigin: transformOriginRef,
-        marginThreshold: marginThresholdRef,
-        elevation: elevationRef,
-        class: paperClassName,
-        style: styleRef,
-        'on:close': handlePopoverClose,
-      }}
+      open={openRef}
+      direction={directionRef}
+      content={
+        <div class={classRef.map((v) => `mui-menu-paper ${v}`)} style={styleRef}>
+          <ul ref={menuListRef} class="mui-menu-list" role="menu" tabIndex={-1} on:keydown={handleListKeyDown}>
+            <KTFor list={members}></KTFor>
+          </ul>
+        </div>
+      }
+      on:close={(reason) => closeMenu(reason)}
     >
-      <ul ref={menuListRef} class="mui-menu-list" role="menu" tabIndex={-1} on:keydown={handleListKeyDown}>
-        <KTFor list={members}></KTFor>
-      </ul>
+      {props.children}
     </Popover>
   ) as KTMuiMenu;
 
@@ -251,7 +200,6 @@ export function Menu<TAnchor extends JSX.Element | undefined = JSX.Element | und
       scheduleFocusFirstItem();
     }
   });
-
   optionsRef.listen(() => {
     if (openRef.value) {
       scheduleFocusFirstItem();

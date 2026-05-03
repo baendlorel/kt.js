@@ -38,9 +38,9 @@ const tabsProps: KTMuiTabsProps = {
   'k-model': model.subref('tab'),
 };
 
-const popoverProps: KTMuiPopoverProps<HTMLButtonElement | undefined> = {
+const popoverProps: KTMuiPopoverProps = {
   open: ui.get('open'),
-  anchorEl: model.subref('anchor'),
+  content: 'Body',
 };
 
 TextField(textFieldProps);

@@ -70,8 +70,6 @@ export type {
   KTMuiMenuProps,
   KTMuiMenu,
   KTMuiMenuCloseReason,
-  KTMuiMenuHorizontalOrigin,
-  KTMuiMenuVerticalOrigin,
 } from './components/Menu/Menu.js';
 export type {
   KTMuiModalContent,
@@ -100,10 +98,9 @@ export type {
 export type {
   KTMuiPopoverProps,
   KTMuiPopover,
-  KTMuiPopoverOrigin,
   KTMuiPopoverCloseReason,
-  KTMuiPopoverVerticalOrigin,
-  KTMuiPopoverHorizontalOrigin,
+  KTMuiPopoverDirection,
+  KTMuiPopoverContent,
 } from './components/Popover/Popover.js';
 export type {
   KTMuiTabsProps,

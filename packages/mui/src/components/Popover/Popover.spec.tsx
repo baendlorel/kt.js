@@ -1,74 +1,101 @@
-import { computed, ref } from '@ktjs/core';
+import { ref } from '@ktjs/core';
 import { describe, expect, it, vi } from 'vitest';
 import { Popover } from './Popover.js';
-
-const createAnchor = () => {
-  const anchor = document.createElement('button');
-  anchor.getBoundingClientRect = () =>
-    ({
-      width: 80,
-      height: 40,
-      top: 100,
-      left: 160,
-      right: 240,
-      bottom: 140,
-      x: 160,
-      y: 100,
-      toJSON: () => ({}),
-    }) as DOMRect;
-  document.body.appendChild(anchor);
-  return anchor;
-};
 
 describe('MUI Popover component reactivity', () => {
   it('reacts to open ref transitions', () => {
     vi.useFakeTimers();
-    const anchor = createAnchor();
     const open = ref(false);
 
-    const popover = (<Popover {...{ open, anchorEl: anchor, children: 'Body' }} />) as HTMLElement;
-    document.body.appendChild(popover);
-
-    expect(popover.style.display).toBe('none');
-
-    open.value = true;
-    vi.runAllTimers();
-    expect(popover.style.display).toBe('block');
-    expect(popover.className).toContain('mui-popover-open');
-
-    open.value = false;
-    vi.advanceTimersByTime(180);
-    expect(popover.style.display).toBe('none');
-
-    popover.remove();
-    anchor.remove();
-    vi.useRealTimers();
-  });
-
-  it('reacts to computed elevation changes', () => {
-    const anchor = createAnchor();
-    const elevationSeed = ref(2);
-    const elevation = computed(() => elevationSeed.value, [elevationSeed]);
-
     const popover = (
-      <Popover
-        {...{
-          open: true,
-          anchorEl: anchor,
-          elevation,
-          children: 'Body',
-        }}
-      />
+      <Popover {...{ open, content: 'Body' }}>
+        <button>Anchor</button>
+      </Popover>
     ) as HTMLElement;
     document.body.appendChild(popover);
 
-    const paper = popover.querySelector<HTMLElement>('.mui-popover-paper');
-    const previousShadow = paper?.style.boxShadow;
+    const overlay = popover.querySelector<HTMLElement>('.mui-popover-root');
+    expect(overlay?.style.display).toBe('none');
 
-    elevationSeed.value = 20;
-    expect(paper?.style.boxShadow).not.toBe(previousShadow);
+    open.value = true;
+    vi.runAllTimers();
+    expect(overlay?.style.display).toBe('block');
+    expect(overlay?.className).toContain('mui-popover-open');
+
+    open.value = false;
+    vi.advanceTimersByTime(180);
+    expect(overlay?.style.display).toBe('none');
 
     popover.remove();
-    anchor.remove();
+    vi.useRealTimers();
+  });
+
+  it('flips direction when preferred side has no space', () => {
+    vi.useFakeTimers();
+    const popover = (
+      <Popover {...{ open: true, content: 'Body', direction: 'bottom' }}>
+        <button>Anchor</button>
+      </Popover>
+    ) as HTMLElement;
+    document.body.appendChild(popover);
+
+    const anchor = popover as HTMLElement;
+    anchor.getBoundingClientRect = () =>
+      ({
+        width: 80,
+        height: 32,
+        top: window.innerHeight - 24,
+        left: 100,
+        right: 180,
+        bottom: window.innerHeight + 8,
+        x: 100,
+        y: window.innerHeight - 24,
+        toJSON: () => ({}),
+      }) as DOMRect;
+
+    vi.runAllTimers();
+    const paper = popover.querySelector<HTMLElement>('.mui-popover-paper');
+    expect(paper?.style.transformOrigin).toBe('center bottom');
+
+    popover.remove();
+    vi.useRealTimers();
+  });
+
+  it('reacts to direction changes', () => {
+    vi.useFakeTimers();
+    const direction = ref<'top' | 'bottom'>('bottom');
+
+    const popover = (
+      <Popover {...{ open: true, content: 'Body', direction }}>
+        <button>Anchor</button>
+      </Popover>
+    ) as HTMLElement;
+    document.body.appendChild(popover);
+
+    const anchor = popover as HTMLElement;
+    anchor.getBoundingClientRect = () =>
+      ({
+        width: 80,
+        height: 32,
+        top: 120,
+        left: 100,
+        right: 180,
+        bottom: 152,
+        x: 100,
+        y: 120,
+        toJSON: () => ({}),
+      }) as DOMRect;
+
+    vi.runAllTimers();
+
+    const paper = popover.querySelector<HTMLElement>('.mui-popover-paper');
+    const before = paper?.style.transformOrigin;
+
+    direction.value = 'top';
+    vi.runAllTimers();
+    expect(paper?.style.transformOrigin).not.toBe(before);
+
+    popover.remove();
+    vi.useRealTimers();
   });
 });

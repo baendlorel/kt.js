@@ -1,140 +1,164 @@
-import type { JSX, KTMaybeReactive, KTReactive } from '@ktjs/core';
-import type { KTMuiProps } from '../../types/component.js';
+import type { JSX, KTMaybeReactive } from '@ktjs/core';
 
-import { computed, toKT } from '@ktjs/core';
-import { $clamp, $emptyFn, $max, $min, $parseStyle, $round } from '@ktjs/shared';
+import { $clamp, $emptyFn } from '@ktjs/shared';
 import { ensureRefLike, registerPrefixedEvents } from '../../common/attribute.js';
 import { toPseudoRef } from '../../common/pseudo-ref.js';
 
-export type KTMuiPopoverVerticalOrigin = 'top' | 'center' | 'bottom';
-export type KTMuiPopoverHorizontalOrigin = 'left' | 'center' | 'right';
-
-export interface KTMuiPopoverOrigin {
-  vertical: KTMuiPopoverVerticalOrigin;
-  horizontal: KTMuiPopoverHorizontalOrigin;
-}
-
 export type KTMuiPopoverCloseReason = 'backdropClick' | 'escapeKeyDown';
+export type KTMuiPopoverDirection = 'top' | 'right' | 'bottom' | 'left';
+export type KTMuiPopoverContent = string | JSX.Element;
 
-export type KTMuiPopoverAnchorEl<TAnchor extends JSX.Element | undefined = JSX.Element | undefined> =
-  | TAnchor
-  | KTReactive<TAnchor>;
-
-export interface KTMuiPopoverProps<
-  TAnchor extends JSX.Element | undefined = JSX.Element | undefined,
-> extends KTMuiProps {
-  /**
-   * Indicates whether the popover is open.
-   */
+export interface KTMuiPopoverProps {
   open?: KTMaybeReactive<boolean>;
-
-  /**
-   * The DOM element used as the anchor of the popover. The popover will appear next to this element.
-   */
-  anchorEl?: KTMuiPopoverAnchorEl<TAnchor>;
-
-  /**
-   * Defines which part of the anchor element to align the popover with.
-   */
-  anchorOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
-
-  /**
-   * Defines which part of the popover to align with the anchor element.
-   */
-  transformOrigin?: KTMaybeReactive<KTMuiPopoverOrigin>;
-
-  /**
-   * The margin between the popover and the edge of the screen.
-   * This is used to prevent the popover from being positioned in a way that it would be inaccessible to users, such as being off-screen.
-   */
-  marginThreshold?: KTMaybeReactive<number>;
-
-  /**
-   * The elevation of the popover, which affects the shadow depth.
-   * It can be a value between 0 and 24.
-   */
-  elevation?: KTMaybeReactive<number>;
-
+  content?: KTMaybeReactive<KTMuiPopoverContent>;
+  direction?: KTMaybeReactive<KTMuiPopoverDirection>;
   'on:close'?: (reason: KTMuiPopoverCloseReason) => void;
-
-  // # native events
-  // intentionally omitted: popover is a composite floating component and does not promise generic root event passthrough.
+  children?: JSX.Element;
 }
 
 export type KTMuiPopover = JSX.Element & {};
 
-const DEFAULT_ANCHOR_ORIGIN: KTMuiPopoverOrigin = {
-  vertical: 'top',
-  horizontal: 'left',
-};
-
-const DEFAULT_TRANSFORM_ORIGIN: KTMuiPopoverOrigin = {
-  vertical: 'top',
-  horizontal: 'left',
-};
 const EXIT_TRANSITION_MS = 180;
+const VIEWPORT_MARGIN = 16;
 
-const getOffsetFromVertical = (height: number, vertical: KTMuiPopoverVerticalOrigin) => {
-  if (vertical === 'center') {
-    return height / 2;
+const getTransformOrigin = (direction: KTMuiPopoverDirection) => {
+  if (direction === 'top') {
+    return 'center bottom';
   }
-  if (vertical === 'bottom') {
-    return height;
+  if (direction === 'right') {
+    return 'left center';
   }
-  return 0;
+  if (direction === 'left') {
+    return 'right center';
+  }
+  return 'center top';
 };
 
-const getOffsetFromHorizontal = (width: number, horizontal: KTMuiPopoverHorizontalOrigin) => {
-  if (horizontal === 'center') {
-    return width / 2;
+const getPosition = (anchorRect: DOMRect, paperRect: DOMRect, direction: KTMuiPopoverDirection) => {
+  if (direction === 'top') {
+    return {
+      top: anchorRect.top - paperRect.height,
+      left: anchorRect.left + (anchorRect.width - paperRect.width) / 2,
+    };
   }
-  if (horizontal === 'right') {
-    return width;
+
+  if (direction === 'right') {
+    return {
+      top: anchorRect.top + (anchorRect.height - paperRect.height) / 2,
+      left: anchorRect.right,
+    };
   }
-  return 0;
+
+  if (direction === 'left') {
+    return {
+      top: anchorRect.top + (anchorRect.height - paperRect.height) / 2,
+      left: anchorRect.left - paperRect.width,
+    };
+  }
+
+  return {
+    top: anchorRect.bottom,
+    left: anchorRect.left + (anchorRect.width - paperRect.width) / 2,
+  };
 };
 
-const getElevationShadow = (level: number) => {
-  const n = $max(0, $min(24, level));
-  if (n === 0) {
-    return 'none';
+const getAvailableSpace = (anchorRect: DOMRect, direction: KTMuiPopoverDirection) => {
+  if (direction === 'top') {
+    return anchorRect.top - VIEWPORT_MARGIN;
   }
-
-  const y1 = $max(1, $round(n / 2));
-  const blur1 = $round(3 + n * 1.4);
-  const y2 = $max(1, $round(n / 3));
-  const blur2 = $round(2 + n * 0.9);
-  const y3 = $max(1, $round(n / 5));
-  const blur3 = $round(2 + n * 0.6);
-
-  return `0 ${y1}px ${blur1}px rgba(0, 0, 0, 0.2), 0 ${y2}px ${blur2}px rgba(0, 0, 0, 0.14), 0 ${y3}px ${blur3}px rgba(0, 0, 0, 0.12)`;
+  if (direction === 'right') {
+    return window.innerWidth - anchorRect.right - VIEWPORT_MARGIN;
+  }
+  if (direction === 'left') {
+    return anchorRect.left - VIEWPORT_MARGIN;
+  }
+  return window.innerHeight - anchorRect.bottom - VIEWPORT_MARGIN;
 };
 
-/**
- * Popover component - mimics MUI Popover appearance and behavior
- */
-export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | undefined>(
-  props: KTMuiPopoverProps<TAnchor>,
-): KTMuiPopover {
+const getOppositeDirection = (direction: KTMuiPopoverDirection): KTMuiPopoverDirection => {
+  if (direction === 'top') {
+    return 'bottom';
+  }
+  if (direction === 'right') {
+    return 'left';
+  }
+  if (direction === 'left') {
+    return 'right';
+  }
+  return 'top';
+};
+
+const resolveDirection = (anchorRect: DOMRect, paperRect: DOMRect, preferred: KTMuiPopoverDirection) => {
+  const expectedSize = preferred === 'top' || preferred === 'bottom' ? paperRect.height : paperRect.width;
+  if (getAvailableSpace(anchorRect, preferred) >= expectedSize) {
+    return preferred;
+  }
+
+  const opposite = getOppositeDirection(preferred);
+  if (getAvailableSpace(anchorRect, opposite) > getAvailableSpace(anchorRect, preferred)) {
+    return opposite;
+  }
+
+  return preferred;
+};
+
+export function Popover(props: KTMuiPopoverProps): KTMuiPopover {
   const onClose = props['on:close'] ?? $emptyFn;
-  const customClassRef = toPseudoRef(props.class ?? '');
-  const styleRef = toPseudoRef($parseStyle(props.style));
+  const openRef = ensureRefLike<boolean>(props.open ?? false);
+  const contentRef = toPseudoRef(props.content ?? '');
+  const directionRef = toPseudoRef(props.direction ?? 'bottom');
 
   let openTransitionTimer = 0;
   let hideTransitionTimer = 0;
+  let positionTimer = 0;
+
   const clearTransitionTimers = () => {
     if (openTransitionTimer) {
       clearTimeout(openTransitionTimer);
       openTransitionTimer = 0;
     }
-
     if (hideTransitionTimer) {
       clearTimeout(hideTransitionTimer);
       hideTransitionTimer = 0;
     }
   };
 
-  let positionTimer = 0;
+  const paper = (
+    <div class="mui-popover-paper" role="dialog" aria-hidden={!openRef.value}>
+      {contentRef}
+    </div>
+  ) as HTMLDivElement;
+
+  const container = (
+    <span class="mui-popover-anchor-root">
+      {props.children}
+      <div
+        class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}
+        style={openRef.value ? 'display: block;' : 'display: none;'}
+      >
+        {paper}
+      </div>
+    </span>
+  ) as HTMLSpanElement & KTMuiPopover;
+
+  const overlay = container.querySelector('.mui-popover-root') as HTMLDivElement;
+  const anchor = () => container;
+
+  const updatePosition = () => {
+    if (!openRef.value) {
+      return;
+    }
+
+    const paperRect = paper.getBoundingClientRect();
+    const anchorRect = anchor().getBoundingClientRect();
+    const direction = resolveDirection(anchorRect, paperRect, directionRef.value);
+    const next = getPosition(anchorRect, paperRect, direction);
+
+    paper.style.transformOrigin = getTransformOrigin(direction);
+    paper.style.top = `${$clamp(next.top, VIEWPORT_MARGIN, window.innerHeight - paperRect.height - VIEWPORT_MARGIN)}px`;
+    paper.style.left = `${$clamp(next.left, VIEWPORT_MARGIN, window.innerWidth - paperRect.width - VIEWPORT_MARGIN)}px`;
+  };
+
   const scheduleUpdatePosition = () => {
     if (!openRef.value) {
       return;
@@ -143,8 +167,8 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
       clearTimeout(positionTimer);
     }
     positionTimer = window.setTimeout(() => {
-      updatePosition();
       positionTimer = 0;
+      updatePosition();
     }, 0);
   };
 
@@ -153,87 +177,25 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     paper.setAttribute('aria-hidden', String(!isOpen));
 
     if (isOpen) {
-      container.style.display = 'block';
-      container.classList.add('mui-popover-rendered');
+      overlay.style.display = 'block';
+      overlay.classList.add('mui-popover-rendered');
       openTransitionTimer = window.setTimeout(() => {
         openTransitionTimer = 0;
-        if (!openRef.value) {
-          return;
+        if (openRef.value) {
+          overlay.classList.add('mui-popover-open');
         }
-        container.classList.add('mui-popover-open');
       }, 0);
       return;
     }
 
-    container.classList.remove('mui-popover-open');
+    overlay.classList.remove('mui-popover-open');
     hideTransitionTimer = window.setTimeout(() => {
       hideTransitionTimer = 0;
-      if (openRef.value) {
-        return;
+      if (!openRef.value) {
+        overlay.style.display = 'none';
+        overlay.classList.remove('mui-popover-rendered');
       }
-      container.style.display = 'none';
-      container.classList.remove('mui-popover-rendered');
     }, EXIT_TRANSITION_MS);
-  };
-
-  const openRef = ensureRefLike<boolean>(props.open ?? false).listen((isOpen) => {
-    syncOpenState(isOpen);
-    if (isOpen) {
-      scheduleUpdatePosition();
-    }
-  });
-
-  const anchorElRef = toKT(props.anchorEl as KTMuiPopoverAnchorEl<TAnchor | undefined>).listen(scheduleUpdatePosition);
-  const anchorOriginRef = toPseudoRef(props.anchorOrigin ?? DEFAULT_ANCHOR_ORIGIN).listen(scheduleUpdatePosition);
-  const transformOriginRef = toPseudoRef(props.transformOrigin ?? DEFAULT_TRANSFORM_ORIGIN).listen(
-    scheduleUpdatePosition,
-  );
-  const marginThresholdRef = toPseudoRef(props.marginThreshold ?? 16).listen(scheduleUpdatePosition);
-  const elevationRef = toPseudoRef(props.elevation ?? 8);
-
-  const paperClassName = customClassRef.map((v) => `mui-popover-paper ${v}`);
-
-  const paperStyle = computed(() => {
-    const shadow = getElevationShadow(elevationRef.value);
-    return `${styleRef.value}${styleRef.value ? ';' : ''}box-shadow:${shadow}`;
-  }, [styleRef, elevationRef]);
-
-  const updatePosition = () => {
-    if (!openRef.value) {
-      return;
-    }
-
-    const paperRect = paper.getBoundingClientRect();
-    const anchor = anchorElRef.value;
-    const anchorRect = anchor
-      ? anchor.getBoundingClientRect()
-      : {
-          width: 0,
-          height: 0,
-          top: window.innerHeight / 2,
-          left: window.innerWidth / 2,
-          right: window.innerWidth / 2,
-          bottom: window.innerHeight / 2,
-        };
-
-    const anchorOrigin = anchorOriginRef.value;
-    const transformOrigin = transformOriginRef.value;
-
-    let top =
-      anchorRect.top +
-      getOffsetFromVertical(anchorRect.height, anchorOrigin.vertical) -
-      getOffsetFromVertical(paperRect.height, transformOrigin.vertical);
-    let left =
-      anchorRect.left +
-      getOffsetFromHorizontal(anchorRect.width, anchorOrigin.horizontal) -
-      getOffsetFromHorizontal(paperRect.width, transformOrigin.horizontal);
-
-    const margin = $max(0, marginThresholdRef.value);
-    top = $clamp(top, margin, window.innerHeight - paperRect.height - margin);
-    left = $clamp(left, margin, window.innerWidth - paperRect.width - margin);
-
-    paper.style.top = `${$round(top)}px`;
-    paper.style.left = `${$round(left)}px`;
   };
 
   const close = (reason: KTMuiPopoverCloseReason) => {
@@ -249,13 +211,7 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
       return;
     }
     const target = e.target as Node | null;
-    if (!target) {
-      return;
-    }
-    if (paper.contains(target)) {
-      return;
-    }
-    if (anchorElRef.value?.contains(target)) {
+    if (!target || paper.contains(target) || anchor().contains(target)) {
       return;
     }
     close('backdropClick');
@@ -267,20 +223,14 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     }
   };
 
-  const paper = (
-    <div class={paperClassName} style={paperStyle} role="dialog" aria-hidden={!openRef.value}>
-      {props.children}
-    </div>
-  ) as HTMLDivElement;
-
-  const container = (
-    <div
-      class={`mui-popover-root ${openRef.value ? 'mui-popover-open mui-popover-rendered' : ''}`}
-      style={openRef.value ? 'display: block;' : 'display: none;'}
-    >
-      {paper}
-    </div>
-  ) as HTMLDivElement & KTMuiPopover;
+  openRef.listen((isOpen) => {
+    syncOpenState(isOpen);
+    if (isOpen) {
+      scheduleUpdatePosition();
+    }
+  });
+  contentRef.listen(scheduleUpdatePosition);
+  directionRef.listen(scheduleUpdatePosition);
 
   document.addEventListener('mousedown', handleDocumentMouseDown);
   document.addEventListener('keydown', handleKeyDown);
@@ -292,12 +242,12 @@ export function Popover<TAnchor extends JSX.Element | undefined = JSX.Element | 
     scheduleUpdatePosition();
   }
 
-  // Ensure listeners are removed when users call element.remove().
   const originalRemove = container.remove;
   container.remove = () => {
     clearTransitionTimers();
     if (positionTimer) {
       clearTimeout(positionTimer);
+      positionTimer = 0;
     }
     document.removeEventListener('mousedown', handleDocumentMouseDown);
     document.removeEventListener('keydown', handleKeyDown);

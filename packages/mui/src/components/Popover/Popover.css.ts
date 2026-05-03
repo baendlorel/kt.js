@@ -1,6 +1,10 @@
 import { css } from '../../common/css-injector.js';
 
 export default css`
+.mui-popover-anchor-root {
+  display: inline-block;
+}
+
 .mui-popover-root {
   position: fixed;
   inset: 0;

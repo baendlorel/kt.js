@@ -198,11 +198,11 @@ const computed = ref.get('a', 'b');
 
 ## 7. 常见坑位（生成代码时自检）
 
-1. 事件必须写 `on:click`，不是 `onClick`。
-2. `computed` 记得写依赖数组。
+1. 事件写 `on:click`，不是 `onClick`。
+2. `computed` 要写依赖数组。
 3. 深层修改对象/数组/Map/Set 优先走 `draft`。
 4. vite 未启用 `@ktjs/vite-plugin-ktjsx` 时，`k-if` / `k-for` 等指令不会按预期编译。
-5. 使用 `listen` 而非 `addOnChange` 来添加变化监听器。
+5. 使用 `listen` 来添加变化监听器。
 
 ---
 
@@ -237,15 +237,3 @@ function App() {
 document.getElementById('app')!.appendChild(<App />);
 ```
 
----
-
-## 9. API 变更对照表
-
-| 旧 API (0.38.x)           | 新 API (0.40.x)      |
-| ------------------------- | -------------------- |
-| `reactive.is(target)`     | `ref.is(target)`     |
-| `reactive.match(pattern)` | `ref.match(pattern)` |
-| `reactive.get(...keys)`   | `ref.get(...keys)`   |
-| `reactive.map(fn)`        | `ref.map(fn)`        |
-| `addOnChange(handler)`    | `listen(handler)`    |
-| `removeOnChange(handler)` | `unlisten(handler)`  |

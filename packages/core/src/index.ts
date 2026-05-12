@@ -23,3 +23,4 @@ export type { KTRawContent, KTRawAttr, KTAttribute, KTPrefixedEventAttribute, HT
 export type * from './types/jsx.js';
 
 // EPIC 服务端渲染
+// EPIC 不如再大改一次，像svelte一样全变量响应式

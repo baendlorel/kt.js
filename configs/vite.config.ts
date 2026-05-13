@@ -34,6 +34,7 @@ export default defineConfig(() => {
         output: {
           entryFileNames: 'index.mjs',
         },
+        // use replace here
         plugins: [replace(lib)],
       },
       minify: false,

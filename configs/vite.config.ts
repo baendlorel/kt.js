@@ -8,7 +8,7 @@ import terser from '@rollup/plugin-terser';
 import dts from 'vite-plugin-dts';
 import { stripHiddenDeclarations } from 'rollup-plugin-hide-private';
 
-import { replaceForViteDts } from './vite-build/replace.js';
+import { replace, replaceForViteDts } from './vite-build/replace.js';
 
 const needSourceMap = (libPath: string) => !libPath.includes('mui-icon');
 const externals = () => [/^@ktjs\//, /^node:/, /^@babel\//];
@@ -34,6 +34,7 @@ export default defineConfig(() => {
         output: {
           entryFileNames: 'index.mjs',
         },
+        plugins: [replace(lib)],
       },
       minify: false,
       terserOptions: {

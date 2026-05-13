@@ -46,7 +46,8 @@ export abstract class KTReactive<T> {
 
   listen(listener: ChangeListener<T>): this {
     if (this._listeners.has(listener)) {
-      $throw(`Overriding existing change handler with ${listener.toString()}.`);
+      $warn(`Overriding existing change handler with ${listener.toString()}.`);
+      return this;
     }
     this._listeners.add(listener);
     return this;

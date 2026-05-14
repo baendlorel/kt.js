@@ -462,4 +462,4 @@ function hasDiagnosticSpan(
   return typeof diagnostic.start === 'number' && typeof diagnostic.length === 'number';
 }
 
-export default init;
+export = init;

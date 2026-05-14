@@ -38,7 +38,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@ktjs/ts-plugin": "^0.3.7",
+    "@ktjs/ts-plugin": "workspace:^*",
     "@ktjs/vite-plugin-ktjsx": "^0.5.0",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.2",

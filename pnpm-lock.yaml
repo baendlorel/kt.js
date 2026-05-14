@@ -22,8 +22,8 @@ importers:
         version: 0.2.2
     devDependencies:
       '@ktjs/ts-plugin':
-        specifier: ^0.3.7
-        version: 0.3.7(typescript@6.0.2)
+        specifier: workspace:^*
+        version: link:plugins/ts
       '@ktjs/vite-plugin-ktjsx':
         specifier: ^0.5.0
         version: 0.5.0(vite@8.0.9(@types/node@25.3.0)(esbuild@0.27.3)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
@@ -604,11 +604,6 @@ packages:
 
   '@ktjs/transformer@0.5.0':
     resolution: {integrity: sha512-s6VNKTag0bpQXNHYFWCNH8VMBj7+CRuqxhEnJs6/gzaoS71Cf+ZjUCynJP0l0ek6WtJR5RopHunb0itOxxtREQ==}
-
-  '@ktjs/ts-plugin@0.3.7':
-    resolution: {integrity: sha512-l9XrL1H0xbrRbjx96sfWC05wCX1kTbIv5/k9ZlwJv8IyLWrCONOL4k9r3WSgtqpshmnKXQIn3qYcj58YFq8J1Q==}
-    peerDependencies:
-      typescript: '>=5.0.0'
 
   '@ktjs/vite-plugin-ktjsx@0.5.0':
     resolution: {integrity: sha512-Tq/YF4N8SG00rlT/tGkl1uPJMR5ltGijV4KknyLO+qS9kwdWQYY5G7SmexlpqGSOIK4/p+NSkcJpzRxlnf9KAQ==}
@@ -2780,10 +2775,6 @@ snapshots:
       '@babel/types': 7.29.0
     transitivePeerDependencies:
       - supports-color
-
-  '@ktjs/ts-plugin@0.3.7(typescript@6.0.2)':
-    dependencies:
-      typescript: 6.0.2
 
   '@ktjs/vite-plugin-ktjsx@0.5.0(vite@8.0.9(@types/node@25.3.0)(esbuild@0.27.3)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:

@@ -11,7 +11,7 @@ export function vitebuild(who: string | undefined) {
 }
 
 const config = dirs.configs.join('vite.config.ts');
-const specialLibs = ['@ktjs/ts-plugin', void '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
+// const specialLibs = ['@ktjs/ts-plugin', void '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
 
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Vite Building package: ${info.name}`);
@@ -21,12 +21,14 @@ export function buildWithInfo(info: PackageInfo) {
     fs.rmSync(dist, { recursive: true, force: true });
   }
 
-  // TODO 这里要改成检测package.json是否存在build命令，有的话则运行，没有就不运行
-  if (specialLibs.includes(info.name)) {
+  const localBuildScript = info.json.scripts?.build;
+  if (typeof localBuildScript === 'string') {
+    console.log(`[${info.name}] Running local build script: ${localBuildScript}`);
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
     return;
   }
 
+  console.log(`[${info.name}] Running global vite build...`);
   const actualConfig = info.path.tryJoin('vite.config.ts') ?? config;
   execSync(`vite build --config ${actualConfig.safe()} ${info.path.safe()}`, { stdio: 'inherit', env: info.env });
 }

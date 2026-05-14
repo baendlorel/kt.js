@@ -11,6 +11,7 @@ export interface CommonPackageJson {
     name: string;
     email: string;
   };
+  scripts?: Record<string, string>;
   license: string;
   repository: {
     type: string;

@@ -45,7 +45,6 @@
     "typescript",
     "javascript"
   ],
-  "scripts": {},
   "license": "MIT",
   "dependencies": {
     "@ktjs/core": "workspace:^*"

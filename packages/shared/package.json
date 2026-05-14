@@ -32,10 +32,5 @@
     "type": "git",
     "url": "https://github.com/baendlorel/kt.js",
     "directory": "packages/shared"
-  },
-  "scripts": {
-    "build": "rollup -c rollup.config.mjs",
-    "dev": "rollup -c rollup.config.mjs -w",
-    "test": "vitest run"
   }
 }

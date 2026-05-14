@@ -7,7 +7,7 @@ import {
   getMemberCompletionContext,
   mergeCompletionInfo,
 } from './completion';
-import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
+import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_LABEL_NOT_ALLOWED, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
@@ -41,10 +41,6 @@ function init(modules: { typescript: typeof tsModule }) {
       fileName: string,
       diagnostics: readonly tsModule.Diagnostic[],
     ): readonly tsModule.Diagnostic[] => {
-      if (!isJsxLikeFile(fileName)) {
-        return diagnostics;
-      }
-
       const program = languageService.getProgram();
       const sourceFile = program?.getSourceFile(fileName);
       const checker = program?.getTypeChecker();
@@ -52,42 +48,49 @@ function init(modules: { typescript: typeof tsModule }) {
         return diagnostics;
       }
 
-      const analysis = getFileAnalysis(fileName, languageService, ts, config);
+      const analysis = isJsxLikeFile(fileName) ? getFileAnalysis(fileName, languageService, ts, config) : undefined;
       const usedSourceDeclarationSpans = analysis
         ? collectUsedSourceDeclarationSpans(sourceFile, checker, ts, config)
         : undefined;
 
-      return analysis
-        ? diagnostics.filter((diagnostic) => {
-            if (!hasDiagnosticSpan(diagnostic)) {
-              return true;
-            }
+      return diagnostics.filter((diagnostic) => {
+        if (!hasDiagnosticSpan(diagnostic)) {
+          return true;
+        }
 
-            if (diagnostic.code === DIAGNOSTIC_CANNOT_FIND_NAME) {
-              const name = analysis.sourceFile.text
-                .slice(diagnostic.start, diagnostic.start + diagnostic.length)
-                .trim();
-              if (!isValidIdentifier(name)) {
-                return true;
-              }
+        if (
+          diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED &&
+          isLabelFollowedByDeclaration(sourceFile, diagnostic.start, diagnostic.length, ts)
+        ) {
+          return false;
+        }
 
-              return !isSuppressed(diagnostic.start, name, analysis.scopes);
-            }
+        if (!analysis) {
+          return true;
+        }
 
-            if (diagnostic.code === DIAGNOSTIC_UNUSED_LOCAL && usedSourceDeclarationSpans) {
-              return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
-            }
-
-            if (
-              analysis.ifScopes.length > 0 &&
-              isSuppressedByKIfNarrowing(diagnostic, analysis.sourceFile, analysis.ifScopes, ts)
-            ) {
-              return false;
-            }
-
+        if (diagnostic.code === DIAGNOSTIC_CANNOT_FIND_NAME) {
+          const name = analysis.sourceFile.text.slice(diagnostic.start, diagnostic.start + diagnostic.length).trim();
+          if (!isValidIdentifier(name)) {
             return true;
-          })
-        : diagnostics;
+          }
+
+          return !isSuppressed(diagnostic.start, name, analysis.scopes);
+        }
+
+        if (diagnostic.code === DIAGNOSTIC_UNUSED_LOCAL && usedSourceDeclarationSpans) {
+          return !usedSourceDeclarationSpans.has(`${fileName}:${diagnostic.start}:${diagnostic.length}`);
+        }
+
+        if (
+          analysis.ifScopes.length > 0 &&
+          isSuppressedByKIfNarrowing(diagnostic, analysis.sourceFile, analysis.ifScopes, ts)
+        ) {
+          return false;
+        }
+
+        return true;
+      });
     };
 
     for (const key of Object.keys(languageService) as Array<keyof tsModule.LanguageService>) {
@@ -428,6 +431,29 @@ function isSuppressedByKIfNarrowing(
   }
 
   return false;
+}
+
+function isLabelFollowedByDeclaration(
+  sourceFile: tsModule.SourceFile,
+  start: number,
+  length: number,
+  ts: typeof tsModule,
+): boolean {
+  const node = findInnermostNode(sourceFile, normalizePosition(start, sourceFile), ts);
+  if (!node || !ts.isIdentifier(node) || node.getStart(sourceFile) !== start || node.end !== start + length) {
+    return false;
+  }
+
+  let statement = node.parent as tsModule.LabeledStatement;
+  if (!statement || !ts.isLabeledStatement(statement) || statement.label !== node) {
+    return false;
+  }
+
+  while (ts.isLabeledStatement(statement.statement)) {
+    statement = statement.statement;
+  }
+
+  return ts.isVariableStatement(statement.statement) || ts.isDeclarationStatement(statement.statement);
 }
 
 function hasDiagnosticSpan(

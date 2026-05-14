@@ -21,6 +21,7 @@ export function buildWithInfo(info: PackageInfo) {
     fs.rmSync(dist, { recursive: true, force: true });
   }
 
+  // TODO 这里要改成检测package.json是否存在build命令，有的话则运行，没有就不运行
   if (specialLibs.includes(info.name)) {
     execSync(`pnpm --filter ${info.name} run build`, { stdio: 'inherit', env: info.env });
     return;

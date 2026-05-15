@@ -105,7 +105,7 @@ export const $refToSelf = <T>(props: { ref?: KTRef<any> }, node: T): T => {
 };
 
 // # SubRef
-
+const listenerMap = new WeakMap<any, any>();
 export class KTSubRef<T> extends KTRef<T> {
   readonly kid = nextKid();
   readonly ktype: KType = KType.SubRef;
@@ -145,12 +145,20 @@ export class KTSubRef<T> extends KTRef<T> {
   }
 
   listen(listener: ChangeListener<T>): this {
-    this.source.listen((newValue, oldValue) => listener(this._getter(newValue), this._getter(oldValue)));
+    const wrapped = (newValue: any, oldValue: any) => listener(this._getter(newValue), this._getter(oldValue));
+    listenerMap.set(listener, wrapped);
+    this.source.listen(wrapped);
     return this;
   }
 
   unlisten(listener: ChangeListener<T>): this {
-    this.source.unlisten(listener);
+    const wrapped = listenerMap.get(listener);
+    if (wrapped) {
+      this.source.unlisten(wrapped);
+      listenerMap.delete(listener);
+    } else {
+      $warn('Trying to unlisten a listener that is not listening.');
+    }
     return this;
   }
 

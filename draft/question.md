@@ -225,3 +225,201 @@ for (let i = 0; i < 3; i++) {
 //   setTimeout(() => console.log(x.value), 100);
 // }
 ```
+
+---
+
+# 追问问题
+
+## 追问 1：subref 的嵌套路径如何处理？
+
+规则 1 中只显示了单层 subref：
+```ts
+subref: let sa = state.a;
+// 转换为：const sa = state.subref('a');
+```
+
+但如果是嵌套路径呢？
+```ts
+ref: let state = { user: { name: 'kt' } };
+subref: let name = state.user.name;
+// 转换为什么？
+
+// A. state.subref('user', 'name')
+// B. state.user.subref('name')
+// C. 其他？
+```
+
+**回答**：
+A
+
+---
+
+## 追问 2：JSX 表达式复用的具体实现？
+
+规则 4 中提到"如果同一个表达式在多个响应式场景被使用，那么尽量将它们抽取成 1 个 computed"。
+
+具体如何实现？
+```tsx
+ref: let a = 1;
+ref: let b = 2;
+
+// 场景
+<div>{a + b}</div>
+<div>{a + b}</div>
+<span>{a + b}</span>
+
+// 是转换为：
+// const _computed_1 = computed(() => a.value + b.value, [a, b]);
+// <div>{_computed_1}</div>
+// <div>{_computed_1}</div>
+// <span>{_computed_1}</span>
+```
+
+这个 `_computed_1` 的命名规则是什么？作用域是什么？
+
+**回答**：
+作用域需要至少和a、b之一同级，也就是两者都能访问到。
+命名规则可以是`_computed_${n}`，其中 n 是一个递增的数字，确保唯一性。
+
+---
+
+## 追问 3：函数返回值的"体验和 number 一样"是什么意思？
+
+规则 5 中说"虽然说返回值是 `KTComputed<number>`，但在实际的开发过程中，体验和 number 一样。响应式将会实装在编译后的结果上"。
+
+```ts
+computed: let result4 = baz();
+// result4 是 KTComputed<number>
+
+// 那么：
+console.log(result4);     // 输出数字还是 KTComputed 对象？
+let x = result4 + 1;      // 如何处理？
+console.log(result4 + 1); // JSX 外如何处理？
+<div>{result4}</div>       // JSX 内如何处理？
+```
+
+"体验和 number 一样"是否意味着编译器会自动处理 `.value` 的添加？
+
+**回答**：
+console.log(result4); 会被转化为`console.log(result4.value);`
+let x = result4 + 1; 会被转化为`let x = result4.value + 1;`
+console.log(result4 + 1); 会被转化为`console.log(result4.value + 1);`
+<div>{result4}</div> 不会转化
+
+---
+
+## 追问 4：跨文件导入的 ref 如何识别？
+
+规则 11 提到"编译时记录导出的 reactive 变量"，但具体如何实现？
+
+```ts
+// file1.ts
+export ref: let a = 1;
+export const b = 2;
+
+// file2.ts
+import { a, b } from './file1';
+ref: let c = 3;
+computed: let d = a + b + c;
+// 如何知道 a 是 ref，b 不是？
+```
+
+编译器是否需要：
+- A. 解析 file1.ts 时，记录 `a` 是 ref，`b` 不是
+- B. 在 file2.ts 中看到 `import { a }` 时，查询记录知道 a 是 ref
+- C. 是否需要导出时加特殊标记（如 `export reactive a`）？
+
+**回答**：
+A 只要标记谁是ref，谁是subref，谁是computed即可；
+B 是的；
+C 不需要标记，因为这样不符合ts的语法。
+
+---
+
+## 追问 5：模板字符串在 JSX 中如何处理？
+
+规则 4 没有提到模板字符串：
+```tsx
+ref: let a = 1;
+ref: let b = 2;
+
+// 场景 A：模板字符串作为 JSX 子元素
+<div>`value: ${a}`</div>
+// 转换为什么？
+
+// 场景 B：模板字符串在 JSX 表达式中
+<div>{`value: ${a}`}</div>
+<div>{`value: ${a + b}`}</div>
+// 转换为什么？
+```
+
+**回答**：
+<div>{computed(()=>`value: ${a.value}`,[a])}</div>
+<div>{computed(()=>`value: ${a.value + b.value}`,[a,b])}</div>
+
+---
+
+## 追问 6：subref 在 computed 中的使用？
+
+```ts
+ref: let state = { a: 1 };
+subref: let sa = state.a;
+
+computed: let x = sa + 1;
+// sa 是 subref，如何处理？
+
+// 转换为：computed(() => sa.value + 1, [sa]) 吗？
+// 还是 subref 有特殊处理？
+```
+
+**回答**：
+是的，转换为：computed(() => sa.value + 1, [sa]) 
+
+---
+
+## 追问 7：ref:function 返回非 ref 值时如何处理？
+
+```ts
+ref: let a = 1;
+
+ref:function foo() {
+  return a + 1;  // 返回表达式，不是 ref
+}
+
+ref: let result = foo();
+// result 是什么？是新的 ref？还是 computed？
+// 转换为什么？
+```
+
+**回答**：
+1、返回被`ref:`标记的表达式时，`return a + 1; `转换为`return ref(a.value + 1); `
+2、返回被`computed:`标记的表达式时，`return a + 1; `转换为`return computed(()=> a + 1,[a]); `
+3、`ref: let result = foo();`转化为`const result = foo();`，因为foo已经返回了一个ref对象，所以不需要再加ref了。
+---
+
+## 追问 8：throw 不转换的原因？
+
+规则 6 说 `throw err` 不转换，但 `return a` 要转换。为什么有这样的差异？
+
+```ts
+// return：转换为 .value
+function foo() {
+  ref: let a = 1;
+  return a;  // 转换为：return a.value;
+}
+
+// throw：不转换
+function bar() {
+  ref: let err = new Error('test');
+  throw err;  // 保持：throw err;
+}
+```
+
+原因是什么？
+- A. Error 对象应该保持为 ref，方便后续 catch 处理？
+- B. throw 和 return 的语义不同？
+- C. 其他原因？
+
+**回答**：
+你说得对，throw应该转换为throw err.value。
+

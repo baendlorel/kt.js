@@ -84,6 +84,43 @@ console.log(a + b);
 都要转换。
 而且，会收集所有`a + b`的地方，`const someVariableName = computed(() => a.value + b.value, [a, b])`，然后确保所有的`a + b`都被转化为`someVariableName.value`
 原则：同一上下文内，a+b只会被转化为一个computed对象，避免重复创建多个相同的computed对象。
+
+**追问1**："同一上下文" 的定义是什么？
+
+示例：
+```ts
+function foo() {
+  ref: let a = 1;
+  ref: let b = 2;
+  console.log(a + b);  // 共用一个 computed？
+  let x = a + b;        // 这个也共用？还是不转换？
+  let y = a + b;        // 这个呢？
+}
+
+function bar() {
+  ref: let a = 1;
+  ref: let b = 2;
+  console.log(a + b);   // 和 foo 里的共用吗？还是各自独立？
+}
+```
+
+**回答1**：
+```ts
+function foo() {
+  ref: let a = 1;
+  ref: let b = 2;
+  console.log(a + b);  // 生成 computed
+  let x = a + b;        // 转变为let x = a.value + b.value。和响应式对象无关
+  let y = a + b;        // 转变为let y = a.value + b.value。和响应式对象无关
+}
+
+function bar() {
+  ref: let a = 1;
+  ref: let b = 2;
+  console.log(a + b);   // 和 foo 里的不共用，因为两者在不同的块中定义
+}
+```
+
 ---
 
 ### 6. 对象字面量中的 ref
@@ -100,6 +137,26 @@ let obj = { value: a };  // 如何处理？
 就保持原样，不做任何处理。
 所以，`let obj = { value: a }`其实是`let obj = { value: 1 }`因为a初始值是1
 
+**追问1**：如何判断是否在"响应式场景"？这些是响应式场景吗？
+
+```ts
+ref: let a = 1;
+ref: let b = 2;
+
+let x = a + b;           // 非 JSX，所以不转换？
+let y = someFunc(a);     // 函数参数？
+let z = { value: a };    // 对象字面量？
+let arr = [a, b];        // 数组？
+return a;                // return 语句？
+throw a;                 // throw 语句？
+```
+
+**回答1**：
+"响应式场景"包括：
+1、js label所标注的场景，如`computed: let x = a + b;`
+2、jsx表达式中的场景，如`<div>{a + b}</div>`
+
+其余都不是。
 ---
 
 ## computed 初始化表达式
@@ -169,6 +226,39 @@ for (let i = 0; i < 10; i++) {
 2、每次迭代的x是独立的KTRef实例。
 3、闭包问题请你详细描述场景举例，我将会详细说明。
 
+**追问1**：闭包场景具体行为是什么？
+
+```ts
+// 场景 A：定时器闭包
+for (let i = 0; i < 3; i++) {
+  ref: let x = i;
+  setTimeout(() => console.log(x), 100);
+}
+// 期望输出：0, 1, 2 还是 2, 2, 2？
+
+// 场景 B：事件监听闭包
+for (let i = 0; i < 3; i++) {
+  ref: let x = i;
+  document.getElementById(`btn-${i}`).onclick = () => console.log(x);
+}
+
+// 场景 C：嵌套函数
+for (let i = 0; i < 3; i++) {
+  ref: let x = i;
+  function inner() {
+    console.log(x);
+  }
+  inner();
+}
+```
+
+**回答1**：
+场景A:输出0，1，2
+
+场景B：点击这些button分别输出0，1，2，即 console.log(x.value)
+
+场景C：每次循环都是新的，相当于const x=ref(i)
+
 ---
 
 ### 11. 解构和类型注解
@@ -217,10 +307,28 @@ A
 - `{a + 1}` 表达式 → `computed(() => a.value + 1, [a])`
 - `{a.b}` 属性访问 → ？
 
-**回答**：
-1、直接使用`{a}`保持原样，kt.js会自动解包；
-2、表达式`{a + 1}`转化为`computed(() => a.value + 1, [a])`；
-3、属性访问`{a.b}`转化为`computed(() => a.value.b, [a])`，因为a是ref对象
+**追问1**：Q14 嵌套 JSX 中依赖数组的完整性？
+
+你说 Q14 的依赖数组只有 `[a]`：
+```tsx
+<div>{computed(()=>a.value? <span>{b}</span> : <span>{c}</span>,[a])}</div>
+```
+但 `b` 和 `c` 也是 ref，为什么不是 `[a, b, c]`？JSX 中的 `{b}` 和 `{c}` 是否会被 kt.js 自动解包，所以不需要加入依赖数组？
+
+**回答1**：
+你说的对，`<span>{b}</span>`是大括号中直接写了一个响应式对象的情况，这种情况，kt.js的core子包会自动处理它。
+
+**追问2**：Q15 模板字符串中的依赖收集？
+
+Q15 中表达式是 `a + b`，依赖是 `[a, b]`：
+```tsx
+<div>{computed(()=>`value: ${a + b}`,[a,b])}</div>
+```
+这里 `a + b` 在计算时需要 `a.value + b.value`，依赖收集是如何识别这两个 ref 的？
+
+**回答2**：
+这里的a+b可以往上搜索到`ref:let a = 1;` 或者是其他的`computed:let b = a+1`这样的地方，
+就可以知道a和b是否为ref了；
 
 ---
 
@@ -368,6 +476,19 @@ a = 2;  // 是否允许？语义是 a.value = 2 还是 a = ref(2)？
 `a=2`将转化为`a.value=2`；
 也就是说a的ref将不会改变。实际上，vue等其他框架中也几乎没有要改变ref对象本身场景
 
+**追问1**：ref 之间的重赋值如何处理？
+
+```ts
+ref: let a = 1;
+ref: let b = 2;
+a = b;       // 转换为 a.value = b 还是 a.value = b.value？
+a = a + 1;   // 转换为 a.value = a.value + 1 吗？
+```
+
+**回答1**：
+`a=b` => `a.value = b.value`
+`a=a+1` => `a.value = a.value + 1`
+
 ---
 
 ### 22. 标签语法的变量提升
@@ -411,6 +532,40 @@ function foo(x = ref: let a = 1) { }  // 是否允许？
 **回答**：
 不允许。
 只允许在外面用。
+
+**追问1**："外面"的具体定义是什么？这些位置允许吗？
+
+```ts
+// 允许：文件顶层
+ref: let a = 1;
+
+// 这些允许吗？
+if (true) {
+  ref: let a = 1;  // 块级作用域内？
+}
+
+{
+  ref: let a = 1;  // 纯块内？
+}
+
+function foo() {
+  ref: let a = 1;  // 函数体？
+}
+
+try {
+  ref: let a = 1;  // try 块内？
+} catch {}
+
+// 这些不允许？
+function foo(x = ref: let a = 1) {}  // 参数默认值
+function foo(ref: let a = 1) {}       // 参数列表
+class Foo { ref: let a = 1; }         // 类成员
+() => { ref: let a = 1; }            // 箭头函数体？
+```
+
+**回答1**：
+1、这些允许吗？ -> 把它们都转化为const a = ref(1);，如果转换后有语法错误，那么说明不行；
+2、这些不允许吗？ -> 是的，不允许。
 
 ---
 

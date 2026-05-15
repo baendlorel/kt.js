@@ -199,6 +199,103 @@ throw a;                 // throw 语句？
 2、jsx表达式中的场景，如`<div>{a + b}</div>`
 
 其余都不是。
+
+**追问2**：数组中的 ref 如何处理？
+
+Q6 追问1 确认了对象字面量存储初始值（`let obj = { value: a }` → `let obj = { value: 1 }`）。
+
+那么数组呢？
+
+```ts
+ref: let a = 1;
+ref: let b = 2;
+let arr = [a, b];  // 转换为什么？
+
+A. [1, 2]          // 存储初始值
+B. [ref(1), ref(2)] // 存储 ref 对象
+C. 其他？
+
+// 如果 a 改变，arr 会变吗？
+a = 3;
+console.log(arr[0]);  // 1 还是 3？
+```
+
+**回答2**：
+`let arr = [a, b];` 
+转换为`let arr = [a.value,b.value];`
+arr在创建之后便与a再无瓜葛。
+
+另外，如果是`computed: let arr = [a, b];`，则转换为`computed(() => [a.value, b.value], [a, b])`，这种情况下arr会随着a和b的变化而变化。
+
+
+**追问3**：函数参数中的 ref 如何处理？
+
+你说"非 JSX，所以不转换"，那函数参数 `someFunc(a)` 呢？
+
+```ts
+ref: let a = 1;
+ref: let b = 2;
+
+// 场景 A：直接传递 ref
+someFunc(a);  // 转换为 someFunc(a.value) 还是 someFunc(a)？
+
+// 场景 B：作为对象属性传递
+someFunc({ value: a });  // 转换为 someFunc({ value: a.value }) 吗？
+
+// 场景 C：解构传递
+someFunc({ a });  // 转换为 someFunc({ a: a.value }) 吗？
+
+// 场景 D：数组传递
+someFunc([a, b]);  // 转换为 someFunc([a.value, b.value]) 吗？
+
+// 场景 E：模板字符串
+someFunc(`value: ${a}`);  // 转换为 someFunc(`value: ${a.value}`) 吗？
+```
+
+**回答3**：
+全部都转换为a.value带入。
+即
+someFunc(a.value);
+someFunc({ value: a.value });
+someFunc({ a: a.value });
+someFunc([a.value, b.value]);
+someFunc(`value: ${a.value}`);
+
+
+**追问4**：return 和 throw 语句中的 ref 如何处理？
+
+```ts
+ref: let a = 1;
+ref: let b = 2;
+
+// 场景 A：return 语句
+function foo() {
+  ref: let a = 1;
+  return a;  // 转换为 return a.value 吗？
+}
+
+// 场景 B：throw 语句
+function bar() {
+  ref: let err = new Error('test');
+  throw err;  // 转换为 throw err.value 吗？
+}
+
+// 场景 C：return 表达式
+function baz() {
+  ref: let a = 1;
+  ref: let b = 2;
+  return a + b;  // 转换为 return a.value + b.value 吗？
+}
+```
+
+**回答4**：
+A: 转换；
+B：不转换；
+C: 要转换，转换为`return a.value + b.value`。
+
+你提醒了我，由此产生**新规则**：
+如果要让function返回的数据保持ref对象，则需要在function前面加上js label `ref`，即`ref:function foo(){...}`或者computed。
+
 ---
 
 ## computed 初始化表达式
@@ -727,6 +824,32 @@ const foo = () => {
 
 **回答2**：
 你说的对，这种情况现在允许了。
+
+**追问3**：箭头函数内表达式的转换规则？
+
+既然箭头函数允许了，那么箭头函数内的表达式如何转换？
+
+```ts
+// 场景 A：箭头函数内使用 ref
+ref: let a = 1;
+const foo = () => {
+  console.log(a);  // 转换为 console.log(a.value) 吗？
+  return a + 1;    // 转换为 return a.value + 1 吗？
+};
+
+// 场景 B：作为参数的箭头函数
+ref: let arr = [1, 2, 3];
+const doubled = arr.map(x => x * 2);  // x 是普通变量还是需要处理？
+```
+
+转换规则是：
+- A. 箭头函数内的所有 `a` 都转换为 `a.value`？
+- B. 只有在特定位置（如 console.log、return）才转换？
+- C. 需要表达式分析来决定？
+
+**回答3**：
+场景A：你说得对；
+场景B：x是普通变量，无需处理。
 
 ---
 

@@ -296,6 +296,109 @@ C: 要转换，转换为`return a.value + b.value`。
 你提醒了我，由此产生**新规则**：
 如果要让function返回的数据保持ref对象，则需要在function前面加上js label `ref`，即`ref:function foo(){...}`或者computed。
 
+**追问5**：`ref:function` 和 `computed:function` 的具体行为？
+
+这个新规则很有意思！请详细说明：
+
+```ts
+// 场景 A：ref:function
+ref: let a = 1;
+ref:function foo() {
+  return a;  // 返回 ref 对象 a 还是 a.value？
+}
+
+const result = foo();  // result 是 KTRef<number> 还是 number？
+result = 2;            // 如何处理？
+
+// 场景 B：computed:function
+ref: let a = 1;
+computed:function bar() {
+  return a + 1;  // 返回新的 computed？
+}
+
+const result = bar();  // result 是什么类型？
+
+// 场景 C：无标签的 function
+ref: let a = 1;
+function baz() {
+  return a;  // 返回 a.value
+}
+
+const result = baz();  // result 是 number
+```
+
+具体转换规则是什么？
+
+**回答5**：
+
+```ts
+// 场景 A：ref:function
+ref: let a = 1;
+ref:function foo() {
+  return a;  // 返回作为ref对象的a。
+}
+
+const result = foo();  // result 在编译后才是响应式对象，现在是被“标记了”
+result = 2;            // 转化为result.value = 2;
+
+// 场景 B：computed:function
+ref: let a = 1;
+computed:function bar() {
+  return a + 1;  // 返回新的 computed？ 是的。
+}
+
+const result = bar();  // result 是一个被标记为computed的值。
+
+// 场景 C：无标签的 function
+ref: let a = 1;
+function baz() {
+  return a;  // 返回 a.value
+}
+
+const result = baz();  // result 是 number
+```
+
+另外，你还有一种情况未考虑：
+```tsx
+ref:function foo() {
+  return a; 
+}
+
+ref : let a = foo(); // 这里的a才能正确接收foo返回的ref对象
+let a = foo(); // 这里的a只会接收foo().value
+
+```
+也就是说，foo如果作为一个reactive对象的工厂，那么在定义等于它的变量的时候，
+也要写上相同的标签才行。
+
+
+**追问6**：throw 不转换但 return 转换的原因是什么？
+
+你说：
+- `return a;` → 转换为 `return a.value;`
+- `throw err;` → 不转换，保持 `throw err;`
+
+这个规则的原因是什么？
+
+```ts
+ref: let err = new Error('test');
+throw err;  // 为什么不转换为 throw err.value？
+
+// vs
+
+ref: let a = 1;
+return a;  // 转换为 return a.value;
+```
+
+是因为：
+- A. Error 对象应该保持为 ref，方便后续处理？
+- B. throw 和 return 的语义不同？
+- C. 其他原因？
+
+**回答6**：
+你说得对，其实应该throw也是转坏为o.value更好，按你说的。
+
+
 ---
 
 ## computed 初始化表达式
@@ -453,6 +556,54 @@ subref: let sa = state.a;
 **回答**：
 A
 
+**追问1**：subref 的嵌套路径如何处理？
+
+```ts
+ref: let state = {
+  user: {
+    name: 'kt',
+    age: 18
+  }
+};
+
+// 单层 subref
+subref: let name = state.user.name;
+// 转换为 state.subref('user', 'name') 还是 state.user.subref('name')？
+
+// 多层 subref
+subref: let user = state.user;
+// 转换为 state.subref('user') 吗？
+
+// 访问嵌套属性
+subref: let age = user.age;
+// user 本身是 subref，如何处理？
+```
+
+**回答1**：
+两个原则：
+1、`subref: let name = state.user.name;`转换为 `state.subref('user', 'name')`
+2、不支持已经是subref的再次subref，要报错；
+
+**追问2**：subref 在 computed 中的使用？
+
+```ts
+ref: let state = { a: 1, b: 2 };
+subref: let sa = state.a;
+
+computed: let x = sa + 1;
+// sa 是 subref，如何处理？
+// 转换为 computed(() => sa.value + 1, [sa]) 吗？
+
+// vs
+
+ref: let state = { a: 1, b: 2 };
+computed: let x = state.a + 1;
+// 这里是 state.value.a + 1
+```
+
+**回答2**：
+subref的功能、api和ref基本相同，都可以称为computed的依赖；
+
 ---
 
 ### 13. JSX 中直接使用 vs 表达式
@@ -530,13 +681,45 @@ computed: let c = arr.map(x => x + 1);  // arr 是 ref，但 x 是普通变量
 场景D：
 ```tsx
 ref: let arr = [1,2,3];
-computed: let c = arr.map(x => x + 1) 
+computed: let c = arr.map(x => x + 1)
 ```
 会编译成：
 ```tsx
 const arr = ref([1,2,3]);
 const c = computed(() => arr.value.map(x => x + 1), [arr]);
 ```
+
+**追问4**：复杂表达式中的变量如何判断是否为 ref？
+
+在场景 D 中，你说 `x` 是普通变量，无需处理。但编译器如何判断？
+
+```ts
+// 场景 A：map 回调参数
+ref: let arr = [1, 2, 3];
+computed: let c = arr.map(x => x + 1);
+// x 是 map 回调的参数，编译器知道它不是 ref
+
+// 场景 B：使用外层变量
+ref: let multiplier = 2;
+computed: let d = arr.map(x => x * multiplier);
+// multiplier 是外层定义的 ref，需要 .value
+
+// 场景 C：嵌套函数
+ref: let fn = (x: number) => x + 1;
+computed: let e = arr.map(x => fn(x));
+// fn 是外层定义的 ref，需要 .value 吗？
+
+// 场景 D：对象解构
+computed: let f = arr.map(({ 0: first }) => first);
+// first 是解构出来的，不是 ref
+```
+
+编译器如何区分这些情况？
+
+**回答4**：
+A、B你说得对；
+C：需要；
+D：嗯，解构不算ref。解构本来就具有破坏性。
 
 ---
 
@@ -618,6 +801,38 @@ computed: let c = a + b;  // 如何知道 a 是 ref？
 不知道，因为我对编译器不了解，编译器都是AI写的。
 但我有一个不成熟的想法是：首先在编译的时候就把所有文件里导出了什么reactive变量都记录下来；
 
+
+**追问2**：导入的 ref 变量识别 - 实现方案确认？
+
+你的想法是在编译时记录所有文件导出的 reactive 变量。这是可行的方案。
+
+那么实现方式是：
+
+```ts
+// file1.ts
+export ref: let a = 1;
+export ref: let b = 2;
+
+// file2.ts
+import { a, b } from './file1';
+ref: let c = 3;
+computed: let d = a + b + c;  // 如何识别 a, b 是 ref？
+```
+
+编译器：
+1. 扫描 file1.ts，发现 `export ref: let a = 1;`，记录 `a` 是 ref
+2. 扫描 file2.ts，看到 `import { a, b } from './file1'`，结合记录知道 a, b 是 ref
+3. 处理 `computed: let d = a + b + c;` 时，知道 a, b 是 ref，c 不是
+
+这样理解对吗？还需要导出时加特殊标记吗（如 `export reactive a`）？
+
+**回答2**：
+是的，标记+export谁+import谁的搜索方法是对的。
+但是，`export ref: let b = 2;`本身不符合语法。只能写：
+```tsx
+ref: let b = 2;
+export {b}
+```
 
 ---
 

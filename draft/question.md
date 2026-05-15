@@ -121,6 +121,27 @@ function bar() {
 }
 ```
 
+**追问2**：console.log 的具体转换方式是什么？
+
+你说 `console.log(a + b)` 会"生成 computed"，具体转换结果是什么？
+
+A. `console.log(computed_value.value)`，其中 computed_value 是预先定义的？
+```ts
+const _computed_1 = computed(() => a.value + b.value, [a, b]);
+console.log(_computed_1.value);
+```
+
+B. `console.log(a.value + b.value)`，直接内联计算？
+```ts
+console.log(a.value + b.value);
+```
+
+C. 其他方式？
+
+**回答2**：
+不好意思，我搞错了，这种情况下，`console.log(a + b)`
+转化为`console.log(a.value + b.value)`
+
 ---
 
 ### 6. 对象字面量中的 ref
@@ -137,7 +158,28 @@ let obj = { value: a };  // 如何处理？
 就保持原样，不做任何处理。
 所以，`let obj = { value: a }`其实是`let obj = { value: 1 }`因为a初始值是1
 
-**追问1**：如何判断是否在"响应式场景"？这些是响应式场景吗？
+**追问1**：对象字面量中的 ref 是"保持原样"还是"取初始值"？
+
+你的回答提到 `let obj = { value: a }` 其实是 `let obj = { value: 1 }`，这似乎是取
+了 a 的初始值。
+
+但如果 a 的值后来改变了，obj 里的 value 会变化吗？
+
+```ts
+ref: let a = 1;
+let obj = { value: a };  // 这个时刻 a = 1
+a = 2;                   // a 变成 2
+console.log(obj.value);  // 输出 1 还是 2？
+```
+
+A. 输出 1（obj 存储的是 a 的初始值，与 ref 无关）
+B. 输出 2（obj 存储的是 ref 对象 a，取值时自动解包）
+C. 其他？
+
+**回答1**：
+A
+
+**追问2**：如何判断是否在"响应式场景"？这些是响应式场景吗？
 
 ```ts
 ref: let a = 1;
@@ -259,6 +301,28 @@ for (let i = 0; i < 3; i++) {
 
 场景C：每次循环都是新的，相当于const x=ref(i)
 
+**追问2**：场景B 中的 `console.log(x.value)` 是编译时转换还是运行时行为？
+
+如果是编译时转换，那么 `() => console.log(x)` 会变成 `() => console.log(x.value)`？
+如果是运行时行为，是指 kt.js 的 core 包会自动处理 `x` 的输出？
+
+```ts
+// 场景 B 代码
+for (let i = 0; i < 3; i++) {
+  ref: let x = i;
+  document.getElementById(`btn-${i}`).onclick = () => console.log(x);
+}
+
+// 编译后是这样吗？
+for (let i = 0; i < 3; i++) {
+  const x = ref(i);
+  document.getElementById(`btn-${i}`).onclick = () => console.log(x.value);
+}
+```
+
+**回答2**：
+是编译时转换。是的
+
 ---
 
 ### 11. 解构和类型注解
@@ -330,6 +394,53 @@ Q15 中表达式是 `a + b`，依赖是 `[a, b]`：
 这里的a+b可以往上搜索到`ref:let a = 1;` 或者是其他的`computed:let b = a+1`这样的地方，
 就可以知道a和b是否为ref了；
 
+**追问3**：如何"往上搜索"判断 ref？跨作用域如何处理？
+
+你说"往上搜索"来判断是否为 ref，这个搜索的范围是什么？
+
+```ts
+// 场景 A：同作用域
+ref: let a = 1;
+computed: let c = a + b;  // 搜索到 a 是 ref，b 不是
+
+// 场景 B：跨作用域
+function outer() {
+  ref: let a = 1;
+  function inner() {
+    computed: let c = a + b;  // 能搜索到外层的 a 吗？
+  }
+}
+
+// 场景 C：跨文件
+// file1.ts
+export ref: let a = 1;
+
+// file2.ts
+import { a } from './file1';
+computed: let c = a + b;  // 能识别导入的 a 是 ref 吗？
+
+// 场景 D：复杂表达式
+computed: let c = arr.map(x => x + 1);  // arr 是 ref，但 x 是普通变量
+```
+
+搜索规则是：
+- A. 只搜索当前作用域（块级/函数级）？
+- B. 搜索整个作用域链？
+- C. 需要类型信息辅助？
+
+**回答3**：
+需要搜索整个作用域链；
+场景D：
+```tsx
+ref: let arr = [1,2,3];
+computed: let c = arr.map(x => x + 1) 
+```
+会编译成：
+```tsx
+const arr = ref([1,2,3]);
+const c = computed(() => arr.value.map(x => x + 1), [arr]);
+```
+
 ---
 
 ### 14. 嵌套 JSX 表达式
@@ -386,6 +497,30 @@ computed: let c = a + b;
 **回答**：
 1、通过js label来区分，被js label `ref:`标记的变量就是ref对象，其他的就是普通变量。
 2、`computed(() => a.value + b, [a])`是正确的。
+
+**追问1**：导入的 ref 变量如何识别？
+
+如果 ref 变量是从其他文件导入的，如何识别？
+
+```ts
+// file1.ts
+export ref: let a = 1;
+
+// file2.ts
+import { a } from './file1';
+ref: let b = 2;
+computed: let c = a + b;  // 如何知道 a 是 ref？
+```
+
+是通过：
+- A. 导入声明时的特殊标记（如 `import { a as ref } from './file1'`）？
+- B. 类型信息推断（a 的类型是 KTRef）？
+- C. 其他机制？
+
+**回答1**：
+不知道，因为我对编译器不了解，编译器都是AI写的。
+但我有一个不成熟的想法是：首先在编译的时候就把所有文件里导出了什么reactive变量都记录下来；
+
 
 ---
 
@@ -566,6 +701,32 @@ class Foo { ref: let a = 1; }         // 类成员
 **回答1**：
 1、这些允许吗？ -> 把它们都转化为const a = ref(1);，如果转换后有语法错误，那么说明不行；
 2、这些不允许吗？ -> 是的，不允许。
+
+**追问2**：箭头函数体的处理？
+
+你把 `() => { ref: let a = 1; }` 归入"不允许"，但箭头函数体转换为 `() => { const a = ref(1); }` 是合法的 JavaScript 语法，为什么不允许？
+
+是因为：
+- A. 技术上可以实现，但为了简化暂时不支持？
+- B. 有其他原因（如作用域复杂度）？
+- C. 其他？
+
+```ts
+// 这个可以吗？
+const foo = () => {
+  ref: let a = 1;
+  return a + 1;
+};
+
+// 转换为
+const foo = () => {
+  const a = ref(1);
+  return a.value + 1;
+};
+```
+
+**回答2**：
+你说的对，这种情况现在允许了。
 
 ---
 

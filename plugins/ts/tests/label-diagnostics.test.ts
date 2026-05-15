@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import ts from 'typescript/lib/tsserverlibrary';
 
 import init from '../src/index.js';
-import { DIAGNOSTIC_LABEL_NOT_ALLOWED } from '../src/constants.js';
+import { DIAGNOSTIC_LABEL_NOT_ALLOWED, DIAGNOSTIC_UNUSED_LABEL } from '../src/constants.js';
 
 interface InMemoryFile {
   text: string;
@@ -14,6 +14,7 @@ function createLanguageService(fileName: string, code: string): ts.LanguageServi
   const compilerOptions: ts.CompilerOptions = {
     allowJs: true,
     checkJs: true,
+    allowUnusedLabels: false,
     jsx: ts.JsxEmit.Preserve,
     target: ts.ScriptTarget.ESNext,
     module: ts.ModuleKind.ESNext,
@@ -61,31 +62,64 @@ function getPluginDiagnostics(code: string): ts.Diagnostic[] {
   return proxy.getSemanticDiagnostics(fileName);
 }
 
+function getLabelDiagnostics(code: string): ts.Diagnostic[] {
+  return getPluginDiagnostics(code).filter(
+    (diagnostic) => diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED || diagnostic.code === DIAGNOSTIC_UNUSED_LABEL,
+  );
+}
+
 describe('ts plugin js label diagnostics', () => {
-  it('suppresses ts1344 for labels followed by declarations', () => {
-    const diagnostics = getPluginDiagnostics(`
-      constLabel:
+  it('suppresses ts1344 and ts7028 for kt labels followed by a single variable declaration', () => {
+    const diagnostics = getLabelDiagnostics(`
+      ref:
       const value = 1;
 
-      classLabel:
+      computed:
+      let doubled = value * 2;
+
+      subref:
+      var child = { value };
+    `);
+
+    expect(diagnostics).toHaveLength(0);
+  });
+
+  it('keeps label diagnostics for non-kt labels', () => {
+    const diagnostics = getLabelDiagnostics(`
+      other:
+      const value = 1;
+    `);
+
+    expect(diagnostics.map((diagnostic) => diagnostic.code).sort()).toEqual([
+      DIAGNOSTIC_LABEL_NOT_ALLOWED,
+      DIAGNOSTIC_UNUSED_LABEL,
+    ]);
+  });
+
+  it('keeps label diagnostics for kt labels followed by multiple variable declarations', () => {
+    const diagnostics = getLabelDiagnostics(`
+      ref:
+      const first = 1, second = 2;
+    `);
+
+    expect(diagnostics.map((diagnostic) => diagnostic.code).sort()).toEqual([
+      DIAGNOSTIC_LABEL_NOT_ALLOWED,
+      DIAGNOSTIC_UNUSED_LABEL,
+    ]);
+  });
+
+  it('keeps label diagnostics for kt labels not followed by variable declarations', () => {
+    const diagnostics = getLabelDiagnostics(`
+      ref:
       class Box {}
 
-      functionLabel:
+      computed:
       function read() {
-        return value;
+        return 1;
       }
     `);
 
-    expect(diagnostics.filter((diagnostic) => diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED)).toHaveLength(0);
-  });
-
-  it('suppresses nested labels followed by declarations', () => {
-    const diagnostics = getPluginDiagnostics(`
-      outerLabel:
-      innerLabel:
-      let value = 1;
-    `);
-
-    expect(diagnostics.filter((diagnostic) => diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED)).toHaveLength(0);
+    expect(diagnostics.filter((diagnostic) => diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED)).toHaveLength(2);
+    expect(diagnostics.filter((diagnostic) => diagnostic.code === DIAGNOSTIC_UNUSED_LABEL)).toHaveLength(2);
   });
 });

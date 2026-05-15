@@ -7,7 +7,12 @@ import {
   getMemberCompletionContext,
   mergeCompletionInfo,
 } from './completion';
-import { DIAGNOSTIC_CANNOT_FIND_NAME, DIAGNOSTIC_LABEL_NOT_ALLOWED, DIAGNOSTIC_UNUSED_LOCAL } from './constants';
+import {
+  DIAGNOSTIC_CANNOT_FIND_NAME,
+  DIAGNOSTIC_LABEL_NOT_ALLOWED,
+  DIAGNOSTIC_UNUSED_LABEL,
+  DIAGNOSTIC_UNUSED_LOCAL,
+} from './constants';
 import { isJsxLikeFile, resolveConfig } from './config';
 import { getDraftEscapeDiagnostics } from './draft-diagnostics';
 import { isValidIdentifier } from './identifiers';
@@ -59,8 +64,8 @@ function init(modules: { typescript: typeof tsModule }) {
         }
 
         if (
-          diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED &&
-          isLabelFollowedByDeclaration(sourceFile, diagnostic.start, diagnostic.length, ts)
+          (diagnostic.code === DIAGNOSTIC_LABEL_NOT_ALLOWED || diagnostic.code === DIAGNOSTIC_UNUSED_LABEL) &&
+          isAllowedLabelSingleVariableDeclaration(sourceFile, diagnostic.start, diagnostic.length, ts)
         ) {
           return false;
         }
@@ -433,7 +438,7 @@ function isSuppressedByKIfNarrowing(
   return false;
 }
 
-function isLabelFollowedByDeclaration(
+function isAllowedLabelSingleVariableDeclaration(
   sourceFile: tsModule.SourceFile,
   start: number,
   length: number,
@@ -444,16 +449,18 @@ function isLabelFollowedByDeclaration(
     return false;
   }
 
-  let statement = node.parent as tsModule.LabeledStatement;
-  if (!statement || !ts.isLabeledStatement(statement) || statement.label !== node) {
+  const statement = node.parent as tsModule.LabeledStatement;
+  if (
+    !statement ||
+    !ts.isLabeledStatement(statement) ||
+    statement.label !== node ||
+    (node.text !== 'ref' && node.text !== 'computed' && node.text !== 'subref') ||
+    !ts.isVariableStatement(statement.statement)
+  ) {
     return false;
   }
 
-  while (ts.isLabeledStatement(statement.statement)) {
-    statement = statement.statement;
-  }
-
-  return ts.isVariableStatement(statement.statement) || ts.isDeclarationStatement(statement.statement);
+  return statement.statement.declarationList.declarations.length === 1;
 }
 
 function hasDiagnosticSpan(

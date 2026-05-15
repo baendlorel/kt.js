@@ -251,3 +251,14 @@ const ssss = bindParams(sss, 'a');
 ---
 
 现在ref的读写已经改回了value/draft。value适合所有读取和简单的全覆盖写，而draft适合深层响应的写，不支持全覆盖写
+
+---
+
+plugins/ts子包已经实现了压制js label后面跟随声明语句会报错ts1344的功能。
+现在我希望进一步压制`未使用的标签。ts(7028)`这个报错，同时强化压制ts1344的规则。
+
+ts7028和ts1344报错都将被压制，如果同时满足如下条件：
+1、js label名称是ref\computed\subref
+2、js label后面跟的是声明变量的语句，且只声明了一个变量，不压制有逗号声明多个变量的情况；
+
+

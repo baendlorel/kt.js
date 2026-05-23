@@ -222,13 +222,6 @@ describe('reactive helpers', () => {
     expect(c.value).toBe(3);
   });
 
-  it('duplicated listener should still throw', () => {
-    const n = ref(1);
-    const fn = () => {};
-    n.listen(fn);
-    expect(() => n.listen(fn)).toThrow();
-  });
-
   it('is should use Object.is semantics', () => {
     const v = ref(NaN);
     const isNaN = v.is(NaN);

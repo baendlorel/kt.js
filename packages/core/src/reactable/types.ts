@@ -1,6 +1,9 @@
 import type { KTReactive } from './reactive.js';
 
 export type ChangeListener<T> = (newValue: T, oldValue: T) => void;
+export interface KTListenOptions {
+  owner?: Node;
+}
 
 export type Dereactive<T> = T extends KTReactive<infer U> ? U : T;
 

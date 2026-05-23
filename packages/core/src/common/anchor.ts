@@ -1,6 +1,7 @@
 import type { JSX } from '../types/jsx.js';
 import type { PrimaryContent } from '../types/h.js';
 import type { Satisfied } from '../types/type-utils.js';
+import { disposeOwnedSubtree } from './owner.js';
 
 export const enum AType {
   Null = 'kt-null',
@@ -35,6 +36,7 @@ export abstract class KTAnchor extends Comment {
    */
   remove(): void {
     this._remove.call(this);
+    disposeOwnedSubtree(this);
     rm.call(this);
   }
 }

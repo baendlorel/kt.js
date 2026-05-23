@@ -3,6 +3,7 @@ import type { KTReactive } from '../reactable/reactive.js';
 
 import { $isNull, $isArray } from '@ktjs/shared';
 import { isAppendable, _node, AType, KTAnchor } from '../common/anchor.js';
+import { disposeOwnedSubtree, markOwnerMounted } from '../common/owner.js';
 import { isKT } from '../reactable/common.js';
 import { static_cast } from 'type-narrow';
 
@@ -49,12 +50,13 @@ class KTContentAnchor extends KTAnchor {
       if (this.parentNode) {
         this._insertTo.call(this, this.parentNode);
       }
-    });
+    }, { owner: this });
   }
 
   _insertOneTo(parent: Node): void {
     if (this._current !== this) {
       parent.insertBefore(this._current as Node, this);
+      markOwnerMounted(this._current as Node);
     }
   }
 
@@ -63,12 +65,14 @@ class KTContentAnchor extends KTAnchor {
       static_cast<Node[]>(this._current);
       for (let i = 0; i < this._current.length; i++) {
         parent.insertBefore(this._current[i], this);
+        markOwnerMounted(this._current[i]);
       }
     }
   }
 
   _removeOne(): void {
     if (this._current !== this) {
+      disposeOwnedSubtree(this._current as Node);
       (this._current as ChildNode).remove();
     }
   }
@@ -76,12 +80,14 @@ class KTContentAnchor extends KTAnchor {
   _removeArray(): void {
     static_cast<ChildNode[]>(this._current);
     for (let i = 0; i < this._current.length; i++) {
+      disposeOwnedSubtree(this._current[i]);
       this._current[i].remove();
     }
   }
 
   _appendTo(parent: Node): this {
     parent.appendChild(this);
+    markOwnerMounted(this);
     this._insertTo.call(this, parent);
     return this;
   }

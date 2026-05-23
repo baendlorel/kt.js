@@ -1,7 +1,9 @@
-export {};
+import { markOwnerMounted } from './owner.js';
 
 Node.prototype._appendTo = function (this: Node, parent: Node) {
-  return parent.appendChild(this);
+  const result = parent.appendChild(this);
+  markOwnerMounted(this);
+  return result;
 };
 
 declare global {

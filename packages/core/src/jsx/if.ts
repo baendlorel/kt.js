@@ -7,6 +7,7 @@ import { h } from '../h/index.js';
 import { isKT, type KTReactive } from '../reactable/index.js';
 import { jsxh } from './common.js';
 import { AType, KTAnchor } from '../common/anchor.js';
+import { disposeOwnedSubtree, markOwnerMounted } from '../common/owner.js';
 
 type PropGetter = () => KTAttribute;
 
@@ -37,20 +38,30 @@ export class KTIfAnchor extends KTAnchor {
     cond.listen((v) => {
       const old = this._current;
       this._current = v ? this._if() : this._else();
+      if (old !== this) {
+        disposeOwnedSubtree(old);
+      }
       (old as ChildNode).replaceWith(this._current);
-    });
+      markOwnerMounted(this._current);
+    }, { owner: this });
   }
 
   _appendTo(parent: Element): this {
     this._current = this._condition.value ? this._if() : this._else();
     if (this._current !== this) {
       this._current._appendTo(parent);
+      markOwnerMounted(this._current);
     }
-    return parent.appendChild(this);
+    const result = parent.appendChild(this);
+    markOwnerMounted(this);
+    return result;
   }
 
   _remove(): void {
-    this.remove();
+    if (this._current !== this) {
+      disposeOwnedSubtree(this._current);
+      (this._current as ChildNode).remove();
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import { $identity, $isNull } from '@ktjs/shared';
 import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable } from '../h/content.js';
 import { isKT } from '../reactable/common.js';
+import { disposeOwnedSubtree, markOwnerMounted } from '../common/owner.js';
 
 type KTForList<TList extends readonly unknown[]> = TList | KTReactive<TList>;
 
@@ -37,7 +38,7 @@ export class KTForAnchor<TList extends readonly unknown[]> extends KTAnchor {
         if (this.parentNode) {
           this._insertTo(this.parentNode as Element);
         }
-      });
+      }, { owner: this });
     } else {
       this._load(list, key, map);
     }
@@ -46,16 +47,20 @@ export class KTForAnchor<TList extends readonly unknown[]> extends KTAnchor {
   _insertTo(parent: Element): void {
     for (let i = 0; i < this._current.length; i++) {
       this._current[i]._appendTo(parent);
+      markOwnerMounted(this._current[i]);
     }
   }
 
   _appendTo(parent: Element): this {
     this._insertTo(parent);
-    return parent.appendChild(this);
+    const result = parent.appendChild(this);
+    markOwnerMounted(this);
+    return result;
   }
 
   _remove(): void {
     for (let i = 0; i < this._current.length; i++) {
+      disposeOwnedSubtree(this._current[i]);
       (this._current[i] as ChildNode).remove();
     }
   }

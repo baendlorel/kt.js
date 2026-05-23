@@ -1,10 +1,12 @@
 import type { KTReactive } from './reactive.js';
 import { $emptyFn } from '@ktjs/shared';
+import { isOwnerDead, own } from '../common/owner.js';
 
 interface KTEffectOptions {
   lazy: boolean;
   onCleanup: () => void;
   debugName: string;
+  owner: Node;
 }
 
 /**
@@ -15,12 +17,12 @@ interface KTEffectOptions {
  * @returns stop function to remove all listeners
  */
 export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, options?: Partial<KTEffectOptions>) {
-  const { lazy = false, onCleanup = $emptyFn, debugName = '' } = Object(options);
+  const { lazy = false, onCleanup = $emptyFn, debugName = '', owner } = Object(options);
 
   let active = true;
 
   const run = () => {
-    if (!active) {
+    if (!active || (owner && isOwnerDead(owner))) {
       return;
     }
 
@@ -36,7 +38,7 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
 
   // subscribe to dependencies
   for (let i = 0; i < reactives.length; i++) {
-    reactives[i].listen(run);
+    reactives[i].listen(run, owner ? { owner } : undefined);
   }
 
   // auto run unless lazy
@@ -45,7 +47,7 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
   }
 
   // stop function
-  return () => {
+  const stop = () => {
     if (!active) {
       return;
     }
@@ -58,4 +60,10 @@ export function effect(effectFn: () => void, reactives: Array<KTReactive<any>>, 
     // final cleanup
     onCleanup();
   };
+
+  if (owner) {
+    own(owner, stop);
+  }
+
+  return stop;
 }

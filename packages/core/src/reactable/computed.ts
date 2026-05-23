@@ -1,5 +1,6 @@
 import { $deepMatch, $is } from '@ktjs/shared';
 import { KTReactive, KType } from './reactive.js';
+import type { ChangeListener } from './types.js';
 import { $createSubGetter, isReactive } from './common.js';
 
 export class KTComputed<T> extends KTReactive<T> {
@@ -32,6 +33,14 @@ export class KTComputed<T> extends KTReactive<T> {
 
   notify(): this {
     return this._recalculate(true);
+  }
+
+  unlisten(listener: ChangeListener<T>): this {
+    super.unlisten(listener);
+    if (this._listeners.size === 0) {
+      this.dispose();
+    }
+    return this;
   }
 
   dispose(): void {

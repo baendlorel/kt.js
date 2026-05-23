@@ -1,5 +1,6 @@
 import type { KTComputed } from './computed.js';
-import { type ChangeListener } from './types.js';
+import { type ChangeListener, type KTListenOptions } from './types.js';
+import { isOwnerDead, own, unown } from '../common/owner.js';
 
 export const enum KType {
   Ref /*--------*/ = 1 << 1,
@@ -24,8 +25,8 @@ export abstract class KTReactive<T> {
    */
   _value: T;
 
-  // TODO 用isConnected去判定并清理
-  readonly _listeners = new Set<ChangeListener<any>>();
+  private readonly _ownedCleanups = new Map<ChangeListener<any>, () => void>();
+  readonly _listeners = new Map<ChangeListener<any>, Node | undefined>();
 
   constructor(value: T) {
     this._value = value;
@@ -40,25 +41,45 @@ export abstract class KTReactive<T> {
   }
 
   protected _emit(newValue: T, oldValue: T): this {
-    this._listeners.forEach((f) => f(newValue, oldValue));
+    this._listeners.forEach((owner, f) => {
+      if (owner && isOwnerDead(owner)) {
+        this.unlisten(f);
+        return;
+      }
+      f(newValue, oldValue);
+    });
     return this;
   }
 
-  listen(listener: ChangeListener<T>): this {
+  listen(listener: ChangeListener<T>, options?: KTListenOptions | Node): this {
     if (this._listeners.has(listener)) {
       $warn(`Overriding existing change handler with ${listener.toString()}.`);
       return this;
     }
-    this._listeners.add(listener);
+    const owner =
+      typeof Node !== 'undefined' && options instanceof Node ? options : (options as KTListenOptions | undefined)?.owner;
+    this._listeners.set(listener, owner);
+    if (owner) {
+      const cleanup = () => this.unlisten(listener);
+      this._ownedCleanups.set(listener, cleanup);
+      own(owner, cleanup);
+    }
     return this;
   }
 
   unlisten(listener: ChangeListener<T>): this {
+    const owner = this._listeners.get(listener);
     this._listeners.delete(listener);
+    const cleanup = this._ownedCleanups.get(listener);
+    if (owner && cleanup) {
+      unown(owner, cleanup);
+      this._ownedCleanups.delete(listener);
+    }
     return this;
   }
 
   unlistenAll(): this {
+    this._ownedCleanups.clear();
     this._listeners.clear();
     return this;
   }

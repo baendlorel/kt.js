@@ -251,3 +251,9 @@ const ssss = bindParams(sss, 'a');
 ---
 
 现在ref的读写已经改回了value/draft。value适合所有读取和简单的全覆盖写，而draft适合深层响应的写，不支持全覆盖写
+
+---
+
+就在刚才，发现了ktjs框架级别的灾难性bug。
+它对ref对象反复注册事件，已经不在页面上的元素，它的事件依然在被更上层的ref的listener所计算，导致左脚踩右脚统计数据越来越大。这是严重的问题。请你立刻用全局observer侦听机制配合`$indom`函数判定来做到最基础的生命周期管理。
+参考1：draft/example-component.log，这是今天发生bug的例子代码，其stat对象总是会计算valueRef所listen的所有已经不在页面的元素的情况，并反复计算，导致的现象是，切换输入模式的时候，stat.value.empty会越来越大。

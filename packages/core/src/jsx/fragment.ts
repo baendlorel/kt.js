@@ -6,6 +6,7 @@ import type { Satisfied } from '../types/type-utils.js';
 import { $refToSelf } from '../reactable/ref.js';
 import { AType, KTAnchor } from '../common/anchor.js';
 import { _toAppendable, append } from '../h/content.js';
+import { disposeOwnedSubtree, markOwnerMounted } from '../common/owner.js';
 
 export class KTFragmentAnchor extends KTAnchor {
   _current: SingleContent[] = [];
@@ -16,11 +17,14 @@ export class KTFragmentAnchor extends KTAnchor {
   }
 
   _appendTo(parent: Element): this {
-    return (append(parent, this._current), this);
+    append(parent, this._current);
+    markOwnerMounted(this);
+    return this;
   }
 
   _remove(): void {
     for (let i = 0; i < this._current.length; i++) {
+      disposeOwnedSubtree(this._current[i] as Node);
       (this._current[i] as ChildNode).remove();
     }
   }

@@ -1,4 +1,4 @@
-import type { ChangeListener } from './types.js';
+import type { ChangeListener, KTListenOptions } from './types.js';
 import type { KTComputed } from './computed.js';
 
 import { $is } from '@ktjs/shared';
@@ -114,6 +114,7 @@ export class KTSubRef<T> extends KTRef<T> {
   protected readonly _getter: (sv: KTReactive<any>['value']) => T;
   protected readonly _setter: (s: object, newValue: T) => void;
   protected readonly _listener: ChangeListener<any>;
+  protected readonly _listenerMap = new Map<ChangeListener<T>, ChangeListener<any>>();
 
   constructor(
     source: KTRef<any>,
@@ -144,13 +145,19 @@ export class KTSubRef<T> extends KTRef<T> {
     this.source.notify();
   }
 
-  listen(listener: ChangeListener<T>): this {
-    this.source.listen((newValue, oldValue) => listener(this._getter(newValue), this._getter(oldValue)));
+  listen(listener: ChangeListener<T>, options?: KTListenOptions | Node): this {
+    const sourceListener = (newValue: any, oldValue: any) => listener(this._getter(newValue), this._getter(oldValue));
+    this._listenerMap.set(listener, sourceListener);
+    this.source.listen(sourceListener, options);
     return this;
   }
 
   unlisten(listener: ChangeListener<T>): this {
-    this.source.unlisten(listener);
+    const sourceListener = this._listenerMap.get(listener);
+    if (sourceListener) {
+      this.source.unlisten(sourceListener);
+      this._listenerMap.delete(listener);
+    }
     return this;
   }
 

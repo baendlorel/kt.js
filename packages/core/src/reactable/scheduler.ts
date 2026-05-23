@@ -20,7 +20,7 @@ export const _markMutation = (reactive: KTRef<any>) => {
       scheduled = false;
       reactiveToOldValue.forEach((oldValue, reactive) => {
         try {
-          reactive._listeners.forEach((f) => f(reactive.value, oldValue));
+          reactive.notify();
         } catch (error) {
           $error('KTScheduler:', error);
         }

@@ -14,7 +14,7 @@ describe('core cleanup lifecycle', () => {
     container.remove();
   });
 
-  it.skip('should cleanup event listeners when conditional branches are replaced', async () => {
+  it('should cleanup event listeners when conditional branches are replaced', async () => {
     const visible = ref(true);
     const onClick = vi.fn();
     const node = KTIf(
@@ -25,7 +25,7 @@ describe('core cleanup lifecycle', () => {
       () => ({ children: 'else' }),
     ) as Node;
 
-    container.appendChild(node);
+    node._appendTo(container);
     const button = container.querySelector('button')!;
 
     visible.value = false;
@@ -35,7 +35,7 @@ describe('core cleanup lifecycle', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it.skip('should cleanup reactive attribute listeners when conditional branches are replaced', async () => {
+  it('should cleanup reactive attribute listeners when conditional branches are replaced', async () => {
     const visible = ref(true);
     const className = ref('before');
     const node = KTIf(
@@ -55,7 +55,7 @@ describe('core cleanup lifecycle', () => {
     expect(className._listeners.size).toBe(0);
   });
 
-  it.skip('should cleanup k-model bindings when a branch is removed', async () => {
+  it('should cleanup k-model bindings when a branch is removed', async () => {
     const visible = ref(true);
     const model = ref('hello');
     const node = KTIf(
@@ -78,8 +78,7 @@ describe('core cleanup lifecycle', () => {
     expect(model._listeners.size).toBe(0);
   });
 
-  // TEST 等清理机制完成后，这里的所有内容skip都要删掉
-  it.skip('should cleanup replaced reactive content nodes', async () => {
+  it('should cleanup replaced reactive content nodes', async () => {
     const onClick = vi.fn();
     const content = ref(h('button', { 'on:click': onClick }, 'before'));
     const host = h('div', {}, content);

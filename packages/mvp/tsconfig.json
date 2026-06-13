@@ -3,8 +3,8 @@
     // ! Need jsx runtime to run the test command
     "jsx": "react-jsx",
     "jsxImportSource": "@ktjs/core",
-    "rootDir": ".",
+    "rootDir": "..",
     "types": ["node", "../types/macros"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "../core/**/*"]
 }

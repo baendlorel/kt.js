@@ -13,6 +13,11 @@ declare module '*.png' {
   export default src;
 }
 
+declare module '*.txt?raw' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.ts?raw' {
   const src: string;
   export default src;

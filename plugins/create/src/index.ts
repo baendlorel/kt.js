@@ -11,8 +11,8 @@ import projectReadme from './template/README.md?raw';
 import projectMainTsx from './template/src/main.tsx?raw';
 import projectStyleCss from './template/src/style.css?raw';
 import projectTsconfig from './template/tsconfig.json?raw';
-import projectViteIE11Config from './template/vite.ie11.config.ts?raw';
-import projectViteConfig from './template/vite.config.ts?raw';
+import projectViteIE11Config from './template/vite.ie11.config.txt?raw';
+import projectViteConfig from './template/vite.config.txt?raw';
 import icon from '../../../assets/ktjs-0.0.1.svg?raw';
 
 type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';

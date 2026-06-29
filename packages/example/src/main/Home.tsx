@@ -2,8 +2,8 @@ import { Code } from '../components/Code.js';
 
 import installCode from '../code/install.sh?raw';
 import tsconfigCode from '../code/tsconfig.example.json?raw';
-import viteConfigCode from '../code/plugin.vite.example.ts?raw';
-import babelConfigCode from '../code/plugin.babel.example.ts?raw';
+import viteConfigCode from '../code/plugin.vite.example.txt?raw';
+import babelConfigCode from '../code/plugin.babel.example.txt?raw';
 import { t } from '../i18n/index.js';
 /**
  * Home page - Introduction to KT.js framework

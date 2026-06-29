@@ -38,7 +38,9 @@
     "./packages/**/*.js",
     "./plugins/**/*.ts",
     "./plugins/**/*.tsx",
-    "./configs/**/*.ts"
+    "./configs/**/*.ts",
+    "plugins/create/src/template/vite.config.ts.template",
+    "plugins/create/src/template/vite.ie11.config.ts.template"
   ],
   "exclude": ["**/dist/**/*.js", "**/dist/**/*.d.ts"]
 }

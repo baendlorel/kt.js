@@ -10,7 +10,7 @@ export default defineConfig(() => {
 
   return {
     test: {
-      setupFiles: [path.join(import.meta.dirname, 'vitest.setup.ts')],
+      setupFiles: [path.join('configs', 'vitest.setup.ts')],
       environment: 'jsdom',
       // setupFiles: ['./src/macros.ts'],
       include: [path.join(dir, '**', '*.{test,spec,e2e-spec}.?(c|m)[jt]s?(x)')],

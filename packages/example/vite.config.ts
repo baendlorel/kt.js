@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 // import ktjsx from '@ktjs/vite-plugin-ktjsx';
 import ktjsx from '../../plugins/vite/src/index.js';
 import { getAliases } from '../../configs/vite-build/alias.js';
-import { globalDefines } from '../../configs/vite-build/replace.js';
+import { globalDefines } from '../../configs/replace.js';
 import { onceInjectComponent } from '../mui/vite.config.js';
 
 const inPackage = (id: string, pkg: string) => {

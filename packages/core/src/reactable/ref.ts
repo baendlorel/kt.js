@@ -6,6 +6,10 @@ import { $createSubGetter, $createSubSetter, isRef } from './common.js';
 import { KTReactive, KType, nextKid } from './reactive.js';
 import { _markMutation } from './scheduler.js';
 
+// TODO 生命周期最重要的，是元素离开dom后，要注销所有ref。
+// ?? 但如果是 const a = 元素1 const b = 元素2 两者都绑定了value变量，然后用k-if切换，结果切换两次绑定全都消失了怎么办
+// TODO 改为在被append的时候，同时也会注册关联对应元素的disposer。且要注册得够“近”。
+// TODO 当元素发生变化，无论是anchor切换还是什么变动，都要触发对应的disposer
 export class KTRef<T> extends KTReactive<T> {
   readonly ktype: KType = KType.Ref;
 

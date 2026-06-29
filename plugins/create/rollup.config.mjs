@@ -3,7 +3,7 @@ import path from 'node:path';
 import { rimraf } from 'rimraf';
 import typescript from '@rollup/plugin-typescript';
 
-const packagePath = process.env.CURRENT_PKG_PATH ?? import.meta.dirname;
+const packagePath = process.env.LIB_DIR ?? import.meta.dirname;
 const tsconfigPath = path.join(packagePath, 'tsconfig.json');
 const repoPath = path.resolve(packagePath, '..', '..');
 const RAW_QUERY = '?raw';
@@ -96,10 +96,7 @@ const injectKtjsDependencyVersionsPlugin = () => ({
     }
 
     return {
-      code: code.replace(
-        KTJS_DEPENDENCY_VERSION_TOKEN,
-        JSON.stringify(ktjsDependencyVersions),
-      ),
+      code: code.replace(KTJS_DEPENDENCY_VERSION_TOKEN, JSON.stringify(ktjsDependencyVersions)),
       map: null,
     };
   },

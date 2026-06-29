@@ -1,12 +1,12 @@
 import { defineConfig } from 'vitest/config';
 import path from 'node:path';
-import replace from '@rollup/plugin-replace';
+import { replace } from './configs/replace.js';
 
 const getDir = (name: string, file: string = 'index.ts') =>
   path.join(import.meta.dirname, 'packages', name, 'src', file);
 
 export default defineConfig(() => {
-  const dir = process.env.CURRENT_PKG_PATH!;
+  const dir = process.env.LIB_DIR!;
 
   return {
     test: {
@@ -22,11 +22,7 @@ export default defineConfig(() => {
       ],
       silent: false,
     },
-    plugins: [
-      replace({
-        'process.env.IS_DEV': JSON.stringify('true'),
-      }),
-    ],
+    plugins: [replace(dir)],
     resolve: {
       alias: [
         { find: 'kt.js/jsx-dev-runtime', replacement: getDir('core', 'jsx-runtime.ts') },

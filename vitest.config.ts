@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import path from 'node:path';
+import { dirs } from './common/consts.js';
 import { replace } from './configs/replace.js';
 
-const getDir = (name: string, file: string = 'index.ts') =>
-  path.join(import.meta.dirname, 'packages', name, 'src', file);
+const getDir = (name: string, file: string = 'index.ts') => dirs.root.join('packages', name, 'src', file);
 
 export default defineConfig(() => {
   const dir = process.env.LIB_DIR!;

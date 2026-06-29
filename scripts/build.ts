@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
+import { dirs } from '../common/consts.js';
 import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
 
 export function build(who: string | undefined) {
@@ -9,7 +10,7 @@ export function build(who: string | undefined) {
   group.forEach(buildWithInfo);
 }
 
-const config = import.meta.dirname.join('..', 'tsdown.config.ts');
+const config = dirs.root.join('tsdown.config.ts');
 const specialLibs = ['@ktjs/ts-plugin', void '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
 
 export function buildWithInfo(info: PackageInfo) {

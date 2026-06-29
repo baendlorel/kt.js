@@ -1,13 +1,14 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
+import { dirs } from '../common/consts.js';
+
 export function syncReadme(_who?: string) {
-  const rootPath = import.meta.dirname.join('..');
-  const rootReadmePath = rootPath.join('documents', 'README.SYNC.md');
+  const rootReadmePath = dirs.root.join('documents', 'README.SYNC.md');
   const rootReadme = readFileSync(rootReadmePath, 'utf-8');
   const readmePaths = [rootReadmePath];
 
   ['packages', 'plugins'].forEach((baseDir) => {
-    const basePath = rootPath.join(baseDir);
+    const basePath = dirs.root.join(baseDir);
     if (!existsSync(basePath)) {
       return;
     }

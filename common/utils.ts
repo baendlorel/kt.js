@@ -26,11 +26,11 @@ export const loadJson = (filePath: string) => JSON.parse(fs.readFileSync(filePat
  */
 export const loadPackageJson = (name: string): CommonPackageJson | null => {
   if (path.isAbsolute(name)) {
-    const p = name.tryJoin('package.json');
+    const p = name.join('package.json').existsOr();
     return p ? loadJson(p) : null;
   }
 
-  const p = dirs.packages.tryJoin(name, 'package.json') ?? dirs.plugins.tryJoin(name, 'package.json');
+  const p = dirs.packages.join(name, 'package.json').existsOr(dirs.plugins.join(name, 'package.json').existsOr());
   if (!p) {
     return null;
   }

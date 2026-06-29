@@ -28,7 +28,7 @@ const publishGroupMap = new Map<string, string[]>([
   ['all', ['shared', 'core', 'kt.js', 'mui', 'mui-icon', 'router']],
 ]);
 
-const getAbsolutePath = (who: string) => dirs.packages.tryJoin(who) ?? dirs.plugins.join(who);
+const getAbsolutePath = (who: string) => dirs.packages.join(who).existsOr(dirs.plugins.join(who));
 const getGroup = (who: string): string[] => {
   const raw = publishGroupMap.get(who);
   return raw ? raw.map(getAbsolutePath) : [getAbsolutePath(who)];

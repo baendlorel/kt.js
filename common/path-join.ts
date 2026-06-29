@@ -10,38 +10,26 @@ declare global {
     join(...paths: string[]): string;
 
     /**
-     * `path.join` but returns `null` if the path does not exist
-     */
-    tryJoin(...paths: string[]): string | null;
-
-    /**
      * Used for config file paths in commands.
      * It ensures that the path is safely represented as a string.
      * @returns `JSON.stringify(this)`
      */
     safe(): string;
 
-    existsOr(defaultValue: string): string;
+    existsOr(): string | null;
+    existsOr<T = string>(defaultValue: T): string | T;
   }
 }
 
 String.prototype.join = function (...paths: string[]) {
-  const p = path.join(this.toString(), ...paths);
-  if (!fs.existsSync(p)) {
-    throw new Error(`Path does not exist: ${paths.join(', ')} (resolved to ${p})`);
-  }
-  return p;
-};
-
-String.prototype.tryJoin = function (...paths: string[]) {
-  const p = path.join(this.toString(), ...paths);
-  return fs.existsSync(p) ? p : null;
+  return path.join(this.toString(), ...paths);
 };
 
 String.prototype.safe = function () {
   return JSON.stringify(this.toString());
 };
 
-String.prototype.existsOr = function (defaultValue: string) {
+String.prototype.existsOr = function <T = string>(defaultValue: T = null as any): string | T | null {
+  console.log(`Checking existence of path: ${this.toString()}`);
   return existsSync(this.toString()) ? this.toString() : defaultValue;
 };

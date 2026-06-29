@@ -7,7 +7,7 @@ const tsconfig = lib.join('tsconfig.build.json').existsOr(lib.join('tsconfig.jso
 
 export default defineConfig([
   {
-    entry: [{ index: 'src/index.ts' }],
+    entry: [{ index: lib.join('src', 'index.ts') }],
     format: ['esm', 'cjs'],
     dts: true,
     clean: true,

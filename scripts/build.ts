@@ -15,7 +15,7 @@ const specialLibs = ['@ktjs/ts-plugin', void '@ktjs/kt-tsc', '@ktjs/example'].fi
 export function buildWithInfo(info: PackageInfo) {
   console.log(`Building package: ${info.name}`);
 
-  const dist = info.path.tryJoin('dist');
+  const dist = info.path.join('dist').existsOr();
   if (dist) {
     fs.rmSync(dist, { recursive: true, force: true });
   }
@@ -25,6 +25,10 @@ export function buildWithInfo(info: PackageInfo) {
     return;
   }
 
-  const actualConfig = info.path.tryJoin('tsdown.config.ts') ?? config;
-  execSync(`tsdown --config ${actualConfig}`, { stdio: 'inherit', cwd: info.path, env: info.env });
+  const actualConfig = info.path.join('tsdown.config.ts').existsOr(config);
+  execSync(`tsdown --config-loader tsx --config ${actualConfig.safe()}`, {
+    stdio: 'inherit',
+    cwd: info.path,
+    env: info.env,
+  });
 }

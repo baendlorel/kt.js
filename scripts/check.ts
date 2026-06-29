@@ -8,7 +8,7 @@ export async function check(who: string | undefined) {
   info.forEach((pkg) => {
     const jsonPath = pkg.path.join('tsconfig.build.json').existsOr(pkg.path.join('tsconfig.json'));
     try {
-      execSync(`tsc --project ${JSON.stringify(jsonPath)} --noEmit`, { stdio: 'inherit', env: pkg.env });
+      execSync(`tsc --project ${jsonPath.safe()} --noEmit`, { stdio: 'inherit', env: pkg.env });
     } catch {
       // do nothing, the error is already printed by tsc
     }

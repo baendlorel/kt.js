@@ -18,5 +18,5 @@ export namespace dirs {
       return ls.map((l) => p.join(l));
     })
     .flat()
-    .filter((p) => p.tryJoin('package.json'));
+    .filter((p) => p.join('package.json').existsOr());
 }

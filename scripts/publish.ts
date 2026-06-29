@@ -5,7 +5,7 @@ import { Version } from '../common/version.js';
 import { ask } from './ask.js';
 import { syncReadme } from './readme.js';
 import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
-import { buildWithInfo } from './vite-build.js';
+import { buildWithInfo } from './build.js';
 
 export async function publish(who: string | undefined) {
   const group = getPackageInfo(who);

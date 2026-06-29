@@ -1,13 +1,9 @@
 import { defineConfig } from 'tsdown';
 import { replace } from './configs/replace.js';
-import path from 'node:path';
-import { existsSync } from 'node:fs';
 
 const isDev = process.env.NODE_ENV === 'development';
 const lib = process.env.LIB_DIR!;
-const tsconfig = existsSync(path.join(lib, 'tsconfig.build.json'))
-  ? path.join(lib, 'tsconfig.json')
-  : path.join(lib, 'tsconfig.build.json');
+const tsconfig = lib.join('tsconfig.build.json').existsOr(lib.join('tsconfig.json'));
 
 export default defineConfig([
   {

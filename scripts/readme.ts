@@ -1,14 +1,13 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
 
 export function syncReadme(_who?: string) {
-  const rootPath = path.join(import.meta.dirname, '..');
-  const rootReadmePath = path.join(rootPath, 'documents', 'README.SYNC.md');
+  const rootPath = import.meta.dirname.join('..');
+  const rootReadmePath = rootPath.join('documents', 'README.SYNC.md');
   const rootReadme = readFileSync(rootReadmePath, 'utf-8');
   const readmePaths = [rootReadmePath];
 
   ['packages', 'plugins'].forEach((baseDir) => {
-    const basePath = path.join(rootPath, baseDir);
+    const basePath = rootPath.join(baseDir);
     if (!existsSync(basePath)) {
       return;
     }
@@ -18,12 +17,12 @@ export function syncReadme(_who?: string) {
         return;
       }
 
-      const packagePath = path.join(basePath, entry.name);
-      if (!existsSync(path.join(packagePath, 'package.json'))) {
+      const packagePath = basePath.join(entry.name);
+      if (!existsSync(packagePath.join('package.json'))) {
         return;
       }
 
-      const readmePath = path.join(packagePath, 'README.md');
+      const readmePath = packagePath.join('README.md');
       if (!existsSync(readmePath) || readFileSync(readmePath, 'utf-8') !== rootReadme) {
         writeFileSync(readmePath, rootReadme, 'utf-8');
       }

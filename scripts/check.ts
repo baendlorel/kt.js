@@ -1,6 +1,5 @@
 import { execSync } from 'node:child_process';
 import { getPackageInfo } from './package-info.js';
-import { existsSync } from 'node:fs';
 
 export async function check(who: string | undefined) {
   const info = getPackageInfo(who);

@@ -1,4 +1,4 @@
-import fs from 'node:fs';
+import fs, { existsSync } from 'node:fs';
 import path from 'node:path';
 
 declare global {
@@ -20,6 +20,8 @@ declare global {
      * @returns `JSON.stringify(this)`
      */
     safe(): string;
+
+    existsOr(defaultValue: string): string;
   }
 }
 
@@ -38,4 +40,8 @@ String.prototype.tryJoin = function (...paths: string[]) {
 
 String.prototype.safe = function () {
   return JSON.stringify(this.toString());
+};
+
+String.prototype.existsOr = function (defaultValue: string) {
+  return existsSync(this.toString()) ? this.toString() : defaultValue;
 };

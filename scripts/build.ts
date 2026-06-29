@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
-import { dirs } from '../common/consts.js';
 import { getPackageInfo, syncRootVersion, PackageInfo } from './package-info.js';
 
 export function build(who: string | undefined) {
@@ -10,7 +9,7 @@ export function build(who: string | undefined) {
   group.forEach(buildWithInfo);
 }
 
-const config = dirs.configs.join('vite.config.ts');
+const config = import.meta.dirname.join('..', 'tsdown.config.ts');
 const specialLibs = ['@ktjs/ts-plugin', void '@ktjs/kt-tsc', '@ktjs/example'].filter((t) => t !== undefined);
 
 export function buildWithInfo(info: PackageInfo) {
@@ -26,6 +25,6 @@ export function buildWithInfo(info: PackageInfo) {
     return;
   }
 
-  const actualConfig = info.path.tryJoin('vite.config.ts') ?? config;
+  const actualConfig = info.path.tryJoin('tsdown.config.ts') ?? config;
   execSync(`tsdown --config ${actualConfig}`, { stdio: 'inherit', cwd: info.path, env: info.env });
 }

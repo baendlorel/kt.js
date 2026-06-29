@@ -8,6 +8,9 @@
   "bin": {
     "create-kt.js": "dist/index.mjs"
   },
+  "scripts": {
+    "build": "tsdown"
+  },
   "files": [
     "dist"
   ],
